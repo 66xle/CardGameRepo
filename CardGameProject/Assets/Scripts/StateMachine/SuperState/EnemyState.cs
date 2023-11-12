@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyState : CombatBaseState
 {
-    public EnemyState(CombatStateMachine context, CombatStateFactory playerStateFactory, VariableScriptObject vso) : base(context, playerStateFactory, vso)
+    public EnemyState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso)
     {
         isRootState = true;
         InitializeSubState();

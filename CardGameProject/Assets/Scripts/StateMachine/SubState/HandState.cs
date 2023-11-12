@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HandState : CombatBaseState
 {
-    public HandState(CombatStateMachine context, CombatStateFactory playerStateFactory, VariableScriptObject vso) : base(context, playerStateFactory, vso) { }
+    public HandState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso) { }
 
     public override void EnterState()
     {
@@ -22,4 +22,10 @@ public class HandState : CombatBaseState
         // Attack state
     }
     public override void InitializeSubState() { }
+
+
+    void HandUpdate()
+    {
+        
+    }
 }
