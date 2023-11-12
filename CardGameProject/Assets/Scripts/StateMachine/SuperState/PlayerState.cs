@@ -1,0 +1,33 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerState : CombatBaseState
+{
+    public PlayerState(CombatStateMachine context, CombatStateFactory playerStateFactory, VariableScriptObject vso) : base(context, playerStateFactory, vso)
+    {
+        isRootState = true;
+        InitializeSubState();
+    }
+
+    public override void EnterState()
+    {
+        Debug.Log("Player State");
+    }
+    public override void UpdateState()
+    {
+        CheckSwitchState();
+    }
+
+    public override void FixedUpdateState() { }
+    public override void ExitState() { }
+    public override void InitializeSubState()
+    {
+        // Hand state
+    }
+
+    public override void CheckSwitchState()
+    {
+        // Switch to enemy state
+    }
+}
