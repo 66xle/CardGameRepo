@@ -7,10 +7,14 @@ public class CombatStateMachine : MonoBehaviour
     [SerializeField] string debugState;
     [SerializeField] string subState;
 
-    [Space]
 
-    // Card Variables
+    [Header("Card References")]
+    public GameObject cardPrefab;
     public Transform playerHand;
+    public List<Card> cardsInDeck;
+
+    [Header("Card Settings")]
+    public int numberToDraw = 2;
 
     [HideInInspector]
     public VariableScriptObject vso; // Not using for now
@@ -36,5 +40,10 @@ public class CombatStateMachine : MonoBehaviour
             subState = currentState.currentSubState.ToString();
         }
         debugState = currentState.ToString();
+    }
+
+    public void CreateCard(Card cardDrawed)
+    {
+        Instantiate(cardPrefab, playerHand).GetComponent<CardDisplay>().card = cardDrawed;
     }
 }

@@ -20,4 +20,9 @@ public class CombatStateFactory
     {
         return new EnemyState(context, this, vso);
     }
+
+    public CombatBaseState Draw()
+    {
+        return new DrawState(context, this, vso);
+    }
 }

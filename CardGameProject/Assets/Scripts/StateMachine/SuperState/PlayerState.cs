@@ -23,7 +23,7 @@ public class PlayerState : CombatBaseState
     public override void ExitState() { }
     public override void InitializeSubState()
     {
-        // Hand state
+        SwitchState(factory.Draw());
     }
 
     public override void CheckSwitchState()
