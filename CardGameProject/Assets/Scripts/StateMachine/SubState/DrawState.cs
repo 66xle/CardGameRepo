@@ -12,6 +12,7 @@ public class DrawState : CombatBaseState
 
         DrawCards(ctx.numberToDraw);
     }
+
     public override void UpdateState()
     {
         CheckSwitchState();
@@ -21,7 +22,7 @@ public class DrawState : CombatBaseState
     public override void ExitState() { }
     public override void CheckSwitchState()
     {
-        // Attack state
+        SwitchState(factory.Play());
     }
     public override void InitializeSubState() { }
 

@@ -25,4 +25,8 @@ public class CombatStateFactory
     {
         return new DrawState(context, this, vso);
     }
+    public CombatBaseState Play()
+    {
+        return new PlayState(context, this, vso);
+    }
 }

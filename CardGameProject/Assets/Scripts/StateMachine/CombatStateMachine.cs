@@ -1,3 +1,4 @@
+using events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,5 +46,12 @@ public class CombatStateMachine : MonoBehaviour
     public void CreateCard(Card cardDrawed)
     {
         Instantiate(cardPrefab, playerHand).GetComponent<CardDisplay>().card = cardDrawed;
+    }
+
+    
+    public void OnCardDestroyed(CardPlayed evt)
+    {
+        CardContainer container = playerHand.GetComponent<CardContainer>();
+        container.DestroyCard(evt.card);
     }
 }

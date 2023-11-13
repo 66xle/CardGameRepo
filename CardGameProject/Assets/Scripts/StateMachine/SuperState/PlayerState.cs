@@ -23,7 +23,8 @@ public class PlayerState : CombatBaseState
     public override void ExitState() { }
     public override void InitializeSubState()
     {
-        SwitchState(factory.Draw());
+        SetSubState(factory.Draw());
+        currentSubState.EnterState();
     }
 
     public override void CheckSwitchState()
