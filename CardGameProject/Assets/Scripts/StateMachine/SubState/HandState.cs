@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class HandState : CombatBaseState
 {
+    private List<Transform> cardsInHand;
+
+
     public HandState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso) { }
 
     public override void EnterState()
     {
         Debug.Log("Hand State");
+
+        for (int i = 0; i < ctx.playerHand.childCount; i++)
+        {
+            cardsInHand.Add(ctx.playerHand.GetChild(i));
+        }
     }
     public override void UpdateState()
     {
@@ -24,7 +32,7 @@ public class HandState : CombatBaseState
     public override void InitializeSubState() { }
 
 
-    void HandUpdate()
+    void OffSetCards()
     {
         
     }

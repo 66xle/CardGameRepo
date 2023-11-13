@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class CombatStateMachine : MonoBehaviour
 {
-    public string debugState;
-    public string subState;
+    [SerializeField] string debugState;
+    [SerializeField] string subState;
+
+    [Space]
+
+    // Card Variables
+    public Transform playerHand;
 
     [HideInInspector]
     public VariableScriptObject vso; // Not using for now
