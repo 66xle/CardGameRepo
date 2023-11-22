@@ -33,10 +33,11 @@ public class DrawState : CombatBaseState
 
         for (int i = 0; i < numberOfCards; i++)
         {
+            // Pick random card
             int index = Random.Range(0, tempList.Count);
             Card cardDrawed = tempList[index];
 
-            ctx.CreateCard(cardDrawed);
+            ctx.CreateCard(cardDrawed, ctx.playerHand);
 
             ctx.cardsInDeck.Remove(cardDrawed);
         }

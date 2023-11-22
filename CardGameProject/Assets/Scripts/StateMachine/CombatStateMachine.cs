@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class CombatStateMachine : MonoBehaviour
 {
     [SerializeField] string debugState;
@@ -16,6 +17,7 @@ public class CombatStateMachine : MonoBehaviour
     public GameObject cardPrefab;
     public Transform playerHand;
     public List<Card> cardsInDeck;
+    public Transform displayCard;
 
     [Header("Card Settings")]
     public int cardsToDraw = 2;
@@ -54,9 +56,9 @@ public class CombatStateMachine : MonoBehaviour
         debugState = currentState.ToString();
     }
 
-    public void CreateCard(Card cardDrawed)
+    public void CreateCard(Card cardDrawed, Transform parent)
     {
-        Instantiate(cardPrefab, playerHand).GetComponent<CardDisplay>().card = cardDrawed;
+        Instantiate(cardPrefab, parent).GetComponent<CardDisplay>().card = cardDrawed;
     }
 
     
@@ -71,6 +73,9 @@ public class CombatStateMachine : MonoBehaviour
             // Allow to switch to attack state
             isPlayedCard = true;
             cardPlayed = card;
+
         }
     }
+
+
 }

@@ -2,6 +2,8 @@ using events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 public class AttackState : CombatBaseState
 {
@@ -14,6 +16,7 @@ public class AttackState : CombatBaseState
 
         // Attack started
         ctx.isAttacking = true;
+
 
         Attack();
     }
@@ -33,12 +36,19 @@ public class AttackState : CombatBaseState
     }
     public override void InitializeSubState() { }
 
-    void Attack()
+    private async void Attack()
     {
+        ctx.displayCard.GetComponent<CardDisplay>().card = ctx.cardPlayed;
+        ctx.displayCard.gameObject.SetActive(true);
+
+        await Task.Delay(1000);
+
         ctx.player.ConsumeStamina(ctx.cardPlayed.cost);
 
         float damage = ctx.cardPlayed.value;
         ctx.selectedTarget.TakeDamage(damage);
+
+        ctx.displayCard.gameObject.SetActive(false);
 
         // Attack finished
         ctx.isAttacking = false;
