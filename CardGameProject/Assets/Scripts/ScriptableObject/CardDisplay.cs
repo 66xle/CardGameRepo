@@ -10,12 +10,14 @@ public class CardDisplay : MonoBehaviour
 
     public TMP_Text name;
     public TMP_Text description;
+    public TMP_Text cost;
     public Image image;
 
     private void Start()
     {
         name.text = card.name;
         description.text = card.description;
+        cost.text = card.cost.ToString();
 
         image.sprite = card.image;
     }

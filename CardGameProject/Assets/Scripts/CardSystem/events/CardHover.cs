@@ -1,6 +1,6 @@
 namespace events {
     public class CardHover : CardPlayed {
-        public CardHover(CardWrapper card) : base(card) {
+        public CardHover(CardWrapper card, Card evt = null) : base(card, evt) {
         }
     }
 }

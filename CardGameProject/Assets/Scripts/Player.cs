@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,9 @@ public class Player : MonoBehaviour
 
     [Header("References")]
     public Slider healthBar;
+    public TMP_Text healthValue;
     public Slider staminaBar;
+    public TMP_Text staminaValue;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +26,17 @@ public class Player : MonoBehaviour
         currentStamina = maxStamina;
         DisplayStats();
     }
+
+    public bool hasEnoughStamina(float cost)
+    {
+        if (currentStamina >= cost)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public void ConsumeStamina(float stamAmount)
     {
         currentStamina -= stamAmount;
@@ -38,6 +52,9 @@ public class Player : MonoBehaviour
     public void DisplayStats()
     {
         healthBar.value = currentHealth / maxHealth;
+        healthValue.text = currentHealth.ToString() + " / " + maxHealth.ToString();
+
         staminaBar.value = currentStamina / maxStamina;
+        staminaValue.text = currentStamina.ToString() + " / " + maxStamina.ToString();
     }
 }

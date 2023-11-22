@@ -7,6 +7,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     IPointerUpHandler {
     private const float EPS = 0.01f;
 
+    public Card card;
     public float targetRotation;
     public Vector2 targetPosition;
     public float targetVerticalDisplacement;

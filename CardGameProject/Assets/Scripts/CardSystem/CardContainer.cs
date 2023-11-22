@@ -97,6 +97,7 @@ public class CardContainer : MonoBehaviour {
             wrapper.animationSpeedConfig = animationSpeedConfig;
             wrapper.eventsConfig = eventsConfig;
             wrapper.container = this;
+            wrapper.card = card.GetComponent<CardDisplay>().card;
         }
     }
 
@@ -215,7 +216,7 @@ public class CardContainer : MonoBehaviour {
     public void OnCardDragEnd() {
         // If card is in play area, play it!
         if (IsCursorInPlayArea()) {
-            eventsConfig?.OnCardPlayed?.Invoke(new CardPlayed(currentDraggedCard));
+            eventsConfig?.OnCardPlayed?.Invoke(new CardPlayed(currentDraggedCard), currentDraggedCard.card);
             if (cardPlayConfig.destroyOnPlay) {
                 DestroyCard(currentDraggedCard);
             }

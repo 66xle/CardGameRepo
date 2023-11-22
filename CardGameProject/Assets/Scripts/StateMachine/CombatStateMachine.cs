@@ -20,6 +20,12 @@ public class CombatStateMachine : MonoBehaviour
     [Header("Card Settings")]
     public int cardsToDraw = 2;
 
+    // Variables
+    [HideInInspector] public bool isPlayedCard;
+    [HideInInspector] public Card cardPlayed;
+    [HideInInspector] public Enemy selectedTarget;
+    [HideInInspector] public bool isAttacking;
+
     [HideInInspector]
     public VariableScriptObject vso; // Not using for now
 
@@ -30,6 +36,8 @@ public class CombatStateMachine : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
+
         states = new CombatStateFactory(this, vso);
         currentState = new PlayerState(this, states, vso);
         currentState.EnterState();
@@ -52,9 +60,17 @@ public class CombatStateMachine : MonoBehaviour
     }
 
     
-    public void OnCardPlayed(CardPlayed evt)
+    public void OnCardPlayed(CardPlayed evt, Card card)
     {
-        CardContainer container = playerHand.GetComponent<CardContainer>();
-        container.DestroyCard(evt.card);
+        if (player.hasEnoughStamina(card.cost))
+        {
+            // Destory Card
+            CardContainer container = playerHand.GetComponent<CardContainer>();
+            container.DestroyCard(evt.card);
+
+            // Allow to switch to attack state
+            isPlayedCard = true;
+            cardPlayed = card;
+        }
     }
 }

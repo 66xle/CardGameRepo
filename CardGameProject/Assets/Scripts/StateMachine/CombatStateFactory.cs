@@ -29,4 +29,9 @@ public class CombatStateFactory
     {
         return new PlayState(context, this, vso);
     }
+
+    public CombatBaseState Attack()
+    {
+        return new AttackState(context, this, vso);
+    }
 }
