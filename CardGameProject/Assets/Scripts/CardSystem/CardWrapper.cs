@@ -7,6 +7,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     IPointerUpHandler {
     private const float EPS = 0.01f;
 
+    public CombatStateMachine combatStateMachine;
     public Card card;
     public float targetRotation;
     public Vector2 targetPosition;
@@ -132,6 +133,9 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
 
     public void OnPointerDown(PointerEventData eventData) {
+        if (!combatStateMachine.isPlayState)
+            return;
+
         isDragged = true;
         dragStartPos = new Vector2(transform.position.x - eventData.position.x,
             transform.position.y - eventData.position.y);

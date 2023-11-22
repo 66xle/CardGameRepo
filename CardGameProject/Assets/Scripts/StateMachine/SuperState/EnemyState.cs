@@ -20,14 +20,22 @@ public class EnemyState : CombatBaseState
     }
 
     public override void FixedUpdateState() { }
-    public override void ExitState() { }
+    public override void ExitState() 
+    {
+        ctx.enemyTurnDone = false;
+    }
     public override void InitializeSubState()
     {
-        // Attack state
+        SetSubState(factory.EnemyDraw());
+        currentSubState.EnterState();
     }
 
     public override void CheckSwitchState()
     {
         // Switch to player state
+        if (ctx.enemyTurnDone)
+        {
+            SwitchState(factory.Player());
+        }
     }
 }

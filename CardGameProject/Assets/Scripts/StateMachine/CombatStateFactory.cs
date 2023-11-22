@@ -34,4 +34,13 @@ public class CombatStateFactory
     {
         return new AttackState(context, this, vso);
     }
+
+    public CombatBaseState EnemyDraw()
+    {
+        return new EnemyDrawState(context, this, vso);
+    }
+    public CombatBaseState EnemyTurn()
+    {
+        return new EnemyTurnState(context, this, vso);
+    }
 }

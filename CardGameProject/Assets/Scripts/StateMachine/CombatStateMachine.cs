@@ -2,16 +2,17 @@ using events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class CombatStateMachine : MonoBehaviour
 {
-    [SerializeField] string debugState;
+    public string currentSuperState;
     [SerializeField] string subState;
 
     [Header("Player/Enemy")]
     public Player player;
     public List<Enemy> enemyList;
+    [HideInInspector] public List<Card> enemyCardQueue;
 
     [Header("Card References")]
     public GameObject cardPrefab;
@@ -22,11 +23,18 @@ public class CombatStateMachine : MonoBehaviour
     [Header("Card Settings")]
     public int cardsToDraw = 2;
 
+    [Header("References")]
+    public Button endTurnButton;
+
     // Variables
     [HideInInspector] public bool isPlayedCard;
     [HideInInspector] public Card cardPlayed;
-    [HideInInspector] public Enemy selectedTarget;
     [HideInInspector] public bool isAttacking;
+    [HideInInspector] public bool isPlayState;
+    [HideInInspector] public bool pressedEndTurnButton;
+    [HideInInspector] public bool enemyTurnDone;
+
+    [HideInInspector] public Enemy selectedTarget;
 
     [HideInInspector]
     public VariableScriptObject vso; // Not using for now
@@ -38,7 +46,12 @@ public class CombatStateMachine : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        isPlayedCard = false;
+        cardPlayed = null;
+        isAttacking = false;
+        isPlayState = false;
+        pressedEndTurnButton = false;
+        enemyTurnDone = false;
 
         states = new CombatStateFactory(this, vso);
         currentState = new PlayerState(this, states, vso);
@@ -53,7 +66,7 @@ public class CombatStateMachine : MonoBehaviour
         {
             subState = currentState.currentSubState.ToString();
         }
-        debugState = currentState.ToString();
+        currentSuperState = currentState.ToString();
     }
 
     public void CreateCard(Card cardDrawed, Transform parent)
@@ -66,6 +79,8 @@ public class CombatStateMachine : MonoBehaviour
     {
         if (player.hasEnoughStamina(card.cost))
         {
+            player.ConsumeStamina(card.cost);
+
             // Destory Card
             CardContainer container = playerHand.GetComponent<CardContainer>();
             container.DestroyCard(evt.card);
@@ -73,9 +88,11 @@ public class CombatStateMachine : MonoBehaviour
             // Allow to switch to attack state
             isPlayedCard = true;
             cardPlayed = card;
-
         }
     }
 
-
+    public void EndTurn()
+    {
+        pressedEndTurnButton = true;
+    }
 }

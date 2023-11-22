@@ -2,6 +2,7 @@ using events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class PlayState : CombatBaseState
 {
@@ -14,6 +15,9 @@ public class PlayState : CombatBaseState
         ctx.isPlayedCard = false;
         ctx.cardPlayed = null;
         ctx.selectedTarget = ctx.enemyList[0];
+
+        ctx.isPlayState = true;
+        ctx.endTurnButton.interactable = true;
     }
     public override void UpdateState()
     {
@@ -21,7 +25,13 @@ public class PlayState : CombatBaseState
     }
 
     public override void FixedUpdateState() { }
-    public override void ExitState() { }
+    public override void ExitState()
+    {
+        ctx.isPlayState = false;
+        ctx.endTurnButton.interactable = false;
+    }
+
+
     public override void CheckSwitchState()
     {
         // Attack state

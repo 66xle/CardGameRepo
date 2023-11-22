@@ -13,6 +13,10 @@ public class Enemy : MonoBehaviour
     private Slider healthBar;
     private TMP_Text healthValue;
 
+    [Header("Cards")]
+    [SerializeField] List<Card> deck;
+    [SerializeField] float drawAmount;
+
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +28,19 @@ public class Enemy : MonoBehaviour
         DisplayHealth();
     }
 
+
+    public List<Card> DrawCards()
+    {
+        List<Card> cardDrawn = new List<Card>();
+
+        for (int i = 0; i < drawAmount; i++)
+        {
+            int index = Random.Range(0, deck.Count);
+            cardDrawn.Add(deck[index]);
+        }
+
+        return cardDrawn;
+    }
 
     public void TakeDamage(float damage)
     {

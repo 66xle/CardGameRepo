@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
 
 public class AttackState : CombatBaseState
 {
-
     public AttackState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso) { }
 
     public override void EnterState()
@@ -29,9 +28,19 @@ public class AttackState : CombatBaseState
     public override void ExitState() { }
     public override void CheckSwitchState()
     {
-        if (!ctx.isAttacking)
+        if (ctx.currentSuperState.ToString() == "PlayerState")
         {
-            SwitchState(factory.Play());
+            if (!ctx.isAttacking)
+            {
+                SwitchState(factory.Play());
+            }
+        }
+        else
+        {
+            if (!ctx.isAttacking)
+            {
+                SwitchState(factory.EnemyTurn());
+            }
         }
     }
     public override void InitializeSubState() { }
@@ -43,15 +52,22 @@ public class AttackState : CombatBaseState
 
         await Task.Delay(1000);
 
-        ctx.player.ConsumeStamina(ctx.cardPlayed.cost);
-
         float damage = ctx.cardPlayed.value;
-        ctx.selectedTarget.TakeDamage(damage);
+
+        if (ctx.currentSuperState.ToString() == "PlayerState")
+        {
+            ctx.selectedTarget.TakeDamage(damage);
+        }
+        else
+        {
+            ctx.player.TakeDamage(damage);
+        }
 
         ctx.displayCard.gameObject.SetActive(false);
 
         // Attack finished
         ctx.isAttacking = false;
+        Debug.Log("Finished Attacking");
     }
 
 }

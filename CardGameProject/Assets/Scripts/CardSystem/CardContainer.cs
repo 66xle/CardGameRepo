@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using config;
 using DefaultNamespace;
 using events;
@@ -7,6 +8,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CardContainer : MonoBehaviour {
+    [Header("References")]
+    public CombatStateMachine combatStateMachine;
+
     [Header("Constraints")]
     [SerializeField]
     private bool forceFitContainer;
@@ -98,6 +102,7 @@ public class CardContainer : MonoBehaviour {
             wrapper.eventsConfig = eventsConfig;
             wrapper.container = this;
             wrapper.card = card.GetComponent<CardDisplay>().card;
+            wrapper.combatStateMachine = combatStateMachine;
         }
     }
 
@@ -214,6 +219,9 @@ public class CardContainer : MonoBehaviour {
     }
 
     public void OnCardDragEnd() {
+        if (!combatStateMachine.isPlayState)
+            return;
+
         // If card is in play area, play it!
         if (IsCursorInPlayArea()) {
             eventsConfig?.OnCardPlayed?.Invoke(new CardPlayed(currentDraggedCard), currentDraggedCard.card);
