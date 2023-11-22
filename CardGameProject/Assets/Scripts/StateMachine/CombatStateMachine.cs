@@ -34,7 +34,7 @@ public class CombatStateMachine : MonoBehaviour
     [HideInInspector] public bool pressedEndTurnButton;
     [HideInInspector] public bool enemyTurnDone;
 
-    [HideInInspector] public Enemy selectedTarget;
+    [HideInInspector] public Enemy selectedEnemy;
 
     [HideInInspector]
     public VariableScriptObject vso; // Not using for now
@@ -94,5 +94,10 @@ public class CombatStateMachine : MonoBehaviour
     public void EndTurn()
     {
         pressedEndTurnButton = true;
+    }
+
+    public void DestroyEnemy(Enemy enemy)
+    {
+        Destroy(enemy.gameObject);
     }
 }

@@ -37,5 +37,10 @@ public class EnemyState : CombatBaseState
         {
             SwitchState(factory.Player());
         }
+
+        if (ctx.enemyList.Count < 0)
+        {
+            // All enemies defeated
+        }
     }
 }

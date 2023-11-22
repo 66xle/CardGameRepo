@@ -14,7 +14,9 @@ public class PlayState : CombatBaseState
 
         ctx.isPlayedCard = false;
         ctx.cardPlayed = null;
-        ctx.selectedTarget = ctx.enemyList[0];
+
+        if (ctx.enemyList.Count > 0)
+            ctx.selectedEnemy = ctx.enemyList[0];
 
         ctx.isPlayState = true;
         ctx.endTurnButton.interactable = true;

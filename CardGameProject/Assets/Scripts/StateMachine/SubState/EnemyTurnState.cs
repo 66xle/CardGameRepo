@@ -49,7 +49,4 @@ public class EnemyTurnState : CombatBaseState
             ctx.enemyTurnDone = true;
         }
     }
-
-
-
 }

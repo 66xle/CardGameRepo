@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private float currentHealth;
 
     [SerializeField] float maxStamina = 5f;
+    [SerializeField] float recoverStaminaAmount = 2f;
     [HideInInspector] public float currentStamina;
 
     [Header("References")]
@@ -27,6 +28,14 @@ public class Player : MonoBehaviour
         DisplayStats();
     }
 
+    public bool isDead()
+    {
+        if (currentHealth >= maxHealth)
+            return true;
+
+        return false;
+    }
+
     public bool hasEnoughStamina(float cost)
     {
         if (currentStamina >= cost)
@@ -35,6 +44,13 @@ public class Player : MonoBehaviour
         }
 
         return false;
+    }
+
+
+    public void RecoverStamina()
+    {
+        currentStamina += recoverStaminaAmount;
+        DisplayStats();
     }
 
     public void ConsumeStamina(float stamAmount)

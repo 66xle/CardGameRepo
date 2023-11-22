@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     [Header("Cards")]
     [SerializeField] List<Card> deck;
     [SerializeField] float drawAmount;
+    [HideInInspector] public List<Card> cardsToPlay;
 
 
     // Start is called before the first frame update
@@ -28,6 +29,13 @@ public class Enemy : MonoBehaviour
         DisplayHealth();
     }
 
+    public bool isDead()
+    {
+        if (currentHealth <= 0f)
+            return true;
+
+        return false;
+    }
 
     public List<Card> DrawCards()
     {

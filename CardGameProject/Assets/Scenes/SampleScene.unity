@@ -2142,6 +2142,7 @@ MonoBehaviour:
   deck:
   - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
   drawAmount: 3
+  cardsToPlay: []
 --- !u!1 &1839305762
 GameObject:
   m_ObjectHideFlags: 0
@@ -2262,8 +2263,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
   - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
   - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
+  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
+  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
+  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
   displayCard: {fileID: 841761903}
-  cardsToDraw: 2
+  cardsToDraw: 3
   endTurnButton: {fileID: 961195136}
   isPlayedCard: 0
   cardPlayed: {fileID: 0}
@@ -2271,7 +2275,7 @@ MonoBehaviour:
   isPlayState: 0
   pressedEndTurnButton: 0
   enemyTurnDone: 0
-  selectedTarget: {fileID: 0}
+  selectedEnemy: {fileID: 0}
   vso: {fileID: 0}
 --- !u!4 &1871129933
 Transform:
@@ -2569,6 +2573,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   maxStamina: 5
+  recoverStaminaAmount: 2
   currentStamina: 0
   healthBar: {fileID: 1021083004}
   healthValue: {fileID: 526816283}

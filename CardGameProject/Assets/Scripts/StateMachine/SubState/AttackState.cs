@@ -56,7 +56,15 @@ public class AttackState : CombatBaseState
 
         if (ctx.currentSuperState.ToString() == "PlayerState")
         {
-            ctx.selectedTarget.TakeDamage(damage);
+            ctx.selectedEnemy.TakeDamage(damage);
+
+            // Check if enemy is dead
+            if (ctx.selectedEnemy.isDead())
+            {
+                ctx.enemyList.Remove(ctx.selectedEnemy);
+
+                ctx.DestroyEnemy(ctx.selectedEnemy);
+            }
         }
         else
         {
