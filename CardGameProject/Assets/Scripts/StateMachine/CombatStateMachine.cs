@@ -8,6 +8,9 @@ public class CombatStateMachine : MonoBehaviour
     [SerializeField] string debugState;
     [SerializeField] string subState;
 
+    [Header("Player/Enemy")]
+    public Player player;
+    public List<Enemy> enemyList;
 
     [Header("Card References")]
     public GameObject cardPrefab;
@@ -15,7 +18,7 @@ public class CombatStateMachine : MonoBehaviour
     public List<Card> cardsInDeck;
 
     [Header("Card Settings")]
-    public int numberToDraw = 2;
+    public int cardsToDraw = 2;
 
     [HideInInspector]
     public VariableScriptObject vso; // Not using for now
@@ -49,7 +52,7 @@ public class CombatStateMachine : MonoBehaviour
     }
 
     
-    public void OnCardDestroyed(CardPlayed evt)
+    public void OnCardPlayed(CardPlayed evt)
     {
         CardContainer container = playerHand.GetComponent<CardContainer>();
         container.DestroyCard(evt.card);

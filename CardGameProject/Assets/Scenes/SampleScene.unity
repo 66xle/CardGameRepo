@@ -251,6 +251,7 @@ RectTransform:
   m_Children:
   - {fileID: 2000876551}
   - {fileID: 155095791}
+  - {fileID: 1156512886}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -467,6 +468,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1156512885
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1156512886}
+  - component: {fileID: 1156512887}
+  m_Layer: 0
+  m_Name: clone-preview-manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1156512886
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156512885}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1279.7803, y: -720, z: 0}
+  m_LocalScale: {x: 1.97802, y: 1.97802, z: 1.97802}
+  m_Children: []
+  m_Father: {fileID: 557538345}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1156512887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156512885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70f9ed3920ca40b2a02266c4e1703f5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  verticalPosition: 185
+  previewScale: 1.05
+  previewSortingOrder: 101
 --- !u!1 &1430486177
 GameObject:
   m_ObjectHideFlags: 0
@@ -735,6 +782,7 @@ GameObject:
   - component: {fileID: 1808010541}
   - component: {fileID: 1808010540}
   - component: {fileID: 1808010539}
+  - component: {fileID: 1808010543}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -819,6 +867,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1808010543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808010538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d90357ea7b32ca4c807ca3802f54737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
 --- !u!1 &1871129931
 GameObject:
   m_ObjectHideFlags: 0
@@ -850,13 +911,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugState: 
   subState: 
+  player: {fileID: 1939325189}
+  enemyList:
+  - {fileID: 1808010543}
   cardPrefab: {fileID: 7406141934112961317, guid: f40acb07258ef8741bc094a7dcd310cf, type: 3}
   playerHand: {fileID: 2000876551}
   cardsInDeck:
   - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
   - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
   - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
-  numberToDraw: 2
+  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
+  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
+  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
+  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
+  cardsToDraw: 5
   vso: {fileID: 0}
 --- !u!4 &1871129933
 Transform:
@@ -883,6 +951,7 @@ GameObject:
   - component: {fileID: 1939325192}
   - component: {fileID: 1939325191}
   - component: {fileID: 1939325190}
+  - component: {fileID: 1939325193}
   - component: {fileID: 1939325189}
   m_Layer: 0
   m_Name: Player
@@ -891,20 +960,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!136 &1939325189
-CapsuleCollider:
+--- !u!114 &1939325189
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1939325188}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b06ade74b318a348a3a2c6bafc0e9a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  maxStamina: 5
 --- !u!23 &1939325190
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -968,6 +1037,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1939325193
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939325188}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2000876550
 GameObject:
   m_ObjectHideFlags: 0
@@ -1001,8 +1084,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 265}
-  m_SizeDelta: {x: 214.8999, y: 100}
+  m_AnchoredPosition: {x: -0.1891, y: 130}
+  m_SizeDelta: {x: 1562.3333, y: 417.8444}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2000876552
 MonoBehaviour:
@@ -1023,15 +1106,15 @@ MonoBehaviour:
   maxHeightDisplacement: 0
   zoomConfig:
     zoomOnHover: 1
-    multiplier: 1.1
-    overrideYPosition: 350
+    multiplier: 1
+    overrideYPosition: -1
     defaultSortOrder: 0
     bringToFrontOnHover: 1
     zoomedSortOrder: 100
-    resetRotationOnZoom: 1
+    resetRotationOnZoom: 0
   animationSpeedConfig:
-    rotation: 100
-    position: 1500
+    rotation: 50
+    position: 2000
     releasePosition: 2000
     zoom: 5
   cardPlayConfig:
@@ -1043,7 +1126,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1871129932}
           m_TargetAssemblyTypeName: CombatStateMachine, Assembly-CSharp
-          m_MethodName: OnCardDestroyed
+          m_MethodName: OnCardPlayed
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1055,10 +1138,34 @@ MonoBehaviour:
           m_CallState: 2
     OnCardHover:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 1156512887}
+          m_TargetAssemblyTypeName: demo.ClonePreviewManager, Assembly-CSharp
+          m_MethodName: OnCardHover
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     OnCardUnhover:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 1156512887}
+          m_TargetAssemblyTypeName: demo.ClonePreviewManager, Assembly-CSharp
+          m_MethodName: OnCardUnhover
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     OnCardDestroy:
       m_PersistentCalls:
         m_Calls: []

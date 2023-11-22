@@ -19,4 +19,5 @@ public class Card : ScriptableObject
 
     public Type cardType;
     public int value;
+    public int cost;
 }

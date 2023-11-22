@@ -10,7 +10,7 @@ public class DrawState : CombatBaseState
     {
         Debug.Log("Draw State");
 
-        DrawCards(ctx.numberToDraw);
+        DrawCards(ctx.cardsToDraw);
     }
 
     public override void UpdateState()
@@ -37,6 +37,8 @@ public class DrawState : CombatBaseState
             Card cardDrawed = tempList[index];
 
             ctx.CreateCard(cardDrawed);
+
+            ctx.cardsInDeck.Remove(cardDrawed);
         }
     }
 }
