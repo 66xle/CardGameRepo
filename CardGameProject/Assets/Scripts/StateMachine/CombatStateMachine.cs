@@ -12,13 +12,14 @@ public class CombatStateMachine : MonoBehaviour
     [Header("Player/Enemy")]
     public Player player;
     public List<Enemy> enemyList;
-    [HideInInspector] public List<Card> enemyCardQueue;
 
     [Header("Card References")]
     public GameObject cardPrefab;
     public Transform playerHand;
-    public List<Card> cardsInDeck;
     public Transform displayCard;
+    public List<Card> playerDeck;
+    [HideInInspector] public List<Card> discardPile;
+    [HideInInspector] public List<Card> enemyCardQueue;
 
     [Header("Card Settings")]
     public int cardsToDraw = 2;
@@ -32,8 +33,8 @@ public class CombatStateMachine : MonoBehaviour
     [HideInInspector] public bool isAttacking;
     [HideInInspector] public bool isPlayState;
     [HideInInspector] public bool pressedEndTurnButton;
-    [HideInInspector] public bool enemyTurnDone;
 
+    [HideInInspector] public bool enemyTurnDone;
     [HideInInspector] public Enemy selectedEnemy;
 
     [HideInInspector]
@@ -80,6 +81,8 @@ public class CombatStateMachine : MonoBehaviour
         if (player.hasEnoughStamina(card.cost))
         {
             player.ConsumeStamina(card.cost);
+
+            discardPile.Add(card);
 
             // Destory Card
             CardContainer container = playerHand.GetComponent<CardContainer>();

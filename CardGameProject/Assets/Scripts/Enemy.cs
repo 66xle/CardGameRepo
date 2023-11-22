@@ -59,6 +59,8 @@ public class Enemy : MonoBehaviour
 
     public void DisplayHealth()
     {
+        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+
         healthBar.value = currentHealth / maxHealth;
         healthValue.text = currentHealth.ToString() + " / " + maxHealth.ToString();
     }

@@ -56,6 +56,8 @@ public class Player : MonoBehaviour
     public void ConsumeStamina(float stamAmount)
     {
         currentStamina -= stamAmount;
+        Mathf.Clamp(currentStamina, 0f, maxStamina);
+
         DisplayStats();
     }
 
@@ -67,6 +69,9 @@ public class Player : MonoBehaviour
 
     public void DisplayStats()
     {
+        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+        currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
+
         healthBar.value = currentHealth / maxHealth;
         healthValue.text = currentHealth.ToString() + " / " + maxHealth.ToString();
 
