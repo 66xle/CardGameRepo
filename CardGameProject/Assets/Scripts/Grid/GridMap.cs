@@ -5,6 +5,8 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Analytics;
 using Random = UnityEngine.Random;
+using System.Linq;
+using TreeEditor;
 
 public class GridMap : MonoBehaviour
 {
@@ -14,6 +16,7 @@ public class GridMap : MonoBehaviour
 
     [SerializeField] GameObject greenPrefab;
     [SerializeField] GameObject bluePrefab;
+    [SerializeField] GameObject yellowPrefab;
 
     [Header("Settings")]
     [SerializeField] float numOfEvents = 5;
@@ -69,6 +72,23 @@ public class GridMap : MonoBehaviour
                 //Vector3 worldPosition = CalculateWorldPostion(x, z);
                 //Instantiate(tilePrefab, worldPosition, Quaternion.identity, transform);
 
+                // Move left
+                float moveLeft = 3f / 2f * hexSize * z;
+
+                float height = Mathf.Sqrt(3f) * hexSize;
+
+                // Move forwards
+                float moveForward = height * x;
+
+                // If z is odd, offset forward a bit
+                if (z % 2 != 0)
+                {
+                    moveForward += height / 2f;
+                }
+
+                Vector3 worldPosition =  new Vector3(transform.position.x + moveForward, transform.position.y - 1f, transform.position.z + moveLeft);
+                Instantiate(tilePrefab, worldPosition, Quaternion.identity, transform);
+
             }
 
             // Prefab rows
@@ -103,7 +123,22 @@ public class GridMap : MonoBehaviour
 
     void PlaceEventTiles()
     {
-        List<List<Tile>> tempList = new List<List<Tile>>(tileMap);
+        List<List<Tile>> tempList = new List<List<Tile>>();
+
+        // Clone list
+        foreach (List<Tile> tileList in tileMap)
+        {
+            List<Tile> row = new List<Tile>();
+
+            foreach (Tile tile in tileList)
+            {
+                Tile newTile = new Tile(tile);
+
+                row.Add(newTile);
+            }
+
+            tempList.Add(row);
+        }
 
         tempList.RemoveRange(0, (int)minPlaceEvent);
         tempList.RemoveAt(tempList.Count - 1);
@@ -125,12 +160,12 @@ public class GridMap : MonoBehaviour
             }
 
             eventList.Add(randomTile);
-            tileMap[randomX][randomZ] = randomTile;
+            tileMap[randomTile.x][randomTile.z].type = Tile.Type.Event;
 
             RemoveTile(tempList, randomX, randomZ);
 
             Vector3 worldPosition = CalculateWorldPostion(randomTile.x, randomTile.z);
-            Instantiate(bluePrefab, worldPosition, Quaternion.identity, transform).AddComponent<Tile>().Setup(randomTile);
+            Instantiate(yellowPrefab, worldPosition, Quaternion.identity, transform);
         }
     }
 
