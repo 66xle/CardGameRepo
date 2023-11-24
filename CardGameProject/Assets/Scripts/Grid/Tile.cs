@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class Tile
 {
     public enum Type
@@ -17,6 +15,7 @@ public class Tile
     public int z;
     public Type type;
 
+
     public Tile(Tile tile)
     {
         x = tile.x;
@@ -24,10 +23,23 @@ public class Tile
         type = tile.type;
     }
 
+    public Tile(DisplayTile tile)
+    {
+        x = tile.dx;
+        z = tile.dz;
+        type = (Type)tile.dType;
+    }
+
     public Tile(int x, int z, Type type)
     {
         this.x = x;
         this.z = z;
         this.type = type;
+    }
+
+    public Tile(int x, int z)
+    {
+        this.x = x;
+        this.z = z;
     }
 }
