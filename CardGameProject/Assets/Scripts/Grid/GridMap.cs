@@ -16,26 +16,27 @@ public class GridMap : MonoBehaviour
     [SerializeField] GameObject bluePrefab;
     [SerializeField] GameObject yellowPrefab;
     [SerializeField] GameObject blackPrefab;
+    [SerializeField] Material redMat;
 
     [Header("Settings")]
     [SerializeField] float numOfEvents = 5;
     [SerializeField] float distanceBetweenEvents = 2;
-    [SerializeField] float minPlaceEvent = 3;
+    [SerializeField] float minRowEvent = 3;
 
-    private List<List<Tile>> tileMap;
+    private List<List<Tile>> gripMap;
     private List<Tile> eventList;
     private Tile currentTile;
-    private List<DisplayTile> currentNextTiles;
+    private List<DisplayTile> nextTiles;
 
     // Start is called before the first frame update
     void Start()
     {
-        tileMap = new List<List<Tile>>();
+        gripMap = new List<List<Tile>>();
         eventList = new List<Tile>();
-        currentNextTiles = new List<DisplayTile>();
+        nextTiles = new List<DisplayTile>();
 
         GenerateGrid();
-        PlaceEventTiles();
+        GenerateEventTiles();
         GenerateStartTile();
     }
 
@@ -77,11 +78,11 @@ public class GridMap : MonoBehaviour
                 #endregion
 
 
+                // Debugging
                 Vector3 worldPosition = CalculateWorldPostion(x, z);
                 worldPosition.y -= 1f;
 
                 Instantiate(tilePrefab, worldPosition, Quaternion.identity, transform);
-
             }
 
             // Prefab rows
@@ -91,9 +92,151 @@ public class GridMap : MonoBehaviour
                 tilePrefab = greenPrefab;
 
 
-            tileMap.Add(row);
+            gripMap.Add(row);
         }
     }
+
+    void GenerateEventTiles()
+    {
+        List<List<Tile>> tempList = new List<List<Tile>>();
+
+        #region Clone List
+        foreach (List<Tile> tileList in gripMap)
+        {
+            List<Tile> row = new List<Tile>();
+
+            foreach (Tile tile in tileList)
+            {
+                Tile newTile = new Tile(tile);
+
+                row.Add(newTile);
+            }
+
+            tempList.Add(row);
+        }
+        #endregion
+
+        // Determine which rows events can be placed in
+        tempList.RemoveRange(0, (int)minRowEvent);
+        tempList.RemoveAt(tempList.Count - 1);
+
+        // Place all events or when grid has no more space
+        while (eventList.Count < numOfEvents && tempList.Count > 0)
+        {
+            // Get random tile position
+            int randomX = (int)Random.Range(0, tempList.Count - 1);
+            int randomZ = (int)Random.Range(0, tempList[randomX].Count - 1);
+
+            List<Tile> tileRow = tempList[randomX];
+            Tile randomTile = tileRow[randomZ];
+
+            // If tile is avaliable or Is near a event tile
+            if (randomTile.type != Tile.Type.Availiable || IsNearEventTiles(randomTile))
+            {
+                RemoveTile(tempList, randomX, randomZ);
+
+                continue;
+            }
+
+            eventList.Add(randomTile);
+            gripMap[randomTile.x][randomTile.z].type = Tile.Type.Event;
+
+            RemoveTile(tempList, randomX, randomZ);
+
+            // Spawn tile
+            Vector3 worldPosition = CalculateWorldPostion(randomTile.x, randomTile.z);
+            GameObject spawnedTile = Instantiate(yellowPrefab, worldPosition, Quaternion.identity, transform);
+            spawnedTile.AddComponent<DisplayTile>().SetupDisplayTile(randomTile);
+        }
+    }
+
+    void GenerateStartTile()
+    {
+        // Get middle of grid
+        int middleNum = Mathf.RoundToInt(gridZSize / 2);
+        currentTile = gripMap[0][middleNum];
+
+        Vector3 worldPosition = CalculateWorldPostion(currentTile.x, currentTile.z);
+
+        // Spawn Tile
+        DisplayTile selectedTile = Instantiate(blackPrefab, worldPosition, Quaternion.identity, transform).AddComponent<DisplayTile>();
+        selectedTile.SetupDisplayTile(currentTile);
+        nextTiles.Add(selectedTile);
+    }
+
+    void GenerateNextTiles()
+    {
+        // Check if tile even/odd then offset tile
+        Tile leftTile = (currentTile.z % 2 == 0) ? OffsetTile(currentTile.x, currentTile.z + 1) : OffsetTile(currentTile.x + 1, currentTile.z + 1);
+        Tile forwardTile = OffsetTile(currentTile.x + 1, currentTile.z);
+        Tile rightTile = (currentTile.z % 2 == 0) ? OffsetTile(currentTile.x, currentTile.z - 1) : OffsetTile(currentTile.x + 1, currentTile.z - 1);
+
+        List<Tile> tileDirection = new List<Tile>(new List<Tile> { leftTile, forwardTile, rightTile });
+
+        // Check if tiles are avaliable
+        for (int i = 0; i < tileDirection.Count; i++)
+        {
+            Tile tile = tileDirection[i];
+
+            if (gripMap[tile.x][tile.z].type != Tile.Type.Availiable)
+            {
+                tileDirection.Remove(tile);
+            }
+        }
+
+        // Get random number of tiles to spawn
+        int numOfTileToSpawn = Random.Range(1, tileDirection.Count + 1);
+
+        for (int i = 0; i < numOfTileToSpawn; i++)
+        {
+            // Choose a random tile
+            Tile rdmTile = tileDirection[Random.Range(0, tileDirection.Count)];
+            tileDirection.Remove(rdmTile);
+
+            // Spawn tile
+            Vector3 worldPostion = CalculateWorldPostion(rdmTile.x, rdmTile.z);
+            DisplayTile spawnedTile = Instantiate(blackPrefab, worldPostion, Quaternion.identity, transform).AddComponent<DisplayTile>();
+            spawnedTile.SetupDisplayTile(rdmTile);
+
+            nextTiles.Add(spawnedTile);
+        }
+    }
+
+
+    void DetectTileHit()
+    {
+        if (!Input.GetKeyUp(KeyCode.Mouse0))
+            return;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100))
+        {
+            DisplayTile selectedTile = hit.transform.GetComponent<DisplayTile>();
+
+            if (nextTiles.Contains(selectedTile))
+            {
+                // Remove other tiles, not selected tile
+                nextTiles.Remove(selectedTile);
+                foreach (DisplayTile tile in nextTiles)
+                {
+                    Destroy(tile.gameObject);
+                }
+                nextTiles.Clear();
+
+                selectedTile.gameObject.GetComponent<MeshRenderer>().material = redMat;
+
+                currentTile = new Tile(selectedTile);
+
+                if (selectedTile.dx < gridXSize - 1)
+                    GenerateNextTiles();
+            }
+        }
+    }
+
+
+
+    #region Other Functions
 
     Vector3 CalculateWorldPostion(float x, float z)
     {
@@ -112,54 +255,6 @@ public class GridMap : MonoBehaviour
         }
 
         return new Vector3(transform.position.x + moveForward, transform.position.y, transform.position.z + moveLeft);
-    }
-
-    void PlaceEventTiles()
-    {
-        List<List<Tile>> tempList = new List<List<Tile>>();
-
-        // Clone list
-        foreach (List<Tile> tileList in tileMap)
-        {
-            List<Tile> row = new List<Tile>();
-
-            foreach (Tile tile in tileList)
-            {
-                Tile newTile = new Tile(tile);
-
-                row.Add(newTile);
-            }
-
-            tempList.Add(row);
-        }
-
-        tempList.RemoveRange(0, (int)minPlaceEvent);
-        tempList.RemoveAt(tempList.Count - 1);
-
-
-        while (eventList.Count < numOfEvents && tempList.Count > 0)
-        {
-            int randomX = (int)Random.Range(0, tempList.Count - 1);
-            int randomZ = (int)Random.Range(0, tempList[randomX].Count - 1);
-
-            List<Tile> tileRow = tempList[randomX];
-            Tile randomTile = tileRow[randomZ];
-
-            if (randomTile.type != Tile.Type.Availiable || IsNearEventTiles(randomTile))
-            {
-                RemoveTile(tempList, randomX, randomZ);
-
-                continue;
-            }
-
-            eventList.Add(randomTile);
-            tileMap[randomTile.x][randomTile.z].type = Tile.Type.Event;
-
-            RemoveTile(tempList, randomX, randomZ);
-
-            Vector3 worldPosition = CalculateWorldPostion(randomTile.x, randomTile.z);
-            Instantiate(yellowPrefab, worldPosition, Quaternion.identity, transform).AddComponent<DisplayTile>().SetupDisplayTile(randomTile);
-        }
     }
 
     void RemoveTile(List<List<Tile>> tempList, int x, int z)
@@ -192,77 +287,14 @@ public class GridMap : MonoBehaviour
         return false;
     }
 
-    void GenerateStartTile()
+    Tile OffsetTile(int x, int z)
     {
-        int middleNum = Mathf.RoundToInt(gridZSize / 2);
+        int clampX = (int)Mathf.Clamp(x, 0, gridXSize);
+        int clampZ = (int)Mathf.Clamp(z, 0, gridZSize - 1);
 
-        currentTile = tileMap[0][middleNum];
-
-        Vector3 worldPosition = CalculateWorldPostion(currentTile.x, currentTile.z);
-
-        DisplayTile selectedTile = Instantiate(blackPrefab, worldPosition, Quaternion.identity, transform).AddComponent<DisplayTile>();
-        selectedTile.SetupDisplayTile(currentTile);
-        currentNextTiles.Add(selectedTile);
+        return new Tile(clampX, clampZ);
     }
 
-    void GenerateNextTiles()
-    {
-        // Check if tile is even num
-        Tile leftTile = (currentTile.z % 2 == 0) ? new Tile(currentTile.x, (int)Mathf.Clamp(currentTile.z + 1, 0, gridZSize - 1)) : 
-                                                   new Tile((int)Mathf.Clamp(currentTile.x + 1, 0, gridXSize), (int)Mathf.Clamp(currentTile.z + 1, 0, gridZSize - 1));
+    #endregion
 
-        Tile forwardTile = new Tile((int)Mathf.Clamp(currentTile.x + 1, 0, gridXSize), currentTile.z);
-
-        Tile rightTile = (currentTile.z % 2 == 0) ? new Tile(currentTile.x, (int)Mathf.Clamp(currentTile.z - 1, 0, gridZSize - 1)) : 
-                                                    new Tile((int)Mathf.Clamp(currentTile.x + 1, 0, gridXSize), (int)Mathf.Clamp(currentTile.z - 1, 0, gridZSize - 1));
-
-        List<Tile> tileDirection = new List<Tile>(new List<Tile> { leftTile, forwardTile, rightTile });
-
-        for (int i = 0; i < tileDirection.Count; i++)
-        {
-            Tile tile = tileDirection[i];
-
-            if (tileMap[tile.x][tile.z].type != Tile.Type.Availiable)
-            {
-                tileDirection.Remove(tile);
-            }
-        }
-
-
-
-        int numOfTileToSpawn = Random.Range(1, tileDirection.Count + 1);
-        Debug.Log(tileDirection.Count);
-
-        for (int i = 0; i < numOfTileToSpawn; i++)
-        {
-            Tile rdmTile = tileDirection[Random.Range(0, tileDirection.Count)];
-            tileDirection.Remove(rdmTile);
-
-            Vector3 worldPostion = CalculateWorldPostion(rdmTile.x, rdmTile.z);
-            DisplayTile spawnedTile = Instantiate(blackPrefab, worldPostion, Quaternion.identity, transform).AddComponent<DisplayTile>();
-            spawnedTile.SetupDisplayTile(rdmTile);
-            currentNextTiles.Add(spawnedTile);
-        }
-    }
-
-    void DetectTileHit()
-    {
-        if (!Input.GetKeyUp(KeyCode.Mouse0))
-            return;
-
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100))
-        {
-            DisplayTile selectedTile = hit.transform.GetComponent<DisplayTile>();
-
-            if (currentNextTiles.Contains(selectedTile))
-            {
-
-                currentTile = new Tile(selectedTile);
-                currentNextTiles.Clear();
-                GenerateNextTiles();
-            }
-        }
-    }
 }
