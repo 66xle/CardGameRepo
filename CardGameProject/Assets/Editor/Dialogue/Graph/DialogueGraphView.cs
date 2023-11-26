@@ -116,13 +116,22 @@ public class DialogueGraphView : GraphView
 
     #region Nodes
 
-    public void CreateNode(string nodeName, Vector2 position, bool choice)
+    public void CreateNode(string nodeName, Vector2 position, string nodeType, bool choice)
     {
-        DialogueNode dialogueNode = choice ? new DialogueNode(Guid.NewGuid().ToString(), nodeName, this, true) : new DialogueNode(Guid.NewGuid().ToString(), nodeName, this);
+        DialogueNode dialogueNode = choice ? new DialogueNode(Guid.NewGuid().ToString(), nodeName, this, nodeType, true) : new DialogueNode(Guid.NewGuid().ToString(), nodeName, this, nodeType);
 
         dialogueNode.Draw(position, DefaultNodeSize);
 
         AddElement(dialogueNode);
+    }
+
+    public void CreateUtilityNode(Vector2 position, string nodeType)
+    {
+        DialogueNode utilityNode = new DialogueNode(Guid.NewGuid().ToString(), this, nodeType);
+
+        utilityNode.DrawUtility(position, DefaultNodeSize);
+
+        AddElement(utilityNode);
     }
 
     #endregion

@@ -10,7 +10,7 @@ using System;
 public class GraphSaveUtility
 {
     private DialogueGraphView _targetGraphView;
-    private DialogueContainer _containerCache;
+    private Event _containerCache;
 
     private List<Edge> Edges => _targetGraphView.edges.ToList();
     private List<DialogueNode> Nodes => _targetGraphView.nodes.ToList().Cast<DialogueNode>().ToList();
@@ -60,7 +60,7 @@ public class GraphSaveUtility
         #endregion
 
 
-        DialogueContainer dialogueContainer = ScriptableObject.CreateInstance<DialogueContainer>();
+        Event eventContainer = ScriptableObject.CreateInstance<Event>();
 
         #region Get Connections
 
@@ -112,6 +112,7 @@ public class GraphSaveUtility
                 Position = dialogueNode.GetPosition().position,
                 Connections = nodeLinks.Where(x => x.BaseNodeGuid == dialogueNode.GUID).ToList(),
                 Choices = choices,
+                NodeType = dialogueNode.nodeType,
             };
 
             // Starting node
@@ -120,7 +121,7 @@ public class GraphSaveUtility
                 newNode.isStartNode = true;
             }
 
-            dialogueContainer.DialogueNodeData.Add(newNode);
+            eventContainer.DialogueNodeData.Add(newNode);
         }
 
         #endregion
@@ -131,8 +132,20 @@ public class GraphSaveUtility
             AssetDatabase.CreateFolder("Assets", "Resources");
         }
 
+        // Check if asset exists
+        if (!string.IsNullOrEmpty(AssetDatabase.AssetPathToGUID($"Assets/Resources/{fileName}.asset")))
+        {
+            // If false cancel
+            if (!EditorUtility.DisplayDialog($"Save {fileName}", $"Overwrite {fileName} asset?", "OK", "Cancel"))
+            {
+                return;
+            }
+        }
+
+
+
         AssetDatabase.DeleteAsset($"Assets/Resources/{fileName}.asset");
-        AssetDatabase.CreateAsset(dialogueContainer, $"Assets/Resources/{fileName}.asset");
+        AssetDatabase.CreateAsset(eventContainer, $"Assets/Resources/{fileName}.asset");
         AssetDatabase.SaveAssets();
     }
 
@@ -149,7 +162,7 @@ public class GraphSaveUtility
             string fileName = System.IO.Path.GetFileNameWithoutExtension(filePath);
 
             // Check if file exists
-            _containerCache = Resources.Load<DialogueContainer>(fileName);
+            _containerCache = Resources.Load<Event>(fileName);
             if (_containerCache == null)
             {
                 EditorUtility.DisplayDialog("File not found", "Target dialogue graph file does not exists!", "OK");
@@ -158,6 +171,7 @@ public class GraphSaveUtility
 
             ClearGraph();
             CreateNodes();
+
             ConnectNodes();
         }
     }
@@ -184,19 +198,25 @@ public class GraphSaveUtility
         {
             DialogueNode tempNode;
 
-            if (nodeData.Choices.Count > 0)
+            if (nodeData.NodeType == "Battle Node" || nodeData.NodeType == "End Node")
             {
-                tempNode = new DialogueNode(nodeData.Guid, nodeData.Npc, _targetGraphView, true);
+                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType);
+                tempNode.DrawUtility(nodeData.Position, _targetGraphView.DefaultNodeSize);
+            }
+            else if (nodeData.Choices.Count > 0)
+            {
+                tempNode = new DialogueNode(nodeData.Guid, nodeData.Npc, _targetGraphView, nodeData.NodeType, true);
                 tempNode.choices = nodeData.Choices;
+                tempNode.dialogueText = nodeData.DialogueText;
+                tempNode.Draw(nodeData.Position, _targetGraphView.DefaultNodeSize);
             }
             else
             {
-                tempNode = new DialogueNode(nodeData.Guid, nodeData.Npc, _targetGraphView);
+                tempNode = new DialogueNode(nodeData.Guid, nodeData.Npc, _targetGraphView, nodeData.NodeType);
+                tempNode.dialogueText = nodeData.DialogueText;
+                tempNode.Draw(nodeData.Position, _targetGraphView.DefaultNodeSize);
             }
-                                                                 
-            tempNode.dialogueText = nodeData.DialogueText;
-
-            tempNode.Draw(nodeData.Position, _targetGraphView.DefaultNodeSize);
+            
 
             _targetGraphView.AddElement(tempNode);
         }

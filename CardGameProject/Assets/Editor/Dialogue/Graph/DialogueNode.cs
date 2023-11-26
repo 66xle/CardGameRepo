@@ -9,31 +9,45 @@ using UnityEditor.UIElements;
 using System;
 using static DialogueNode;
 using System.Reflection.Emit;
+using Label = UnityEngine.UIElements.Label;
 
 public class DialogueNode : Node
 {
     public string GUID;
     public string dialogueText;
     public string npcName;
+    public string nodeType;
     public List<DialogueChoices> choices = new List<DialogueChoices>();
 
     DialogueGraphView graphView;
 
-    public DialogueNode(string GUID, string npcName, DialogueGraphView graphView)
+    public DialogueNode(string GUID, DialogueGraphView graphView, string nodeType)
     {
         this.GUID = GUID;
-        this.npcName = npcName;
         this.graphView = graphView;
+        this.nodeType = nodeType;
 
         mainContainer.AddToClassList("ds-node__main-container");
         extensionContainer.AddToClassList("ds-node__extension-container");
     }
 
-    public DialogueNode(string GUID, string npcName, DialogueGraphView graphView, bool isChoice)
+    public DialogueNode(string GUID, string npcName, DialogueGraphView graphView, string nodeType)
     {
         this.GUID = GUID;
         this.npcName = npcName;
         this.graphView = graphView;
+        this.nodeType = nodeType;
+
+        mainContainer.AddToClassList("ds-node__main-container");
+        extensionContainer.AddToClassList("ds-node__extension-container");
+    }
+
+    public DialogueNode(string GUID, string npcName, DialogueGraphView graphView, string nodeType, bool isChoice)
+    {
+        this.GUID = GUID;
+        this.npcName = npcName;
+        this.graphView = graphView;
+        this.nodeType = nodeType;
 
         mainContainer.AddToClassList("ds-node__main-container");
         extensionContainer.AddToClassList("ds-node__extension-container");
@@ -43,7 +57,8 @@ public class DialogueNode : Node
 
     public void Draw(Vector2 position, Vector2 size)
     {
-        CreateNPCTextField();
+        //CreateNPCTextField();
+        CreateLabel();
 
         CreatePorts();
 
@@ -51,6 +66,19 @@ public class DialogueNode : Node
 
         if (choices.Count > 0)
             CreateChoices();
+
+        // Refresh node
+        RefreshExpandedState();
+        RefreshPorts();
+
+        SetPosition(new Rect(position, size));
+    }
+
+    public void DrawUtility(Vector2 position, Vector2 size)
+    {
+        CreateLabel();
+
+        CreatePorts();
 
         // Refresh node
         RefreshExpandedState();
@@ -73,6 +101,17 @@ public class DialogueNode : Node
         titleContainer.Insert(0, dialogueNameTextField);
     }
 
+    private void CreateLabel()
+    {
+        Label label = new Label();
+        label.text = nodeType;
+
+
+        label.AddToClassList("ds-node_Label");
+
+        titleContainer.Insert(0, label);
+    }
+    
     private void CreatePorts()
     {
         // Add ports
@@ -81,7 +120,7 @@ public class DialogueNode : Node
         inputPort.name = "input";
         inputContainer.Add(inputPort);
 
-        if (choices.Count > 0)
+        if (choices.Count > 0 || nodeType == "End Node")
             return;
 
         Port outputPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(float));

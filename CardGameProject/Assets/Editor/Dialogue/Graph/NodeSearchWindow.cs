@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static TreeEditor.TreeEditorHelper;
 
 public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
 {
@@ -15,6 +16,9 @@ public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
 
     public const string DIALOGUE = "Dialogue";
     public const string DIALOGUE_CHOICE = "Dialogue Choice";
+    public const string EVENT = "Event";
+    public const string BATTLENODE = "Battle Node";
+    public const string ENDNODE = "End Node";
 
     public void Configure(EditorWindow window, DialogueGraphView graphView)
     {
@@ -42,6 +46,16 @@ public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
                 level = 1,
                 userData = DIALOGUE_CHOICE
             },
+            new SearchTreeEntry(new GUIContent(BATTLENODE, _indentationIcon))
+            {
+                level = 1,
+                userData = BATTLENODE
+            },
+            new SearchTreeEntry(new GUIContent(ENDNODE, _indentationIcon))
+            {
+                level = 1,
+                userData = ENDNODE
+            },
         };
 
         return tree;
@@ -55,10 +69,16 @@ public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
         switch (SearchTreeEntry.userData)
         {
             case DIALOGUE:
-                _graphView.CreateNode("Name", graphMousePosition, false);
+                _graphView.CreateNode("Name", graphMousePosition, DIALOGUE, false);
                 return true;
             case DIALOGUE_CHOICE:
-                _graphView.CreateNode("Name", graphMousePosition, true);
+                _graphView.CreateNode("Name", graphMousePosition, DIALOGUE_CHOICE, true);
+                return true;
+            case BATTLENODE:
+                _graphView.CreateUtilityNode(graphMousePosition, BATTLENODE);
+                return true;
+            case ENDNODE:
+                _graphView.CreateUtilityNode(graphMousePosition, ENDNODE);
                 return true;
         }
         return false;

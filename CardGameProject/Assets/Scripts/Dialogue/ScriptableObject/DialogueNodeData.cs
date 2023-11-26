@@ -8,6 +8,7 @@ public class DialogueNodeData
     public string Guid;
     public string Npc;
     public string DialogueText;
+    public string NodeType;
     public Vector2 Position;
     public bool isStartNode;
     public List<NodeLinkData> Connections;

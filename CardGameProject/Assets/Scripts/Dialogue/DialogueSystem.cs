@@ -14,7 +14,7 @@ using System.Reflection;
 public class DialogueSystem : MonoBehaviour
 {
 
-    public DialogueContainer dialogue;
+    public Event eventObj;
     public TextMeshProUGUI npcName;
     public TextMeshProUGUI dialogueText;
 
@@ -50,7 +50,7 @@ public class DialogueSystem : MonoBehaviour
 
     void LoadDialogue()
     {
-        nodeList = dialogue.DialogueNodeData;
+        nodeList = eventObj.DialogueNodeData;
         currentNode = nodeList.First(x => x.isStartNode == true);
 
         LoadNodeUI(currentNode);
