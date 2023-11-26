@@ -9,27 +9,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 953c94c72a2649e4d906b56e45d7638c, type: 3}
   m_Name: Test
-  m_EditorClassIdentifier: Assembly-CSharp::Event
+  m_EditorClassIdentifier: 
   DialogueNodeData:
-  - Guid: 0266704d-05ed-4f9e-9e21-809ed6c623da
+  - Guid: 7070c32b-0f89-420f-99e1-ebc949e75155
     Npc: 
     DialogueText: 
     NodeType: Battle Node
-    Position: {x: 427.2, y: 280.8}
+    Position: {x: 392, y: 218.40001}
     isStartNode: 1
     Connections:
-    - BaseNodeGuid: 0266704d-05ed-4f9e-9e21-809ed6c623da
+    - BaseNodeGuid: 7070c32b-0f89-420f-99e1-ebc949e75155
       PortName: Output
-      TargetNodeGuid: 33303699-e6bb-4ba0-81f6-289f0eb187dc
+      TargetNodeGuid: fe5fc7a2-d6a0-432e-bcc4-6b94408b9ad6
       ChoiceGUID: output
     Choices: []
-  - Guid: 33303699-e6bb-4ba0-81f6-289f0eb187dc
+  - Guid: fe5fc7a2-d6a0-432e-bcc4-6b94408b9ad6
     Npc: 
     DialogueText: 
     NodeType: End Node
-    Position: {x: 732.8, y: 328.8}
+    Position: {x: 659.2, y: 312.8}
     isStartNode: 0
     Connections: []
     Choices: []

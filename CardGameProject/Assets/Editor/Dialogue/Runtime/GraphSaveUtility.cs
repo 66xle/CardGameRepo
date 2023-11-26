@@ -126,26 +126,23 @@ public class GraphSaveUtility
 
         #endregion
 
-        // If there is no resources folder create one
-        if (!AssetDatabase.IsValidFolder("Assets/Resources"))
-        {
-            AssetDatabase.CreateFolder("Assets", "Resources");
-        }
-
         // Check if asset exists
-        if (!string.IsNullOrEmpty(AssetDatabase.AssetPathToGUID($"Assets/Resources/{fileName}.asset")))
+
+        Event loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Events/{fileName}.asset", typeof(Event)) as Event;
+
+        if (loadedAsset != null)
         {
             // If false cancel
-            if (!EditorUtility.DisplayDialog($"Save {fileName}", $"Overwrite {fileName} asset?", "OK", "Cancel"))
-            {
+            if (!EditorUtility.DisplayDialog($"Save {fileName}", $"Overwrite {fileName} asset?", "Save", "Cancel"))
                 return;
-            }
+            
+            loadedAsset.DialogueNodeData = new List<DialogueNodeData>(eventContainer.DialogueNodeData);
         }
-
-
-
-        AssetDatabase.DeleteAsset($"Assets/Resources/{fileName}.asset");
-        AssetDatabase.CreateAsset(eventContainer, $"Assets/Resources/{fileName}.asset");
+        else
+        {
+            AssetDatabase.CreateAsset(eventContainer, $"Assets/ScriptableObjects/Events/{fileName}.asset");
+        }
+        
         AssetDatabase.SaveAssets();
     }
 
@@ -155,14 +152,14 @@ public class GraphSaveUtility
 
     public void LoadGraph()
     {
-        string filePath = EditorUtility.OpenFilePanel("Dialogue Graph", "Assets/Resources", "asset");
+        string filePath = EditorUtility.OpenFilePanel("Dialogue Graph", "Assets/ScriptableObjects/Events/", "asset");
 
         if (!string.IsNullOrEmpty(filePath))
         {
             string fileName = System.IO.Path.GetFileNameWithoutExtension(filePath);
 
             // Check if file exists
-            _containerCache = Resources.Load<Event>(fileName);
+            _containerCache = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Events/{fileName}.asset", typeof(Event)) as Event;
             if (_containerCache == null)
             {
                 EditorUtility.DisplayDialog("File not found", "Target dialogue graph file does not exists!", "OK");
