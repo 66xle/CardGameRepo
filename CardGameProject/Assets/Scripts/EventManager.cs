@@ -9,12 +9,12 @@ public class EventManager : MonoBehaviour
 
     private List<Event> eventQueue;
 
-    private void Start()
+    private void Awake()
     {
         eventQueue = basicEventList;
     }
 
-    public Event GetNextEvent()
+    public Event GetEventFromQueue()
     {
         Event nextEvent = eventQueue[0];
         eventQueue.RemoveAt(0);

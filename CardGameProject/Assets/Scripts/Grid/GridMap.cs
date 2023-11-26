@@ -51,6 +51,8 @@ public class GridMap : MonoBehaviour
         DetectTileHit();
     }
 
+    #region Generate on Start
+
     void GenerateGrid()
     {
         // Math stuff for missing tiles
@@ -144,6 +146,7 @@ public class GridMap : MonoBehaviour
                 continue;
             }
 
+            // Store event tile information
             eventList.Add(randomTile);
             gripMap[randomTile.x][randomTile.z].type = Tile.Type.Event;
 
@@ -151,8 +154,9 @@ public class GridMap : MonoBehaviour
 
             // Spawn tile
             Vector3 worldPosition = CalculateWorldPostion(randomTile.x, randomTile.z);
-            GameObject spawnedTile = Instantiate(yellowPrefab, worldPosition, Quaternion.identity, transform);
-            spawnedTile.AddComponent<DisplayTile>().SetupDisplayTile(randomTile);
+            DisplayTile spawnedTile = Instantiate(yellowPrefab, worldPosition, Quaternion.identity, transform).AddComponent<DisplayTile>();
+            spawnedTile.SetupDisplayTile(randomTile);
+            spawnedTile.eventObj = eventManager.GetEventFromQueue();
         }
     }
 
@@ -167,10 +171,16 @@ public class GridMap : MonoBehaviour
         // Spawn Tile
         DisplayTile selectedTile = Instantiate(blackPrefab, worldPosition, Quaternion.identity, transform).AddComponent<DisplayTile>();
         selectedTile.SetupDisplayTile(currentTile);
-        selectedTile.eventObj = eventManager.GetNextEvent();
+        selectedTile.eventObj = eventManager.GetEventFromQueue();
 
         nextTiles.Add(selectedTile);
     }
+
+
+
+    #endregion
+
+    #region Selecting Event Tile
 
     void GenerateNextTiles()
     {
@@ -205,21 +215,23 @@ public class GridMap : MonoBehaviour
             Vector3 worldPostion = CalculateWorldPostion(rdmTile.x, rdmTile.z);
             DisplayTile spawnedTile = Instantiate(blackPrefab, worldPostion, Quaternion.identity, transform).AddComponent<DisplayTile>();
             spawnedTile.SetupDisplayTile(rdmTile);
-            spawnedTile.eventObj = eventManager.GetNextEvent();
+            spawnedTile.eventObj = eventManager.GetEventFromQueue();
             nextTiles.Add(spawnedTile);
         }
     }
 
-
     void DetectTileHit()
     {
+        // Detect correct input / disable input
         if (!Input.GetKeyDown(KeyCode.Mouse0) || disableTileInteract)
             return;
 
+        // Raycast from screen to tile
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100))
         {
+            // Get selected tile
             DisplayTile selectedTile = hit.transform.GetComponent<DisplayTile>();
 
             if (nextTiles.Contains(selectedTile))
@@ -232,18 +244,27 @@ public class GridMap : MonoBehaviour
                 }
                 nextTiles.Clear();
 
+                // Debug
                 selectedTile.gameObject.GetComponent<MeshRenderer>().material = redMat;
+
+                // Load Event UI
                 eventManager.LoadEvent(selectedTile.eventObj, eventDisplay);
 
+                // Store event tile
                 currentTile = new Tile(selectedTile);
                 disableTileInteract = true;
 
 
+                // Here temporary (run this when event ends)
                 if (selectedTile.dx < gridXSize - 1)
                     GenerateNextTiles();
             }
         }
     }
+
+    #endregion
+
+    #region Button Function
 
     public void EndEvent()
     {
@@ -251,6 +272,7 @@ public class GridMap : MonoBehaviour
         eventDisplay.gameObject.SetActive(false);
     }
 
+    #endregion
 
     #region Other Functions
 
