@@ -17,6 +17,8 @@ public class GridMap : MonoBehaviour
     [SerializeField] GameObject yellowPrefab;
     [SerializeField] GameObject blackPrefab;
     [SerializeField] Material redMat;
+    [SerializeField] EventManager eventManager;
+    [SerializeField] EventDisplay eventDisplay;
 
     [Header("Settings")]
     [SerializeField] float numOfEvents = 5;
@@ -28,12 +30,16 @@ public class GridMap : MonoBehaviour
     private Tile currentTile;
     private List<DisplayTile> nextTiles;
 
+    private bool disableTileInteract = false;
+
     // Start is called before the first frame update
     void Start()
     {
         gripMap = new List<List<Tile>>();
         eventList = new List<Tile>();
         nextTiles = new List<DisplayTile>();
+
+        disableTileInteract = false;
 
         GenerateGrid();
         GenerateEventTiles();
@@ -161,6 +167,8 @@ public class GridMap : MonoBehaviour
         // Spawn Tile
         DisplayTile selectedTile = Instantiate(blackPrefab, worldPosition, Quaternion.identity, transform).AddComponent<DisplayTile>();
         selectedTile.SetupDisplayTile(currentTile);
+        selectedTile.eventObj = eventManager.GetNextEvent();
+
         nextTiles.Add(selectedTile);
     }
 
@@ -197,7 +205,7 @@ public class GridMap : MonoBehaviour
             Vector3 worldPostion = CalculateWorldPostion(rdmTile.x, rdmTile.z);
             DisplayTile spawnedTile = Instantiate(blackPrefab, worldPostion, Quaternion.identity, transform).AddComponent<DisplayTile>();
             spawnedTile.SetupDisplayTile(rdmTile);
-
+            spawnedTile.eventObj = eventManager.GetNextEvent();
             nextTiles.Add(spawnedTile);
         }
     }
@@ -205,7 +213,7 @@ public class GridMap : MonoBehaviour
 
     void DetectTileHit()
     {
-        if (!Input.GetKeyUp(KeyCode.Mouse0))
+        if (!Input.GetKeyDown(KeyCode.Mouse0) || disableTileInteract)
             return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -225,8 +233,11 @@ public class GridMap : MonoBehaviour
                 nextTiles.Clear();
 
                 selectedTile.gameObject.GetComponent<MeshRenderer>().material = redMat;
+                eventManager.LoadEvent(selectedTile.eventObj, eventDisplay);
 
                 currentTile = new Tile(selectedTile);
+                disableTileInteract = true;
+
 
                 if (selectedTile.dx < gridXSize - 1)
                     GenerateNextTiles();
@@ -234,6 +245,11 @@ public class GridMap : MonoBehaviour
         }
     }
 
+    public void EndEvent()
+    {
+        disableTileInteract = false;
+        eventDisplay.gameObject.SetActive(false);
+    }
 
 
     #region Other Functions

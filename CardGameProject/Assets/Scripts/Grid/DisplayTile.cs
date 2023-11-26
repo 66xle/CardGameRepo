@@ -14,12 +14,14 @@ public class DisplayTile : MonoBehaviour
     public int dx;
     public int dz;
     public Type dType;
+    public Event eventObj;
 
     public void SetupDisplayTile(Tile tile)
     {
         dx = tile.x;
         dz = tile.z;
         dType = (Type)tile.type;
+        
     }
 
 
