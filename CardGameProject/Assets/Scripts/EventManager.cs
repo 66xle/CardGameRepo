@@ -21,9 +21,4 @@ public class EventManager : MonoBehaviour
 
         return nextEvent;
     }
-
-    public void LoadEvent(Event eventObj, EventDisplay eventDisplay)
-    {
-        eventDisplay.Display(eventObj);
-    }
 }

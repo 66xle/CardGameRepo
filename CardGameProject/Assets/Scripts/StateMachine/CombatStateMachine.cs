@@ -15,8 +15,7 @@ public class CombatStateMachine : MonoBehaviour
     public GameObject playerPrefab;
     [HideInInspector] public Player player;
     public Transform playerPosition;
-    public List<GameObject> enemyPrefabList;
-    public List<Enemy> enemyList = new List<Enemy>();
+    [HideInInspector] public List<EnemyObj> enemyList;
     public List<Transform> enemyPositions;
 
     [Header("Card References")]
@@ -66,7 +65,7 @@ public class CombatStateMachine : MonoBehaviour
         pressedEndTurnButton = false;
         enemyTurnDone = false;
 
-        enemyList = new List<Enemy>();
+        enemyList = new List<EnemyObj>();
 
         LoadPlayerAndEnemy();
 
@@ -101,13 +100,14 @@ public class CombatStateMachine : MonoBehaviour
         player.Init();
 
         // Spawn Enemy
-        for (int i = 0; i < enemyPrefabList.Count; i++)
+        for (int i = 0; i < enemyList.Count; i++)
         {
-            Enemy enemy = Instantiate(enemyPrefabList[i], enemyPositions[i]).GetComponent<Enemy>();
-            enemyList.Add(enemy);
+            Enemy enemy = Instantiate(enemyList[i].prefab, enemyPositions[i]).GetComponent<Enemy>();
+            enemy.enemyObj = enemyList[i];
+            enemy.deck = enemy.enemyObj.cardList;
         }
 
-        selectedEnemy = enemyList[0];
+        selectedEnemy = enemyList[0].prefab.GetComponent<Enemy>();
         selectedEnemy.GetComponent<MeshRenderer>().material = redMat;
     }
 
@@ -161,8 +161,6 @@ public class CombatStateMachine : MonoBehaviour
 
                 selectedEnemy = hit.transform.GetComponent<Enemy>();
                 selectedEnemy.transform.GetComponent<MeshRenderer>().material = redMat;
-
-                
             }
         }
     }

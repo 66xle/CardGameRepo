@@ -17,6 +17,9 @@ public class EventDisplay : MonoBehaviour
     public GameObject choicePrefab;
     public Transform parentChoiceObject;
     public GridMap gridMap;
+    public CombatStateMachine turnBaseSystem;
+    public GameObject mapScene;
+    public GameObject combatScene;
 
     private List<DialogueNodeData> dialogueData;
     private List<EnemyObj> enemyList;
@@ -29,7 +32,6 @@ public class EventDisplay : MonoBehaviour
 
     private void Start()
     {
-        doesNodeHaveChoice = false;
         waitToContinueDialogue = false;
     }
 
@@ -40,6 +42,8 @@ public class EventDisplay : MonoBehaviour
             waitToContinueDialogue = false;
             NextDialogue();
         }
+
+        Debug.Log(doesNodeHaveChoice);
     }
 
     public void Display(Event eventObj)
@@ -64,14 +68,11 @@ public class EventDisplay : MonoBehaviour
         }
         else if (currentNode.NodeType == BATTLENODE)
         {
-            // battle scene
+            LoadCombatEvent();
         }
         else
         {
-
             EndEvent();
-
-            // end event
         }
     }
 
@@ -109,8 +110,6 @@ public class EventDisplay : MonoBehaviour
             index++;
             currentChoices.Add(choice);
         }
-
-        
     }
 
     public void NextDialogue(DialogueChoices index = null)
@@ -129,7 +128,6 @@ public class EventDisplay : MonoBehaviour
             string targetNodeGuid = currentNode.Connections[0].TargetNodeGuid;
             nextNode = dialogueData.First(x => x.Guid == targetNodeGuid);
         }
-
 
         currentNode = nextNode;
         DetermineNodeType();
@@ -152,4 +150,16 @@ public class EventDisplay : MonoBehaviour
 
         gridMap.disableTileInteract = false;
     }
+
+    void LoadCombatEvent()
+    {
+        Debug.Log("yes");
+
+        turnBaseSystem.enemyList.Clear();
+        turnBaseSystem.enemyList = enemyList;
+
+
+        combatScene.SetActive(true);
+        mapScene.SetActive(false);
+    }    
 }

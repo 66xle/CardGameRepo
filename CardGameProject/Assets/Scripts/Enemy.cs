@@ -7,15 +7,16 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour
 {
     [Header("Stats")]
-    [SerializeField] float maxHealth = 100f;
+    [HideInInspector] public float maxHealth = 100f;
     private float currentHealth;
+    [HideInInspector] public EnemyObj enemyObj;
 
     private Slider healthBar;
     private TMP_Text healthValue;
 
     [Header("Cards")]
-    [SerializeField] List<Card> deck;
     [SerializeField] float drawAmount;
+    [HideInInspector] public List<Card> deck;
     [HideInInspector] public List<Card> cardsToPlay;
 
 

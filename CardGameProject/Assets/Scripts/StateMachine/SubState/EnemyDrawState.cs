@@ -34,9 +34,9 @@ public class EnemyDrawState : CombatBaseState
 
     public void DrawCards()
     {
-        foreach (Enemy enemy in ctx.enemyList)
+        foreach (EnemyObj enemyObj in ctx.enemyList)
         {
-            List<Card> cards = enemy.DrawCards();
+            List<Card> cards = enemyObj.prefab.GetComponent<Enemy>().DrawCards();
 
             ctx.enemyCardQueue.AddRange(cards);
         }

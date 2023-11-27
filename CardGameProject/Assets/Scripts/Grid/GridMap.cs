@@ -251,7 +251,7 @@ public class GridMap : MonoBehaviour
                 selectedTile.gameObject.GetComponent<MeshRenderer>().material = redMat;
 
                 // Load Event UI
-                eventManager.LoadEvent(selectedTile.eventObj, eventDisplay);
+                eventDisplay.Display(selectedTile.eventObj);
 
                 // Store event tile
                 currentTile = new Tile(selectedTile);

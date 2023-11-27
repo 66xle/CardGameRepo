@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 953c94c72a2649e4d906b56e45d7638c, type: 3}
+  m_Name: ThiefEvent
+  m_EditorClassIdentifier: 
+  DialogueNodeData:
+  - Guid: 48df9663-befb-4ea0-9b31-fd543a1ad158
+    Npc: 
+    DialogueText: 
+    NodeType: End Node
+    Position: {x: 1711.2, y: -127.2}
+    isStartNode: 0
+    Connections: []
+    Choices: []
+  - Guid: 5ea809c1-f60c-46ce-9a81-9131bdd766d8
+    Npc: Name
+    DialogueText: "You decide to comply with the thief's demands. \n\nSlowly, you
+      reach into your pockets and hand over your gold. \n\nThe bandit snatches it
+      quickly, casting a menacing glance before disappearing back into the shadows"
+    NodeType: Dialogue
+    Position: {x: 979.2, y: -207.2}
+    isStartNode: 0
+    Connections:
+    - BaseNodeGuid: 5ea809c1-f60c-46ce-9a81-9131bdd766d8
+      PortName: Output
+      TargetNodeGuid: 48df9663-befb-4ea0-9b31-fd543a1ad158
+      ChoiceGUID: output
+    Choices: []
+  - Guid: 893442f3-47b4-4f53-982e-d2b1005e1a6f
+    Npc: Name
+    DialogueText: "In a dimly lit alley, shadows reveal a masked bandit demanding
+      your valuables. \n\nMoonlight glints off their concealed weapon as tension
+      fills the narrow space. \n\nCaught off guard, you must decide."
+    NodeType: Dialogue Choice
+    Position: {x: 280.8, y: 62.399998}
+    isStartNode: 1
+    Connections:
+    - BaseNodeGuid: 893442f3-47b4-4f53-982e-d2b1005e1a6f
+      PortName: 
+      TargetNodeGuid: 5ea809c1-f60c-46ce-9a81-9131bdd766d8
+      ChoiceGUID: 2dfefcc8-8d42-4269-a979-b075b3eb5ca7
+    - BaseNodeGuid: 893442f3-47b4-4f53-982e-d2b1005e1a6f
+      PortName: 
+      TargetNodeGuid: 8d02b0ff-54ee-4a2e-9993-4670c1b0b2ed
+      ChoiceGUID: 4f5ebca3-305a-4c3b-86b4-d1d5f812e7a0
+    - BaseNodeGuid: 893442f3-47b4-4f53-982e-d2b1005e1a6f
+      PortName: 
+      TargetNodeGuid: 6e9046b9-8667-46d8-8961-7ac332725ef0
+      ChoiceGUID: 5279cc00-4469-413d-ac3e-332cdf981c88
+    Choices:
+    - text: Hand over your valuables
+      portGUID: 2dfefcc8-8d42-4269-a979-b075b3eb5ca7
+      targetGUID: 5ea809c1-f60c-46ce-9a81-9131bdd766d8
+    - text: Attack the thief
+      portGUID: 4f5ebca3-305a-4c3b-86b4-d1d5f812e7a0
+      targetGUID: 8d02b0ff-54ee-4a2e-9993-4670c1b0b2ed
+    - text: Look for an escape route
+      portGUID: 5279cc00-4469-413d-ac3e-332cdf981c88
+      targetGUID: 6e9046b9-8667-46d8-8961-7ac332725ef0
+  - Guid: 8d02b0ff-54ee-4a2e-9993-4670c1b0b2ed
+    Npc: 
+    DialogueText: 
+    NodeType: Battle Node
+    Position: {x: 1252, y: 139.2}
+    isStartNode: 0
+    Connections:
+    - BaseNodeGuid: 8d02b0ff-54ee-4a2e-9993-4670c1b0b2ed
+      PortName: Output
+      TargetNodeGuid: 9ea90fae-aa1f-4be4-a33f-f0d26b955543
+      ChoiceGUID: output
+    Choices: []
+  - Guid: 9f930f38-26f6-4e02-ac74-6d27291ea661
+    Npc: 
+    DialogueText: 
+    NodeType: End Node
+    Position: {x: 1733.6, y: 373.59998}
+    isStartNode: 0
+    Connections: []
+    Choices: []
+  - Guid: 6e9046b9-8667-46d8-8961-7ac332725ef0
+    Npc: Name
+    DialogueText: "Sensing danger, you discreetly spot an escape route, a narrow
+      passage to your left. \n\nSwiftly and quietly, you navigate through it, putting
+      distance between yourself and the thief"
+    NodeType: Dialogue
+    Position: {x: 965.6, y: 373.59998}
+    isStartNode: 0
+    Connections:
+    - BaseNodeGuid: 6e9046b9-8667-46d8-8961-7ac332725ef0
+      PortName: Output
+      TargetNodeGuid: 9f930f38-26f6-4e02-ac74-6d27291ea661
+      ChoiceGUID: output
+    Choices: []
+  - Guid: 9ea90fae-aa1f-4be4-a33f-f0d26b955543
+    Npc: 
+    DialogueText: 
+    NodeType: End Node
+    Position: {x: 1603.2, y: 159.2}
+    isStartNode: 0
+    Connections: []
+    Choices: []
+  image: {fileID: 21300000, guid: 67a23e8cb1b70fd439d7800fab547585, type: 3}
+  enemyList:
+  - {fileID: 11400000, guid: f8f5501ea10342745832c6803eacac6e, type: 2}
+  - {fileID: 11400000, guid: f8f5501ea10342745832c6803eacac6e, type: 2}
+  - {fileID: 11400000, guid: f8f5501ea10342745832c6803eacac6e, type: 2}
