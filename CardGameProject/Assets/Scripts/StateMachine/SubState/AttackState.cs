@@ -64,6 +64,12 @@ public class AttackState : CombatBaseState
                 ctx.enemyList.Remove(ctx.selectedEnemy);
 
                 ctx.DestroyEnemy(ctx.selectedEnemy);
+
+                if (ctx.enemyList.Count > 0)
+                {
+                    ctx.selectedEnemy = ctx.enemyList[0];
+                    ctx.selectedEnemy.GetComponent<MeshRenderer>().material = ctx.redMat;
+                }
             }
         }
         else

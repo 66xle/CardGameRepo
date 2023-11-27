@@ -20,11 +20,11 @@ public class Player : MonoBehaviour
     public Slider staminaBar;
     public TMP_Text staminaValue;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
         currentHealth = maxHealth;
         currentStamina = maxStamina;
+
         DisplayStats();
     }
 

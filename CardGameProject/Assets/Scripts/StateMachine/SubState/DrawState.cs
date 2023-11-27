@@ -10,6 +10,8 @@ public class DrawState : CombatBaseState
     {
         Debug.Log("Draw State");
 
+        Player player = ctx.player;
+
         ctx.player.RecoverStamina();
         DrawCards(ctx.cardsToDraw);
     }

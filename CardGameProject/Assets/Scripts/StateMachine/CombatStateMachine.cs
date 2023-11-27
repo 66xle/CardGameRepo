@@ -1,6 +1,8 @@
 using events;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,8 +12,12 @@ public class CombatStateMachine : MonoBehaviour
     [SerializeField] string subState;
 
     [Header("Player/Enemy")]
-    public Player player;
-    public List<Enemy> enemyList;
+    public GameObject playerPrefab;
+    [HideInInspector] public Player player;
+    public Transform playerPosition;
+    public List<GameObject> enemyPrefabList;
+    public List<Enemy> enemyList = new List<Enemy>();
+    public List<Transform> enemyPositions;
 
     [Header("Card References")]
     public GameObject cardPrefab;
@@ -26,6 +32,12 @@ public class CombatStateMachine : MonoBehaviour
 
     [Header("References")]
     public Button endTurnButton;
+    public Slider healthBar;
+    public TMP_Text healthValue;
+    public Slider staminaBar;
+    public TMP_Text staminaValue;
+    public Material defMat;
+    public Material redMat;
 
     // Variables
     [HideInInspector] public bool isPlayedCard;
@@ -54,6 +66,10 @@ public class CombatStateMachine : MonoBehaviour
         pressedEndTurnButton = false;
         enemyTurnDone = false;
 
+        enemyList = new List<Enemy>();
+
+        LoadPlayerAndEnemy();
+
         states = new CombatStateFactory(this, vso);
         currentState = new PlayerState(this, states, vso);
         currentState.EnterState();
@@ -68,6 +84,31 @@ public class CombatStateMachine : MonoBehaviour
             subState = currentState.currentSubState.ToString();
         }
         currentSuperState = currentState.ToString();
+
+
+
+        SelectEnemy();
+    }
+
+    void LoadPlayerAndEnemy()
+    {
+        // Spawn Player
+        player = Instantiate(playerPrefab, playerPosition).GetComponent<Player>();
+        player.healthBar = healthBar;
+        player.healthValue = healthValue;
+        player.staminaBar = staminaBar;
+        player.staminaValue = staminaValue;
+        player.Init();
+
+        // Spawn Enemy
+        for (int i = 0; i < enemyPrefabList.Count; i++)
+        {
+            Enemy enemy = Instantiate(enemyPrefabList[i], enemyPositions[i]).GetComponent<Enemy>();
+            enemyList.Add(enemy);
+        }
+
+        selectedEnemy = enemyList[0];
+        selectedEnemy.GetComponent<MeshRenderer>().material = redMat;
     }
 
     public void CreateCard(Card cardDrawed, Transform parent)
@@ -102,5 +143,27 @@ public class CombatStateMachine : MonoBehaviour
     public void DestroyEnemy(Enemy enemy)
     {
         Destroy(enemy.gameObject);
+    }
+
+    void SelectEnemy()
+    {
+        if (!Input.GetKeyDown(KeyCode.Mouse0) || !isPlayState)
+            return;
+
+        // Raycast from screen to tile
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100))
+        {
+            if (hit.transform.CompareTag("Enemy"))
+            {
+                selectedEnemy.GetComponent<MeshRenderer>().material = defMat;
+
+                selectedEnemy = hit.transform.GetComponent<Enemy>();
+                selectedEnemy.transform.GetComponent<MeshRenderer>().material = redMat;
+
+                
+            }
+        }
     }
 }
