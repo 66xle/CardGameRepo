@@ -137,10 +137,14 @@ public class GraphSaveUtility
                 return;
             
             loadedAsset.DialogueNodeData = new List<DialogueNodeData>(eventContainer.DialogueNodeData);
+
+
+            EditorUtility.SetDirty(loadedAsset);
         }
         else
         {
             AssetDatabase.CreateAsset(eventContainer, $"Assets/ScriptableObjects/Events/{fileName}.asset");
+            
         }
         
         AssetDatabase.SaveAssets();

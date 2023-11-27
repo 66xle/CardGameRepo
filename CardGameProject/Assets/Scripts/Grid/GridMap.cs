@@ -30,7 +30,7 @@ public class GridMap : MonoBehaviour
     private Tile currentTile;
     private List<DisplayTile> nextTiles;
 
-    private bool disableTileInteract = false;
+    [HideInInspector] public bool disableTileInteract = false;
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +49,9 @@ public class GridMap : MonoBehaviour
     void Update()
     {
         DetectTileHit();
+
+        
+
     }
 
     #region Generate on Start
@@ -264,15 +267,6 @@ public class GridMap : MonoBehaviour
 
     #endregion
 
-    #region Button Function
-
-    public void EndEvent()
-    {
-        disableTileInteract = false;
-        eventDisplay.gameObject.SetActive(false);
-    }
-
-    #endregion
 
     #region Other Functions
 

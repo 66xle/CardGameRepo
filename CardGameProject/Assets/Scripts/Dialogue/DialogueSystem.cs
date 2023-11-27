@@ -13,7 +13,6 @@ using System.Reflection;
 
 public class DialogueSystem : MonoBehaviour
 {
-
     public Event eventObj;
     public TextMeshProUGUI npcName;
     public TextMeshProUGUI dialogueText;

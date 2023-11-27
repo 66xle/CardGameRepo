@@ -25,7 +25,5 @@ public class EventManager : MonoBehaviour
     public void LoadEvent(Event eventObj, EventDisplay eventDisplay)
     {
         eventDisplay.Display(eventObj);
-        eventDisplay.gameObject.SetActive(true);
-
     }
 }

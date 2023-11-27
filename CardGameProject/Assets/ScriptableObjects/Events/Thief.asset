@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 953c94c72a2649e4d906b56e45d7638c, type: 3}
+  m_Name: Thief
+  m_EditorClassIdentifier: 
+  DialogueNodeData:
+  - Guid: 893442f3-47b4-4f53-982e-d2b1005e1a6f
+    Npc: Name
+    DialogueText: "In a dimly lit alley, shadows reveal a masked bandit demanding
+      your valuables. \n\nMoonlight glints off their concealed weapon as tension
+      fills the narrow space. \n\nCaught off guard, you must decide."
+    NodeType: Dialogue Choice
+    Position: {x: 248.8, y: 165.6}
+    isStartNode: 1
+    Connections:
+    - BaseNodeGuid: 893442f3-47b4-4f53-982e-d2b1005e1a6f
+      PortName: 
+      TargetNodeGuid: 5ea809c1-f60c-46ce-9a81-9131bdd766d8
+      ChoiceGUID: 1049b375-b909-47d3-820a-a7b9fe1a06bf
+    - BaseNodeGuid: 893442f3-47b4-4f53-982e-d2b1005e1a6f
+      PortName: 
+      TargetNodeGuid: 25441990-b741-4b0d-b376-a7ccd02be0a0
+      ChoiceGUID: 8c99ba81-2d88-448a-838b-1242d109bd52
+    Choices:
+    - text: Attack
+      portGUID: 1049b375-b909-47d3-820a-a7b9fe1a06bf
+      targetGUID: 5ea809c1-f60c-46ce-9a81-9131bdd766d8
+    - text: Flee
+      portGUID: 8c99ba81-2d88-448a-838b-1242d109bd52
+      targetGUID: 25441990-b741-4b0d-b376-a7ccd02be0a0
+  - Guid: 5ea809c1-f60c-46ce-9a81-9131bdd766d8
+    Npc: Name
+    DialogueText: You Attack the thief
+    NodeType: Dialogue
+    Position: {x: 883.2, y: 103.2}
+    isStartNode: 0
+    Connections:
+    - BaseNodeGuid: 5ea809c1-f60c-46ce-9a81-9131bdd766d8
+      PortName: Output
+      TargetNodeGuid: 48df9663-befb-4ea0-9b31-fd543a1ad158
+      ChoiceGUID: output
+    Choices: []
+  - Guid: 25441990-b741-4b0d-b376-a7ccd02be0a0
+    Npc: Name
+    DialogueText: You successfully run away
+    NodeType: Dialogue
+    Position: {x: 868, y: 314.4}
+    isStartNode: 0
+    Connections:
+    - BaseNodeGuid: 25441990-b741-4b0d-b376-a7ccd02be0a0
+      PortName: Output
+      TargetNodeGuid: 6e3dbdcc-6adc-42fc-82cc-8fffe39ea329
+      ChoiceGUID: output
+    Choices: []
+  - Guid: 6e3dbdcc-6adc-42fc-82cc-8fffe39ea329
+    Npc: 
+    DialogueText: 
+    NodeType: End Node
+    Position: {x: 1162.4, y: 288}
+    isStartNode: 0
+    Connections: []
+    Choices: []
+  - Guid: 48df9663-befb-4ea0-9b31-fd543a1ad158
+    Npc: 
+    DialogueText: 
+    NodeType: End Node
+    Position: {x: 1162.4, y: 144.8}
+    isStartNode: 0
+    Connections: []
+    Choices: []
+  image: {fileID: 21300000, guid: 67a23e8cb1b70fd439d7800fab547585, type: 3}
+  enemyList: []

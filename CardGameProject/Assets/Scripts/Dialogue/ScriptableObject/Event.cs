@@ -9,8 +9,6 @@ public class Event : ScriptableObject
     public List<DialogueNodeData> DialogueNodeData = new List<DialogueNodeData>();
 
     [Header("Event Settings")]
-    public string name;
-    public string description;
     public Sprite image;
 
     [Header("Enemy Settings")]
