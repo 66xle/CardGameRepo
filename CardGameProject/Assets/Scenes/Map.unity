@@ -374,6 +374,7 @@ MonoBehaviour:
   numOfEvents: 5
   distanceBetweenEvents: 3
   minRowEvent: 3
+  disableTileInteract: 0
 --- !u!1 &1020026768
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,6 +659,8 @@ MonoBehaviour:
   dialogueText: {fileID: 1089409395}
   choicePrefab: {fileID: 5640910441777056338, guid: 370bfc40ef846e24e8129af03d3b0bdc, type: 3}
   parentChoiceObject: {fileID: 1656585220}
+  gridMap: {fileID: 691890740}
+  waitToContinueDialogue: 0
 --- !u!224 &1101127331 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5640910441777056339, guid: 370bfc40ef846e24e8129af03d3b0bdc, type: 3}
@@ -837,7 +840,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 367, y: -66}
+  m_AnchoredPosition: {x: 367, y: 74}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1764176117

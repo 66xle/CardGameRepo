@@ -19,7 +19,7 @@ MonoBehaviour:
       your valuables. \n\nMoonlight glints off their concealed weapon as tension
       fills the narrow space. \n\nCaught off guard, you must decide."
     NodeType: Dialogue Choice
-    Position: {x: 248.8, y: 165.6}
+    Position: {x: 227.2, y: 62.399998}
     isStartNode: 1
     Connections:
     - BaseNodeGuid: 893442f3-47b4-4f53-982e-d2b1005e1a6f
@@ -28,20 +28,46 @@ MonoBehaviour:
       ChoiceGUID: 1049b375-b909-47d3-820a-a7b9fe1a06bf
     - BaseNodeGuid: 893442f3-47b4-4f53-982e-d2b1005e1a6f
       PortName: 
-      TargetNodeGuid: 25441990-b741-4b0d-b376-a7ccd02be0a0
+      TargetNodeGuid: be2ee65f-1235-4be4-954b-f78f5ae6c21e
       ChoiceGUID: 8c99ba81-2d88-448a-838b-1242d109bd52
+    - BaseNodeGuid: 893442f3-47b4-4f53-982e-d2b1005e1a6f
+      PortName: 
+      TargetNodeGuid: 437b1d8f-a924-4ab0-8a33-c0cd6e76d431
+      ChoiceGUID: 865ff3f3-62f9-449b-84a1-33f7721eb791
     Choices:
-    - text: Attack
+    - text: Hand over your valuables
       portGUID: 1049b375-b909-47d3-820a-a7b9fe1a06bf
       targetGUID: 5ea809c1-f60c-46ce-9a81-9131bdd766d8
-    - text: Flee
+    - text: Attack the thief
       portGUID: 8c99ba81-2d88-448a-838b-1242d109bd52
-      targetGUID: 25441990-b741-4b0d-b376-a7ccd02be0a0
+      targetGUID: be2ee65f-1235-4be4-954b-f78f5ae6c21e
+    - text: Look for an escape route
+      portGUID: 865ff3f3-62f9-449b-84a1-33f7721eb791
+      targetGUID: 437b1d8f-a924-4ab0-8a33-c0cd6e76d431
+  - Guid: 437b1d8f-a924-4ab0-8a33-c0cd6e76d431
+    Npc: Name
+    DialogueText: 'Sensing danger, you discreetly spot an escape route, a narrow
+      passage to your left.
+
+
+      Swiftly and quietly, you navigate through it,
+      putting distance between yourself and the thief'
+    NodeType: Dialogue
+    Position: {x: 915.2, y: 352}
+    isStartNode: 0
+    Connections:
+    - BaseNodeGuid: 437b1d8f-a924-4ab0-8a33-c0cd6e76d431
+      PortName: Output
+      TargetNodeGuid: 3324e49c-7001-4034-bd96-49ab43e0b494
+      ChoiceGUID: output
+    Choices: []
   - Guid: 5ea809c1-f60c-46ce-9a81-9131bdd766d8
     Npc: Name
-    DialogueText: You Attack the thief
+    DialogueText: "You decide to comply with the thief's demands. Slowly, you reach
+      into your pockets and hand over your gold. \n\nThe bandit snatches it quickly,
+      casting a menacing glance before disappearing back into the shadows"
     NodeType: Dialogue
-    Position: {x: 883.2, y: 103.2}
+    Position: {x: 853.6, y: -127.2}
     isStartNode: 0
     Connections:
     - BaseNodeGuid: 5ea809c1-f60c-46ce-9a81-9131bdd766d8
@@ -49,31 +75,27 @@ MonoBehaviour:
       TargetNodeGuid: 48df9663-befb-4ea0-9b31-fd543a1ad158
       ChoiceGUID: output
     Choices: []
-  - Guid: 25441990-b741-4b0d-b376-a7ccd02be0a0
-    Npc: Name
-    DialogueText: You successfully run away
-    NodeType: Dialogue
-    Position: {x: 868, y: 314.4}
-    isStartNode: 0
-    Connections:
-    - BaseNodeGuid: 25441990-b741-4b0d-b376-a7ccd02be0a0
-      PortName: Output
-      TargetNodeGuid: 6e3dbdcc-6adc-42fc-82cc-8fffe39ea329
-      ChoiceGUID: output
-    Choices: []
-  - Guid: 6e3dbdcc-6adc-42fc-82cc-8fffe39ea329
-    Npc: 
-    DialogueText: 
-    NodeType: End Node
-    Position: {x: 1162.4, y: 288}
-    isStartNode: 0
-    Connections: []
-    Choices: []
   - Guid: 48df9663-befb-4ea0-9b31-fd543a1ad158
     Npc: 
     DialogueText: 
     NodeType: End Node
-    Position: {x: 1162.4, y: 144.8}
+    Position: {x: 1711.2, y: -127.2}
+    isStartNode: 0
+    Connections: []
+    Choices: []
+  - Guid: be2ee65f-1235-4be4-954b-f78f5ae6c21e
+    Npc: 
+    DialogueText: 
+    NodeType: End Node
+    Position: {x: 1711.2, y: 117.600006}
+    isStartNode: 0
+    Connections: []
+    Choices: []
+  - Guid: 3324e49c-7001-4034-bd96-49ab43e0b494
+    Npc: 
+    DialogueText: 
+    NodeType: End Node
+    Position: {x: 1711.2, y: 352}
     isStartNode: 0
     Connections: []
     Choices: []

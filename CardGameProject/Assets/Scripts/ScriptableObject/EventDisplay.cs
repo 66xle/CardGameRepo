@@ -99,7 +99,7 @@ public class EventDisplay : MonoBehaviour
 
             // Set button position
             RectTransform rt = newChoiceUI.GetComponent<RectTransform>();
-            rt.anchoredPosition = new Vector2(0, rt.anchoredPosition.y - 200f * index);
+            rt.anchoredPosition = new Vector2(0, rt.anchoredPosition.y - 150f);
 
 
             newChoiceUI.GetComponentInChildren<TextMeshProUGUI>().text = choice.text;
