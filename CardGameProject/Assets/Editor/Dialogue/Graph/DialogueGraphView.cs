@@ -12,6 +12,8 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class DialogueGraphView : GraphView
 {
+    public Action<DialogueNode> OnNodeSelected;
+
     public const string PLAYER = "Player";
     public const string NPC = "NPC";
 
@@ -19,7 +21,9 @@ public class DialogueGraphView : GraphView
 
     private NodeSearchWindow _searchWindow;
 
-    public DialogueGraphView(DialogueEditor editorWindow)
+    public new class UxmlFactory : UxmlFactory<DialogueGraphView, GraphView.UxmlTraits> { }
+
+    public DialogueGraphView()
     {
         // Background lines color
         styleSheets.Add(Resources.Load<StyleSheet>("DialogueGraph"));
@@ -38,8 +42,6 @@ public class DialogueGraphView : GraphView
         GridBackground grid = new GridBackground();
         Insert(0, grid);
         grid.StretchToParentSize();
-
-        AddSearchWindow(editorWindow);
 
         graphViewChanged = OnGraphChange;
     }
@@ -92,7 +94,7 @@ public class DialogueGraphView : GraphView
 
     #region Search Window
 
-    private void AddSearchWindow(DialogueEditor editorWindow)
+    public void AddSearchWindow(DialogueEditor editorWindow)
     {
         _searchWindow = ScriptableObject.CreateInstance<NodeSearchWindow>();
         _searchWindow.Configure(editorWindow, this);
@@ -121,6 +123,7 @@ public class DialogueGraphView : GraphView
         DialogueNode dialogueNode = choice ? new DialogueNode(Guid.NewGuid().ToString(), nodeName, this, nodeType, true) : new DialogueNode(Guid.NewGuid().ToString(), nodeName, this, nodeType);
 
         dialogueNode.Draw(position, DefaultNodeSize);
+        dialogueNode.OnNodeSelected = OnNodeSelected;
 
         AddElement(dialogueNode);
     }
@@ -130,6 +133,7 @@ public class DialogueGraphView : GraphView
         DialogueNode utilityNode = new DialogueNode(Guid.NewGuid().ToString(), this, nodeType);
 
         utilityNode.DrawUtility(position, DefaultNodeSize);
+        utilityNode.OnNodeSelected = OnNodeSelected;
 
         AddElement(utilityNode);
     }

@@ -10,13 +10,17 @@ using System;
 using static DialogueNode;
 using System.Reflection.Emit;
 using Label = UnityEngine.UIElements.Label;
+using UnityEngine.Experimental.AI;
 
 public class DialogueNode : Node
 {
+    public Action<DialogueNode> OnNodeSelected;
+
     public string GUID;
     public string dialogueText;
     public string npcName;
     public string nodeType;
+    public Modifier modifier = new Modifier();
     public List<DialogueChoices> choices = new List<DialogueChoices>();
 
     DialogueGraphView graphView;
@@ -31,7 +35,7 @@ public class DialogueNode : Node
         extensionContainer.AddToClassList("ds-node__extension-container");
     }
 
-    public DialogueNode(string GUID, string npcName, DialogueGraphView graphView, string nodeType)
+    public DialogueNode(string GUID, string npcName, DialogueGraphView graphView, string nodeType) 
     {
         this.GUID = GUID;
         this.npcName = npcName;
@@ -60,9 +64,9 @@ public class DialogueNode : Node
         //CreateNPCTextField();
         CreateLabel();
 
-        CreatePorts();
 
         CreateDialogueTextField();
+        CreatePorts();
 
         if (choices.Count > 0)
             CreateChoices();
@@ -244,5 +248,14 @@ public class DialogueNode : Node
         textArea.multiline = true;
 
         return textArea;
+    }
+
+    public override void OnSelected()
+    {
+        base.OnSelected();
+        if (OnNodeSelected != null)
+        {
+            OnNodeSelected.Invoke(this);
+        }
     }
 }

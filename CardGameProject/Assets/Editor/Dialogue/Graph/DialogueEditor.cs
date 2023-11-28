@@ -8,9 +8,10 @@ using UnityEngine.UIElements;
 public class DialogueEditor : EditorWindow
 {
     private DialogueGraphView _graphView;
+    private InspectorView inspectorView;
     private string _fileName = "New Dialogue";
 
-    [MenuItem("Graph/Room Graph")]
+    [MenuItem("Graph/Dialogue Graph")]
     public static void ShowWindow()
     {
         DialogueEditor window = GetWindow<DialogueEditor>("Graph");
@@ -20,7 +21,6 @@ public class DialogueEditor : EditorWindow
     private void OnEnable()
     {
         ConstructGraphView();
-        GenerateToolBar();
     }
 
     private void OnDisable()
@@ -30,13 +30,28 @@ public class DialogueEditor : EditorWindow
 
     private void ConstructGraphView()
     {
-        _graphView = new DialogueGraphView(this)
+        _graphView = new DialogueGraphView()
         {
             name = "Dialogue Graph"
         };
 
-        _graphView.StretchToParentSize();
+        GenerateToolBar();
+
+        // Load uxml
+        VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/Dialogue/Graph/Resources/DialogueGraph.uxml");
+        visualTree.CloneTree(rootVisualElement);
         rootVisualElement.Add(_graphView);
+
+
+        inspectorView = rootVisualElement.Q<InspectorView>();
+        _graphView = rootVisualElement.Q<DialogueGraphView>();
+        _graphView.AddSearchWindow(this);
+        _graphView.OnNodeSelected = OnNodeSelectionChanged;
+    }
+
+    void OnNodeSelectionChanged(DialogueNode node)
+    {
+        inspectorView.UpdateSelection(node);
     }
 
     private void GenerateToolBar()
