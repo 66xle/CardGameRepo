@@ -65,8 +65,6 @@ public class CombatStateMachine : MonoBehaviour
         pressedEndTurnButton = false;
         enemyTurnDone = false;
 
-        enemyList = new List<EnemyObj>();
-
         LoadPlayerAndEnemy();
 
         states = new CombatStateFactory(this, vso);
@@ -105,10 +103,15 @@ public class CombatStateMachine : MonoBehaviour
             Enemy enemy = Instantiate(enemyList[i].prefab, enemyPositions[i]).GetComponent<Enemy>();
             enemy.enemyObj = enemyList[i];
             enemy.deck = enemy.enemyObj.cardList;
+
+            if (i == 0)
+            {
+                selectedEnemy = enemy;
+                selectedEnemy.GetComponent<MeshRenderer>().material = redMat;
+            }
         }
 
-        selectedEnemy = enemyList[0].prefab.GetComponent<Enemy>();
-        selectedEnemy.GetComponent<MeshRenderer>().material = redMat;
+        
     }
 
     public void CreateCard(Card cardDrawed, Transform parent)
