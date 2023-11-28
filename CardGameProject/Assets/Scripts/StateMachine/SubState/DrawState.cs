@@ -32,28 +32,30 @@ public class DrawState : CombatBaseState
 
     void DrawCards(int numberOfCards)
     {
+        CardManager cm = ctx.cardManager;
+
         for (int i = 0; i < numberOfCards; i++)
         {
-            if (ctx.playerDeck.Count <= 0)
+            if (cm.playerDeck.Count <= 0)
             {
                 // Reset deck and clear discard pile
-                ctx.playerDeck = new List<Card>(ctx.discardPile);
+                cm.playerDeck = new List<Card>(ctx.discardPile);
                 ctx.discardPile.Clear();
 
                 // Shuffle deck
-                Extensions.Shuffle(ctx.playerDeck);
+                Extensions.Shuffle(cm.playerDeck);
             }
 
             // No more cards to draw
-            if (ctx.playerDeck.Count <= 0)
+            if (cm.playerDeck.Count <= 0)
                 break;
 
             // Pick random card
-            int index = Random.Range(0, ctx.playerDeck.Count);
-            Card cardDrawed = ctx.playerDeck[index];
+            int index = Random.Range(0, cm.playerDeck.Count);
+            Card cardDrawed = cm.playerDeck[index];
 
             ctx.CreateCard(cardDrawed, ctx.playerHand);
-            ctx.playerDeck.Remove(cardDrawed);
+            cm.playerDeck.Remove(cardDrawed);
         }
     }
 

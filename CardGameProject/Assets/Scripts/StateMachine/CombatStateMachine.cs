@@ -29,7 +29,6 @@ public class CombatStateMachine : MonoBehaviour
     public GameObject cardPrefab;
     public Transform playerHand;
     public Transform displayCard;
-    public List<Card> playerDeck;
     [HideInInspector] public List<Card> discardPile;
     [HideInInspector] public List<Card> enemyCardQueue;
 
@@ -39,6 +38,7 @@ public class CombatStateMachine : MonoBehaviour
     [Header("References")]
     public InputManager inputManager;
     public EventDisplay eventDisplay;
+    public CardManager cardManager;
     public Button endTurnButton;
     public Material defMat;
     public Material redMat;
