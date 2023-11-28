@@ -11,12 +11,15 @@ public class CombatStateMachine : MonoBehaviour
     public string currentSuperState;
     [SerializeField] string subState;
 
-    [Header("Player/Enemy")]
+    [Header("Player")]
     public GameObject playerPrefab;
+    public Transform playerSpawnPos;
     [HideInInspector] public Player player;
-    public Transform playerPosition;
-    [HideInInspector] public List<EnemyObj> enemyList;
-    public List<Transform> enemyPositions;
+    
+
+    [Header("Enemy")]
+    public List<Transform> enemySpawnPosList;
+    [HideInInspector] public List<Enemy> enemyList;
 
     [Header("Card References")]
     public GameObject cardPrefab;
@@ -54,9 +57,7 @@ public class CombatStateMachine : MonoBehaviour
     public CombatBaseState currentState;
     private CombatStateFactory states;
 
-
-    // Start is called before the first frame update
-    void Start()
+    public void Init(List<EnemyObj> enemyObjList)
     {
         isPlayedCard = false;
         cardPlayed = null;
@@ -65,7 +66,9 @@ public class CombatStateMachine : MonoBehaviour
         pressedEndTurnButton = false;
         enemyTurnDone = false;
 
-        LoadPlayerAndEnemy();
+        enemyList = new List<Enemy>();
+
+        LoadPlayerAndEnemy(enemyObjList);
 
         states = new CombatStateFactory(this, vso);
         currentState = new PlayerState(this, states, vso);
@@ -82,15 +85,13 @@ public class CombatStateMachine : MonoBehaviour
         }
         currentSuperState = currentState.ToString();
 
-
-
         SelectEnemy();
     }
 
-    void LoadPlayerAndEnemy()
+    void LoadPlayerAndEnemy(List<EnemyObj> enemyObjList)
     {
         // Spawn Player
-        player = Instantiate(playerPrefab, playerPosition).GetComponent<Player>();
+        player = Instantiate(playerPrefab, playerSpawnPos).GetComponent<Player>();
         player.healthBar = healthBar;
         player.healthValue = healthValue;
         player.staminaBar = staminaBar;
@@ -98,11 +99,14 @@ public class CombatStateMachine : MonoBehaviour
         player.Init();
 
         // Spawn Enemy
-        for (int i = 0; i < enemyList.Count; i++)
+        for (int i = 0; i < enemyObjList.Count; i++)
         {
-            Enemy enemy = Instantiate(enemyList[i].prefab, enemyPositions[i]).GetComponent<Enemy>();
-            enemy.enemyObj = enemyList[i];
+            Enemy enemy = Instantiate(enemyObjList[i].prefab, enemySpawnPosList[i]).GetComponent<Enemy>();
+            enemy.enemyObj = enemyObjList[i];
             enemy.deck = enemy.enemyObj.cardList;
+            enemy.maxHealth = enemy.enemyObj.health;
+
+            enemyList.Add(enemy);
 
             if (i == 0)
             {
@@ -110,8 +114,6 @@ public class CombatStateMachine : MonoBehaviour
                 selectedEnemy.GetComponent<MeshRenderer>().material = redMat;
             }
         }
-
-        
     }
 
     public void CreateCard(Card cardDrawed, Transform parent)

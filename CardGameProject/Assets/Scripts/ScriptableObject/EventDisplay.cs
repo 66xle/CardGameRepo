@@ -7,53 +7,63 @@ using System.Linq;
 
 public class EventDisplay : MonoBehaviour
 {
+    [Header("Component References")]
+    public Image image;
+    public TextMeshProUGUI tmpDialougeText;
+
+    [Header("References")]
+    public GameObject choicePrefab;
+    public Transform parentChoiceObject;
+    public GameObject mapScene;
+    public GameObject combatScene;
+    public CombatStateMachine turnBaseSystem;
+    public InputManager inputManager;
+
+    #region Internal Variables
+
     private const string DIALOGUE = "Dialogue";
     private const string DIALOGUE_CHOICE = "Dialogue Choice";
     private const string BATTLENODE = "Battle Node";
 
-    [Header("References")]
-    public Image image;
-    public TextMeshProUGUI dialogueText;
-    public GameObject choicePrefab;
-    public Transform parentChoiceObject;
-    public GridMap gridMap;
-    public CombatStateMachine turnBaseSystem;
-    public GameObject mapScene;
-    public GameObject combatScene;
-
     private List<DialogueNodeData> dialogueData;
+    private List<DialogueChoices> currentChoices;
     private List<EnemyObj> enemyList;
     private DialogueNodeData currentNode;
     private bool doesNodeHaveChoice = false;
+
     [HideInInspector] public bool waitToContinueDialogue = false;
-    private List<DialogueChoices> currentChoices = new List<DialogueChoices>();
+    [HideInInspector] public bool disableTileInteract = false;
 
-    
+    #endregion
 
-    private void Start()
+
+    public void Init()
     {
+        dialogueData = new List<DialogueNodeData>();
+        currentChoices = new List<DialogueChoices>();
+        enemyList = new List<EnemyObj>();
+
         waitToContinueDialogue = false;
+        disableTileInteract = false;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && waitToContinueDialogue)
+        if (inputManager.leftClickInputDown && waitToContinueDialogue)
         {
             waitToContinueDialogue = false;
             NextDialogue();
         }
-
-        Debug.Log(doesNodeHaveChoice);
     }
 
     public void Display(Event eventObj)
     {
         gameObject.SetActive(true);
+        Init();
 
         image.sprite = eventObj.image;
         dialogueData = eventObj.DialogueNodeData;
         enemyList = eventObj.enemyList;
-
 
         currentNode = dialogueData.First(x => x.isStartNode == true);
 
@@ -85,7 +95,7 @@ public class EventDisplay : MonoBehaviour
 
         ClearChoices();
 
-        dialogueText.text = currentNode.DialogueText;
+        tmpDialougeText.text = currentNode.DialogueText;
 
         Transform newChoiceUI = parentChoiceObject.transform;
         int index = 0;
@@ -147,19 +157,14 @@ public class EventDisplay : MonoBehaviour
     void EndEvent()
     {
         gameObject.SetActive(false);
-
-        gridMap.disableTileInteract = false;
+        disableTileInteract = false;
     }
 
     void LoadCombatEvent()
     {
-        Debug.Log("yes");
-
-        turnBaseSystem.enemyList.Clear();
-        turnBaseSystem.enemyList = enemyList;
-
-
         combatScene.SetActive(true);
         mapScene.SetActive(false);
+
+        turnBaseSystem.Init(Extensions.Clone(enemyList));
     }    
 }

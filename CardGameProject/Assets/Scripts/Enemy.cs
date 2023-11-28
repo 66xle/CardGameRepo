@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Cards")]
     [SerializeField] float drawAmount;
-    [HideInInspector] public List<Card> deck;
+    public List<Card> deck;
     [HideInInspector] public List<Card> cardsToPlay;
 
 

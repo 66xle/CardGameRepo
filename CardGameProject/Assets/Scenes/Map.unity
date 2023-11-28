@@ -916,13 +916,13 @@ MonoBehaviour:
   currentSuperState: 
   subState: 
   playerPrefab: {fileID: 5387810323196424482, guid: e762d9b1243602f4585122e453d7b075, type: 3}
+  playerSpawnPos: {fileID: 1211356291}
   player: {fileID: 0}
-  playerPosition: {fileID: 1211356291}
-  enemyList: []
-  enemyPositions:
+  enemySpawnPosList:
   - {fileID: 1543032510}
   - {fileID: 1544235590}
   - {fileID: 1093519321}
+  enemyList: []
   cardPrefab: {fileID: 7406141934112961317, guid: f40acb07258ef8741bc094a7dcd310cf, type: 3}
   playerHand: {fileID: 1258083405}
   displayCard: {fileID: 1053710711}
@@ -961,7 +961,7 @@ GameObject:
   - component: {fileID: 691890739}
   - component: {fileID: 691890740}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: GridMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -996,17 +996,17 @@ MonoBehaviour:
   gridXSize: 13
   gridZSize: 13
   hexSize: 0.577
+  numOfEvents: 5
+  distanceBetweenEvents: 3
+  minRowEvent: 3
   greenPrefab: {fileID: 1901911034279994, guid: 61a4f649633a1f94abeb21559df74bd4, type: 3}
   bluePrefab: {fileID: 1389125948638888, guid: a9684bd94f9c39149a3724d15b5151a6, type: 3}
   yellowPrefab: {fileID: 1589122122581606, guid: b6b0c220ebe042b498958eadf1f52fa4, type: 3}
   blackPrefab: {fileID: 1320501535373342, guid: 88d6135510f32df49aeb43b51172cc52, type: 3}
-  redMat: {fileID: 0}
+  redMat: {fileID: 2100000, guid: 5b2e5f035411b3f4585d719656d03e4f, type: 2}
   eventManager: {fileID: 1020026769}
   eventDisplay: {fileID: 1099176032}
-  numOfEvents: 5
-  distanceBetweenEvents: 3
-  minRowEvent: 3
-  disableTileInteract: 0
+  inputManager: {fileID: 1659998748}
 --- !u!1 &792139491
 GameObject:
   m_ObjectHideFlags: 0
@@ -1771,14 +1771,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1764176119}
-  dialogueText: {fileID: 1089409395}
+  tmpDialougeText: {fileID: 1089409395}
   choicePrefab: {fileID: 5640910441777056338, guid: 370bfc40ef846e24e8129af03d3b0bdc, type: 3}
   parentChoiceObject: {fileID: 1656585220}
-  gridMap: {fileID: 691890740}
-  turnBaseSystem: {fileID: 601507897}
   mapScene: {fileID: 1473991910}
   combatScene: {fileID: 808688234}
+  turnBaseSystem: {fileID: 601507897}
+  inputManager: {fileID: 1659998748}
   waitToContinueDialogue: 0
+  disableTileInteract: 0
 --- !u!224 &1101127331 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5640910441777056339, guid: 370bfc40ef846e24e8129af03d3b0bdc, type: 3}
@@ -2432,6 +2433,7 @@ Transform:
   - {fileID: 36558280}
   - {fileID: 1261469295}
   - {fileID: 1020026770}
+  - {fileID: 1659998747}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2680,6 +2682,49 @@ RectTransform:
   m_AnchoredPosition: {x: 367, y: 74}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1659998746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1659998747}
+  - component: {fileID: 1659998748}
+  m_Layer: 0
+  m_Name: InputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1659998747
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659998746}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1473991911}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1659998748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659998746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c9b14f4b71cc3f4b89c983c258e6696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1671461532
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,29 +8,36 @@ using Random = UnityEngine.Random;
 
 public class GridMap : MonoBehaviour
 {
-    [SerializeField] float gridXSize;
-    [SerializeField] float gridZSize;
+    [Header("Grid Settings")]
+    [SerializeField] float gridXSize = 13;
+    [SerializeField] float gridZSize= 13;
     [SerializeField] float hexSize = 0.577f;
 
-    [SerializeField] GameObject greenPrefab;
-    [SerializeField] GameObject bluePrefab;
-    [SerializeField] GameObject yellowPrefab;
-    [SerializeField] GameObject blackPrefab;
-    [SerializeField] Material redMat;
-    [SerializeField] EventManager eventManager;
-    [SerializeField] EventDisplay eventDisplay;
-
-    [Header("Settings")]
+    [Header("Event Tile Settings")]
     [SerializeField] float numOfEvents = 5;
     [SerializeField] float distanceBetweenEvents = 2;
     [SerializeField] float minRowEvent = 3;
 
+    [Header("Hex Prefabs")]
+    [SerializeField] GameObject greenPrefab;
+    [SerializeField] GameObject bluePrefab;
+    [SerializeField] GameObject yellowPrefab;
+    [SerializeField] GameObject blackPrefab;
+
+    [Header("References")]
+    [SerializeField] Material redMat;
+    [SerializeField] EventManager eventManager;
+    [SerializeField] EventDisplay eventDisplay;
+    [SerializeField] InputManager inputManager;
+
+    #region Internal Variables
+
     private List<List<Tile>> gripMap;
     private List<Tile> eventList;
-    private Tile currentTile;
     private List<DisplayTile> nextTiles;
+    private Tile currentTile;
 
-    [HideInInspector] public bool disableTileInteract = false;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -39,8 +46,6 @@ public class GridMap : MonoBehaviour
         eventList = new List<Tile>();
         nextTiles = new List<DisplayTile>();
 
-        disableTileInteract = false;
-
         GenerateGrid();
         GenerateEventTiles();
         GenerateStartTile();
@@ -48,10 +53,11 @@ public class GridMap : MonoBehaviour
 
     void Update()
     {
-        DetectTileHit();
-
-        
-
+        // Detect correct input / disable input
+        if (inputManager.leftClickInputDown && !eventDisplay.disableTileInteract)
+        {
+            DetectTileHit();
+        }
     }
 
     #region Generate on Start
@@ -225,10 +231,6 @@ public class GridMap : MonoBehaviour
 
     void DetectTileHit()
     {
-        // Detect correct input / disable input
-        if (!Input.GetKeyDown(KeyCode.Mouse0) || disableTileInteract)
-            return;
-
         // Raycast from screen to tile
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -255,7 +257,7 @@ public class GridMap : MonoBehaviour
 
                 // Store event tile
                 currentTile = new Tile(selectedTile);
-                disableTileInteract = true;
+                eventDisplay.disableTileInteract = true;
 
 
                 // Here temporary (run this when event ends)

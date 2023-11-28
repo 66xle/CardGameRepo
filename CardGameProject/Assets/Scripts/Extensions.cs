@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class Extensions
@@ -18,5 +20,17 @@ public static class Extensions
             ts[i] = ts[r];
             ts[r] = tmp;
         }
+    }
+
+    public static List<T> Clone<T>(this List<T> listToClone)
+    {
+        List<T> listToSave = new List<T>();
+
+        foreach(var item in listToClone)
+        {
+            listToSave.Add(item);
+        }
+
+        return listToSave;
     }
 }

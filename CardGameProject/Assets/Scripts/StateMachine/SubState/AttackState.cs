@@ -61,13 +61,13 @@ public class AttackState : CombatBaseState
             // Check if enemy is dead
             if (ctx.selectedEnemy.isDead())
             {
-                ctx.enemyList.Remove(ctx.selectedEnemy.enemyObj);
+                ctx.enemyList.Remove(ctx.selectedEnemy);
 
                 ctx.DestroyEnemy(ctx.selectedEnemy);
 
                 if (ctx.enemyList.Count > 0)
                 {
-                    ctx.selectedEnemy = ctx.enemyList[0].prefab.GetComponent<Enemy>();
+                    ctx.selectedEnemy = ctx.enemyList[0].GetComponent<Enemy>();
                     ctx.selectedEnemy.GetComponent<MeshRenderer>().material = ctx.redMat;
                 }
             }
