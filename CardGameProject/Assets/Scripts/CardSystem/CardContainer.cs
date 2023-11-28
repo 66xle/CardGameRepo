@@ -219,7 +219,7 @@ public class CardContainer : MonoBehaviour {
     }
 
     public void OnCardDragEnd() {
-        if (!combatStateMachine.isPlayState)
+        if (!combatStateMachine.isPlayState || currentDraggedCard == null)
             return;
 
         // If card is in play area, play it!

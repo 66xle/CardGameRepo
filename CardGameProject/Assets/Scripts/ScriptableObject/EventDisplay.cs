@@ -88,7 +88,7 @@ public class EventDisplay : MonoBehaviour
 
     void LoadDialogue()
     {
-        doesNodeHaveChoice = false;
+        
 
         if (currentNode.Choices.Count == 0)
             waitToContinueDialogue = true;
@@ -139,6 +139,8 @@ public class EventDisplay : MonoBehaviour
             nextNode = dialogueData.First(x => x.Guid == targetNodeGuid);
         }
 
+        doesNodeHaveChoice = false;
+
         currentNode = nextNode;
         DetermineNodeType();
     }
@@ -167,4 +169,12 @@ public class EventDisplay : MonoBehaviour
 
         turnBaseSystem.Init(Extensions.Clone(enemyList));
     }    
+
+    public void FinishCombatEvent()
+    {
+        mapScene.SetActive(true);
+        combatScene.SetActive(false);
+
+        NextDialogue();
+    }
 }

@@ -70,6 +70,10 @@ public class AttackState : CombatBaseState
                     ctx.selectedEnemy = ctx.enemyList[0].GetComponent<Enemy>();
                     ctx.selectedEnemy.GetComponent<MeshRenderer>().material = ctx.redMat;
                 }
+                else if (ctx.enemyList.Count == 0)
+                {
+                    ctx.eventDisplay.FinishCombatEvent();
+                }
             }
         }
         else

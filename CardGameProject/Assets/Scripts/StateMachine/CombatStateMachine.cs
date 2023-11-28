@@ -15,7 +15,11 @@ public class CombatStateMachine : MonoBehaviour
     public GameObject playerPrefab;
     public Transform playerSpawnPos;
     [HideInInspector] public Player player;
-    
+    public Slider healthBar;
+    public TMP_Text healthValue;
+    public Slider staminaBar;
+    public TMP_Text staminaValue;
+
 
     [Header("Enemy")]
     public List<Transform> enemySpawnPosList;
@@ -33,11 +37,9 @@ public class CombatStateMachine : MonoBehaviour
     public int cardsToDraw = 2;
 
     [Header("References")]
+    public InputManager inputManager;
+    public EventDisplay eventDisplay;
     public Button endTurnButton;
-    public Slider healthBar;
-    public TMP_Text healthValue;
-    public Slider staminaBar;
-    public TMP_Text staminaValue;
     public Material defMat;
     public Material redMat;
 
@@ -85,7 +87,10 @@ public class CombatStateMachine : MonoBehaviour
         }
         currentSuperState = currentState.ToString();
 
-        SelectEnemy();
+        if (inputManager.leftClickInputDown && isPlayState)
+        {
+            SelectEnemy();
+        }
     }
 
     void LoadPlayerAndEnemy(List<EnemyObj> enemyObjList)
@@ -152,9 +157,6 @@ public class CombatStateMachine : MonoBehaviour
 
     void SelectEnemy()
     {
-        if (!Input.GetKeyDown(KeyCode.Mouse0) || !isPlayState)
-            return;
-
         // Raycast from screen to tile
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -168,5 +170,10 @@ public class CombatStateMachine : MonoBehaviour
                 selectedEnemy.transform.GetComponent<MeshRenderer>().material = redMat;
             }
         }
+    }
+
+    void BattleFinished()
+    {
+
     }
 }
