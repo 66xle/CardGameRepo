@@ -13,30 +13,24 @@ MonoBehaviour:
   m_Name: New Dialogue
   m_EditorClassIdentifier: 
   DialogueNodeData:
-  - Guid: bd3f7b7d-7d58-4688-a5d0-359d5883fce0
-    Npc: Name
+  - Guid: 9da06f2d-297d-46b9-8482-0496904d26f3
     DialogueText: 
     NodeType: Dialogue
-    Position: {x: 97.600006, y: 121.6}
-    isStartNode: 0
+    Position: {x: 182.4, y: 98.399994}
+    isStartNode: 1
     Connections:
-    - BaseNodeGuid: bd3f7b7d-7d58-4688-a5d0-359d5883fce0
-      PortName: Output
-      TargetNodeGuid: 6f5fdcee-e000-40d5-ae7d-65094fc0c0cd
-      ChoiceGUID: output
-    Choices: []
-    Modifier: {fileID: 0}
-  - Guid: 6f5fdcee-e000-40d5-ae7d-65094fc0c0cd
-    Npc: Name
-    DialogueText: 
-    NodeType: Dialogue Choice
-    Position: {x: 448.8, y: 176.79999}
-    isStartNode: 0
-    Connections: []
+    - BaseNodeGuid: 9da06f2d-297d-46b9-8482-0496904d26f3
+      PortName: 
+      TargetNodeGuid: 1fc8b4ac-1377-4dd1-b5ac-a0f40d8ad38c
+      ChoiceGUID: 4c784f66-617a-4a95-9c8c-e44ba414ccce
     Choices:
     - text: New Choice
-      portGUID: d1caf3d1-074c-4e8e-94f0-eae1f172f215
-      targetGUID: 
-    Modifier: {fileID: 0}
-  image: {fileID: 0}
-  enemyList: []
+      portGUID: 4c784f66-617a-4a95-9c8c-e44ba414ccce
+      targetGUID: 1fc8b4ac-1377-4dd1-b5ac-a0f40d8ad38c
+  - Guid: 1fc8b4ac-1377-4dd1-b5ac-a0f40d8ad38c
+    DialogueText: 
+    NodeType: Battle Node
+    Position: {x: 494.40002, y: 156}
+    isStartNode: 0
+    Connections: []
+    Choices: []

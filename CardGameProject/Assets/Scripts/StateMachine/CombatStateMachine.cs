@@ -58,9 +58,12 @@ public class CombatStateMachine : MonoBehaviour
 
     public CombatBaseState currentState;
     private CombatStateFactory states;
+    private StoreModifier battleModifier;
 
-    public void Init(List<EnemyObj> enemyObjList)
+    public void Init(StoreModifier battleModifier)
     {
+        this.battleModifier = battleModifier;
+
         isPlayedCard = false;
         cardPlayed = null;
         isAttacking = false;
@@ -70,7 +73,7 @@ public class CombatStateMachine : MonoBehaviour
 
         enemyList = new List<Enemy>();
 
-        LoadPlayerAndEnemy(enemyObjList);
+        LoadPlayerAndEnemy();
 
         states = new CombatStateFactory(this, vso);
         currentState = new PlayerState(this, states, vso);
@@ -93,7 +96,7 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
-    void LoadPlayerAndEnemy(List<EnemyObj> enemyObjList)
+    void LoadPlayerAndEnemy()
     {
         // Spawn Player
         player = Instantiate(playerPrefab, playerSpawnPos).GetComponent<Player>();
@@ -102,6 +105,8 @@ public class CombatStateMachine : MonoBehaviour
         player.staminaBar = staminaBar;
         player.staminaValue = staminaValue;
         player.Init();
+
+        List<EnemyObj> enemyObjList = battleModifier.enemies;
 
         // Spawn Enemy
         for (int i = 0; i < enemyObjList.Count; i++)
@@ -172,8 +177,4 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
-    void BattleFinished()
-    {
-
-    }
 }

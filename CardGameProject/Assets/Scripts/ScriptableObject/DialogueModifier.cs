@@ -9,4 +9,17 @@ public class DialogueModifier : Modifier
     [Space]
 
     public int money;
+
+    [Space]
+
+    public Sprite image;
+
+    public DialogueModifier() { }
+
+    public DialogueModifier(StoreModifier modifier)
+    {
+        cards = modifier.cards;
+        money = modifier.money;
+        image = modifier.image;
+    }
 }

@@ -108,17 +108,33 @@ public class GraphSaveUtility
                 choices.Add(choiceData);
             }
 
+            
+
             DialogueNodeData newNode = new DialogueNodeData
             {
                 Guid = dialogueNode.GUID,
                 DialogueText = dialogueNode.dialogueText,
-                Npc = dialogueNode.npcName,
                 Position = dialogueNode.GetPosition().position,
                 Connections = nodeLinks.Where(x => x.BaseNodeGuid == dialogueNode.GUID).ToList(),
                 Choices = choices,
-                NodeType = dialogueNode.nodeType,
-                Modifier = dialogueNode.modifier
+                NodeType = dialogueNode.nodeType
             };
+
+            // Store modifier
+            if (dialogueNode.nodeType == BATTLENODE)
+            {
+                newNode.Modifier = new StoreModifier(dialogueNode.modifier as BattleModifier);
+            }
+            else if (dialogueNode.nodeType != ENDNODE)
+            {
+                newNode.Modifier = new StoreModifier(dialogueNode.modifier as DialogueModifier);
+            }
+
+            // Starting node
+            if (dialogueNode.GUID == startNode.Guid)
+            {
+                newNode.isStartNode = true;
+            }
 
 
             eventContainer.DialogueNodeData.Add(newNode);
@@ -200,21 +216,26 @@ public class GraphSaveUtility
         {
             DialogueNode tempNode;
 
-            if (nodeData.NodeType == "Battle Node" || nodeData.NodeType == "End Node")
+            if (nodeData.NodeType == BATTLENODE)
             {
-                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, nodeData.Modifier);
+                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, new BattleModifier(nodeData.Modifier), _targetGraphView.OnNodeSelected);
                 tempNode.DrawUtility(nodeData.Position, _targetGraphView.DefaultNodeSize);
             }
-            else if (nodeData.Choices.Count > 0)
+            else if (nodeData.NodeType == ENDNODE)
             {
-                tempNode = new DialogueNode(nodeData.Guid, nodeData.Npc, _targetGraphView, nodeData.NodeType, true, nodeData.Modifier);
+                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, null, _targetGraphView.OnNodeSelected);
+                tempNode.DrawUtility(nodeData.Position, _targetGraphView.DefaultNodeSize);
+            }
+            else if (nodeData.NodeType == DIALOGUE_CHOICE)
+            {
+                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, true, new DialogueModifier(nodeData.Modifier), _targetGraphView.OnNodeSelected);
                 tempNode.choices = nodeData.Choices;
                 tempNode.dialogueText = nodeData.DialogueText;
                 tempNode.Draw(nodeData.Position, _targetGraphView.DefaultNodeSize);
             }
             else
             {
-                tempNode = new DialogueNode(nodeData.Guid, nodeData.Npc, _targetGraphView, nodeData.NodeType, nodeData.Modifier);
+                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, new DialogueModifier(nodeData.Modifier), _targetGraphView.OnNodeSelected);
                 tempNode.dialogueText = nodeData.DialogueText;
                 tempNode.Draw(nodeData.Position, _targetGraphView.DefaultNodeSize);
             }

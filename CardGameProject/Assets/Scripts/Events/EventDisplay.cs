@@ -27,7 +27,6 @@ public class EventDisplay : MonoBehaviour
 
     private List<DialogueNodeData> dialogueData;
     private List<DialogueChoices> currentChoices;
-    private List<EnemyObj> enemyList;
     private DialogueNodeData currentNode;
     private bool doesNodeHaveChoice = false;
 
@@ -41,7 +40,6 @@ public class EventDisplay : MonoBehaviour
     {
         dialogueData = new List<DialogueNodeData>();
         currentChoices = new List<DialogueChoices>();
-        enemyList = new List<EnemyObj>();
 
         waitToContinueDialogue = false;
         disableTileInteract = false;
@@ -61,9 +59,7 @@ public class EventDisplay : MonoBehaviour
         gameObject.SetActive(true);
         Init();
 
-        image.sprite = eventObj.image;
         dialogueData = eventObj.DialogueNodeData;
-        enemyList = eventObj.enemyList;
 
         currentNode = dialogueData.First(x => x.isStartNode == true);
 
@@ -88,14 +84,15 @@ public class EventDisplay : MonoBehaviour
 
     void LoadDialogue()
     {
-        
-
         if (currentNode.Choices.Count == 0)
             waitToContinueDialogue = true;
 
         ClearChoices();
 
+        // Set text and image
         tmpDialougeText.text = currentNode.DialogueText;
+        image.sprite = currentNode.Modifier.image;
+
 
         Transform newChoiceUI = parentChoiceObject.transform;
         int index = 0;
@@ -112,9 +109,8 @@ public class EventDisplay : MonoBehaviour
             RectTransform rt = newChoiceUI.GetComponent<RectTransform>();
             rt.anchoredPosition = new Vector2(0, rt.anchoredPosition.y - 150f);
 
-
+            // Set choice text and click event
             newChoiceUI.GetComponentInChildren<TextMeshProUGUI>().text = choice.text;
-
             newChoiceUI.GetComponent<Button>().onClick.AddListener(delegate { NextDialogue(choice); });
 
             index++;
@@ -167,7 +163,7 @@ public class EventDisplay : MonoBehaviour
         combatScene.SetActive(true);
         mapScene.SetActive(false);
 
-        turnBaseSystem.Init(Extensions.Clone(enemyList));
+        turnBaseSystem.Init(currentNode.Modifier);
     }    
 
     public void FinishCombatEvent()

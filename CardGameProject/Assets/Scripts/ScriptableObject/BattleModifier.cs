@@ -15,5 +15,12 @@ public class BattleModifier : Modifier
 
     public int money;
 
-    
+    public BattleModifier() { }
+
+    public BattleModifier(StoreModifier modifier)
+    {
+        enemies = modifier.enemies;
+        cards = modifier.cards;
+        money = modifier.money;
+    }
 }

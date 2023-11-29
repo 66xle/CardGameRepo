@@ -41,12 +41,14 @@ public class DialogueEditor : EditorWindow
         VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/Dialogue/Graph/Resources/DialogueGraph.uxml");
         visualTree.CloneTree(rootVisualElement);
         rootVisualElement.Add(_graphView);
+        
 
 
         inspectorView = rootVisualElement.Q<InspectorView>();
         _graphView = rootVisualElement.Q<DialogueGraphView>();
         _graphView.AddSearchWindow(this);
         _graphView.OnNodeSelected = OnNodeSelectionChanged;
+
     }
 
     void OnNodeSelectionChanged(DialogueNode node)

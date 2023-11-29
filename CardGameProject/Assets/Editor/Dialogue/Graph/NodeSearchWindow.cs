@@ -69,10 +69,10 @@ public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
         switch (SearchTreeEntry.userData)
         {
             case DIALOGUE:
-                _graphView.CreateNode("Name", graphMousePosition, DIALOGUE, new DialogueModifier() ,false);
+                _graphView.CreateNode(graphMousePosition, DIALOGUE, new DialogueModifier(), false);
                 return true;
             case DIALOGUE_CHOICE:
-                _graphView.CreateNode("Name", graphMousePosition, DIALOGUE_CHOICE, new DialogueModifier(), true);
+                _graphView.CreateNode(graphMousePosition, DIALOGUE_CHOICE, new DialogueModifier(), true);
                 return true;
             case BATTLENODE:
                 _graphView.CreateUtilityNode(graphMousePosition, BATTLENODE, new BattleModifier());

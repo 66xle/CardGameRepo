@@ -25,7 +25,6 @@ public class DialogueNode : Node
 
     public string GUID;
     public string dialogueText;
-    public string npcName;
     public string nodeType;
     public Modifier modifier;
     public List<DialogueChoices> choices = new List<DialogueChoices>();
@@ -33,36 +32,26 @@ public class DialogueNode : Node
     DialogueGraphView graphView;
     Editor editor;
 
-    public DialogueNode(string GUID, DialogueGraphView graphView, string nodeType, Modifier modifier)
+    public DialogueNode(string GUID, DialogueGraphView graphView, string nodeType, Modifier modifier, Action<DialogueNode> nodeSelected)
     {
         this.GUID = GUID;
         this.graphView = graphView;
         this.nodeType = nodeType;
         this.modifier = modifier;
+        OnNodeSelected = nodeSelected;
+
 
         mainContainer.AddToClassList("ds-node__main-container");
         extensionContainer.AddToClassList("ds-node__extension-container");
     }
 
-    public DialogueNode(string GUID, string npcName, DialogueGraphView graphView, string nodeType, Modifier modifier) 
+    public DialogueNode(string GUID, DialogueGraphView graphView, string nodeType, bool isChoice, Modifier modifier, Action<DialogueNode> nodeSelected)
     {
         this.GUID = GUID;
-        this.npcName = npcName;
         this.graphView = graphView;
         this.nodeType = nodeType;
         this.modifier = modifier;
-
-        mainContainer.AddToClassList("ds-node__main-container");
-        extensionContainer.AddToClassList("ds-node__extension-container");
-    }
-
-    public DialogueNode(string GUID, string npcName, DialogueGraphView graphView, string nodeType, bool isChoice, Modifier modifier)
-    {
-        this.GUID = GUID;
-        this.npcName = npcName;
-        this.graphView = graphView;
-        this.nodeType = nodeType;
-        this.modifier = modifier;
+        OnNodeSelected = nodeSelected;
 
         mainContainer.AddToClassList("ds-node__main-container");
         extensionContainer.AddToClassList("ds-node__extension-container");
@@ -72,7 +61,6 @@ public class DialogueNode : Node
 
     public void Draw(Vector2 position, Vector2 size)
     {
-        //CreateNPCTextField();
         CreateLabel();
 
         CreateDialogueTextField();
@@ -160,8 +148,8 @@ public class DialogueNode : Node
 
     private void CreateInspector()
     {
-        //if (modifier == null)
-        //    return;
+        if (modifier == null)
+            return;
 
         VisualElement customDataContainer = new VisualElement();
         customDataContainer.AddToClassList("ds-node__custom-data-container");
