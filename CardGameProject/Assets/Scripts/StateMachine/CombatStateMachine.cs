@@ -58,11 +58,11 @@ public class CombatStateMachine : MonoBehaviour
 
     public CombatBaseState currentState;
     private CombatStateFactory states;
-    private StoreModifier battleModifier;
+    private DialogueNodeData nodeData;
 
-    public void Init(StoreModifier battleModifier)
+    public void Init(DialogueNodeData nodeData)
     {
-        this.battleModifier = battleModifier;
+        this.nodeData = nodeData;
 
         isPlayedCard = false;
         cardPlayed = null;
@@ -106,7 +106,7 @@ public class CombatStateMachine : MonoBehaviour
         player.staminaValue = staminaValue;
         player.Init();
 
-        List<EnemyObj> enemyObjList = battleModifier.enemies;
+        List<EnemyObj> enemyObjList = nodeData.enemies;
 
         // Spawn Enemy
         for (int i = 0; i < enemyObjList.Count; i++)

@@ -16,10 +16,10 @@ public class DialogueModifier : Modifier
 
     public DialogueModifier() { }
 
-    public DialogueModifier(StoreModifier modifier)
+    public DialogueModifier(List<Card> cards, int money, Sprite image)
     {
-        cards = modifier.cards;
-        money = modifier.money;
-        image = modifier.image;
+        this.cards = cards;
+        this.money = money;
+        this.image = image;
     }
 }

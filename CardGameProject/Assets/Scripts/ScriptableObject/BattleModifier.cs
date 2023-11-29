@@ -17,10 +17,10 @@ public class BattleModifier : Modifier
 
     public BattleModifier() { }
 
-    public BattleModifier(StoreModifier modifier)
+    public BattleModifier(List<EnemyObj> enemies, List<Card> cards, int money)
     {
-        enemies = modifier.enemies;
-        cards = modifier.cards;
-        money = modifier.money;
+        this.enemies = enemies;
+        this.cards = cards;
+        this.money = money;
     }
 }

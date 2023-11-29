@@ -123,11 +123,17 @@ public class GraphSaveUtility
             // Store modifier
             if (dialogueNode.nodeType == BATTLENODE)
             {
-                newNode.Modifier = new StoreModifier(dialogueNode.modifier as BattleModifier);
+                BattleModifier batMod = dialogueNode.modifier as BattleModifier;
+                newNode.enemies = batMod.enemies;
+                newNode.cards = batMod.cards;
+                newNode.money = batMod.money;
             }
             else if (dialogueNode.nodeType != ENDNODE)
             {
-                newNode.Modifier = new StoreModifier(dialogueNode.modifier as DialogueModifier);
+                DialogueModifier diaMod = dialogueNode.modifier as DialogueModifier;
+                newNode.cards = diaMod.cards;
+                newNode.money = diaMod.money;
+                newNode.image = diaMod.image;
             }
 
             // Starting node
@@ -218,7 +224,7 @@ public class GraphSaveUtility
 
             if (nodeData.NodeType == BATTLENODE)
             {
-                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, new BattleModifier(nodeData.Modifier), _targetGraphView.OnNodeSelected);
+                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, new BattleModifier(nodeData.enemies, nodeData.cards, nodeData.money), _targetGraphView.OnNodeSelected);
                 tempNode.DrawUtility(nodeData.Position, _targetGraphView.DefaultNodeSize);
             }
             else if (nodeData.NodeType == ENDNODE)
@@ -228,14 +234,14 @@ public class GraphSaveUtility
             }
             else if (nodeData.NodeType == DIALOGUE_CHOICE)
             {
-                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, true, new DialogueModifier(nodeData.Modifier), _targetGraphView.OnNodeSelected);
+                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, true, new DialogueModifier(nodeData.cards, nodeData.money, nodeData.image), _targetGraphView.OnNodeSelected);
                 tempNode.choices = nodeData.Choices;
                 tempNode.dialogueText = nodeData.DialogueText;
                 tempNode.Draw(nodeData.Position, _targetGraphView.DefaultNodeSize);
             }
             else
             {
-                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, new DialogueModifier(nodeData.Modifier), _targetGraphView.OnNodeSelected);
+                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, new DialogueModifier(nodeData.cards, nodeData.money, nodeData.image), _targetGraphView.OnNodeSelected);
                 tempNode.dialogueText = nodeData.DialogueText;
                 tempNode.Draw(nodeData.Position, _targetGraphView.DefaultNodeSize);
             }

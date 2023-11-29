@@ -91,7 +91,7 @@ public class EventDisplay : MonoBehaviour
 
         // Set text and image
         tmpDialougeText.text = currentNode.DialogueText;
-        image.sprite = currentNode.Modifier.image;
+        image.sprite = currentNode.image;
 
 
         Transform newChoiceUI = parentChoiceObject.transform;
@@ -163,7 +163,7 @@ public class EventDisplay : MonoBehaviour
         combatScene.SetActive(true);
         mapScene.SetActive(false);
 
-        turnBaseSystem.Init(currentNode.Modifier);
+        turnBaseSystem.Init(currentNode);
     }    
 
     public void FinishCombatEvent()

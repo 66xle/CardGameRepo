@@ -13,24 +13,29 @@ MonoBehaviour:
   m_Name: New Dialogue
   m_EditorClassIdentifier: 
   DialogueNodeData:
-  - Guid: 9da06f2d-297d-46b9-8482-0496904d26f3
+  - Guid: f7ffb7ec-51f7-4309-bf54-be459edcf84e
     DialogueText: 
-    NodeType: Dialogue
-    Position: {x: 182.4, y: 98.399994}
-    isStartNode: 1
-    Connections:
-    - BaseNodeGuid: 9da06f2d-297d-46b9-8482-0496904d26f3
-      PortName: 
-      TargetNodeGuid: 1fc8b4ac-1377-4dd1-b5ac-a0f40d8ad38c
-      ChoiceGUID: 4c784f66-617a-4a95-9c8c-e44ba414ccce
-    Choices:
-    - text: New Choice
-      portGUID: 4c784f66-617a-4a95-9c8c-e44ba414ccce
-      targetGUID: 1fc8b4ac-1377-4dd1-b5ac-a0f40d8ad38c
-  - Guid: 1fc8b4ac-1377-4dd1-b5ac-a0f40d8ad38c
-    DialogueText: 
-    NodeType: Battle Node
-    Position: {x: 494.40002, y: 156}
+    NodeType: End Node
+    Position: {x: 490.40002, y: 260.8}
     isStartNode: 0
     Connections: []
     Choices: []
+    enemies: []
+    cards: []
+    money: 0
+    image: {fileID: 0}
+  - Guid: 8f263ee5-3919-4a37-b89d-3186af12ceb5
+    DialogueText: test
+    NodeType: Dialogue
+    Position: {x: 112, y: 115.2}
+    isStartNode: 1
+    Connections:
+    - BaseNodeGuid: 8f263ee5-3919-4a37-b89d-3186af12ceb5
+      PortName: Output
+      TargetNodeGuid: f7ffb7ec-51f7-4309-bf54-be459edcf84e
+      ChoiceGUID: output
+    Choices: []
+    enemies: []
+    cards: []
+    money: 1
+    image: {fileID: 21300000, guid: 67a23e8cb1b70fd439d7800fab547585, type: 3}
