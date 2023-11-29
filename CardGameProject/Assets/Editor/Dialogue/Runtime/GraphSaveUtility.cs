@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using System;
+using System.Web;
 
 public class GraphSaveUtility
 {
@@ -177,13 +178,15 @@ public class GraphSaveUtility
 
     #region LoadGraph
 
-    public void LoadGraph()
+    public void LoadGraph(TextField fileNameTextField)
     {
         string filePath = EditorUtility.OpenFilePanel("Dialogue Graph", "Assets/ScriptableObjects/Events/", "asset");
 
         if (!string.IsNullOrEmpty(filePath))
         {
             string fileName = System.IO.Path.GetFileNameWithoutExtension(filePath);
+
+            fileNameTextField.value = fileName;
 
             // Check if file exists
             _containerCache = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Events/{fileName}.asset", typeof(Event)) as Event;

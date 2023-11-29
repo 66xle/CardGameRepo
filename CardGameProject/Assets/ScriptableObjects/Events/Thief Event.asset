@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 953c94c72a2649e4d906b56e45d7638c, type: 3}
+  m_Name: Thief Event
+  m_EditorClassIdentifier: 
+  DialogueNodeData:
+  - Guid: f9a6a33f-ce67-4085-a46d-3dd833f9a6d9
+    DialogueText: "In a dimly lit alley, shadows reveal a masked bandit demanding
+      your valuables. \r\n\r\nMoonlight glints off their concealed weapon as tension
+      fills the narrow space. \r\n\r\nCaught off guard, you must decide."
+    NodeType: Dialogue Choice
+    Position: {x: 96.79999, y: 89.600006}
+    isStartNode: 1
+    Connections:
+    - BaseNodeGuid: f9a6a33f-ce67-4085-a46d-3dd833f9a6d9
+      PortName: 
+      TargetNodeGuid: 77e9ab4c-3f1f-4f7c-b191-ea704b87b97a
+      ChoiceGUID: b5d2c731-c60b-41a2-bddf-6dbc65b33e24
+    - BaseNodeGuid: f9a6a33f-ce67-4085-a46d-3dd833f9a6d9
+      PortName: 
+      TargetNodeGuid: 4237c67a-2cbb-4547-8ab7-f8e68a9441a2
+      ChoiceGUID: d4d4954f-3244-415b-8f24-f209eccdfa49
+    - BaseNodeGuid: f9a6a33f-ce67-4085-a46d-3dd833f9a6d9
+      PortName: 
+      TargetNodeGuid: 3f0a260b-550c-47b8-9829-b79dc743b807
+      ChoiceGUID: 97f85105-ca61-4c52-a9af-40aa98f95664
+    Choices:
+    - text: Hand over your valuables
+      portGUID: 97f85105-ca61-4c52-a9af-40aa98f95664
+      targetGUID: 3f0a260b-550c-47b8-9829-b79dc743b807
+    - text: Attack the thief
+      portGUID: d4d4954f-3244-415b-8f24-f209eccdfa49
+      targetGUID: 4237c67a-2cbb-4547-8ab7-f8e68a9441a2
+    - text: Look for an escape route
+      portGUID: b5d2c731-c60b-41a2-bddf-6dbc65b33e24
+      targetGUID: 77e9ab4c-3f1f-4f7c-b191-ea704b87b97a
+    enemies: []
+    cards: []
+    money: 0
+    image: {fileID: 21300000, guid: 67a23e8cb1b70fd439d7800fab547585, type: 3}
+  - Guid: 4237c67a-2cbb-4547-8ab7-f8e68a9441a2
+    DialogueText: 
+    NodeType: Battle Node
+    Position: {x: 837.6, y: 130.4}
+    isStartNode: 0
+    Connections:
+    - BaseNodeGuid: 4237c67a-2cbb-4547-8ab7-f8e68a9441a2
+      PortName: Output
+      TargetNodeGuid: faabac29-1158-4ef2-ae3d-9545b15fb8ba
+      ChoiceGUID: output
+    Choices: []
+    enemies: []
+    cards: []
+    money: 0
+    image: {fileID: 0}
+  - Guid: 3f0a260b-550c-47b8-9829-b79dc743b807
+    DialogueText: "You decide to comply with the thief's demands. \r\n\r\nSlowly,
+      you reach into your pockets and hand over your gold. \r\n\r\nThe bandit snatches
+      it quickly, casting a menacing glance before disappearing back into the shadows"
+    NodeType: Dialogue
+    Position: {x: 657.6, y: -300}
+    isStartNode: 0
+    Connections:
+    - BaseNodeGuid: 3f0a260b-550c-47b8-9829-b79dc743b807
+      PortName: Output
+      TargetNodeGuid: 3d111471-e59d-43aa-82be-1d84f70d34f7
+      ChoiceGUID: output
+    Choices: []
+    enemies: []
+    cards: []
+    money: 0
+    image: {fileID: 21300000, guid: 67a23e8cb1b70fd439d7800fab547585, type: 3}
+  - Guid: 77e9ab4c-3f1f-4f7c-b191-ea704b87b97a
+    DialogueText: "Sensing danger, you discreetly spot an escape route, a narrow
+      passage to your left. \r\n\r\nSwiftly and quietly, you navigate through it,
+      putting distance between yourself and the thief"
+    NodeType: Dialogue
+    Position: {x: 752, y: 477.59998}
+    isStartNode: 0
+    Connections:
+    - BaseNodeGuid: 77e9ab4c-3f1f-4f7c-b191-ea704b87b97a
+      PortName: Output
+      TargetNodeGuid: b7eb905e-78bd-43ee-88a5-39bac94d7f0b
+      ChoiceGUID: output
+    Choices: []
+    enemies: []
+    cards: []
+    money: 0
+    image: {fileID: 21300000, guid: 67a23e8cb1b70fd439d7800fab547585, type: 3}
+  - Guid: b7eb905e-78bd-43ee-88a5-39bac94d7f0b
+    DialogueText: 
+    NodeType: End Node
+    Position: {x: 1515.2, y: 495.2}
+    isStartNode: 0
+    Connections: []
+    Choices: []
+    enemies: []
+    cards: []
+    money: 0
+    image: {fileID: 0}
+  - Guid: 3d111471-e59d-43aa-82be-1d84f70d34f7
+    DialogueText: 
+    NodeType: End Node
+    Position: {x: 1461.6, y: -300}
+    isStartNode: 0
+    Connections: []
+    Choices: []
+    enemies: []
+    cards: []
+    money: 0
+    image: {fileID: 0}
+  - Guid: faabac29-1158-4ef2-ae3d-9545b15fb8ba
+    DialogueText: 
+    NodeType: End Node
+    Position: {x: 1340.8, y: 191.2}
+    isStartNode: 0
+    Connections: []
+    Choices: []
+    enemies: []
+    cards: []
+    money: 0
+    image: {fileID: 0}

@@ -11,6 +11,8 @@ public class DialogueEditor : EditorWindow
     private InspectorView inspectorView;
     private string _fileName = "New Dialogue";
 
+    private TextField fileNameTextField;
+
     [MenuItem("Graph/Dialogue Graph")]
     public static void ShowWindow()
     {
@@ -60,7 +62,7 @@ public class DialogueEditor : EditorWindow
     {
         Toolbar toolbar = new Toolbar();
 
-        TextField fileNameTextField = new TextField("File Name");
+        fileNameTextField = new TextField("File Name");
         fileNameTextField.SetValueWithoutNotify(_fileName);
         fileNameTextField.MarkDirtyRepaint();
         fileNameTextField.RegisterValueChangedCallback(evt => _fileName = evt.newValue);
@@ -87,7 +89,9 @@ public class DialogueEditor : EditorWindow
         }
         else
         {
-            saveUtility.LoadGraph();
+            
+
+            saveUtility.LoadGraph(fileNameTextField);
         }
     }
 }

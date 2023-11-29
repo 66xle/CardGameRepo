@@ -18,6 +18,7 @@ public class EventManager : MonoBehaviour
     {
         Event nextEvent = eventQueue[0];
         eventQueue.RemoveAt(0);
+        eventQueue.Add(nextEvent);
 
         return nextEvent;
     }
