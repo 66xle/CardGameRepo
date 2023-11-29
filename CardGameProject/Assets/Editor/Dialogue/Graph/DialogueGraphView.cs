@@ -118,9 +118,10 @@ public class DialogueGraphView : GraphView
 
     #region Nodes
 
-    public void CreateNode(string nodeName, Vector2 position, string nodeType, bool choice)
+    public void CreateNode(string nodeName, Vector2 position, string nodeType, Modifier modifier, bool choice)
     {
-        DialogueNode dialogueNode = choice ? new DialogueNode(Guid.NewGuid().ToString(), nodeName, this, nodeType, true) : new DialogueNode(Guid.NewGuid().ToString(), nodeName, this, nodeType);
+        DialogueNode dialogueNode = choice ? new DialogueNode(Guid.NewGuid().ToString(), nodeName, this, nodeType, true, modifier) : 
+                                             new DialogueNode(Guid.NewGuid().ToString(), nodeName, this, nodeType, modifier);
 
         dialogueNode.Draw(position, DefaultNodeSize);
         dialogueNode.OnNodeSelected = OnNodeSelected;
@@ -128,9 +129,9 @@ public class DialogueGraphView : GraphView
         AddElement(dialogueNode);
     }
 
-    public void CreateUtilityNode(Vector2 position, string nodeType)
+    public void CreateUtilityNode(Vector2 position, string nodeType, Modifier modifier)
     {
-        DialogueNode utilityNode = new DialogueNode(Guid.NewGuid().ToString(), this, nodeType);
+        DialogueNode utilityNode = new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, modifier);
 
         utilityNode.DrawUtility(position, DefaultNodeSize);
         utilityNode.OnNodeSelected = OnNodeSelected;

@@ -13,4 +13,6 @@ public class DialogueNodeData
     public bool isStartNode;
     public List<NodeLinkData> Connections;
     public List<DialogueChoices> Choices = new List<DialogueChoices>();
+
+    public Modifier Modifier;
 }

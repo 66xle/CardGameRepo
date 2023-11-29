@@ -9,6 +9,11 @@ using System;
 
 public class GraphSaveUtility
 {
+    private const string DIALOGUE = "Dialogue";
+    private const string DIALOGUE_CHOICE = "Dialogue Choice";
+    private const string BATTLENODE = "Battle Node";
+    private const string ENDNODE = "End Node";
+
     private DialogueGraphView _targetGraphView;
     private Event _containerCache;
 
@@ -92,7 +97,6 @@ public class GraphSaveUtility
         // Save all nodes
         foreach (DialogueNode dialogueNode in Nodes)
         {
-
             // Cloning choices so there won't be a reference in scriptable object
             List<DialogueChoices> choices = new List<DialogueChoices>();
 
@@ -113,13 +117,9 @@ public class GraphSaveUtility
                 Connections = nodeLinks.Where(x => x.BaseNodeGuid == dialogueNode.GUID).ToList(),
                 Choices = choices,
                 NodeType = dialogueNode.nodeType,
+                Modifier = dialogueNode.modifier
             };
 
-            // Starting node
-            if (dialogueNode.GUID == startNode.Guid)
-            {
-                newNode.isStartNode = true;
-            }
 
             eventContainer.DialogueNodeData.Add(newNode);
         }
@@ -202,19 +202,19 @@ public class GraphSaveUtility
 
             if (nodeData.NodeType == "Battle Node" || nodeData.NodeType == "End Node")
             {
-                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType);
+                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, nodeData.Modifier);
                 tempNode.DrawUtility(nodeData.Position, _targetGraphView.DefaultNodeSize);
             }
             else if (nodeData.Choices.Count > 0)
             {
-                tempNode = new DialogueNode(nodeData.Guid, nodeData.Npc, _targetGraphView, nodeData.NodeType, true);
+                tempNode = new DialogueNode(nodeData.Guid, nodeData.Npc, _targetGraphView, nodeData.NodeType, true, nodeData.Modifier);
                 tempNode.choices = nodeData.Choices;
                 tempNode.dialogueText = nodeData.DialogueText;
                 tempNode.Draw(nodeData.Position, _targetGraphView.DefaultNodeSize);
             }
             else
             {
-                tempNode = new DialogueNode(nodeData.Guid, nodeData.Npc, _targetGraphView, nodeData.NodeType);
+                tempNode = new DialogueNode(nodeData.Guid, nodeData.Npc, _targetGraphView, nodeData.NodeType, nodeData.Modifier);
                 tempNode.dialogueText = nodeData.DialogueText;
                 tempNode.Draw(nodeData.Position, _targetGraphView.DefaultNodeSize);
             }

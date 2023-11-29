@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 953c94c72a2649e4d906b56e45d7638c, type: 3}
+  m_Name: New Dialogue
+  m_EditorClassIdentifier: 
+  DialogueNodeData:
+  - Guid: bd3f7b7d-7d58-4688-a5d0-359d5883fce0
+    Npc: Name
+    DialogueText: 
+    NodeType: Dialogue
+    Position: {x: 97.600006, y: 121.6}
+    isStartNode: 0
+    Connections:
+    - BaseNodeGuid: bd3f7b7d-7d58-4688-a5d0-359d5883fce0
+      PortName: Output
+      TargetNodeGuid: 6f5fdcee-e000-40d5-ae7d-65094fc0c0cd
+      ChoiceGUID: output
+    Choices: []
+    Modifier: {fileID: 0}
+  - Guid: 6f5fdcee-e000-40d5-ae7d-65094fc0c0cd
+    Npc: Name
+    DialogueText: 
+    NodeType: Dialogue Choice
+    Position: {x: 448.8, y: 176.79999}
+    isStartNode: 0
+    Connections: []
+    Choices:
+    - text: New Choice
+      portGUID: d1caf3d1-074c-4e8e-94f0-eae1f172f215
+      targetGUID: 
+    Modifier: {fileID: 0}
+  image: {fileID: 0}
+  enemyList: []

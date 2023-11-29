@@ -11,47 +11,58 @@ using static DialogueNode;
 using System.Reflection.Emit;
 using Label = UnityEngine.UIElements.Label;
 using UnityEngine.Experimental.AI;
+using UnityEditorInternal.VR;
 
 public class DialogueNode : Node
 {
+    private const string DIALOGUE = "Dialogue";
+    private const string DIALOGUE_CHOICE = "Dialogue Choice";
+    private const string BATTLENODE = "Battle Node";
+    private const string ENDNODE = "End Node";
+
+
     public Action<DialogueNode> OnNodeSelected;
 
     public string GUID;
     public string dialogueText;
     public string npcName;
     public string nodeType;
-    public Modifier modifier = new Modifier();
+    public Modifier modifier;
     public List<DialogueChoices> choices = new List<DialogueChoices>();
 
     DialogueGraphView graphView;
+    Editor editor;
 
-    public DialogueNode(string GUID, DialogueGraphView graphView, string nodeType)
+    public DialogueNode(string GUID, DialogueGraphView graphView, string nodeType, Modifier modifier)
     {
         this.GUID = GUID;
         this.graphView = graphView;
         this.nodeType = nodeType;
+        this.modifier = modifier;
 
         mainContainer.AddToClassList("ds-node__main-container");
         extensionContainer.AddToClassList("ds-node__extension-container");
     }
 
-    public DialogueNode(string GUID, string npcName, DialogueGraphView graphView, string nodeType) 
+    public DialogueNode(string GUID, string npcName, DialogueGraphView graphView, string nodeType, Modifier modifier) 
     {
         this.GUID = GUID;
         this.npcName = npcName;
         this.graphView = graphView;
         this.nodeType = nodeType;
+        this.modifier = modifier;
 
         mainContainer.AddToClassList("ds-node__main-container");
         extensionContainer.AddToClassList("ds-node__extension-container");
     }
 
-    public DialogueNode(string GUID, string npcName, DialogueGraphView graphView, string nodeType, bool isChoice)
+    public DialogueNode(string GUID, string npcName, DialogueGraphView graphView, string nodeType, bool isChoice, Modifier modifier)
     {
         this.GUID = GUID;
         this.npcName = npcName;
         this.graphView = graphView;
         this.nodeType = nodeType;
+        this.modifier = modifier;
 
         mainContainer.AddToClassList("ds-node__main-container");
         extensionContainer.AddToClassList("ds-node__extension-container");
@@ -64,8 +75,10 @@ public class DialogueNode : Node
         //CreateNPCTextField();
         CreateLabel();
 
-
         CreateDialogueTextField();
+
+        CreateInspector();
+
         CreatePorts();
 
         if (choices.Count > 0)
@@ -84,25 +97,14 @@ public class DialogueNode : Node
 
         CreatePorts();
 
+        CreateInspector();
+
+
         // Refresh node
         RefreshExpandedState();
         RefreshPorts();
 
         SetPosition(new Rect(position, size));
-    }
-
-    private void CreateNPCTextField()
-    {
-        TextField dialogueNameTextField = CreateTextField(npcName, callback =>
-        {
-            npcName = callback.newValue;
-        });
-        
-        dialogueNameTextField.AddToClassList("ds-node__textfield");
-        dialogueNameTextField.AddToClassList("ds-node__filename-textfield");
-        dialogueNameTextField.AddToClassList("ds-node__textfield__hidden");
-
-        titleContainer.Insert(0, dialogueNameTextField);
     }
 
     private void CreateLabel()
@@ -152,6 +154,28 @@ public class DialogueNode : Node
 
 
         textFolout.Add(textArea);
+        customDataContainer.Add(textFolout);
+        extensionContainer.Add(customDataContainer);
+    }
+
+    private void CreateInspector()
+    {
+        //if (modifier == null)
+        //    return;
+
+        VisualElement customDataContainer = new VisualElement();
+        customDataContainer.AddToClassList("ds-node__custom-data-container");
+
+        Foldout textFolout = new Foldout();
+        textFolout.text = "Inspector";
+
+        textFolout.Clear();
+        UnityEngine.Object.DestroyImmediate(editor);
+        editor = Editor.CreateEditor(modifier);
+        IMGUIContainer container = new IMGUIContainer(() => { editor.OnInspectorGUI(); });
+
+
+        textFolout.Add(container);
         customDataContainer.Add(textFolout);
         extensionContainer.Add(customDataContainer);
     }
@@ -252,6 +276,9 @@ public class DialogueNode : Node
 
     public override void OnSelected()
     {
+        if (nodeType == ENDNODE)
+            return;
+
         base.OnSelected();
         if (OnNodeSelected != null)
         {
