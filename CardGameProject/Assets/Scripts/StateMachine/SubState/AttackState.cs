@@ -72,6 +72,8 @@ public class AttackState : CombatBaseState
                 }
                 else if (ctx.enemyList.Count == 0)
                 {
+                    ctx.ClearCombatScene();
+
                     ctx.eventDisplay.FinishCombatEvent();
                 }
             }

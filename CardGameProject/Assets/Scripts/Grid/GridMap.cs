@@ -47,6 +47,11 @@ public class GridMap : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Init();
+    }
+
+    void Init()
+    {
         gripMap = new List<List<Tile>>();
         eventList = new List<DisplayTile>();
         nextTiles = new List<DisplayTile>();
@@ -64,7 +69,7 @@ public class GridMap : MonoBehaviour
             canGenerateTile = false;
 
             GenerateTile();
-            CheckForEventTiles();
+            
         }
         else if (inputManager.leftClickInputDown && !eventDisplay.disableTileInteract)
         { // Detect correct input / disable input
@@ -196,9 +201,11 @@ public class GridMap : MonoBehaviour
         else
         {
             // Cycle finished
-
+            NewCycle();
             return;
         }
+
+        CheckForEventTiles();
     }
 
     void GenerateStartTile()
@@ -215,6 +222,16 @@ public class GridMap : MonoBehaviour
         selectedTile.eventObj = eventManager.GetEventFromQueue();
 
         nextTiles.Add(selectedTile);
+    }
+
+    void NewCycle()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        Init();
     }
 
 

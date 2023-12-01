@@ -43,6 +43,8 @@ public class CombatStateMachine : MonoBehaviour
     public Material defMat;
     public Material redMat;
 
+    #region Internal Variables
+
     // Variables
     [HideInInspector] public bool isPlayedCard;
     [HideInInspector] public Card cardPlayed;
@@ -60,6 +62,8 @@ public class CombatStateMachine : MonoBehaviour
     private CombatStateFactory states;
     private DialogueNodeData nodeData;
 
+    #endregion
+
     public void Init(DialogueNodeData nodeData)
     {
         this.nodeData = nodeData;
@@ -72,6 +76,8 @@ public class CombatStateMachine : MonoBehaviour
         enemyTurnDone = false;
 
         enemyList = new List<Enemy>();
+        discardPile = new List<Card>();
+        enemyCardQueue = new List<Card>();
 
         LoadPlayerAndEnemy();
 
@@ -174,6 +180,27 @@ public class CombatStateMachine : MonoBehaviour
                 selectedEnemy = hit.transform.GetComponent<Enemy>();
                 selectedEnemy.transform.GetComponent<MeshRenderer>().material = redMat;
             }
+        }
+    }
+
+    public void ClearCombatScene()
+    {
+        // Destroy card in hand
+        foreach (Transform child in playerHand)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // destroy player
+        Destroy(playerSpawnPos.GetChild(0).gameObject);
+
+        // destroy enemies
+        foreach (Transform pos in enemySpawnPosList)
+        {
+            if (enemyList.Count == 0)
+                break;
+
+            Destroy(pos.GetChild(0).gameObject);
         }
     }
 
