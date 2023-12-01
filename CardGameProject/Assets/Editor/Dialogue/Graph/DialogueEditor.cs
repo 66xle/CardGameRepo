@@ -27,7 +27,7 @@ public class DialogueEditor : EditorWindow
 
     private void OnDisable()
     {
-        rootVisualElement.Remove(_graphView);
+        //rootVisualElement.Remove(_graphView);
     }
 
     private void ConstructGraphView()

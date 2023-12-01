@@ -27,7 +27,6 @@ public class Tile
     {
         x = tile.dx;
         z = tile.dz;
-        type = (Type)tile.dType;
     }
 
     public Tile(int x, int z, Type type)

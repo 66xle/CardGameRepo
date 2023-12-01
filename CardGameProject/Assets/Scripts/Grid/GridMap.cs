@@ -29,6 +29,8 @@ public class GridMap : MonoBehaviour
 
     [Header("References")]
     [SerializeField] Material redMat;
+    [SerializeField] Material blueMat;
+    [SerializeField] Material purpleMat;
     [SerializeField] EventManager eventManager;
     [SerializeField] EventDisplay eventDisplay;
     [SerializeField] InputManager inputManager;
@@ -37,8 +39,9 @@ public class GridMap : MonoBehaviour
 
     private List<List<Tile>> gripMap;
     private List<DisplayTile> eventList;
-    private List<DisplayTile> nextTiles;
+    public List<DisplayTile> nextTileList;
     private Tile currentTile;
+    private DisplayTile prevDisplayTile;
 
     private bool canGenerateTile;
 
@@ -54,8 +57,9 @@ public class GridMap : MonoBehaviour
     {
         gripMap = new List<List<Tile>>();
         eventList = new List<DisplayTile>();
-        nextTiles = new List<DisplayTile>();
+        nextTileList = new List<DisplayTile>();
         currentTile = null;
+        prevDisplayTile = null;
         canGenerateTile = true;
 
         GenerateGrid();
@@ -69,7 +73,6 @@ public class GridMap : MonoBehaviour
             canGenerateTile = false;
 
             GenerateTile();
-            
         }
         else if (inputManager.leftClickInputDown && !eventDisplay.disableTileInteract)
         { // Detect correct input / disable input
@@ -88,6 +91,8 @@ public class GridMap : MonoBehaviour
 
         GameObject tilePrefab = greenPrefab;
 
+        #region Loop Grid
+
         for (int x = 0; x < gridXSize; x++)
         {
             index += 2;
@@ -95,7 +100,7 @@ public class GridMap : MonoBehaviour
 
             for (int z = 0; z < gridZSize; z++)
             {
-                #region Determine Missing tiles
+                #region Determine Missing tiles  
 
                 float num = Mathf.Abs(z + 1 - middleNum);
 
@@ -129,6 +134,8 @@ public class GridMap : MonoBehaviour
 
             gripMap.Add(row);
         }
+
+        #endregion
     }
 
     void GenerateEventTiles()
@@ -158,6 +165,8 @@ public class GridMap : MonoBehaviour
         // Place all events or when grid has no more space
         while (eventList.Count < numOfEvents && tempList.Count > 0)
         {
+            #region Determine if tile can be placed
+
             // Get random tile position
             int randomX = (int)Random.Range(0, tempList.Count - 1);
             int randomZ = (int)Random.Range(0, tempList[randomX].Count - 1);
@@ -173,16 +182,22 @@ public class GridMap : MonoBehaviour
                 continue;
             }
 
+            #endregion
+
             // Store event tile information
             gripMap[randomTile.x][randomTile.z].type = Tile.Type.Event;
 
             RemoveTile(tempList, randomX, randomZ);
+
+            #region Spawn Tile
 
             // Spawn tile
             Vector3 worldPosition = CalculateWorldPostion(randomTile.x, randomTile.z);
             DisplayTile spawnedTile = Instantiate(yellowPrefab, worldPosition, Quaternion.identity, transform).AddComponent<DisplayTile>();
             spawnedTile.SetupDisplayTile(randomTile);
             spawnedTile.eventObj = eventManager.GetEventFromQueue();
+
+            #endregion
 
             eventList.Add(spawnedTile);
         }
@@ -221,7 +236,7 @@ public class GridMap : MonoBehaviour
         selectedTile.SetupDisplayTile(currentTile);
         selectedTile.eventObj = eventManager.GetEventFromQueue();
 
-        nextTiles.Add(selectedTile);
+        nextTileList.Add(selectedTile);
     }
 
     void NewCycle()
@@ -234,48 +249,72 @@ public class GridMap : MonoBehaviour
         Init();
     }
 
-
-    #endregion
-
-    #region Selecting Event Tile
-
     void GenerateNextTiles()
     {
+        #region Determine which direction tiles can be placed
+
         // Check if tile even/odd then offset tile
         Tile leftTile = (currentTile.z % 2 == 0) ? OffsetTile(currentTile.x, currentTile.z + 1) : OffsetTile(currentTile.x + 1, currentTile.z + 1);
         Tile forwardTile = OffsetTile(currentTile.x + 1, currentTile.z);
         Tile rightTile = (currentTile.z % 2 == 0) ? OffsetTile(currentTile.x, currentTile.z - 1) : OffsetTile(currentTile.x + 1, currentTile.z - 1);
 
-        List<Tile> tileDirection = new List<Tile>(new List<Tile> { leftTile, forwardTile, rightTile });
+        
+
+        List<Tile> temp = new List<Tile>(new List<Tile> { leftTile, forwardTile, rightTile });
+
+        List<Tile> tileDirection = new List<Tile>();
 
         // Check if tiles are avaliable
-        for (int i = 0; i < tileDirection.Count; i++)
+        for (int i = 0; i < 3; i++)
         {
-            Tile tile = tileDirection[i];
+            Tile tile = temp[i];
+
+            if (tile == null)
+                continue;
 
             if (gripMap[tile.x][tile.z].type != Tile.Type.Availiable)
-            {
-                tileDirection.Remove(tile);
-            }
+                continue;
+
+            tileDirection.Add(tile);
         }
+
+
+        #endregion
 
         // Get random number of tiles to spawn
         int numOfTileToSpawn = Random.Range(minPath, tileDirection.Count + 1);
 
         for (int i = 0; i < numOfTileToSpawn; i++)
         {
+            if (tileDirection.Count == 0)
+                break;
+
             // Choose a random tile
             Tile rdmTile = tileDirection[Random.Range(0, tileDirection.Count)];
+
+            if (rdmTile == null)
+            {
+                Debug.Log("test");
+            }
+
             tileDirection.Remove(rdmTile);
+
+            #region Spawn Tile
 
             // Spawn tile
             Vector3 worldPostion = CalculateWorldPostion(rdmTile.x, rdmTile.z);
             DisplayTile spawnedTile = Instantiate(blackPrefab, worldPostion, Quaternion.identity, transform).AddComponent<DisplayTile>();
             spawnedTile.SetupDisplayTile(rdmTile);
             spawnedTile.eventObj = eventManager.GetEventFromQueue();
-            nextTiles.Add(spawnedTile);
+            nextTileList.Add(spawnedTile);
+
+            #endregion
         }
     }
+
+    #endregion
+
+    #region Selecting Event Tile
 
     void CheckForEventTiles()
     {
@@ -283,7 +322,7 @@ public class GridMap : MonoBehaviour
 
         if (eventTile != null)
         {
-            nextTiles.Add(eventTile);
+            nextTileList.Add(eventTile);
         }
     }
 
@@ -297,7 +336,7 @@ public class GridMap : MonoBehaviour
             // Get selected tile
             DisplayTile selectedTile = hit.transform.GetComponent<DisplayTile>();
 
-            if (nextTiles.Contains(selectedTile))
+            if (nextTileList.Contains(selectedTile))
             {
                 if (eventList.Contains(selectedTile))
                     eventList.Remove(selectedTile);
@@ -307,30 +346,39 @@ public class GridMap : MonoBehaviour
         }
     }
 
-    void LoadEventTile(DisplayTile eventTile)
+    void LoadEventTile(DisplayTile selectedTile)
     {
         // Remove other tiles, not selected tile
-        nextTiles.Remove(eventTile);
-        foreach (DisplayTile tile in nextTiles)
+        nextTileList.Remove(selectedTile);
+
+        List<DisplayTile> tempList = Extensions.Clone(nextTileList);
+        foreach (DisplayTile nextTile in tempList)
         {
-            if (eventList.Contains(tile))
+            // If skip event tile, disable it
+            if (eventList.Contains(nextTile))
             {
-                tile.GetComponent<MeshRenderer>().material = redMat;
+                nextTile.GetComponent<MeshRenderer>().material = purpleMat;
+                nextTileList.Remove(nextTile);
+                eventList.Remove(nextTile);
                 continue;
             }
 
-            Destroy(tile.gameObject);
+            Destroy(nextTile.gameObject);
         }
-        nextTiles.Clear();
+        nextTileList.Clear();
 
         // Debug
-        eventTile.gameObject.GetComponent<MeshRenderer>().material = redMat;
+        selectedTile.gameObject.GetComponent<MeshRenderer>().material = blueMat;
 
         // Load Event UI
-        eventDisplay.Display(eventTile.eventObj);
+        eventDisplay.Display(selectedTile.eventObj);
+
+        if (prevDisplayTile != null)
+            prevDisplayTile.gameObject.GetComponent<MeshRenderer>().material = redMat;
 
         // Store event tile
-        currentTile = new Tile(eventTile);
+        prevDisplayTile = selectedTile;
+        currentTile = new Tile(selectedTile);
         eventDisplay.disableTileInteract = true;
 
         canGenerateTile = true;
@@ -410,10 +458,12 @@ public class GridMap : MonoBehaviour
 
     Tile OffsetTile(int x, int z)
     {
-        int clampX = (int)Mathf.Clamp(x, 0, gridXSize);
-        int clampZ = (int)Mathf.Clamp(z, 0, gridZSize - 1);
+        if (x < 0 || x > gridXSize - 1 || z < 0 || z > gridZSize - 1)
+        {
+            return null;
+        }
 
-        return new Tile(clampX, clampZ);
+        return new Tile(x, z);
     }
 
     #endregion
