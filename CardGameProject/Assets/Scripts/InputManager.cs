@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public bool leftClickInputDown { get; private set; }
-
+    public bool leftClickInputDown { get; private set; } = false;
 
     // Update is called once per frame
     void Update()

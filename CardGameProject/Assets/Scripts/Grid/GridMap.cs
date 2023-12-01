@@ -13,6 +13,9 @@ public class GridMap : MonoBehaviour
     [SerializeField] float gridZSize= 13;
     [SerializeField] float hexSize = 0.577f;
 
+    [Header("Path Settings")]
+    [SerializeField][Range(1, 3)] int minPath = 1;
+
     [Header("Event Tile Settings")]
     [SerializeField] float numOfEvents = 5;
     [SerializeField] float distanceBetweenEvents = 2;
@@ -33,9 +36,11 @@ public class GridMap : MonoBehaviour
     #region Internal Variables
 
     private List<List<Tile>> gripMap;
-    private List<Tile> eventList;
+    private List<DisplayTile> eventList;
     private List<DisplayTile> nextTiles;
     private Tile currentTile;
+
+    private bool canGenerateTile;
 
     #endregion
 
@@ -43,24 +48,32 @@ public class GridMap : MonoBehaviour
     void Start()
     {
         gripMap = new List<List<Tile>>();
-        eventList = new List<Tile>();
+        eventList = new List<DisplayTile>();
         nextTiles = new List<DisplayTile>();
+        currentTile = null;
+        canGenerateTile = true;
 
         GenerateGrid();
         GenerateEventTiles();
-        GenerateStartTile();
     }
 
     void Update()
     {
-        // Detect correct input / disable input
-        if (inputManager.leftClickInputDown && !eventDisplay.disableTileInteract)
+        if (canGenerateTile && !eventDisplay.disableTileInteract)
         {
+            canGenerateTile = false;
+
+            GenerateTile();
+            CheckForEventTiles();
+        }
+        else if (inputManager.leftClickInputDown && !eventDisplay.disableTileInteract)
+        { // Detect correct input / disable input
+
             DetectTileHit();
         }
     }
 
-    #region Generate on Start
+    #region Generate Tile
 
     void GenerateGrid()
     {
@@ -148,7 +161,7 @@ public class GridMap : MonoBehaviour
             Tile randomTile = tileRow[randomZ];
 
             // If tile is avaliable or Is near a event tile
-            if (randomTile.type != Tile.Type.Availiable || IsNearEventTiles(randomTile))
+            if (randomTile.type != Tile.Type.Availiable || IsNearEventTiles(randomTile, distanceBetweenEvents))
             {
                 RemoveTile(tempList, randomX, randomZ);
 
@@ -156,7 +169,6 @@ public class GridMap : MonoBehaviour
             }
 
             // Store event tile information
-            eventList.Add(randomTile);
             gripMap[randomTile.x][randomTile.z].type = Tile.Type.Event;
 
             RemoveTile(tempList, randomX, randomZ);
@@ -166,6 +178,26 @@ public class GridMap : MonoBehaviour
             DisplayTile spawnedTile = Instantiate(yellowPrefab, worldPosition, Quaternion.identity, transform).AddComponent<DisplayTile>();
             spawnedTile.SetupDisplayTile(randomTile);
             spawnedTile.eventObj = eventManager.GetEventFromQueue();
+
+            eventList.Add(spawnedTile);
+        }
+    }
+
+    void GenerateTile() // Generate tile when event has ended
+    {
+        if (currentTile == null)
+        {
+            GenerateStartTile();
+        }
+        else if (currentTile.x < gridXSize - 1)
+        {
+            GenerateNextTiles();
+        }
+        else
+        {
+            // Cycle finished
+
+            return;
         }
     }
 
@@ -184,7 +216,6 @@ public class GridMap : MonoBehaviour
 
         nextTiles.Add(selectedTile);
     }
-
 
 
     #endregion
@@ -212,7 +243,7 @@ public class GridMap : MonoBehaviour
         }
 
         // Get random number of tiles to spawn
-        int numOfTileToSpawn = Random.Range(1, tileDirection.Count + 1);
+        int numOfTileToSpawn = Random.Range(minPath, tileDirection.Count + 1);
 
         for (int i = 0; i < numOfTileToSpawn; i++)
         {
@@ -229,6 +260,16 @@ public class GridMap : MonoBehaviour
         }
     }
 
+    void CheckForEventTiles()
+    {
+        DisplayTile eventTile = GetNearEventTile(currentTile, 1);
+
+        if (eventTile != null)
+        {
+            nextTiles.Add(eventTile);
+        }
+    }
+
     void DetectTileHit()
     {
         // Raycast from screen to tile
@@ -241,34 +282,44 @@ public class GridMap : MonoBehaviour
 
             if (nextTiles.Contains(selectedTile))
             {
-                // Remove other tiles, not selected tile
-                nextTiles.Remove(selectedTile);
-                foreach (DisplayTile tile in nextTiles)
-                {
-                    Destroy(tile.gameObject);
-                }
-                nextTiles.Clear();
+                if (eventList.Contains(selectedTile))
+                    eventList.Remove(selectedTile);
 
-                // Debug
-                selectedTile.gameObject.GetComponent<MeshRenderer>().material = redMat;
-
-                // Load Event UI
-                eventDisplay.Display(selectedTile.eventObj);
-
-                // Store event tile
-                currentTile = new Tile(selectedTile);
-                eventDisplay.disableTileInteract = true;
-
-
-                // Here temporary (run this when event ends)
-                if (selectedTile.dx < gridXSize - 1)
-                    GenerateNextTiles();
+                LoadEventTile(selectedTile);
             }
         }
     }
 
-    #endregion
+    void LoadEventTile(DisplayTile eventTile)
+    {
+        // Remove other tiles, not selected tile
+        nextTiles.Remove(eventTile);
+        foreach (DisplayTile tile in nextTiles)
+        {
+            if (eventList.Contains(tile))
+            {
+                tile.GetComponent<MeshRenderer>().material = redMat;
+                continue;
+            }
 
+            Destroy(tile.gameObject);
+        }
+        nextTiles.Clear();
+
+        // Debug
+        eventTile.gameObject.GetComponent<MeshRenderer>().material = redMat;
+
+        // Load Event UI
+        eventDisplay.Display(eventTile.eventObj);
+
+        // Store event tile
+        currentTile = new Tile(eventTile);
+        eventDisplay.disableTileInteract = true;
+
+        canGenerateTile = true;
+    }
+
+    #endregion
 
     #region Other Functions
 
@@ -302,16 +353,16 @@ public class GridMap : MonoBehaviour
             tempList.Remove(tileRow);
     }
 
-    bool IsNearEventTiles (Tile selectedTile)
+    bool IsNearEventTiles (Tile selectedTile, float distance)
     {
-        foreach (Tile tile in eventList)
+        foreach (DisplayTile tile in eventList)
         {
-            float disX = Mathf.Abs(tile.x - selectedTile.x);
-            float disZ = Mathf.Abs(tile.z - selectedTile.z);
+            float disX = Mathf.Abs(tile.dx - selectedTile.x);
+            float disZ = Mathf.Abs(tile.dz - selectedTile.z);
 
-             if (disX <= distanceBetweenEvents)
+             if (disX <= distance)
             {
-                if (disZ <= distanceBetweenEvents)
+                if (disZ <= distance)
                 {
                     return true;
                 }
@@ -319,6 +370,25 @@ public class GridMap : MonoBehaviour
         }
 
         return false;
+    }
+
+    DisplayTile GetNearEventTile(Tile selectedTile, float distance)
+    {
+        foreach (DisplayTile tile in eventList)
+        {
+            float disX = Mathf.Abs(tile.dx - selectedTile.x);
+            float disZ = Mathf.Abs(tile.dz - selectedTile.z);
+
+            if (disX <= distance)
+            {
+                if (disZ <= distance)
+                {
+                    return tile;
+                }
+            }
+        }
+
+        return null;
     }
 
     Tile OffsetTile(int x, int z)

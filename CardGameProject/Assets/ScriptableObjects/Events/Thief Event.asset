@@ -24,7 +24,7 @@ MonoBehaviour:
     - BaseNodeGuid: f9a6a33f-ce67-4085-a46d-3dd833f9a6d9
       PortName: 
       TargetNodeGuid: 77e9ab4c-3f1f-4f7c-b191-ea704b87b97a
-      ChoiceGUID: b5d2c731-c60b-41a2-bddf-6dbc65b33e24
+      ChoiceGUID: 97f85105-ca61-4c52-a9af-40aa98f95664
     - BaseNodeGuid: f9a6a33f-ce67-4085-a46d-3dd833f9a6d9
       PortName: 
       TargetNodeGuid: 4237c67a-2cbb-4547-8ab7-f8e68a9441a2
@@ -32,7 +32,7 @@ MonoBehaviour:
     - BaseNodeGuid: f9a6a33f-ce67-4085-a46d-3dd833f9a6d9
       PortName: 
       TargetNodeGuid: 3f0a260b-550c-47b8-9829-b79dc743b807
-      ChoiceGUID: 97f85105-ca61-4c52-a9af-40aa98f95664
+      ChoiceGUID: b5d2c731-c60b-41a2-bddf-6dbc65b33e24
     Choices:
     - text: Hand over your valuables
       portGUID: 97f85105-ca61-4c52-a9af-40aa98f95664
@@ -58,7 +58,8 @@ MonoBehaviour:
       TargetNodeGuid: faabac29-1158-4ef2-ae3d-9545b15fb8ba
       ChoiceGUID: output
     Choices: []
-    enemies: []
+    enemies:
+    - {fileID: 11400000, guid: f8f5501ea10342745832c6803eacac6e, type: 2}
     cards: []
     money: 0
     image: {fileID: 0}

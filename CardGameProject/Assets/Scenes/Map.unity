@@ -316,7 +316,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &196348441
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -993,6 +993,7 @@ MonoBehaviour:
   gridXSize: 13
   gridZSize: 13
   hexSize: 0.577
+  minPath: 2
   numOfEvents: 5
   distanceBetweenEvents: 3
   minRowEvent: 3
@@ -2252,7 +2253,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1cb70d12e1ad34419239db382130c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerDeck: []
+  playerDeck:
+  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
+  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
+  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
+  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
+  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
+  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
+  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
+  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
+  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
+  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
 --- !u!4 &1450870406
 Transform:
   m_ObjectHideFlags: 0
@@ -3399,8 +3410,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2091737889}
-  m_LocalRotation: {x: -0.31819504, y: -0.6314894, z: 0.31825343, w: -0.6314174}
-  m_LocalPosition: {x: -18.315845, y: 5.1476383, z: 0.8678152}
+  m_LocalRotation: {x: -0.41824493, y: -0.5697527, z: 0.41699708, w: -0.57145995}
+  m_LocalPosition: {x: -15.044601, y: 10.846656, z: 0.89255244}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1473991911}
