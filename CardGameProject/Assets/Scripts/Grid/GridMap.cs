@@ -292,11 +292,6 @@ public class GridMap : MonoBehaviour
             // Choose a random tile
             Tile rdmTile = tileDirection[Random.Range(0, tileDirection.Count)];
 
-            if (rdmTile == null)
-            {
-                Debug.Log("test");
-            }
-
             tileDirection.Remove(rdmTile);
 
             #region Spawn Tile
@@ -439,16 +434,27 @@ public class GridMap : MonoBehaviour
 
     DisplayTile GetNearEventTile(Tile selectedTile, float distance)
     {
-        foreach (DisplayTile tile in eventList)
-        {
-            float disX = Mathf.Abs(tile.dx - selectedTile.x);
-            float disZ = Mathf.Abs(tile.dz - selectedTile.z);
+        // Check if tile even/odd then offset tile
+        Tile leftTile = (selectedTile.z % 2 == 0) ? OffsetTile(currentTile.x, currentTile.z + 1) : OffsetTile(currentTile.x + 1, currentTile.z + 1);
+        Tile forwardTile = OffsetTile(currentTile.x + 1, currentTile.z);
+        Tile rightTile = (currentTile.z % 2 == 0) ? OffsetTile(currentTile.x, currentTile.z - 1) : OffsetTile(currentTile.x + 1, currentTile.z - 1);
 
-            if (disX <= distance)
+        Tile backLeftTile = (currentTile.z % 2 == 0) ? OffsetTile(currentTile.x - 1, currentTile.z + 1) : OffsetTile(currentTile.x, currentTile.z + 1);
+        Tile backwardTile = OffsetTile(currentTile.x - 1, currentTile.z);
+        Tile backRightTile = (currentTile.z % 2 == 0) ? OffsetTile(currentTile.x - 1, currentTile.z - 1) : OffsetTile(currentTile.x, currentTile.z - 1);
+
+        List<Tile> temp = new List<Tile>(new List<Tile> { leftTile, forwardTile, rightTile, backLeftTile, backwardTile, backRightTile });
+
+        foreach (Tile tile in temp)
+        {
+            if (tile == null)
+                continue;
+
+            foreach (DisplayTile displayTile in eventList)
             {
-                if (disZ <= distance)
+                if (tile.x == displayTile.dx && tile.z == displayTile.dz)
                 {
-                    return tile;
+                    return displayTile;
                 }
             }
         }
