@@ -138,21 +138,32 @@ public class CombatStateMachine : MonoBehaviour
     }
 
     
-    public void OnCardPlayed(CardPlayed evt, Card card)
+    public void OnCardPlayed(CardPlayed evt, Card card, string tag)
     {
-        if (player.hasEnoughStamina(card.cost))
+        if (tag == "Play")
         {
-            player.ConsumeStamina(card.cost);
+            if (player.hasEnoughStamina(card.cost))
+            {
+                player.ConsumeStamina(card.cost);
 
-            discardPile.Add(card);
+                discardPile.Add(card);
 
+                // Destory Card
+                CardContainer container = playerHand.GetComponent<CardContainer>();
+                container.DestroyCard(evt.card);
+
+                // Allow to switch to attack state
+                isPlayedCard = true;
+                cardPlayed = card;
+            }
+        }
+        else if (tag == "Recycle")
+        {
             // Destory Card
             CardContainer container = playerHand.GetComponent<CardContainer>();
             container.DestroyCard(evt.card);
 
-            // Allow to switch to attack state
-            isPlayedCard = true;
-            cardPlayed = card;
+            player.RecycleCardToStamina(card.recycleValue);
         }
     }
 

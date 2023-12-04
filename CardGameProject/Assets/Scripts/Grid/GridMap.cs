@@ -445,11 +445,13 @@ public class GridMap : MonoBehaviour
 
         List<Tile> temp = new List<Tile>(new List<Tile> { leftTile, forwardTile, rightTile, backLeftTile, backwardTile, backRightTile });
 
+        // Loop through tiles near selected tile
         foreach (Tile tile in temp)
         {
             if (tile == null)
                 continue;
 
+            // Check if tiles near selected tiles matches event tile
             foreach (DisplayTile displayTile in eventList)
             {
                 if (tile.x == displayTile.dx && tile.z == displayTile.dz)

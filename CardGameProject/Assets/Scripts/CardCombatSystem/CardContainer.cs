@@ -1,9 +1,8 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using config;
 using DefaultNamespace;
 using events;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -222,13 +221,19 @@ public class CardContainer : MonoBehaviour {
         if (!combatStateMachine.isPlayState || currentDraggedCard == null)
             return;
 
-        // If card is in play area, play it!
-        if (IsCursorInPlayArea()) {
-            eventsConfig?.OnCardPlayed?.Invoke(new CardPlayed(currentDraggedCard), currentDraggedCard.card);
-            if (cardPlayConfig.destroyOnPlay) {
-                DestroyCard(currentDraggedCard);
+        foreach (GameObject gameObject in cardPlayConfig.playArea)
+        {
+            // If card is in play area, play it!
+            if (IsCursorInPlayArea(gameObject.GetComponent<RectTransform>()))
+            {
+                eventsConfig?.OnCardPlayed?.Invoke(new CardPlayed(currentDraggedCard), currentDraggedCard.card, gameObject.transform.tag);
+                if (cardPlayConfig.destroyOnPlay)
+                {
+                    DestroyCard(currentDraggedCard);
+                }
             }
         }
+
         currentDraggedCard = null;
     }
     
@@ -238,17 +243,15 @@ public class CardContainer : MonoBehaviour {
         Destroy(card.gameObject);
     }
 
-    private bool IsCursorInPlayArea() {
+    private bool IsCursorInPlayArea(RectTransform playArea) {
         if (cardPlayConfig.playArea == null) return false;
         
         var cursorPosition = Input.mousePosition;
-        var playArea = cardPlayConfig.playArea;
         var playAreaCorners = new Vector3[4];
         playArea.GetWorldCorners(playAreaCorners);
-        return cursorPosition.x > playAreaCorners[0].x &&
+        return (cursorPosition.x > playAreaCorners[0].x &&
                cursorPosition.x < playAreaCorners[2].x &&
                cursorPosition.y > playAreaCorners[0].y &&
-               cursorPosition.y < playAreaCorners[2].y;
-        
+               cursorPosition.y < playAreaCorners[2].y);
     }
 }

@@ -46,6 +46,11 @@ public class Player : MonoBehaviour
         return false;
     }
 
+    public void RecycleCardToStamina(float cost)
+    {
+        currentStamina += cost;
+        DisplayStats();
+    }
 
     public void RecoverStamina()
     {
