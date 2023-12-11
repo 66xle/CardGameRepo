@@ -9,10 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bd96ea2653084d4bb2c558ac9b7e042, type: 3}
-  m_Name: Thief
+  m_Script: {fileID: 11500000, guid: 229174bf3bf62b140ae8b2bba2c89d2d, type: 3}
+  m_Name: Block
   m_EditorClassIdentifier: 
-  health: 20
-  prefab: {fileID: 3362858514074544914, guid: 43274232cb5564e4c9230303b6c172af, type: 3}
-  cardList:
-  - {fileID: 11400000, guid: f0ea28ced94339540ac13895ea1c6d3a, type: 2}
+  name: Block
+  description: Do nothing
+  image: {fileID: 21300000, guid: 4288bf70039d5a841be9a4b97f87f0c1, type: 3}
+  cardType: 1
+  value: 0
+  cost: 1
+  recycleValue: 1
