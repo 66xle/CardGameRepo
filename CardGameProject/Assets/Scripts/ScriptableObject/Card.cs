@@ -14,8 +14,10 @@ public class Card : ScriptableObject
 {
     public string name;
     public string description;
+    public string flavour;
 
     public Sprite image;
+    public Sprite frame;
 
     public Type cardType;
     public int value;
