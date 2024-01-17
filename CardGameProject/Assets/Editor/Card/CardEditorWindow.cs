@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using static UnityEngine.GraphicsBuffer;
+using UnityEditor.PackageManager.UI;
 
 public class CardEditorWindow : EditorWindow
 {
@@ -23,6 +25,8 @@ public class CardEditorWindow : EditorWindow
 
         StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/Card/CardEditorStyles.uss");
         rootVisualElement.styleSheets.Add(styleSheet);
+
+        EditorStyles.label.wordWrap = true;
 
         CreateCardListView();
     }
@@ -62,11 +66,17 @@ public class CardEditorWindow : EditorWindow
 
                     if (cardProperty.name == "image")
                     {
-                        prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadCardImage(card.image.texture));
+                        prop.RegisterCallback<ChangeEvent<Object>>((changeEvt) => LoadCardImage(card));
+                    }
+
+                    if (cardProperty.name == "name" || cardProperty.name == "description" || cardProperty.name == "flavour")
+                    {
+                        prop.RegisterCallback<ChangeEvent<Object>>((changeEvt) => LoadCardText(card));
                     }
                 }
 
-                LoadCardImage(card.image.texture);
+                LoadCardImage(card);
+                LoadCardText(card);
             }
         };
 
@@ -86,9 +96,40 @@ public class CardEditorWindow : EditorWindow
         }
     }
 
-    private void LoadCardImage(Texture texture)
+    private void LoadCardImage(Card card)
     {
         Image cardPreviewImage = rootVisualElement.Query<Image>("preview").First();
-        cardPreviewImage.image = texture;
+        Image cardPreviewFrame = rootVisualElement.Query<Image>("preview2").First();
+        cardPreviewImage.image = card.image.texture;
+        cardPreviewFrame.image = card.frame.texture;
+    }
+
+    private void LoadCardText(Card card)
+    {
+        Label title = rootVisualElement.Query<Label>("title").First();
+        Label description = rootVisualElement.Query<Label>("description").First();
+        Label flavour = rootVisualElement.Query<Label>("flavour").First();
+        Label cost = rootVisualElement.Query<Label>("cost").First();
+
+        title.text = card.name;
+        description.text = card.description;
+        flavour.text = card.flavour;
+        cost.text = card.cost.ToString();
+    }
+
+
+    static Texture2D GetPrefabPreview(string path)
+    {
+
+        Debug.Log("Generate preview for " + path);
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+        Texture2D tex = AssetPreview.GetAssetPreview(prefab);
+
+
+        //var editor = Editor.CreateEditor(prefab);
+        //Texture2D tex = editor.RenderStaticPreview(path, null, 200, 200);
+        //EditorWindow.DestroyImmediate(editor);
+
+        return tex;
     }
 }

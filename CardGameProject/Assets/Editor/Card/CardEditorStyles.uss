@@ -6,12 +6,68 @@
 
 #preview
 {
-	height: 700px;
-	width: 300px;
+	height: 500px;
+	width: 200px;
 	align-self: center;
 
-	margin-bottom: -200px;
 	martin-top: 15px;
+
+	position: relative;
+}
+
+#preview2
+{
+	height: 500px;
+	width: 200px;
+	align-self: center;
+	position: absolute;
+}
+
+#title
+{
+	top: -192px;
+	left: 253px;
+	width: 75px;
+	-unity-text-align: middle-center;
+	-unity-font: resource("Assets/Textures/Cards/Fonts/Assassins Font/Assassin$.ttf");
+	font-size: 20px;
+}
+
+#description
+{
+	top: 341px;
+	left: 214px;
+	width: 147px;
+	white-space: normal;
+	-unity-text-align: middle-center;
+	-unity-font: resource("Assets/Textures/Cards/Fonts/Libre Baskerville/LibreBaskerville-Regular.ttf");
+	font-size: 10px;
+	color: #8C7864;
+	position: absolute;
+}
+
+#flavour
+{
+	top: 400px;
+	left: 224px;
+	width: 130px;
+	white-space: normal;
+	-unity-text-align: middle-center;
+	-unity-font: resource("Assets/Textures/Cards/Fonts/Libre Baskerville/LibreBaskerville-Italic.ttf");
+	font-size: 10px;
+	color: #616161;
+	position: absolute;
+}
+
+#cost
+{
+	top: 30px;
+	left: 223px;
+	width: 130px;
+	-unity-text-align: middle-center;
+	-unity-font: resource("Assets/Textures/Cards/Fonts/Coalition/Coalition_v2..ttf");
+	font-size: 20px;
+	position: absolute;
 }
 
 #card-info-scroll
