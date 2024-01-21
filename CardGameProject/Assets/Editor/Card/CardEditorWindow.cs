@@ -64,14 +64,14 @@ public class CardEditorWindow : EditorWindow
                     prop.Bind(serializeCard);
                     cardInfoBox.Add(prop);
 
-                    if (cardProperty.name == "image")
+                    if (cardProperty.name == "image" || cardProperty.name == "frame")
                     {
                         prop.RegisterCallback<ChangeEvent<Object>>((changeEvt) => LoadCardImage(card));
                     }
 
                     if (cardProperty.name == "name" || cardProperty.name == "description" || cardProperty.name == "flavour")
                     {
-                        prop.RegisterCallback<ChangeEvent<Object>>((changeEvt) => LoadCardText(card));
+                        prop.RegisterValueChangeCallback(changeEvt => LoadCardText(card));
                     }
                 }
 
