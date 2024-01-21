@@ -6,9 +6,15 @@ using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using static UnityEngine.GraphicsBuffer;
 using UnityEditor.PackageManager.UI;
+using System;
+using System.Security.Policy;
 
 public class CardEditorWindow : EditorWindow
 {
+    private ListView cardList;
+
+    private PopupWindow window;
+
     [MenuItem("Editor/Card Editor")]
     public static void ShowWindow()
     {
@@ -29,13 +35,16 @@ public class CardEditorWindow : EditorWindow
         EditorStyles.label.wordWrap = true;
 
         CreateCardListView();
+        SetButtons();
     }
 
-    private void CreateCardListView()
+    
+
+    public void CreateCardListView()
     {
         FindAllCards(out Card[] cards);
 
-        ListView cardList = rootVisualElement.Query<ListView>("card-list").First();
+        cardList = rootVisualElement.Query<ListView>("card-list").First();
         cardList.makeItem = () => new Label();
         cardList.bindItem = (element, i) => (element as Label).text = cards[i].name;
 
@@ -45,7 +54,7 @@ public class CardEditorWindow : EditorWindow
 
         cardList.onSelectionChange += (enumerable) =>
         {
-            foreach (Object it in enumerable)
+            foreach (UnityEngine.Object it in enumerable)
             {
                 Box cardInfoBox = rootVisualElement.Query<Box>("card-info").First();
                 cardInfoBox.Clear();
@@ -64,16 +73,15 @@ public class CardEditorWindow : EditorWindow
                     prop.Bind(serializeCard);
                     cardInfoBox.Add(prop);
 
+                    // Update images and text
                     if (cardProperty.name == "image" || cardProperty.name == "frame")
                     {
-                        prop.RegisterCallback<ChangeEvent<Object>>((changeEvt) => LoadCardImage(card));
+                        prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadCardImage(card));
                     }
 
                     if (cardProperty.name == "name" || cardProperty.name == "description" || cardProperty.name == "flavour")
                     {
-                        prop.RegisterValueChangeCallback(changeEvt => LoadCardText(card));
-
-                        //prop.RegisterCallback<ChangeEvent<Label>>((changeEvt) => LoadCardText(card));
+                        prop.RegisterValueChangeCallback(changeEvt => LoadCardText(card, cardList));
                     }
                 }
 
@@ -83,6 +91,21 @@ public class CardEditorWindow : EditorWindow
         };
 
         cardList.Refresh();
+    }
+
+    private void SetButtons()
+    {
+        Button addButton = rootVisualElement.Query<Button>("add-card").First();
+        addButton.clicked += AddCard;
+    }
+
+    private void AddCard()
+    {
+        window = CreateInstance<PopupWindow>();
+        window.position = new Rect(Screen.width, Screen.height / 2, 250, 150);
+        window.ShowPopup();
+
+        window.Window = this;
     }
 
     private void FindAllCards(out Card[] cards)
@@ -102,11 +125,21 @@ public class CardEditorWindow : EditorWindow
     {
         Image cardPreviewImage = rootVisualElement.Query<Image>("preview").First();
         Image cardPreviewFrame = rootVisualElement.Query<Image>("preview2").First();
-        cardPreviewImage.image = card.image.texture;
-        cardPreviewFrame.image = card.frame.texture;
+
+        try
+        {
+            cardPreviewImage.image = card.image.texture;
+        }
+        catch (Exception err) { }
+
+        try
+        {
+            cardPreviewFrame.image = card.frame.texture;
+        }
+        catch (Exception err) { }
     }
 
-    private void LoadCardText(Card card)
+    private void LoadCardText(Card card, ListView cardList = null)
     {
         Label title = rootVisualElement.Query<Label>("title").First();
         Label description = rootVisualElement.Query<Label>("description").First();
@@ -117,21 +150,9 @@ public class CardEditorWindow : EditorWindow
         description.text = card.description;
         flavour.text = card.flavour;
         cost.text = card.cost.ToString();
+
+        if (cardList != null)
+            cardList.Refresh();
     }
 
-
-    static Texture2D GetPrefabPreview(string path)
-    {
-
-        Debug.Log("Generate preview for " + path);
-        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-        Texture2D tex = AssetPreview.GetAssetPreview(prefab);
-
-
-        //var editor = Editor.CreateEditor(prefab);
-        //Texture2D tex = editor.RenderStaticPreview(path, null, 200, 200);
-        //EditorWindow.DestroyImmediate(editor);
-
-        return tex;
-    }
 }
