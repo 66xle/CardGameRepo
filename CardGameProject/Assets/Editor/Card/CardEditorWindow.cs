@@ -72,6 +72,8 @@ public class CardEditorWindow : EditorWindow
                     if (cardProperty.name == "name" || cardProperty.name == "description" || cardProperty.name == "flavour")
                     {
                         prop.RegisterValueChangeCallback(changeEvt => LoadCardText(card));
+
+                        //prop.RegisterCallback<ChangeEvent<Label>>((changeEvt) => LoadCardText(card));
                     }
                 }
 

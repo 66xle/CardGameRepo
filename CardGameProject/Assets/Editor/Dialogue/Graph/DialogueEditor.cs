@@ -13,7 +13,7 @@ public class DialogueEditor : EditorWindow
 
     private TextField fileNameTextField;
 
-    [MenuItem("Graph/Dialogue Graph")]
+    [MenuItem("Editor/Dialogue Graph")]
     public static void ShowWindow()
     {
         DialogueEditor window = GetWindow<DialogueEditor>("Graph");

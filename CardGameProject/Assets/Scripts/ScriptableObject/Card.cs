@@ -13,8 +13,8 @@ public enum Type
 public class Card : ScriptableObject
 {
     public string name;
-    public string description;
-    public string flavour;
+    [TextArea] public string description;
+    [TextArea] public string flavour;
 
     public Sprite image;
     public Sprite frame;
