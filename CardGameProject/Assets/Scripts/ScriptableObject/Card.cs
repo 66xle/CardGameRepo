@@ -12,6 +12,9 @@ public enum Type
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
 public class Card : ScriptableObject
 {
+    [HideInInspector]
+    public string guid;
+
     public string name;
     [TextArea] public string description;
     [TextArea] public string flavour;

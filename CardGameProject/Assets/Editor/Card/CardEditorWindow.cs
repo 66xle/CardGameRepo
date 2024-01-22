@@ -17,6 +17,10 @@ public class CardEditorWindow : EditorWindow
 
     private PopupWindow window;
 
+    private List<string> listOfAssetNames = new List<string>();
+
+    private string originalName;
+
     public bool isPopupActive;
 
     [MenuItem("Editor/Card Editor")]
@@ -53,11 +57,13 @@ public class CardEditorWindow : EditorWindow
 
     public void CreateCardListView()
     {
-        FindAllCards(out Card[] cards);
+        FindAllCards(out List<Card> cards);
 
         cardList = rootVisualElement.Query<ListView>("card-list").First();
         cardList.makeItem = () => new Label();
         cardList.bindItem = (element, i) => (element as Label).text = cards[i].name;
+
+        cards.ForEach(card => listOfAssetNames.Add(card.name));
 
         cardList.itemsSource = cards;
         cardList.itemHeight = 16;
@@ -108,6 +114,9 @@ public class CardEditorWindow : EditorWindow
     {
         Button addButton = rootVisualElement.Query<Button>("add-card").First();
         addButton.clicked += AddCard;
+
+        Button deleteButton = rootVisualElement.Query<Button>("delete-card").First();
+        deleteButton.clicked += DeleteCard;
     }
     private void AddCard()
     {
@@ -123,16 +132,39 @@ public class CardEditorWindow : EditorWindow
         window.Window = this;
     }
 
-    private void FindAllCards(out Card[] cards)
+    private void DeleteCard()
+    {
+        if (cardList.selectedItem != null)
+        {
+            Card selectedCard = cardList.selectedItem as Card;
+            if (!EditorUtility.DisplayDialog($"Delete Card", $"Delete {selectedCard.name}?", "Delete", "Cancel"))
+                return;
+
+            cardList.ClearSelection();
+            Box cardInfoBox = rootVisualElement.Query<Box>("card-info").First();
+            cardInfoBox.Clear();
+
+            AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedCard.guid));
+
+            cardList.itemsSource = null;
+            CreateCardListView();
+        }
+    }
+
+    private void FindAllCards(out List<Card> cards)
     {
         string[] guids = AssetDatabase.FindAssets("t:Card");
 
-        cards = new Card[guids.Length];
+        cards = new List<Card>();
 
         for (int i = 0; i < guids.Length; i++)
         {
             string path = AssetDatabase.GUIDToAssetPath(guids[i]);
-            cards[i] = AssetDatabase.LoadAssetAtPath<Card>(path);
+
+            Card loadedCard = AssetDatabase.LoadAssetAtPath<Card>(path);
+            loadedCard.guid = guids[i];
+
+            cards.Add(loadedCard);
         }
     }
 
@@ -161,13 +193,20 @@ public class CardEditorWindow : EditorWindow
         Label flavour = rootVisualElement.Query<Label>("flavour").First();
         Label cost = rootVisualElement.Query<Label>("cost").First();
 
+        
+        
+
         title.text = card.name;
         description.text = card.description;
         flavour.text = card.flavour;
         cost.text = card.cost.ToString();
 
         if (cardList != null)
+        {
+            
+
             cardList.Refresh();
+        }
     }
 
 }
