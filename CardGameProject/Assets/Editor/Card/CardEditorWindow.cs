@@ -8,12 +8,16 @@ using static UnityEngine.GraphicsBuffer;
 using UnityEditor.PackageManager.UI;
 using System;
 using System.Security.Policy;
+using System.Runtime.Remoting.Contexts;
+using UnityEditor.Experimental.GraphView;
 
 public class CardEditorWindow : EditorWindow
 {
     private ListView cardList;
 
     private PopupWindow window;
+
+    public bool isPopupActive;
 
     [MenuItem("Editor/Card Editor")]
     public static void ShowWindow()
@@ -32,13 +36,20 @@ public class CardEditorWindow : EditorWindow
         StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/Card/CardEditorStyles.uss");
         rootVisualElement.styleSheets.Add(styleSheet);
 
-        EditorStyles.label.wordWrap = true;
+        //EditorStyles.label.wordWrap = true;
 
         CreateCardListView();
         SetButtons();
     }
 
-    
+    private void OnFocus()
+    {
+        if (isPopupActive)
+        {
+            window.Focus();
+            EditorUtility.DisplayDialog($"Error", $"Currently creating card", "Ok");
+        }
+    }
 
     public void CreateCardListView()
     {
@@ -98,13 +109,17 @@ public class CardEditorWindow : EditorWindow
         Button addButton = rootVisualElement.Query<Button>("add-card").First();
         addButton.clicked += AddCard;
     }
-
     private void AddCard()
     {
         window = CreateInstance<PopupWindow>();
-        window.position = new Rect(Screen.width, Screen.height / 2, 250, 150);
+
+        Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
+        window.position = new Rect(mousePos.x, mousePos.y, 300, 400);
         window.ShowPopup();
 
+        
+
+        isPopupActive = true;
         window.Window = this;
     }
 
