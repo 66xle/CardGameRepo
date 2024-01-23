@@ -10,16 +10,13 @@ using System;
 using System.Security.Policy;
 using System.Runtime.Remoting.Contexts;
 using UnityEditor.Experimental.GraphView;
+using System.IO;
 
 public class CardEditorWindow : EditorWindow
 {
-    private ListView cardList;
+    public ListView cardList;
 
     private PopupWindow window;
-
-    private List<string> listOfAssetNames = new List<string>();
-
-    private string originalName;
 
     public bool isPopupActive;
 
@@ -40,7 +37,7 @@ public class CardEditorWindow : EditorWindow
         StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/Card/CardEditorStyles.uss");
         rootVisualElement.styleSheets.Add(styleSheet);
 
-        //EditorStyles.label.wordWrap = true;
+        EditorStyles.label.wordWrap = true;
 
         CreateCardListView();
         SetButtons();
@@ -52,6 +49,9 @@ public class CardEditorWindow : EditorWindow
         {
             window.Focus();
             EditorUtility.DisplayDialog($"Error", $"Currently creating card", "Ok");
+
+            //window.Close();
+            //Close();
         }
     }
 
@@ -61,9 +61,7 @@ public class CardEditorWindow : EditorWindow
 
         cardList = rootVisualElement.Query<ListView>("card-list").First();
         cardList.makeItem = () => new Label();
-        cardList.bindItem = (element, i) => (element as Label).text = cards[i].name;
-
-        cards.ForEach(card => listOfAssetNames.Add(card.name));
+        cardList.bindItem = (element, i) => (element as Label).text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(cards[i].guid));
 
         cardList.itemsSource = cards;
         cardList.itemHeight = 16;
@@ -117,19 +115,20 @@ public class CardEditorWindow : EditorWindow
 
         Button deleteButton = rootVisualElement.Query<Button>("delete-card").First();
         deleteButton.clicked += DeleteCard;
+
+        Button renameButton = rootVisualElement.Query<Button>("rename-card").First();
+        renameButton.clicked += RenameCard;
     }
     private void AddCard()
     {
         window = CreateInstance<PopupWindow>();
+        window.addCardButtonPressed = true;
+        isPopupActive = true;
+        window.Window = this;
 
         Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
         window.position = new Rect(mousePos.x, mousePos.y, 300, 400);
         window.ShowPopup();
-
-        
-
-        isPopupActive = true;
-        window.Window = this;
     }
 
     private void DeleteCard()
@@ -141,13 +140,27 @@ public class CardEditorWindow : EditorWindow
                 return;
 
             cardList.ClearSelection();
-            Box cardInfoBox = rootVisualElement.Query<Box>("card-info").First();
-            cardInfoBox.Clear();
+            rootVisualElement.Query<Box>("card-info").First().Clear();
+            cardList.itemsSource = null;
 
             AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedCard.guid));
 
-            cardList.itemsSource = null;
             CreateCardListView();
+        }
+    }
+
+    private void RenameCard()
+    {
+        if (cardList.selectedItem != null)
+        {
+            window = CreateInstance<PopupWindow>();
+            window.renameCardButtonPressed = true;
+            isPopupActive = true;
+            window.Window = this;
+
+            Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
+            window.position = new Rect(mousePos.x, mousePos.y, 300, 100);
+            window.ShowPopup();
         }
     }
 
@@ -193,20 +206,10 @@ public class CardEditorWindow : EditorWindow
         Label flavour = rootVisualElement.Query<Label>("flavour").First();
         Label cost = rootVisualElement.Query<Label>("cost").First();
 
-        
-        
-
         title.text = card.name;
         description.text = card.description;
         flavour.text = card.flavour;
         cost.text = card.cost.ToString();
-
-        if (cardList != null)
-        {
-            
-
-            cardList.Refresh();
-        }
     }
 
 }
