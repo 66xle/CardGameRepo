@@ -7,5 +7,6 @@ public class Event : ScriptableObject
 {
     [Header("Dialogue")]
     public List<DialogueNodeData> DialogueNodeData = new List<DialogueNodeData>();
+    public string guid;
 }
 

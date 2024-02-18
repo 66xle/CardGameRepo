@@ -178,29 +178,18 @@ public class GraphSaveUtility
 
     #region LoadGraph
 
-    public void LoadGraph(TextField fileNameTextField)
+    public void LoadGraph(TextField fileNameTextField, string guid)
     {
-        string filePath = EditorUtility.OpenFilePanel("Dialogue Graph", "Assets/ScriptableObjects/Events/", "asset");
+        string filePath = AssetDatabase.GUIDToAssetPath(guid);
 
-        if (!string.IsNullOrEmpty(filePath))
-        {
-            string fileName = System.IO.Path.GetFileNameWithoutExtension(filePath);
+        Event loadedEvent = AssetDatabase.LoadAssetAtPath<Event>(filePath);
 
-            fileNameTextField.value = fileName;
+        _containerCache = loadedEvent;
 
-            // Check if file exists
-            _containerCache = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Events/{fileName}.asset", typeof(Event)) as Event;
-            if (_containerCache == null)
-            {
-                EditorUtility.DisplayDialog("File not found", "Target dialogue graph file does not exists!", "OK");
-                return;
-            }
+        ClearGraph();
+        CreateNodes();
 
-            ClearGraph();
-            CreateNodes();
-
-            ConnectNodes();
-        }
+        ConnectNodes();
     }
 
     private void ClearGraph()
