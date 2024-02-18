@@ -79,6 +79,7 @@ public class DialogueEditor : EditorWindow
         toolbar.Add(new Button(() => AddEvent()) { text = "Add Event" });
         toolbar.Add(new Button(() => DeleteEvent()) { text = "Delete Event" });
         toolbar.Add(new Button(() => RenameEvent()) { text = "Rename Event" });
+        toolbar.Add(new Button(() => RequestDataOperation(true)) { text = "Save Event" });
 
         rootVisualElement.Add(toolbar);
     }
@@ -176,7 +177,7 @@ public class DialogueEditor : EditorWindow
         }
     }
 
-    private void RequestDataOperation(bool save, string guid)
+    private void RequestDataOperation(bool save, string guid = null)
     {
         GraphSaveUtility saveUtility = GraphSaveUtility.GetInstance(_graphView);
         if (save)
