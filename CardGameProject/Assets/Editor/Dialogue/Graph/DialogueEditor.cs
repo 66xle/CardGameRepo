@@ -15,6 +15,8 @@ public class DialogueEditor : EditorWindow
     private TextField fileNameTextField;
 
     public ListView eventList;
+    private PopupWindow window;
+    public bool isPopupActive;
 
     [MenuItem("Editor/Dialogue Graph")]
     public static void ShowWindow()
@@ -31,6 +33,15 @@ public class DialogueEditor : EditorWindow
     private void OnDisable()
     {
         //rootVisualElement.Remove(_graphView);
+    }
+
+    private void OnFocus()
+    {
+        if (isPopupActive)
+        {
+            //window.Focus();
+            //EditorUtility.DisplayDialog($"Error", $"Currently creating card", "Ok");
+        }
     }
 
     private void ConstructGraphView()
@@ -71,13 +82,25 @@ public class DialogueEditor : EditorWindow
         fileNameTextField.RegisterValueChangedCallback(evt => _fileName = evt.newValue);
         toolbar.Add(fileNameTextField);
 
-        //toolbar.Add(new Button(() => RequestDataOperation(true)) { text = "Save Data" });
+        toolbar.Add(new Button(() => AddEvent()) { text = "Add Event" });
         //toolbar.Add(new Button(() => RequestDataOperation(false)) { text = "Load Data" });
 
         rootVisualElement.Add(toolbar);
     }
 
-    private void CreateEventListView()
+    private void AddEvent()
+    {
+        window = CreateInstance<PopupWindow>();
+        window.addEventButtonPressed = true;
+        isPopupActive = true;
+        window.dialogueWindow = this;
+
+        Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
+        window.position = new Rect(mousePos.x, mousePos.y, 200, 100);
+        window.ShowPopup();
+    }
+
+    public void CreateEventListView()
     {
         FindAllEvents(out List<Event> events);
 
@@ -99,25 +122,7 @@ public class DialogueEditor : EditorWindow
 
                 RequestDataOperation(false, selectedEvent.guid);
 
-                //Box cardInfoBox = rootVisualElement.Query<Box>("card-info").First();
-                //cardInfoBox.Clear();
-
-                //Card card = it as Card;
-
-                //SerializedObject serializeCard = new SerializedObject(card);
-                //SerializedProperty cardProperty = serializeCard.GetIterator();
-                //cardProperty.Next(true);
-
-                //while (cardProperty.NextVisible(false))
-                //{
-                //    PropertyField prop = new PropertyField(cardProperty);
-
-                //    prop.SetEnabled(cardProperty.name != "m-Script");
-                //    prop.Bind(serializeCard);
-                //    cardInfoBox.Add(prop);
-
-
-                //}
+                
 
             }
         };

@@ -12,13 +12,15 @@ using UnityEngine.UIElements;
 
 public class PopupWindow : EditorWindow
 {
-
     public CardEditorWindow window;
+    public DialogueEditor dialogueWindow;
 
     private Card newCard;
+    private Event newEvent;
 
     public bool addCardButtonPressed = false;
     public bool renameCardButtonPressed = false;
+    public bool addEventButtonPressed = false;
 
     public CardEditorWindow Window { get { return window; } set { window = value; } }
 
@@ -28,7 +30,60 @@ public class PopupWindow : EditorWindow
             AddCard();
         else if (renameCardButtonPressed)
             RenameCard();
+        else if (addEventButtonPressed)
+            AddEvent();
     }
+
+    void AddEvent()
+    {
+        var label = new Label("CREATE EVENT");
+        rootVisualElement.Add(label);
+
+        // Create textfield
+        var textField = new TextField();
+        textField.value = " ";
+        rootVisualElement.Add(textField);
+
+        var createButton = new Button();
+        createButton.text = "Create Event";
+        createButton.clicked += () => CreateEvent(textField.value);
+        rootVisualElement.Add(createButton);
+
+        var cancelButton = new Button();
+        cancelButton.text = "Cancel";
+        cancelButton.clicked += () => CloseDialogueWindow();
+        rootVisualElement.Add(cancelButton);
+    }
+
+    void CreateEvent(string fileName)
+    {
+        if (string.IsNullOrEmpty(fileName) || string.IsNullOrWhiteSpace(fileName))
+        {
+            EditorUtility.DisplayDialog($"Error", $"Name empty", "Ok");
+            return;
+        }
+
+        Event loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Events/{fileName}.asset", typeof(Event)) as Event;
+
+        if (loadedAsset != null)
+        {
+            // If Event exists
+            EditorUtility.DisplayDialog($"Error", $"Event already exists", "Ok");
+            return;
+        }
+        else
+        {
+            Event newEvent = new Event();
+
+            AssetDatabase.CreateAsset(newEvent, $"Assets/ScriptableObjects/Events/{fileName}.asset");
+
+            dialogueWindow.CreateEventListView();
+        }
+
+        CloseDialogueWindow();
+    }
+
+    #region Cards
 
     void AddCard()
     {
@@ -172,11 +227,20 @@ public class PopupWindow : EditorWindow
         return card;
     }
 
+    #endregion
+
     private void CloseWindow()
     {
         window.isPopupActive = false;
         addCardButtonPressed = false;
         renameCardButtonPressed = false;
+        Close();
+    }
+
+    private void CloseDialogueWindow()
+    {
+        dialogueWindow.isPopupActive = false;
+        addEventButtonPressed = false;
         Close();
     }
 }
