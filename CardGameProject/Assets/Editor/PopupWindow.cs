@@ -21,8 +21,10 @@ public class PopupWindow : EditorWindow
     public bool addCardButtonPressed = false;
     public bool renameCardButtonPressed = false;
     public bool addEventButtonPressed = false;
+    public bool renameEventButtonPressed = false;
 
     public CardEditorWindow Window { get { return window; } set { window = value; } }
+
 
     void CreateGUI()
     {
@@ -32,6 +34,8 @@ public class PopupWindow : EditorWindow
             RenameCard();
         else if (addEventButtonPressed)
             AddEvent();
+        else if (renameEventButtonPressed)
+            RenameEvent();
     }
 
     void AddEvent()
@@ -47,6 +51,30 @@ public class PopupWindow : EditorWindow
         var createButton = new Button();
         createButton.text = "Create Event";
         createButton.clicked += () => CreateEvent(textField.value);
+        rootVisualElement.Add(createButton);
+
+        var cancelButton = new Button();
+        cancelButton.text = "Cancel";
+        cancelButton.clicked += () => CloseDialogueWindow();
+        rootVisualElement.Add(cancelButton);
+    }
+
+    void RenameEvent()
+    {
+        var label = new Label("RENAME EVENT");
+        rootVisualElement.Add(label);
+
+        // Create textfield
+        var textField = new TextField();
+        Event selectedEvent = dialogueWindow.eventList.selectedItem as Event;
+        string path = AssetDatabase.GUIDToAssetPath(selectedEvent.guid);
+        string fileName = Path.GetFileNameWithoutExtension(path);
+        textField.value = fileName;
+        rootVisualElement.Add(textField);
+
+        var createButton = new Button();
+        createButton.text = "Rename Event";
+        createButton.clicked += () => RenameEvent(selectedEvent, fileName, textField.value);
         rootVisualElement.Add(createButton);
 
         var cancelButton = new Button();
@@ -81,6 +109,54 @@ public class PopupWindow : EditorWindow
         }
 
         CloseDialogueWindow();
+    }
+
+    void RenameEvent(Event selectedEvent, string oldFileName, string newFileName)
+    {
+        // Name is the same
+        if (newFileName.Equals(Path.GetFileNameWithoutExtension(oldFileName)))
+        {
+            CloseDialogueWindow();
+            return;
+        }
+
+        // Name is Blank
+        if (string.IsNullOrEmpty(newFileName) || string.IsNullOrWhiteSpace(newFileName))
+        {
+            EditorUtility.DisplayDialog($"Error", $"Name empty", "Ok");
+            return;
+        }
+
+        //if (!Regex.IsMatch(newFileName, @"^[a-zA-Z]+$"))
+        //{
+        //    EditorUtility.DisplayDialog($"Error", $"Must only have letters", "Ok");
+        //    return;
+        //}
+
+        // Clear selection
+        dialogueWindow.eventList.ClearSelection();
+        dialogueWindow.ClearGraph();
+        dialogueWindow.eventList.itemsSource = null;
+
+
+        Event newEvent = CreateNewEvent(selectedEvent);
+
+        // Delete then create asset
+        AssetDatabase.DeleteAsset($"Assets/ScriptableObjects/Events/{oldFileName}.asset");
+        AssetDatabase.CreateAsset(newEvent, $"Assets/ScriptableObjects/Events/{newFileName}.asset");
+
+        dialogueWindow.CreateEventListView();
+        CloseDialogueWindow();
+    }
+
+    Event CreateNewEvent(Event newEvent)
+    {
+        Event currentEvent = new Event();
+
+        currentEvent.name = newEvent.name;
+        currentEvent.DialogueNodeData = newEvent.DialogueNodeData;
+
+        return currentEvent;
     }
 
     #region Cards
@@ -241,6 +317,7 @@ public class PopupWindow : EditorWindow
     {
         dialogueWindow.isPopupActive = false;
         addEventButtonPressed = false;
+        renameEventButtonPressed = false;
         Close();
     }
 }

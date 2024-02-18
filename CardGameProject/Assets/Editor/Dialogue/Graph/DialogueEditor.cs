@@ -78,6 +78,7 @@ public class DialogueEditor : EditorWindow
 
         toolbar.Add(new Button(() => AddEvent()) { text = "Add Event" });
         toolbar.Add(new Button(() => DeleteEvent()) { text = "Delete Event" });
+        toolbar.Add(new Button(() => RenameEvent()) { text = "Rename Event" });
 
         rootVisualElement.Add(toolbar);
     }
@@ -103,13 +104,29 @@ public class DialogueEditor : EditorWindow
                 return;
 
             eventList.ClearSelection();
-            GraphSaveUtility.GetInstance(_graphView).ClearGraph();
+            ClearGraph();
             eventList.itemsSource = null;
 
             AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedEvent.guid));
 
             CreateEventListView();
         }
+    }
+
+    public void ClearGraph()
+    {
+        GraphSaveUtility.GetInstance(_graphView).ClearGraph();
+    }
+    private void RenameEvent()
+    {
+        window = CreateInstance<PopupWindow>();
+        window.renameEventButtonPressed = true;
+        isPopupActive = true;
+        window.dialogueWindow = this;
+
+        Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
+        window.position = new Rect(mousePos.x, mousePos.y, 200, 100);
+        window.ShowPopup();
     }
 
     public void CreateEventListView()
