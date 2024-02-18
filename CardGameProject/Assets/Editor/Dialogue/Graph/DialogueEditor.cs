@@ -76,14 +76,8 @@ public class DialogueEditor : EditorWindow
     {
         Toolbar toolbar = new Toolbar();
 
-        fileNameTextField = new TextField("File Name");
-        fileNameTextField.SetValueWithoutNotify(_fileName);
-        fileNameTextField.MarkDirtyRepaint();
-        fileNameTextField.RegisterValueChangedCallback(evt => _fileName = evt.newValue);
-        toolbar.Add(fileNameTextField);
-
         toolbar.Add(new Button(() => AddEvent()) { text = "Add Event" });
-        //toolbar.Add(new Button(() => RequestDataOperation(false)) { text = "Load Data" });
+        toolbar.Add(new Button(() => DeleteEvent()) { text = "Delete Event" });
 
         rootVisualElement.Add(toolbar);
     }
@@ -98,6 +92,24 @@ public class DialogueEditor : EditorWindow
         Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
         window.position = new Rect(mousePos.x, mousePos.y, 200, 100);
         window.ShowPopup();
+    }
+
+    private void DeleteEvent()
+    {
+        if (eventList.selectedItem != null)
+        {
+            Event selectedEvent = eventList.selectedItem as Event;
+            if (!EditorUtility.DisplayDialog($"Delete Event", $"Delete {selectedEvent.name}?", "Delete", "Cancel"))
+                return;
+
+            eventList.ClearSelection();
+            GraphSaveUtility.GetInstance(_graphView).ClearGraph();
+            eventList.itemsSource = null;
+
+            AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedEvent.guid));
+
+            CreateEventListView();
+        }
     }
 
     public void CreateEventListView()

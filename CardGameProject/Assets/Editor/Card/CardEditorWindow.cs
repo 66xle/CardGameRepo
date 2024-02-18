@@ -49,9 +49,6 @@ public class CardEditorWindow : EditorWindow
         {
             window.Focus();
             EditorUtility.DisplayDialog($"Error", $"Currently creating card", "Ok");
-
-            //window.Close();
-            //Close();
         }
     }
 
