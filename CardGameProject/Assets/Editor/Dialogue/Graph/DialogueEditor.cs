@@ -10,13 +10,12 @@ public class DialogueEditor : EditorWindow
 {
     private DialogueGraphView _graphView;
     private InspectorView inspectorView;
-    private string _fileName = "New Dialogue";
-
-    private TextField fileNameTextField;
 
     public ListView eventList;
     private PopupWindow window;
     public bool isPopupActive;
+
+    private int selectedIndex;
 
     [MenuItem("Editor/Dialogue Graph")]
     public static void ShowWindow()
@@ -34,7 +33,6 @@ public class DialogueEditor : EditorWindow
     {
         //rootVisualElement.Remove(_graphView);
     }
-
     private void OnFocus()
     {
         if (isPopupActive)
@@ -51,6 +49,7 @@ public class DialogueEditor : EditorWindow
             name = "Dialogue Graph"
         };
 
+        
         GenerateToolBar();
 
         // Load uxml
@@ -63,7 +62,7 @@ public class DialogueEditor : EditorWindow
         _graphView.AddSearchWindow(this);
         _graphView.OnNodeSelected = OnNodeSelectionChanged;
 
-
+        
         CreateEventListView();
     }
 
@@ -110,6 +109,7 @@ public class DialogueEditor : EditorWindow
 
             AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedEvent.guid));
 
+            
             CreateEventListView();
         }
     }
@@ -142,6 +142,7 @@ public class DialogueEditor : EditorWindow
         eventList.itemHeight = 16;
         eventList.selectionType = SelectionType.Single;
 
+
         eventList.onSelectionChange += (enumerable) =>
         {
             foreach (UnityEngine.Object it in enumerable)
@@ -150,10 +151,33 @@ public class DialogueEditor : EditorWindow
 
                 // Do check save work
 
-                RequestDataOperation(false, selectedEvent.guid);
+                // EVENT LIST IS RUNNING MULITPLE TIMES WHEN THIS FUNCTION IS RAN AGAIN - NEED TO FIX
+                Debug.Log("test");
 
-                
+                return;
 
+                if (eventList.selectedIndex >= 0)
+                {
+                    Event eventContainer = GraphSaveUtility.GetInstance(_graphView).GetEventData();
+
+                    if (selectedEvent != eventContainer)
+                    {
+                        Debug.Log("not the same");
+                    }
+                    else
+                    {
+                        Debug.Log("is the same");
+                    }
+
+                    //if (selectedIndex != eventList.selectedIndex)
+                    //{
+                    //    eventList.SetSelection(selectedIndex);
+                    //    return;
+                    //}
+                }
+
+                RequestDataOperation(false);
+                selectedIndex = eventList.selectedIndex;
             }
         };
 
@@ -177,22 +201,28 @@ public class DialogueEditor : EditorWindow
         }
     }
 
-    private void RequestDataOperation(bool save, string guid = null)
+    private void RequestDataOperation(bool save)
     {
+        // Check if user has selected an event
+        if (eventList.selectedItem == null)
+        {
+            EditorUtility.DisplayDialog($"Error", $"No Event Selected!", "Ok");
+            return;
+        }
+
+        Event selectedEvent = eventList.selectedItem as Event;
+        
+
         GraphSaveUtility saveUtility = GraphSaveUtility.GetInstance(_graphView);
         if (save)
         {
-            if (string.IsNullOrEmpty(_fileName))
-            {
-                EditorUtility.DisplayDialog("Invalid file name!", "Please enter a valid file name.", "OK");
-                return;
-            }
+            string fileName = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(selectedEvent.guid));
 
-            saveUtility.SaveGraph(_fileName);
+            saveUtility.SaveGraph(fileName);
         }
         else
         {
-            saveUtility.LoadGraph(fileNameTextField, guid);
+            saveUtility.LoadGraph(selectedEvent.guid);
         }
     }
 }

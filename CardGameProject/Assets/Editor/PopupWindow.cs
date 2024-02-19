@@ -104,7 +104,7 @@ public class PopupWindow : EditorWindow
             Event newEvent = new Event();
 
             AssetDatabase.CreateAsset(newEvent, $"Assets/ScriptableObjects/Events/{fileName}.asset");
-
+            dialogueWindow.eventList.Clear();
             dialogueWindow.CreateEventListView();
         }
 
@@ -145,6 +145,7 @@ public class PopupWindow : EditorWindow
         AssetDatabase.DeleteAsset($"Assets/ScriptableObjects/Events/{oldFileName}.asset");
         AssetDatabase.CreateAsset(newEvent, $"Assets/ScriptableObjects/Events/{newFileName}.asset");
 
+        dialogueWindow.eventList.Clear();
         dialogueWindow.CreateEventListView();
         CloseDialogueWindow();
     }

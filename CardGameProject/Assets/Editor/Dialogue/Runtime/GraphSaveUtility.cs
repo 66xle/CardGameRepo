@@ -37,11 +37,21 @@ public class GraphSaveUtility
 
     public void SaveGraph(string fileName)
     {
+        
+
+        Event eventContainer = GetEventData();
+
+        if (eventContainer != null)
+            SaveEventAsset(fileName, eventContainer);
+    }
+
+    public Event GetEventData()
+    {
         // If there are no connections don't save
         if (!Edges.Any())
         {
-            EditorUtility.DisplayDialog("Save Failed", "No connections detected!", "OK");
-            return;
+            EditorUtility.DisplayDialog("Error", "No connections detected!", "OK");
+            return null;
         }
 
         #region Check for starting node
@@ -49,11 +59,11 @@ public class GraphSaveUtility
         List<Port> inputPorts = Ports.Where(x => x.name == "input").ToList();
         List<Port> portsNotConnected = inputPorts.Where(x => x.connected == false).ToList();
 
-        
+
         if (portsNotConnected.Count > 1)
         {
             EditorUtility.DisplayDialog("Save Failed", "Only one node should have no input connection", "OK");
-            return;
+            return null;
         }
 
         DialogueNode node = portsNotConnected[0].node as DialogueNode;
@@ -64,7 +74,6 @@ public class GraphSaveUtility
         };
 
         #endregion
-
 
         Event eventContainer = ScriptableObject.CreateInstance<Event>();
 
@@ -79,7 +88,7 @@ public class GraphSaveUtility
             // Get both nodes the edge is connected to
             DialogueNode outputNode = (connectedPorts[i].output.node as DialogueNode);
             DialogueNode inputNode = (connectedPorts[i].input.node as DialogueNode);
-                
+
             // Create connection data
             nodeLinks.Add(new NodeLinkData
             {
@@ -87,7 +96,7 @@ public class GraphSaveUtility
                 PortName = connectedPorts[i].output.portName,
                 TargetNodeGuid = inputNode.GUID,
                 ChoiceGUID = connectedPorts[i].output.name,
-            });;
+            }); ;
         }
 
 
@@ -109,7 +118,7 @@ public class GraphSaveUtility
                 choices.Add(choiceData);
             }
 
-            
+
 
             DialogueNodeData newNode = new DialogueNodeData
             {
@@ -149,6 +158,11 @@ public class GraphSaveUtility
 
         #endregion
 
+        return eventContainer;
+    }
+
+    private void SaveEventAsset(string fileName, Event eventContainer)
+    {
         // Check if asset exists
 
         Event loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Events/{fileName}.asset", typeof(Event)) as Event;
@@ -156,7 +170,7 @@ public class GraphSaveUtility
         if (loadedAsset != null)
         {
             // If false cancel
-            if (!EditorUtility.DisplayDialog($"Save {fileName}", $"Overwrite {fileName} asset?", "Save", "Cancel"))
+            if (!EditorUtility.DisplayDialog($"Save {fileName}", $"Overwrite \"{fileName}\" event?", "Save", "Cancel"))
                 return;
 
             loadedAsset.DialogueNodeData.Clear();
@@ -168,9 +182,9 @@ public class GraphSaveUtility
         else
         {
             AssetDatabase.CreateAsset(eventContainer, $"Assets/ScriptableObjects/Events/{fileName}.asset");
-            
+
         }
-        
+
         AssetDatabase.SaveAssets();
     }
 
@@ -178,10 +192,10 @@ public class GraphSaveUtility
 
     #region LoadGraph
 
-    public void LoadGraph(TextField fileNameTextField, string guid)
+    public void LoadGraph(string guid)
     {
         string filePath = AssetDatabase.GUIDToAssetPath(guid);
-
+        
         Event loadedEvent = AssetDatabase.LoadAssetAtPath<Event>(filePath);
 
         _containerCache = loadedEvent;
