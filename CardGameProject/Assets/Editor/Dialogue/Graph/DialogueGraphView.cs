@@ -121,7 +121,7 @@ public class DialogueGraphView : GraphView
     public void CreateNode(Vector2 position, string nodeType, Modifier modifier, bool choice)
     {
         DialogueNode dialogueNode = choice ? new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, true, modifier, OnNodeSelected) :
-                                             new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, false, modifier, OnNodeSelected);
+                                             new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, modifier, OnNodeSelected);
 
         dialogueNode.Draw(position, DefaultNodeSize);
 
