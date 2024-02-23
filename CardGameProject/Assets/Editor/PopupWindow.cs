@@ -16,7 +16,6 @@ public class PopupWindow : EditorWindow
     public DialogueEditor dialogueWindow;
 
     private Card newCard;
-    private Event newEvent;
 
     public bool addCardButtonPressed = false;
     public bool renameCardButtonPressed = false;
@@ -150,14 +149,14 @@ public class PopupWindow : EditorWindow
         CloseDialogueWindow();
     }
 
-    Event CreateNewEvent(Event newEvent)
+    Event CreateNewEvent(Event oldEvent)
     {
-        Event currentEvent = new Event();
+        Event newEvent = new Event();
 
-        currentEvent.name = newEvent.name;
-        currentEvent.DialogueNodeData = newEvent.DialogueNodeData;
+        newEvent.name = oldEvent.name;
+        newEvent.DialogueNodeData = oldEvent.DialogueNodeData;
 
-        return currentEvent;
+        return newEvent;
     }
 
     #region Cards

@@ -16,6 +16,7 @@ public class DialogueEditor : EditorWindow
     public bool isPopupActive;
 
     private int selectedIndex;
+    private Event prevSelectedEvent;
 
     [MenuItem("Editor/Dialogue Graph")]
     public static void ShowWindow()
@@ -37,8 +38,16 @@ public class DialogueEditor : EditorWindow
     {
         if (isPopupActive)
         {
-            //window.Focus();
-            //EditorUtility.DisplayDialog($"Error", $"Currently creating card", "Ok");
+            window.Focus();
+            EditorUtility.DisplayDialog($"Error", $"Currently creating event", "Ok");
+        }
+    }
+
+    private void OnGUI()
+    {
+        if (eventList.selectedIndex == -1)
+        {
+            selectedIndex = -1;
         }
     }
 
@@ -118,8 +127,16 @@ public class DialogueEditor : EditorWindow
     {
         GraphSaveUtility.GetInstance(_graphView).ClearGraph();
     }
+
     private void RenameEvent()
     {
+        if (eventList.selectedItem == null)
+        {
+            EditorUtility.DisplayDialog($"Error", $"Event not selected!", "Ok");
+            return;
+        }
+
+
         window = CreateInstance<PopupWindow>();
         window.renameEventButtonPressed = true;
         isPopupActive = true;
@@ -149,35 +166,27 @@ public class DialogueEditor : EditorWindow
             {
                 Event selectedEvent = it as Event;
 
-                // Do check save work
-
-                // EVENT LIST IS RUNNING MULITPLE TIMES WHEN THIS FUNCTION IS RAN AGAIN - NEED TO FIX
-                Debug.Log("test");
-
-                return;
-
-                if (eventList.selectedIndex >= 0)
+                // Check user selects different event
+                if (selectedIndex >= 0 && selectedIndex != eventList.selectedIndex)
                 {
-                    Event eventContainer = GraphSaveUtility.GetInstance(_graphView).GetEventData();
+                    Event onGraphEvent = GraphSaveUtility.GetInstance(_graphView).GetEventData();
 
-                    if (selectedEvent != eventContainer)
+                    // Check if user made changes to graph (Checking differences)
+                    if (prevSelectedEvent.DialogueNodeData != onGraphEvent.DialogueNodeData)
                     {
-                        Debug.Log("not the same");
-                    }
-                    else
-                    {
-                        Debug.Log("is the same");
-                    }
+                        if (!EditorUtility.DisplayDialog($"Saving", $"Event has changes", "Save", "Cancel"))
+                        {
+                            eventList.SetSelection(selectedIndex);
+                            return;
+                        }
 
-                    //if (selectedIndex != eventList.selectedIndex)
-                    //{
-                    //    eventList.SetSelection(selectedIndex);
-                    //    return;
-                    //}
+                        RequestDataOperation(true); // CAN TIDY UP CODE && FIX BUGS
+                    }
                 }
 
                 RequestDataOperation(false);
                 selectedIndex = eventList.selectedIndex;
+                prevSelectedEvent = selectedEvent;
             }
         };
 

@@ -37,8 +37,6 @@ public class GraphSaveUtility
 
     public void SaveGraph(string fileName)
     {
-        
-
         Event eventContainer = GetEventData();
 
         if (eventContainer != null)
