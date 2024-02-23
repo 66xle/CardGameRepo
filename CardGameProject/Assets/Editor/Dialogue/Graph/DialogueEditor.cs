@@ -172,7 +172,7 @@ public class DialogueEditor : EditorWindow
                     Event onGraphEvent = GraphSaveUtility.GetInstance(_graphView).GetEventData();
 
                     // Check if user made changes to graph (Checking differences)
-                    if (prevSelectedEvent.DialogueNodeData != onGraphEvent.DialogueNodeData)
+                    if (!IsEventsTheSame(prevSelectedEvent, onGraphEvent))
                     {
                         if (!EditorUtility.DisplayDialog($"Saving", $"Event has changes", "Save", "Cancel"))
                         {
@@ -192,6 +192,130 @@ public class DialogueEditor : EditorWindow
 
         eventList.Refresh();
     }
+
+    #region Compare Events
+
+    bool IsEventsTheSame(Event prevEvent, Event currEvent)
+    {
+        for (int i = 0; i < prevEvent.DialogueNodeData.Count; i++)
+        {
+            DialogueNodeData prevData = prevEvent.DialogueNodeData[i];
+            DialogueNodeData currData = currEvent.DialogueNodeData[i];
+
+            if (prevData.Guid != currData.Guid)
+                return false;
+            if (!string.IsNullOrEmpty(prevData.DialogueText) && string.IsNullOrEmpty(currData.DialogueText))
+            {
+                if (prevData.DialogueText != currData.DialogueText)
+                    return false;
+            }
+            if (prevData.NodeType != currData.NodeType)
+                return false;
+            if (prevData.Position != currData.Position)
+                return false;
+            if (prevData.isStartNode != currData.isStartNode)
+                return false;
+            if (CompareConnections(prevData.Connections, currData.Connections))
+                return false;
+            if (CompareChoices(prevData.Choices, currData.Choices))
+                return false;
+            if (CompareEnemy(prevData.enemies, currData.enemies))
+                return false;
+            if (CompareCards(prevData.cards, currData.cards))
+                return false;
+            if (prevData.money != currData.money)
+                return false;
+            if (prevData.image != currData.image)
+                return false;
+        }
+
+        return true;
+    }
+
+    bool CompareConnections(List<NodeLinkData> listA, List<NodeLinkData> listB)
+    {
+        // Nothing in the lists
+        if (listA.Count == 0 && listB.Count == 0)
+            return false;
+
+        // If lists are not the same
+        for (int i = 0; i < listA.Count; i++)
+        {
+            if (listA[i].BaseNodeGuid != listB[i].BaseNodeGuid)
+                return true;
+            if (listA[i].TargetNodeGuid != listB[i].TargetNodeGuid)
+                return true;
+        }
+
+        return false;
+    }
+
+    bool CompareChoices(List<DialogueChoices> listA, List<DialogueChoices> listB)
+    {
+        // Nothing in the lists
+        if (listA.Count == 0 && listB.Count == 0)
+            return false;
+
+        // If lists are not the same
+        for (int i = 0; i < listA.Count; i++)
+        {
+            if (!string.IsNullOrEmpty(listA[i].text) && string.IsNullOrEmpty(listB[i].text))
+            {
+                if (listA[i].text != listB[i].text)
+                    return true;
+            }
+            
+            if (listA[i].portGUID != listB[i].portGUID)
+                return true;
+            if (listA[i].targetGUID != listB[i].targetGUID)
+                return true;
+        }
+
+        return false;
+    }
+
+    bool CompareEnemy(List<EnemyObj> listA, List<EnemyObj> listB)
+    {
+        if (listA == null && listB == null)
+            return false;
+
+        if (listA.Count == 0 && listB == null)
+            return false;
+
+        if (listA.Count == 0 && listB.Count == 0)
+            return false;
+
+
+        for (int i = 0; i < listA.Count; i++)
+        {
+            if (listA[i] != listB[i])
+                return true;
+        }
+
+        return false;
+    }
+
+    bool CompareCards(List<Card> listA, List<Card> listB)
+    {
+        if (listA == null && listB == null)
+            return false;
+
+        if (listA.Count == 0 && listB == null)
+            return false;
+
+        if (listA.Count == 0 && listB.Count == 0)
+            return false;
+
+        for (int i = 0; i < listA.Count; i++)
+        {
+            if (listA[i] != listB[i])
+                return true;
+        }
+
+        return false;
+    }
+
+    #endregion
 
     private void FindAllEvents(out List<Event> events)
     {

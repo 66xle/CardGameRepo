@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 953c94c72a2649e4d906b56e45d7638c, type: 3}
+  m_Name: choice
+  m_EditorClassIdentifier: 
+  DialogueNodeData:
+  - Guid: 466e504e-2fda-4573-ae93-8c718e5cf695
+    DialogueText: 
+    NodeType: Dialogue Choice
+    Position: {x: 91.33334, y: 154.66666}
+    isStartNode: 1
+    Connections:
+    - BaseNodeGuid: 466e504e-2fda-4573-ae93-8c718e5cf695
+      PortName: 
+      TargetNodeGuid: 339690dd-7425-4e8e-8e42-dcedca055f6b
+      ChoiceGUID: b7f6fdfe-babc-4f30-bdf6-874eec2c7c31
+    Choices:
+    - text: New Choice
+      portGUID: b7f6fdfe-babc-4f30-bdf6-874eec2c7c31
+      targetGUID: 339690dd-7425-4e8e-8e42-dcedca055f6b
+    enemies: []
+    cards: []
+    money: 0
+    image: {fileID: 0}
+  - Guid: 339690dd-7425-4e8e-8e42-dcedca055f6b
+    DialogueText: 
+    NodeType: Dialogue
+    Position: {x: 470, y: 154.66666}
+    isStartNode: 0
+    Connections: []
+    Choices: []
+    enemies: []
+    cards: []
+    money: 0
+    image: {fileID: 0}
+  guid: 3004886d3c1945e43a8468f5352442f0

@@ -168,7 +168,7 @@ public class GraphSaveUtility
         if (loadedAsset != null)
         {
             // If false cancel
-            if (!EditorUtility.DisplayDialog($"Save {fileName}", $"Overwrite \"{fileName}\" event?", "Save", "Cancel"))
+            if (!EditorUtility.DisplayDialog($"Save {fileName}", $"Save \"{fileName}\" event?", "Save", "Cancel"))
                 return;
 
             loadedAsset.DialogueNodeData.Clear();
