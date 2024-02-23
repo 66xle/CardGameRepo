@@ -16,6 +16,7 @@ public class DialogueEditor : EditorWindow
     public bool isPopupActive;
 
     private int selectedIndex;
+    private bool manualSelected = false;
     private Event prevSelectedEvent;
 
     [MenuItem("Editor/Dialogue Graph")]
@@ -174,19 +175,22 @@ public class DialogueEditor : EditorWindow
                     // Check if user made changes to graph (Checking differences)
                     if (!IsEventsTheSame(prevSelectedEvent, onGraphEvent))
                     {
-                        if (!EditorUtility.DisplayDialog($"Saving", $"Event has changes", "Save", "Cancel"))
+                        if (!EditorUtility.DisplayDialog($"Warning!", $"Event {prevSelectedEvent.name} has changes", "Don't Save", "Cancel"))
                         {
+                            manualSelected = true;
                             eventList.SetSelection(selectedIndex);
                             return;
                         }
-
-                        RequestDataOperation(true); // CAN TIDY UP CODE && FIX BUGS
                     }
                 }
 
-                RequestDataOperation(false);
+                if (!manualSelected)
+                {
+                    RequestDataOperation(false);
+                }
                 selectedIndex = eventList.selectedIndex;
                 prevSelectedEvent = selectedEvent;
+                manualSelected = false;
             }
         };
 
