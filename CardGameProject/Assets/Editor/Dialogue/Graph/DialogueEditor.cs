@@ -184,6 +184,12 @@ public class DialogueEditor : EditorWindow
                     }
                 }
 
+                if (selectedIndex == eventList.selectedIndex)
+                {
+                    manualSelected = false;
+                    return;
+                }
+
                 if (!manualSelected)
                 {
                     RequestDataOperation(false);
