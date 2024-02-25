@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -53,6 +53,11 @@ public class DialogueEditor : EditorWindow
         if (eventList.selectedIndex == -1)
         {
             selectedIndex = -1;
+            _graphView.allowCreatingNode = false;
+        }
+        else
+        {
+            _graphView.allowCreatingNode = true;
         }
     }
 
@@ -121,6 +126,7 @@ public class DialogueEditor : EditorWindow
 
             eventList.ClearSelection();
             ClearGraph();
+            inspectorView.Clear();
             eventList.itemsSource = null;
 
             AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedEvent.guid));
@@ -206,6 +212,7 @@ public class DialogueEditor : EditorWindow
                 if (!manualSelected)
                 {
                     RequestDataOperation(false);
+                    inspectorView.Clear();
                 }
                 selectedIndex = eventList.selectedIndex;
                 prevSelectedEvent = selectedEvent;
