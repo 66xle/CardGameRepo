@@ -26,15 +26,19 @@ public class DialogueEditor : EditorWindow
         window.titleContent = new GUIContent("Dialogue System");
     }
 
+    public static DialogueEditor GetInstance(DialogueGraphView targetGraphView)
+    {
+        return new DialogueEditor
+        {
+            _graphView = targetGraphView
+        };
+    }
+
     private void OnEnable()
     {
         ConstructGraphView();
     }
 
-    private void OnDisable()
-    {
-        //rootVisualElement.Remove(_graphView);
-    }
     private void OnFocus()
     {
         if (isPopupActive)
@@ -80,6 +84,8 @@ public class DialogueEditor : EditorWindow
     {
         inspectorView.UpdateSelection(node);
     }
+
+    #region Button & UI Functionality
 
     private void GenerateToolBar()
     {
@@ -152,6 +158,8 @@ public class DialogueEditor : EditorWindow
     {
         FindAllEvents(out List<Event> events);
 
+        #region Setup Event List
+
         eventList = rootVisualElement.Query<ListView>("event-list").First();
         eventList.makeItem = () => new Label();
         eventList.bindItem = (element, i) => (element as Label).text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(events[i].guid));
@@ -160,6 +168,7 @@ public class DialogueEditor : EditorWindow
         eventList.itemHeight = 16;
         eventList.selectionType = SelectionType.Single;
 
+        #endregion
 
         eventList.onSelectionChange += (enumerable) =>
         {
@@ -187,6 +196,7 @@ public class DialogueEditor : EditorWindow
                     }
                 }
 
+                // Prevent from resetting graph when selecting same event
                 if (selectedIndex == eventList.selectedIndex)
                 {
                     manualSelected = false;
@@ -205,6 +215,8 @@ public class DialogueEditor : EditorWindow
 
         eventList.Refresh();
     }
+
+    #endregion
 
     #region Compare Events
 

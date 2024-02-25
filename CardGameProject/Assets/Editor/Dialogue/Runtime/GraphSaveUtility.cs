@@ -44,6 +44,7 @@ public class GraphSaveUtility
             return;
         }
 
+
         List<Port> inputPorts = Ports.Where(x => x.name == "input").ToList();
         List<Port> portsNotConnected = inputPorts.Where(x => x.connected == false).ToList();
 
@@ -53,6 +54,7 @@ public class GraphSaveUtility
             EditorUtility.DisplayDialog("Error", "Only one node should have no input connection", "OK");
             return;
         }
+
 
         Event eventContainer = GetEventData();
 

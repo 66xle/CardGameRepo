@@ -12,6 +12,7 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class DialogueGraphView : GraphView
 {
+
     public Action<DialogueNode> OnNodeSelected;
 
     public const string PLAYER = "Player";
@@ -120,20 +121,36 @@ public class DialogueGraphView : GraphView
 
     public void CreateNode(Vector2 position, string nodeType, Modifier modifier, bool choice)
     {
+        DialogueEditor editor = DialogueEditor.GetInstance(this);
+
+        if (editor.eventList.selectedIndex == -1)
+        {
+            EditorUtility.DisplayDialog($"Error", $"Event not selected", "Ok");
+            return;
+        }
+
+        
+
         DialogueNode dialogueNode = choice ? new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, true, modifier, OnNodeSelected) :
                                              new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, modifier, OnNodeSelected);
 
         dialogueNode.Draw(position, DefaultNodeSize);
-
         AddElement(dialogueNode);
     }
 
     public void CreateUtilityNode(Vector2 position, string nodeType, Modifier modifier)
     {
+        DialogueEditor editor = DialogueEditor.GetInstance(this);
+
+        if (editor.eventList.selectedIndex == -1)
+        {
+            EditorUtility.DisplayDialog($"Error", $"Event not selected", "Ok");
+            return;
+        }
+
+
         DialogueNode utilityNode = new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, modifier, OnNodeSelected);
-
         utilityNode.DrawUtility(position, DefaultNodeSize);
-
         AddElement(utilityNode);
     }
 
