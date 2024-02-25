@@ -172,14 +172,17 @@ public class DialogueEditor : EditorWindow
                 {
                     Event onGraphEvent = GraphSaveUtility.GetInstance(_graphView).GetEventData();
 
-                    // Check if user made changes to graph (Checking differences)
-                    if (!IsEventsTheSame(prevSelectedEvent, onGraphEvent))
+                    if (onGraphEvent != null)
                     {
-                        if (!EditorUtility.DisplayDialog($"Warning!", $"Event {prevSelectedEvent.name} has changes", "Don't Save", "Cancel"))
+                        // Check if user made changes to graph (Checking differences)
+                        if (!IsEventsTheSame(prevSelectedEvent, onGraphEvent))
                         {
-                            manualSelected = true;
-                            eventList.SetSelection(selectedIndex);
-                            return;
+                            if (!EditorUtility.DisplayDialog($"Warning!", $"Event {prevSelectedEvent.name} has changes", "Don't Save", "Cancel"))
+                            {
+                                manualSelected = true;
+                                eventList.SetSelection(selectedIndex);
+                                return;
+                            }
                         }
                     }
                 }
@@ -207,6 +210,9 @@ public class DialogueEditor : EditorWindow
 
     bool IsEventsTheSame(Event prevEvent, Event currEvent)
     {
+        if (prevEvent.DialogueNodeData.Count != currEvent.DialogueNodeData.Count)
+            return false;
+
         for (int i = 0; i < prevEvent.DialogueNodeData.Count; i++)
         {
             DialogueNodeData prevData = prevEvent.DialogueNodeData[i];

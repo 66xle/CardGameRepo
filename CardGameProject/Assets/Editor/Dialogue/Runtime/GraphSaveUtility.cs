@@ -37,6 +37,23 @@ public class GraphSaveUtility
 
     public void SaveGraph(string fileName)
     {
+        // If there are no connections don't save
+        if (!Edges.Any())
+        {
+            EditorUtility.DisplayDialog("Error", "No connections detected!", "OK");
+            return;
+        }
+
+        List<Port> inputPorts = Ports.Where(x => x.name == "input").ToList();
+        List<Port> portsNotConnected = inputPorts.Where(x => x.connected == false).ToList();
+
+        // Checks if there are one input node not connected
+        if (portsNotConnected.Count > 1)
+        {
+            EditorUtility.DisplayDialog("Error", "Only one node should have no input connection", "OK");
+            return;
+        }
+
         Event eventContainer = GetEventData();
 
         if (eventContainer != null)
@@ -45,25 +62,13 @@ public class GraphSaveUtility
 
     public Event GetEventData()
     {
-        // If there are no connections don't save
-        if (!Edges.Any())
-        {
-            EditorUtility.DisplayDialog("Error", "No connections detected!", "OK");
+        if (Nodes.Count == 0)
             return null;
-        }
 
         #region Check for starting node
 
         List<Port> inputPorts = Ports.Where(x => x.name == "input").ToList();
         List<Port> portsNotConnected = inputPorts.Where(x => x.connected == false).ToList();
-
-
-        if (portsNotConnected.Count > 1)
-        {
-            EditorUtility.DisplayDialog("Save Failed", "Only one node should have no input connection", "OK");
-            return null;
-        }
-
         DialogueNode node = portsNotConnected[0].node as DialogueNode;
 
         startNode = new DialogueNodeData
@@ -115,8 +120,6 @@ public class GraphSaveUtility
 
                 choices.Add(choiceData);
             }
-
-
 
             DialogueNodeData newNode = new DialogueNodeData
             {
