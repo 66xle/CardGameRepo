@@ -19,19 +19,11 @@ public class DialogueEditor : EditorWindow
     private bool manualSelected = false;
     private Event prevSelectedEvent;
 
-    [MenuItem("Editor/Dialogue Graph")]
+    [MenuItem("Editor/Event Graph")]
     public static void ShowWindow()
     {
         DialogueEditor window = GetWindow<DialogueEditor>("Graph");
-        window.titleContent = new GUIContent("Dialogue System");
-    }
-
-    public static DialogueEditor GetInstance(DialogueGraphView targetGraphView)
-    {
-        return new DialogueEditor
-        {
-            _graphView = targetGraphView
-        };
+        window.titleContent = new GUIContent("Event System");
     }
 
     private void OnEnable()
@@ -112,7 +104,7 @@ public class DialogueEditor : EditorWindow
         window.dialogueWindow = this;
 
         Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
-        window.position = new Rect(mousePos.x, mousePos.y, 200, 100);
+        window.position = new Rect(mousePos.x, mousePos.y, 250, 110);
         window.ShowPopup();
     }
 
@@ -390,7 +382,7 @@ public class DialogueEditor : EditorWindow
         }
         else
         {
-            saveUtility.LoadGraph(selectedEvent.guid);
+            saveUtility.LoadGraph(selectedEvent);
         }
     }
 }

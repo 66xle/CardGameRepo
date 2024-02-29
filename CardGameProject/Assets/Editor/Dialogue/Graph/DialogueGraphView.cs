@@ -8,7 +8,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEditor.Experimental.GraphView;
 using static UnityEditor.Experimental.GraphView.GraphView;
-
+using System.Runtime.CompilerServices;
 
 public class DialogueGraphView : GraphView
 {

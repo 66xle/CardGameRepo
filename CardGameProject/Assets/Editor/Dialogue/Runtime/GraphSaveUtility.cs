@@ -195,13 +195,9 @@ public class GraphSaveUtility
 
     #region LoadGraph
 
-    public void LoadGraph(string guid)
+    public void LoadGraph(Event eventToLoad)
     {
-        string filePath = AssetDatabase.GUIDToAssetPath(guid);
-        
-        Event loadedEvent = AssetDatabase.LoadAssetAtPath<Event>(filePath);
-
-        _containerCache = loadedEvent;
+        _containerCache = eventToLoad;
 
         ClearGraph();
         CreateNodes();

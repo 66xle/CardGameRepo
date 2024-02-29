@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
@@ -8,6 +9,7 @@ using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.UI;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class PopupWindow : EditorWindow
@@ -47,12 +49,20 @@ public class PopupWindow : EditorWindow
         textField.value = " ";
         rootVisualElement.Add(textField);
 
-        var createButton = new Button();
+        var choices = new List<string> { "Single Event", "Linked Event" };
+
+        // Create a new field and assign it its value.
+        var popupField = new PopupField<string>("Event Type", choices, 0);
+        popupField.value = choices[0];
+        rootVisualElement.Add(popupField);
+
+
+        var createButton = new UnityEngine.UIElements.Button();
         createButton.text = "Create Event";
-        createButton.clicked += () => CreateEvent(textField.value);
+        createButton.clicked += () => CreateEvent(textField.value, popupField);
         rootVisualElement.Add(createButton);
 
-        var cancelButton = new Button();
+        var cancelButton = new UnityEngine.UIElements.Button();
         cancelButton.text = "Cancel";
         cancelButton.clicked += () => CloseDialogueWindow();
         rootVisualElement.Add(cancelButton);
@@ -71,18 +81,18 @@ public class PopupWindow : EditorWindow
         textField.value = fileName;
         rootVisualElement.Add(textField);
 
-        var createButton = new Button();
+        var createButton = new UnityEngine.UIElements.Button();
         createButton.text = "Rename Event";
         createButton.clicked += () => RenameEvent(selectedEvent, fileName, textField.value);
         rootVisualElement.Add(createButton);
 
-        var cancelButton = new Button();
+        var cancelButton = new UnityEngine.UIElements.Button();
         cancelButton.text = "Cancel";
         cancelButton.clicked += () => CloseDialogueWindow();
         rootVisualElement.Add(cancelButton);
     }
 
-    void CreateEvent(string fileName)
+    void CreateEvent(string fileName, PopupField<string> popupField)
     {
         if (string.IsNullOrEmpty(fileName) || string.IsNullOrWhiteSpace(fileName))
         {
@@ -101,6 +111,7 @@ public class PopupWindow : EditorWindow
         else
         {
             Event newEvent = new Event();
+            newEvent.type = popupField.value;
 
             AssetDatabase.CreateAsset(newEvent, $"Assets/ScriptableObjects/Events/{fileName}.asset");
             dialogueWindow.eventList.Clear();
@@ -155,6 +166,8 @@ public class PopupWindow : EditorWindow
 
         newEvent.name = oldEvent.name;
         newEvent.DialogueNodeData = oldEvent.DialogueNodeData;
+        newEvent.ChildEventData = oldEvent.ChildEventData;
+        newEvent.type = oldEvent.type;
 
         return newEvent;
     }
@@ -168,12 +181,12 @@ public class PopupWindow : EditorWindow
 
         CardInfo();
 
-        var createButton = new Button();
+        var createButton = new UnityEngine.UIElements.Button();
         createButton.text = "Create Card";
         createButton.clicked += () => CreateCard(newCard.name);
         rootVisualElement.Add(createButton);
 
-        var cancelButton = new Button();
+        var cancelButton = new UnityEngine.UIElements.Button();
         cancelButton.text = "Cancel";
         cancelButton.clicked += () => CloseWindow();
         rootVisualElement.Add(cancelButton);
@@ -192,12 +205,12 @@ public class PopupWindow : EditorWindow
         textField.value = fileName;
         rootVisualElement.Add(textField);
 
-        var createButton = new Button();
+        var createButton = new UnityEngine.UIElements.Button();
         createButton.text = "Rename Card";
         createButton.clicked += () => RenameCard(selectedCard, fileName, textField.value);
         rootVisualElement.Add(createButton);
 
-        var cancelButton = new Button();
+        var cancelButton = new UnityEngine.UIElements.Button();
         cancelButton.text = "Cancel";
         cancelButton.clicked += () => CloseWindow();
         rootVisualElement.Add(cancelButton);

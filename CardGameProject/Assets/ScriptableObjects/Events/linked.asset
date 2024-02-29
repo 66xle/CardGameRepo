@@ -10,13 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 953c94c72a2649e4d906b56e45d7638c, type: 3}
-  m_Name: Testing
+  m_Name: linked
   m_EditorClassIdentifier: 
   DialogueNodeData:
-  - Guid: d48cd141-a734-48e0-a56f-58daef030ffe
+  - Guid: eb651eb3-7934-4a5f-86ea-81b6ae01460d
     DialogueText: 
-    NodeType: End Node
-    Position: {x: 692, y: 186.4}
+    NodeType: Dialogue
+    Position: {x: 146.4, y: 225.6}
+    isStartNode: 1
+    Connections:
+    - BaseNodeGuid: eb651eb3-7934-4a5f-86ea-81b6ae01460d
+      PortName: Output
+      TargetNodeGuid: f4f1f6b3-b4e7-4452-86ee-b762ffd6d8fe
+      ChoiceGUID: output
+    Choices: []
+    enemies: []
+    cards: []
+    money: 0
+    image: {fileID: 0}
+  - Guid: f4f1f6b3-b4e7-4452-86ee-b762ffd6d8fe
+    DialogueText: 
+    NodeType: Dialogue
+    Position: {x: 461.59998, y: 225.6}
     isStartNode: 0
     Connections: []
     Choices: []
@@ -24,20 +39,5 @@ MonoBehaviour:
     cards: []
     money: 0
     image: {fileID: 0}
-  - Guid: 3e63239b-f2cd-4258-b616-6e4d650e0fd2
-    DialogueText: 
-    NodeType: Dialogue
-    Position: {x: 270.40002, y: 204.80002}
-    isStartNode: 1
-    Connections:
-    - BaseNodeGuid: 3e63239b-f2cd-4258-b616-6e4d650e0fd2
-      PortName: Output
-      TargetNodeGuid: d48cd141-a734-48e0-a56f-58daef030ffe
-      ChoiceGUID: output
-    Choices: []
-    enemies: []
-    cards: []
-    money: 0
-    image: {fileID: 0}
-  type: Single Event
-  guid: d51011b67dddb564997d0a0ed956a93c
+  type: Linked Event
+  guid: 7b016c3b00ec48d4da6c2a88c444f280

@@ -7,6 +7,8 @@ public class Event : ScriptableObject
 {
     [Header("Dialogue")]
     public List<DialogueNodeData> DialogueNodeData = new List<DialogueNodeData>();
+    public List<List<DialogueNodeData>> ChildEventData = new List<List<DialogueNodeData>>();
+    public string type;
     public string guid;
 }
 
