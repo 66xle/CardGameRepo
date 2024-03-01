@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 public class DialogueGraphView : GraphView
 {
     public bool allowCreatingNode = false;
+    public bool isInEventState;
 
     public Action<DialogueNode> OnNodeSelected;
 
@@ -96,8 +97,14 @@ public class DialogueGraphView : GraphView
 
     #region Search Window
 
-    public void AddSearchWindow(DialogueEditor editorWindow)
+    public void UpdateSearchWindow(DialogueEditor editorWindow)
     {
+        if (!allowCreatingNode)
+        {
+            nodeCreationRequest = null;
+            return;
+        }
+
         _searchWindow = ScriptableObject.CreateInstance<NodeSearchWindow>();
         _searchWindow.Configure(editorWindow, this);
 
@@ -122,12 +129,6 @@ public class DialogueGraphView : GraphView
 
     public void CreateNode(Vector2 position, string nodeType, Modifier modifier, bool choice)
     {
-        if (!allowCreatingNode)
-        {
-            EditorUtility.DisplayDialog("Error", "Event not selected!", "OK");
-            return;
-        }
-
         DialogueNode dialogueNode = choice ? new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, true, modifier, OnNodeSelected) :
                                              new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, modifier, OnNodeSelected);
 
@@ -137,12 +138,6 @@ public class DialogueGraphView : GraphView
 
     public void CreateUtilityNode(Vector2 position, string nodeType, Modifier modifier)
     {
-        if (!allowCreatingNode)
-        {
-            EditorUtility.DisplayDialog("Error", "Event not selected!", "OK");
-            return;
-        }
-
         DialogueNode utilityNode = new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, modifier, OnNodeSelected);
         utilityNode.DrawUtility(position, DefaultNodeSize);
         AddElement(utilityNode);

@@ -33,7 +33,9 @@ public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
 
     public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
     {
-        List<SearchTreeEntry> tree = new List<SearchTreeEntry>
+        List<SearchTreeEntry> tree = null;
+
+        List<SearchTreeEntry> singleTree = new List<SearchTreeEntry>
         {
             new SearchTreeGroupEntry(new GUIContent("Nodes"), 0),
             new SearchTreeEntry(new GUIContent(DIALOGUE, _indentationIcon))
@@ -57,6 +59,21 @@ public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
                 userData = ENDNODE
             },
         };
+
+        List<SearchTreeEntry> linkedTree = new List<SearchTreeEntry>
+        {
+            new SearchTreeGroupEntry(new GUIContent("Event Node"), 0),
+            new SearchTreeEntry(new GUIContent("Event", _indentationIcon))
+            {
+                level = 1,
+                userData = "Event"
+            },
+        };
+
+        if (_graphView.isInEventState)
+            tree = singleTree;
+        else
+            tree = linkedTree;
 
         return tree;
     }

@@ -14,6 +14,7 @@ public class DialogueEditor : EditorWindow
     public ListView eventList;
     private PopupWindow window;
     public bool isPopupActive;
+    
 
     private int selectedIndex;
     private bool manualSelected = false;
@@ -47,10 +48,6 @@ public class DialogueEditor : EditorWindow
             selectedIndex = -1;
             _graphView.allowCreatingNode = false;
         }
-        else
-        {
-            _graphView.allowCreatingNode = true;
-        }
     }
 
     private void ConstructGraphView()
@@ -70,7 +67,7 @@ public class DialogueEditor : EditorWindow
         
         inspectorView = rootVisualElement.Q<InspectorView>();
         _graphView = rootVisualElement.Q<DialogueGraphView>();
-        _graphView.AddSearchWindow(this);
+        _graphView.UpdateSearchWindow(this);
         _graphView.OnNodeSelected = OnNodeSelectionChanged;
 
         
@@ -174,6 +171,8 @@ public class DialogueEditor : EditorWindow
             {
                 Event selectedEvent = it as Event;
 
+                #region Compare Events
+
                 // Check user selects different event
                 if (selectedIndex >= 0 && selectedIndex != eventList.selectedIndex)
                 {
@@ -194,12 +193,22 @@ public class DialogueEditor : EditorWindow
                     }
                 }
 
+                #endregion
+
                 // Prevent from resetting graph when selecting same event
                 if (selectedIndex == eventList.selectedIndex)
                 {
                     manualSelected = false;
                     return;
                 }
+
+                if (selectedEvent.type == "Linked Event")
+                    _graphView.isInEventState = false;
+                if (selectedEvent.type == "Single Event")
+                    _graphView.isInEventState = true;
+
+                _graphView.allowCreatingNode = true;
+                _graphView.UpdateSearchWindow(this);
 
                 if (!manualSelected)
                 {
