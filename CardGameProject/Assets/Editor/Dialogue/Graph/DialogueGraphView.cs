@@ -9,6 +9,7 @@ using UnityEditor.UIElements;
 using UnityEditor.Experimental.GraphView;
 using static UnityEditor.Experimental.GraphView.GraphView;
 using System.Runtime.CompilerServices;
+using static TreeEditor.TreeEditorHelper;
 
 public class DialogueGraphView : GraphView
 {
@@ -95,6 +96,12 @@ public class DialogueGraphView : GraphView
     }
 
 
+    public void LoadEvent()
+    {
+        GraphSaveUtility saveUtility = GraphSaveUtility.GetInstance(this);
+        Debug.Log(saveUtility);
+    }
+
     #region Search Window
 
     public void UpdateSearchWindow(DialogueEditor editorWindow)
@@ -141,6 +148,13 @@ public class DialogueGraphView : GraphView
         DialogueNode utilityNode = new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, modifier, OnNodeSelected);
         utilityNode.DrawUtility(position, DefaultNodeSize);
         AddElement(utilityNode);
+    }
+
+    public void CreateEventNode(Vector2 position, string nodeType)
+    {
+        DialogueNode eventNode = new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, OnNodeSelected);
+        eventNode.DrawEvent(position, DefaultNodeSize);
+        AddElement(eventNode);
     }
 
     #endregion

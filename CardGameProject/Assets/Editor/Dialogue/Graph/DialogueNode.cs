@@ -19,6 +19,7 @@ public class DialogueNode : Node
     private const string DIALOGUE_CHOICE = "Dialogue Choice";
     private const string BATTLENODE = "Battle Node";
     private const string ENDNODE = "End Node";
+    private const string EVENTNODE = "Event";
 
 
     public Action<DialogueNode> OnNodeSelected;
@@ -28,9 +29,12 @@ public class DialogueNode : Node
     public string nodeType;
     public Modifier modifier;
     public List<DialogueChoices> choices = new List<DialogueChoices>();
+    public string eventName;
 
     DialogueGraphView graphView;
     Editor editor;
+
+    #region Constructors
 
     public DialogueNode(string GUID, DialogueGraphView graphView, string nodeType, Modifier modifier, Action<DialogueNode> nodeSelected)
     {
@@ -58,6 +62,21 @@ public class DialogueNode : Node
 
         choices.Add(new DialogueChoices("New Choice", Guid.NewGuid().ToString()));
     }
+
+    public DialogueNode(string GUID, DialogueGraphView graphView, string nodeType, Action<DialogueNode> nodeSelected)
+    {
+        this.GUID = GUID;
+        this.graphView = graphView;
+        this.nodeType = nodeType;
+        OnNodeSelected = nodeSelected;
+
+        mainContainer.AddToClassList("ds-node__main-container");
+        extensionContainer.AddToClassList("ds-node__extension-container");
+    }
+
+    #endregion
+
+    #region Draw Node
 
     public void Draw(Vector2 position, Vector2 size)
     {
@@ -95,10 +114,27 @@ public class DialogueNode : Node
         SetPosition(new Rect(position, size));
     }
 
+    public void DrawEvent(Vector2 position, Vector2 size)
+    {
+        CreatePorts();
+
+        CreateEventOptions();
+
+        // Refresh node
+        RefreshExpandedState();
+        RefreshPorts();
+
+        SetPosition(new Rect(position, size));
+    }
+
+    #endregion
+
     private void CreateLabel()
     {
         Label label = new Label();
         label.text = nodeType;
+
+        Debug.Log(label.text);
 
 
         label.AddToClassList("ds-node_Label");
@@ -109,7 +145,8 @@ public class DialogueNode : Node
     private void CreatePorts()
     {
         // Add ports
-        Port inputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(float));
+        Port inputPort = nodeType == EVENTNODE ? InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(float)) : 
+                                                 InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(float));
         inputPort.portName = "Input";
         inputPort.name = "input";
         inputContainer.Add(inputPort);
@@ -195,6 +232,28 @@ public class DialogueNode : Node
         }
     }
 
+    private void CreateEventOptions()
+    {
+        TextField textArea = CreateTextArea(dialogueText, callback =>
+        {
+            eventName = callback.newValue;
+        });
+        textArea.value = "Event";
+
+        textArea.AddToClassList("ds-node__textfield");
+        textArea.AddToClassList("ds-node__quote-textfield");
+
+        Button button = CreateButton("Open Event", () =>
+        {
+            graphView.LoadEvent();
+        });
+
+        button.AddToClassList("ds-node__button");
+
+        titleContainer.Insert(0, textArea);
+        extensionContainer.Add(button);
+    }
+
 
     Button CreateButton(string text, Action onClick = null)
     {
@@ -264,7 +323,7 @@ public class DialogueNode : Node
 
     public override void OnSelected()
     {
-        if (nodeType == ENDNODE)
+        if (nodeType == ENDNODE || nodeType == EVENTNODE)
             return;
 
         base.OnSelected();

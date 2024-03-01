@@ -19,6 +19,7 @@ public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
     public const string EVENT = "Event";
     public const string BATTLENODE = "Battle Node";
     public const string ENDNODE = "End Node";
+    public const string EVENTNODE = "Event";
 
     public void Configure(EditorWindow window, DialogueGraphView graphView)
     {
@@ -33,9 +34,7 @@ public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
 
     public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
     {
-        List<SearchTreeEntry> tree = null;
-
-        List<SearchTreeEntry> singleTree = new List<SearchTreeEntry>
+        List<SearchTreeEntry> tree = new List<SearchTreeEntry>
         {
             new SearchTreeGroupEntry(new GUIContent("Nodes"), 0),
             new SearchTreeEntry(new GUIContent(DIALOGUE, _indentationIcon))
@@ -63,16 +62,14 @@ public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
         List<SearchTreeEntry> linkedTree = new List<SearchTreeEntry>
         {
             new SearchTreeGroupEntry(new GUIContent("Event Node"), 0),
-            new SearchTreeEntry(new GUIContent("Event", _indentationIcon))
+            new SearchTreeEntry(new GUIContent(EVENTNODE, _indentationIcon))
             {
                 level = 1,
-                userData = "Event"
+                userData = EVENTNODE
             },
         };
 
-        if (_graphView.isInEventState)
-            tree = singleTree;
-        else
+        if (!_graphView.isInEventState)
             tree = linkedTree;
 
         return tree;
@@ -96,6 +93,9 @@ public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
                 return true;
             case ENDNODE:
                 _graphView.CreateUtilityNode(graphMousePosition, ENDNODE, null);
+                return true;
+            case EVENTNODE:
+                _graphView.CreateEventNode(graphMousePosition, EVENTNODE);
                 return true;
         }
         return false;
