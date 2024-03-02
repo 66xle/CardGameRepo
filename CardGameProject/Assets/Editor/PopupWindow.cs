@@ -166,7 +166,7 @@ public class PopupWindow : EditorWindow
 
         newEvent.name = oldEvent.name;
         newEvent.DialogueNodeData = oldEvent.DialogueNodeData;
-        newEvent.ChildEventData = oldEvent.ChildEventData;
+        newEvent.listChildData = oldEvent.listChildData;
         newEvent.type = oldEvent.type;
 
         return newEvent;

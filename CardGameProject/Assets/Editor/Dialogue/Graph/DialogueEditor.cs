@@ -203,7 +203,10 @@ public class DialogueEditor : EditorWindow
                 }
 
                 if (selectedEvent.type == "Linked Event")
+                {
                     _graphView.isInEventState = false;
+                    _graphView.openedEventGUID = selectedEvent.guid;
+                }
                 if (selectedEvent.type == "Single Event")
                     _graphView.isInEventState = true;
 
@@ -386,7 +389,6 @@ public class DialogueEditor : EditorWindow
         if (save)
         {
             string fileName = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(selectedEvent.guid));
-
             saveUtility.SaveGraph(fileName);
         }
         else

@@ -245,7 +245,7 @@ public class DialogueNode : Node
 
         Button button = CreateButton("Open Event", () =>
         {
-            graphView.LoadEvent();
+            graphView.LoadEvent(GUID);
         });
 
         button.AddToClassList("ds-node__button");

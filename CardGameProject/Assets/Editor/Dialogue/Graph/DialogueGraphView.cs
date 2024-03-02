@@ -10,11 +10,13 @@ using UnityEditor.Experimental.GraphView;
 using static UnityEditor.Experimental.GraphView.GraphView;
 using System.Runtime.CompilerServices;
 using static TreeEditor.TreeEditorHelper;
+using System.IO;
 
 public class DialogueGraphView : GraphView
 {
     public bool allowCreatingNode = false;
     public bool isInEventState;
+    public string openedEventGUID;
 
     public Action<DialogueNode> OnNodeSelected;
 
@@ -96,10 +98,20 @@ public class DialogueGraphView : GraphView
     }
 
 
-    public void LoadEvent()
+    public void LoadEvent(string nodeGUID)
     {
+        // Pass in linked event guid
+        string fileName = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(openedEventGUID));
+        
+        openedEventGUID = nodeGUID;
+
+
         GraphSaveUtility saveUtility = GraphSaveUtility.GetInstance(this);
-        Debug.Log(saveUtility);
+        saveUtility.SaveGraph(fileName);
+
+        
+        Event loadEvent = saveUtility.GetDataFromObject(fileName, nodeGUID);
+        saveUtility.LoadGraph(loadEvent);
     }
 
     #region Search Window

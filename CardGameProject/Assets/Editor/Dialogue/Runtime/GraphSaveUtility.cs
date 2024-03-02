@@ -38,12 +38,11 @@ public class GraphSaveUtility
     public void SaveGraph(string fileName)
     {
         // If there are no connections don't save
-        if (!Edges.Any())
+        if (!Edges.Any() && _targetGraphView.isInEventState)
         {
             EditorUtility.DisplayDialog("Error", "No connections detected!", "OK");
             return;
         }
-
 
         List<Port> inputPorts = Ports.Where(x => x.name == "input").ToList();
         List<Port> portsNotConnected = inputPorts.Where(x => x.connected == false).ToList();
@@ -141,7 +140,7 @@ public class GraphSaveUtility
                 newNode.cards = batMod.cards;
                 newNode.money = batMod.money;
             }
-            else if (dialogueNode.nodeType != ENDNODE)
+            else if (dialogueNode.nodeType == DIALOGUE || dialogueNode.nodeType == DIALOGUE_CHOICE)
             {
                 DialogueModifier diaMod = dialogueNode.modifier as DialogueModifier;
                 newNode.cards = diaMod.cards;
@@ -164,6 +163,8 @@ public class GraphSaveUtility
         return eventContainer;
     }
 
+    
+
     private void SaveEventAsset(string fileName, Event eventContainer)
     {
         // Check if asset exists
@@ -176,19 +177,76 @@ public class GraphSaveUtility
             if (!EditorUtility.DisplayDialog($"Save {fileName}", $"Save \"{fileName}\" event?", "Save", "Cancel"))
                 return;
 
-            loadedAsset.DialogueNodeData.Clear();
-            loadedAsset.DialogueNodeData = new List<DialogueNodeData>(eventContainer.DialogueNodeData);
+            if (_targetGraphView.isInEventState)
+            {
+                SetDataInObject(loadedAsset, eventContainer);
+            }
+            else
+            {
+                loadedAsset.DialogueNodeData.Clear();
+                loadedAsset.DialogueNodeData = new List<DialogueNodeData>(eventContainer.DialogueNodeData);
+            }
 
+            
 
             EditorUtility.SetDirty(loadedAsset);
         }
         else
         {
-            AssetDatabase.CreateAsset(eventContainer, $"Assets/ScriptableObjects/Events/{fileName}.asset");
-
+            // Never will run
+            //AssetDatabase.CreateAsset(eventContainer, $"Assets/ScriptableObjects/Events/{fileName}.asset");
         }
 
         AssetDatabase.SaveAssets();
+    }
+
+    private void SetDataInObject(Event loadedAsset, Event eventContainer)
+    {
+        if (loadedAsset.type == "Single Event")
+        {
+            loadedAsset.DialogueNodeData.Clear();
+            loadedAsset.DialogueNodeData = new List<DialogueNodeData>(eventContainer.DialogueNodeData);
+        }
+        else if (loadedAsset.type == "Linked Event")
+        {
+            // Loop to find child data
+            for (int i = 0; i < loadedAsset.listChildData.Count; i++)
+            {
+                // If guid matches replaced with new dialouge node data
+                if (loadedAsset.listChildData[i].guid == _targetGraphView.openedEventGUID)
+                {
+                    loadedAsset.listChildData[i].dialogueNodeData = eventContainer.DialogueNodeData;
+                    return;
+                }
+            }
+
+            // Create new data
+            ChildEventData newData = new ChildEventData();
+            newData.guid = _targetGraphView.openedEventGUID;
+            newData.dialogueNodeData = eventContainer.DialogueNodeData;
+
+            loadedAsset.listChildData.Add(newData);
+        }
+    }
+
+    public Event GetDataFromObject(string fileName, string guid)
+    {
+        Event tempEvent = new Event();
+
+        Event loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Events/{fileName}.asset", typeof(Event)) as Event;
+
+        // Loop to find child data
+        for (int i = 0; i < loadedAsset.listChildData.Count; i++)
+        {
+            // If guid matches
+            if (loadedAsset.listChildData[i].guid == _targetGraphView.openedEventGUID)
+            {
+                tempEvent.DialogueNodeData = loadedAsset.listChildData[i].dialogueNodeData;
+                break;
+            }
+        }
+
+        return tempEvent;
     }
 
     #endregion

@@ -13,31 +13,17 @@ MonoBehaviour:
   m_Name: linked
   m_EditorClassIdentifier: 
   DialogueNodeData:
-  - Guid: eb651eb3-7934-4a5f-86ea-81b6ae01460d
+  - Guid: 55c2a886-8ac9-4413-9c44-c832789f3314
     DialogueText: 
-    NodeType: Dialogue
-    Position: {x: 135.20001, y: 29.599998}
+    NodeType: Event
+    Position: {x: 174.4, y: 296.80002}
     isStartNode: 1
-    Connections:
-    - BaseNodeGuid: eb651eb3-7934-4a5f-86ea-81b6ae01460d
-      PortName: Output
-      TargetNodeGuid: f4f1f6b3-b4e7-4452-86ee-b762ffd6d8fe
-      ChoiceGUID: output
-    Choices: []
-    enemies: []
-    cards: []
-    money: 0
-    image: {fileID: 0}
-  - Guid: f4f1f6b3-b4e7-4452-86ee-b762ffd6d8fe
-    DialogueText: 
-    NodeType: Dialogue
-    Position: {x: 464, y: 29.599998}
-    isStartNode: 0
     Connections: []
     Choices: []
     enemies: []
     cards: []
     money: 0
     image: {fileID: 0}
+  listChildData: []
   type: Linked Event
   guid: 7b016c3b00ec48d4da6c2a88c444f280
