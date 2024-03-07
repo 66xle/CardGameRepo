@@ -202,13 +202,22 @@ public class DialogueEditor : EditorWindow
                     return;
                 }
 
+                Label graphTitle = rootVisualElement.Query<Label>("graph-view").First();
+
                 if (selectedEvent.type == "Linked Event")
                 {
                     _graphView.isInEventState = false;
                     _graphView.openedEventGUID = selectedEvent.guid;
+
+                    graphTitle.text = "Graph View >> " + selectedEvent.name;
+                    _graphView.graphTitle = graphTitle;
                 }
                 if (selectedEvent.type == "Single Event")
+                {
                     _graphView.isInEventState = true;
+
+                    graphTitle.text = "Graph View";
+                }
 
                 _graphView.allowCreatingNode = true;
                 _graphView.UpdateSearchWindow(this);

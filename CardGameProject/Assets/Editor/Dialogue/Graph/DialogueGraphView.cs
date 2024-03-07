@@ -17,6 +17,7 @@ public class DialogueGraphView : GraphView
     public bool allowCreatingNode = false;
     public bool isInEventState;
     public string openedEventGUID;
+    public Label graphTitle;
 
     public Action<DialogueNode> OnNodeSelected;
 
@@ -98,20 +99,26 @@ public class DialogueGraphView : GraphView
     }
 
 
-    public void LoadEvent(string nodeGUID)
+    public void LoadEvent(string nodeGUID, string eventName)
     {
         // Pass in linked event guid
         string fileName = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(openedEventGUID));
         
+        // Event node guid linking opened event graph
         openedEventGUID = nodeGUID;
 
+        
 
+        // Change to temp store in a varaible
         GraphSaveUtility saveUtility = GraphSaveUtility.GetInstance(this);
         saveUtility.SaveGraph(fileName);
 
         
         Event loadEvent = saveUtility.GetDataFromObject(fileName, nodeGUID);
         saveUtility.LoadGraph(loadEvent);
+
+        graphTitle.text += " >> " + eventName;
+
     }
 
     #region Search Window

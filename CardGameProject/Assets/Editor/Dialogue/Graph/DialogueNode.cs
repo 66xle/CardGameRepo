@@ -239,13 +239,14 @@ public class DialogueNode : Node
             eventName = callback.newValue;
         });
         textArea.value = "Event";
+        eventName = textArea.value;
 
         textArea.AddToClassList("ds-node__textfield");
         textArea.AddToClassList("ds-node__quote-textfield");
 
         Button button = CreateButton("Open Event", () =>
         {
-            graphView.LoadEvent(GUID);
+            graphView.LoadEvent(GUID, eventName);
         });
 
         button.AddToClassList("ds-node__button");
