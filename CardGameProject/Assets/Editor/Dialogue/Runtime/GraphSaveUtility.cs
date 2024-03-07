@@ -14,6 +14,7 @@ public class GraphSaveUtility
     private const string DIALOGUE_CHOICE = "Dialogue Choice";
     private const string BATTLENODE = "Battle Node";
     private const string ENDNODE = "End Node";
+    private const string EVENTNODE = "Event";
 
     private DialogueGraphView _targetGraphView;
     private Event _containerCache;
@@ -301,6 +302,11 @@ public class GraphSaveUtility
                 tempNode.choices = nodeData.Choices;
                 tempNode.dialogueText = nodeData.DialogueText;
                 tempNode.Draw(nodeData.Position, _targetGraphView.DefaultNodeSize);
+            }
+            else if (nodeData.NodeType == EVENTNODE)
+            {
+                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, _targetGraphView.OnNodeSelected);
+                tempNode.DrawEvent(nodeData.Position, _targetGraphView.DefaultNodeSize);
             }
             else
             {
