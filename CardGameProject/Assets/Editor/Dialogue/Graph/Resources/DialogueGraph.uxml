@@ -12,7 +12,8 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="right-panel">
-            <ui:Label text="Graph View" name="graph-view" display-tooltip-when-elided="true" style="background-color: rgb(32, 32, 32);" />
+            <ui:Label text="Graph View" name="graph-view" display-tooltip-when-elided="true" style="background-color: rgb(32, 32, 32); height: 16px;" />
+            <ui:Button text="Back" name="back-button" style="width: 38px; top: -2px; position: Absolute; right: 0px; font-size: 11px;"/>
             <DialogueGraphView focusable="true" style="height: 100px; flex-grow: 1;" />
         </ui:VisualElement>
     </SplitView>

@@ -18,6 +18,8 @@ public class DialogueGraphView : GraphView
     public bool isInEventState;
     public string openedEventGUID;
     public Label graphTitle;
+    public Button backButton;
+    public Event linkedEvent;
 
     public Action<DialogueNode> OnNodeSelected;
 
@@ -107,19 +109,19 @@ public class DialogueGraphView : GraphView
         // Event node guid linking opened event graph
         openedEventGUID = nodeGUID;
 
-        
-
-        // Change to temp store in a varaible
         GraphSaveUtility saveUtility = GraphSaveUtility.GetInstance(this);
-        saveUtility.SaveGraph(fileName);
+        linkedEvent = saveUtility.GetEventData();
 
         
         Event loadEvent = saveUtility.GetDataFromObject(fileName, nodeGUID);
         saveUtility.LoadGraph(loadEvent);
 
         graphTitle.text += " >> " + eventName;
-
+        backButton.visible = true;
+        isInEventState = true;
     }
+
+    
 
     #region Search Window
 
@@ -171,7 +173,7 @@ public class DialogueGraphView : GraphView
 
     public void CreateEventNode(Vector2 position, string nodeType)
     {
-        DialogueNode eventNode = new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, OnNodeSelected);
+        DialogueNode eventNode = new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, OnNodeSelected, "Event");
         eventNode.DrawEvent(position, DefaultNodeSize);
         AddElement(eventNode);
     }

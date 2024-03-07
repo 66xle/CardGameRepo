@@ -63,11 +63,12 @@ public class DialogueNode : Node
         choices.Add(new DialogueChoices("New Choice", Guid.NewGuid().ToString()));
     }
 
-    public DialogueNode(string GUID, DialogueGraphView graphView, string nodeType, Action<DialogueNode> nodeSelected)
+    public DialogueNode(string GUID, DialogueGraphView graphView, string nodeType, Action<DialogueNode> nodeSelected, string eventName = "Event")
     {
         this.GUID = GUID;
         this.graphView = graphView;
         this.nodeType = nodeType;
+        this.eventName = eventName;
         OnNodeSelected = nodeSelected;
 
         mainContainer.AddToClassList("ds-node__main-container");
@@ -234,16 +235,15 @@ public class DialogueNode : Node
 
     private void CreateEventOptions()
     {
-        TextField textArea = CreateTextArea(dialogueText, callback =>
+        TextField textArea = CreateTextArea(eventName, callback =>
         {
             eventName = callback.newValue;
         });
-        textArea.value = "Event";
         eventName = textArea.value;
 
         textArea.AddToClassList("ds-node__textfield");
         textArea.AddToClassList("ds-node__quote-textfield");
-
+        
         Button button = CreateButton("Open Event", () =>
         {
             graphView.LoadEvent(GUID, eventName);

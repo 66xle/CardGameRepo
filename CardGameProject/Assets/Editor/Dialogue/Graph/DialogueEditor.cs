@@ -70,7 +70,12 @@ public class DialogueEditor : EditorWindow
         _graphView.UpdateSearchWindow(this);
         _graphView.OnNodeSelected = OnNodeSelectionChanged;
 
-        
+        Button backButton = rootVisualElement.Query<Button>("back-button").First();
+        backButton.visible = false;
+        backButton.RegisterCallback<MouseUpEvent>((evt) => BackButton());
+
+        _graphView.backButton = backButton;
+
         CreateEventListView();
     }
 
@@ -149,6 +154,26 @@ public class DialogueEditor : EditorWindow
         window.ShowPopup();
     }
 
+    public void BackButton()
+    {
+        GraphSaveUtility saveUtility = GraphSaveUtility.GetInstance(_graphView);
+        Event selectedEvent = eventList.selectedItem as Event;
+
+        if (CheckGraphChanges(saveUtility.GetDataFromObject(selectedEvent.name, _graphView.openedEventGUID)))
+            return;
+
+        // Load stored graph
+        
+        saveUtility.LoadGraph(_graphView.linkedEvent);
+
+        
+
+        _graphView.graphTitle.text = $"Graph View >> {selectedEvent.name}";
+        _graphView.openedEventGUID = selectedEvent.guid;
+        _graphView.backButton.visible = false;
+        _graphView.isInEventState = false;
+    }
+
     public void CreateEventListView()
     {
         FindAllEvents(out List<Event> events);
@@ -176,21 +201,16 @@ public class DialogueEditor : EditorWindow
                 // Check user selects different event
                 if (selectedIndex >= 0 && selectedIndex != eventList.selectedIndex)
                 {
-                    Event onGraphEvent = GraphSaveUtility.GetInstance(_graphView).GetEventData();
+                    Event eventToCheck = prevSelectedEvent;
 
-                    if (onGraphEvent != null)
+                    if (selectedEvent.type == "Linked Event" && _graphView.isInEventState)
                     {
-                        // Check if user made changes to graph (Checking differences)
-                        if (!IsEventsTheSame(prevSelectedEvent, onGraphEvent))
-                        {
-                            if (!EditorUtility.DisplayDialog($"Warning!", $"Event {prevSelectedEvent.name} has changes", "Don't Save", "Cancel"))
-                            {
-                                manualSelected = true;
-                                eventList.SetSelection(selectedIndex);
-                                return;
-                            }
-                        }
+                        GraphSaveUtility saveUtility = GraphSaveUtility.GetInstance(_graphView);
+                        eventToCheck = saveUtility.GetDataFromObject(selectedEvent.name, _graphView.openedEventGUID);
                     }
+
+                    if (CheckGraphChanges(eventToCheck))
+                        return;
                 }
 
                 #endregion
@@ -202,21 +222,22 @@ public class DialogueEditor : EditorWindow
                     return;
                 }
 
-                Label graphTitle = rootVisualElement.Query<Label>("graph-view").First();
+                // Set title
+                _graphView.graphTitle = rootVisualElement.Query<Label>("graph-view").First();
 
                 if (selectedEvent.type == "Linked Event")
                 {
                     _graphView.isInEventState = false;
                     _graphView.openedEventGUID = selectedEvent.guid;
 
-                    graphTitle.text = "Graph View >> " + selectedEvent.name;
-                    _graphView.graphTitle = graphTitle;
+                    _graphView.graphTitle.text = "Graph View >> " + selectedEvent.name;
                 }
                 if (selectedEvent.type == "Single Event")
                 {
                     _graphView.isInEventState = true;
 
-                    graphTitle.text = "Graph View";
+                    _graphView.graphTitle.text = "Graph View";
+
                 }
 
                 _graphView.allowCreatingNode = true;
@@ -230,6 +251,7 @@ public class DialogueEditor : EditorWindow
                 selectedIndex = eventList.selectedIndex;
                 prevSelectedEvent = selectedEvent;
                 manualSelected = false;
+                _graphView.backButton.visible = false;
             }
         };
 
@@ -239,6 +261,27 @@ public class DialogueEditor : EditorWindow
     #endregion
 
     #region Compare Events
+    
+    bool CheckGraphChanges(Event eventToCheck)
+    {
+        Event onGraphEvent = GraphSaveUtility.GetInstance(_graphView).GetEventData();
+
+        if (onGraphEvent != null)
+        {
+            // Check if user made changes to graph (Checking differences)
+            if (!IsEventsTheSame(eventToCheck, onGraphEvent))
+            {
+                if (!EditorUtility.DisplayDialog($"Warning!", $"Event {eventToCheck.name} has changes", "Don't Save", "Cancel"))
+                {
+                    manualSelected = true;
+                    eventList.SetSelection(selectedIndex);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
     bool IsEventsTheSame(Event prevEvent, Event currEvent)
     {

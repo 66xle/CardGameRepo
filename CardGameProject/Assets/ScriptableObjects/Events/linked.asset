@@ -16,14 +16,33 @@ MonoBehaviour:
   - Guid: 55c2a886-8ac9-4413-9c44-c832789f3314
     DialogueText: 
     NodeType: Event
-    Position: {x: 174.4, y: 296.80002}
+    Position: {x: 90.66666, y: 184}
     isStartNode: 1
+    Connections:
+    - BaseNodeGuid: 55c2a886-8ac9-4413-9c44-c832789f3314
+      PortName: Output
+      TargetNodeGuid: 74ea2647-50b7-4fc6-a57e-08b598daedca
+      ChoiceGUID: output
+    Choices: []
+    enemies: []
+    cards: []
+    money: 0
+    image: {fileID: 0}
+    eventName: Tutorial
+  - Guid: 74ea2647-50b7-4fc6-a57e-08b598daedca
+    DialogueText: 
+    NodeType: Event
+    Position: {x: 322.6667, y: 184}
+    isStartNode: 0
     Connections: []
     Choices: []
     enemies: []
     cards: []
     money: 0
     image: {fileID: 0}
-  listChildData: []
+    eventName: Boss Fight
+  listChildData:
+  - {fileID: 0}
+  - {fileID: 0}
   type: Linked Event
   guid: 7b016c3b00ec48d4da6c2a88c444f280

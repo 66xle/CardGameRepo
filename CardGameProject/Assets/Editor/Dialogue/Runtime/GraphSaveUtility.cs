@@ -148,6 +148,10 @@ public class GraphSaveUtility
                 newNode.money = diaMod.money;
                 newNode.image = diaMod.image;
             }
+            else if (dialogueNode.nodeType == EVENTNODE)
+            {
+                newNode.eventName = dialogueNode.eventName;
+            }
 
             // Starting node
             if (dialogueNode.GUID == startNode.Guid)
@@ -230,7 +234,7 @@ public class GraphSaveUtility
         }
     }
 
-    public Event GetDataFromObject(string fileName, string guid)
+    public Event GetDataFromObject(string fileName, string nodeGUID)
     {
         Event tempEvent = new Event();
 
@@ -240,9 +244,10 @@ public class GraphSaveUtility
         for (int i = 0; i < loadedAsset.listChildData.Count; i++)
         {
             // If guid matches
-            if (loadedAsset.listChildData[i].guid == _targetGraphView.openedEventGUID)
+            if (loadedAsset.listChildData[i].guid == nodeGUID)
             {
                 tempEvent.DialogueNodeData = loadedAsset.listChildData[i].dialogueNodeData;
+                tempEvent.name = fileName;
                 break;
             }
         }
@@ -305,7 +310,7 @@ public class GraphSaveUtility
             }
             else if (nodeData.NodeType == EVENTNODE)
             {
-                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, _targetGraphView.OnNodeSelected);
+                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, _targetGraphView.OnNodeSelected, nodeData.eventName);
                 tempNode.DrawEvent(nodeData.Position, _targetGraphView.DefaultNodeSize);
             }
             else

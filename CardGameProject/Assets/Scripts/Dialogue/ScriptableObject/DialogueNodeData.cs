@@ -18,4 +18,6 @@ public class DialogueNodeData
     public List<Card> cards;
     public int money;
     public Sprite image;
+
+    public string eventName;
 }
