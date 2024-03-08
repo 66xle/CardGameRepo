@@ -135,8 +135,6 @@ public class DialogueNode : Node
         Label label = new Label();
         label.text = nodeType;
 
-        Debug.Log(label.text);
-
 
         label.AddToClassList("ds-node_Label");
 

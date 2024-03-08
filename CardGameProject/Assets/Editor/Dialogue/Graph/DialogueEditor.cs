@@ -203,7 +203,7 @@ public class DialogueEditor : EditorWindow
                 {
                     Event eventToCheck = prevSelectedEvent;
 
-                    if (selectedEvent.type == "Linked Event" && _graphView.isInEventState)
+                    if (prevSelectedEvent.type == "Linked Event" && _graphView.isInEventState)
                     {
                         GraphSaveUtility saveUtility = GraphSaveUtility.GetInstance(_graphView);
                         eventToCheck = saveUtility.GetDataFromObject(selectedEvent.name, _graphView.openedEventGUID);
@@ -304,7 +304,7 @@ public class DialogueEditor : EditorWindow
             }
             if (prevData.NodeType != currData.NodeType)
                 return false;
-            if (prevData.Position != currData.Position)
+            if (prevData.Position != currData.Position && _graphView.hasGraphChanges)
                 return false;
             if (prevData.isStartNode != currData.isStartNode)
                 return false;

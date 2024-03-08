@@ -57,6 +57,7 @@ public class GraphSaveUtility
 
 
         Event eventContainer = GetEventData();
+        
 
         if (eventContainer != null)
             SaveEventAsset(fileName, eventContainer);
@@ -186,7 +187,6 @@ public class GraphSaveUtility
             if (_targetGraphView.isInEventState)
             {
                 SetDataInObject(loadedAsset, eventContainer);
-                
             }
             else
             {
