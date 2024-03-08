@@ -21,6 +21,8 @@ public class DialogueGraphView : GraphView
     public Button backButton;
     public Event linkedEvent;
 
+    public bool hasGraphChanges = false;
+
     public Action<DialogueNode> OnNodeSelected;
 
     public const string PLAYER = "Player";
@@ -57,6 +59,9 @@ public class DialogueGraphView : GraphView
 
     private GraphViewChange OnGraphChange(GraphViewChange change)
     {
+        hasGraphChanges = true;
+        Debug.Log("run");
+
         if (change.edgesToCreate != null)
         {
             // Get edge created

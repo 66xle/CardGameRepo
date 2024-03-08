@@ -211,6 +211,7 @@ public class DialogueEditor : EditorWindow
 
                     if (CheckGraphChanges(eventToCheck))
                         return;
+
                 }
 
                 #endregion
@@ -242,6 +243,7 @@ public class DialogueEditor : EditorWindow
 
                 _graphView.allowCreatingNode = true;
                 _graphView.UpdateSearchWindow(this);
+                _graphView.hasGraphChanges = false;
 
                 if (!manualSelected)
                 {

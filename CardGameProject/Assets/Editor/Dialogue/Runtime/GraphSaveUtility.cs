@@ -182,9 +182,11 @@ public class GraphSaveUtility
             if (!EditorUtility.DisplayDialog($"Save {fileName}", $"Save \"{fileName}\" event?", "Save", "Cancel"))
                 return;
 
+            // is linked or event state
             if (_targetGraphView.isInEventState)
             {
                 SetDataInObject(loadedAsset, eventContainer);
+                
             }
             else
             {
@@ -192,6 +194,35 @@ public class GraphSaveUtility
                 loadedAsset.DialogueNodeData = new List<DialogueNodeData>(eventContainer.DialogueNodeData);
             }
 
+            // Check if event is linked and if child data is greater than node count
+            if (loadedAsset.type == "Linked Event")
+            {
+                bool isThereDataToRemove = true;
+                ChildEventData dataToRemove = null;
+
+
+                // Remove data that were deleted from graph
+                for (int i = 0; i < loadedAsset.listChildData.Count; i++)
+                {
+                    isThereDataToRemove = true;
+                    dataToRemove = loadedAsset.listChildData[i];
+
+                    foreach (DialogueNodeData data in loadedAsset.DialogueNodeData)
+                    {
+                        if (data.Guid == loadedAsset.listChildData[i].guid)
+                        {
+                            isThereDataToRemove = false;
+                            dataToRemove = null;
+                            break;
+                        }
+                    }
+
+                    if (isThereDataToRemove)
+                    {
+                        loadedAsset.listChildData.Remove(dataToRemove);
+                    }
+                }
+            }
             
 
             EditorUtility.SetDirty(loadedAsset);
@@ -217,7 +248,7 @@ public class GraphSaveUtility
             // Loop to find child data
             for (int i = 0; i < loadedAsset.listChildData.Count; i++)
             {
-                // If guid matches replaced with new dialouge node data
+                // If guid matches replace with new dialouge node data
                 if (loadedAsset.listChildData[i].guid == _targetGraphView.openedEventGUID)
                 {
                     loadedAsset.listChildData[i].dialogueNodeData = eventContainer.DialogueNodeData;
@@ -231,6 +262,9 @@ public class GraphSaveUtility
             newData.dialogueNodeData = eventContainer.DialogueNodeData;
 
             loadedAsset.listChildData.Add(newData);
+
+            loadedAsset.DialogueNodeData.Clear();
+            loadedAsset.DialogueNodeData = new List<DialogueNodeData>(_targetGraphView.linkedEvent.DialogueNodeData);
         }
     }
 

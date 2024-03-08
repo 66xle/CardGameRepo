@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChildEventData : ScriptableObject
+[Serializable]
+public class ChildEventData
 {
     public string guid;
     public List<DialogueNodeData> dialogueNodeData;
