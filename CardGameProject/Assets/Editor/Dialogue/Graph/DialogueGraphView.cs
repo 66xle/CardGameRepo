@@ -23,7 +23,7 @@ public class DialogueGraphView : GraphView
 
     public bool hasGraphChanges = false;
 
-    public Action<DialogueNode> OnNodeSelected;
+    public Action<EventNode> OnNodeSelected;
 
     public const string PLAYER = "Player";
     public const string NPC = "NPC";
@@ -88,7 +88,7 @@ public class DialogueGraphView : GraphView
             }
 
             
-            DialogueNode bNode = baseNode as DialogueNode;
+            DialogueChoiceNode bNode = baseNode as DialogueChoiceNode;
             if (bNode.choices.Count > 0)
             {
                 // Use the connected output port to get choice
@@ -98,7 +98,7 @@ public class DialogueGraphView : GraphView
                 // Use connected input port to get target guid
                 DialogueNode tNode = targetNode as DialogueNode;
 
-                choice.targetGUID = tNode.GUID;
+                choice.targetGUID = tNode._GUID;
             }
         }
 

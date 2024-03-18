@@ -11,7 +11,7 @@ public class DialogueChoiceNode : EventNode
     public string dialogueText;
     public List<DialogueChoices> choices = new List<DialogueChoices>();
 
-    public DialogueChoiceNode(string guid, string nodeType, DialogueGraphView graphView, Modifier modifier, Action<DialogueNode> nodeSelected)
+    public DialogueChoiceNode(string guid, string nodeType, DialogueGraphView graphView, Modifier modifier, Action<EventNode> nodeSelected)
     {
         _GUID = guid;
         _nodeType = nodeType;

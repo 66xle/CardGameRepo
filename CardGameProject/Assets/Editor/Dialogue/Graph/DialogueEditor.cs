@@ -79,7 +79,7 @@ public class DialogueEditor : EditorWindow
         CreateEventListView();
     }
 
-    void OnNodeSelectionChanged(DialogueNode node)
+    void OnNodeSelectionChanged(EventNode node)
     {
         inspectorView.UpdateSelection(node);
     }

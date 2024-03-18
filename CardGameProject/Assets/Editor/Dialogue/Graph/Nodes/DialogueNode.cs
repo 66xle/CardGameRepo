@@ -17,7 +17,7 @@ public class DialogueNode : EventNode
 {
     public string dialogueText;
 
-    public DialogueNode(string GUID, string nodeType, DialogueGraphView graphView , Modifier modifier, Action<DialogueNode> nodeSelected)
+    public DialogueNode(string GUID, string nodeType, DialogueGraphView graphView , Modifier modifier, Action<EventNode> nodeSelected)
     {
         _GUID = GUID;
         _nodeType = nodeType;

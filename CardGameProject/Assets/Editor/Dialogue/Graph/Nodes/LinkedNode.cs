@@ -8,7 +8,7 @@ public class LinkedNode : EventNode
 {
     public string eventName;
 
-    public LinkedNode(string guid, string nodeType, DialogueGraphView graphView, Action<DialogueNode> nodeSelected)
+    public LinkedNode(string guid, string nodeType, DialogueGraphView graphView, Action<EventNode> nodeSelected)
     {
         _GUID = guid;
         _nodeType = nodeType;

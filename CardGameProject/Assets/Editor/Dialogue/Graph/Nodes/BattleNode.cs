@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BattleNode : EventNode
 {
-    public BattleNode(string guid, string nodeType, DialogueGraphView graphView, Modifier modifier, Action<DialogueNode> nodeSelected)
+    public BattleNode(string guid, string nodeType, DialogueGraphView graphView, Modifier modifier, Action<EventNode> nodeSelected)
     {
         _GUID = guid;
         _nodeType = nodeType;

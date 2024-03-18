@@ -14,7 +14,7 @@ public class EventNode : Node
     private const string ENDNODE = "End Node";
     private const string LINKEDNODE = "Linked Node";
 
-    public Action<DialogueNode> OnNodeSelected;
+    public Action<EventNode> OnNodeSelected;
 
     public string _GUID;
     public string _nodeType;
