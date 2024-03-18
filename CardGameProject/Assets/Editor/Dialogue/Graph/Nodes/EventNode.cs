@@ -135,7 +135,7 @@ public class EventNode : Node
 
     public override void OnSelected()
     {
-        if (_nodeType == ENDNODE || _nodeType == LINKEDNODE)
+        if ( _nodeType == LINKEDNODE)
             return;
 
         base.OnSelected();

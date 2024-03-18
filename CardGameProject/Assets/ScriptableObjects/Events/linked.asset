@@ -13,42 +13,26 @@ MonoBehaviour:
   m_Name: linked
   m_EditorClassIdentifier: 
   DialogueNodeData:
-  - Guid: 55c2a886-8ac9-4413-9c44-c832789f3314
+  - Guid: 2d9d39b4-4f0d-4c4a-acb6-7b4533c03805
     DialogueText: 
-    NodeType: Event
-    Position: {x: 46.666656, y: 103.33333}
+    NodeType: Linked Node
+    Position: {x: -191, y: 60}
     isStartNode: 1
     Connections:
-    - BaseNodeGuid: 55c2a886-8ac9-4413-9c44-c832789f3314
+    - BaseNodeGuid: 2d9d39b4-4f0d-4c4a-acb6-7b4533c03805
       PortName: Output
-      TargetNodeGuid: 619b186e-43a8-4f11-91ac-6c327efd7331
+      TargetNodeGuid: 683d8f67-2463-4dc3-b59f-a7bd3b3b14ca
       ChoiceGUID: output
     Choices: []
     enemies: []
     cards: []
     money: 0
     image: {fileID: 0}
-    eventName: Tutorial
-  - Guid: 619b186e-43a8-4f11-91ac-6c327efd7331
+    eventName: test
+  - Guid: 683d8f67-2463-4dc3-b59f-a7bd3b3b14ca
     DialogueText: 
-    NodeType: Event
-    Position: {x: 280, y: 103.33333}
-    isStartNode: 0
-    Connections:
-    - BaseNodeGuid: 619b186e-43a8-4f11-91ac-6c327efd7331
-      PortName: Output
-      TargetNodeGuid: 4f6bcd13-6d8f-43c0-81d8-8f411fb8aa81
-      ChoiceGUID: output
-    Choices: []
-    enemies: []
-    cards: []
-    money: 0
-    image: {fileID: 0}
-    eventName: Event
-  - Guid: 4f6bcd13-6d8f-43c0-81d8-8f411fb8aa81
-    DialogueText: 
-    NodeType: Event
-    Position: {x: 476, y: 103.33333}
+    NodeType: Linked Node
+    Position: {x: 82, y: 60}
     isStartNode: 0
     Connections: []
     Choices: []
@@ -56,19 +40,19 @@ MonoBehaviour:
     cards: []
     money: 0
     image: {fileID: 0}
-    eventName: Event
+    eventName: New Event
   listChildData:
-  - guid: 619b186e-43a8-4f11-91ac-6c327efd7331
+  - guid: 2d9d39b4-4f0d-4c4a-acb6-7b4533c03805
     dialogueNodeData:
-    - Guid: dd96b854-332b-4534-a2af-d01dd916a439
+    - Guid: aac74995-8d73-4b33-a922-999b7b808b13
       DialogueText: 
       NodeType: Dialogue
-      Position: {x: 25.333344, y: 192}
+      Position: {x: -86, y: 46}
       isStartNode: 1
       Connections:
-      - BaseNodeGuid: dd96b854-332b-4534-a2af-d01dd916a439
+      - BaseNodeGuid: aac74995-8d73-4b33-a922-999b7b808b13
         PortName: Output
-        TargetNodeGuid: 9a2c5fed-b5a4-47ff-ae6c-ab29267756c4
+        TargetNodeGuid: 464b963b-e9cb-4338-8aab-9b92f34f8c5d
         ChoiceGUID: output
       Choices: []
       enemies: []
@@ -76,73 +60,16 @@ MonoBehaviour:
       money: 0
       image: {fileID: 0}
       eventName: 
-    - Guid: 9a2c5fed-b5a4-47ff-ae6c-ab29267756c4
-      DialogueText: 
-      NodeType: Dialogue
-      Position: {x: 404.6667, y: 192}
+    - Guid: 464b963b-e9cb-4338-8aab-9b92f34f8c5d
+      DialogueText: Insert Dialouge
+      NodeType: Dialogue Choice
+      Position: {x: 250, y: 62}
       isStartNode: 0
       Connections: []
-      Choices: []
-      enemies: []
-      cards: []
-      money: 0
-      image: {fileID: 0}
-      eventName: 
-  - guid: 55c2a886-8ac9-4413-9c44-c832789f3314
-    dialogueNodeData:
-    - Guid: edc26b30-2153-4d6f-8278-06238b88e117
-      DialogueText: 
-      NodeType: Dialogue
-      Position: {x: 66.66666, y: 105.33333}
-      isStartNode: 1
-      Connections:
-      - BaseNodeGuid: edc26b30-2153-4d6f-8278-06238b88e117
-        PortName: Output
-        TargetNodeGuid: cd709f4b-e062-4197-8e6c-fd14116077ce
-        ChoiceGUID: output
-      Choices: []
-      enemies: []
-      cards: []
-      money: 0
-      image: {fileID: 0}
-      eventName: 
-    - Guid: cd709f4b-e062-4197-8e6c-fd14116077ce
-      DialogueText: 
-      NodeType: Dialogue
-      Position: {x: 400, y: 81.33333}
-      isStartNode: 0
-      Connections: []
-      Choices: []
-      enemies: []
-      cards: []
-      money: 0
-      image: {fileID: 0}
-      eventName: 
-  - guid: 4f6bcd13-6d8f-43c0-81d8-8f411fb8aa81
-    dialogueNodeData:
-    - Guid: a1452ee7-2982-4a1e-9105-e90d86d9a0ac
-      DialogueText: 
-      NodeType: Dialogue
-      Position: {x: 64, y: 19.333336}
-      isStartNode: 1
-      Connections:
-      - BaseNodeGuid: a1452ee7-2982-4a1e-9105-e90d86d9a0ac
-        PortName: Output
-        TargetNodeGuid: 418d594f-9f14-4447-a7b1-968c48153d34
-        ChoiceGUID: output
-      Choices: []
-      enemies: []
-      cards: []
-      money: 0
-      image: {fileID: 0}
-      eventName: 
-    - Guid: 418d594f-9f14-4447-a7b1-968c48153d34
-      DialogueText: 
-      NodeType: End Node
-      Position: {x: 438, y: -6}
-      isStartNode: 0
-      Connections: []
-      Choices: []
+      Choices:
+      - text: New Choice
+        portGUID: c4f27725-3aa2-4f95-95be-e7769c46bc63
+        targetGUID: 
       enemies: []
       cards: []
       money: 0

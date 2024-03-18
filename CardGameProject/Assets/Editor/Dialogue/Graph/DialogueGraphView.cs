@@ -14,6 +14,8 @@ using System.IO;
 
 public class DialogueGraphView : GraphView
 {
+    private const string DIALOGUE_CHOICE = "Dialogue Choice";
+
     public bool allowCreatingNode = false;
     public bool isInEventState;
     public string openedEventGUID;
@@ -87,18 +89,23 @@ public class DialogueGraphView : GraphView
                 }
             }
 
-            
-            DialogueChoiceNode bNode = baseNode as DialogueChoiceNode;
-            if (bNode.choices.Count > 0)
-            {
-                // Use the connected output port to get choice
-                string portGUID = edge.output.name;
-                DialogueChoices choice = bNode.choices.First(x => x.portGUID == portGUID);
-                
-                // Use connected input port to get target guid
-                DialogueNode tNode = targetNode as DialogueNode;
 
-                choice.targetGUID = tNode._GUID;
+            EventNode eventNode = baseNode as EventNode;
+            if (eventNode._nodeType == DIALOGUE_CHOICE)
+            {
+                DialogueChoiceNode bNode = eventNode as DialogueChoiceNode;
+
+                if (bNode.choices.Count > 0)
+                {
+                    // Use the connected output port to get choice
+                    string portGUID = edge.output.name;
+                    DialogueChoices choice = bNode.choices.First(x => x.portGUID == portGUID);
+
+                    // Use connected input port to get target guid
+                    DialogueNode tNode = targetNode as DialogueNode;
+
+                    choice.targetGUID = tNode._GUID;
+                }
             }
         }
 

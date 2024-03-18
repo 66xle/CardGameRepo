@@ -115,23 +115,41 @@ public class GraphSaveUtility
             // Cloning choices so there won't be a reference in scriptable object
             List<DialogueChoices> choices = new List<DialogueChoices>();
 
-            foreach (DialogueChoices choice in ((DialogueChoiceNode)eventNode).choices)
+            if (eventNode._nodeType == DIALOGUE_CHOICE)
             {
-                DialogueChoices choiceData = new DialogueChoices(choice.text, choice.portGUID);
-                choiceData.targetGUID = choice.targetGUID;
+                foreach (DialogueChoices choice in ((DialogueChoiceNode)eventNode).choices)
+                {
+                    DialogueChoices choiceData = new DialogueChoices(choice.text, choice.portGUID);
+                    choiceData.targetGUID = choice.targetGUID;
 
-                choices.Add(choiceData);
+                    choices.Add(choiceData);
+                }
             }
+            
 
             DialogueNodeData newNode = new DialogueNodeData
             {
                 Guid = eventNode._GUID,
-                DialogueText = ((DialogueChoiceNode)eventNode).dialogueText,
                 Position = eventNode.GetPosition().position,
                 Connections = nodeLinks.Where(x => x.BaseNodeGuid == eventNode._GUID).ToList(),
                 Choices = choices,
-                NodeType = eventNode._nodeType
+                NodeType = eventNode._nodeType,
             };
+
+            // Store variables
+            if (eventNode._nodeType == DIALOGUE)
+            {
+                newNode.DialogueText = ((DialogueNode)eventNode).dialogueText;
+            }
+            else if (eventNode._nodeType == DIALOGUE_CHOICE)
+            {
+                newNode.DialogueText = ((DialogueChoiceNode)eventNode).dialogueText;
+            }
+            else if (eventNode._nodeType == LINKEDNODE)
+            {
+                newNode.eventName = ((LinkedNode)eventNode).eventName;
+            }
+
 
             // Store modifier
             if (eventNode._nodeType == BATTLENODE)
@@ -147,10 +165,6 @@ public class GraphSaveUtility
                 newNode.cards = diaMod.cards;
                 newNode.money = diaMod.money;
                 newNode.image = diaMod.image;
-            }
-            else if (eventNode._nodeType == LINKEDNODE)
-            {
-                newNode.eventName = ((LinkedNode)eventNode).eventName;
             }
 
             // Starting node
