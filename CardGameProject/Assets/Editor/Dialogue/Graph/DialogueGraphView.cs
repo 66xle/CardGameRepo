@@ -160,27 +160,36 @@ public class DialogueGraphView : GraphView
 
     #region Nodes
 
-    public void CreateNode(Vector2 position, string nodeType, Modifier modifier, bool choice)
+    public void CreateDialogueNode(Vector2 position, string nodeType, Modifier modifier)
     {
-        DialogueNode dialogueNode = choice ? new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, true, modifier, OnNodeSelected) :
-                                             new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, modifier, OnNodeSelected);
+        DialogueNode dialogueNode = new DialogueNode(Guid.NewGuid().ToString(), nodeType, this, modifier, OnNodeSelected);
 
         dialogueNode.Draw(position, DefaultNodeSize);
         AddElement(dialogueNode);
     }
 
-    public void CreateUtilityNode(Vector2 position, string nodeType, Modifier modifier)
+    public void CreateDialogueChoiceNode(Vector2 position, string nodeType, Modifier modifier)
     {
-        DialogueNode utilityNode = new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, modifier, OnNodeSelected);
-        utilityNode.DrawUtility(position, DefaultNodeSize);
-        AddElement(utilityNode);
+        DialogueChoiceNode dialogueChoiceNode = new DialogueChoiceNode(Guid.NewGuid().ToString(), nodeType, this, modifier, OnNodeSelected);
+
+        dialogueChoiceNode.Draw(position, DefaultNodeSize);
+        AddElement(dialogueChoiceNode);
     }
 
-    public void CreateEventNode(Vector2 position, string nodeType)
+    public void CreateBattleNode(Vector2 position, string nodeType, Modifier modifier)
     {
-        DialogueNode eventNode = new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, OnNodeSelected, "Event");
-        eventNode.DrawEvent(position, DefaultNodeSize);
-        AddElement(eventNode);
+        BattleNode battleNode = new BattleNode(Guid.NewGuid().ToString(), nodeType, this, modifier, OnNodeSelected);
+
+        battleNode.Draw(position, DefaultNodeSize);
+        AddElement(battleNode);
+    }
+
+    public void CreateLinkedNode(Vector2 position, string nodeType)
+    {
+        LinkedNode linkedNode = new LinkedNode(Guid.NewGuid().ToString(), nodeType, this, OnNodeSelected);
+
+        linkedNode.Draw(position, DefaultNodeSize);
+        AddElement(linkedNode);
     }
 
     #endregion
