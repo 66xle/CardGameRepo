@@ -13,28 +13,28 @@ MonoBehaviour:
   m_Name: Testing
   m_EditorClassIdentifier: 
   DialogueNodeData:
-  - Guid: d48cd141-a734-48e0-a56f-58daef030ffe
+  - Guid: 3e63239b-f2cd-4258-b616-6e4d650e0fd2
     DialogueText: 
-    NodeType: End Node
-    Position: {x: 692, y: 186.66667}
-    isStartNode: 0
-    Connections: []
+    NodeType: Dialogue
+    Position: {x: 215, y: 216}
+    isStartNode: 1
+    Connections:
+    - BaseNodeGuid: 3e63239b-f2cd-4258-b616-6e4d650e0fd2
+      PortName: Output
+      TargetNodeGuid: eda94d01-f1d1-4a49-bf13-41ab18662488
+      ChoiceGUID: output
     Choices: []
     enemies: []
     cards: []
     money: 0
     image: {fileID: 0}
     eventName: 
-  - Guid: 3e63239b-f2cd-4258-b616-6e4d650e0fd2
+  - Guid: eda94d01-f1d1-4a49-bf13-41ab18662488
     DialogueText: 
-    NodeType: Dialogue
-    Position: {x: 270.6667, y: 204.66666}
-    isStartNode: 1
-    Connections:
-    - BaseNodeGuid: 3e63239b-f2cd-4258-b616-6e4d650e0fd2
-      PortName: Output
-      TargetNodeGuid: d48cd141-a734-48e0-a56f-58daef030ffe
-      ChoiceGUID: output
+    NodeType: Battle Node
+    Position: {x: 521, y: 230}
+    isStartNode: 0
+    Connections: []
     Choices: []
     enemies: []
     cards: []

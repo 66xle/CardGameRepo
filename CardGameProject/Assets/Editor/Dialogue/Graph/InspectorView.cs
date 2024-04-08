@@ -16,12 +16,12 @@ public class InspectorView : VisualElement
 
     }
 
-    internal void UpdateSelection(DialogueNode dialogueNode)
+    internal void UpdateSelection(EventNode eventNode)
     {
         Clear();
 
         UnityEngine.Object.DestroyImmediate(editor);
-        editor = Editor.CreateEditor(dialogueNode.modifier);
+        editor = Editor.CreateEditor(eventNode._modifier);
         IMGUIContainer container = new IMGUIContainer(() => { editor.OnInspectorGUI(); });
         Add(container);
     }

@@ -13,14 +13,13 @@ public class GraphSaveUtility
     private const string DIALOGUE = "Dialogue";
     private const string DIALOGUE_CHOICE = "Dialogue Choice";
     private const string BATTLENODE = "Battle Node";
-    private const string ENDNODE = "End Node";
-    private const string EVENTNODE = "Event";
+    private const string LINKEDNODE = "Linked Node";
 
     private DialogueGraphView _targetGraphView;
     private Event _containerCache;
 
     private List<Edge> Edges => _targetGraphView.edges.ToList();
-    private List<DialogueNode> Nodes => _targetGraphView.nodes.ToList().Cast<DialogueNode>().ToList();
+    private List<EventNode> Nodes => _targetGraphView.nodes.ToList().Cast<EventNode>().ToList();
 
     private DialogueNodeData startNode;
 
@@ -72,11 +71,11 @@ public class GraphSaveUtility
 
         List<Port> inputPorts = Ports.Where(x => x.name == "input").ToList();
         List<Port> portsNotConnected = inputPorts.Where(x => x.connected == false).ToList();
-        DialogueNode node = portsNotConnected[0].node as DialogueNode;
+        EventNode node = portsNotConnected[0].node as EventNode;
 
         startNode = new DialogueNodeData
         {
-            Guid = node.GUID,
+            Guid = node._GUID,
         };
 
         #endregion
@@ -92,15 +91,15 @@ public class GraphSaveUtility
         for (int i = 0; i < connectedPorts.Count(); i++)
         {
             // Get both nodes the edge is connected to
-            DialogueNode outputNode = (connectedPorts[i].output.node as DialogueNode);
-            DialogueNode inputNode = (connectedPorts[i].input.node as DialogueNode);
+            EventNode outputNode = (connectedPorts[i].output.node as EventNode);
+            EventNode inputNode = (connectedPorts[i].input.node as EventNode);
 
             // Create connection data
             nodeLinks.Add(new NodeLinkData
             {
-                BaseNodeGuid = outputNode.GUID,
+                BaseNodeGuid = outputNode._GUID,
                 PortName = connectedPorts[i].output.portName,
-                TargetNodeGuid = inputNode.GUID,
+                TargetNodeGuid = inputNode._GUID,
                 ChoiceGUID = connectedPorts[i].output.name,
             }); ;
         }
@@ -111,51 +110,65 @@ public class GraphSaveUtility
         #region Save Nodes
 
         // Save all nodes
-        foreach (DialogueNode dialogueNode in Nodes)
+        foreach (EventNode eventNode in Nodes)
         {
             // Cloning choices so there won't be a reference in scriptable object
             List<DialogueChoices> choices = new List<DialogueChoices>();
 
-            foreach (DialogueChoices choice in dialogueNode.choices)
+            if (eventNode._nodeType == DIALOGUE_CHOICE)
             {
-                DialogueChoices choiceData = new DialogueChoices(choice.text, choice.portGUID);
-                choiceData.targetGUID = choice.targetGUID;
+                foreach (DialogueChoices choice in ((DialogueChoiceNode)eventNode).choices)
+                {
+                    DialogueChoices choiceData = new DialogueChoices(choice.text, choice.portGUID);
+                    choiceData.targetGUID = choice.targetGUID;
 
-                choices.Add(choiceData);
+                    choices.Add(choiceData);
+                }
             }
+            
 
             DialogueNodeData newNode = new DialogueNodeData
             {
-                Guid = dialogueNode.GUID,
-                DialogueText = dialogueNode.dialogueText,
-                Position = dialogueNode.GetPosition().position,
-                Connections = nodeLinks.Where(x => x.BaseNodeGuid == dialogueNode.GUID).ToList(),
+                Guid = eventNode._GUID,
+                Position = eventNode.GetPosition().position,
+                Connections = nodeLinks.Where(x => x.BaseNodeGuid == eventNode._GUID).ToList(),
                 Choices = choices,
-                NodeType = dialogueNode.nodeType
+                NodeType = eventNode._nodeType,
             };
 
-            // Store modifier
-            if (dialogueNode.nodeType == BATTLENODE)
+            // Store variables
+            if (eventNode._nodeType == DIALOGUE)
             {
-                BattleModifier batMod = dialogueNode.modifier as BattleModifier;
+                newNode.DialogueText = ((DialogueNode)eventNode).dialogueText;
+            }
+            else if (eventNode._nodeType == DIALOGUE_CHOICE)
+            {
+                newNode.DialogueText = ((DialogueChoiceNode)eventNode).dialogueText;
+            }
+            else if (eventNode._nodeType == LINKEDNODE)
+            {
+                newNode.eventName = ((LinkedNode)eventNode).eventName;
+            }
+
+
+            // Store modifier
+            if (eventNode._nodeType == BATTLENODE)
+            {
+                BattleModifier batMod = eventNode._modifier as BattleModifier;
                 newNode.enemies = batMod.enemies;
                 newNode.cards = batMod.cards;
                 newNode.money = batMod.money;
             }
-            else if (dialogueNode.nodeType == DIALOGUE || dialogueNode.nodeType == DIALOGUE_CHOICE)
+            else if (eventNode._nodeType == DIALOGUE || eventNode._nodeType == DIALOGUE_CHOICE)
             {
-                DialogueModifier diaMod = dialogueNode.modifier as DialogueModifier;
+                DialogueModifier diaMod = eventNode._modifier as DialogueModifier;
                 newNode.cards = diaMod.cards;
                 newNode.money = diaMod.money;
                 newNode.image = diaMod.image;
             }
-            else if (dialogueNode.nodeType == EVENTNODE)
-            {
-                newNode.eventName = dialogueNode.eventName;
-            }
 
             // Starting node
-            if (dialogueNode.GUID == startNode.Guid)
+            if (eventNode._GUID == startNode.Guid)
             {
                 newNode.isStartNode = true;
             }
@@ -308,7 +321,7 @@ public class GraphSaveUtility
         // Set entry points guid back from the save. Discard existing guid
         //Nodes.Find(x => x.EntryPoint).GUID = _containerCache.NodeLinks[0].BaseNodeGuid;
 
-        foreach (DialogueNode node in Nodes)
+        foreach (EventNode node in Nodes)
         {
             // Remove edges that is connected to this node
             Edges.Where(x => x.input.node == node).ToList().ForEach(edge => _targetGraphView.RemoveElement(edge));
@@ -323,39 +336,33 @@ public class GraphSaveUtility
     {
         foreach (DialogueNodeData nodeData in _containerCache.DialogueNodeData)
         {
-            DialogueNode tempNode;
-
-            if (nodeData.NodeType == BATTLENODE)
+            if (nodeData.NodeType == DIALOGUE)
             {
-                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, new BattleModifier(nodeData.enemies, nodeData.cards, nodeData.money), _targetGraphView.OnNodeSelected);
-                tempNode.DrawUtility(nodeData.Position, _targetGraphView.DefaultNodeSize);
-            }
-            else if (nodeData.NodeType == ENDNODE)
-            {
-                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, null, _targetGraphView.OnNodeSelected);
-                tempNode.DrawUtility(nodeData.Position, _targetGraphView.DefaultNodeSize);
+                DialogueNode dialogueNode = new DialogueNode(nodeData.Guid, nodeData.NodeType, _targetGraphView, new DialogueModifier(nodeData.cards, nodeData.money, nodeData.image), _targetGraphView.OnNodeSelected);
+                dialogueNode.dialogueText = nodeData.DialogueText;
+                dialogueNode.Draw(nodeData.Position, _targetGraphView.DefaultNodeSize);
+                _targetGraphView.AddElement(dialogueNode);
             }
             else if (nodeData.NodeType == DIALOGUE_CHOICE)
             {
-                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, true, new DialogueModifier(nodeData.cards, nodeData.money, nodeData.image), _targetGraphView.OnNodeSelected);
-                tempNode.choices = nodeData.Choices;
-                tempNode.dialogueText = nodeData.DialogueText;
-                tempNode.Draw(nodeData.Position, _targetGraphView.DefaultNodeSize);
+                DialogueChoiceNode choiceNode = new DialogueChoiceNode(nodeData.Guid, nodeData.NodeType, _targetGraphView, new DialogueModifier(nodeData.cards, nodeData.money, nodeData.image), _targetGraphView.OnNodeSelected);
+                choiceNode.choices = nodeData.Choices;
+                choiceNode.dialogueText = nodeData.DialogueText;
+                choiceNode.Draw(nodeData.Position, _targetGraphView.DefaultNodeSize);
+                _targetGraphView.AddElement(choiceNode);
             }
-            else if (nodeData.NodeType == EVENTNODE)
+            else if (nodeData.NodeType == BATTLENODE)
             {
-                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, _targetGraphView.OnNodeSelected, nodeData.eventName);
-                tempNode.DrawEvent(nodeData.Position, _targetGraphView.DefaultNodeSize);
+                BattleNode battleNode = new BattleNode(nodeData.Guid, nodeData.NodeType, _targetGraphView, new BattleModifier(nodeData.enemies, nodeData.cards, nodeData.money), _targetGraphView.OnNodeSelected);
+                battleNode.Draw(nodeData.Position, _targetGraphView.DefaultNodeSize);
+                _targetGraphView.AddElement(battleNode);
             }
-            else
+            else if (nodeData.NodeType == LINKEDNODE)
             {
-                tempNode = new DialogueNode(nodeData.Guid, _targetGraphView, nodeData.NodeType, new DialogueModifier(nodeData.cards, nodeData.money, nodeData.image), _targetGraphView.OnNodeSelected);
-                tempNode.dialogueText = nodeData.DialogueText;
-                tempNode.Draw(nodeData.Position, _targetGraphView.DefaultNodeSize);
+                LinkedNode linkedNode = new LinkedNode(nodeData.Guid, nodeData.NodeType, _targetGraphView, _targetGraphView.OnNodeSelected);
+                linkedNode.Draw(nodeData.Position, _targetGraphView.DefaultNodeSize);
+                _targetGraphView.AddElement(linkedNode);
             }
-            
-
-            _targetGraphView.AddElement(tempNode);
         }
     }
 
@@ -365,11 +372,11 @@ public class GraphSaveUtility
         for (int i = 0; i < Nodes.Count; i++)
         {
             // Get all output connections connected to this node
-            List<NodeLinkData> connections = _containerCache.DialogueNodeData.First(x => x.Guid == Nodes[i].GUID).Connections;
+            List<NodeLinkData> connections = _containerCache.DialogueNodeData.First(x => x.Guid == Nodes[i]._GUID).Connections;
             for (int j = 0; j < connections.Count; j++)
             {
                 string targetNodeGuid = connections[j].TargetNodeGuid;
-                DialogueNode targetNode = Nodes.First(x => x.GUID == targetNodeGuid);
+                EventNode targetNode = Nodes.First(x => x._GUID == targetNodeGuid);
 
                 // Link ports
                 LinkNodes(Nodes[i].outputContainer[j].Q<Port>(), (Port)targetNode.inputContainer[0]);

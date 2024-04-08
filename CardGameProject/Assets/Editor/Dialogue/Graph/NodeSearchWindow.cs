@@ -16,10 +16,8 @@ public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
 
     public const string DIALOGUE = "Dialogue";
     public const string DIALOGUE_CHOICE = "Dialogue Choice";
-    public const string EVENT = "Event";
     public const string BATTLENODE = "Battle Node";
-    public const string ENDNODE = "End Node";
-    public const string EVENTNODE = "Event";
+    public const string LINKEDNODE = "Linked Node";
 
     public void Configure(EditorWindow window, DialogueGraphView graphView)
     {
@@ -51,21 +49,16 @@ public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
             {
                 level = 1,
                 userData = BATTLENODE
-            },
-            new SearchTreeEntry(new GUIContent(ENDNODE, _indentationIcon))
-            {
-                level = 1,
-                userData = ENDNODE
-            },
+            }
         };
 
         List<SearchTreeEntry> linkedTree = new List<SearchTreeEntry>
         {
             new SearchTreeGroupEntry(new GUIContent("Event Node"), 0),
-            new SearchTreeEntry(new GUIContent(EVENTNODE, _indentationIcon))
+            new SearchTreeEntry(new GUIContent(LINKEDNODE, _indentationIcon))
             {
                 level = 1,
-                userData = EVENTNODE
+                userData = LINKEDNODE
             },
         };
 
@@ -83,19 +76,16 @@ public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
         switch (SearchTreeEntry.userData)
         {
             case DIALOGUE:
-                _graphView.CreateNode(graphMousePosition, DIALOGUE, new DialogueModifier(), false);
+                _graphView.CreateDialogueNode(graphMousePosition, DIALOGUE, new DialogueModifier());
                 return true;
             case DIALOGUE_CHOICE:
-                _graphView.CreateNode(graphMousePosition, DIALOGUE_CHOICE, new DialogueModifier(), true);
+                _graphView.CreateDialogueChoiceNode(graphMousePosition, DIALOGUE_CHOICE, new DialogueModifier());
                 return true;
             case BATTLENODE:
-                _graphView.CreateUtilityNode(graphMousePosition, BATTLENODE, new BattleModifier());
+                _graphView.CreateBattleNode(graphMousePosition, BATTLENODE, new BattleModifier());
                 return true;
-            case ENDNODE:
-                _graphView.CreateUtilityNode(graphMousePosition, ENDNODE, null);
-                return true;
-            case EVENTNODE:
-                _graphView.CreateEventNode(graphMousePosition, EVENTNODE);
+            case LINKEDNODE:
+                _graphView.CreateLinkedNode(graphMousePosition, LINKEDNODE);
                 return true;
         }
         return false;

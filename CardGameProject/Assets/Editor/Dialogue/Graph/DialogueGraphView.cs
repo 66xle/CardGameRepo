@@ -14,6 +14,8 @@ using System.IO;
 
 public class DialogueGraphView : GraphView
 {
+    private const string DIALOGUE_CHOICE = "Dialogue Choice";
+
     public bool allowCreatingNode = false;
     public bool isInEventState;
     public string openedEventGUID;
@@ -23,7 +25,7 @@ public class DialogueGraphView : GraphView
 
     public bool hasGraphChanges = false;
 
-    public Action<DialogueNode> OnNodeSelected;
+    public Action<EventNode> OnNodeSelected;
 
     public const string PLAYER = "Player";
     public const string NPC = "NPC";
@@ -87,18 +89,23 @@ public class DialogueGraphView : GraphView
                 }
             }
 
-            
-            DialogueNode bNode = baseNode as DialogueNode;
-            if (bNode.choices.Count > 0)
-            {
-                // Use the connected output port to get choice
-                string portGUID = edge.output.name;
-                DialogueChoices choice = bNode.choices.First(x => x.portGUID == portGUID);
-                
-                // Use connected input port to get target guid
-                DialogueNode tNode = targetNode as DialogueNode;
 
-                choice.targetGUID = tNode.GUID;
+            EventNode eventNode = baseNode as EventNode;
+            if (eventNode._nodeType == DIALOGUE_CHOICE)
+            {
+                DialogueChoiceNode bNode = eventNode as DialogueChoiceNode;
+
+                if (bNode.choices.Count > 0)
+                {
+                    // Use the connected output port to get choice
+                    string portGUID = edge.output.name;
+                    DialogueChoices choice = bNode.choices.First(x => x.portGUID == portGUID);
+
+                    // Use connected input port to get target guid
+                    DialogueNode tNode = targetNode as DialogueNode;
+
+                    choice.targetGUID = tNode._GUID;
+                }
             }
         }
 
@@ -160,27 +167,36 @@ public class DialogueGraphView : GraphView
 
     #region Nodes
 
-    public void CreateNode(Vector2 position, string nodeType, Modifier modifier, bool choice)
+    public void CreateDialogueNode(Vector2 position, string nodeType, Modifier modifier)
     {
-        DialogueNode dialogueNode = choice ? new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, true, modifier, OnNodeSelected) :
-                                             new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, modifier, OnNodeSelected);
+        DialogueNode dialogueNode = new DialogueNode(Guid.NewGuid().ToString(), nodeType, this, modifier, OnNodeSelected);
 
         dialogueNode.Draw(position, DefaultNodeSize);
         AddElement(dialogueNode);
     }
 
-    public void CreateUtilityNode(Vector2 position, string nodeType, Modifier modifier)
+    public void CreateDialogueChoiceNode(Vector2 position, string nodeType, Modifier modifier)
     {
-        DialogueNode utilityNode = new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, modifier, OnNodeSelected);
-        utilityNode.DrawUtility(position, DefaultNodeSize);
-        AddElement(utilityNode);
+        DialogueChoiceNode dialogueChoiceNode = new DialogueChoiceNode(Guid.NewGuid().ToString(), nodeType, this, modifier, OnNodeSelected);
+
+        dialogueChoiceNode.Draw(position, DefaultNodeSize);
+        AddElement(dialogueChoiceNode);
     }
 
-    public void CreateEventNode(Vector2 position, string nodeType)
+    public void CreateBattleNode(Vector2 position, string nodeType, Modifier modifier)
     {
-        DialogueNode eventNode = new DialogueNode(Guid.NewGuid().ToString(), this, nodeType, OnNodeSelected, "Event");
-        eventNode.DrawEvent(position, DefaultNodeSize);
-        AddElement(eventNode);
+        BattleNode battleNode = new BattleNode(Guid.NewGuid().ToString(), nodeType, this, modifier, OnNodeSelected);
+
+        battleNode.Draw(position, DefaultNodeSize);
+        AddElement(battleNode);
+    }
+
+    public void CreateLinkedNode(Vector2 position, string nodeType)
+    {
+        LinkedNode linkedNode = new LinkedNode(Guid.NewGuid().ToString(), nodeType, this, OnNodeSelected);
+
+        linkedNode.Draw(position, DefaultNodeSize);
+        AddElement(linkedNode);
     }
 
     #endregion
