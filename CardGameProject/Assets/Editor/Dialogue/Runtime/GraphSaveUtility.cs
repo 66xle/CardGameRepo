@@ -37,6 +37,9 @@ public class GraphSaveUtility
 
     public void SaveGraph(string fileName)
     {
+
+        #region Error Checking 
+
         // If there are no connections don't save
         if (!Edges.Any() && _targetGraphView.isInEventState)
         {
@@ -54,9 +57,10 @@ public class GraphSaveUtility
             return;
         }
 
+        #endregion
+
 
         Event eventContainer = GetEventData();
-        
 
         if (eventContainer != null)
             SaveEventAsset(fileName, eventContainer);
@@ -203,6 +207,7 @@ public class GraphSaveUtility
             }
             else
             {
+                // Save linked nodes
                 loadedAsset.DialogueNodeData.Clear();
                 loadedAsset.DialogueNodeData = new List<DialogueNodeData>(eventContainer.DialogueNodeData);
             }

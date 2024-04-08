@@ -10,6 +10,7 @@ public class DialogueEditor : EditorWindow
 {
     private DialogueGraphView _graphView;
     private InspectorView inspectorView;
+    private SettingView settingView;
 
     public ListView eventList;
     private PopupWindow window;
@@ -66,6 +67,7 @@ public class DialogueEditor : EditorWindow
         rootVisualElement.Add(_graphView);
         
         inspectorView = rootVisualElement.Q<InspectorView>();
+        settingView = rootVisualElement.Q<SettingView>();
         _graphView = rootVisualElement.Q<DialogueGraphView>();
         _graphView.UpdateSearchWindow(this);
         _graphView.OnNodeSelected = OnNodeSelectionChanged;
@@ -177,6 +179,10 @@ public class DialogueEditor : EditorWindow
     public void CreateEventListView()
     {
         FindAllEvents(out List<Event> events);
+
+        List<Event> test = events;
+
+        settingView.DrawElements(test);
 
         #region Setup Event List
 

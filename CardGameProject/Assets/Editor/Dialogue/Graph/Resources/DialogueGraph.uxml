@@ -2,6 +2,10 @@
     <Style src="project://database/Assets/Editor/Dialogue/Graph/Resources/DialogueGraph.uss?fileID=7433441132597879392&amp;guid=8c3b3f3293dcb4041bc599aa875e8004&amp;type=3#DialogueGraph" />
     <SplitView fixed-pane-initial-dimension="300">
         <ui:VisualElement name="left-panel">
+            <ui:VisualElement name="event-container">
+                <ui:Label text="Event Settings" display-tooltip-when-elided="true" style="background-color: rgb(32, 32, 32);" />
+                <SettingView />
+            </ui:VisualElement>
             <ui:VisualElement name="inspector-container">
                 <ui:Label text="Inspector" display-tooltip-when-elided="true" style="background-color: rgb(32, 32, 32);" />
                 <InspectorView />
