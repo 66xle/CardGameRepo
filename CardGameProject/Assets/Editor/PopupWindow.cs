@@ -46,7 +46,7 @@ public class PopupWindow : EditorWindow
 
         // Create textfield
         var textField = new TextField();
-        textField.value = " ";
+        textField.value = "";
         rootVisualElement.Add(textField);
 
         var choices = new List<string> { "Single Event", "Linked Event" };
@@ -112,6 +112,8 @@ public class PopupWindow : EditorWindow
         {
             Event newEvent = new Event();
             newEvent.type = popupField.value;
+            newEvent.category = "Random";
+            newEvent.nextEvent = "None";
 
             AssetDatabase.CreateAsset(newEvent, $"Assets/ScriptableObjects/Events/{fileName}.asset");
             dialogueWindow.eventList.Clear();

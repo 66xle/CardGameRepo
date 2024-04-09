@@ -9,6 +9,8 @@ public class Event : ScriptableObject
     public List<DialogueNodeData> DialogueNodeData = new List<DialogueNodeData>();
     public List<ChildEventData> listChildData = new List<ChildEventData>();
     public string type;
-    public string guid;
+    public string guid; // Sets guid when loading in list
+    public string category;
+    public string nextEvent;
 }
 

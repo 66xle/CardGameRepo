@@ -35,9 +35,8 @@ public class GraphSaveUtility
     
     #region SaveGraph
 
-    public void SaveGraph(string fileName)
+    public void SaveGraph(string fileName, SettingView settingView)
     {
-
         #region Error Checking 
 
         // If there are no connections don't save
@@ -59,8 +58,9 @@ public class GraphSaveUtility
 
         #endregion
 
-
         Event eventContainer = GetEventData();
+        eventContainer.category = settingView.Category;
+        eventContainer.nextEvent = settingView.NextEvent;
 
         if (eventContainer != null)
             SaveEventAsset(fileName, eventContainer);
@@ -203,6 +203,7 @@ public class GraphSaveUtility
             // is linked or event state
             if (_targetGraphView.isInEventState)
             {
+                // Event State
                 SetDataInObject(loadedAsset, eventContainer);
             }
             else
@@ -210,6 +211,9 @@ public class GraphSaveUtility
                 // Save linked nodes
                 loadedAsset.DialogueNodeData.Clear();
                 loadedAsset.DialogueNodeData = new List<DialogueNodeData>(eventContainer.DialogueNodeData);
+
+                loadedAsset.category = eventContainer.category;
+                loadedAsset.nextEvent = eventContainer.nextEvent;
             }
 
             // Check if event is linked and if child data is greater than node count
@@ -260,6 +264,9 @@ public class GraphSaveUtility
         {
             loadedAsset.DialogueNodeData.Clear();
             loadedAsset.DialogueNodeData = new List<DialogueNodeData>(eventContainer.DialogueNodeData);
+
+            loadedAsset.category = eventContainer.category;
+            loadedAsset.nextEvent = eventContainer.nextEvent;
         }
         else if (loadedAsset.type == "Linked Event")
         {

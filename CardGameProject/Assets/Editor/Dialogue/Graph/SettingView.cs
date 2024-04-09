@@ -13,8 +13,8 @@ public class SettingView : VisualElement
     private PopupField<string> categoryField;
     private PopupField<string> eventField;
 
-    public string GetCategory { get { return categoryField.value; } }
-    public string GetNextEvent { get { return eventField.value; } }
+    public string Category { get { return categoryField.value; } }
+    public string NextEvent { get { return eventField.value; } }
 
     public new class UxmlFactory : UxmlFactory<SettingView, UxmlTraits> { }
 
@@ -23,15 +23,23 @@ public class SettingView : VisualElement
       
     }
 
-    public void DrawElements(List<Event> events)
+    public void ClearSetting()
     {
         Clear();
+    }
 
-        var categoryChoices = new List<string> { "All", "Cycle", "Main Mission" };
+    public void DrawElements(List<Event> events, Event selectedEvent)
+    {
+        ClearSetting();
+
+        var categoryChoices = new List<string> { "Random", "Cycle", "Main Mission" };
 
         // Create a new field and assign it its value.
-        categoryField = new PopupField<string>("Category", categoryChoices, 0);
-        categoryField.value = "All";
+        categoryField = CreatePopupField("Category", categoryChoices, callback =>
+        {
+            categoryField.value = callback.newValue;
+        });
+        categoryField.value = selectedEvent.category;
         Add(categoryField);
 
 
@@ -39,9 +47,24 @@ public class SettingView : VisualElement
         events.ForEach(e => eventList.Add(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(e.guid))));
 
         // Create a new field and assign it its value.
-        eventField = new PopupField<string>("Next Event", eventList, 0);
-        eventField.value = "None";
+        eventField = CreatePopupField("Next Event", eventList, callback =>
+        {
+            eventField.value = callback.newValue;
+         });
+        eventField.value = selectedEvent.nextEvent;
         Add(eventField);
 
+    }
+
+    PopupField<string> CreatePopupField(string name, List<string> choices, EventCallback<ChangeEvent<string>> onValueChanged = null)
+    {
+        PopupField<string> popupField = new PopupField<string>(name, choices, 0);
+
+        if (onValueChanged != null)
+        {
+            popupField.RegisterValueChangedCallback(onValueChanged);
+        }
+
+        return popupField;
     }
 }

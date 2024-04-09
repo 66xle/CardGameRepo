@@ -5,12 +5,13 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class DialogueEditor : EditorWindow
 {
     private DialogueGraphView _graphView;
     private InspectorView inspectorView;
-    private SettingView settingView;
+    public SettingView settingView;
 
     public ListView eventList;
     private PopupWindow window;
@@ -180,9 +181,7 @@ public class DialogueEditor : EditorWindow
     {
         FindAllEvents(out List<Event> events);
 
-        List<Event> test = events;
-
-        settingView.DrawElements(test);
+        settingView.ClearSetting();
 
         #region Setup Event List
 
@@ -256,10 +255,12 @@ public class DialogueEditor : EditorWindow
                     RequestDataOperation(false);
                     inspectorView.Clear();
                 }
+
                 selectedIndex = eventList.selectedIndex;
                 prevSelectedEvent = selectedEvent;
                 manualSelected = false;
                 _graphView.backButton.visible = false;
+                settingView.DrawElements(events, selectedEvent);
             }
         };
 
@@ -273,6 +274,9 @@ public class DialogueEditor : EditorWindow
     bool CheckGraphChanges(Event eventToCheck)
     {
         Event onGraphEvent = GraphSaveUtility.GetInstance(_graphView).GetEventData();
+        onGraphEvent.category = settingView.Category;
+        onGraphEvent.nextEvent = settingView.NextEvent;
+
 
         if (onGraphEvent != null)
         {
@@ -296,6 +300,13 @@ public class DialogueEditor : EditorWindow
         if (prevEvent.DialogueNodeData.Count != currEvent.DialogueNodeData.Count)
             return false;
 
+        // Checking event settings
+        if (prevEvent.category != currEvent.category)
+            return false;
+        if (prevEvent.nextEvent != currEvent.nextEvent)
+            return false;
+
+        // Checking each node
         for (int i = 0; i < prevEvent.DialogueNodeData.Count; i++)
         {
             DialogueNodeData prevData = prevEvent.DialogueNodeData[i];
@@ -326,6 +337,8 @@ public class DialogueEditor : EditorWindow
                 return false;
             if (prevData.image != currData.image)
                 return false;
+
+            
         }
 
         return true;
@@ -449,7 +462,7 @@ public class DialogueEditor : EditorWindow
         if (save)
         {
             string fileName = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(selectedEvent.guid));
-            saveUtility.SaveGraph(fileName);
+            saveUtility.SaveGraph(fileName, settingView);
         }
         else
         {

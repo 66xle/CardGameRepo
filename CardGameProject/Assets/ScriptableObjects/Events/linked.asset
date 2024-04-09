@@ -16,7 +16,7 @@ MonoBehaviour:
   - Guid: 2d9d39b4-4f0d-4c4a-acb6-7b4533c03805
     DialogueText: 
     NodeType: Linked Node
-    Position: {x: -191, y: 60}
+    Position: {x: -191.2, y: 60}
     isStartNode: 1
     Connections:
     - BaseNodeGuid: 2d9d39b4-4f0d-4c4a-acb6-7b4533c03805
@@ -28,11 +28,11 @@ MonoBehaviour:
     cards: []
     money: 0
     image: {fileID: 0}
-    eventName: test
+    eventName: New Event
   - Guid: 683d8f67-2463-4dc3-b59f-a7bd3b3b14ca
     DialogueText: 
     NodeType: Linked Node
-    Position: {x: 82, y: 60}
+    Position: {x: 82.399994, y: 60}
     isStartNode: 0
     Connections: []
     Choices: []
@@ -77,3 +77,5 @@ MonoBehaviour:
       eventName: 
   type: Linked Event
   guid: 7b016c3b00ec48d4da6c2a88c444f280
+  category: Cycle
+  nextEvent: Testing
