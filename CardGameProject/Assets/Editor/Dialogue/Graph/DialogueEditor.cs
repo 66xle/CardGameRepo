@@ -260,7 +260,9 @@ public class DialogueEditor : EditorWindow
                 prevSelectedEvent = selectedEvent;
                 manualSelected = false;
                 _graphView.backButton.visible = false;
-                settingView.DrawElements(events, selectedEvent);
+
+                List<Event> copyOfEventList = eventList.itemsSource as List<Event>; // Copying because when renaming event, event becomes null in events when selecting, but is saved in item source
+                settingView.DrawElements(copyOfEventList, selectedEvent);
             }
         };
 

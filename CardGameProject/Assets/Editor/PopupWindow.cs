@@ -152,6 +152,8 @@ public class PopupWindow : EditorWindow
 
 
         Event newEvent = CreateNewEvent(selectedEvent);
+        newEvent.category = selectedEvent.category;
+        newEvent.nextEvent = selectedEvent.nextEvent;
 
         // Delete then create asset
         AssetDatabase.DeleteAsset($"Assets/ScriptableObjects/Events/{oldFileName}.asset");
