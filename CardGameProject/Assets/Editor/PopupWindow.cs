@@ -11,6 +11,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using System.Linq;
 
 public class PopupWindow : EditorWindow
 {
@@ -154,6 +155,11 @@ public class PopupWindow : EditorWindow
         Event newEvent = CreateNewEvent(selectedEvent);
         newEvent.category = selectedEvent.category;
         newEvent.nextEvent = selectedEvent.nextEvent;
+
+        dialogueWindow.FindAllEvents(out List<Event> events);
+        List<Event> eventsToBeRenamed = events.Where(evt => evt.nextEvent == oldFileName).ToList();
+        eventsToBeRenamed.ForEach(evt => evt.nextEvent = newFileName);
+
 
         // Delete then create asset
         AssetDatabase.DeleteAsset($"Assets/ScriptableObjects/Events/{oldFileName}.asset");

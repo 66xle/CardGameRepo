@@ -431,7 +431,7 @@ public class DialogueEditor : EditorWindow
 
     #endregion
 
-    private void FindAllEvents(out List<Event> events)
+    public void FindAllEvents(out List<Event> events)
     {
         string[] guids = AssetDatabase.FindAssets("t:Event");
 
