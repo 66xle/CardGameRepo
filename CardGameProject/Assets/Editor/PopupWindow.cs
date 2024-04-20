@@ -156,6 +156,7 @@ public class PopupWindow : EditorWindow
         newEvent.category = selectedEvent.category;
         newEvent.nextEvent = selectedEvent.nextEvent;
 
+        // Change next event that is linked to the renamed event
         dialogueWindow.FindAllEvents(out List<Event> events);
         List<Event> eventsToBeRenamed = events.Where(evt => evt.nextEvent == oldFileName).ToList();
         eventsToBeRenamed.ForEach(evt => evt.nextEvent = newFileName);

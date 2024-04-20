@@ -45,6 +45,7 @@ public class SettingView : VisualElement
 
         var eventList = new List<string> { "None"};
         events.ForEach(e => eventList.Add(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(e.guid))));
+        eventList.Remove(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(selectedEvent.guid)));
 
         // Create a new field and assign it its value.
         eventField = CreatePopupField("Next Event", eventList, callback =>
