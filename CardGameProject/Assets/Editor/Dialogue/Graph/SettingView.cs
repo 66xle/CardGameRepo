@@ -32,7 +32,7 @@ public class SettingView : VisualElement
     {
         ClearSetting();
 
-        var categoryChoices = new List<string> { "Random", "Cycle", "Main Mission" };
+        var categoryChoices = new List<string> { "Random", "Cycle", "Main" };
 
         // Create a new field and assign it its value.
         categoryField = CreatePopupField("Category", categoryChoices, callback =>

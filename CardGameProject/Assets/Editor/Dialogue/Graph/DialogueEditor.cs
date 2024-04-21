@@ -5,7 +5,24 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Linq;
+using System;
+
+enum CycleField
+{
+    All,
+    Random,
+    Cycle,
+    Main
+}
+
+enum EventField
+{
+    Any,
+    Single,
+    Linked
+}
+
 
 public class DialogueEditor : EditorWindow
 {
@@ -21,6 +38,25 @@ public class DialogueEditor : EditorWindow
     private int selectedIndex;
     private bool manualSelected = false;
     private Event prevSelectedEvent;
+
+    private string GetCycleField
+    {
+        get
+        {
+            EnumField cycleField = rootVisualElement.Query<EnumField>("cycle-type");
+            return cycleField.value.ToString();
+        }
+    }
+
+    private string GetEventField { 
+        
+        get
+        {
+            EnumField eventField = rootVisualElement.Query<EnumField>("event-type");
+            return eventField.value.ToString();
+        }
+    }
+
 
     [MenuItem("Editor/Event Graph")]
     public static void ShowWindow()
@@ -78,6 +114,27 @@ public class DialogueEditor : EditorWindow
         backButton.RegisterCallback<MouseUpEvent>((evt) => BackButton());
 
         _graphView.backButton = backButton;
+
+        EnumField cycleField = rootVisualElement.Query<EnumField>("cycle-type");
+        cycleField.Init(CycleField.All);
+        cycleField.value = CycleField.All;
+
+        cycleField.RegisterCallback<ChangeEvent<Enum>>((evt) =>
+        {
+            cycleField.value = evt.newValue;
+            CreateEventListView();
+        });
+
+        EnumField eventField = rootVisualElement.Query<EnumField>("event-type");
+        eventField.Init(EventField.Any);
+        eventField.value = EventField.Any;
+
+        eventField.RegisterCallback<ChangeEvent<Enum>>((evt) =>
+        {
+            eventField.value = evt.newValue;
+            CreateEventListView();
+        });
+
 
         CreateEventListView();
     }
@@ -181,13 +238,34 @@ public class DialogueEditor : EditorWindow
     {
         FindAllEvents(out List<Event> events);
 
+        if (GetCycleField != "All")
+        {
+            events = events.Where(evt => evt.category == GetCycleField).ToList();
+        }
+
+        if (GetEventField != "Any")
+        {
+            if (GetEventField == "Single")
+                events = events.Where(evt => evt.type == "Single Event").ToList();
+
+            if (GetEventField == "Linked")
+                events = events.Where(evt => evt.type == "Linked Event").ToList();
+
+        }
+
         settingView.ClearSetting();
+
+        
 
         #region Setup Event List
 
         eventList = rootVisualElement.Query<ListView>("event-list").First();
         eventList.makeItem = () => new Label();
-        eventList.bindItem = (element, i) => (element as Label).text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(events[i].guid));
+        eventList.bindItem = (element, i) =>
+        {
+            if (i < events.Count) // Index error for some dumb reason
+                (element as Label).text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(events[i].guid));
+        };
 
         eventList.itemsSource = events;
         eventList.itemHeight = 16;

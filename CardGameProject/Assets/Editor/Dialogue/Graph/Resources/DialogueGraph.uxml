@@ -11,7 +11,11 @@
                 <InspectorView />
             </ui:VisualElement>
             <ui:VisualElement name="list-container">
-                <ui:Label text="Events" display-tooltip-when-elided="true" style="background-color: rgb(32, 32, 32);" />
+                <ui:VisualElement name="filter-container">
+                    <ui:Label text="Events" display-tooltip-when-elided="true" style="background-color: rgb(32, 32, 32);" />
+                    <uie:EnumField label="" name="cycle-type" include-obsolete-values="false"/>
+                    <uie:EnumField label="" name="event-type" include-obsolete-values="false"/>
+                </ui:VisualElement>
                 <ui:ListView name="event-list"/>
             </ui:VisualElement>
         </ui:VisualElement>
