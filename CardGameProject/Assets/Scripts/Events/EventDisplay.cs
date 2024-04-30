@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using System;
+using UnityEditor.MemoryProfiler;
 
 public class EventDisplay : MonoBehaviour
 {
@@ -60,7 +62,6 @@ public class EventDisplay : MonoBehaviour
         Init();
 
         dialogueData = eventObj.DialogueNodeData;
-
         currentNode = dialogueData.First(x => x.isStartNode == true);
 
         DetermineNodeType();
@@ -68,17 +69,17 @@ public class EventDisplay : MonoBehaviour
 
     void DetermineNodeType()
     {
-        if (currentNode.NodeType == DIALOGUE || currentNode.NodeType == DIALOGUE_CHOICE)
+        if (currentNode == null)
+        {
+            EndEvent();
+        }
+        else if (currentNode.NodeType == DIALOGUE || currentNode.NodeType == DIALOGUE_CHOICE)
         {
             LoadDialogue();
         }
         else if (currentNode.NodeType == BATTLENODE)
         {
             LoadCombatEvent();
-        }
-        else
-        {
-            EndEvent();
         }
     }
 
@@ -93,6 +94,8 @@ public class EventDisplay : MonoBehaviour
         tmpDialougeText.text = currentNode.DialogueText;
         image.sprite = currentNode.image;
 
+
+        #region Load Choices
 
         Transform newChoiceUI = parentChoiceObject.transform;
         int index = 0;
@@ -116,23 +119,29 @@ public class EventDisplay : MonoBehaviour
             index++;
             currentChoices.Add(choice);
         }
+
+        #endregion
     }
 
-    public void NextDialogue(DialogueChoices index = null)
+    public void NextDialogue(DialogueChoices selectedChoice = null)
     {
-        DialogueNodeData nextNode;
-
+        DialogueNodeData nextNode = null;
+        
         if (doesNodeHaveChoice)
         {
             // Get next node through choice picked
-            DialogueChoices nextChoice = currentChoices.First(x => x == index);
+            DialogueChoices nextChoice = currentChoices.First(x => x == selectedChoice);
             nextNode = dialogueData.First(x => x.Guid == nextChoice.targetGUID);
         }
         else
         {
             // Get next node through connection
-            string targetNodeGuid = currentNode.Connections[0].TargetNodeGuid;
-            nextNode = dialogueData.First(x => x.Guid == targetNodeGuid);
+
+            if (currentNode.Connections.Count > 0)
+            {
+                string targetNodeGuid = currentNode.Connections[0].TargetNodeGuid;
+                nextNode = dialogueData.First(x => x.Guid == targetNodeGuid);
+            }
         }
 
         doesNodeHaveChoice = false;
