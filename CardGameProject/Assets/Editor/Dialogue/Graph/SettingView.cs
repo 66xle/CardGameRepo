@@ -52,9 +52,20 @@ public class SettingView : VisualElement
         {
             eventField.value = callback.newValue;
          });
-        eventField.value = selectedEvent.nextEvent;
+
+
+        if (selectedEvent.nextEvent != null)
+            eventField.value = selectedEvent.nextEvent.name;
+        else
+            eventField.value = "None";
+
         Add(eventField);
 
+    }
+
+    public Event GetEventFromString(string name)
+    {
+        return AssetDatabase.LoadAssetAtPath<Event>($"Assets/ScriptableObjects/Events/{name}.asset");
     }
 
     PopupField<string> CreatePopupField(string name, List<string> choices, EventCallback<ChangeEvent<string>> onValueChanged = null)

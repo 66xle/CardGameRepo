@@ -114,7 +114,7 @@ public class PopupWindow : EditorWindow
             Event newEvent = new Event();
             newEvent.type = popupField.value;
             newEvent.category = "Random";
-            newEvent.nextEvent = "None";
+            newEvent.nextEvent = null;
 
             AssetDatabase.CreateAsset(newEvent, $"Assets/ScriptableObjects/Events/{fileName}.asset");
             dialogueWindow.eventList.Clear();
@@ -158,13 +158,27 @@ public class PopupWindow : EditorWindow
 
         // Change next event that is linked to the renamed event
         dialogueWindow.FindAllEvents(out List<Event> events);
-        List<Event> eventsToBeRenamed = events.Where(evt => evt.nextEvent == oldFileName).ToList();
-        eventsToBeRenamed.ForEach(evt => evt.nextEvent = newFileName);
 
+
+        List<Event> eventsToBeRenamed = new List<Event>();
+        foreach (Event evt in events)
+        { 
+            if (evt.nextEvent == null)
+            {
+                continue;
+            }
+
+            if (evt.nextEvent.name == oldFileName)
+                eventsToBeRenamed.Add(evt);
+        }
 
         // Delete then create asset
         AssetDatabase.DeleteAsset($"Assets/ScriptableObjects/Events/{oldFileName}.asset");
         AssetDatabase.CreateAsset(newEvent, $"Assets/ScriptableObjects/Events/{newFileName}.asset");
+
+        Event renamedEvent = AssetDatabase.LoadAssetAtPath<Event>($"Assets/ScriptableObjects/Events/{newFileName}.asset");
+        eventsToBeRenamed.ForEach(evt => evt.nextEvent = renamedEvent);
+        
 
         dialogueWindow.eventList.Clear();
         dialogueWindow.CreateEventListView();

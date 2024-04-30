@@ -8,5 +8,4 @@ public class ChildEventData
 {
     public string guid;
     public List<DialogueNodeData> dialogueNodeData;
-    public int index = 0;
 }

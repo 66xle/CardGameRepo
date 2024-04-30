@@ -355,7 +355,7 @@ public class DialogueEditor : EditorWindow
     {
         Event onGraphEvent = GraphSaveUtility.GetInstance(_graphView).GetEventData();
         onGraphEvent.category = settingView.Category;
-        onGraphEvent.nextEvent = settingView.NextEvent;
+        onGraphEvent.nextEvent = settingView.GetEventFromString(settingView.NextEvent);
 
 
         if (onGraphEvent != null)

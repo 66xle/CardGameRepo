@@ -60,7 +60,7 @@ public class GraphSaveUtility
 
         Event eventContainer = GetEventData();
         eventContainer.category = settingView.Category;
-        eventContainer.nextEvent = settingView.NextEvent;
+        eventContainer.nextEvent = settingView.GetEventFromString(settingView.NextEvent);
 
         if (eventContainer != null)
             SaveEventAsset(fileName, eventContainer);
