@@ -47,33 +47,30 @@ MonoBehaviour:
     - Guid: aac74995-8d73-4b33-a922-999b7b808b13
       DialogueText: 
       NodeType: Dialogue
-      Position: {x: -86, y: 46}
+      Position: {x: -85.600006, y: 45.6}
       isStartNode: 1
       Connections:
       - BaseNodeGuid: aac74995-8d73-4b33-a922-999b7b808b13
         PortName: Output
-        TargetNodeGuid: 464b963b-e9cb-4338-8aab-9b92f34f8c5d
+        TargetNodeGuid: 248ac23c-d4f2-4961-8634-8250b7ba0694
         ChoiceGUID: output
       Choices: []
       enemies: []
       cards: []
       money: 0
-      image: {fileID: 0}
+      image: {fileID: 21300000, guid: c30db6b8cbc462e4185fb1e25d3e4ddc, type: 3}
       eventName: 
-    - Guid: 464b963b-e9cb-4338-8aab-9b92f34f8c5d
-      DialogueText: Insert Dialouge
-      NodeType: Dialogue Choice
-      Position: {x: 250, y: 62}
+    - Guid: 248ac23c-d4f2-4961-8634-8250b7ba0694
+      DialogueText: 
+      NodeType: Dialogue
+      Position: {x: 273.59998, y: 45.6}
       isStartNode: 0
       Connections: []
-      Choices:
-      - text: New Choice
-        portGUID: c4f27725-3aa2-4f95-95be-e7769c46bc63
-        targetGUID: 
+      Choices: []
       enemies: []
       cards: []
       money: 0
-      image: {fileID: 0}
+      image: {fileID: 21300000, guid: 950112b2bd6d2074ea8120822702c17a, type: 3}
       eventName: 
   index: 0
   type: Linked Event

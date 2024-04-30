@@ -307,6 +307,8 @@ public class GraphSaveUtility
             {
                 tempEvent.DialogueNodeData = loadedAsset.listChildData[i].dialogueNodeData;
                 tempEvent.name = fileName;
+                tempEvent.category = loadedAsset.category;
+                tempEvent.nextEvent = loadedAsset.nextEvent;
                 break;
             }
         }

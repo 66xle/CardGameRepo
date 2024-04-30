@@ -354,12 +354,11 @@ public class DialogueEditor : EditorWindow
     bool CheckGraphChanges(Event eventToCheck)
     {
         Event onGraphEvent = GraphSaveUtility.GetInstance(_graphView).GetEventData();
-        onGraphEvent.category = settingView.Category;
-        onGraphEvent.nextEvent = settingView.GetEventFromString(settingView.NextEvent);
-
-
         if (onGraphEvent != null)
         {
+            onGraphEvent.category = settingView.Category;
+            onGraphEvent.nextEvent = settingView.GetEventFromString(settingView.NextEvent);
+
             // Check if user made changes to graph (Checking differences)
             if (!IsEventsTheSame(eventToCheck, onGraphEvent))
             {
