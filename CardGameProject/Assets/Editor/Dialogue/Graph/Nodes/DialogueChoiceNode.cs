@@ -31,7 +31,7 @@ public class DialogueChoiceNode : EventNode
 
         CreateChoices();
 
-        CreateDialogueTextField(dialogueText);
+        CreateDialogueTextField();
 
         CreateInspector();
 
@@ -77,6 +77,28 @@ public class DialogueChoiceNode : EventNode
         }
     }
 
+    protected void CreateDialogueTextField()
+    {
+        VisualElement customDataContainer = new VisualElement();
+
+        customDataContainer.AddToClassList("ds-node__custom-data-container");
+
+        Foldout textFolout = new Foldout();
+        textFolout.text = "Dialogue Text";
+
+        TextField textArea = CreateTextArea(dialogueText, callback =>
+        {
+            dialogueText = callback.newValue;
+        });
+
+        textArea.AddToClassList("ds-node__textfield");
+        textArea.AddToClassList("ds-node__quote-textfield");
+
+
+        textFolout.Add(textArea);
+        customDataContainer.Add(textFolout);
+        extensionContainer.Add(customDataContainer);
+    }
 
     #region Create Element Methods
 

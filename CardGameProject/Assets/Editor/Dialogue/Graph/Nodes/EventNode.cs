@@ -56,29 +56,6 @@ public class EventNode : Node
         outputContainer.Add(outputPort);
     }
 
-    protected void CreateDialogueTextField(string dialogueText)
-    {
-        VisualElement customDataContainer = new VisualElement();
-
-        customDataContainer.AddToClassList("ds-node__custom-data-container");
-
-        Foldout textFolout = new Foldout();
-        textFolout.text = "Dialogue Text";
-
-        TextField textArea = CreateTextArea(dialogueText, callback =>
-        {
-            dialogueText = callback.newValue;
-        });
-
-        textArea.AddToClassList("ds-node__textfield");
-        textArea.AddToClassList("ds-node__quote-textfield");
-
-
-        textFolout.Add(textArea);
-        customDataContainer.Add(textFolout);
-        extensionContainer.Add(customDataContainer);
-    }
-
     protected void CreateInspector()
     {
         VisualElement customDataContainer = new VisualElement();
