@@ -13,7 +13,7 @@ public class DisplayTile : MonoBehaviour
 
     public int dx;
     public int dz;
-    public Event eventObj;
+    public EventTracker eventObj;
 
     public void SetupDisplayTile(Tile tile)
     {

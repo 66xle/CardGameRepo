@@ -20,6 +20,7 @@ public class EventDisplay : MonoBehaviour
     public GameObject combatScene;
     public CombatStateMachine turnBaseSystem;
     public InputManager inputManager;
+    public EventManager eventManager; // to access event queue
 
     #region Internal Variables
 
@@ -34,6 +35,9 @@ public class EventDisplay : MonoBehaviour
     private List<DialogueChoices> currentChoices;
     private DialogueNodeData currentNode;
     private bool doesNodeHaveChoice = false;
+
+    private EventTracker currentEventTracker;
+    private Event currentEventObj;
 
     [HideInInspector] public bool waitToContinueDialogue = false;
     [HideInInspector] public bool disableTileInteract = false;
@@ -59,13 +63,17 @@ public class EventDisplay : MonoBehaviour
         }
     }
 
-    public void Display(Event eventObj)
+    public void Display(EventTracker eventTracker)
     {
+        // Saves our event/s
+        currentEventTracker = eventTracker;
+        currentEventObj = eventTracker.GetEvent();
+
         gameObject.SetActive(true);
         Init();
 
-        // Detemine single or linked event
-        dialogueData = eventObj.type == SINGLEEVENT ? eventObj.DialogueNodeData : eventObj.listChildData[eventObj.index].dialogueNodeData;
+        // Get data
+        dialogueData = currentEventObj.DialogueNodeData;
 
         currentNode = dialogueData.First(x => x.isStartNode == true);
 
@@ -168,6 +176,17 @@ public class EventDisplay : MonoBehaviour
 
     void EndEvent()
     {
+        if (currentEventObj.type == LINKEDEVENT)
+        {
+            currentEventTracker.EventCompleted();
+
+            if (!currentEventTracker.IsEventFinished())
+            {
+                eventManager.InsertIntoQueue(currentEventTracker);
+            }
+        }
+
+
         gameObject.SetActive(false);
         disableTileInteract = false;
     }

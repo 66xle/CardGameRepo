@@ -45,7 +45,7 @@ MonoBehaviour:
   - guid: 2d9d39b4-4f0d-4c4a-acb6-7b4533c03805
     dialogueNodeData:
     - Guid: aac74995-8d73-4b33-a922-999b7b808b13
-      DialogueText: 
+      DialogueText: Welcome to the Tutorial
       NodeType: Dialogue
       Position: {x: -85.600006, y: 45.6}
       isStartNode: 1
@@ -58,22 +58,68 @@ MonoBehaviour:
       enemies: []
       cards: []
       money: 0
-      image: {fileID: 21300000, guid: c30db6b8cbc462e4185fb1e25d3e4ddc, type: 3}
+      image: {fileID: 21300000, guid: 67a23e8cb1b70fd439d7800fab547585, type: 3}
       eventName: 
     - Guid: 248ac23c-d4f2-4961-8634-8250b7ba0694
-      DialogueText: 
+      DialogueText: Click to continue
       NodeType: Dialogue
       Position: {x: 273.59998, y: 45.6}
+      isStartNode: 0
+      Connections:
+      - BaseNodeGuid: 248ac23c-d4f2-4961-8634-8250b7ba0694
+        PortName: Output
+        TargetNodeGuid: e52c1bb9-c686-400b-bfa1-6f92016b9cf0
+        ChoiceGUID: output
+      Choices: []
+      enemies: []
+      cards: []
+      money: 0
+      image: {fileID: 21300000, guid: 67a23e8cb1b70fd439d7800fab547585, type: 3}
+      eventName: 
+    - Guid: e52c1bb9-c686-400b-bfa1-6f92016b9cf0
+      DialogueText: End of Tutorial
+      NodeType: Dialogue
+      Position: {x: 593.6, y: 90.4}
       isStartNode: 0
       Connections: []
       Choices: []
       enemies: []
       cards: []
       money: 0
-      image: {fileID: 21300000, guid: 950112b2bd6d2074ea8120822702c17a, type: 3}
+      image: {fileID: 21300000, guid: 67a23e8cb1b70fd439d7800fab547585, type: 3}
+      eventName: 
+  - guid: 683d8f67-2463-4dc3-b59f-a7bd3b3b14ca
+    dialogueNodeData:
+    - Guid: d5381e91-6f51-4b8b-9786-e33aee8d0dc3
+      DialogueText: This is the boss fight
+      NodeType: Dialogue
+      Position: {x: 540, y: 256}
+      isStartNode: 0
+      Connections: []
+      Choices: []
+      enemies: []
+      cards: []
+      money: 0
+      image: {fileID: 21300000, guid: 51795faaed9395b4eba7d10009f3230f, type: 3}
+      eventName: 
+    - Guid: 2f4bb842-fa74-4076-90a7-5e8eb3374f51
+      DialogueText: Boss fight incoming
+      NodeType: Dialogue
+      Position: {x: 131.20001, y: 217.6}
+      isStartNode: 1
+      Connections:
+      - BaseNodeGuid: 2f4bb842-fa74-4076-90a7-5e8eb3374f51
+        PortName: Output
+        TargetNodeGuid: d5381e91-6f51-4b8b-9786-e33aee8d0dc3
+        ChoiceGUID: output
+      Choices: []
+      enemies: []
+      cards: []
+      money: 0
+      image: {fileID: 21300000, guid: 6f2c0637d9ef2c34e8eaee64768ec3a5, type: 3}
       eventName: 
   index: 0
   type: Linked Event
   guid: 7b016c3b00ec48d4da6c2a88c444f280
   category: Main
-  nextEvent: {fileID: 11400000, guid: fc7e61a9b83418a47a3a1b98749365db, type: 2}
+  nextEvent: {fileID: 11400000, guid: 12fc76528ffb54746b8b22687674ab87, type: 2}
