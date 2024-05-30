@@ -27,6 +27,9 @@ public class EventDisplay : MonoBehaviour
     private const string DIALOGUE_CHOICE = "Dialogue Choice";
     private const string BATTLENODE = "Battle Node";
 
+    private const string SINGLEEVENT = "Single Event";
+    private const string LINKEDEVENT = "Linked Event";
+
     private List<DialogueNodeData> dialogueData;
     private List<DialogueChoices> currentChoices;
     private DialogueNodeData currentNode;
@@ -61,7 +64,9 @@ public class EventDisplay : MonoBehaviour
         gameObject.SetActive(true);
         Init();
 
-        dialogueData = eventObj.DialogueNodeData;
+        // Detemine single or linked event
+        dialogueData = eventObj.type == SINGLEEVENT ? eventObj.DialogueNodeData : eventObj.listChildData[eventObj.index].dialogueNodeData;
+
         currentNode = dialogueData.First(x => x.isStartNode == true);
 
         DetermineNodeType();

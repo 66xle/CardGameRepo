@@ -4,21 +4,30 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
-    [SerializeField] List<Event> basicEventList;
+    [SerializeField] List<Event> singleEventList;
+    [SerializeField] List<Event> linkedEventList;
+
+    public List<EventTracker> events = new List<EventTracker>();
     
 
-    private List<Event> eventQueue;
+    private List<EventTracker> eventQueue;
 
     private void Awake()
     {
-        eventQueue = basicEventList;
+        SetupEvents();
+        eventQueue = events;
+    }
+
+    void SetupEvents()
+    {
+        singleEventList.ForEach(evt => events.Add(new EventTracker(evt)));
+        linkedEventList.ForEach(evt => events.Add(new EventTracker(evt)));
     }
 
     public Event GetEventFromQueue()
     {
-        Event nextEvent = eventQueue[0];
+        Event nextEvent = eventQueue[0].GetEvent();
         eventQueue.RemoveAt(0);
-        eventQueue.Add(nextEvent);
 
         return nextEvent;
     }
