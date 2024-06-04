@@ -48,7 +48,7 @@ public class CombatStateMachine : MonoBehaviour
     // Variables
     [HideInInspector] public bool isPlayedCard;
     [HideInInspector] public Card cardPlayed;
-    [HideInInspector] public bool isAttacking;
+    [HideInInspector] public bool isInAction;
     [HideInInspector] public bool isPlayState;
     [HideInInspector] public bool pressedEndTurnButton;
 
@@ -70,7 +70,7 @@ public class CombatStateMachine : MonoBehaviour
 
         isPlayedCard = false;
         cardPlayed = null;
-        isAttacking = false;
+        isInAction = false;
         isPlayState = false;
         pressedEndTurnButton = false;
         enemyTurnDone = false;

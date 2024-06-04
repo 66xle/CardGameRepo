@@ -32,7 +32,7 @@ public class EnemyTurnState : CombatBaseState
     {
         if (ctx.enemyCardQueue.Count > 0)
         {
-            SwitchState(factory.Attack());
+            SwitchState(factory.Action());
         }
     }
     public override void InitializeSubState() { }

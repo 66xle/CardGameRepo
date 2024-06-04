@@ -30,9 +30,9 @@ public class CombatStateFactory
         return new PlayState(context, this, vso);
     }
 
-    public CombatBaseState Attack()
+    public CombatBaseState Action()
     {
-        return new AttackState(context, this, vso);
+        return new ActionState(context, this, vso);
     }
 
     public CombatBaseState EnemyDraw()

@@ -37,7 +37,7 @@ public class PlayState : CombatBaseState
         // Attack state
         if (ctx.isPlayedCard)
         {
-            SwitchState(factory.Attack());
+            SwitchState(factory.Action());
         }
     }
     public override void InitializeSubState() { }

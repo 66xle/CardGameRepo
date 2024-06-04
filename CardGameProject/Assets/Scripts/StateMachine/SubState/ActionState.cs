@@ -5,19 +5,18 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 
-public class AttackState : CombatBaseState
+public class ActionState : CombatBaseState
 {
-    public AttackState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso) { }
+    public ActionState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso) { }
 
     public override void EnterState()
     {
-        Debug.Log("Attack State");
+        Debug.Log("Action State");
 
         // Attack started
-        ctx.isAttacking = true;
+        ctx.isInAction = true;
 
-
-        Attack();
+        PlayCard();
     }
     public override void UpdateState()
     {
@@ -30,14 +29,14 @@ public class AttackState : CombatBaseState
     {
         if (ctx.currentSuperState.ToString() == "PlayerState")
         {
-            if (!ctx.isAttacking)
+            if (!ctx.isInAction)
             {
                 SwitchState(factory.Play());
             }
         }
         else
         {
-            if (!ctx.isAttacking)
+            if (!ctx.isInAction)
             {
                 SwitchState(factory.EnemyTurn());
             }
@@ -45,7 +44,7 @@ public class AttackState : CombatBaseState
     }
     public override void InitializeSubState() { }
 
-    private async void Attack()
+    private async void PlayCard()
     {
         ctx.displayCard.GetComponent<CardDisplay>().card = ctx.cardPlayed;
         ctx.displayCard.gameObject.SetActive(true);
@@ -56,6 +55,7 @@ public class AttackState : CombatBaseState
 
         if (ctx.currentSuperState.ToString() == "PlayerState")
         {
+            // Enemy take dmg
             ctx.selectedEnemy.TakeDamage(damage);
 
             // Check if enemy is dead
@@ -65,12 +65,14 @@ public class AttackState : CombatBaseState
 
                 ctx.DestroyEnemy(ctx.selectedEnemy);
 
+                // Enemies still exist
                 if (ctx.enemyList.Count > 0)
                 {
+                    // Select different enemy
                     ctx.selectedEnemy = ctx.enemyList[0].GetComponent<Enemy>();
                     ctx.selectedEnemy.GetComponent<MeshRenderer>().material = ctx.redMat;
                 }
-                else if (ctx.enemyList.Count == 0)
+                else if (ctx.enemyList.Count == 0) // No enemies
                 {
                     ctx.ClearCombatScene();
 
@@ -86,7 +88,7 @@ public class AttackState : CombatBaseState
         ctx.displayCard.gameObject.SetActive(false);
 
         // Attack finished
-        ctx.isAttacking = false;
+        ctx.isInAction = false;
         Debug.Log("Finished Attacking");
     }
 
