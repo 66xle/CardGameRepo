@@ -4,12 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+public class Player : Avatar
 {
-    [Header("Stats")]
-    [SerializeField] float maxHealth = 100f;
-    private float currentHealth;
-
     [SerializeField] float maxStamina = 5f;
     [SerializeField] float recoverStaminaAmount = 2f;
     [HideInInspector] public float currentStamina;
@@ -19,6 +15,7 @@ public class Player : MonoBehaviour
     public TMP_Text healthValue;
     public Slider staminaBar;
     public TMP_Text staminaValue;
+    public TMP_Text blockValue;
 
     public void Init()
     {
@@ -66,9 +63,15 @@ public class Player : MonoBehaviour
         DisplayStats();
     }
 
-    public void TakeDamage(float damage)
+    public override void TakeDamage(float damage)
     {
-        currentHealth -= damage;
+        base.TakeDamage(damage);
+        DisplayStats();
+    }
+
+    public override void AddBlock(float block)
+    {
+        base.AddBlock(block);
         DisplayStats();
     }
 
@@ -82,5 +85,7 @@ public class Player : MonoBehaviour
 
         staminaBar.value = currentStamina / maxStamina;
         staminaValue.text = currentStamina.ToString() + " / " + maxStamina.ToString();
+
+        blockValue.text = currentBlock.ToString();
     }
 }

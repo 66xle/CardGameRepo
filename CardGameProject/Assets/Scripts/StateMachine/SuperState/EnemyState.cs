@@ -20,13 +20,10 @@ public class EnemyState : CombatBaseState
     }
 
     public override void FixedUpdateState() { }
-    public override void ExitState() 
-    {
-        ctx.enemyTurnDone = false;
-    }
+    public override void ExitState() { }
     public override void InitializeSubState()
     {
-        SetSubState(factory.EnemyDraw());
+        SetSubState(factory.EnemyTurn());
         currentSubState.EnterState();
     }
 
@@ -36,11 +33,6 @@ public class EnemyState : CombatBaseState
         if (ctx.enemyTurnDone)
         {
             SwitchState(factory.Player());
-        }
-
-        if (ctx.enemyList.Count < 0)
-        {
-            // All enemies defeated
         }
     }
 }

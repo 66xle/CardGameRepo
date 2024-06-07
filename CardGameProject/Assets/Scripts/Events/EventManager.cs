@@ -20,8 +20,8 @@ public class EventManager : MonoBehaviour
 
     void SetupEvents()
     {
-        linkedEventList.ForEach(evt => events.Add(new EventTracker(evt)));
         singleEventList.ForEach(evt => events.Add(new EventTracker(evt)));
+        linkedEventList.ForEach(evt => events.Add(new EventTracker(evt)));
     }
 
     public EventTracker GetEventFromQueue()

@@ -28,19 +28,14 @@ public class EnemyDrawState : CombatBaseState
 
     public override void CheckSwitchState()
     {
-        SwitchState(factory.EnemyTurn());
+        SwitchState(factory.Action());
     }
     public override void InitializeSubState() { }
 
     public void DrawCards()
     {
-        foreach (Enemy enemy in ctx.enemyList)
-        {
-            List<Card> cards = enemy.GetComponent<Enemy>().DrawCards();
+        List<Card> cards = ctx.currentEnemyTurn.GetComponent<Enemy>().DrawCards();
 
-            ctx.enemyCardQueue.AddRange(cards);
-        }
+        ctx.enemyCardQueue.AddRange(cards);
     }
-
-
 }

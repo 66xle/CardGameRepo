@@ -7,6 +7,9 @@ using System.Runtime.CompilerServices;
 
 public class ActionState : CombatBaseState
 {
+    Avatar avatarPlayingCard;
+    Avatar avatarOpponent;
+
     public ActionState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso) { }
 
     public override void EnterState()
@@ -16,12 +19,29 @@ public class ActionState : CombatBaseState
         // Attack started
         ctx.isInAction = true;
 
-        PlayCard();
+        if (ctx.currentSuperState.ToString() == "PlayerState")
+        {
+            avatarPlayingCard = ctx.player;
+            avatarOpponent = ctx.selectedEnemy;
+
+            PlayCard(ctx.cardPlayed);
+        }
+        else
+        {
+            avatarPlayingCard = ctx.currentEnemyTurn;
+            avatarOpponent = ctx.player;
+
+            // Play all enemy cards in queue
+            foreach (Card cardPlayed in ctx.enemyCardQueue)
+            {
+                PlayCard(cardPlayed);
+            }
+        }
     }
     public override void UpdateState()
     {
         CheckSwitchState();
-    }
+    }   
 
     public override void FixedUpdateState() { }
     public override void ExitState() { }
@@ -44,45 +64,28 @@ public class ActionState : CombatBaseState
     }
     public override void InitializeSubState() { }
 
-    private async void PlayCard()
+    private async void PlayCard(Card cardPlayed)
     {
-        ctx.displayCard.GetComponent<CardDisplay>().card = ctx.cardPlayed;
+        ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
         ctx.displayCard.gameObject.SetActive(true);
 
         await Task.Delay(1000);
 
-        float damage = ctx.cardPlayed.value;
-
-        if (ctx.currentSuperState.ToString() == "PlayerState")
+        if (cardPlayed.cardType == Type.Attack)
         {
-            // Enemy take dmg
-            ctx.selectedEnemy.TakeDamage(damage);
+            float damage = cardPlayed.value;
+            avatarOpponent.TakeDamage(damage);
 
-            // Check if enemy is dead
-            if (ctx.selectedEnemy.isDead())
+            if (ctx.currentSuperState.ToString() == "PlayerState")
             {
-                ctx.enemyList.Remove(ctx.selectedEnemy);
-
-                ctx.DestroyEnemy(ctx.selectedEnemy);
-
-                // Enemies still exist
-                if (ctx.enemyList.Count > 0)
-                {
-                    // Select different enemy
-                    ctx.selectedEnemy = ctx.enemyList[0].GetComponent<Enemy>();
-                    ctx.selectedEnemy.GetComponent<MeshRenderer>().material = ctx.redMat;
-                }
-                else if (ctx.enemyList.Count == 0) // No enemies
-                {
-                    ctx.ClearCombatScene();
-
-                    ctx.eventDisplay.FinishCombatEvent();
-                }
+                EnemiesAlive();
             }
         }
-        else
+        else if (cardPlayed.cardType == Type.Defend)
         {
-            ctx.player.TakeDamage(damage);
+            float block = cardPlayed.value;
+
+            avatarPlayingCard.AddBlock(block);
         }
 
         ctx.displayCard.gameObject.SetActive(false);
@@ -92,4 +95,29 @@ public class ActionState : CombatBaseState
         Debug.Log("Finished Attacking");
     }
 
+
+    private void EnemiesAlive()
+    {
+        // Check if enemy is dead
+        if (ctx.selectedEnemy.isDead())
+        {
+            // Remove and destroy enemy
+            ctx.enemyList.Remove(ctx.selectedEnemy);
+            ctx.DestroyEnemy(ctx.selectedEnemy);
+
+            // Are there enemies still alive
+            if (ctx.enemyList.Count > 0)
+            {
+                // Select different enemy
+                ctx.selectedEnemy = ctx.enemyList[0].GetComponent<Enemy>();
+                ctx.selectedEnemy.GetComponent<MeshRenderer>().material = ctx.redMat;
+            }
+            else if (ctx.enemyList.Count == 0) // No enemies
+            {
+                ctx.ClearCombatScene();
+
+                ctx.eventDisplay.FinishCombatEvent();
+            }
+        }
+    }
 }

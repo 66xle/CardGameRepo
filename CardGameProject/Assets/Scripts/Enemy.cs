@@ -4,11 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Avatar
 {
-    [Header("Stats")]
-    [HideInInspector] public float maxHealth = 100f;
-    private float currentHealth;
     [HideInInspector] public EnemyObj enemyObj;
 
     private Slider healthBar;
@@ -51,9 +48,9 @@ public class Enemy : MonoBehaviour
         return cardDrawn;
     }
 
-    public void TakeDamage(float damage)
+    public override void TakeDamage(float damage)
     {
-        currentHealth -= damage;
+        base.TakeDamage(damage);
         DisplayHealth();
     }
     

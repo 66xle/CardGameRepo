@@ -2,6 +2,7 @@ using events;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,11 +20,15 @@ public class CombatStateMachine : MonoBehaviour
     public TMP_Text healthValue;
     public Slider staminaBar;
     public TMP_Text staminaValue;
+    public TMP_Text blockValue;
 
 
     [Header("Enemy")]
     public List<Transform> enemySpawnPosList;
     [HideInInspector] public List<Enemy> enemyList;
+    [HideInInspector] public List<Enemy> enemyTurnQueue;
+    [HideInInspector] public int turnIndex = 0;
+    [HideInInspector] public Enemy currentEnemyTurn;
 
     [Header("Card References")]
     public GameObject cardPrefab;
@@ -110,6 +115,7 @@ public class CombatStateMachine : MonoBehaviour
         player.healthValue = healthValue;
         player.staminaBar = staminaBar;
         player.staminaValue = staminaValue;
+        player.blockValue = blockValue;
         player.Init();
 
         List<EnemyObj> enemyObjList = nodeData.enemies;
@@ -170,6 +176,12 @@ public class CombatStateMachine : MonoBehaviour
     public void EndTurn()
     {
         pressedEndTurnButton = true;
+
+        // For enemy state
+        enemyTurnQueue.Clear();
+        enemyTurnQueue = Extensions.Clone(enemyList);
+
+        enemyTurnDone = false;
     }
 
     public void DestroyEnemy(Enemy enemy)

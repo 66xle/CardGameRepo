@@ -13,7 +13,7 @@ public class EnemyTurnState : CombatBaseState
     {
         Debug.Log("Enemy Turn State");
 
-        CheckQueue();
+        DecideEnemyTurn();
     }
     public override void UpdateState()
     {
@@ -23,30 +23,29 @@ public class EnemyTurnState : CombatBaseState
     public override void FixedUpdateState() { }
     public override void ExitState() 
     {
-        if (ctx.enemyCardQueue.Count > 0)
-            ctx.enemyCardQueue.RemoveAt(0);
-    }
+        ctx.enemyTurnQueue.Remove(ctx.currentEnemyTurn);
+    } 
 
 
     public override void CheckSwitchState()
     {
-        if (ctx.enemyCardQueue.Count > 0)
+        if (ctx.enemyTurnQueue.Count > 0)
         {
-            SwitchState(factory.Action());
-        }
-    }
-    public override void InitializeSubState() { }
-
-    void CheckQueue()
-    {
-        if (ctx.enemyCardQueue.Count > 0)
-        {
-            ctx.cardPlayed = ctx.enemyCardQueue[0];
-            
+            SwitchState(factory.EnemyDraw());
         }
         else
         {
             ctx.enemyTurnDone = true;
+        }
+    }
+
+    public override void InitializeSubState() { }
+
+    void DecideEnemyTurn()
+    {
+        if (ctx.enemyTurnQueue.Count > 0)
+        {
+            ctx.currentEnemyTurn = ctx.enemyTurnQueue[0];
         }
     }
 }
