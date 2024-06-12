@@ -17,13 +17,14 @@ public class Player : Avatar
     private TMP_Text staminaValue;
     private TMP_Text blockValue;
 
-    public void Init(Slider healthBar, TMP_Text healthValue, Slider staminaBar, TMP_Text staminaValue, TMP_Text blockValue, float currentHealth, float currentStamina)
+    public void Init(Slider healthBar, TMP_Text healthValue, Slider staminaBar, TMP_Text staminaValue, TMP_Text blockValue, float currentHealth, float currentStamina, ArmourType armourType)
     {
         this.healthBar = healthBar;
         this.healthValue = healthValue;
         this.staminaBar = staminaBar;
         this.staminaValue = staminaValue;
         this.blockValue = blockValue;
+        this.armourType = armourType;
 
         maxHealth = currentHealth;
         maxStamina = currentStamina;

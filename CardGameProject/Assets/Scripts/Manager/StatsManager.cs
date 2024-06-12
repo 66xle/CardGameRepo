@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class StatsManager : MonoBehaviour
 {
     [SerializeField] float baseHealth;
     [SerializeField] float baseStamina;
+    public ArmourType armourType;
 
     [HideInInspector] public float currentHealth;
     [HideInInspector] public float currentStamina;
@@ -19,7 +22,19 @@ public class StatsManager : MonoBehaviour
     void Start() // Initalise variables for now
     {
         currentHealth = baseHealth;
-        currentStamina = baseStamina;
+
+        if (armourType == ArmourType.Light)
+        {
+            currentStamina = Mathf.RoundToInt(baseStamina * lightMultiplier);
+        }
+        else if (armourType == ArmourType.Medium)
+        {
+            currentStamina = Mathf.RoundToInt(baseStamina * mediumMultiplier);
+        }
+        else if (armourType == ArmourType.Heavy)
+        {
+            currentStamina = Mathf.RoundToInt(baseStamina * heavyMultiplier);
+        }
     }
 
 }

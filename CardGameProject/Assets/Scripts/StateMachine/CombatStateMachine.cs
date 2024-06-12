@@ -112,7 +112,7 @@ public class CombatStateMachine : MonoBehaviour
     {
         // Spawn Player
         player = Instantiate(playerPrefab, playerSpawnPos).GetComponent<Player>();
-        player.Init(healthBar, healthValue, staminaBar, staminaValue, blockValue, statsManager.currentHealth, statsManager.currentStamina);
+        player.Init(healthBar, healthValue, staminaBar, staminaValue, blockValue, statsManager.currentHealth, statsManager.currentStamina, statsManager.armourType);
 
         List<EnemyObj> enemyObjList = nodeData.enemies;
 

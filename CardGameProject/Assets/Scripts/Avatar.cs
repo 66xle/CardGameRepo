@@ -14,6 +14,7 @@ public class Avatar : MonoBehaviour
     [Header("Stats")]
     public float maxHealth = 100f;
     public ArmourType armourType = ArmourType.Light;
+
     protected float currentHealth;
     protected float currentBlock = 0f;
 
