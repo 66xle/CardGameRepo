@@ -2,12 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ArmourType
+{
+    Light,
+    Medium,
+    Heavy
+}
+
 public class Avatar : MonoBehaviour
 {
     [Header("Stats")]
     public float maxHealth = 100f;
+    public ArmourType armourType = ArmourType.Light;
     protected float currentHealth;
     protected float currentBlock = 0f;
+
 
 
     public virtual void TakeDamage(float damage) 
