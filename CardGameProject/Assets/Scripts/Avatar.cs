@@ -26,4 +26,10 @@ public class Avatar : MonoBehaviour
     {
         currentBlock += block;
     }
+
+    public virtual void Heal(float healAmount)
+    {
+        currentHealth += healAmount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+    }
 }

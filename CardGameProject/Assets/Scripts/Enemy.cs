@@ -62,6 +62,13 @@ public class Enemy : Avatar
         base.AddBlock(block);
         DisplayStats();
     }
+
+    public override void Heal(float healAmount)
+    {
+        base.Heal(healAmount);
+        DisplayStats();
+    }
+
     public void DisplayStats()
     {
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);

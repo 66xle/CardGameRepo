@@ -19,6 +19,8 @@ public class ActionState : CombatBaseState
         // Attack started
         ctx.isInAction = true;
 
+        #region Decide Which Side Acts
+
         if (ctx.currentSuperState.ToString() == "PlayerState")
         {
             avatarPlayingCard = ctx.player;
@@ -37,6 +39,8 @@ public class ActionState : CombatBaseState
                 PlayCard(cardPlayed);
             }
         }
+
+        #endregion
     }
     public override void UpdateState()
     {
@@ -86,6 +90,12 @@ public class ActionState : CombatBaseState
             float block = cardPlayed.value;
 
             avatarPlayingCard.AddBlock(block);
+        }
+        else if (cardPlayed.cardType == Type.Heal)
+        {
+            float healAmount = cardPlayed.value;
+
+            avatarPlayingCard.Heal(healAmount);
         }
 
         ctx.displayCard.gameObject.SetActive(false);

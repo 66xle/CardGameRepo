@@ -43,6 +43,8 @@ public class Player : Avatar
         return false;
     }
 
+    #region Play Cards
+
     public void RecycleCardToStamina(float cost)
     {
         currentStamina += cost;
@@ -63,6 +65,10 @@ public class Player : Avatar
         DisplayStats();
     }
 
+    #endregion
+
+    #region Card Effects
+
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
@@ -74,6 +80,15 @@ public class Player : Avatar
         base.AddBlock(block);
         DisplayStats();
     }
+
+    public override void Heal(float healAmount)
+    {
+        base.Heal(healAmount);
+        DisplayStats();
+    }
+
+    #endregion
+
 
     public void DisplayStats()
     {
