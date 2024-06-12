@@ -6,21 +6,30 @@ using UnityEngine.UI;
 
 public class Player : Avatar
 {
-    [SerializeField] float maxStamina = 5f;
+    private float maxStamina = 5f;
     [SerializeField] float recoverStaminaAmount = 2f;
     [HideInInspector] public float currentStamina;
 
     [Header("References")]
-    public Slider healthBar;
-    public TMP_Text healthValue;
-    public Slider staminaBar;
-    public TMP_Text staminaValue;
-    public TMP_Text blockValue;
+    private Slider healthBar;
+    private TMP_Text healthValue;
+    private Slider staminaBar;
+    private TMP_Text staminaValue;
+    private TMP_Text blockValue;
 
-    public void Init()
+    public void Init(Slider healthBar, TMP_Text healthValue, Slider staminaBar, TMP_Text staminaValue, TMP_Text blockValue, float currentHealth, float currentStamina)
     {
-        currentHealth = maxHealth;
-        currentStamina = maxStamina;
+        this.healthBar = healthBar;
+        this.healthValue = healthValue;
+        this.staminaBar = staminaBar;
+        this.staminaValue = staminaValue;
+        this.blockValue = blockValue;
+
+        maxHealth = currentHealth;
+        maxStamina = currentStamina;
+
+        this.currentHealth = maxHealth;
+        this.currentStamina = maxStamina;
 
         DisplayStats();
     }

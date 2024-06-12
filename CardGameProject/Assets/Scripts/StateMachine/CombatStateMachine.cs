@@ -42,6 +42,7 @@ public class CombatStateMachine : MonoBehaviour
 
     [Header("References")]
     public InputManager inputManager;
+    public StatsManager statsManager;
     public EventDisplay eventDisplay;
     public CardManager cardManager;
     public Button endTurnButton;
@@ -111,12 +112,7 @@ public class CombatStateMachine : MonoBehaviour
     {
         // Spawn Player
         player = Instantiate(playerPrefab, playerSpawnPos).GetComponent<Player>();
-        player.healthBar = healthBar;
-        player.healthValue = healthValue;
-        player.staminaBar = staminaBar;
-        player.staminaValue = staminaValue;
-        player.blockValue = blockValue;
-        player.Init();
+        player.Init(healthBar, healthValue, staminaBar, staminaValue, blockValue, statsManager.currentHealth, statsManager.currentStamina);
 
         List<EnemyObj> enemyObjList = nodeData.enemies;
 

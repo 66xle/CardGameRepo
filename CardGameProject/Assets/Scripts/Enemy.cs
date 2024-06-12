@@ -8,6 +8,7 @@ public class Enemy : Avatar
 {
     [HideInInspector] public EnemyObj enemyObj;
 
+    [Header("References")]
     private Slider healthBar;
     private TMP_Text healthValue;
     private TMP_Text blockValue;
