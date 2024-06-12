@@ -10,21 +10,24 @@ public class Enemy : Avatar
 
     private Slider healthBar;
     private TMP_Text healthValue;
+    private TMP_Text blockValue;
 
     [Header("Cards")]
     [SerializeField] float drawAmount;
     public List<Card> deck;
     [HideInInspector] public List<Card> cardsToPlay;
+    
 
 
     // Start is called before the first frame update
     void Start()
     {
         healthBar = GetComponentInChildren<Slider>();
-        healthValue = GetComponentInChildren<TMP_Text>();
+        blockValue = GetComponentsInChildren<TMP_Text>()[0];
+        healthValue = GetComponentsInChildren<TMP_Text>()[1];
 
         currentHealth = maxHealth;
-        DisplayHealth();
+        DisplayStats();
     }
 
     public bool isDead()
@@ -51,15 +54,21 @@ public class Enemy : Avatar
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
-        DisplayHealth();
+        DisplayStats();
     }
-    
 
-    public void DisplayHealth()
+    public override void AddBlock(float block)
+    {
+        base.AddBlock(block);
+        DisplayStats();
+    }
+    public void DisplayStats()
     {
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
 
         healthBar.value = currentHealth / maxHealth;
         healthValue.text = currentHealth.ToString() + " / " + maxHealth.ToString();
+
+        blockValue.text = currentBlock.ToString();
     }
 }
