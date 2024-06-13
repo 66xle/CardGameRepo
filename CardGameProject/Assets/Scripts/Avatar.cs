@@ -9,16 +9,25 @@ public enum ArmourType
     Heavy
 }
 
+public enum DamageType
+{
+    Slash,
+    Pierce,
+    Blunt
+}
+
+
 public class Avatar : MonoBehaviour
 {
     [Header("Stats")]
     public float maxHealth = 100f;
-    public ArmourType armourType = ArmourType.Light;
+    public int maxGuard = 10;
+    public ArmourType armourType;
+    public DamageType damageType;
 
     protected float currentHealth;
     protected float currentBlock = 0f;
-
-
+    protected int currentGuard;
 
     public virtual void TakeDamage(float damage) 
     {
@@ -30,6 +39,13 @@ public class Avatar : MonoBehaviour
         if (currentBlock < 0) currentBlock = 0;
 
         currentHealth -= damage;
+    }
+
+    public virtual void ReduceGuard()
+    {
+        currentGuard--;
+
+        // Check guard broken then do effect
     }
 
     public virtual void AddBlock(float block)

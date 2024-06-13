@@ -11,6 +11,8 @@ public class Enemy : Avatar
     [Header("References")]
     private Slider healthBar;
     private TMP_Text healthValue;
+    private Slider guardBar;
+    private TMP_Text guardValue;
     private TMP_Text blockValue;
 
     [Header("Cards")]
@@ -23,11 +25,14 @@ public class Enemy : Avatar
     // Start is called before the first frame update
     void Start()
     {
-        healthBar = GetComponentInChildren<Slider>();
+        healthBar = GetComponentsInChildren<Slider>()[0];
+        guardBar = GetComponentsInChildren<Slider>()[1];
         blockValue = GetComponentsInChildren<TMP_Text>()[0];
         healthValue = GetComponentsInChildren<TMP_Text>()[1];
+        guardValue = GetComponentsInChildren<TMP_Text>()[2];
 
         currentHealth = maxHealth;
+        currentGuard = maxGuard;
         DisplayStats();
     }
 
@@ -58,6 +63,11 @@ public class Enemy : Avatar
         DisplayStats();
     }
 
+    public override void ReduceGuard()
+    {
+        base.ReduceGuard();
+        DisplayStats();
+    }
     public override void AddBlock(float block)
     {
         base.AddBlock(block);
@@ -76,6 +86,9 @@ public class Enemy : Avatar
 
         healthBar.value = currentHealth / maxHealth;
         healthValue.text = currentHealth.ToString() + " / " + maxHealth.ToString();
+
+        guardBar.value = (float)currentGuard / maxGuard;
+        guardValue.text = currentGuard.ToString() + " / " + maxGuard.ToString();
 
         blockValue.text = currentBlock.ToString();
     }

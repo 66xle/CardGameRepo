@@ -80,6 +80,8 @@ public class ActionState : CombatBaseState
             float damage = cardPlayed.value;
             avatarOpponent.TakeDamage(damage);
 
+            ReduceGuard();
+
             if (ctx.currentSuperState.ToString() == "PlayerState")
             {
                 EnemiesAlive();
@@ -105,6 +107,16 @@ public class ActionState : CombatBaseState
         Debug.Log("Finished Attacking");
     }
 
+
+    private void ReduceGuard()
+    {
+        if (avatarOpponent.armourType == ArmourType.Light && avatarPlayingCard.damageType == DamageType.Slash ||
+            avatarOpponent.armourType == ArmourType.Medium && avatarPlayingCard.damageType == DamageType.Pierce ||
+            avatarOpponent.armourType == ArmourType.Heavy && avatarPlayingCard.damageType == DamageType.Blunt)
+        {
+            avatarOpponent.ReduceGuard();
+        }
+    }
 
     private void EnemiesAlive()
     {

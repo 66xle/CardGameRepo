@@ -21,6 +21,8 @@ public class CombatStateMachine : MonoBehaviour
     public Slider staminaBar;
     public TMP_Text staminaValue;
     public TMP_Text blockValue;
+    public Slider guardBar;
+    public TMP_Text guardValue;
 
 
     [Header("Enemy")]
@@ -112,7 +114,9 @@ public class CombatStateMachine : MonoBehaviour
     {
         // Spawn Player
         player = Instantiate(playerPrefab, playerSpawnPos).GetComponent<Player>();
-        player.Init(healthBar, healthValue, staminaBar, staminaValue, blockValue, statsManager.currentHealth, statsManager.currentStamina, statsManager.armourType);
+        player.Init(healthBar, healthValue, staminaBar, staminaValue, blockValue, guardBar, guardValue,
+                    statsManager.currentMaxHealth, statsManager.currentMaxStamina, statsManager.currentMaxGuard,
+                    statsManager.armourType, statsManager.damageType);
 
         List<EnemyObj> enemyObjList = nodeData.enemies;
 
