@@ -61,7 +61,7 @@ public class CombatStateMachine : MonoBehaviour
     [HideInInspector] public bool pressedEndTurnButton;
 
     [HideInInspector] public bool enemyTurnDone;
-    [HideInInspector] public Enemy selectedEnemy;
+    [HideInInspector] public Enemy selectedEnemyToAttack;
 
     [HideInInspector]
     public VariableScriptObject vso; // Not using for now
@@ -132,8 +132,8 @@ public class CombatStateMachine : MonoBehaviour
 
             if (i == 0)
             {
-                selectedEnemy = enemy;
-                selectedEnemy.GetComponent<MeshRenderer>().material = redMat;
+                selectedEnemyToAttack = enemy;
+                selectedEnemyToAttack.GetComponent<MeshRenderer>().material = redMat;
             }
         }
     }
@@ -198,10 +198,10 @@ public class CombatStateMachine : MonoBehaviour
         {
             if (hit.transform.CompareTag("Enemy"))
             {
-                selectedEnemy.GetComponent<MeshRenderer>().material = defMat;
+                selectedEnemyToAttack.GetComponent<MeshRenderer>().material = defMat;
 
-                selectedEnemy = hit.transform.GetComponent<Enemy>();
-                selectedEnemy.transform.GetComponent<MeshRenderer>().material = redMat;
+                selectedEnemyToAttack = hit.transform.GetComponent<Enemy>();
+                selectedEnemyToAttack.transform.GetComponent<MeshRenderer>().material = redMat;
             }
         }
     }

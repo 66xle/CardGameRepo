@@ -24,7 +24,7 @@ public class ActionState : CombatBaseState
         if (ctx.currentSuperState.ToString() == "PlayerState")
         {
             avatarPlayingCard = ctx.player;
-            avatarOpponent = ctx.selectedEnemy;
+            avatarOpponent = ctx.selectedEnemyToAttack;
 
             PlayCard(ctx.cardPlayed);
         }
@@ -121,18 +121,18 @@ public class ActionState : CombatBaseState
     private void EnemiesAlive()
     {
         // Check if enemy is dead
-        if (ctx.selectedEnemy.isDead())
+        if (ctx.selectedEnemyToAttack.isDead())
         {
             // Remove and destroy enemy
-            ctx.enemyList.Remove(ctx.selectedEnemy);
-            ctx.DestroyEnemy(ctx.selectedEnemy);
+            ctx.enemyList.Remove(ctx.selectedEnemyToAttack);
+            ctx.DestroyEnemy(ctx.selectedEnemyToAttack);
 
             // Are there enemies still alive
             if (ctx.enemyList.Count > 0)
             {
                 // Select different enemy
-                ctx.selectedEnemy = ctx.enemyList[0].GetComponent<Enemy>();
-                ctx.selectedEnemy.GetComponent<MeshRenderer>().material = ctx.redMat;
+                ctx.selectedEnemyToAttack = ctx.enemyList[0].GetComponent<Enemy>();
+                ctx.selectedEnemyToAttack.GetComponent<MeshRenderer>().material = ctx.redMat;
             }
             else if (ctx.enemyList.Count == 0) // No enemies
             {
