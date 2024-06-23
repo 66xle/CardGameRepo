@@ -81,6 +81,12 @@ public class ActionState : CombatBaseState
             avatarOpponent.TakeDamage(damage);
 
             ReduceGuard();
+            
+            if (avatarOpponent.isGuardBroken())
+            {
+                ApplyGuardBroken();
+            }
+
 
             if (ctx.currentSuperState.ToString() == "PlayerState")
             {
@@ -119,6 +125,13 @@ public class ActionState : CombatBaseState
         {
             avatarOpponent.ReduceGuard();
         }
+    }
+
+    private void ApplyGuardBroken()
+    {
+        if (avatarOpponent.armourType == ArmourType.Light) avatarOpponent.ApplyGuardBreak(ctx.guardBreakLightArmour);
+        else if (avatarOpponent.armourType == ArmourType.Medium) avatarOpponent.ApplyGuardBreak(ctx.guardBreakMediumArmour);
+        else if (avatarOpponent.armourType == ArmourType.Heavy) avatarOpponent.ApplyGuardBreak(ctx.guardBreakHeavyArmour);
     }
 
     private void EnemiesAlive()

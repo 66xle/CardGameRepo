@@ -29,7 +29,7 @@ public class StatusEffectState : CombatBaseState
     }
     public override void UpdateState()
     {
-        CheckSwitchState();
+        
     }
 
     public override void FixedUpdateState() { }
@@ -41,7 +41,14 @@ public class StatusEffectState : CombatBaseState
 
     public override void CheckSwitchState()
     {
-        
+        if (ctx.currentSuperState.ToString() == "PlayerState")
+        {
+            SwitchState(factory.Draw());
+        }
+        else
+        {
+            SwitchState(factory.EnemyDraw());
+        }
     }
     public override void InitializeSubState() { }
 
@@ -54,7 +61,6 @@ public class StatusEffectState : CombatBaseState
             // Check effect
             ActivateEffect(currentEffect);
 
-            
 
             currentAvatarSelected.listOfEffects[i].turnRemaining--;
 
@@ -66,6 +72,8 @@ public class StatusEffectState : CombatBaseState
         }
 
         currentAvatarSelected.DisplayStats();
+
+        CheckSwitchState();
     }
 
     public void ActivateEffect(StatusEffectData data)

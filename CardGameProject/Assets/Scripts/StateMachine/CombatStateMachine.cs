@@ -42,6 +42,11 @@ public class CombatStateMachine : MonoBehaviour
     [Header("Card Settings")]
     public int cardsToDraw = 2;
 
+    [Header("StatusEffectObj")]
+    public StatusEffect guardBreakLightArmour;
+    public StatusEffect guardBreakMediumArmour;
+    public StatusEffect guardBreakHeavyArmour;
+
     [Header("References")]
     public InputManager inputManager;
     public StatsManager statsManager;

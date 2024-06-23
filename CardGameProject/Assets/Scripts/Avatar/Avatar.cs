@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public enum ArmourType
@@ -27,11 +28,11 @@ public class Avatar : MonoBehaviour
     protected float currentHealth;
     protected float currentBlock = 0f;
     protected int currentGuard;
-    [HideInInspector] public List<StatusEffectData> listOfEffects;
+    [HideInInspector] public List<StatusEffectData> listOfEffects = new List<StatusEffectData>();
 
     #region Avatar Methods
 
-    public virtual void TakeDamage(float damage) 
+    public void TakeDamage(float damage) 
     {
         currentBlock -= damage;
 
@@ -41,21 +42,26 @@ public class Avatar : MonoBehaviour
         if (currentBlock < 0) currentBlock = 0;
 
         currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
     }
 
-    public virtual void ReduceGuard()
+    public void ReduceGuard()
     {
         currentGuard--;
-
-        // Check guard broken then do effect
+        currentGuard = Mathf.Clamp(currentGuard, 0, maxGuard);
     }
 
-    public virtual void AddBlock(float block)
+    public bool isGuardBroken()
+    {
+        return currentGuard == 0 ? true : false;
+    }
+
+    public void AddBlock(float block)
     {
         currentBlock += block;
     }
 
-    public virtual void Heal(float healAmount)
+    public void Heal(float healAmount)
     {
         currentHealth += healAmount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
@@ -67,14 +73,14 @@ public class Avatar : MonoBehaviour
 
     #region Apply Status Effects
 
-    void GuardBreak(StatusEffect effectObject)
+    public void ApplyGuardBreak(StatusEffect effectObject)
     {
         StatusGuardBroken effect = effectObject as StatusGuardBroken;
 
         listOfEffects.Add(new StatusEffectData(effect.effect, effect.name, effect.turnsRemaning, effect.numberOfHitsToRecover, extraDmgPer: effect.extraDamagePercentage));
     }
 
-    void Bleed(StatusEffect effectObject)
+    public void ApplyBleed(StatusEffect effectObject)
     {
         StatusBleed effect = effectObject as StatusBleed;
 
