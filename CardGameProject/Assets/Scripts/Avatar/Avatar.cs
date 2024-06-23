@@ -27,7 +27,7 @@ public class Avatar : MonoBehaviour
     protected float currentHealth;
     protected float currentBlock = 0f;
     protected int currentGuard;
-    
+    [HideInInspector] public List<StatusEffectData> listOfEffects;
 
     #region Avatar Methods
 
@@ -65,5 +65,26 @@ public class Avatar : MonoBehaviour
 
     #endregion
 
-    
+    #region Apply Status Effects
+
+    void GuardBreak(StatusEffect effectObject)
+    {
+        StatusGuardBroken effect = effectObject as StatusGuardBroken;
+
+        listOfEffects.Add(new StatusEffectData(effect.effect, effect.name, effect.turnsRemaning, effect.numberOfHitsToRecover, extraDmgPer: effect.extraDamagePercentage));
+    }
+
+    void Bleed(StatusEffect effectObject)
+    {
+        StatusBleed effect = effectObject as StatusBleed;
+
+        listOfEffects.Add(new StatusEffectData(effect.effect, effect.name, effect.turnsRemaning, reduceDmgPer: effect.reduceHealthPercentage));
+    }
+
+    #endregion
+
+    public void ReduceHealth(float percentage)
+    {
+        currentHealth -= maxHealth * percentage;
+    }
 }
