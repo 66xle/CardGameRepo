@@ -85,36 +85,7 @@ public class Player : Avatar
 
     #endregion
 
-    #region Card Effects
-
-    public override void TakeDamage(float damage)
-    {
-        base.TakeDamage(damage);
-        DisplayStats();
-    }
-
-    public override void ReduceGuard()
-    {
-        base.ReduceGuard();
-        DisplayStats();
-    }
-
-    public override void AddBlock(float block)
-    {
-        base.AddBlock(block);
-        DisplayStats();
-    }
-
-    public override void Heal(float healAmount)
-    {
-        base.Heal(healAmount);
-        DisplayStats();
-    }
-
-    #endregion
-
-
-    public void DisplayStats()
+    public override void DisplayStats()
     {
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
         currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);

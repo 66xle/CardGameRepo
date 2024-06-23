@@ -102,6 +102,9 @@ public class ActionState : CombatBaseState
 
         ctx.displayCard.gameObject.SetActive(false);
 
+        avatarPlayingCard.DisplayStats();
+        avatarOpponent.DisplayStats();
+
         // Attack finished
         ctx.isInAction = false;
         Debug.Log("Finished Attacking");

@@ -16,7 +16,6 @@ public enum DamageType
     Blunt
 }
 
-
 public class Avatar : MonoBehaviour
 {
     [Header("Stats")]
@@ -28,6 +27,9 @@ public class Avatar : MonoBehaviour
     protected float currentHealth;
     protected float currentBlock = 0f;
     protected int currentGuard;
+    
+
+    #region Avatar Methods
 
     public virtual void TakeDamage(float damage) 
     {
@@ -58,4 +60,10 @@ public class Avatar : MonoBehaviour
         currentHealth += healAmount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
     }
+
+    public virtual void DisplayStats() { }
+
+    #endregion
+
+    
 }
