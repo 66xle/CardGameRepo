@@ -31,7 +31,7 @@ public class EnemyTurnState : CombatBaseState
     {
         if (ctx.enemyTurnQueue.Count > 0)
         {
-            SwitchState(factory.EnemyDraw());
+            SwitchState(factory.StatusEffect());
         }
         else
         {
@@ -45,7 +45,7 @@ public class EnemyTurnState : CombatBaseState
     {
         if (ctx.enemyTurnQueue.Count > 0)
         {
-            ctx.currentEnemyTurn = ctx.enemyTurnQueue[0];
+            ctx.currentEnemyTurn = ctx.enemyTurnQueue[0]; // TO DO: Elites move first
         }
     }
 }

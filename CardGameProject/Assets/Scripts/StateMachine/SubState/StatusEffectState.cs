@@ -12,6 +12,8 @@ public class StatusEffectState : CombatBaseState
     {
         Debug.Log("Status Effect State");
 
+        ctx.skipTurn = false;
+
         #region Decide Which Side Acts
 
         if (ctx.currentSuperState.ToString() == "PlayerState")
@@ -25,11 +27,12 @@ public class StatusEffectState : CombatBaseState
 
         #endregion
 
+
         CheckEffect();
     }
     public override void UpdateState()
     {
-        
+        CheckSwitchState();
     }
 
     public override void FixedUpdateState() { }
@@ -43,11 +46,19 @@ public class StatusEffectState : CombatBaseState
     {
         if (ctx.currentSuperState.ToString() == "PlayerState")
         {
-            SwitchState(factory.Draw());
+            if (!ctx.skipTurn)
+                SwitchState(factory.Draw());
         }
         else
         {
-            SwitchState(factory.EnemyDraw());
+            if (ctx.skipTurn)
+            {
+                SwitchState(factory.EnemyTurn());
+            }
+            else
+            {
+                SwitchState(factory.EnemyDraw());
+            }
         }
     }
     public override void InitializeSubState() { }
@@ -68,12 +79,14 @@ public class StatusEffectState : CombatBaseState
             if (currentAvatarSelected.listOfEffects[i].turnRemaining == 0)
             {
                 currentAvatarSelected.listOfEffects.RemoveAt(i);
+
+                currentAvatarSelected.RecoverGuardBreakCheck(currentEffect);
             }
         }
 
         currentAvatarSelected.DisplayStats();
 
-        CheckSwitchState();
+        
     }
 
     public void ActivateEffect(StatusEffectData data)
@@ -81,6 +94,13 @@ public class StatusEffectState : CombatBaseState
         if (data.effect == Effect.Bleed)
         {
             currentAvatarSelected.ReduceHealth(data.reduceDamagePercentage);
+        }
+        
+        
+        
+        if (data.effect == Effect.GuardBroken)
+        {
+            ctx.skipTurn = true;
         }
     }
 

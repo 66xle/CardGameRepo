@@ -44,5 +44,8 @@ public class CombatStateFactory
         return new EnemyTurnState(context, this, vso);
     }
 
-    
+    public CombatBaseState StatusEffect()
+    {
+        return new StatusEffectState(context, this, vso);
+    }
 }

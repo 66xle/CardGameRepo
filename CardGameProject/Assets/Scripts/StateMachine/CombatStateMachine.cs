@@ -46,6 +46,7 @@ public class CombatStateMachine : MonoBehaviour
     public StatusEffect guardBreakLightArmour;
     public StatusEffect guardBreakMediumArmour;
     public StatusEffect guardBreakHeavyArmour;
+    [HideInInspector] public bool skipTurn;
 
     [Header("References")]
     public InputManager inputManager;
@@ -96,7 +97,6 @@ public class CombatStateMachine : MonoBehaviour
 
         states = new CombatStateFactory(this, vso);
         currentState = new PlayerState(this, states, vso);
-        currentState.EnterState();
     }
 
     // Update is called once per frame
