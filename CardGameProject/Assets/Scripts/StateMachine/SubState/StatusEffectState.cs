@@ -111,14 +111,16 @@ public class StatusEffectState : CombatBaseState
         {
             currentAvatarSelected.ReduceHealth(data.reduceDamagePercentage);
         }
-        
-        
-        
+
+
         if (data.effect == Effect.GuardBroken)
         {
             ctx.skipTurn = true;
 
-            ctx.EndTurn();
+            if (ctx.currentState.ToString() == "PlayerState")
+                ctx.EndTurn();
+            else
+                ctx.enemyTurnQueue.Remove(ctx.currentEnemyTurn);
 
             Debug.Log("SKIP TURN");
         }

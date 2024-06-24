@@ -180,6 +180,8 @@ public class CombatStateMachine : MonoBehaviour
 
     public void EndTurn()
     {
+        Debug.Log("END PLAYER'S TURN");
+
         pressedEndTurnButton = true;
 
         // For enemy state

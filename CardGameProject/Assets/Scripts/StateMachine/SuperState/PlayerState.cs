@@ -15,7 +15,7 @@ public class PlayerState : CombatBaseState
 
     public override void EnterState()
     {
-        Debug.Log("Player State");
+        Debug.Log("PLAYER STATE");
 
         InitializeSubState();
     }

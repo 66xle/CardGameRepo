@@ -21,10 +21,7 @@ public class EnemyTurnState : CombatBaseState
     }
 
     public override void FixedUpdateState() { }
-    public override void ExitState() 
-    {
-        
-    } 
+    public override void ExitState() { }
 
 
     public override void CheckSwitchState()

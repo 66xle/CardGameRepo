@@ -13,7 +13,7 @@ public class EnemyState : CombatBaseState
 
     public override void EnterState()
     {
-        Debug.Log("Enemy State");
+        Debug.Log("ENEMY STATE");
 
         InitializeSubState();
     }
