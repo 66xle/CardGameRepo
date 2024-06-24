@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
@@ -35,6 +36,8 @@ public class Avatar : MonoBehaviour
 
     public void TakeDamage(float damage) 
     {
+        damage = DoExtraDmgCheck(damage);
+
         currentBlock -= damage;
 
         // Block is negative do damage / Block is positive dont do damage
@@ -90,8 +93,27 @@ public class Avatar : MonoBehaviour
 
     #endregion
 
+    #region Status Effects Methods
     public void ReduceHealth(float percentage)
     {
         currentHealth -= maxHealth * percentage;
     }
+
+    public float DoExtraDmgCheck(float damage)
+    {
+        // Don't need to check
+        if (listOfEffects.Count == 0) return damage;
+
+        foreach (StatusEffectData statusEffect in listOfEffects)
+        {
+            if (statusEffect.effect == Effect.GuardBroken)
+            {
+                return damage * statusEffect.extraDamagePercentage + damage;
+            }
+        }
+
+        return damage;
+    }
+
+    #endregion
 }
