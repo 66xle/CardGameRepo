@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum ArmourType
 {
+    None,
     Light,
     Medium,
     Heavy

@@ -121,7 +121,8 @@ public class ActionState : CombatBaseState
     {
         if (avatarOpponent.armourType == ArmourType.Light && avatarPlayingCard.damageType == DamageType.Slash ||
             avatarOpponent.armourType == ArmourType.Medium && avatarPlayingCard.damageType == DamageType.Pierce ||
-            avatarOpponent.armourType == ArmourType.Heavy && avatarPlayingCard.damageType == DamageType.Blunt)
+            avatarOpponent.armourType == ArmourType.Heavy && avatarPlayingCard.damageType == DamageType.Blunt ||
+            avatarOpponent.armourType == ArmourType.None)
         {
             avatarOpponent.ReduceGuard();
         }
@@ -129,7 +130,7 @@ public class ActionState : CombatBaseState
 
     private void ApplyGuardBroken()
     {
-        if (avatarOpponent.armourType == ArmourType.Light) avatarOpponent.ApplyGuardBreak(ctx.guardBreakLightArmour);
+        if (avatarOpponent.armourType == ArmourType.Light || avatarOpponent.armourType == ArmourType.None) avatarOpponent.ApplyGuardBreak(ctx.guardBreakLightArmour);
         else if (avatarOpponent.armourType == ArmourType.Medium) avatarOpponent.ApplyGuardBreak(ctx.guardBreakMediumArmour);
         else if (avatarOpponent.armourType == ArmourType.Heavy) avatarOpponent.ApplyGuardBreak(ctx.guardBreakHeavyArmour);
     }

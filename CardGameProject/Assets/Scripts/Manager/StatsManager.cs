@@ -37,6 +37,10 @@ public class StatsManager : MonoBehaviour
         {
             currentMaxStamina = Mathf.RoundToInt(baseStamina * heavyMultiplier);
         }
+        else
+        {
+            currentMaxStamina = baseStamina;
+        }
     }
 
 }
