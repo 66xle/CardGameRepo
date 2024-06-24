@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class CombatStateMachine : MonoBehaviour
 {
-    public string currentSuperState;
+    public string currentSuperState; // ONLY FOR DEBUGGING DON'T USE
     [SerializeField] string subState;
 
     [Header("Player")]
@@ -97,6 +97,7 @@ public class CombatStateMachine : MonoBehaviour
 
         states = new CombatStateFactory(this, vso);
         currentState = new PlayerState(this, states, vso);
+        currentState.EnterState();
     }
 
     // Update is called once per frame
@@ -107,7 +108,6 @@ public class CombatStateMachine : MonoBehaviour
         {
             subState = currentState.currentSubState.ToString();
         }
-        currentSuperState = currentState.ToString();
 
         if (inputManager.leftClickInputDown && isPlayState)
         {

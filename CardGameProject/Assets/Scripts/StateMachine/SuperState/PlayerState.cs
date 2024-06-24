@@ -7,15 +7,17 @@ public class PlayerState : CombatBaseState
     public PlayerState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso)
     {
         isRootState = true;
-        EnterState();
-        InitializeSubState();
+
+        ctx.currentSuperState = this.ToString();
+
+        
     }
 
     public override void EnterState()
     {
         Debug.Log("Player State");
 
-        ctx.currentSuperState = this.ToString();
+        InitializeSubState();
     }
     public override void UpdateState()
     {
@@ -37,7 +39,7 @@ public class PlayerState : CombatBaseState
     public override void CheckSwitchState()
     {
         // Switch to enemy state
-        if (ctx.pressedEndTurnButton || ctx.skipTurn)
+        if (ctx.pressedEndTurnButton)
         {
             SwitchState(factory.Enemy());
         }

@@ -21,7 +21,7 @@ public class ActionState : CombatBaseState
 
         #region Decide Which Side Acts
 
-        if (ctx.currentSuperState.ToString() == "PlayerState")
+        if (ctx.currentState.ToString() == "PlayerState")
         {
             avatarPlayingCard = ctx.player;
             avatarOpponent = ctx.selectedEnemyToAttack;
@@ -51,7 +51,7 @@ public class ActionState : CombatBaseState
     public override void ExitState() { }
     public override void CheckSwitchState()
     {
-        if (ctx.currentSuperState.ToString() == "PlayerState")
+        if (ctx.currentState.ToString() == "PlayerState")
         {
             if (!ctx.isInAction)
             {
@@ -82,13 +82,13 @@ public class ActionState : CombatBaseState
 
             ReduceGuard();
             
-            if (avatarOpponent.isGuardBroken())
+            if (avatarOpponent.isGuardBroken() && !avatarOpponent.hasStatusEffect(Effect.GuardBroken))
             {
                 ApplyGuardBroken();
             }
 
 
-            if (ctx.currentSuperState.ToString() == "PlayerState")
+            if (ctx.currentState.ToString() == "PlayerState")
             {
                 EnemiesAlive();
             }

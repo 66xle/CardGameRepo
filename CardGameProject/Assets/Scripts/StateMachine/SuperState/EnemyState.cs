@@ -7,12 +7,15 @@ public class EnemyState : CombatBaseState
     public EnemyState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso)
     {
         isRootState = true;
-        InitializeSubState();
+
+        ctx.currentSuperState = this.ToString();
     }
 
     public override void EnterState()
     {
         Debug.Log("Enemy State");
+
+        InitializeSubState();
     }
     public override void UpdateState()
     {

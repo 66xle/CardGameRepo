@@ -11,7 +11,9 @@ public class StatusEffectData
     public float extraDamagePercentage;
     public int numberOfHitsToRecover;
 
-    public StatusEffectData(Effect effect, string name, int turnRemaining, float reduceDmgPer = 0f, int numHitToRecover = 0, float extraDmgPer = 0f)
+    public bool removeEffectNextTurn;
+
+    public StatusEffectData(Effect effect, string name, int turnRemaining, float reduceDmgPer = 0f, int numHitToRecover = 0, float extraDmgPer = 0f, bool nextTurn = false)
     {
         // Required
         this.effect = effect;
@@ -22,6 +24,8 @@ public class StatusEffectData
         reduceDamagePercentage = reduceDmgPer;
         numberOfHitsToRecover = numHitToRecover;
         extraDamagePercentage = extraDmgPer;
+        removeEffectNextTurn = nextTurn;
+
     }
 
 }

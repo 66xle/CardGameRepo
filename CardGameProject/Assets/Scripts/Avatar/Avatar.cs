@@ -89,7 +89,7 @@ public class Avatar : MonoBehaviour
     {
         StatusGuardBroken effect = effectObject as StatusGuardBroken;
 
-        listOfEffects.Add(new StatusEffectData(effect.effect, effect.name, effect.turnsRemaning, effect.numberOfHitsToRecover, extraDmgPer: effect.extraDamagePercentage));
+        listOfEffects.Add(new StatusEffectData(effect.effect, effect.name, effect.turnsRemaning, effect.numberOfHitsToRecover, extraDmgPer: effect.extraDamagePercentage, nextTurn: true));
     }
 
     public void ApplyBleed(StatusEffect effectObject)
@@ -102,6 +102,21 @@ public class Avatar : MonoBehaviour
     #endregion
 
     #region Status Effects Methods
+
+    public bool hasStatusEffect(Effect effect)
+    {
+        foreach (StatusEffectData data in listOfEffects)
+        {
+            if (data.effect == effect)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
     public void ReduceHealth(float percentage)
     {
         currentHealth -= maxHealth * percentage;

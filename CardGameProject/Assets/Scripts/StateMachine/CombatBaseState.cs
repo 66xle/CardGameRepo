@@ -47,6 +47,9 @@ public abstract class CombatBaseState
     {
         ExitState();
 
+        if (isRootState)
+            ctx.currentState = newState;
+
         newState.EnterState();
 
         if (isRootState)
@@ -58,10 +61,11 @@ public abstract class CombatBaseState
                 if (currentSubState.ToString() != newState.currentSubState.ToString())
                 {
                     currentSubState.ExitState();
+                    currentSubState = newState.currentSubState;
                 }
             }
 
-            ctx.currentState = newState;
+            
         }
         else if (currentSuperState != null)
         {
