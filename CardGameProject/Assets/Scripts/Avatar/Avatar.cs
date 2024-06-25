@@ -85,14 +85,12 @@ public class Avatar : MonoBehaviour
     public void ApplyGuardBreak(StatusEffect effectObject)
     {
         StatusGuardBroken effect = effectObject as StatusGuardBroken;
-
         listOfEffects.Add(new StatusEffectData(effect.effect, effect.name, effect.turnsRemaning, effect.numberOfHitsToRecover, extraDmgPer: effect.extraDamagePercentage, nextTurn: true));
     }
 
     public void ApplyBleed(StatusEffect effectObject)
     {
         StatusBleed effect = effectObject as StatusBleed;
-
         listOfEffects.Add(new StatusEffectData(effect.effect, effect.name, effect.turnsRemaning, reduceDmgPer: effect.reduceHealthPercentage));
     }
 
@@ -111,6 +109,23 @@ public class Avatar : MonoBehaviour
         }
 
         return false;
+    }
+
+
+    public void ReduceHitToRecover()
+    {
+        for (int i = listOfEffects.Count - 1; i >= 0; i--)
+        {
+            if (listOfEffects[i].effect != Effect.GuardBroken)
+                continue;
+
+            listOfEffects[i].numberOfHitsToRecover--;
+            if (listOfEffects[i].numberOfHitsToRecover <= 0)
+            {
+                RecoverGuardBreak();
+                listOfEffects.RemoveAt(i);
+            }
+        }
     }
 
     public void ReduceHealth(float percentage)

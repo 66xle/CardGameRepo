@@ -108,9 +108,17 @@ public class ActionState : CombatBaseState
         ReduceGuard();
 
         // Apply effect when guard is broken
-        if (avatarOpponent.isGuardBroken() && !avatarOpponent.hasStatusEffect(Effect.GuardBroken))
+        if (avatarOpponent.isGuardBroken())
         {
-            ApplyGuardBroken();
+            // Check if avatar has guard broken effect
+            if (avatarOpponent.hasStatusEffect(Effect.GuardBroken))
+            {
+                avatarOpponent.ReduceHitToRecover();
+            }
+            else
+            {
+                ApplyGuardBroken();
+            }
         }
 
         // Check deaths
