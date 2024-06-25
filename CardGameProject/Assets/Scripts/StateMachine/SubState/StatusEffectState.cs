@@ -8,8 +8,6 @@ public class StatusEffectState : CombatBaseState
 {
     Avatar currentAvatarSelected;
 
-    bool statusEffectFinished;
-
     public StatusEffectState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso) { }
 
     public override void EnterState()
@@ -17,11 +15,13 @@ public class StatusEffectState : CombatBaseState
         Debug.Log("Status Effect State");
 
         ctx.skipTurn = false;
-        statusEffectFinished = false;
 
         #region Decide Which Side Acts
 
-        if (ctx.currentState.ToString() == "PlayerState")
+
+
+
+        if (ctx.currentState.ToString() == PLAYERSTATE)
         {
             currentAvatarSelected = ctx.player;
         }
@@ -32,8 +32,7 @@ public class StatusEffectState : CombatBaseState
 
         #endregion
 
-
-        CheckEffect();
+        CheckStatusEffect();
     }
     public override void UpdateState()
     {
@@ -43,19 +42,15 @@ public class StatusEffectState : CombatBaseState
     public override void FixedUpdateState() { }
     public override void ExitState()
     {
-        statusEffectFinished = false;
+
     }
 
 
     public override void CheckSwitchState()
     {
-        if (!statusEffectFinished)
-            return;
-
-        if (ctx.currentState.ToString() == "PlayerState")
+        if (ctx.currentState.ToString() == PLAYERSTATE && !ctx.skipTurn)
         {
-            if (!ctx.skipTurn)
-                SwitchState(factory.Draw());
+            SwitchState(factory.Draw());
         }
         else
         {
@@ -71,7 +66,7 @@ public class StatusEffectState : CombatBaseState
     }
     public override void InitializeSubState() { }
 
-    void CheckEffect()
+    void CheckStatusEffect()
     {
         for (int i = currentAvatarSelected.listOfEffects.Count - 1; i >= 0; i--)
         {
@@ -94,15 +89,18 @@ public class StatusEffectState : CombatBaseState
                     continue;
                 }
 
-                currentAvatarSelected.RecoverGuardBreakCheck(currentEffect);
+                if (currentEffect.effect == Effect.GuardBroken)
+                {
+                    currentAvatarSelected.RecoverGuardBreak();
+                }
+
+                
 
                 currentAvatarSelected.listOfEffects.RemoveAt(i);
             }
         }
 
         currentAvatarSelected.DisplayStats();
-
-        statusEffectFinished = true;
     }
 
     public void ActivateEffect(StatusEffectData data)
@@ -117,7 +115,7 @@ public class StatusEffectState : CombatBaseState
         {
             ctx.skipTurn = true;
 
-            if (ctx.currentState.ToString() == "PlayerState")
+            if (ctx.currentState.ToString() == PLAYERSTATE)
                 ctx.EndTurn();
             else
                 ctx.enemyTurnQueue.Remove(ctx.currentEnemyTurn);

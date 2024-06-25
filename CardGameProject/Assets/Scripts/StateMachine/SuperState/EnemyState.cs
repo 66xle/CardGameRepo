@@ -8,7 +8,7 @@ public class EnemyState : CombatBaseState
     {
         isRootState = true;
 
-        ctx.currentSuperState = this.ToString();
+        ctx.currentSuperState = this.ToString(); // temp debugging
     }
 
     public override void EnterState()

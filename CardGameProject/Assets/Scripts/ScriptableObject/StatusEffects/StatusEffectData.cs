@@ -25,7 +25,6 @@ public class StatusEffectData
         numberOfHitsToRecover = numHitToRecover;
         extraDamagePercentage = extraDmgPer;
         removeEffectNextTurn = nextTurn;
-
     }
 
 }

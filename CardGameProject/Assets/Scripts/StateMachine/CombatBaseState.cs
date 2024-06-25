@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Security;
 using UnityEngine;
 
 public abstract class CombatBaseState
 {
+    protected const string PLAYERSTATE = "PlayerState";
+
     protected bool isRootState = false;
     protected CombatStateMachine ctx;
     protected CombatStateFactory factory;

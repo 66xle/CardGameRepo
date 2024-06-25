@@ -49,6 +49,17 @@ public class Avatar : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
     }
 
+    public void AddBlock(float block)
+    {
+        currentBlock += block;
+    }
+
+    public void Heal(float healAmount)
+    {
+        currentHealth += healAmount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+    }
+
     public void ReduceGuard()
     {
         currentGuard--;
@@ -60,23 +71,9 @@ public class Avatar : MonoBehaviour
         return currentGuard == 0 ? true : false;
     }
 
-    public void RecoverGuardBreakCheck(StatusEffectData currentEffect)
+    public void RecoverGuardBreak()
     {
-        if (currentEffect.effect == Effect.GuardBroken)
-        {
-            currentGuard = maxGuard;
-        }
-    }
-
-    public void AddBlock(float block)
-    {
-        currentBlock += block;
-    }
-
-    public void Heal(float healAmount)
-    {
-        currentHealth += healAmount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        currentGuard = maxGuard;
     }
 
     public virtual void DisplayStats() { }
@@ -115,7 +112,6 @@ public class Avatar : MonoBehaviour
 
         return false;
     }
-
 
     public void ReduceHealth(float percentage)
     {

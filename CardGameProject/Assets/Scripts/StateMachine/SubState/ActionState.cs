@@ -9,6 +9,7 @@ public class ActionState : CombatBaseState
 {
     Avatar avatarPlayingCard;
     Avatar avatarOpponent;
+    bool isInAction;
 
     public ActionState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso) { }
 
@@ -17,11 +18,11 @@ public class ActionState : CombatBaseState
         Debug.Log("Action State");
 
         // Attack started
-        ctx.isInAction = true;
+        isInAction = true;
 
         #region Decide Which Side Acts
 
-        if (ctx.currentState.ToString() == "PlayerState")
+        if (ctx.currentState.ToString() == PLAYERSTATE)
         {
             avatarPlayingCard = ctx.player;
             avatarOpponent = ctx.selectedEnemyToAttack;
@@ -51,16 +52,13 @@ public class ActionState : CombatBaseState
     public override void ExitState() { }
     public override void CheckSwitchState()
     {
-        if (ctx.currentState.ToString() == "PlayerState")
+        if (!isInAction)
         {
-            if (!ctx.isInAction)
+            if (ctx.currentState.ToString() == PLAYERSTATE)
             {
                 SwitchState(factory.Play());
             }
-        }
-        else
-        {
-            if (!ctx.isInAction)
+            else
             {
                 SwitchState(factory.EnemyTurn());
             }
@@ -73,38 +71,24 @@ public class ActionState : CombatBaseState
         ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
         ctx.displayCard.gameObject.SetActive(true);
 
-        await Task.Delay(1000);
+        await Task.Delay(1000); // Need to test if game is paused
+
+        #region Deterimine card type
 
         if (cardPlayed.cardType == Type.Attack)
         {
-            float damage = cardPlayed.value;
-            avatarOpponent.TakeDamage(damage);
-
-            ReduceGuard();
-            
-            if (avatarOpponent.isGuardBroken() && !avatarOpponent.hasStatusEffect(Effect.GuardBroken))
-            {
-                ApplyGuardBroken();
-            }
-
-
-            if (ctx.currentState.ToString() == "PlayerState")
-            {
-                EnemiesAlive();
-            }
+            Attack(cardPlayed);
         }
         else if (cardPlayed.cardType == Type.Defend)
         {
-            float block = cardPlayed.value;
-
-            avatarPlayingCard.AddBlock(block);
+            Defend(cardPlayed);
         }
         else if (cardPlayed.cardType == Type.Heal)
         {
-            float healAmount = cardPlayed.value;
-
-            avatarPlayingCard.Heal(healAmount);
+            Heal(cardPlayed);
         }
+
+        #endregion
 
         ctx.displayCard.gameObject.SetActive(false);
 
@@ -112,10 +96,47 @@ public class ActionState : CombatBaseState
         avatarOpponent.DisplayStats();
 
         // Attack finished
-        ctx.isInAction = false;
+        isInAction = false;
         Debug.Log("Finished Attacking");
     }
 
+    private void Attack(Card cardPlayed)
+    {
+        float damage = cardPlayed.value;
+        avatarOpponent.TakeDamage(damage);
+
+        ReduceGuard();
+
+        // Apply effect when guard is broken
+        if (avatarOpponent.isGuardBroken() && !avatarOpponent.hasStatusEffect(Effect.GuardBroken))
+        {
+            ApplyGuardBroken();
+        }
+
+        // Check deaths
+        if (ctx.currentState.ToString() == PLAYERSTATE)
+        {
+            EnemiesAlive();
+        }
+        else
+        {
+            // Check player Death
+        }
+    }
+
+    private void Defend(Card cardPlayed)
+    {
+        float block = cardPlayed.value;
+
+        avatarPlayingCard.AddBlock(block);
+    }
+
+    private void Heal(Card cardPlayed)
+    {
+        float healAmount = cardPlayed.value;
+
+        avatarPlayingCard.Heal(healAmount);
+    }
 
     private void ReduceGuard()
     {

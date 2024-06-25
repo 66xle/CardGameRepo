@@ -16,6 +16,8 @@ public class CombatStateMachine : MonoBehaviour
     public GameObject playerPrefab;
     public Transform playerSpawnPos;
     [HideInInspector] public Player player;
+
+    [Header("Player References")]
     public Slider healthBar;
     public TMP_Text healthValue;
     public Slider staminaBar;
@@ -62,7 +64,6 @@ public class CombatStateMachine : MonoBehaviour
     // Variables
     [HideInInspector] public bool isPlayedCard;
     [HideInInspector] public Card cardPlayed;
-    [HideInInspector] public bool isInAction;
     [HideInInspector] public bool isPlayState;
     [HideInInspector] public bool pressedEndTurnButton;
 
@@ -84,10 +85,10 @@ public class CombatStateMachine : MonoBehaviour
 
         isPlayedCard = false;
         cardPlayed = null;
-        isInAction = false;
         isPlayState = false;
         pressedEndTurnButton = false;
         enemyTurnDone = false;
+        skipTurn = false;
 
         enemyList = new List<Enemy>();
         discardPile = new List<Card>();
@@ -115,7 +116,24 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
-    void LoadPlayerAndEnemy()
+    private void SelectEnemy()
+    {
+        // Raycast from screen to tile
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100))
+        {
+            if (hit.transform.CompareTag("Enemy"))
+            {
+                selectedEnemyToAttack.GetComponent<MeshRenderer>().material = defMat;
+
+                selectedEnemyToAttack = hit.transform.GetComponent<Enemy>();
+                selectedEnemyToAttack.transform.GetComponent<MeshRenderer>().material = redMat;
+            }
+        }
+    }
+
+    private void LoadPlayerAndEnemy()
     {
         // Spawn Player
         player = Instantiate(playerPrefab, playerSpawnPos).GetComponent<Player>();
@@ -135,6 +153,7 @@ public class CombatStateMachine : MonoBehaviour
 
             enemyList.Add(enemy);
 
+            // Set default selection
             if (i == 0)
             {
                 selectedEnemyToAttack = enemy;
@@ -143,12 +162,6 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
-    public void CreateCard(Card cardDrawed, Transform parent)
-    {
-        Instantiate(cardPrefab, parent).GetComponent<CardDisplay>().card = cardDrawed;
-    }
-
-    
     public void OnCardPlayed(CardPlayed evt, Card card, string tag)
     {
         if (tag == "Play")
@@ -178,6 +191,13 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
+    #region Used by StateMachine
+
+    public void CreateCard(Card cardDrawed, Transform parent)
+    {
+        Instantiate(cardPrefab, parent).GetComponent<CardDisplay>().card = cardDrawed;
+    }
+
     public void EndTurn()
     {
         Debug.Log("END PLAYER'S TURN");
@@ -194,23 +214,6 @@ public class CombatStateMachine : MonoBehaviour
     public void DestroyEnemy(Enemy enemy)
     {
         Destroy(enemy.gameObject);
-    }
-
-    void SelectEnemy()
-    {
-        // Raycast from screen to tile
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100))
-        {
-            if (hit.transform.CompareTag("Enemy"))
-            {
-                selectedEnemyToAttack.GetComponent<MeshRenderer>().material = defMat;
-
-                selectedEnemyToAttack = hit.transform.GetComponent<Enemy>();
-                selectedEnemyToAttack.transform.GetComponent<MeshRenderer>().material = redMat;
-            }
-        }
     }
 
     public void ClearCombatScene()
@@ -233,5 +236,7 @@ public class CombatStateMachine : MonoBehaviour
             Destroy(pos.GetChild(0).gameObject);
         }
     }
+
+    #endregion
 
 }

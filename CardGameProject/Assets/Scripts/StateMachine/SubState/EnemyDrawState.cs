@@ -15,7 +15,6 @@ public class EnemyDrawState : CombatBaseState
         ctx.enemyCardQueue.Clear();
 
         DrawCards();
-
     }
     public override void UpdateState()
     {
@@ -28,13 +27,11 @@ public class EnemyDrawState : CombatBaseState
         ctx.enemyTurnQueue.Remove(ctx.currentEnemyTurn);
     }
 
-
-
-
     public override void CheckSwitchState()
     {
         SwitchState(factory.Action());
     }
+
     public override void InitializeSubState() { }
 
     public void DrawCards()
