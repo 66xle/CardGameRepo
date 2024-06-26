@@ -73,6 +73,8 @@ public class ActionState : CombatBaseState
 
         await Task.Delay(1000); // Need to test if game is paused
 
+        DetermineEffectTarget(cardPlayed);
+
         #region Deterimine card type
 
         if (cardPlayed.cardType == Type.Attack)
@@ -186,6 +188,30 @@ public class ActionState : CombatBaseState
 
                 ctx.eventDisplay.FinishCombatEvent();
             }
+        }
+    }
+
+
+    private void DetermineEffectTarget(Card cardPlayed)
+    {
+        foreach (StatusEffect effect in cardPlayed.selfEffects)
+        {
+            ApplyEffects(effect, avatarPlayingCard);
+        }
+
+        foreach (StatusEffect effect in cardPlayed.applyEffects)
+        {
+            ApplyEffects(effect, avatarOpponent);
+        }
+    }
+
+    private void ApplyEffects(StatusEffect effectObj, Avatar targetAvatar)
+    {
+        Effect effect = effectObj.effect;
+
+        if (effect == Effect.Bleed)
+        {
+            targetAvatar.ApplyBleed(effectObj);
         }
     }
 }
