@@ -91,7 +91,8 @@ public class CardEditorWindow : EditorWindow
                         prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadCardImage(card));
                     }
 
-                    if (cardProperty.name == "name" || cardProperty.name == "description" || cardProperty.name == "flavour")
+                    if (cardProperty.name == "name" || cardProperty.name == "description" || 
+                        cardProperty.name == "flavour" || cardProperty.name == "value" || cardProperty.name == "cost")
                     {
                         prop.RegisterValueChangeCallback(changeEvt => LoadCardText(card, cardList));
                     }
@@ -204,7 +205,7 @@ public class CardEditorWindow : EditorWindow
         Label cost = rootVisualElement.Query<Label>("cost").First();
 
         title.text = card.name;
-        description.text = card.description;
+        description.text = card.description.Replace("$value", card.value.ToString());
         flavour.text = card.flavour;
         cost.text = card.cost.ToString();
     }
