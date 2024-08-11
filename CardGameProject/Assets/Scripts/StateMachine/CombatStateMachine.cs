@@ -157,7 +157,8 @@ public class CombatStateMachine : MonoBehaviour
             if (i == 0)
             {
                 selectedEnemyToAttack = enemy;
-                selectedEnemyToAttack.GetComponent<MeshRenderer>().material = redMat;
+                //selectedEnemyToAttack.GetComponent<MeshRenderer>().material = redMat;
+                
             }
         }
     }
