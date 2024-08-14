@@ -150,4 +150,5 @@ public class Avatar : MonoBehaviour
     }
 
     #endregion
+
 }

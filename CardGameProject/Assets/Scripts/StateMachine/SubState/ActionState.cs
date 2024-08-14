@@ -11,6 +11,9 @@ public class ActionState : CombatBaseState
     Avatar avatarOpponent;
     bool isInAction;
 
+    float moveTime;
+    bool isMoving;
+
     public ActionState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso) { }
 
     public override void EnterState()
@@ -19,6 +22,8 @@ public class ActionState : CombatBaseState
 
         // Attack started
         isInAction = true;
+        isMoving = true;
+        moveTime = 0f;
 
         #region Decide Which Side Acts
 
@@ -46,6 +51,8 @@ public class ActionState : CombatBaseState
     public override void UpdateState()
     {
         CheckSwitchState();
+
+        MoveAvatar();
     }   
 
     public override void FixedUpdateState() { }
@@ -71,7 +78,14 @@ public class ActionState : CombatBaseState
         ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
         ctx.displayCard.gameObject.SetActive(true);
 
-        await Task.Delay(1000); // Need to test if game is paused
+        // Play animations here
+        Animator animController = avatarPlayingCard.GetComponent<Animator>();
+        animController.SetTrigger("Move");
+
+
+        // Display Card and play animations
+        await Task.Delay(100000); // Need to test if game is paused
+
 
         DetermineEffectTarget(cardPlayed);
 
@@ -194,6 +208,8 @@ public class ActionState : CombatBaseState
 
     private void DetermineEffectTarget(Card cardPlayed)
     {
+        // Apply status effect on self and/or opponent
+
         foreach (StatusEffect effect in cardPlayed.selfEffects)
         {
             ApplyEffects(effect, avatarPlayingCard);
@@ -212,6 +228,43 @@ public class ActionState : CombatBaseState
         if (effect == Effect.Bleed)
         {
             targetAvatar.ApplyBleed(effectObj);
+        }
+    }
+
+
+    private void MoveAvatar()
+    {
+        if (isMoving)
+        {
+            // Determine position to move to
+            Transform currentTransform = avatarPlayingCard.transform;
+            Transform opponentTransform = avatarOpponent.transform;
+
+            Vector3 currentPos = new Vector3(currentTransform.position.x, 0, currentTransform.position.z);
+            Vector3 opponentPos = new Vector3(opponentTransform.position.x, 0, opponentTransform.position.z);
+
+            Vector3 posToMove = opponentPos + opponentTransform.parent.transform.forward * 1f;
+
+            float distance = Vector3.Distance(currentPos, posToMove);
+            Debug.Log(distance);
+            if (distance > 0.5f)
+            {
+                // Move avatar to position
+                moveTime += Time.deltaTime;
+
+                
+                Vector3 newPos = Vector3.MoveTowards(currentPos, posToMove, ctx.moveAnimCurve.Evaluate(moveTime));
+                currentTransform.position = new Vector3(newPos.x, currentTransform.position.y, newPos.z);
+                
+            }
+            else
+            {
+                // Play attack animation
+                isMoving = false;
+                avatarPlayingCard.GetComponent<Animator>().SetTrigger("Attack");
+
+
+            }
         }
     }
 }
