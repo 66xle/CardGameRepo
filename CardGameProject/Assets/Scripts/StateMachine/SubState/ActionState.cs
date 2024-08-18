@@ -337,6 +337,7 @@ public class ActionState : CombatBaseState
         if (avatarPlayingCard.doDamage)
         {
             avatarPlayingCard.doDamage = false;
+            avatarOpponent.GetComponent<Animator>().SetTrigger("TakeDamage");
             hasAttacked = true;
         }
 
