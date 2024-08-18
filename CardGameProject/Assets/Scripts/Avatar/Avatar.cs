@@ -27,8 +27,6 @@ public class Avatar : MonoBehaviour
     public ArmourType armourType;
     public DamageType damageType;
 
-    [HideInInspector] public Animator animController;
-
     // Aninmation Events
     [HideInInspector] public bool doDamage;
     [HideInInspector] public bool attackFinished;
@@ -91,7 +89,7 @@ public class Avatar : MonoBehaviour
     public virtual void ApplyGuardBreak(StatusEffect effectObject)
     {
         StatusGuardBroken effect = effectObject as StatusGuardBroken;
-        listOfEffects.Add(new StatusEffectData(effect.effect, effect.name, effect.turnsRemaning, effect.numberOfHitsToRecover, extraDmgPer: effect.extraDamagePercentage, nextTurn: true));
+        listOfEffects.Add(new StatusEffectData(effect.effect, effect.name, effect.turnsRemaning, numHitToRecover: effect.numberOfHitsToRecover, extraDmgPer: effect.extraDamagePercentage, nextTurn: true));
     }
 
     public void ApplyBleed(StatusEffect effectObject)
