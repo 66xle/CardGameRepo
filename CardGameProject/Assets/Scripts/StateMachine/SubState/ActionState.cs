@@ -11,11 +11,12 @@ public class ActionState : CombatBaseState
     Avatar avatarOpponent;
     bool isInAction;
 
-    float moveTime;
-    bool isMoving;
-    bool isMovingBack;
-    bool isAttacking;
-    bool hasAttacked;
+    float moveTime; // For animation curve
+
+    bool isMoving; // Move to opponent
+    bool isMovingBack; // Move back to spot
+    bool isPlayingCard; // Playing Card animations
+    bool hasAttacked; // Attack Animations
 
     public ActionState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso) { }
 
@@ -84,10 +85,9 @@ public class ActionState : CombatBaseState
     private IEnumerator PlayCard(Card cardPlayed)
     {
         isInAction = true;
-        isMoving = true;
-        isMovingBack = false;
-        isAttacking = true;
+        isMovingBack = false; // Only triggers in melee aninmations
         hasAttacked = false;
+        isPlayingCard = true;
         avatarPlayingCard.doDamage = false;
         avatarPlayingCard.attackFinished = false;
         moveTime = 0f;
@@ -95,20 +95,25 @@ public class ActionState : CombatBaseState
         ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
         ctx.displayCard.gameObject.SetActive(true);
 
-        // Play animations here
+
         Animator animController = avatarPlayingCard.GetComponent<Animator>();
-        animController.SetTrigger("Move");
 
 
-        yield return new WaitWhile(() => !hasAttacked);
-
+        // Play Card Effect
         DetermineEffectTarget(cardPlayed);
 
         #region Deterimine card type
 
         if (cardPlayed.cardType == Type.Attack)
         {
+            // Play Move Animation
+            isMoving = true;
+            animController.SetTrigger("Move");
+
+            yield return new WaitWhile(() => !hasAttacked);
+
             Attack(cardPlayed);
+
         }
         else if (cardPlayed.cardType == Type.Defend)
         {
@@ -124,7 +129,7 @@ public class ActionState : CombatBaseState
         avatarPlayingCard.DisplayStats();
         avatarOpponent.DisplayStats();
 
-        yield return new WaitWhile(() => isAttacking);
+        yield return new WaitWhile(() => isPlayingCard);
 
         // Attack finished
         ctx.displayCard.gameObject.SetActive(false);
@@ -292,7 +297,7 @@ public class ActionState : CombatBaseState
             {
                 // Play attack animation
                 isMoving = false;
-                isAttacking = true;
+                isPlayingCard = true;
                 avatarPlayingCard.GetComponent<Animator>().SetTrigger("Attack");
             }
         }
@@ -322,7 +327,7 @@ public class ActionState : CombatBaseState
             else
             {
                 isMovingBack = false;
-                isAttacking = false;
+                isPlayingCard = false;
             }
         }
     }
