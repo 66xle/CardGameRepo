@@ -5,6 +5,7 @@ using UnityEngine;
 public enum Type
 {
     Attack,
+    Counter,
     Defend,
     Heal
 }

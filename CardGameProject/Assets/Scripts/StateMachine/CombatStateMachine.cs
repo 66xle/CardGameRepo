@@ -1,4 +1,5 @@
 using events;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,10 @@ public class CombatStateMachine : MonoBehaviour
     public StatusEffect guardBreakMediumArmour;
     public StatusEffect guardBreakHeavyArmour;
     [HideInInspector] public bool skipTurn;
+
+    [Header("Animation Settings")]
+    public AnimationCurve moveAnimCurve;
+    
 
     [Header("References")]
     public InputManager inputManager;
@@ -157,7 +162,8 @@ public class CombatStateMachine : MonoBehaviour
             if (i == 0)
             {
                 selectedEnemyToAttack = enemy;
-                selectedEnemyToAttack.GetComponent<MeshRenderer>().material = redMat;
+                //selectedEnemyToAttack.GetComponent<MeshRenderer>().material = redMat;
+                
             }
         }
     }

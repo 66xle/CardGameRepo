@@ -19,8 +19,8 @@ public class Enemy : Avatar
     [SerializeField] float drawAmount;
     public List<Card> deck;
     [HideInInspector] public List<Card> cardsToPlay;
-    
 
+    private Animator animController;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +30,10 @@ public class Enemy : Avatar
         blockValue = GetComponentsInChildren<TMP_Text>()[0];
         healthValue = GetComponentsInChildren<TMP_Text>()[1];
         guardValue = GetComponentsInChildren<TMP_Text>()[2];
+
+        isInCounterState = false;
+
+        animController = GetComponent<Animator>();
 
         currentHealth = maxHealth;
         currentGuard = maxGuard;
@@ -55,6 +59,18 @@ public class Enemy : Avatar
         }
 
         return cardDrawn;
+    }
+
+    public override void RecoverGuardBreak()
+    {
+        animController.SetBool("isStunned", false);
+        base.RecoverGuardBreak();
+    }
+
+    public override void ApplyGuardBreak(StatusEffect effectObject)
+    {
+        animController.SetBool("isStunned", true);
+        base.ApplyGuardBreak(effectObject);
     }
 
     public override void DisplayStats()
