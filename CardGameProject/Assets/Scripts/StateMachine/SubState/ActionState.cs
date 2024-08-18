@@ -298,7 +298,6 @@ public class ActionState : CombatBaseState
             Vector3 posToMove = opponentPos + opponentTransform.parent.transform.forward * 1.5f;
 
             float distance = Vector3.Distance(currentPos, posToMove);
-            Debug.Log(distance);
             if (distance > 0.2f)
             {
                 // Move avatar to position
@@ -330,7 +329,6 @@ public class ActionState : CombatBaseState
             Vector3 posToMove = parentPos;
 
             float distance = Vector3.Distance(currentPos, posToMove);
-            Debug.Log(distance);
             if (distance > 0f)
             {
                 // Move avatar to position
