@@ -344,6 +344,7 @@ public class ActionState : CombatBaseState
         {
             avatarPlayingCard.attackFinished = false;
             isMovingBack = true;
+            moveTime = 0f; // Reset animation curve
         }
     }
 
