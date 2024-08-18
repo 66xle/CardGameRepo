@@ -53,6 +53,7 @@ public class CombatStateMachine : MonoBehaviour
 
     [Header("Animation Settings")]
     public AnimationCurve moveAnimCurve;
+    
 
     [Header("References")]
     public InputManager inputManager;

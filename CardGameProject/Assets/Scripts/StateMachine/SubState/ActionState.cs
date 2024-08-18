@@ -13,17 +13,16 @@ public class ActionState : CombatBaseState
 
     float moveTime;
     bool isMoving;
+    bool isMovingBack;
+    bool isAttacking;
+    bool hasAttacked;
 
     public ActionState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso) { }
 
     public override void EnterState()
     {
         Debug.Log("Action State");
-
-        // Attack started
-        isInAction = true;
-        isMoving = true;
-        moveTime = 0f;
+        
 
         #region Decide Which Side Acts
 
@@ -32,18 +31,14 @@ public class ActionState : CombatBaseState
             avatarPlayingCard = ctx.player;
             avatarOpponent = ctx.selectedEnemyToAttack;
 
-            PlayCard(ctx.cardPlayed);
+            ctx.StartCoroutine(PlayCard(ctx.cardPlayed));
         }
         else
         {
             avatarPlayingCard = ctx.currentEnemyTurn;
             avatarOpponent = ctx.player;
 
-            // Play all enemy cards in queue
-            foreach (Card cardPlayed in ctx.enemyCardQueue)
-            {
-                PlayCard(cardPlayed);
-            }
+            ctx.StartCoroutine(EnemyTurnPlayCard());
         }
 
         #endregion
@@ -53,6 +48,7 @@ public class ActionState : CombatBaseState
         CheckSwitchState();
 
         MoveAvatar();
+        AnimationEvent();
     }   
 
     public override void FixedUpdateState() { }
@@ -73,8 +69,29 @@ public class ActionState : CombatBaseState
     }
     public override void InitializeSubState() { }
 
-    private async void PlayCard(Card cardPlayed)
+    private IEnumerator EnemyTurnPlayCard()
     {
+        // Play all enemy cards in queue
+        foreach (Card cardPlayed in ctx.enemyCardQueue)
+        {
+            if (isInAction)
+                yield return new WaitForEndOfFrame();
+            else
+                ctx.StartCoroutine(PlayCard(cardPlayed));
+        }
+    }
+
+    private IEnumerator PlayCard(Card cardPlayed)
+    {
+        isInAction = true;
+        isMoving = true;
+        isMovingBack = false;
+        isAttacking = true;
+        hasAttacked = false;
+        avatarPlayingCard.doDamage = false;
+        avatarPlayingCard.attackFinished = false;
+        moveTime = 0f;
+
         ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
         ctx.displayCard.gameObject.SetActive(true);
 
@@ -83,9 +100,7 @@ public class ActionState : CombatBaseState
         animController.SetTrigger("Move");
 
 
-        // Display Card and play animations
-        await Task.Delay(100000); // Need to test if game is paused
-
+        yield return new WaitWhile(() => !hasAttacked);
 
         DetermineEffectTarget(cardPlayed);
 
@@ -106,15 +121,21 @@ public class ActionState : CombatBaseState
 
         #endregion
 
-        ctx.displayCard.gameObject.SetActive(false);
-
         avatarPlayingCard.DisplayStats();
         avatarOpponent.DisplayStats();
 
+        yield return new WaitWhile(() => isAttacking);
+
         // Attack finished
+        ctx.displayCard.gameObject.SetActive(false);
+
         isInAction = false;
         Debug.Log("Finished Attacking");
     }
+
+
+
+    #region Card Type
 
     private void Attack(Card cardPlayed)
     {
@@ -162,6 +183,10 @@ public class ActionState : CombatBaseState
         avatarPlayingCard.Heal(healAmount);
     }
 
+    #endregion
+
+    #region Card Actions
+
     private void ReduceGuard()
     {
         if (avatarOpponent.armourType == ArmourType.Light && avatarPlayingCard.damageType == DamageType.Slash ||
@@ -205,6 +230,9 @@ public class ActionState : CombatBaseState
         }
     }
 
+    #endregion
+
+    #region Status Effect
 
     private void DetermineEffectTarget(Card cardPlayed)
     {
@@ -232,6 +260,9 @@ public class ActionState : CombatBaseState
     }
 
 
+    #endregion
+
+    #region Animation Related
     private void MoveAvatar()
     {
         if (isMoving)
@@ -261,10 +292,55 @@ public class ActionState : CombatBaseState
             {
                 // Play attack animation
                 isMoving = false;
+                isAttacking = true;
                 avatarPlayingCard.GetComponent<Animator>().SetTrigger("Attack");
+            }
+        }
+
+        if (isMovingBack)
+        {
+            // Determine position to move to
+            Transform currentTransform = avatarPlayingCard.transform;
+            Transform parentTransform = currentTransform.parent.transform;
+
+            Vector3 currentPos = new Vector3(currentTransform.position.x, 0, currentTransform.position.z);
+            Vector3 parentPos = new Vector3(parentTransform.position.x, 0, parentTransform.position.z);
+
+            Vector3 posToMove = parentPos;
+
+            float distance = Vector3.Distance(currentPos, posToMove);
+            Debug.Log(distance);
+            if (distance > 0f)
+            {
+                // Move avatar to position
+                moveTime += Time.deltaTime;
 
 
+                Vector3 newPos = Vector3.MoveTowards(currentPos, posToMove, ctx.moveAnimCurve.Evaluate(moveTime));
+                currentTransform.position = new Vector3(newPos.x, currentTransform.position.y, newPos.z);
+            }
+            else
+            {
+                isMovingBack = false;
+                isAttacking = false;
             }
         }
     }
+
+    private void AnimationEvent()
+    {
+        if (avatarPlayingCard.doDamage)
+        {
+            avatarPlayingCard.doDamage = false;
+            hasAttacked = true;
+        }
+
+        if (avatarPlayingCard.attackFinished)
+        {
+            avatarPlayingCard.attackFinished = false;
+            isMovingBack = true;
+        }
+    }
+
+    #endregion
 }

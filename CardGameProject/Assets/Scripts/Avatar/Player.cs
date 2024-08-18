@@ -101,4 +101,14 @@ public class Player : Avatar
 
         blockValue.text = currentBlock.ToString();
     }
+
+    public override void AnimationEventAttack()
+    {
+        base.AnimationEventAttack();
+    }
+
+    public override void AnimationEventAttackFinish()
+    {
+        base.AnimationEventAttackFinish();
+    }
 }

@@ -27,6 +27,10 @@ public class Avatar : MonoBehaviour
     public ArmourType armourType;
     public DamageType damageType;
 
+    // Aninmation Events
+    [HideInInspector] public bool doDamage;
+    [HideInInspector] public bool attackFinished;
+
     protected float currentHealth;
     protected float currentBlock = 0f;
     protected int currentGuard;
@@ -151,4 +155,13 @@ public class Avatar : MonoBehaviour
 
     #endregion
 
+    public virtual void AnimationEventAttack()
+    {
+        doDamage = true;
+    }
+
+    public virtual void AnimationEventAttackFinish()
+    {
+        attackFinished = true;
+    }
 }
