@@ -274,11 +274,11 @@ public class ActionState : CombatBaseState
             Vector3 currentPos = new Vector3(currentTransform.position.x, 0, currentTransform.position.z);
             Vector3 opponentPos = new Vector3(opponentTransform.position.x, 0, opponentTransform.position.z);
 
-            Vector3 posToMove = opponentPos + opponentTransform.parent.transform.forward * 1f;
+            Vector3 posToMove = opponentPos + opponentTransform.parent.transform.forward * 1.5f;
 
             float distance = Vector3.Distance(currentPos, posToMove);
             Debug.Log(distance);
-            if (distance > 0.5f)
+            if (distance > 0.2f)
             {
                 // Move avatar to position
                 moveTime += Time.deltaTime;

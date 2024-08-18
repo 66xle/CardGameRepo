@@ -9208,8 +9208,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8584737275310859542}
-  m_LocalRotation: {x: -0, y: 0.9914449, z: -0, w: 0.13052654}
-  m_LocalPosition: {x: 0.0009765625, y: -0.94000244, z: -0.0020751953}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4693826190806788307}
@@ -9218,7 +9218,7 @@ Transform:
   - {fileID: 4469126637197572087}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 165, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &8584737275310859537
 Animator:
   serializedVersion: 3
@@ -9254,6 +9254,8 @@ MonoBehaviour:
   maxGuard: 10
   armourType: 0
   damageType: 0
+  doDamage: 0
+  attackFinished: 0
   recoverStaminaAmount: 4
   currentStamina: 0
 --- !u!1 &8685900625354470059
