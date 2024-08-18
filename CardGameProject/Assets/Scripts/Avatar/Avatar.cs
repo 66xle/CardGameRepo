@@ -27,9 +27,11 @@ public class Avatar : MonoBehaviour
     public ArmourType armourType;
     public DamageType damageType;
 
-    // Aninmation Events
+    // Animation Events
     [HideInInspector] public bool doDamage;
     [HideInInspector] public bool attackFinished;
+
+    [HideInInspector] public bool isInCounterState;
 
     protected float currentHealth;
     protected float currentBlock = 0f;

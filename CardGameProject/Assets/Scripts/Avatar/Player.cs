@@ -38,6 +38,8 @@ public class Player : Avatar
         this.maxStamina = maxStamina;
         base.maxGuard = maxGuard;
 
+        isInCounterState = false;
+
         animController = GetComponent<Animator>();
 
         currentHealth = base.maxHealth;

@@ -31,6 +31,8 @@ public class Enemy : Avatar
         healthValue = GetComponentsInChildren<TMP_Text>()[1];
         guardValue = GetComponentsInChildren<TMP_Text>()[2];
 
+        isInCounterState = false;
+
         animController = GetComponent<Animator>();
 
         currentHealth = maxHealth;

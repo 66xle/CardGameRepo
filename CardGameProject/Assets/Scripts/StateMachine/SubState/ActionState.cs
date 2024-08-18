@@ -96,7 +96,8 @@ public class ActionState : CombatBaseState
         ctx.displayCard.gameObject.SetActive(true);
 
 
-        Animator animController = avatarPlayingCard.GetComponent<Animator>();
+        Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
+        Animator opponentController = avatarOpponent.GetComponent<Animator>();
 
 
         // Play Card Effect
@@ -108,12 +109,31 @@ public class ActionState : CombatBaseState
         {
             // Play Move Animation
             isMoving = true;
-            animController.SetTrigger("Move");
+            avatarPlayingCardController.SetTrigger("Move");
 
             yield return new WaitWhile(() => !hasAttacked);
 
-            Attack(cardPlayed);
+            // Check counter
+            if (avatarOpponent.isInCounterState)
+            {
+                opponentController.SetBool("isReady", false);
+                opponentController.SetTrigger("Counter");
 
+                avatarPlayingCardController.SetTrigger("Recoil");
+
+                avatarOpponent.isInCounterState = false;
+            }
+            else
+            {
+                Attack(cardPlayed);
+            }
+        }
+        else if (cardPlayed.cardType == Type.Counter)
+        {
+            avatarPlayingCard.isInCounterState = true;
+            avatarPlayingCardController.SetBool("isReady", true);
+
+            isPlayingCard = false;
         }
         else if (cardPlayed.cardType == Type.Defend)
         {
@@ -312,7 +332,6 @@ public class ActionState : CombatBaseState
             {
                 // Play attack animation
                 isMoving = false;
-                isPlayingCard = true;
                 avatarPlayingCard.GetComponent<Animator>().SetTrigger("Attack");
             }
         }
@@ -351,8 +370,10 @@ public class ActionState : CombatBaseState
         if (avatarPlayingCard.doDamage)
         {
             avatarPlayingCard.doDamage = false;
-            avatarOpponent.GetComponent<Animator>().SetTrigger("TakeDamage");
             hasAttacked = true;
+            
+            if (!avatarOpponent.isInCounterState)
+                avatarOpponent.GetComponent<Animator>().SetTrigger("TakeDamage");
         }
 
         if (avatarPlayingCard.attackFinished)
