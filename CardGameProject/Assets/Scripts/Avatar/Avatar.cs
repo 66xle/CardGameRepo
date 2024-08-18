@@ -27,6 +27,8 @@ public class Avatar : MonoBehaviour
     public ArmourType armourType;
     public DamageType damageType;
 
+    [HideInInspector] public Animator animController;
+
     // Aninmation Events
     [HideInInspector] public bool doDamage;
     [HideInInspector] public bool attackFinished;
@@ -75,7 +77,7 @@ public class Avatar : MonoBehaviour
         return currentGuard == 0 ? true : false;
     }
 
-    public void RecoverGuardBreak()
+    public virtual void RecoverGuardBreak()
     {
         currentGuard = maxGuard;
     }
@@ -86,7 +88,7 @@ public class Avatar : MonoBehaviour
 
     #region Apply Status Effects
 
-    public void ApplyGuardBreak(StatusEffect effectObject)
+    public virtual void ApplyGuardBreak(StatusEffect effectObject)
     {
         StatusGuardBroken effect = effectObject as StatusGuardBroken;
         listOfEffects.Add(new StatusEffectData(effect.effect, effect.name, effect.turnsRemaning, effect.numberOfHitsToRecover, extraDmgPer: effect.extraDamagePercentage, nextTurn: true));
@@ -116,21 +118,7 @@ public class Avatar : MonoBehaviour
     }
 
 
-    public void ReduceHitToRecover()
-    {
-        for (int i = listOfEffects.Count - 1; i >= 0; i--)
-        {
-            if (listOfEffects[i].effect != Effect.GuardBroken)
-                continue;
-
-            listOfEffects[i].numberOfHitsToRecover--;
-            if (listOfEffects[i].numberOfHitsToRecover <= 0)
-            {
-                RecoverGuardBreak();
-                listOfEffects.RemoveAt(i);
-            }
-        }
-    }
+    
 
     public void ReduceHealth(float percentage)
     {
@@ -155,12 +143,12 @@ public class Avatar : MonoBehaviour
 
     #endregion
 
-    public virtual void AnimationEventAttack()
+    public void AnimationEventAttack()
     {
         doDamage = true;
     }
 
-    public virtual void AnimationEventAttackFinish()
+    public void AnimationEventAttackFinish()
     {
         attackFinished = true;
     }

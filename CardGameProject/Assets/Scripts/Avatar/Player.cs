@@ -8,6 +8,8 @@ public class Player : Avatar
     [SerializeField] float recoverStaminaAmount = 2f;
     [HideInInspector] public float currentStamina;
 
+    private Animator animController;
+
     [Header("References")]
     private Slider healthBar;
     private TMP_Text healthValue;
@@ -36,9 +38,11 @@ public class Player : Avatar
         this.maxStamina = maxStamina;
         base.maxGuard = maxGuard;
 
-       currentHealth = base.maxHealth;
-       currentStamina = this.maxStamina;
-       currentGuard = base.maxGuard;
+        animController = GetComponent<Animator>();
+
+        currentHealth = base.maxHealth;
+        currentStamina = this.maxStamina;
+        currentGuard = base.maxGuard;
 
         DisplayStats();
     }
@@ -59,6 +63,18 @@ public class Player : Avatar
         }
 
         return false;
+    }
+
+    public override void RecoverGuardBreak()
+    {
+        animController.SetBool("isStunned", false);
+        base.RecoverGuardBreak();
+    }
+
+    public override void ApplyGuardBreak(StatusEffect effectObject)
+    {
+        animController.SetBool("isStunned", true);
+        base.ApplyGuardBreak(effectObject);
     }
 
     #region Play Cards
@@ -102,13 +118,4 @@ public class Player : Avatar
         blockValue.text = currentBlock.ToString();
     }
 
-    public override void AnimationEventAttack()
-    {
-        base.AnimationEventAttack();
-    }
-
-    public override void AnimationEventAttackFinish()
-    {
-        base.AnimationEventAttackFinish();
-    }
 }
