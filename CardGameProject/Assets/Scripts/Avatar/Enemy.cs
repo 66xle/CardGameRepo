@@ -39,15 +39,7 @@ public class Enemy : Avatar
         currentGuard = maxGuard;
         DisplayStats();
     }
-
-    public bool isDead()
-    {
-        if (currentHealth <= 0f)
-            return true;
-
-        return false;
-    }
-
+  
     public List<Card> DrawCards()
     {
         List<Card> cardDrawn = new List<Card>();

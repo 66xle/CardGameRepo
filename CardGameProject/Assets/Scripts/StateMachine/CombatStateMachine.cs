@@ -6,10 +6,13 @@ using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 
 public class CombatStateMachine : MonoBehaviour
 {
+    protected const string PLAYERSTATE = "PlayerState";
+
     public string currentSuperState; // ONLY FOR DEBUGGING DON'T USE
     [SerializeField] string subState;
 
@@ -241,6 +244,53 @@ public class CombatStateMachine : MonoBehaviour
 
             Destroy(pos.GetChild(0).gameObject);
         }
+    }
+
+    public void AvatarDeath(Avatar currentAvatar)
+    {
+        if (currentAvatar.IsAvatarDead())
+        {
+            currentAvatar.GetComponent<Animator>().SetTrigger("Death");
+
+            // Check deaths
+            if (currentState.ToString() != PLAYERSTATE)
+            {
+                #region Enemies
+
+                // Remove enemy
+                enemyList.Remove(currentAvatar as Enemy);
+                //ctx.DestroyEnemy(ctx.selectedEnemyToAttack);
+
+                // Are there enemies still alive
+                if (enemyList.Count > 0)
+                {
+                    // Select different enemy
+                    selectedEnemyToAttack = enemyList[0].GetComponent<Enemy>();
+                }
+                else if (enemyList.Count == 0) // No enemies
+                {
+                    ClearCombatScene();
+
+                    eventDisplay.FinishCombatEvent();
+                }
+
+                #endregion
+            }
+            else
+            {
+                #region Player
+
+                // Game over UI
+
+                #endregion
+
+            }
+        }
+
+        
+
+
+
     }
 
     #endregion
