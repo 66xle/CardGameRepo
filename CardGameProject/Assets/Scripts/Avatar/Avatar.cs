@@ -117,9 +117,6 @@ public class Avatar : MonoBehaviour
         return false;
     }
 
-
-    
-
     public void ReduceHealth(float percentage)
     {
         currentHealth -= maxHealth * percentage;
@@ -139,6 +136,16 @@ public class Avatar : MonoBehaviour
         }
 
         return damage;
+    }
+
+    public bool IsAvatarDead()
+    {
+        if (currentHealth <= 0f)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     #endregion

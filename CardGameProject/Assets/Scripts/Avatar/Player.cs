@@ -49,14 +49,6 @@ public class Player : Avatar
         DisplayStats();
     }
 
-    public bool isDead()
-    {
-        if (currentHealth >= maxHealth)
-            return true;
-
-        return false;
-    }
-
     public bool hasEnoughStamina(float cost)
     {
         if (currentStamina >= cost)
@@ -78,6 +70,7 @@ public class Player : Avatar
         animController.SetBool("isStunned", true);
         base.ApplyGuardBreak(effectObject);
     }
+
 
     #region Play Cards
 

@@ -74,8 +74,10 @@ public class StatusEffectState : CombatBaseState
 
             // Check effect
             if (currentAvatarSelected.listOfEffects[i].turnRemaining > 0)
+            {
                 ActivateEffect(currentEffect);
-
+                IsAvatarDead();
+            }
 
             currentAvatarSelected.listOfEffects[i].turnRemaining--;
 
@@ -108,6 +110,7 @@ public class StatusEffectState : CombatBaseState
         if (data.effect == Effect.Bleed)
         {
             currentAvatarSelected.ReduceHealth(data.reduceDamagePercentage);
+            // Play Bleed effect
         }
 
 
@@ -121,6 +124,17 @@ public class StatusEffectState : CombatBaseState
                 ctx.enemyTurnQueue.Remove(ctx.currentEnemyTurn);
 
             Debug.Log("SKIP TURN");
+        }
+    }
+
+    public void IsAvatarDead()
+    {
+        if (currentAvatarSelected.IsAvatarDead())
+        {
+            currentAvatarSelected.GetComponent<Animator>().SetTrigger("Death");
+
+            
+            ctx.AvatarDeath(currentAvatarSelected);
         }
     }
 

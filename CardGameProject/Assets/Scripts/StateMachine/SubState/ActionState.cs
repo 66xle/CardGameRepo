@@ -183,15 +183,7 @@ public class ActionState : CombatBaseState
             }
         }
 
-        // Check deaths
-        if (ctx.currentState.ToString() == PLAYERSTATE)
-        {
-            EnemiesAlive();
-        }
-        else
-        {
-            // Check player Death
-        }
+        ctx.AvatarDeath(avatarOpponent);
     }
 
     private void Defend(Card cardPlayed)
@@ -246,30 +238,7 @@ public class ActionState : CombatBaseState
         else if (avatarOpponent.armourType == ArmourType.Heavy) avatarOpponent.ApplyGuardBreak(ctx.guardBreakHeavyArmour);
     }
 
-    private void EnemiesAlive()
-    {
-        // Check if enemy is dead
-        if (ctx.selectedEnemyToAttack.isDead())
-        {
-            // Remove and destroy enemy
-            ctx.enemyList.Remove(ctx.selectedEnemyToAttack);
-            ctx.DestroyEnemy(ctx.selectedEnemyToAttack);
-
-            // Are there enemies still alive
-            if (ctx.enemyList.Count > 0)
-            {
-                // Select different enemy
-                ctx.selectedEnemyToAttack = ctx.enemyList[0].GetComponent<Enemy>();
-                ctx.selectedEnemyToAttack.GetComponent<MeshRenderer>().material = ctx.redMat;
-            }
-            else if (ctx.enemyList.Count == 0) // No enemies
-            {
-                ctx.ClearCombatScene();
-
-                ctx.eventDisplay.FinishCombatEvent();
-            }
-        }
-    }
+    
 
     #endregion
 
