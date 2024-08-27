@@ -111,6 +111,7 @@ public class ActionState : CombatBaseState
             isMoving = true;
             avatarPlayingCardController.SetTrigger("Move");
 
+            // Wait for player to finish moving
             yield return new WaitWhile(() => !hasAttacked);
 
             // Check counter
