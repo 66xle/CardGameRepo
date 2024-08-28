@@ -25,15 +25,18 @@ public class Enemy : Avatar
     // Start is called before the first frame update
     void Start()
     {
-        healthBar = GetComponentsInChildren<Slider>()[0];
-        guardBar = GetComponentsInChildren<Slider>()[1];
-        blockValue = GetComponentsInChildren<TMP_Text>()[0];
-        healthValue = GetComponentsInChildren<TMP_Text>()[1];
-        guardValue = GetComponentsInChildren<TMP_Text>()[2];
-
         isInCounterState = false;
 
         animController = GetComponent<Animator>();
+    }
+
+    public void InitUI(GameObject statsUI)
+    {
+        healthBar = statsUI.GetComponentsInChildren<Slider>()[0];
+        guardBar = statsUI.GetComponentsInChildren<Slider>()[1];
+        healthValue = statsUI.GetComponentsInChildren<TMP_Text>()[0];
+        guardValue = statsUI.GetComponentsInChildren<TMP_Text>()[1];
+        blockValue = statsUI.GetComponentsInChildren<TMP_Text>()[2];
 
         currentHealth = maxHealth;
         currentGuard = maxGuard;

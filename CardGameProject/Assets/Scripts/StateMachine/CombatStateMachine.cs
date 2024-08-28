@@ -33,6 +33,8 @@ public class CombatStateMachine : MonoBehaviour
 
     [Header("Enemy")]
     public List<Transform> enemySpawnPosList;
+    public List<RectTransform> enemyUIList;
+    public GameObject enemyUIPrefab;
     [HideInInspector] public List<Enemy> enemyList;
     [HideInInspector] public List<Enemy> enemyTurnQueue;
     [HideInInspector] public int turnIndex = 0;
@@ -160,6 +162,10 @@ public class CombatStateMachine : MonoBehaviour
             enemy.maxHealth = enemy.enemyObj.health;
 
             enemyList.Add(enemy);
+
+            // Init UI
+            GameObject statsUI = Instantiate(enemyUIPrefab, enemyUIList[i]);
+            enemy.InitUI(statsUI);
 
             // Set default selection
             if (i == 0)
