@@ -175,7 +175,7 @@ public class CombatStateMachine : MonoBehaviour
             if (i == 0)
             {
                 selectedEnemyToAttack = enemy;
-                //selectedEnemyToAttack.GetComponent<MeshRenderer>().material = redMat;
+                enemyUI.selectedHighlight.SetActive(true);
                 
             }
         }
