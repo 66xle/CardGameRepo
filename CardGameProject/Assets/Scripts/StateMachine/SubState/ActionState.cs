@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using System;
 
 public class ActionState : CombatBaseState
 {
@@ -111,7 +112,7 @@ public class ActionState : CombatBaseState
             isMoving = true;
             avatarPlayingCardController.SetTrigger("Move");
 
-            // Wait for player to finish moving
+            // Wait until opponent attacks
             yield return new WaitWhile(() => !hasAttacked);
 
             // Check counter
@@ -150,6 +151,7 @@ public class ActionState : CombatBaseState
         avatarPlayingCard.DisplayStats();
         avatarOpponent.DisplayStats();
 
+        // Avatar returns to spot or finishes animation
         yield return new WaitWhile(() => isPlayingCard);
 
         // Attack finished
@@ -293,10 +295,9 @@ public class ActionState : CombatBaseState
                 // Move avatar to position
                 moveTime += Time.deltaTime;
 
-                
                 Vector3 newPos = Vector3.MoveTowards(currentPos, posToMove, ctx.moveAnimCurve.Evaluate(moveTime));
                 currentTransform.position = new Vector3(newPos.x, currentTransform.position.y, newPos.z);
-                
+
             }
             else
             {
