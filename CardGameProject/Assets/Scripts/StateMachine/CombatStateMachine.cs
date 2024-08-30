@@ -33,7 +33,7 @@ public class CombatStateMachine : MonoBehaviour
 
     [Header("Enemy")]
     public List<Transform> enemySpawnPosList;
-    public List<RectTransform> enemyUIList;
+    public List<GameObject> enemyUIList;
     public GameObject enemyUIPrefab;
     [HideInInspector] public List<Enemy> enemyList;
     [HideInInspector] public List<Enemy> enemyTurnQueue;
@@ -164,8 +164,12 @@ public class CombatStateMachine : MonoBehaviour
             enemyList.Add(enemy);
 
             // Init UI
-            GameObject statsUI = Instantiate(enemyUIPrefab, enemyUIList[i]);
+            GameObject statsUI = Instantiate(enemyUIPrefab, enemyUIList[i].GetComponent<RectTransform>());
             enemy.InitUI(statsUI);
+
+            EnemyUI enemyUI = statsUI.GetComponent<EnemyUI>();
+            enemyUI.stateMachine = this;
+            enemyUI.enemy = enemy;
 
             // Set default selection
             if (i == 0)
@@ -203,6 +207,16 @@ public class CombatStateMachine : MonoBehaviour
             container.DestroyCard(evt.card);
 
             player.RecycleCardToStamina(card.recycleValue);
+        }
+    }
+
+    public void RemoveSelectedEnemyUI()
+    {
+        foreach (GameObject enemyUIParent in enemyUIList)
+        {
+            EnemyUI ui = enemyUIParent.GetComponentInChildren<EnemyUI>();
+
+            ui.selectedHighlight.SetActive(false);
         }
     }
 
