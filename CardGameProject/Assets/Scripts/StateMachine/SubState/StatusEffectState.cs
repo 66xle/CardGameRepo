@@ -133,8 +133,14 @@ public class StatusEffectState : CombatBaseState
         {
             currentAvatarSelected.GetComponent<Animator>().SetTrigger("Death");
 
-            
-            ctx.AvatarDeath(currentAvatarSelected);
+            string deathType;
+
+            if (ctx.currentState.ToString() == PLAYERSTATE)
+                deathType = "Player";
+            else
+                deathType = "Enemy";
+
+            ctx.AvatarDeath(currentAvatarSelected, deathType);
         }
     }
 

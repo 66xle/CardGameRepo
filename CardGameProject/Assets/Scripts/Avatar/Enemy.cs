@@ -9,11 +9,13 @@ public class Enemy : Avatar
     [HideInInspector] public EnemyObj enemyObj;
 
     [Header("References")]
-    private Slider healthBar;
-    private TMP_Text healthValue;
-    private Slider guardBar;
-    private TMP_Text guardValue;
-    private TMP_Text blockValue;
+    [HideInInspector] public Slider healthBar;
+    [HideInInspector] public TMP_Text healthValue;
+    [HideInInspector] public Slider guardBar;
+    [HideInInspector] public TMP_Text guardValue;
+    [HideInInspector] public TMP_Text blockValue;
+    [HideInInspector] public EnemyUI enemyUI;
+    private DetailedUI detailedUI;
 
     [Header("Cards")]
     [SerializeField] float drawAmount;
@@ -30,17 +32,27 @@ public class Enemy : Avatar
         animController = GetComponent<Animator>();
     }
 
-    public void InitUI(GameObject statsUI)
+    public void InitStats(GameObject statsUI, DetailedUI detailedUI)
     {
         healthBar = statsUI.GetComponentsInChildren<Slider>()[0];
         guardBar = statsUI.GetComponentsInChildren<Slider>()[1];
         healthValue = statsUI.GetComponentsInChildren<TMP_Text>()[0];
         guardValue = statsUI.GetComponentsInChildren<TMP_Text>()[1];
         blockValue = statsUI.GetComponentsInChildren<TMP_Text>()[2];
+        enemyUI = statsUI.GetComponent<EnemyUI>();
+        this.detailedUI = detailedUI;
+
 
         currentHealth = maxHealth;
         currentGuard = maxGuard;
         DisplayStats();
+    }
+
+    public void Init(EnemyObj obj)
+    {
+        enemyObj = obj;
+        deck = enemyObj.cardList;
+        maxHealth = enemyObj.health;
     }
   
     public List<Card> DrawCards()
@@ -79,5 +91,9 @@ public class Enemy : Avatar
         guardValue.text = currentGuard.ToString() + " / " + maxGuard.ToString();
 
         blockValue.text = currentBlock.ToString();
+
+        detailedUI.DisplayStats();
     }
+
+    
 }

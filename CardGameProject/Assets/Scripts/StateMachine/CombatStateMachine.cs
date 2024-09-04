@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using TMPro;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
@@ -35,6 +36,7 @@ public class CombatStateMachine : MonoBehaviour
     public List<Transform> enemySpawnPosList;
     public List<GameObject> enemyUIList;
     public GameObject enemyUIPrefab;
+    public DetailedUI detailedUI;
     [HideInInspector] public List<Enemy> enemyList;
     [HideInInspector] public List<Enemy> enemyTurnQueue;
     [HideInInspector] public int turnIndex = 0;
@@ -65,6 +67,7 @@ public class CombatStateMachine : MonoBehaviour
     public StatsManager statsManager;
     public EventDisplay eventDisplay;
     public CardManager cardManager;
+
     public Button endTurnButton;
     public Material defMat;
     public Material redMat;
@@ -133,12 +136,13 @@ public class CombatStateMachine : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100))
         {
+            Debug.Log("shoot ray");
             if (hit.transform.CompareTag("Enemy"))
             {
-                selectedEnemyToAttack.GetComponent<MeshRenderer>().material = defMat;
-
+                ResetSelectedEnemyUI();
+                
                 selectedEnemyToAttack = hit.transform.GetComponent<Enemy>();
-                selectedEnemyToAttack.transform.GetComponent<MeshRenderer>().material = redMat;
+                selectedEnemyToAttack.enemyUI.SetUIActive(true);
             }
         }
     }
@@ -156,27 +160,24 @@ public class CombatStateMachine : MonoBehaviour
         // Spawn Enemy
         for (int i = 0; i < enemyObjList.Count; i++)
         {
+            // Init Obj
             Enemy enemy = Instantiate(enemyObjList[i].prefab, enemySpawnPosList[i]).GetComponent<Enemy>();
-            enemy.enemyObj = enemyObjList[i];
-            enemy.deck = enemy.enemyObj.cardList;
-            enemy.maxHealth = enemy.enemyObj.health;
-
+            enemy.Init(enemyObjList[i]);
             enemyList.Add(enemy);
 
-            // Init UI
+            // Init Stats
             GameObject statsUI = Instantiate(enemyUIPrefab, enemyUIList[i].GetComponent<RectTransform>());
-            enemy.InitUI(statsUI);
+            enemy.InitStats(statsUI, detailedUI);
 
             EnemyUI enemyUI = statsUI.GetComponent<EnemyUI>();
-            enemyUI.stateMachine = this;
-            enemyUI.enemy = enemy;
+            enemyUI.Init(this, enemy, detailedUI);
 
             // Set default selection
             if (i == 0)
             {
+                detailedUI.Init();
                 selectedEnemyToAttack = enemy;
-                enemyUI.selectedHighlight.SetActive(true);
-                
+                enemyUI.SetUIActive(true);
             }
         }
     }
@@ -210,13 +211,12 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
-    public void RemoveSelectedEnemyUI()
+    public void ResetSelectedEnemyUI()
     {
         foreach (GameObject enemyUIParent in enemyUIList)
         {
             EnemyUI ui = enemyUIParent.GetComponentInChildren<EnemyUI>();
-
-            ui.selectedHighlight.SetActive(false);
+            ui.SetUIActive(false);
         }
     }
 
@@ -266,14 +266,14 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
-    public void AvatarDeath(Avatar currentAvatar)
+    public void AvatarDeath(Avatar currentAvatar, string deathType)
     {
         if (currentAvatar.IsAvatarDead())
         {
             currentAvatar.GetComponent<Animator>().SetTrigger("Death");
 
             // Check deaths
-            if (currentState.ToString() != PLAYERSTATE)
+            if (deathType == "Enemy")
             {
                 #region Enemies
 
@@ -284,8 +284,12 @@ public class CombatStateMachine : MonoBehaviour
                 // Are there enemies still alive
                 if (enemyList.Count > 0)
                 {
+                    ResetSelectedEnemyUI();
+                    selectedEnemyToAttack.enemyUI.DisableSelection();
+
                     // Select different enemy
-                    selectedEnemyToAttack = enemyList[0].GetComponent<Enemy>();
+                    selectedEnemyToAttack = enemyList[0];
+                    selectedEnemyToAttack.enemyUI.SetUIActive(true);
                 }
                 else if (enemyList.Count == 0) // No enemies
                 {

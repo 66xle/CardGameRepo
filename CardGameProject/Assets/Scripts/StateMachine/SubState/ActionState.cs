@@ -186,7 +186,7 @@ public class ActionState : CombatBaseState
             }
         }
 
-        ctx.AvatarDeath(avatarOpponent);
+        ctx.AvatarDeath(avatarOpponent, "Enemy");
     }
 
     private void Defend(Card cardPlayed)
