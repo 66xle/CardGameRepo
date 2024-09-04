@@ -14,6 +14,7 @@ public class Enemy : Avatar
     private Slider guardBar;
     private TMP_Text guardValue;
     private TMP_Text blockValue;
+    [HideInInspector] public EnemyUI enemyUI;
 
     [Header("Cards")]
     [SerializeField] float drawAmount;
@@ -37,6 +38,7 @@ public class Enemy : Avatar
         healthValue = statsUI.GetComponentsInChildren<TMP_Text>()[0];
         guardValue = statsUI.GetComponentsInChildren<TMP_Text>()[1];
         blockValue = statsUI.GetComponentsInChildren<TMP_Text>()[2];
+        enemyUI = statsUI.GetComponent<EnemyUI>();
 
         currentHealth = maxHealth;
         currentGuard = maxGuard;

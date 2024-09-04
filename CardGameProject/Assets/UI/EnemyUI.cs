@@ -5,6 +5,8 @@ using UnityEngine;
 public class EnemyUI : MonoBehaviour
 {
     public GameObject selectedHighlight;
+    public bool disableUI;
+
 
     [HideInInspector] public CombatStateMachine stateMachine;
     [HideInInspector] public Enemy enemy;
@@ -12,7 +14,7 @@ public class EnemyUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        disableUI = false;
     }
 
     // Update is called once per frame
@@ -23,6 +25,9 @@ public class EnemyUI : MonoBehaviour
 
     public void SelectEnemy()
     {
+        if (disableUI)
+            return;
+
         stateMachine.RemoveSelectedEnemyUI();
         stateMachine.selectedEnemyToAttack = enemy;
 

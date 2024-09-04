@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using TMPro;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
@@ -266,14 +267,14 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
-    public void AvatarDeath(Avatar currentAvatar)
+    public void AvatarDeath(Avatar currentAvatar, string deathType)
     {
         if (currentAvatar.IsAvatarDead())
         {
             currentAvatar.GetComponent<Animator>().SetTrigger("Death");
 
             // Check deaths
-            if (currentState.ToString() != PLAYERSTATE)
+            if (deathType == "Enemy")
             {
                 #region Enemies
 
@@ -284,8 +285,12 @@ public class CombatStateMachine : MonoBehaviour
                 // Are there enemies still alive
                 if (enemyList.Count > 0)
                 {
+                    RemoveSelectedEnemyUI();
+                    selectedEnemyToAttack.enemyUI.disableUI = true;
+                    
                     // Select different enemy
-                    selectedEnemyToAttack = enemyList[0].GetComponent<Enemy>();
+                    selectedEnemyToAttack = enemyList[0];
+                    selectedEnemyToAttack.enemyUI.selectedHighlight.SetActive(true);
                 }
                 else if (enemyList.Count == 0) // No enemies
                 {
