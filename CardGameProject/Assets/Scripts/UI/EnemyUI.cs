@@ -10,6 +10,7 @@ public class EnemyUI : MonoBehaviour
 
     private CombatStateMachine stateMachine;
     private Enemy enemy;
+    private DetailedUI detailedUI;
 
     // Start is called before the first frame update
     void Start()
@@ -17,10 +18,11 @@ public class EnemyUI : MonoBehaviour
         disableUI = false;
     }
 
-    public void Init(CombatStateMachine stateMachine, Enemy enemy)
+    public void Init(CombatStateMachine stateMachine, Enemy enemy, DetailedUI detailedUI)
     {
         this.stateMachine = stateMachine;
         this.enemy = enemy;
+        this.detailedUI = detailedUI;
     }
 
     public void SelectEnemy()
@@ -31,16 +33,24 @@ public class EnemyUI : MonoBehaviour
         stateMachine.ResetSelectedEnemyUI();
         stateMachine.selectedEnemyToAttack = enemy;
 
-        selectedHighlight.SetActive(true);
+        SetUIActive(true);
     }
 
     public void SetUIActive(bool toggleUI)
     {
         selectedHighlight.SetActive(toggleUI);
+
+        if (toggleUI)
+            ChangeTarget();
     }
 
     public void DisableSelection()
     {
         disableUI = true;
+    }
+
+    public void ChangeTarget()
+    {
+        detailedUI.ChangeTarget(enemy);
     }
 }

@@ -36,6 +36,7 @@ public class CombatStateMachine : MonoBehaviour
     public List<Transform> enemySpawnPosList;
     public List<GameObject> enemyUIList;
     public GameObject enemyUIPrefab;
+    public DetailedUI detailedUI;
     [HideInInspector] public List<Enemy> enemyList;
     [HideInInspector] public List<Enemy> enemyTurnQueue;
     [HideInInspector] public int turnIndex = 0;
@@ -166,15 +167,15 @@ public class CombatStateMachine : MonoBehaviour
 
             // Init Stats
             GameObject statsUI = Instantiate(enemyUIPrefab, enemyUIList[i].GetComponent<RectTransform>());
-            enemy.InitStats(statsUI);
+            enemy.InitStats(statsUI, detailedUI);
 
-            // Init UI
             EnemyUI enemyUI = statsUI.GetComponent<EnemyUI>();
-            enemyUI.Init(this, enemy);
+            enemyUI.Init(this, enemy, detailedUI);
 
             // Set default selection
             if (i == 0)
             {
+                detailedUI.Init();
                 selectedEnemyToAttack = enemy;
                 enemyUI.SetUIActive(true);
             }
