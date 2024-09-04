@@ -31,7 +31,7 @@ public class Enemy : Avatar
         animController = GetComponent<Animator>();
     }
 
-    public void InitUI(GameObject statsUI)
+    public void InitStats(GameObject statsUI)
     {
         healthBar = statsUI.GetComponentsInChildren<Slider>()[0];
         guardBar = statsUI.GetComponentsInChildren<Slider>()[1];
@@ -43,6 +43,13 @@ public class Enemy : Avatar
         currentHealth = maxHealth;
         currentGuard = maxGuard;
         DisplayStats();
+    }
+
+    public void Init(EnemyObj obj)
+    {
+        enemyObj = obj;
+        deck = enemyObj.cardList;
+        maxHealth = enemyObj.health;
     }
   
     public List<Card> DrawCards()

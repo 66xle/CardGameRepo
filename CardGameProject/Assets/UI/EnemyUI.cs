@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class EnemyUI : MonoBehaviour
 {
-    public GameObject selectedHighlight;
-    public bool disableUI;
+    [SerializeField] GameObject selectedHighlight;
+    private bool disableUI;
 
 
-    [HideInInspector] public CombatStateMachine stateMachine;
-    [HideInInspector] public Enemy enemy;
+    private CombatStateMachine stateMachine;
+    private Enemy enemy;
 
     // Start is called before the first frame update
     void Start()
@@ -17,10 +17,10 @@ public class EnemyUI : MonoBehaviour
         disableUI = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Init(CombatStateMachine stateMachine, Enemy enemy)
     {
-        
+        this.stateMachine = stateMachine;
+        this.enemy = enemy;
     }
 
     public void SelectEnemy()
@@ -28,9 +28,19 @@ public class EnemyUI : MonoBehaviour
         if (disableUI)
             return;
 
-        stateMachine.RemoveSelectedEnemyUI();
+        stateMachine.ResetSelectedEnemyUI();
         stateMachine.selectedEnemyToAttack = enemy;
 
         selectedHighlight.SetActive(true);
+    }
+
+    public void SetActive(bool toggleUI)
+    {
+        selectedHighlight.SetActive(toggleUI);
+    }
+
+    public void DisableSelection()
+    {
+        disableUI = true;
     }
 }

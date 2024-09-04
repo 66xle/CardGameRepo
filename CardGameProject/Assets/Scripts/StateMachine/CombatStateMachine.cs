@@ -137,6 +137,7 @@ public class CombatStateMachine : MonoBehaviour
             if (hit.transform.CompareTag("Enemy"))
             {
                 selectedEnemyToAttack.GetComponent<MeshRenderer>().material = defMat;
+                
 
                 selectedEnemyToAttack = hit.transform.GetComponent<Enemy>();
                 selectedEnemyToAttack.transform.GetComponent<MeshRenderer>().material = redMat;
@@ -157,27 +158,24 @@ public class CombatStateMachine : MonoBehaviour
         // Spawn Enemy
         for (int i = 0; i < enemyObjList.Count; i++)
         {
+            // Init Obj
             Enemy enemy = Instantiate(enemyObjList[i].prefab, enemySpawnPosList[i]).GetComponent<Enemy>();
-            enemy.enemyObj = enemyObjList[i];
-            enemy.deck = enemy.enemyObj.cardList;
-            enemy.maxHealth = enemy.enemyObj.health;
-
+            enemy.Init(enemyObjList[i]);
             enemyList.Add(enemy);
 
-            // Init UI
+            // Init Stats
             GameObject statsUI = Instantiate(enemyUIPrefab, enemyUIList[i].GetComponent<RectTransform>());
-            enemy.InitUI(statsUI);
+            enemy.InitStats(statsUI);
 
+            // Init UI
             EnemyUI enemyUI = statsUI.GetComponent<EnemyUI>();
-            enemyUI.stateMachine = this;
-            enemyUI.enemy = enemy;
+            enemyUI.Init(this, enemy);
 
             // Set default selection
             if (i == 0)
             {
                 selectedEnemyToAttack = enemy;
-                enemyUI.selectedHighlight.SetActive(true);
-                
+                enemyUI.SetActive(true);
             }
         }
     }
@@ -211,13 +209,12 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
-    public void RemoveSelectedEnemyUI()
+    public void ResetSelectedEnemyUI()
     {
         foreach (GameObject enemyUIParent in enemyUIList)
         {
             EnemyUI ui = enemyUIParent.GetComponentInChildren<EnemyUI>();
-
-            ui.selectedHighlight.SetActive(false);
+            ui.SetActive(false);
         }
     }
 
@@ -285,12 +282,12 @@ public class CombatStateMachine : MonoBehaviour
                 // Are there enemies still alive
                 if (enemyList.Count > 0)
                 {
-                    RemoveSelectedEnemyUI();
-                    selectedEnemyToAttack.enemyUI.disableUI = true;
-                    
+                    ResetSelectedEnemyUI();
+                    selectedEnemyToAttack.enemyUI.DisableSelection();
+
                     // Select different enemy
                     selectedEnemyToAttack = enemyList[0];
-                    selectedEnemyToAttack.enemyUI.selectedHighlight.SetActive(true);
+                    selectedEnemyToAttack.enemyUI.SetActive(true);
                 }
                 else if (enemyList.Count == 0) // No enemies
                 {
