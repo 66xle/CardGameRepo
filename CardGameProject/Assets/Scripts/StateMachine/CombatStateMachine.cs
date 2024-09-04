@@ -66,6 +66,7 @@ public class CombatStateMachine : MonoBehaviour
     public StatsManager statsManager;
     public EventDisplay eventDisplay;
     public CardManager cardManager;
+
     public Button endTurnButton;
     public Material defMat;
     public Material redMat;
@@ -134,13 +135,13 @@ public class CombatStateMachine : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100))
         {
+            Debug.Log("shoot ray");
             if (hit.transform.CompareTag("Enemy"))
             {
-                selectedEnemyToAttack.GetComponent<MeshRenderer>().material = defMat;
+                ResetSelectedEnemyUI();
                 
-
                 selectedEnemyToAttack = hit.transform.GetComponent<Enemy>();
-                selectedEnemyToAttack.transform.GetComponent<MeshRenderer>().material = redMat;
+                selectedEnemyToAttack.enemyUI.SetUIActive(true);
             }
         }
     }
@@ -175,7 +176,7 @@ public class CombatStateMachine : MonoBehaviour
             if (i == 0)
             {
                 selectedEnemyToAttack = enemy;
-                enemyUI.SetActive(true);
+                enemyUI.SetUIActive(true);
             }
         }
     }
@@ -214,7 +215,7 @@ public class CombatStateMachine : MonoBehaviour
         foreach (GameObject enemyUIParent in enemyUIList)
         {
             EnemyUI ui = enemyUIParent.GetComponentInChildren<EnemyUI>();
-            ui.SetActive(false);
+            ui.SetUIActive(false);
         }
     }
 
@@ -287,7 +288,7 @@ public class CombatStateMachine : MonoBehaviour
 
                     // Select different enemy
                     selectedEnemyToAttack = enemyList[0];
-                    selectedEnemyToAttack.enemyUI.SetActive(true);
+                    selectedEnemyToAttack.enemyUI.SetUIActive(true);
                 }
                 else if (enemyList.Count == 0) // No enemies
                 {
