@@ -310,11 +310,6 @@ public class CombatStateMachine : MonoBehaviour
 
             }
         }
-
-        
-
-
-
     }
 
     #endregion

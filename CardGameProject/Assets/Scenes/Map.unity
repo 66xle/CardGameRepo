@@ -1318,6 +1318,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Environment_UmbralShrine_Mockup
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: fd6a357f0492aed4ab42b29b0c3c3e4f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd6a357f0492aed4ab42b29b0c3c3e4f, type: 3}
 --- !u!1 &301236150
@@ -3049,6 +3053,7 @@ MonoBehaviour:
   - {fileID: 1028183216}
   - {fileID: 1864036743}
   enemyUIPrefab: {fileID: 1566083453977946612, guid: 0157f8451d8aacc49a989fb7a6307541, type: 3}
+  detailedUI: {fileID: 1080841527}
   enemyList: []
   enemyTurnQueue: []
   turnIndex: 0
@@ -3069,47 +3074,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0.0026167068
-      tangentMode: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.44231918
-    - serializedVersion: 3
-      time: 0.13977051
-      value: 0.021878053
-      inSlope: 0.30769187
-      outSlope: 0.30769187
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.44176096
-      outWeight: 0.0823968
-    - serializedVersion: 3
-      time: 0.5512085
-      value: 0.05923996
-      inSlope: 0.0068448065
-      outSlope: 0.0068448065
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.41089413
-    - serializedVersion: 3
-      time: 0.7371826
-      value: 0.041989136
-      inSlope: -0.207201
-      outSlope: -0.207201
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.20595965
+      outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0.025
-      inSlope: -0.004206932
-      outSlope: -0.004206932
+      value: 1
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 1
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -6035,6 +6013,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1080841526}
+  - component: {fileID: 1080841527}
   m_Layer: 5
   m_Name: DetailedUI
   m_TagString: Untagged
@@ -6062,6 +6041,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -120.4}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &1080841527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1080841525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d53da6a14984e746b5bd014783dc0b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1084298701
 GameObject:
   m_ObjectHideFlags: 0
