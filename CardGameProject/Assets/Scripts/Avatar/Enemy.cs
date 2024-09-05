@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Enemy : Avatar
 {
     [HideInInspector] public EnemyObj enemyObj;
+    private GameObject arrow;
 
     [Header("References")]
     [HideInInspector] public Slider healthBar;
@@ -53,6 +54,8 @@ public class Enemy : Avatar
         enemyObj = obj;
         deck = enemyObj.cardList;
         maxHealth = enemyObj.health;
+
+        arrow = transform.GetChild(0).gameObject; // Grab arrow object (temp)
     }
   
     public List<Card> DrawCards()
@@ -95,5 +98,8 @@ public class Enemy : Avatar
         detailedUI.DisplayStats();
     }
 
-    
+    public void ToggleArrow(bool toggle)
+    {
+        arrow.SetActive(toggle);
+    }
 }

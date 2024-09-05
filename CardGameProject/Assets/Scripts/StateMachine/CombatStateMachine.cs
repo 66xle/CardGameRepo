@@ -36,6 +36,7 @@ public class CombatStateMachine : MonoBehaviour
     public List<Transform> enemySpawnPosList;
     public List<GameObject> enemyUIList;
     public GameObject enemyUIPrefab;
+    public GameObject arrowObjectPrefab;
     public DetailedUI detailedUI;
     [HideInInspector] public List<Enemy> enemyList;
     [HideInInspector] public List<Enemy> enemyTurnQueue;
@@ -178,6 +179,7 @@ public class CombatStateMachine : MonoBehaviour
                 detailedUI.Init();
                 selectedEnemyToAttack = enemy;
                 enemyUI.SetUIActive(true);
+                enemy.ToggleArrow(true);
             }
         }
     }
@@ -213,10 +215,17 @@ public class CombatStateMachine : MonoBehaviour
 
     public void ResetSelectedEnemyUI()
     {
+        for (int i = 0; i < enemyList.Count; i++)
+        {
+            enemyUIList[i].GetComponentInChildren<EnemyUI>().SetUIActive(false);
+            enemyList[i].ToggleArrow(false);
+        }
+
         foreach (GameObject enemyUIParent in enemyUIList)
         {
             EnemyUI ui = enemyUIParent.GetComponentInChildren<EnemyUI>();
             ui.SetUIActive(false);
+
         }
     }
 
@@ -310,11 +319,6 @@ public class CombatStateMachine : MonoBehaviour
 
             }
         }
-
-        
-
-
-
     }
 
     #endregion
