@@ -36,11 +36,12 @@ public class EnemyUI : MonoBehaviour
         SetUIActive(true);
     }
 
-    public void SetUIActive(bool toggleUI)
+    public void SetUIActive(bool toggle)
     {
-        selectedHighlight.SetActive(toggleUI);
+        selectedHighlight.SetActive(toggle);
+        enemy.ToggleArrow(toggle);
 
-        if (toggleUI)
+        if (toggle)
             ChangeTarget();
     }
 
