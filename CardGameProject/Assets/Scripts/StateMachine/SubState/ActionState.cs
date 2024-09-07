@@ -112,6 +112,16 @@ public class ActionState : CombatBaseState
             isMoving = true;
             avatarPlayingCardController.SetTrigger("Move");
 
+            if (avatarPlayingCard.gameObject.CompareTag("Player"))
+            {
+                ctx.followCam.LookAt = null;
+                ctx.followCam.transform.rotation = ctx.defaultCam.transform.rotation;
+                ctx.followCam.LookAt = avatarOpponent.transform;
+                ctx.panCam.LookAt = avatarOpponent.transform;
+                ctx.followCam.Priority = 30;
+            }
+                
+
             // Wait until opponent attacks
             yield return new WaitWhile(() => !hasAttacked);
 
@@ -156,6 +166,11 @@ public class ActionState : CombatBaseState
 
         // Attack finished
         ctx.displayCard.gameObject.SetActive(false);
+
+        if (avatarPlayingCard.gameObject.CompareTag("Player"))
+        {
+            ctx.followCam.Priority = 10;
+        }
 
         isInAction = false;
         Debug.Log("Finished Attacking");
@@ -304,6 +319,13 @@ public class ActionState : CombatBaseState
                 // Play attack animation
                 isMoving = false;
                 avatarPlayingCard.GetComponent<Animator>().SetTrigger("Attack");
+
+                if (avatarPlayingCard.gameObject.CompareTag("Player"))
+                {
+                    ctx.panCam.transform.position = ctx.followCam.transform.position;
+                    ctx.panCam.transform.rotation = ctx.followCam.transform.rotation;
+                    ctx.panCam.Priority = 31;
+                }
             }
         }
 
@@ -347,11 +369,15 @@ public class ActionState : CombatBaseState
                 avatarOpponent.GetComponent<Animator>().SetTrigger("TakeDamage");
         }
 
+        // Move back to spot
         if (avatarPlayingCard.attackFinished)
         {
             avatarPlayingCard.attackFinished = false;
             isMovingBack = true;
             moveTime = 0f; // Reset animation curve
+
+            if (avatarPlayingCard.gameObject.CompareTag("Player"))
+                ctx.panCam.Priority = 0;
         }
     }
 

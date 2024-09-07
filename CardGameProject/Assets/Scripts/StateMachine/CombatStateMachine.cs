@@ -9,6 +9,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
+using Cinemachine;
 
 public class CombatStateMachine : MonoBehaviour
 {
@@ -42,6 +43,11 @@ public class CombatStateMachine : MonoBehaviour
     [HideInInspector] public List<Enemy> enemyTurnQueue;
     [HideInInspector] public int turnIndex = 0;
     [HideInInspector] public Enemy currentEnemyTurn;
+
+    [Header("Camera References")]
+    public CinemachineVirtualCamera defaultCam;
+    public CinemachineVirtualCamera followCam;
+    public CinemachineVirtualCamera panCam;
 
     [Header("Card References")]
     public GameObject cardPrefab;
@@ -155,6 +161,9 @@ public class CombatStateMachine : MonoBehaviour
         player.Init(healthBar, healthValue, staminaBar, staminaValue, blockValue, guardBar, guardValue,
                     statsManager.currentMaxHealth, statsManager.currentMaxStamina, statsManager.currentMaxGuard,
                     statsManager.armourType, statsManager.damageType);
+
+        followCam.Follow = player.gameObject.transform;
+        panCam.Follow = player.gameObject.transform;
 
         List<EnemyObj> enemyObjList = nodeData.enemies;
 
