@@ -3053,6 +3053,7 @@ MonoBehaviour:
   - {fileID: 1028183216}
   - {fileID: 1864036743}
   enemyUIPrefab: {fileID: 1566083453977946612, guid: 0157f8451d8aacc49a989fb7a6307541, type: 3}
+  arrowObjectPrefab: {fileID: 0}
   detailedUI: {fileID: 1080841527}
   enemyList: []
   enemyTurnQueue: []
@@ -4754,6 +4755,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 864550733}
   m_CullTransparentMesh: 1
+--- !u!1 &869180315
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 869180316}
+  m_Layer: 5
+  m_Name: Status Effect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &869180316
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 869180315}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7325531235203110457}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &888357478
 GameObject:
   m_ObjectHideFlags: 0
@@ -13336,6 +13372,7 @@ RectTransform:
   - {fileID: 7325531235106596840}
   - {fileID: 7325531235258307869}
   - {fileID: 7325531236707067364}
+  - {fileID: 869180316}
   m_Father: {fileID: 1080841526}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
