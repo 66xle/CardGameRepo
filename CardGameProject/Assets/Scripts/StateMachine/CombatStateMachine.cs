@@ -66,8 +66,10 @@ public class CombatStateMachine : MonoBehaviour
     [HideInInspector] public bool skipTurn;
 
     [Header("Animation Settings")]
+    public float moveDuration = 0.5f;
+    public float jumpDuration = 0.5f;
     public AnimationCurve moveAnimCurve;
-    
+    public AnimationCurve jumpAnimCurve;
 
     [Header("References")]
     public InputManager inputManager;

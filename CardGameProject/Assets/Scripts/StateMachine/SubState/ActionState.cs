@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using System;
+using DG.Tweening;
 
 public class ActionState : CombatBaseState
 {
@@ -14,6 +15,7 @@ public class ActionState : CombatBaseState
 
     float moveTime; // For animation curve
 
+    bool tweenStarted;
     bool isMoving; // Move to opponent
     bool isMovingBack; // Move back to spot
     bool isPlayingCard; // Playing Card animations
@@ -92,6 +94,7 @@ public class ActionState : CombatBaseState
         avatarPlayingCard.doDamage = false;
         avatarPlayingCard.attackFinished = false;
         moveTime = 0f;
+        tweenStarted = false;
 
         ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
         ctx.displayCard.gameObject.SetActive(true);
@@ -307,17 +310,18 @@ public class ActionState : CombatBaseState
             float distance = Vector3.Distance(currentPos, posToMove);
             if (distance > 0.2f)
             {
-                // Move avatar to position
-                moveTime += Time.deltaTime;
-
-                Vector3 newPos = Vector3.MoveTowards(currentPos, posToMove, ctx.moveAnimCurve.Evaluate(moveTime));
-                currentTransform.position = new Vector3(newPos.x, currentTransform.position.y, newPos.z);
-
+                if (!tweenStarted)
+                {
+                    Debug.Log("TWEEEN STARTED");
+                    tweenStarted = true;
+                    currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), ctx.moveDuration).SetEase(ctx.moveAnimCurve);
+                }
             }
             else
             {
                 // Play attack animation
                 isMoving = false;
+                tweenStarted = false;
                 avatarPlayingCard.GetComponent<Animator>().SetTrigger("Attack");
 
                 if (avatarPlayingCard.gameObject.CompareTag("Player"))
@@ -343,12 +347,16 @@ public class ActionState : CombatBaseState
             float distance = Vector3.Distance(currentPos, posToMove);
             if (distance > 0f)
             {
-                // Move avatar to position
-                moveTime += Time.deltaTime;
 
 
-                Vector3 newPos = Vector3.MoveTowards(currentPos, posToMove, ctx.moveAnimCurve.Evaluate(moveTime));
-                currentTransform.position = new Vector3(newPos.x, currentTransform.position.y, newPos.z);
+                if (!tweenStarted)
+                {
+                    tweenStarted = true;
+                    currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), ctx.jumpDuration).SetEase(ctx.jumpAnimCurve);
+                }
+
+
+
             }
             else
             {
@@ -357,6 +365,7 @@ public class ActionState : CombatBaseState
             }
         }
     }
+
 
     private void AnimationEvent()
     {

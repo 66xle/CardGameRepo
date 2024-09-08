@@ -3458,26 +3458,52 @@ MonoBehaviour:
   guardBreakMediumArmour: {fileID: 11400000, guid: b1df9181f8abd10449f8e576b86ffcc3, type: 2}
   guardBreakHeavyArmour: {fileID: 11400000, guid: 51d93ea6466088b4c828670f7c81a7ba, type: 2}
   skipTurn: 0
+  moveDuration: 0.5
+  jumpDuration: 0.65
   moveAnimCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0.3616432
-      outSlope: 0.3616432
+      inSlope: 0.18256192
+      outSlope: 0.18256192
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.04323308
+      outWeight: 0.03320802
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 2.3452477
-      outSlope: 2.3452477
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  jumpAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: -0.10581928
+      outSlope: -0.10581928
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.023809552
+      inWeight: 0
+      outWeight: 0.048245613
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
