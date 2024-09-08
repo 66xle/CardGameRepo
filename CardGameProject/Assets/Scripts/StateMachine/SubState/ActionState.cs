@@ -11,13 +11,8 @@ public class ActionState : CombatBaseState
 {
     Avatar avatarPlayingCard;
     Avatar avatarOpponent;
+
     bool isInAction;
-
-    float moveTime; // For animation curve
-
-    bool tweenStarted;
-    bool isMoving; // Move to opponent
-    bool isMovingBack; // Move back to spot
     bool isPlayingCard; // Playing Card animations
     bool hasAttacked; // Attack Animations
 
@@ -87,7 +82,6 @@ public class ActionState : CombatBaseState
     private IEnumerator PlayCard(Card cardPlayed)
     {
         isInAction = true;
-        isMovingBack = false; // Only triggers in melee aninmations
         hasAttacked = false;
         isPlayingCard = true;
         avatarPlayingCard.doDamage = false;
