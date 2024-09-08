@@ -51,7 +51,6 @@ public class ActionState : CombatBaseState
     {
         CheckSwitchState();
 
-        MoveAvatar();
         AnimationEvent();
     }   
 
@@ -93,8 +92,6 @@ public class ActionState : CombatBaseState
         isPlayingCard = true;
         avatarPlayingCard.doDamage = false;
         avatarPlayingCard.attackFinished = false;
-        moveTime = 0f;
-        tweenStarted = false;
 
         ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
         ctx.displayCard.gameObject.SetActive(true);
@@ -112,7 +109,7 @@ public class ActionState : CombatBaseState
         if (cardPlayed.cardType == Type.Attack)
         {
             // Play Move Animation
-            isMoving = true;
+            MoveAvatar();
             avatarPlayingCardController.SetTrigger("Move");
 
             if (avatarPlayingCard.gameObject.CompareTag("Player"))
@@ -296,76 +293,45 @@ public class ActionState : CombatBaseState
     #region Animation Related
     private void MoveAvatar()
     {
-        if (isMoving)
+        // Determine position to move to
+        Transform currentTransform = avatarPlayingCard.transform;
+        Transform opponentTransform = avatarOpponent.transform;
+
+        Vector3 currentPos = new Vector3(currentTransform.position.x, 0, currentTransform.position.z);
+        Vector3 opponentPos = new Vector3(opponentTransform.position.x, 0, opponentTransform.position.z);
+
+        Vector3 posToMove = opponentPos + opponentTransform.parent.transform.forward * 1.5f;
+
+        currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), ctx.moveDuration).SetEase(ctx.moveAnimCurve).OnComplete(() =>
         {
-            // Determine position to move to
-            Transform currentTransform = avatarPlayingCard.transform;
-            Transform opponentTransform = avatarOpponent.transform;
+            // Play attack animation
+            avatarPlayingCard.GetComponent<Animator>().SetTrigger("Attack");
 
-            Vector3 currentPos = new Vector3(currentTransform.position.x, 0, currentTransform.position.z);
-            Vector3 opponentPos = new Vector3(opponentTransform.position.x, 0, opponentTransform.position.z);
-
-            Vector3 posToMove = opponentPos + opponentTransform.parent.transform.forward * 1.5f;
-
-            float distance = Vector3.Distance(currentPos, posToMove);
-            if (distance > 0.2f)
+            if (avatarPlayingCard.gameObject.CompareTag("Player"))
             {
-                if (!tweenStarted)
-                {
-                    Debug.Log("TWEEEN STARTED");
-                    tweenStarted = true;
-                    currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), ctx.moveDuration).SetEase(ctx.moveAnimCurve);
-                }
+                ctx.panCam.transform.position = ctx.followCam.transform.position;
+                ctx.panCam.transform.rotation = ctx.followCam.transform.rotation;
+                ctx.panCam.Priority = 31;
             }
-            else
-            {
-                // Play attack animation
-                isMoving = false;
-                tweenStarted = false;
-                avatarPlayingCard.GetComponent<Animator>().SetTrigger("Attack");
-
-                if (avatarPlayingCard.gameObject.CompareTag("Player"))
-                {
-                    ctx.panCam.transform.position = ctx.followCam.transform.position;
-                    ctx.panCam.transform.rotation = ctx.followCam.transform.rotation;
-                    ctx.panCam.Priority = 31;
-                }
-            }
-        }
-
-        if (isMovingBack)
-        {
-            // Determine position to move to
-            Transform currentTransform = avatarPlayingCard.transform;
-            Transform parentTransform = currentTransform.parent.transform;
-
-            Vector3 currentPos = new Vector3(currentTransform.position.x, 0, currentTransform.position.z);
-            Vector3 parentPos = new Vector3(parentTransform.position.x, 0, parentTransform.position.z);
-
-            Vector3 posToMove = parentPos;
-
-            float distance = Vector3.Distance(currentPos, posToMove);
-            if (distance > 0f)
-            {
-
-
-                if (!tweenStarted)
-                {
-                    tweenStarted = true;
-                    currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), ctx.jumpDuration).SetEase(ctx.jumpAnimCurve);
-                }
-
-
-
-            }
-            else
-            {
-                isMovingBack = false;
-                isPlayingCard = false;
-            }
-        }
+        });
     }
 
+    private void ReturnAvatar()
+    {
+        // Determine position to move to
+        Transform currentTransform = avatarPlayingCard.transform;
+        Transform parentTransform = currentTransform.parent.transform;
+
+        Vector3 currentPos = new Vector3(currentTransform.position.x, 0, currentTransform.position.z);
+        Vector3 parentPos = new Vector3(parentTransform.position.x, 0, parentTransform.position.z);
+
+        Vector3 posToMove = parentPos;
+
+        currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), ctx.jumpDuration).SetEase(ctx.jumpAnimCurve).OnComplete(() =>
+        {
+            isPlayingCard = false;
+        });
+    }
 
     private void AnimationEvent()
     {
@@ -382,8 +348,7 @@ public class ActionState : CombatBaseState
         if (avatarPlayingCard.attackFinished)
         {
             avatarPlayingCard.attackFinished = false;
-            isMovingBack = true;
-            moveTime = 0f; // Reset animation curve
+            ReturnAvatar();
 
             if (avatarPlayingCard.gameObject.CompareTag("Player"))
                 ctx.panCam.Priority = 0;
