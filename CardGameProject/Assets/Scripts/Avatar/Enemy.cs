@@ -23,12 +23,15 @@ public class Enemy : Avatar
     public List<Card> deck;
     [HideInInspector] public List<Card> cardsToPlay;
 
+    [HideInInspector] public bool disableSelection;
+
     private Animator animController;
 
     // Start is called before the first frame update
     void Start()
     {
         isInCounterState = false;
+        disableSelection = false;
 
         animController = GetComponent<Animator>();
     }
@@ -98,8 +101,17 @@ public class Enemy : Avatar
         detailedUI.DisplayStats();
     }
 
-    public void ToggleArrow(bool toggle)
+    public void EnemySelection(bool toggle)
     {
+        if (disableSelection)
+            return;
+        
         arrow.SetActive(toggle);
+        enemyUI.SetUIActive(toggle);
+
+        if (toggle)
+        {
+            detailedUI.ChangeTarget(this);
+        }
     }
 }

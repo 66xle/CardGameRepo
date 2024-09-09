@@ -35,9 +35,8 @@ public class CombatStateMachine : MonoBehaviour
 
     [Header("Enemy")]
     public List<Transform> enemySpawnPosList;
-    public List<GameObject> enemyUIList;
+    public List<GameObject> enemyUISpawnPosList;
     public GameObject enemyUIPrefab;
-    public GameObject arrowObjectPrefab;
     public DetailedUI detailedUI;
     [HideInInspector] public List<Enemy> enemyList;
     [HideInInspector] public List<Enemy> enemyTurnQueue;
@@ -151,7 +150,7 @@ public class CombatStateMachine : MonoBehaviour
                 ResetSelectedEnemyUI();
                 
                 selectedEnemyToAttack = hit.transform.GetComponent<Enemy>();
-                selectedEnemyToAttack.enemyUI.SetUIActive(true);
+                selectedEnemyToAttack.EnemySelection(true);
             }
         }
     }
@@ -178,19 +177,21 @@ public class CombatStateMachine : MonoBehaviour
             enemyList.Add(enemy);
 
             // Init Stats
-            GameObject statsUI = Instantiate(enemyUIPrefab, enemyUIList[i].GetComponent<RectTransform>());
+
+            if (i == 0)
+                detailedUI.Init();
+
+            GameObject statsUI = Instantiate(enemyUIPrefab, enemyUISpawnPosList[i].GetComponent<RectTransform>());
             enemy.InitStats(statsUI, detailedUI);
 
             EnemyUI enemyUI = statsUI.GetComponent<EnemyUI>();
-            enemyUI.Init(this, enemy, detailedUI);
+            enemyUI.Init(this, enemy);
 
             // Set default selection
             if (i == 0)
             {
-                detailedUI.Init();
                 selectedEnemyToAttack = enemy;
-                enemyUI.SetUIActive(true);
-                enemy.ToggleArrow(true);
+                enemy.EnemySelection(true);
             }
         }
     }
@@ -228,15 +229,7 @@ public class CombatStateMachine : MonoBehaviour
     {
         for (int i = 0; i < enemyList.Count; i++)
         {
-            enemyUIList[i].GetComponentInChildren<EnemyUI>().SetUIActive(false);
-            enemyList[i].ToggleArrow(false);
-        }
-
-        foreach (GameObject enemyUIParent in enemyUIList)
-        {
-            EnemyUI ui = enemyUIParent.GetComponentInChildren<EnemyUI>();
-            ui.SetUIActive(false);
-
+            enemyList[i].EnemySelection(false);
         }
     }
 
@@ -297,6 +290,9 @@ public class CombatStateMachine : MonoBehaviour
             {
                 #region Enemies
 
+                ResetSelectedEnemyUI();
+                selectedEnemyToAttack.disableSelection = true;
+
                 // Remove enemy
                 enemyList.Remove(currentAvatar as Enemy);
                 //ctx.DestroyEnemy(ctx.selectedEnemyToAttack);
@@ -304,12 +300,9 @@ public class CombatStateMachine : MonoBehaviour
                 // Are there enemies still alive
                 if (enemyList.Count > 0)
                 {
-                    ResetSelectedEnemyUI();
-                    selectedEnemyToAttack.enemyUI.DisableSelection();
-
                     // Select different enemy
                     selectedEnemyToAttack = enemyList[0];
-                    selectedEnemyToAttack.enemyUI.SetUIActive(true);
+                    selectedEnemyToAttack.EnemySelection(true);
                 }
                 else if (enemyList.Count == 0) // No enemies
                 {
