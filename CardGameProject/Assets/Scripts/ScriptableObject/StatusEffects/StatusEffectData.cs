@@ -13,12 +13,15 @@ public class StatusEffectData
 
     public bool removeEffectNextTurn;
 
-    public StatusEffectData(Effect effect, string name, int turnRemaining, float reduceDmgPer = 0f, int numHitToRecover = 0, float extraDmgPer = 0f, bool nextTurn = false)
+    public GameObject uiPrefab;
+
+    public StatusEffectData(Effect effect, string name, int turnRemaining, GameObject prefab, float reduceDmgPer = 0f, int numHitToRecover = 0, float extraDmgPer = 0f, bool nextTurn = false)
     {
         // Required
         this.effect = effect;
         effectName = name;
         this.turnRemaining = turnRemaining;
+        uiPrefab = prefab;
 
         // Optional
         reduceDamagePercentage = reduceDmgPer;

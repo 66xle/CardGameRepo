@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using events;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 namespace demo {
     /**
@@ -36,7 +38,12 @@ namespace demo {
 
             var preview = previews[card];
             preview.gameObject.SetActive(true);
-            preview.position = new Vector3(card.transform.position.x, verticalPosition, card.transform.position.z);
+
+            RectTransform previewPos = preview.GetComponent<RectTransform>();
+            RectTransform cardPos = card.GetComponent<RectTransform>();
+            previewPos.localPosition = new Vector3(previewPos.localPosition.x, verticalPosition, previewPos.localPosition.z);
+            previewPos.position = new Vector3(card.transform.position.x, previewPos.transform.position.y, card.transform.position.z);
+            //cardPos = 
         }
 
         private void CreateCloneForCard(CardWrapper card) {

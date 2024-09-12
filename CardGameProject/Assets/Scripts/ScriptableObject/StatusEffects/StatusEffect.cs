@@ -17,4 +17,5 @@ public class StatusEffect : ScriptableObject
     [HideInInspector] public Effect effect;
     public string effectName;
     public int turnsRemaning = 0;
+    public GameObject uiPrefab;
 }

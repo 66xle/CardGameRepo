@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class DetailedUI : MonoBehaviour
 {
     private Enemy enemy;
+    private RectTransform statusEffectParent;
 
     private Slider healthBar;
     private TMP_Text healthValue;
@@ -22,6 +23,7 @@ public class DetailedUI : MonoBehaviour
         healthValue = GetComponentsInChildren<TMP_Text>()[0];
         guardValue = GetComponentsInChildren<TMP_Text>()[1];
         blockValue = GetComponentsInChildren<TMP_Text>()[2];
+        statusEffectParent = GetComponentsInChildren<RectTransform>()[5];
     }
 
 
@@ -43,6 +45,15 @@ public class DetailedUI : MonoBehaviour
         guardValue.text = enemy.guardValue.text;
 
         blockValue.text = enemy.blockValue.text;
+
+        if (enemy.listOfEffects != null)
+        {
+            //foreach (StatusEffectData data in enemy.listOfEffects)
+            //{
+            //    GameObject statusData = Instantiate(data.uiPrefab, statusEffectParent, false);
+            //}
+        }
     }
+
 
 }

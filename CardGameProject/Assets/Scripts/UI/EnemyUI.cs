@@ -5,53 +5,30 @@ using UnityEngine;
 public class EnemyUI : MonoBehaviour
 {
     [SerializeField] GameObject selectedHighlight;
-    private bool disableUI;
 
 
     private CombatStateMachine stateMachine;
     private Enemy enemy;
-    private DetailedUI detailedUI;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        disableUI = false;
-    }
 
-    public void Init(CombatStateMachine stateMachine, Enemy enemy, DetailedUI detailedUI)
+    public void Init(CombatStateMachine stateMachine, Enemy enemy)
     {
         this.stateMachine = stateMachine;
         this.enemy = enemy;
-        this.detailedUI = detailedUI;
-    }
-
-    public void SelectEnemy()
-    {
-        if (disableUI)
-            return;
-
-        stateMachine.ResetSelectedEnemyUI();
-        stateMachine.selectedEnemyToAttack = enemy;
-
-        SetUIActive(true);
     }
 
     public void SetUIActive(bool toggle)
     {
         selectedHighlight.SetActive(toggle);
-        enemy.ToggleArrow(toggle);
-
-        if (toggle)
-            ChangeTarget();
     }
 
-    public void DisableSelection()
+    /// <summary>
+    /// Click on UI
+    /// </summary>
+    public void SelectEnemy()
     {
-        disableUI = true;
-    }
+        stateMachine.ResetSelectedEnemyUI();
 
-    public void ChangeTarget()
-    {
-        detailedUI.ChangeTarget(enemy);
+        enemy.EnemySelection(true);
     }
 }
