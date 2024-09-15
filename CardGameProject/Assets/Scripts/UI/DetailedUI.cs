@@ -45,14 +45,6 @@ public class DetailedUI : MonoBehaviour
         guardValue.text = enemy.guardValue.text;
 
         blockValue.text = enemy.blockValue.text;
-
-        if (enemy.listOfEffects != null)
-        {
-            //foreach (StatusEffectData data in enemy.listOfEffects)
-            //{
-            //    GameObject statusData = Instantiate(data.uiPrefab, statusEffectParent, false);
-            //}
-        }
     }
 
 
