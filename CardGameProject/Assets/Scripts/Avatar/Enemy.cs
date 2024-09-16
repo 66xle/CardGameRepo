@@ -99,6 +99,7 @@ public class Enemy : Avatar
         blockValue.text = currentBlock.ToString();
 
         detailedUI.DisplayStats();
+        detailedUI.UpdateEffectUI();
     }
 
     public void EnemySelection(bool toggle)
