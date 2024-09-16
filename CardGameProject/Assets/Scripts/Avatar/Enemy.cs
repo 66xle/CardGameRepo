@@ -16,7 +16,7 @@ public class Enemy : Avatar
     [HideInInspector] public TMP_Text guardValue;
     [HideInInspector] public TMP_Text blockValue;
     [HideInInspector] public EnemyUI enemyUI;
-    private DetailedUI detailedUI;
+    [HideInInspector] public DetailedUI detailedUI;
 
     [Header("Cards")]
     [SerializeField] float drawAmount;

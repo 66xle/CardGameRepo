@@ -91,7 +91,7 @@ public class Avatar : MonoBehaviour
     public virtual void ApplyGuardBreak(StatusEffect effectObject)
     {
         StatusGuardBroken effect = effectObject as StatusGuardBroken;
-        listOfEffects.Add(new StatusEffectData(effect.effect, effect.effectName, effect.turnsRemaning, effect.uiPrefab, numHitToRecover: effect.numberOfHitsToRecover, extraDmgPer: effect.extraDamagePercentage, nextTurn: true));
+        listOfEffects.Add(new StatusEffectData(effect.effect, effect.effectName, effect.turnsRemaning, effect.uiPrefab, numHitToRecover: effect.numberOfHitsToRecover, extraDmgPer: effect.extraDamagePercentage));
     }
 
     public void ApplyBleed(StatusEffect effectObject)

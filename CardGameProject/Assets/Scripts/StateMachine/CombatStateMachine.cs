@@ -179,7 +179,7 @@ public class CombatStateMachine : MonoBehaviour
             // Init Stats
 
             if (i == 0)
-                detailedUI.Init();
+                detailedUI.Init(this);
 
             GameObject statsUI = Instantiate(enemyUIPrefab, enemyUISpawnPosList[i].GetComponent<RectTransform>());
             enemy.InitStats(statsUI, detailedUI);

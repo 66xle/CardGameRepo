@@ -8,7 +8,9 @@ using UnityEngine.UI;
 public class DetailedUI : MonoBehaviour
 {
     private Enemy enemy;
-    private RectTransform statusEffectParent;
+    private CombatStateMachine state;
+
+    
 
     private Slider healthBar;
     private TMP_Text healthValue;
@@ -21,14 +23,15 @@ public class DetailedUI : MonoBehaviour
     public float effectUIOffset = 50f;
 
 
-    public void Init()
+    public void Init(CombatStateMachine state)
     {
         healthBar = GetComponentsInChildren<Slider>()[0];
         guardBar = GetComponentsInChildren<Slider>()[1];
         healthValue = GetComponentsInChildren<TMP_Text>()[0];
         guardValue = GetComponentsInChildren<TMP_Text>()[1];
         blockValue = GetComponentsInChildren<TMP_Text>()[2];
-        statusEffectParent = GetComponentsInChildren<RectTransform>()[5];
+
+        this.state = state;
     }
 
 
@@ -57,6 +60,9 @@ public class DetailedUI : MonoBehaviour
     public void UpdateEffectUI()
     {
         if (enemy == null)
+            return;
+
+        if (state.selectedEnemyToAttack != enemy)
             return;
 
         for (int i = 0; i < enemy.listOfEffects.Count; i++)
@@ -89,7 +95,7 @@ public class DetailedUI : MonoBehaviour
         }
     }
     
-    void ResetStatusUI()
+    public void ResetStatusUI()
     {
         int parentCount = activeParent.transform.childCount;
 
