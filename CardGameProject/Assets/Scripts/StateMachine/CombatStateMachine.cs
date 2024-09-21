@@ -73,6 +73,7 @@ public class CombatStateMachine : MonoBehaviour
     [Header("References")]
     public InputManager inputManager;
     public StatsManager statsManager;
+    public EquipmentManager equipmentManager;
     public EventDisplay eventDisplay;
     public CardManager cardManager;
 
@@ -162,6 +163,10 @@ public class CombatStateMachine : MonoBehaviour
         player.Init(healthBar, healthValue, staminaBar, staminaValue, blockValue, guardBar, guardValue,
                     statsManager.currentMaxHealth, statsManager.currentMaxStamina, statsManager.currentMaxGuard,
                     statsManager.armourType, statsManager.damageType);
+
+        EquipmentHolster holsterScript = player.GetComponent<EquipmentHolster>();
+        holsterScript.SetMainHand(equipmentManager.mainHand);
+        holsterScript.SetHolsteredWeapons(equipmentManager.equippedWeapons);
 
         followCam.Follow = player.gameObject.transform;
         panCam.Follow = player.gameObject.transform;
