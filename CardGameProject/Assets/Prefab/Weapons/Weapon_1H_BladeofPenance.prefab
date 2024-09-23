@@ -70,9 +70,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 918536879530021554}
+  - component: {fileID: -6323029472491392662}
   m_Layer: 0
   m_Name: Weapon_1H_BladeofPenance
-  m_TagString: Sword
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,6 +95,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &-6323029472491392662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573255403107502088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d273b89db93463c4496e9d80112ffb2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offSetHolster: 0
+  weaponType: 0
+  backPrefab: {fileID: 0}
+  lowerBackPrefab: {fileID: 0}
+  rightHipPrefab: {fileID: 0}
+  leftHipPrefab: {fileID: 0}
+  rightChestPrefab: {fileID: 0}
+  leftChestPrefab: {fileID: 0}
 --- !u!1 &763978927813670799
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,17 +1,35 @@
+using MyBox;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
+
+
 
 public class EquipmentHolster : MonoBehaviour
 {
+    [Separator("Transform")]
     public Transform rightHand;
     public Transform leftHand;
+
+    public Transform backHolster;
     public Transform lowerBackHolster;
+
     public Transform rightHipHolster;
     public Transform leftHipHolster;
-    public Transform backHolster;
-    public Transform leftChestHolster;
+
     public Transform rightChestHolster;
+    public Transform leftChestHolster;
+
+
+    [Separator("Holster Priority")]
+    public List<Transform> swordHolsterPriority;
+    public List<Transform> twoHandedHolsterPriority;
+    public List<Transform> daggerHolsterPriority;
+    public List<Transform> scytheHolsterPriority;
 
     public void SetMainHand(GameObject weapon)
     {
@@ -20,30 +38,82 @@ public class EquipmentHolster : MonoBehaviour
 
     public void SetHolsteredWeapons(List<GameObject> weapons)
     {
-        foreach (GameObject weapon in weapons)
+        foreach (GameObject weaponPrefab in weapons)
         {
-            if (weapon.CompareTag("Sword"))
+            Weapon weaponScript = weaponPrefab.GetComponent<Weapon>();
+            
+            if (weaponScript.weaponType == WeaponType.Sword)
             {
-                SetSword(weapon);
+                SetWeapon(swordHolsterPriority, weaponPrefab, weaponScript);
+            }
+            if (weaponScript.weaponType == WeaponType.Twohanded)
+            {
+                SetWeapon(twoHandedHolsterPriority, weaponPrefab, weaponScript);
+            }
+            else if (weaponScript.weaponType == WeaponType.Dagger)
+            {
+                SetWeapon(daggerHolsterPriority, weaponPrefab, weaponScript);
+            }
+            else if (weaponScript.weaponType == WeaponType.Scythe)
+            {
+                SetWeapon(scytheHolsterPriority, weaponPrefab, weaponScript);
             }
         }
     }
 
-    void SetSword(GameObject weapon)
+    void SetWeapon(List<Transform> listTransformHolster, GameObject prefab, Weapon weaponScript)
     {
-        if (GetChildLength(leftHipHolster) == 0)
+        foreach (Transform holsterTransfrom in listTransformHolster)
         {
-            Instantiate(weapon, leftHipHolster.transform);
-        } 
-        else if (GetChildLength(backHolster) == 0)
-        {
-            Instantiate(weapon, backHolster.transform);
-        }
-        else
-        {
-            Debug.LogError("No Holster Slot avaliable!");
+            if (GetChildLength(holsterTransfrom) == 0)
+            {
+                GameObject prefabToSpawn = DeterminePrefab(holsterTransfrom, weaponScript);
+
+                if (prefabToSpawn == null) 
+                    prefabToSpawn = prefab;
+
+                Instantiate(prefabToSpawn, holsterTransfrom);
+                return;
+            }
         }
     }
+
+    GameObject DeterminePrefab(Transform holsterTransfrom, Weapon weaponScript)
+    {
+        if (holsterTransfrom.CompareTag("Back"))
+        {
+            if (weaponScript.offSetHolster == OffSetHolster.Back)
+                return weaponScript.backPrefab;
+        }
+        else if (holsterTransfrom.CompareTag("Lower Back"))
+        {
+            if (weaponScript.offSetHolster == OffSetHolster.LowerBack)
+                return weaponScript.lowerBackPrefab;
+        }
+        else if (holsterTransfrom.CompareTag("Left Hip"))
+        {
+            if (weaponScript.offSetHolster == OffSetHolster.LeftHip)
+                return weaponScript.leftHipPrefab;
+        }
+        else if (holsterTransfrom.CompareTag("Right Hip"))
+        {
+            if (weaponScript.offSetHolster == OffSetHolster.RightHip)
+                return weaponScript.rightHipPrefab;
+        }
+        else if (holsterTransfrom.CompareTag("Left Chest"))
+        {
+            if (weaponScript.offSetHolster == OffSetHolster.LeftChest)
+                return weaponScript.leftChestPrefab;
+        }
+        else if (holsterTransfrom.CompareTag("Right Chest"))
+        {
+            if (weaponScript.offSetHolster == OffSetHolster.RightChest)
+                return weaponScript.rightChestPrefab;
+        }
+
+        return null;
+    }
+
 
     int GetChildLength(Transform parent)
     {
