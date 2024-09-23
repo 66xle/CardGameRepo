@@ -82,32 +82,32 @@ public class EquipmentHolster : MonoBehaviour
     {
         if (holsterTransfrom.CompareTag("Back"))
         {
-            if (weaponScript.offSetHolster == OffSetHolster.Back)
+            if ((weaponScript.offSetHolster & OffSetHolster.Back) == OffSetHolster.Back)
                 return weaponScript.backPrefab;
         }
         else if (holsterTransfrom.CompareTag("Lower Back"))
         {
-            if (weaponScript.offSetHolster == OffSetHolster.LowerBack)
+            if ((weaponScript.offSetHolster & OffSetHolster.LowerBack) == OffSetHolster.LowerBack)
                 return weaponScript.lowerBackPrefab;
         }
         else if (holsterTransfrom.CompareTag("Left Hip"))
         {
-            if (weaponScript.offSetHolster == OffSetHolster.LeftHip)
+            if ((weaponScript.offSetHolster & OffSetHolster.LeftHip) == OffSetHolster.LeftHip)
                 return weaponScript.leftHipPrefab;
         }
         else if (holsterTransfrom.CompareTag("Right Hip"))
         {
-            if (weaponScript.offSetHolster == OffSetHolster.RightHip)
+            if ((weaponScript.offSetHolster & OffSetHolster.RightHip) == OffSetHolster.RightHip)
                 return weaponScript.rightHipPrefab;
         }
         else if (holsterTransfrom.CompareTag("Left Chest"))
         {
-            if (weaponScript.offSetHolster == OffSetHolster.LeftChest)
+            if ((weaponScript.offSetHolster & OffSetHolster.LeftChest) == OffSetHolster.LeftChest)
                 return weaponScript.leftChestPrefab;
         }
         else if (holsterTransfrom.CompareTag("Right Chest"))
         {
-            if (weaponScript.offSetHolster == OffSetHolster.RightChest)
+            if ((weaponScript.offSetHolster & OffSetHolster.RightChest) == OffSetHolster.RightChest)
                 return weaponScript.rightChestPrefab;
         }
 
