@@ -54,7 +54,7 @@ public class StatusEffectState : CombatBaseState
         }
         else
         {
-            if (ctx.skipTurn)
+            if (ctx.skipTurn || currentAvatarSelected.IsAvatarDead())
             {
                 SwitchState(factory.EnemyTurn());
             }

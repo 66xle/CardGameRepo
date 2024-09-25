@@ -300,6 +300,7 @@ public class CombatStateMachine : MonoBehaviour
 
                 // Remove enemy
                 enemyList.Remove(currentAvatar as Enemy);
+                enemyTurnQueue.Remove(currentAvatar as Enemy);
                 //ctx.DestroyEnemy(ctx.selectedEnemyToAttack);
 
                 // Are there enemies still alive
