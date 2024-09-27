@@ -29,6 +29,7 @@ public class EnemyUI : MonoBehaviour
     {
         stateMachine.ResetSelectedEnemyUI();
 
+        stateMachine.selectedEnemyToAttack = enemy;
         enemy.EnemySelection(true);
     }
 }

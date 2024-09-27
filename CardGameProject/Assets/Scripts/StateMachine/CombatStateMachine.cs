@@ -73,6 +73,7 @@ public class CombatStateMachine : MonoBehaviour
     [Header("References")]
     public InputManager inputManager;
     public StatsManager statsManager;
+    public EquipmentManager equipmentManager;
     public EventDisplay eventDisplay;
     public CardManager cardManager;
 
@@ -163,6 +164,10 @@ public class CombatStateMachine : MonoBehaviour
                     statsManager.currentMaxHealth, statsManager.currentMaxStamina, statsManager.currentMaxGuard,
                     statsManager.armourType, statsManager.damageType);
 
+        EquipmentHolster holsterScript = player.GetComponent<EquipmentHolster>();
+        holsterScript.SetMainHand(equipmentManager.mainHand);
+        holsterScript.SetHolsteredWeapons(equipmentManager.equippedWeapons);
+
         followCam.Follow = player.gameObject.transform;
         panCam.Follow = player.gameObject.transform;
 
@@ -179,7 +184,7 @@ public class CombatStateMachine : MonoBehaviour
             // Init Stats
 
             if (i == 0)
-                detailedUI.Init();
+                detailedUI.Init(this);
 
             GameObject statsUI = Instantiate(enemyUIPrefab, enemyUISpawnPosList[i].GetComponent<RectTransform>());
             enemy.InitStats(statsUI, detailedUI);
@@ -295,6 +300,7 @@ public class CombatStateMachine : MonoBehaviour
 
                 // Remove enemy
                 enemyList.Remove(currentAvatar as Enemy);
+                enemyTurnQueue.Remove(currentAvatar as Enemy);
                 //ctx.DestroyEnemy(ctx.selectedEnemyToAttack);
 
                 // Are there enemies still alive

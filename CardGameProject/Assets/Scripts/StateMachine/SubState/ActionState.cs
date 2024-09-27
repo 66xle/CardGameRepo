@@ -95,8 +95,7 @@ public class ActionState : CombatBaseState
         Animator opponentController = avatarOpponent.GetComponent<Animator>();
 
 
-        // Play Card Effect
-        DetermineEffectTarget(cardPlayed);
+        
 
         #region Deterimine card type
 
@@ -152,6 +151,8 @@ public class ActionState : CombatBaseState
 
         #endregion
 
+        // Play Card Effect
+        DetermineEffectTarget(cardPlayed);
         avatarPlayingCard.DisplayStats();
         avatarOpponent.DisplayStats();
 
