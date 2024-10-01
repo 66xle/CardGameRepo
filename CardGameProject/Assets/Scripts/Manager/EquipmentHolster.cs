@@ -36,6 +36,11 @@ public class EquipmentHolster : MonoBehaviour
         Instantiate(weapon, rightHand);
     }
 
+    public void SetOffHand(GameObject offHand)
+    {
+        Instantiate(offHand, leftHand);
+    }
+
     public void SetHolsteredWeapons(List<GameObject> weapons)
     {
         foreach (GameObject weaponPrefab in weapons)

@@ -164,9 +164,15 @@ public class CombatStateMachine : MonoBehaviour
                     statsManager.currentMaxHealth, statsManager.currentMaxStamina, statsManager.currentMaxGuard,
                     statsManager.armourType, statsManager.damageType);
 
+        // Equipment
         EquipmentHolster holsterScript = player.GetComponent<EquipmentHolster>();
         holsterScript.SetMainHand(equipmentManager.mainHand);
         holsterScript.SetHolsteredWeapons(equipmentManager.equippedWeapons);
+
+        if (equipmentManager.offHand != null)
+        {
+            holsterScript.SetOffHand(equipmentManager.offHand);
+        }
 
         followCam.Follow = player.gameObject.transform;
         panCam.Follow = player.gameObject.transform;

@@ -6,6 +6,7 @@ using UnityEngine;
 public class EquipmentManager : MonoBehaviour
 {
     public GameObject mainHand;
+    public GameObject offHand;
 
     [Separator]
 
