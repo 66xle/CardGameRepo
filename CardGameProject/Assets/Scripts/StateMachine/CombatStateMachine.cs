@@ -71,6 +71,7 @@ public class CombatStateMachine : MonoBehaviour
     public AnimationCurve jumpAnimCurve;
 
     [Header("References")]
+    public GameObject UI;
     public InputManager inputManager;
     public StatsManager statsManager;
     public EquipmentManager equipmentManager;
@@ -242,6 +243,25 @@ public class CombatStateMachine : MonoBehaviour
         {
             enemyList[i].EnemySelection(false);
         }
+    }
+
+    public void SwitchWeapon()
+    {
+        equipmentManager.SetEquipmentCameraPosition(equipmentManager.lowerBackCam);
+
+        equipmentManager.equipmentCam.Priority = 50;
+
+        UI.SetActive(false);
+    }
+
+    public void NextWeapon()
+    {
+        equipmentManager.TransitionToNextWeapon(equipmentManager.rightHipCam);
+    }
+
+    public void PrevWeapon()
+    {
+        equipmentManager.TransitionToNextWeapon(equipmentManager.lowerBackCam);
     }
 
     #region Used by StateMachine
