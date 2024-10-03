@@ -74,7 +74,7 @@ public class CombatStateMachine : MonoBehaviour
     public GameObject UI;
     public InputManager inputManager;
     public StatsManager statsManager;
-    public EquipmentManager equipmentManager;
+    public EquipmentManager equipMan;
     public EventDisplay eventDisplay;
     public CardManager cardManager;
 
@@ -167,12 +167,15 @@ public class CombatStateMachine : MonoBehaviour
 
         // Equipment
         EquipmentHolster holsterScript = player.GetComponent<EquipmentHolster>();
-        holsterScript.SetMainHand(equipmentManager.mainHand);
-        holsterScript.SetHolsteredWeapons(equipmentManager.equippedWeapons);
 
-        if (equipmentManager.offHand != null)
+        equipMan.InitWeaponData();
+
+        holsterScript.SetMainHand(equipMan.currentMainHand);
+        holsterScript.SetHolsteredWeapons(equipMan.currentEquippedWeapons);
+
+        if (equipMan.offHand != null)
         {
-            holsterScript.SetOffHand(equipmentManager.offHand);
+            holsterScript.SetOffHand(equipMan.currentOffHand);
         }
 
         followCam.Follow = player.gameObject.transform;
@@ -247,21 +250,27 @@ public class CombatStateMachine : MonoBehaviour
 
     public void SwitchWeapon()
     {
-        equipmentManager.SetEquipmentCameraPosition(equipmentManager.lowerBackCam);
+        equipMan.cameraIndex = 0;
 
-        equipmentManager.equipmentCam.Priority = 50;
+        equipMan.InitCameraList();
+
+        equipMan.SetEquipmentCameraPosition(equipMan.cameraList[equipMan.cameraIndex]);
+        equipMan.equipmentCam.Priority = 50;
 
         UI.SetActive(false);
     }
 
     public void NextWeapon()
     {
-        equipmentManager.TransitionToNextWeapon(equipmentManager.rightHipCam);
-    }
+        if (equipMan.currSwitchCam)
+            return;
 
-    public void PrevWeapon()
-    {
-        equipmentManager.TransitionToNextWeapon(equipmentManager.lowerBackCam);
+        equipMan.cameraIndex++;
+
+        if (equipMan.cameraIndex >= equipMan.cameraList.Count)
+            equipMan.cameraIndex = 0;
+
+        equipMan.TransitionToNextWeapon(equipMan.cameraList[equipMan.cameraIndex]);
     }
 
     #region Used by StateMachine

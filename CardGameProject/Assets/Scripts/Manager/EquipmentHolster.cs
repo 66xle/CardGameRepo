@@ -33,6 +33,15 @@ public class EquipmentHolster : MonoBehaviour
 
     public void SetMainHand(WeaponData weapon)
     {
+        WeaponData newData = new WeaponData
+        {
+            weaponName = weapon.weaponName,
+            description = weapon.description,
+            cards = weapon.cards,
+            prefab = weapon.prefab,
+            holsterSlot = weapon.holsterSlot
+        };
+
         weapon.holsterSlot = rightHand;
         Instantiate(weapon, rightHand);
     }
@@ -47,46 +56,49 @@ public class EquipmentHolster : MonoBehaviour
     {
         foreach (WeaponData data in weapons)
         {
-            GameObject prefab = data.prefab;
-            Weapon weaponScript = prefab.GetComponent<Weapon>();
+            Weapon weaponScript = data.prefab.GetComponent<Weapon>();
             
             if (weaponScript.weaponType == WeaponType.Sword)
             {
-                SetWeapon(swordHolsterPriority, prefab, weaponScript);
+                SetWeapon(swordHolsterPriority, data, weaponScript);
             }
             if (weaponScript.weaponType == WeaponType.Twohanded)
             {
-                SetWeapon(twoHandedHolsterPriority, prefab, weaponScript);
+                SetWeapon(twoHandedHolsterPriority, data, weaponScript);
             }
             else if (weaponScript.weaponType == WeaponType.Dagger)
             {
-                SetWeapon(daggerHolsterPriority, prefab, weaponScript);
+                SetWeapon(daggerHolsterPriority, data, weaponScript);
             }
             else if (weaponScript.weaponType == WeaponType.Scythe)
             {
-                SetWeapon(scytheHolsterPriority, prefab, weaponScript);
+                SetWeapon(scytheHolsterPriority, data, weaponScript);
             }
         }
     }
 
-    void SetWeapon(List<Transform> listTransformHolster, GameObject prefab, Weapon weaponScript)
+    void SetWeapon(List<Transform> listTransformHolster, WeaponData data, Weapon weaponScript)
     {
         foreach (Transform holsterTransfrom in listTransformHolster)
         {
             if (GetChildLength(holsterTransfrom) == 0)
             {
-                GameObject prefabToSpawn = DeterminePrefab(holsterTransfrom, weaponScript);
+                GameObject prefabToSpawn = DeterminePrefabOffset(holsterTransfrom, weaponScript);
 
                 if (prefabToSpawn == null) 
-                    prefabToSpawn = prefab;
+                    prefabToSpawn = data.prefab;
+
+                data.holsterSlot = holsterTransfrom;
 
                 Instantiate(prefabToSpawn, holsterTransfrom);
                 return;
             }
         }
+
+        Debug.LogError("No Holster Slot Avaliable");
     }
 
-    GameObject DeterminePrefab(Transform holsterTransfrom, Weapon weaponScript)
+    GameObject DeterminePrefabOffset(Transform holsterTransfrom, Weapon weaponScript)
     {
         if (holsterTransfrom.CompareTag("Back"))
         {
