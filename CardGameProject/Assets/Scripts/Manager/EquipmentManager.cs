@@ -7,6 +7,7 @@ using UnityEditorInternal;
 using DG.Tweening;
 using System;
 using UnityEngine.UI;
+using Cinemachine.Editor;
 
 public class EquipmentManager : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class EquipmentManager : MonoBehaviour
     [HideInInspector] public List<CinemachineVirtualCamera> cameraList;
 
     [Separator("Cameras")]
+
+    public float transitionSpeed = 1f;
 
     public CinemachineVirtualCamera equipmentCam;
     public CinemachineVirtualCamera rightHipCam;
@@ -123,12 +126,15 @@ public class EquipmentManager : MonoBehaviour
     {
         equipmentCam.transform.position = camera.transform.position;
         equipmentCam.transform.rotation = camera.transform.rotation;
+        equipmentCam.m_Lens = camera.m_Lens;
 
         CinemachineOrbitalTransposer camTransposer = camera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
         CinemachineOrbitalTransposer equipTransposer = equipmentCam.GetCinemachineComponent<CinemachineOrbitalTransposer>();
 
         equipTransposer.m_Heading = camTransposer.m_Heading;
         equipTransposer.m_FollowOffset = camTransposer.m_FollowOffset;
+
+        
 
     }
 
@@ -137,20 +143,23 @@ public class EquipmentManager : MonoBehaviour
 
         switchButton.interactable = false;
 
-        equipmentCam.transform.DORotate(camera.transform.rotation.eulerAngles, 1f).OnComplete(() => switchButton.interactable = true);
+        DOVirtual.Float(equipmentCam.m_Lens.Dutch, camera.m_Lens.Dutch, transitionSpeed, v => equipmentCam.m_Lens.Dutch = v);
+        DOVirtual.Float(equipmentCam.m_Lens.FieldOfView, camera.m_Lens.FieldOfView, transitionSpeed, v => equipmentCam.m_Lens.FieldOfView = v);
+
+        equipmentCam.transform.DORotate(camera.transform.rotation.eulerAngles, transitionSpeed).OnComplete(() => switchButton.interactable = true);
 
         CinemachineOrbitalTransposer camTransposer = camera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
         CinemachineOrbitalTransposer equipTransposer = equipmentCam.GetCinemachineComponent<CinemachineOrbitalTransposer>();
 
         // Y offset
-        DOVirtual.Float(equipTransposer.m_Heading.m_Bias, camTransposer.m_Heading.m_Bias, 1f, v => equipTransposer.m_Heading.m_Bias = v);
+        DOVirtual.Float(equipTransposer.m_Heading.m_Bias, camTransposer.m_Heading.m_Bias, transitionSpeed, v => equipTransposer.m_Heading.m_Bias = v);
 
-        DOVirtual.Float(equipTransposer.m_FollowOffset.y, camTransposer.m_FollowOffset.y, 1f, v => equipTransposer.m_FollowOffset.y = v);
+        DOVirtual.Float(equipTransposer.m_FollowOffset.y, camTransposer.m_FollowOffset.y, transitionSpeed, v => equipTransposer.m_FollowOffset.y = v);
 
         // Z offset
-        DOVirtual.Float(equipTransposer.m_FollowOffset.z, -1, 0.5f, v => equipTransposer.m_FollowOffset.z = v).OnComplete(() =>
+        DOVirtual.Float(equipTransposer.m_FollowOffset.z, -1, transitionSpeed / 2, v => equipTransposer.m_FollowOffset.z = v).OnComplete(() =>
         {
-            DOVirtual.Float(equipTransposer.m_FollowOffset.z, camTransposer.m_FollowOffset.z, 0.5f, v => equipTransposer.m_FollowOffset.z = v);
+            DOVirtual.Float(equipTransposer.m_FollowOffset.z, camTransposer.m_FollowOffset.z, transitionSpeed / 2, v => equipTransposer.m_FollowOffset.z = v);
         });
 
     }
