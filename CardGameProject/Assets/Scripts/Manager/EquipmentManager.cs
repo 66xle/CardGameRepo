@@ -9,12 +9,12 @@ using System;
 
 public class EquipmentManager : MonoBehaviour
 {
-    public GameObject mainHand;
-    public GameObject offHand;
+    public WeaponData mainHand;
+    public WeaponData offHand;
 
     [Separator]
 
-    public List<GameObject> equippedWeapons;
+    public List<WeaponData> equippedWeapons;
 
     [Separator("Cameras")]
 

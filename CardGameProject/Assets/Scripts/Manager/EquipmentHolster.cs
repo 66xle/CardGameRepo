@@ -31,37 +31,40 @@ public class EquipmentHolster : MonoBehaviour
     public List<Transform> daggerHolsterPriority;
     public List<Transform> scytheHolsterPriority;
 
-    public void SetMainHand(GameObject weapon)
+    public void SetMainHand(WeaponData weapon)
     {
+        weapon.holsterSlot = rightHand;
         Instantiate(weapon, rightHand);
     }
 
-    public void SetOffHand(GameObject offHand)
+    public void SetOffHand(WeaponData weapon)
     {
-        Instantiate(offHand, leftHand);
+        weapon.holsterSlot = leftHand;
+        Instantiate(weapon, leftHand);
     }
 
-    public void SetHolsteredWeapons(List<GameObject> weapons)
+    public void SetHolsteredWeapons(List<WeaponData> weapons)
     {
-        foreach (GameObject weaponPrefab in weapons)
+        foreach (WeaponData data in weapons)
         {
-            Weapon weaponScript = weaponPrefab.GetComponent<Weapon>();
+            GameObject prefab = data.prefab;
+            Weapon weaponScript = prefab.GetComponent<Weapon>();
             
             if (weaponScript.weaponType == WeaponType.Sword)
             {
-                SetWeapon(swordHolsterPriority, weaponPrefab, weaponScript);
+                SetWeapon(swordHolsterPriority, prefab, weaponScript);
             }
             if (weaponScript.weaponType == WeaponType.Twohanded)
             {
-                SetWeapon(twoHandedHolsterPriority, weaponPrefab, weaponScript);
+                SetWeapon(twoHandedHolsterPriority, prefab, weaponScript);
             }
             else if (weaponScript.weaponType == WeaponType.Dagger)
             {
-                SetWeapon(daggerHolsterPriority, weaponPrefab, weaponScript);
+                SetWeapon(daggerHolsterPriority, prefab, weaponScript);
             }
             else if (weaponScript.weaponType == WeaponType.Scythe)
             {
-                SetWeapon(scytheHolsterPriority, weaponPrefab, weaponScript);
+                SetWeapon(scytheHolsterPriority, prefab, weaponScript);
             }
         }
     }
