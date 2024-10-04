@@ -119,7 +119,8 @@ public class CombatStateMachine : MonoBehaviour
         discardPile = new List<Card>();
         enemyCardQueue = new List<Card>();
 
-        LoadPlayerAndEnemy();
+        LoadPlayer();
+        LoadEnemy();
 
         states = new CombatStateFactory(this, vso);
         currentState = new PlayerState(this, states, vso);
@@ -159,7 +160,7 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
-    private void LoadPlayerAndEnemy()
+    private void LoadPlayer()
     {
         // Spawn Player
         player = Instantiate(playerPrefab, playerSpawnPos).GetComponent<Player>();
@@ -182,7 +183,10 @@ public class CombatStateMachine : MonoBehaviour
 
         followCam.Follow = player.gameObject.transform;
         panCam.Follow = player.gameObject.transform;
+    }
 
+    private void LoadEnemy()
+    {
         List<EnemyObj> enemyObjList = nodeData.enemies;
 
         // Spawn Enemy
@@ -250,7 +254,7 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
-    public void SwitchWeapon()
+    public void OpenSwitchWeaponUI()
     {
         equipMan.cameraIndex = 0;
 
