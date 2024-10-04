@@ -75,13 +75,13 @@ public class CombatStateMachine : MonoBehaviour
     public AnimationCurve jumpAnimCurve;
 
     [Foldout("References", true)]
-    public GameObject UI;
     public InputManager inputManager;
     public StatsManager statsManager;
     public SwitchWeaponManager switchWeaponManager;
+    public CombatUIManager combatUIManager;
     public EventDisplay eventDisplay;
     public CardManager cardManager;
-    public Button endTurnButton;
+    
 
     #region Internal Variables
 
@@ -254,30 +254,6 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
-    public void OpenSwitchWeaponUI()
-    {
-        switchWeaponManager.cameraIndex = 0;
-
-        switchWeaponManager.InitCameraList();
-
-        switchWeaponManager.SetEquipmentCameraPosition(switchWeaponManager.cameraList[switchWeaponManager.cameraIndex]);
-        switchWeaponManager.equipmentCam.Priority = 50;
-
-        UI.SetActive(false);
-    }
-
-    public void NextWeapon()
-    {
-        if (switchWeaponManager.currSwitchCam)
-            return;
-
-        switchWeaponManager.cameraIndex++;
-
-        if (switchWeaponManager.cameraIndex >= switchWeaponManager.cameraList.Count)
-            switchWeaponManager.cameraIndex = 0;
-
-        switchWeaponManager.TransitionToNextWeapon(switchWeaponManager.cameraList[switchWeaponManager.cameraIndex]);
-    }
 
     #region Used by StateMachine
 

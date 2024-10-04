@@ -1535,8 +1535,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 792139492}
-  m_RootOrder: 1
+  m_Father: {fileID: 1060133101}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1587,9 +1587,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 601507897}
-        m_TargetAssemblyTypeName: CombatStateMachine, Assembly-CSharp
-        m_MethodName: SwitchWeapon
+      - m_Target: {fileID: 1190166157}
+        m_TargetAssemblyTypeName: SwitchWeaponManager, Assembly-CSharp
+        m_MethodName: OpenSwitchWeaponUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2377,6 +2377,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 323465955}
   m_CullTransparentMesh: 1
+--- !u!1 &376740786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 376740787}
+  - component: {fileID: 376740788}
+  m_Layer: 0
+  m_Name: CombatUIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &376740787
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376740786}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 808688235}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &376740788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376740786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49931adaa119ca84daa6d5e0b4e8fb03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  endTurnButton: {fileID: 1455440671}
+  switchButton: {fileID: 834295299}
+  combatUI: {fileID: 1060133100}
+  switchWeaponUI: {fileID: 1534042631}
 --- !u!1 &396471389
 GameObject:
   m_ObjectHideFlags: 3
@@ -3045,7 +3092,7 @@ RectTransform:
   - {fileID: 1739042992}
   - {fileID: 1900717413}
   m_Father: {fileID: 1060133101}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3217,7 +3264,7 @@ RectTransform:
   - {fileID: 1028183217}
   - {fileID: 1864036744}
   m_Father: {fileID: 1060133101}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3872,7 +3919,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 808688235}
-  m_RootOrder: 8
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &601507897
 MonoBehaviour:
@@ -3974,13 +4021,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  UI: {fileID: 1060133100}
   inputManager: {fileID: 1659998748}
   statsManager: {fileID: 839787167}
-  switchWeaponManager: {fileID: 0}
+  switchWeaponManager: {fileID: 1190166157}
+  combatUIManager: {fileID: 376740788}
   eventDisplay: {fileID: 1099176032}
   cardManager: {fileID: 1450870405}
-  endTurnButton: {fileID: 1455440671}
   isPlayedCard: 0
   isPlayState: 0
   pressedEndTurnButton: 0
@@ -4552,7 +4598,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1060133101}
-  - {fileID: 160755325}
   - {fileID: 1534042632}
   m_Father: {fileID: 808688235}
   m_RootOrder: 6
@@ -4781,7 +4826,7 @@ RectTransform:
   - {fileID: 1812212548}
   - {fileID: 1455440668}
   m_Father: {fileID: 1060133101}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5091,8 +5136,9 @@ Transform:
   - {fileID: 1211356291}
   - {fileID: 792139492}
   - {fileID: 1612107841}
-  - {fileID: 601507896}
   - {fileID: 1190166156}
+  - {fileID: 376740787}
+  - {fileID: 601507896}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5452,7 +5498,7 @@ GameObject:
   - component: {fileID: 834295300}
   - component: {fileID: 834295299}
   m_Layer: 5
-  m_Name: Next
+  m_Name: Cycle Weapon Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5521,8 +5567,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 601507897}
-        m_TargetAssemblyTypeName: CombatStateMachine, Assembly-CSharp
+      - m_Target: {fileID: 1190166157}
+        m_TargetAssemblyTypeName: SwitchWeaponManager, Assembly-CSharp
         m_MethodName: NextWeapon
         m_Mode: 1
         m_Arguments:
@@ -7131,7 +7177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1060133101}
   m_Layer: 5
-  m_Name: UI
+  m_Name: Combat UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7148,6 +7194,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 160755325}
   - {fileID: 477679406}
   - {fileID: 797063428}
   - {fileID: 485619182}
@@ -7481,7 +7528,7 @@ RectTransform:
   - {fileID: 7325531235203110457}
   - {fileID: 1146076300}
   m_Father: {fileID: 1060133101}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -8529,7 +8576,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 808688235}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1190166157
 MonoBehaviour:
@@ -8543,12 +8590,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 720effb2a2b33154cbacf27194eb1112, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  switchButton: {fileID: 160755326}
   equipmentManager: {fileID: 2113921198}
+  combatUIManager: {fileID: 376740788}
   currentMainHand: {fileID: 0}
   currentOffHand: {fileID: 0}
   currentEquippedWeapons: []
-  cameraList: []
   transitionSpeed: 1
   equipmentCam: {fileID: 1437558370}
   rightHipCam: {fileID: 1383450918}
@@ -8557,8 +8603,6 @@ MonoBehaviour:
   lowerBackCam: {fileID: 690888338}
   rightChestCam: {fileID: 1849068437}
   leftChestCam: {fileID: 1547020794}
-  cameraIndex: 0
-  currSwitchCam: 0
 --- !u!1 &1211356290
 GameObject:
   m_ObjectHideFlags: 0
@@ -11083,12 +11127,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1534042632}
   m_Layer: 5
-  m_Name: Equipment UI
+  m_Name: Switch Weapon UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1534042632
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11102,7 +11146,7 @@ RectTransform:
   m_Children:
   - {fileID: 834295298}
   m_Father: {fileID: 792139492}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

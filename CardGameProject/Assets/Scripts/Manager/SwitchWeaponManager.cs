@@ -9,13 +9,13 @@ using UnityEngine.UI;
 public class SwitchWeaponManager : MonoBehaviour
 {
     [Header("References")]
-    public Button switchButton;
     public EquipmentManager equipmentManager;
+    public CombatUIManager combatUIManager;
 
     [HideInInspector] public WeaponData currentMainHand;
     [HideInInspector] public WeaponData currentOffHand;
     [HideInInspector] public List<WeaponData> currentEquippedWeapons;
-    [HideInInspector] public List<CinemachineVirtualCamera> cameraList;
+    private List<CinemachineVirtualCamera> cameraList;
 
     [Separator("Cameras")]
 
@@ -29,9 +29,9 @@ public class SwitchWeaponManager : MonoBehaviour
     public CinemachineVirtualCamera rightChestCam;
     public CinemachineVirtualCamera leftChestCam;
 
+    private int cameraIndex;
+    private bool currSwitchCam;
 
-    [HideInInspector] public int cameraIndex;
-    [HideInInspector] public bool currSwitchCam;
 
     public void InitWeaponData()
     {
@@ -93,6 +93,31 @@ public class SwitchWeaponManager : MonoBehaviour
         return equipmentManager.equippedWeapons.Count > 0 ? true : false;
     }
 
+    public void OpenSwitchWeaponUI()
+    {
+        cameraIndex = 0;
+
+        InitCameraList();
+
+        SetEquipmentCameraPosition(cameraList[cameraIndex]);
+        equipmentCam.Priority = 50;
+
+        combatUIManager.switchWeaponUI.SetActive(true);
+        combatUIManager.combatUI.SetActive(false);
+    }
+
+    public void NextWeapon()
+    {
+        if (currSwitchCam)
+            return;
+
+        cameraIndex++;
+
+        if (cameraIndex >= cameraList.Count)
+            cameraIndex = 0;
+
+        TransitionToNextWeapon(cameraList[cameraIndex]);
+    }
 
     #region Camera
 
@@ -145,13 +170,12 @@ public class SwitchWeaponManager : MonoBehaviour
 
     public void TransitionToNextWeapon(CinemachineVirtualCamera camera)
     {
-
-        switchButton.interactable = false;
+        combatUIManager.switchButton.interactable = false;
 
         DOVirtual.Float(equipmentCam.m_Lens.Dutch, camera.m_Lens.Dutch, transitionSpeed, v => equipmentCam.m_Lens.Dutch = v);
         DOVirtual.Float(equipmentCam.m_Lens.FieldOfView, camera.m_Lens.FieldOfView, transitionSpeed, v => equipmentCam.m_Lens.FieldOfView = v);
 
-        equipmentCam.transform.DORotate(camera.transform.rotation.eulerAngles, transitionSpeed).OnComplete(() => switchButton.interactable = true);
+        equipmentCam.transform.DORotate(camera.transform.rotation.eulerAngles, transitionSpeed).OnComplete(() => combatUIManager.switchButton.interactable = true);
 
         CinemachineOrbitalTransposer camTransposer = camera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
         CinemachineOrbitalTransposer equipTransposer = equipmentCam.GetCinemachineComponent<CinemachineOrbitalTransposer>();

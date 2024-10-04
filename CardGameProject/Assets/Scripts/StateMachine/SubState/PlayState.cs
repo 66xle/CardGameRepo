@@ -17,7 +17,7 @@ public class PlayState : CombatBaseState
         
 
         ctx.isPlayState = true;
-        ctx.endTurnButton.interactable = true;
+        ctx.combatUIManager.endTurnButton.interactable = true;
     }
     public override void UpdateState()
     {
@@ -28,7 +28,7 @@ public class PlayState : CombatBaseState
     public override void ExitState()
     {
         ctx.isPlayState = false;
-        ctx.endTurnButton.interactable = false;
+        ctx.combatUIManager.endTurnButton.interactable = false;
     }
 
 
