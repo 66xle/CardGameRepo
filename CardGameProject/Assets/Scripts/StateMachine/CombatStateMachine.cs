@@ -78,7 +78,7 @@ public class CombatStateMachine : MonoBehaviour
     public GameObject UI;
     public InputManager inputManager;
     public StatsManager statsManager;
-    public EquipmentManager equipMan;
+    public SwitchWeaponManager switchWeaponManager;
     public EventDisplay eventDisplay;
     public CardManager cardManager;
     public Button endTurnButton;
@@ -171,15 +171,15 @@ public class CombatStateMachine : MonoBehaviour
         // Equipment
         EquipmentHolster holsterScript = player.GetComponent<EquipmentHolster>();
 
-        equipMan.InitWeaponData();
+        switchWeaponManager.InitWeaponData();
 
-        holsterScript.SetMainHand(equipMan.currentMainHand);
-        holsterScript.SetHolsteredWeapons(equipMan.currentEquippedWeapons);
+        holsterScript.SetMainHand(switchWeaponManager.currentMainHand);
 
-        if (equipMan.offHand != null)
-        {
-            holsterScript.SetOffHand(equipMan.currentOffHand);
-        }
+        if (switchWeaponManager.IsHolstersEquipped())
+            holsterScript.SetHolsteredWeapons(switchWeaponManager.currentEquippedWeapons);
+
+        if (switchWeaponManager.IsOffhandEquipped())
+            holsterScript.SetOffHand(switchWeaponManager.currentOffHand);
 
         followCam.Follow = player.gameObject.transform;
         panCam.Follow = player.gameObject.transform;
@@ -256,27 +256,27 @@ public class CombatStateMachine : MonoBehaviour
 
     public void OpenSwitchWeaponUI()
     {
-        equipMan.cameraIndex = 0;
+        switchWeaponManager.cameraIndex = 0;
 
-        equipMan.InitCameraList();
+        switchWeaponManager.InitCameraList();
 
-        equipMan.SetEquipmentCameraPosition(equipMan.cameraList[equipMan.cameraIndex]);
-        equipMan.equipmentCam.Priority = 50;
+        switchWeaponManager.SetEquipmentCameraPosition(switchWeaponManager.cameraList[switchWeaponManager.cameraIndex]);
+        switchWeaponManager.equipmentCam.Priority = 50;
 
         UI.SetActive(false);
     }
 
     public void NextWeapon()
     {
-        if (equipMan.currSwitchCam)
+        if (switchWeaponManager.currSwitchCam)
             return;
 
-        equipMan.cameraIndex++;
+        switchWeaponManager.cameraIndex++;
 
-        if (equipMan.cameraIndex >= equipMan.cameraList.Count)
-            equipMan.cameraIndex = 0;
+        if (switchWeaponManager.cameraIndex >= switchWeaponManager.cameraList.Count)
+            switchWeaponManager.cameraIndex = 0;
 
-        equipMan.TransitionToNextWeapon(equipMan.cameraList[equipMan.cameraIndex]);
+        switchWeaponManager.TransitionToNextWeapon(switchWeaponManager.cameraList[switchWeaponManager.cameraIndex]);
     }
 
     #region Used by StateMachine
