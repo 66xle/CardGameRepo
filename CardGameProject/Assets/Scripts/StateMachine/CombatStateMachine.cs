@@ -10,6 +10,8 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
 using Cinemachine;
+using MyBox;
+using static UnityEngine.Random;
 
 public class CombatStateMachine : MonoBehaviour
 {
@@ -18,83 +20,83 @@ public class CombatStateMachine : MonoBehaviour
     public string currentSuperState; // ONLY FOR DEBUGGING DON'T USE
     [SerializeField] string subState;
 
-    [Header("Player")]
+
+    [Foldout("Player", true)]
     public GameObject playerPrefab;
     public Transform playerSpawnPos;
     [HideInInspector] public Player player;
 
-    [Header("Player References")]
+    [Header("UI References")]
     public Slider healthBar;
     public TMP_Text healthValue;
     public Slider staminaBar;
     public TMP_Text staminaValue;
-    public TMP_Text blockValue;
     public Slider guardBar;
     public TMP_Text guardValue;
+    public TMP_Text blockValue;
 
-
-    [Header("Enemy")]
-    public List<Transform> enemySpawnPosList;
-    public List<GameObject> enemyUISpawnPosList;
+    [Foldout("Enemy", true)]
     public GameObject enemyUIPrefab;
     public DetailedUI detailedUI;
+
+    [Header("Lists")]
+    public List<Transform> enemySpawnPosList;
+    public List<GameObject> enemyUISpawnPosList;
+
     [HideInInspector] public List<Enemy> enemyList;
     [HideInInspector] public List<Enemy> enemyTurnQueue;
     [HideInInspector] public int turnIndex = 0;
     [HideInInspector] public Enemy currentEnemyTurn;
 
-    [Header("Camera References")]
+    [Foldout("Camera", true)]
     public CinemachineVirtualCamera defaultCam;
     public CinemachineVirtualCamera followCam;
     public CinemachineVirtualCamera panCam;
 
-    [Header("Card References")]
+    [Foldout("Card", true)]
+    public int cardsToDraw = 2;
+
+    [Header("References")]
     public GameObject cardPrefab;
     public Transform playerHand;
     public Transform displayCard;
     [HideInInspector] public List<Card> discardPile;
     [HideInInspector] public List<Card> enemyCardQueue;
 
-    [Header("Card Settings")]
-    public int cardsToDraw = 2;
-
-    [Header("StatusEffectObj")]
+    [Foldout("StatusEffectObj", true)]
     public StatusEffect guardBreakLightArmour;
     public StatusEffect guardBreakMediumArmour;
     public StatusEffect guardBreakHeavyArmour;
-    [HideInInspector] public bool skipTurn;
-
-    [Header("Animation Settings")]
+    
+    [Foldout("Animation Settings", true)]
     public float moveDuration = 0.5f;
     public float jumpDuration = 0.5f;
     public AnimationCurve moveAnimCurve;
     public AnimationCurve jumpAnimCurve;
 
-    [Header("References")]
+    [Foldout("References", true)]
     public GameObject UI;
     public InputManager inputManager;
     public StatsManager statsManager;
     public EquipmentManager equipMan;
     public EventDisplay eventDisplay;
     public CardManager cardManager;
-
     public Button endTurnButton;
-    public Material defMat;
-    public Material redMat;
 
     #region Internal Variables
 
     // Variables
-    [HideInInspector] public bool isPlayedCard;
-    [HideInInspector] public Card cardPlayed;
-    [HideInInspector] public bool isPlayState;
-    [HideInInspector] public bool pressedEndTurnButton;
+    [Foldout("Private Variables", true)]
+    [ReadOnly] public bool isPlayedCard;
+    [ReadOnly] public bool isPlayState;
+    [ReadOnly] public bool pressedEndTurnButton;
+    [ReadOnly] public bool enemyTurnDone;
+    [ReadOnly] public bool skipTurn;
 
-    [HideInInspector] public bool enemyTurnDone;
+    [HideInInspector] public Card cardPlayed;
     [HideInInspector] public Enemy selectedEnemyToAttack;
 
-    [HideInInspector]
-    public VariableScriptObject vso; // Not using for now
+    [HideInInspector] public VariableScriptObject vso; // Not using for now
 
     public CombatBaseState currentState;
     private CombatStateFactory states;
