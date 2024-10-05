@@ -91,32 +91,17 @@ public class WeaponEditorWindow : EditorWindow
                     prop.Bind(serializeWeapon);
                     weaponDataInfoBox.Add(prop);
 
-                    Box gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
-                    gameObjectPreview.Clear();
-
-                    GUIStyle bgColor = new GUIStyle();
-                    bgColor.normal.background = EditorGUIUtility.whiteTexture;
-
-                    DestroyImmediate(gameObjectEditor);
-                    gameObjectEditor = Editor.CreateEditor(weaponData.prefab);
-                    IMGUIContainer container = new IMGUIContainer(() => { gameObjectEditor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(1000, 500), bgColor); });
-                    gameObjectPreview.Add(container);
+                    
 
 
-                    // Update images and text
-                    //if (weaponDataProperty.name == "image" || weaponDataProperty.name == "frame")
-                    //{
-                    //    prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadCardImage(weaponData));
-                    //}
-                    //
-                    //if (weaponDataProperty.name == "name" || weaponDataProperty.name == "description" || 
-                    //    weaponDataProperty.name == "flavour" || weaponDataProperty.name == "value" || weaponDataProperty.name == "cost")
-                    //{
-                    //    prop.RegisterValueChangeCallback(changeEvt => LoadCardText(weaponData, weaponDataList));
-                    //}
+                    // Update prefab
+                    if (weaponDataProperty.name == "prefab")
+                    {
+                        prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadWeaponPrefab(weaponData));
+                    }
                 }
 
-                //LoadCardImage(weaponData);
+                LoadWeaponPrefab(weaponData);
                 //LoadCardText(weaponData);
             }
         };
@@ -199,35 +184,18 @@ public class WeaponEditorWindow : EditorWindow
         }
     }
 
-    private void LoadCardImage(Card card)
+    private void LoadWeaponPrefab(WeaponData weaponData)
     {
-        Image cardPreviewImage = rootVisualElement.Query<Image>("preview").First();
-        Image cardPreviewFrame = rootVisualElement.Query<Image>("preview2").First();
+        Box gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
+        gameObjectPreview.Clear();
 
-        try
-        {
-            cardPreviewImage.image = card.image.texture;
-        }
-        catch (Exception err) { }
+        GUIStyle bgColor = new GUIStyle();
+        bgColor.normal.background = EditorGUIUtility.whiteTexture;
 
-        try
-        {
-            cardPreviewFrame.image = card.frame.texture;
-        }
-        catch (Exception err) { }
-    }
-
-    private void LoadCardText(Card card, ListView cardList = null)
-    {
-        Label title = rootVisualElement.Query<Label>("title").First();
-        Label description = rootVisualElement.Query<Label>("description").First();
-        Label flavour = rootVisualElement.Query<Label>("flavour").First();
-        Label cost = rootVisualElement.Query<Label>("cost").First();
-
-        title.text = card.name;
-        description.text = card.description.Replace("$value", card.value.ToString());
-        flavour.text = card.flavour;
-        cost.text = card.cost.ToString();
+        DestroyImmediate(gameObjectEditor);
+        gameObjectEditor = Editor.CreateEditor(weaponData.prefab);
+        IMGUIContainer container = new IMGUIContainer(() => { gameObjectEditor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(1000, 500), bgColor); });
+        gameObjectPreview.Add(container);
     }
 
 }
