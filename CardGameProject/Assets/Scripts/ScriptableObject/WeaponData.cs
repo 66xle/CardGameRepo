@@ -14,7 +14,7 @@ public class WeaponData : ScriptableObject
 
     public GameObject prefab;
 
-    [ReadOnly]
+    [HideInInspector]
     public Transform holsterSlot;
 
     [Separator]
