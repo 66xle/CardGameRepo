@@ -5,13 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using TMPro;
-using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.Playables;
 using UnityEngine.UI;
 using Cinemachine;
 using MyBox;
-using static UnityEngine.Random;
 
 public class CombatStateMachine : MonoBehaviour
 {
