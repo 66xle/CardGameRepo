@@ -1,55 +1,34 @@
+using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEditor;
+using UnityEngine;
 using UnityEngine.UIElements;
+using System.IO;
 
-public class WeaponPopupWindow : PopupWindow
+public class CardPopupWindow : PopupWindow
 {
-    private WeaponData newWeapon;
+    private Card newCard;
 
     void CreateGUI()
     {
         if (addButtonPressed)
-            AddWeapon();
+            AddCard();
         else if (renameButtonPressed)
-            RenameWeapon();
+            RenameCard();
     }
 
-    void AddWeapon()
+
+    void AddCard()
     {
-        var label = new Label("CREATE WEAPON");
+        var label = new Label("CREATE CARD");
         rootVisualElement.Add(label);
 
-        WeaponInfo();
-
-        var createButton = new Button();
-        createButton.text = "Create Weapon";
-        createButton.clicked += () => CreateWeapon(newWeapon.weaponName);
-        rootVisualElement.Add(createButton);
-
-        var cancelButton = new Button();
-        cancelButton.text = "Cancel";
-        cancelButton.clicked += () => CloseWindow();
-        rootVisualElement.Add(cancelButton);
-    }
-
-    void RenameWeapon()
-    {
-        var label = new Label("RENAME WEAPON");
-        rootVisualElement.Add(label);
-
-        // Create textfield
-        var textField = new TextField();
-        WeaponData selectedWeaponData = window.list.selectedItem as WeaponData;
-        string path = AssetDatabase.GUIDToAssetPath(selectedWeaponData.guid);
-        string fileName = Path.GetFileNameWithoutExtension(path);
-        textField.value = fileName;
-        rootVisualElement.Add(textField);
+        CardInfo();
 
         var createButton = new UnityEngine.UIElements.Button();
-        createButton.text = "Rename Weapon";
-        createButton.clicked += () => RenameWeapon(selectedWeaponData, fileName, textField.value);
+        createButton.text = "Create Card";
+        createButton.clicked += () => CreateCard(newCard.name);
         rootVisualElement.Add(createButton);
 
         var cancelButton = new UnityEngine.UIElements.Button();
@@ -58,11 +37,35 @@ public class WeaponPopupWindow : PopupWindow
         rootVisualElement.Add(cancelButton);
     }
 
-    void WeaponInfo()
+    void RenameCard()
     {
-        newWeapon = new WeaponData();
+        var label = new Label("RENAME CARD");
+        rootVisualElement.Add(label);
 
-        SerializedObject serializeCard = new SerializedObject(newWeapon);
+        // Create textfield
+        var textField = new TextField();
+        Card selectedCard = window.list.selectedItem as Card;
+        string path = AssetDatabase.GUIDToAssetPath(selectedCard.guid);
+        string fileName = Path.GetFileNameWithoutExtension(path);
+        textField.value = fileName;
+        rootVisualElement.Add(textField);
+
+        var createButton = new UnityEngine.UIElements.Button();
+        createButton.text = "Rename Card";
+        createButton.clicked += () => RenameCard(selectedCard, fileName, textField.value);
+        rootVisualElement.Add(createButton);
+
+        var cancelButton = new UnityEngine.UIElements.Button();
+        cancelButton.text = "Cancel";
+        cancelButton.clicked += () => CloseWindow();
+        rootVisualElement.Add(cancelButton);
+    }
+
+    void CardInfo()
+    {
+        newCard = new Card();
+
+        SerializedObject serializeCard = new SerializedObject(newCard);
         SerializedProperty cardProperty = serializeCard.GetIterator();
         cardProperty.Next(true);
 
@@ -76,7 +79,7 @@ public class WeaponPopupWindow : PopupWindow
         }
     }
 
-    void CreateWeapon(string fileName)
+    void CreateCard(string fileName)
     {
         if (string.IsNullOrEmpty(fileName) || string.IsNullOrWhiteSpace(fileName))
         {
@@ -84,17 +87,17 @@ public class WeaponPopupWindow : PopupWindow
             return;
         }
 
-        WeaponData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Weapon/{fileName}.asset", typeof(WeaponData)) as WeaponData;
+        Card loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Cards/{fileName}.asset", typeof(Card)) as Card;
 
         if (loadedAsset != null)
         {
-            // If Weapon exists
-            EditorUtility.DisplayDialog($"Error", $"Weapon already exists", "Ok");
+            // If Card exists
+            EditorUtility.DisplayDialog($"Error", $"Card already exists", "Ok");
             return;
         }
         else
         {
-            WeaponData card = CreateNewWeapon(newWeapon);
+            Card card = CreateNewCard(newCard);
 
             AssetDatabase.CreateAsset(card, $"Assets/ScriptableObjects/Cards/{fileName}.asset");
 
@@ -104,7 +107,7 @@ public class WeaponPopupWindow : PopupWindow
         CloseWindow();
     }
 
-    void RenameWeapon(WeaponData selectedWeaponData, string oldFileName, string newFileName)
+    void RenameCard(Card selectedCard, string oldFileName, string newFileName)
     {
         // Name is the same
         if (newFileName.Equals(Path.GetFileNameWithoutExtension(oldFileName)))
@@ -128,35 +131,40 @@ public class WeaponPopupWindow : PopupWindow
 
         // Clear selection
         window.list.ClearSelection();
-        window.rootVisualElement.Query<Box>("weapon-info").First().Clear();
+        window.rootVisualElement.Query<Box>("card-info").First().Clear();
         window.list.itemsSource = null;
 
 
-        WeaponData weapon = CreateNewWeapon(selectedWeaponData);
+        Card card = CreateNewCard(selectedCard);
 
         // Delete then create asset
-        AssetDatabase.DeleteAsset($"Assets/ScriptableObjects/Weapon/{oldFileName}.asset");
-        AssetDatabase.CreateAsset(weapon, $"Assets/ScriptableObjects/Weapon/{newFileName}.asset");
+        AssetDatabase.DeleteAsset($"Assets/ScriptableObjects/Cards/{oldFileName}.asset");
+        AssetDatabase.CreateAsset(card, $"Assets/ScriptableObjects/Cards/{newFileName}.asset");
 
         window.CreateListView();
         CloseWindow();
     }
 
-    WeaponData CreateNewWeapon(WeaponData newWeaponData)
+    Card CreateNewCard(Card newCard)
     {
-        WeaponData weapon = new WeaponData();
-        weapon.name = newWeaponData.name;
-        weapon.description = newWeaponData.description;
-        weapon.prefab = newWeaponData.prefab;
-        weapon.cards = newWeaponData.cards;
+        Card card = new Card();
+        card.name = newCard.name;
+        card.description = newCard.description;
+        card.flavour = newCard.flavour;
+        card.cardType = newCard.cardType;
+        card.value = newCard.value;
+        card.cost = newCard.cost;
+        card.recycleValue = newCard.recycleValue;
+        card.image = newCard.image;
+        card.frame = newCard.frame;
 
-        return weapon;
+        return card;
     }
+
 
     private void CloseWindow()
     {
         window.isPopupActive = false;
         Close();
     }
-
 }

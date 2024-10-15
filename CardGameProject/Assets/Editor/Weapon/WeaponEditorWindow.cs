@@ -13,39 +13,24 @@ using UnityEditor.Experimental.GraphView;
 using System.IO;
 using System.Runtime.CompilerServices;
 
-public class WeaponEditorWindow : EditorWindow
+public class WeaponEditorWindow : BaseEditorWindow
 {
-    public ListView weaponDataList;
 
     GameObject gameObject;
     Editor gameObjectEditor;
-
-    
-
-    private WeaponPopupWindow window;
-
-    public bool isPopupActive;
 
     [MenuItem("Editor/Weapon Editor")]
     public static void ShowWindow()
     {
         WeaponEditorWindow window = GetWindow<WeaponEditorWindow>();
-        window.titleContent = new GUIContent("Weapon Editor");
-        window.minSize = new Vector2(800, 600);
+        ShowWindow(window, "Weapon Editor");
     }
 
     private void OnEnable()
     {
-        VisualTreeAsset original = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/Weapon/WeaponEditorWindow.uxml");
-        TemplateContainer treeAsset = original.CloneTree();
-        rootVisualElement.Add(treeAsset);
+        Enable("WeaponEditorWindow", "WeaponEditorStyles", "weapon", "Weapon");
 
-        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/Weapon/WeaponEditorStyles.uss");
-        rootVisualElement.styleSheets.Add(styleSheet);
-
-        EditorStyles.label.wordWrap = true;
-
-        CreateWeaponListView();
+        CreateListView();
         SetButtons();
     }
 
@@ -58,24 +43,27 @@ public class WeaponEditorWindow : EditorWindow
         }
     }
 
-    public void CreateWeaponListView()
+    public override void CreateListView()
     {
         FindAllWeapons(out List<WeaponData> weapons);
 
-        weaponDataList = rootVisualElement.Query<ListView>("weapon-list").First();
-        weaponDataList.makeItem = () => new Label();
-        weaponDataList.bindItem = (element, i) => (element as Label).text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(weapons[i].guid));
+        list = rootVisualElement.Query<ListView>("weapon-list").First();
+        list.makeItem = () => new Label();
+        list.bindItem = (element, i) => (element as Label).text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(weapons[i].guid));
 
-        weaponDataList.itemsSource = weapons;
-        weaponDataList.itemHeight = 16;
-        weaponDataList.selectionType = SelectionType.Single;
+        list.itemsSource = weapons;
+        list.itemHeight = 16;
+        list.selectionType = SelectionType.Single;
 
-        weaponDataList.onSelectionChange += (enumerable) =>
+        list.onSelectionChange += (enumerable) =>
         {
             foreach (UnityEngine.Object it in enumerable)
             {
                 Box weaponDataInfoBox = rootVisualElement.Query<Box>("weapon-info").First();
                 weaponDataInfoBox.Clear();
+
+                Box gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
+                gameObjectPreview.Clear();
 
                 WeaponData weaponData = it as WeaponData;
 
@@ -91,9 +79,6 @@ public class WeaponEditorWindow : EditorWindow
                     prop.Bind(serializeWeapon);
                     weaponDataInfoBox.Add(prop);
 
-                    
-
-
                     // Update prefab
                     if (weaponDataProperty.name == "prefab")
                     {
@@ -102,11 +87,10 @@ public class WeaponEditorWindow : EditorWindow
                 }
 
                 LoadWeaponPrefab(weaponData);
-                //LoadCardText(weaponData);
             }
         };
 
-        weaponDataList.Refresh();
+        list.Refresh();
     }
 
     
@@ -125,9 +109,9 @@ public class WeaponEditorWindow : EditorWindow
     private void AddWeapon()
     {
         window = CreateInstance<WeaponPopupWindow>();
-        window.addWeaponButtonPressed = true;
+        window.addButtonPressed = true;
         isPopupActive = true;
-        window.Window = this;
+        window.window = this;
 
         Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
         window.position = new Rect(mousePos.x, mousePos.y, 300, 400);
@@ -136,30 +120,30 @@ public class WeaponEditorWindow : EditorWindow
 
     private void DeleteWeapon()
     {
-        if (weaponDataList.selectedItem != null)
+        if (list.selectedItem != null)
         {
-            WeaponData selectedWeapon = weaponDataList.selectedItem as WeaponData;
+            WeaponData selectedWeapon = list.selectedItem as WeaponData;
             if (!EditorUtility.DisplayDialog($"Delete Weapon", $"Delete {selectedWeapon.name}?", "Delete", "Cancel"))
                 return;
 
-            weaponDataList.ClearSelection();
+            list.ClearSelection();
             rootVisualElement.Query<Box>("weapon-info").First().Clear();
-            weaponDataList.itemsSource = null;
+            list.itemsSource = null;
 
             AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedWeapon.guid));
 
-            CreateWeaponListView();
+            CreateListView();
         }
     }
 
     private void RenameWeapon()
     {
-        if (weaponDataList.selectedItem != null)
+        if (list.selectedItem != null)
         {
             window = CreateInstance<WeaponPopupWindow>();
-            window.renameWeaponButtonPressed = true;
+            window.renameButtonPressed = true;
             isPopupActive = true;
-            window.Window = this;
+            window.window = this;
 
             Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
             window.position = new Rect(mousePos.x, mousePos.y, 300, 100);
@@ -186,6 +170,9 @@ public class WeaponEditorWindow : EditorWindow
 
     private void LoadWeaponPrefab(WeaponData weaponData)
     {
+        if (weaponData.prefab == null)
+            return;
+
         Box gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
         gameObjectPreview.Clear();
 
