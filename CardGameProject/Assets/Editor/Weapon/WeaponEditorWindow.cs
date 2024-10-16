@@ -133,6 +133,9 @@ public class WeaponEditorWindow : BaseEditorWindow
             AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedWeapon.guid));
 
             CreateListView();
+
+            Box gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
+            gameObjectPreview.Clear();
         }
     }
 
