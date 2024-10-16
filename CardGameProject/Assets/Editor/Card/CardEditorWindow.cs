@@ -121,6 +121,20 @@ public class CardEditorWindow : BaseEditorWindow
             AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedCard.guid));
 
             CreateListView();
+
+            #region Clear Text
+
+            Label title = rootVisualElement.Query<Label>("title").First();
+            Label description = rootVisualElement.Query<Label>("description").First();
+            Label flavour = rootVisualElement.Query<Label>("flavour").First();
+            Label cost = rootVisualElement.Query<Label>("cost").First();
+
+            title.text = null;
+            description.text = null;
+            flavour.text = null;
+            cost.text = null;
+
+            #endregion
         }
     }
 
@@ -188,10 +202,6 @@ public class CardEditorWindow : BaseEditorWindow
         Label flavour = rootVisualElement.Query<Label>("flavour").First();
         Label cost = rootVisualElement.Query<Label>("cost").First();
 
-        title.Clear();
-        description.Clear();
-        flavour.Clear();
-        cost.Clear();
 
         title.text = card.name;
         description.text = card.description.Replace("$value", card.value.ToString());
