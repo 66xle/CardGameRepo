@@ -160,10 +160,12 @@ public class DialogueEditor : EditorWindow
 
     private void AddEvent()
     {
-        window = CreateInstance<PopupWindow>();
-        window.addEventButtonPressed = true;
+        window = CreateInstance<DialoguePopupWindow>();
+        window.addButtonPressed = true;
         isPopupActive = true;
-        window.dialogueWindow = this;
+
+        DialoguePopupWindow diaWindow = window as DialoguePopupWindow;
+        diaWindow.dialogueWindow = this;
 
         Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
         window.position = new Rect(mousePos.x, mousePos.y, 250, 110);
@@ -204,10 +206,12 @@ public class DialogueEditor : EditorWindow
         }
 
 
-        window = CreateInstance<PopupWindow>();
-        window.renameEventButtonPressed = true;
+        window = CreateInstance<DialoguePopupWindow>();
+        window.renameButtonPressed = true;
         isPopupActive = true;
-        window.dialogueWindow = this;
+
+        DialoguePopupWindow diaWindow = window as DialoguePopupWindow;
+        diaWindow.dialogueWindow = this;
 
         Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
         window.position = new Rect(mousePos.x, mousePos.y, 200, 100);

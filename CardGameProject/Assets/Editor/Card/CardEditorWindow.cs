@@ -12,59 +12,36 @@ using System.Runtime.Remoting.Contexts;
 using UnityEditor.Experimental.GraphView;
 using System.IO;
 
-public class CardEditorWindow : EditorWindow
+public class CardEditorWindow : BaseEditorWindow
 {
-    public ListView cardList;
-
-    private PopupWindow window;
-
-    public bool isPopupActive;
-
     [MenuItem("Editor/Card Editor")]
     public static void ShowWindow()
     {
         CardEditorWindow window = GetWindow<CardEditorWindow>();
-        window.titleContent = new GUIContent("Card Editor");
-        window.minSize = new Vector2(800, 600);
+        ShowWindow(window, "Card Editor");
     }
 
     private void OnEnable()
     {
-        VisualTreeAsset original = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/Card/CardEditorWindow.uxml");
-        TemplateContainer treeAsset = original.CloneTree();
-        rootVisualElement.Add(treeAsset);
+        Enable("CardEditorWindow", "CardEditorStyles", "card", "Card");
 
-        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/Card/CardEditorStyles.uss");
-        rootVisualElement.styleSheets.Add(styleSheet);
-
-        EditorStyles.label.wordWrap = true;
-
-        CreateCardListView();
+        CreateListView();
         SetButtons();
     }
 
-    private void OnFocus()
-    {
-        if (isPopupActive)
-        {
-            window.Focus();
-            EditorUtility.DisplayDialog($"Error", $"Currently creating card", "Ok");
-        }
-    }
-
-    public void CreateCardListView()
+    public override void CreateListView()
     {
         FindAllCards(out List<Card> cards);
 
-        cardList = rootVisualElement.Query<ListView>("card-list").First();
-        cardList.makeItem = () => new Label();
-        cardList.bindItem = (element, i) => (element as Label).text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(cards[i].guid));
+        list = rootVisualElement.Query<ListView>("card-list").First();
+        list.makeItem = () => new Label();
+        list.bindItem = (element, i) => (element as Label).text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(cards[i].guid));
 
-        cardList.itemsSource = cards;
-        cardList.itemHeight = 16;
-        cardList.selectionType = SelectionType.Single;
+        list.itemsSource = cards;
+        list.itemHeight = 16;
+        list.selectionType = SelectionType.Single;
 
-        cardList.onSelectionChange += (enumerable) =>
+        list.onSelectionChange += (enumerable) =>
         {
             foreach (UnityEngine.Object it in enumerable)
             {
@@ -94,7 +71,7 @@ public class CardEditorWindow : EditorWindow
                     if (cardProperty.name == "name" || cardProperty.name == "description" || 
                         cardProperty.name == "flavour" || cardProperty.name == "value" || cardProperty.name == "cost")
                     {
-                        prop.RegisterValueChangeCallback(changeEvt => LoadCardText(card, cardList));
+                        prop.RegisterValueChangeCallback(changeEvt => LoadCardText(card, list));
                     }
                 }
 
@@ -103,26 +80,26 @@ public class CardEditorWindow : EditorWindow
             }
         };
 
-        cardList.Refresh();
+        list.Refresh();
     }
 
     private void SetButtons()
     {
-        Button addButton = rootVisualElement.Query<Button>("add-card").First();
+        Button addButton = rootVisualElement.Query<Button>($"add-{type}").First();
         addButton.clicked += AddCard;
 
-        Button deleteButton = rootVisualElement.Query<Button>("delete-card").First();
+        Button deleteButton = rootVisualElement.Query<Button>($"delete-{type}").First();
         deleteButton.clicked += DeleteCard;
 
-        Button renameButton = rootVisualElement.Query<Button>("rename-card").First();
+        Button renameButton = rootVisualElement.Query<Button>($"rename-{type}").First();
         renameButton.clicked += RenameCard;
     }
     private void AddCard()
     {
-        window = CreateInstance<PopupWindow>();
-        window.addCardButtonPressed = true;
+        window = CreateInstance<CardPopupWindow>();
+        window.addButtonPressed = true;
         isPopupActive = true;
-        window.Window = this;
+        window.window = this;
 
         Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
         window.position = new Rect(mousePos.x, mousePos.y, 300, 400);
@@ -131,30 +108,30 @@ public class CardEditorWindow : EditorWindow
 
     private void DeleteCard()
     {
-        if (cardList.selectedItem != null)
+        if (list.selectedItem != null)
         {
-            Card selectedCard = cardList.selectedItem as Card;
+            Card selectedCard = list.selectedItem as Card;
             if (!EditorUtility.DisplayDialog($"Delete Card", $"Delete {selectedCard.name}?", "Delete", "Cancel"))
                 return;
 
-            cardList.ClearSelection();
+            list.ClearSelection();
             rootVisualElement.Query<Box>("card-info").First().Clear();
-            cardList.itemsSource = null;
+            list.itemsSource = null;
 
             AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedCard.guid));
 
-            CreateCardListView();
+            CreateListView();
         }
     }
 
     private void RenameCard()
     {
-        if (cardList.selectedItem != null)
+        if (list.selectedItem != null)
         {
-            window = CreateInstance<PopupWindow>();
-            window.renameCardButtonPressed = true;
+            window = CreateInstance<CardPopupWindow>();
+            window.renameButtonPressed = true;
             isPopupActive = true;
-            window.Window = this;
+            window.window = this;
 
             Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
             window.position = new Rect(mousePos.x, mousePos.y, 300, 100);

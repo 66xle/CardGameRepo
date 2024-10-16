@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using System;
-using UnityEditor.MemoryProfiler;
+
 
 public class EventDisplay : MonoBehaviour
 {

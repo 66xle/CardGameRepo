@@ -13,7 +13,9 @@ public class ExampleClass : EditorWindow
     [MenuItem("Example/GameObject Editor")]
     static void ShowWindow()
     {
-        GetWindowWithRect<ExampleClass>(new Rect(0, 0, 500, 500));
+        ExampleClass window = GetWindow<ExampleClass>();
+        window.titleContent = new GUIContent("Preview");
+        window.minSize = new Vector2(800, 600);
     }
 
     void OnGUI()
@@ -25,7 +27,8 @@ public class ExampleClass : EditorWindow
 
         if (EditorGUI.EndChangeCheck())
         {
-            if (gameObjectEditor != null) DestroyImmediate(gameObjectEditor);
+            if (gameObjectEditor != null) 
+                DestroyImmediate(gameObjectEditor);
         }
 
 
@@ -38,7 +41,7 @@ public class ExampleClass : EditorWindow
             if (gameObjectEditor == null)
                 gameObjectEditor = Editor.CreateEditor(gameObject);
 
-            gameObjectEditor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(256, 256), bgColor);
+            gameObjectEditor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(256, 400), bgColor);
         }
     }
 }
