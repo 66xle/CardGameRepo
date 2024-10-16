@@ -161,17 +161,24 @@ public class CardEditorWindow : BaseEditorWindow
         Image cardPreviewImage = rootVisualElement.Query<Image>("preview").First();
         Image cardPreviewFrame = rootVisualElement.Query<Image>("preview2").First();
 
+
         try
         {
             cardPreviewImage.image = card.image.texture;
         }
-        catch (Exception err) { }
+        catch (Exception err) 
+        {
+            cardPreviewImage.image = null;
+        }
 
         try
         {
             cardPreviewFrame.image = card.frame.texture;
         }
-        catch (Exception err) { }
+        catch (Exception err) 
+        {
+            cardPreviewFrame.image = null;
+        }
     }
 
     private void LoadCardText(Card card, ListView cardList = null)
@@ -180,6 +187,11 @@ public class CardEditorWindow : BaseEditorWindow
         Label description = rootVisualElement.Query<Label>("description").First();
         Label flavour = rootVisualElement.Query<Label>("flavour").First();
         Label cost = rootVisualElement.Query<Label>("cost").First();
+
+        title.Clear();
+        description.Clear();
+        flavour.Clear();
+        cost.Clear();
 
         title.text = card.name;
         description.text = card.description.Replace("$value", card.value.ToString());
