@@ -39,6 +39,28 @@ public class BaseEditorWindow : EditorWindow
         EditorStyles.label.wordWrap = true;
     }
 
+    public void SetupListView()
+    {
+        list.makeItem = () =>
+        {
+            VisualElement visualElement = new VisualElement();
+            visualElement.AddToClassList("list-item");
+
+            Label label = new Label();
+            label.name = "list-item";
+
+            Box border = new Box();
+            border.AddToClassList("border");
+
+            visualElement.Add(label);
+            visualElement.Add(border);
+            return visualElement;
+        };
+        
+        list.itemHeight = 32;
+        list.selectionType = SelectionType.Single;
+    }
+
     private void OnFocus()
     {
         if (isPopupActive)
@@ -49,4 +71,5 @@ public class BaseEditorWindow : EditorWindow
     }
 
     public virtual void CreateListView() { }
+
 }
