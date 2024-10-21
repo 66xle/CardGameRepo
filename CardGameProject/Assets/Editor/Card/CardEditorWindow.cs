@@ -34,11 +34,32 @@ public class CardEditorWindow : BaseEditorWindow
         FindAllCards(out List<Card> cards);
 
         list = rootVisualElement.Query<ListView>("card-list").First();
-        list.makeItem = () => new Label();
-        list.bindItem = (element, i) => (element as Label).text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(cards[i].guid));
+
+        list.makeItem = () =>
+        {
+            VisualElement visualElement = new VisualElement();
+            visualElement.AddToClassList("list-item");
+
+            Label label = new Label();
+            label.name = "list-item";
+
+            Box border = new Box();
+            border.AddToClassList("border");
+
+            visualElement.Add(label);
+            visualElement.Add(border);
+            return visualElement;
+            
+        };
+
+        list.bindItem = (element, i) =>
+        {
+            Label label = element.Q<Label>("list-item");
+            label.text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(cards[i].guid));
+        };
 
         list.itemsSource = cards;
-        list.itemHeight = 16;
+        list.itemHeight = 32;
         list.selectionType = SelectionType.Single;
 
         list.onSelectionChange += (enumerable) =>
