@@ -422,11 +422,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   contextMenu: {fileID: 373296050}
-  pointHolder: {fileID: 1524244563}
-  pointPrefab: {fileID: 851660385789164271, guid: b7c8ed9a01d0bcb428b43bc6a3ac4275, type: 3}
   layerMask:
     serializedVersion: 2
     m_Bits: 64
+  pointHolder: {fileID: 1524244563}
+  pointPrefab: {fileID: 851660385789164271, guid: b7c8ed9a01d0bcb428b43bc6a3ac4275, type: 3}
+  seletedMat: {fileID: 2100000, guid: 5b2e5f035411b3f4585d719656d03e4f, type: 2}
+  defaultMat: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!4 &481551224 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 851660385789164256, guid: b7c8ed9a01d0bcb428b43bc6a3ac4275, type: 3}
@@ -529,7 +531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   contextMenu: {fileID: 373296050}
-  camSpeed: 0.2
+  camSpeed: 0.15
   zoomSpeed: 10
 --- !u!1 &866332281
 GameObject:
