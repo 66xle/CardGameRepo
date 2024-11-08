@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Point : MonoBehaviour
 {
-    public List<GameObject> links;
+    public List<LinkData> links = new List<LinkData>();
 
     public GameObject currentLinkObj;
 
@@ -35,19 +35,19 @@ public class Point : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100, mapLayerMask))
         {
-            SetLinkTransform(hit.point);
+            SetLinkTransform(currentLinkObj, hit.point);
         }
     }
 
-    public void SetLinkTransform(Vector3 endPos)
+    public void SetLinkTransform(GameObject linkObj, Vector3 endPos)
     {
         Vector3 dir = endPos - transform.position;
 
         Vector3 newPosition = transform.position + (dir / 2);
 
-        currentLinkObj.transform.position = newPosition;
-        currentLinkObj.transform.rotation = Quaternion.LookRotation(dir.normalized);
-        currentLinkObj.transform.localScale = new Vector3(0.2f, 0.2f, dir.magnitude);
+        linkObj.transform.position = newPosition;
+        linkObj.transform.rotation = Quaternion.LookRotation(dir.normalized);
+        linkObj.transform.localScale = new Vector3(0.2f, 0.2f, dir.magnitude);
     }
 
     public void CreateLink(GameObject linkPrefab, Transform parent)
@@ -61,12 +61,33 @@ public class Point : MonoBehaviour
     {
         GameObject pointA = transform.gameObject;
 
-        links.Add(pointB);
-        pointB.GetComponent<Point>().links.Add(pointA);
+        LinkData pointAData = new LinkData();
+        pointAData.linkObj = currentLinkObj;
+        pointAData.targetObj = pointB;
 
-        SetLinkTransform(pointB.transform.position);
+        LinkData pointBData = new LinkData();
+        pointBData.linkObj = currentLinkObj;
+        pointBData.targetObj = pointA;
+
+        links.Add(pointAData);
+        pointB.GetComponent<Point>().links.Add(pointBData);
+
+        SetLinkTransform(currentLinkObj, pointB.transform.position);
 
         isLinkActive = false;
+    }
+
+    public void SetConnectedLinkPosition()
+    {
+        if (links.Count == 0) return;
+
+        foreach (LinkData data in links)
+        {
+            GameObject linkObj = data.linkObj;
+            GameObject targetObj = data.targetObj;
+
+            SetLinkTransform(linkObj, targetObj.transform.position);
+        }
     }
 
     public void DestroyLink()

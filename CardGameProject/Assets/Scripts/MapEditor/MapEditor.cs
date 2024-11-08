@@ -106,6 +106,9 @@ public class MapEditor : MonoBehaviour
 
                 // set position
                 seletedObject.transform.position = newPosition;
+
+                // set links position
+                seletedObject.GetComponent<Point>().SetConnectedLinkPosition();
             }
         }
     }
@@ -144,8 +147,6 @@ public class MapEditor : MonoBehaviour
             contextMenu.SetActive(true);
         }
     }
-
-    
 
     public void CreatePoint()
     {
