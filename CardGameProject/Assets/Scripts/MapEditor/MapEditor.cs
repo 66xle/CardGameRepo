@@ -8,6 +8,9 @@ public class MapEditor : MonoBehaviour
 {
     public GameObject contextMenu;
     public GameObject pointContextMenu;
+
+    [Separator]
+
     public LayerMask mapLayerMask;
     public LayerMask linkLayerMask;
 
@@ -24,8 +27,8 @@ public class MapEditor : MonoBehaviour
     public Material pointSeletedMat;
     public Material defaultMat;
 
+
     private GameObject seletedObject;
-    private GameObject currentActiveLink;
     private Vector3 offSetDir;
 
     private bool holdingDownLeftClick;
@@ -42,25 +45,83 @@ public class MapEditor : MonoBehaviour
     void Update()
     {
         DetectInput();
-
-        if (isLinkActive)
-        {
-            UpdateLinkPosition();
-        }
     }
 
     void DetectInput()
     {
+        RightClick();
+        LeftClick();
+    }
+
+    void LeftClick()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 100))
+            {
+                if (seletedObject != null)
+                    seletedObject.transform.GetComponent<MeshRenderer>().material = defaultMat;
+
+                if (hit.transform.CompareTag("Point"))
+                {
+                    if (isLinkActive)
+                    {
+                        seletedObject.GetComponent<Point>().AddLink(hit.transform.gameObject);
+                        isLinkActive = false;
+
+                        return;
+                    }
+
+                    seletedObject = hit.transform.gameObject;
+                    seletedObject.transform.GetComponent<MeshRenderer>().material = seletedMat;
+
+                    offSetDir = seletedObject.transform.position - hit.point;
+
+                    holdingDownLeftClick = true;
+                }
+            }
+
+            if (isLinkActive)
+                DestroyLink();
+
+        }
+
+        if (Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            holdingDownLeftClick = false;
+        }
+
+        if (holdingDownLeftClick)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 100))
+            {
+                Vector3 newPosition = hit.point + offSetDir;
+                newPosition.y = seletedObject.transform.position.y;
+
+                // set position
+                seletedObject.transform.position = newPosition;
+            }
+        }
+    }
+
+    void RightClick()
+    {
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             if (isLinkActive)
-            {
-                Destroy(currentActiveLink);
-                isLinkActive = false;
+                DestroyLink();
 
+            if (seletedObject != null)
                 seletedObject.transform.GetComponent<MeshRenderer>().material = defaultMat;
-                return;
-            }
+
+            CloseContextMenu();
+            ClosePointContextMenu();
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -81,74 +142,6 @@ public class MapEditor : MonoBehaviour
 
             contextMenu.transform.position = Input.mousePosition;
             contextMenu.SetActive(true);
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 100))
-            {
-                if (seletedObject != null)
-                    seletedObject.transform.GetComponent<MeshRenderer>().material = defaultMat;
-
-                if (hit.transform.CompareTag("Point"))
-                {
-                    if (isLinkActive)
-                    {
-                        GameObject pointA = seletedObject.transform.gameObject;
-                        GameObject pointB = hit.transform.gameObject;
-
-                        pointA.GetComponent<Point>().links.Add(pointB);
-                        pointB.GetComponent<Point>().links.Add(pointA);
-
-                        SetLinkTransform(hit.transform.position);
-
-                        isLinkActive = false;
-
-                        return;
-                    }
-
-                    seletedObject = hit.transform.gameObject;
-                    seletedObject.transform.GetComponent<MeshRenderer>().material = seletedMat;
-
-                    offSetDir = seletedObject.transform.position - hit.point;
-
-                    holdingDownLeftClick = true;
-                }
-            }
-
-            if (isLinkActive)
-            {
-                Destroy(currentActiveLink);
-                isLinkActive = false;
-
-                seletedObject.transform.GetComponent<MeshRenderer>().material = defaultMat;
-                return;
-            }
-
-        }
-        
-        if (Input.GetKeyUp(KeyCode.Mouse0))
-        {
-            holdingDownLeftClick = false;
-        }
-
-        if (holdingDownLeftClick)
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 100))
-            {
-                Vector3 newPosition = hit.point + offSetDir;
-                newPosition.y = seletedObject.transform.position.y;
-
-                // set position
-                seletedObject.transform.position = newPosition; 
-            }
         }
     }
 
@@ -161,31 +154,28 @@ public class MapEditor : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100))
         {
-            Instantiate(pointPrefab, hit.point, Quaternion.identity, pointHolder);
+            GameObject point = Instantiate(pointPrefab, hit.point, Quaternion.identity, pointHolder);
+            point.GetComponent<Point>().mapLayerMask = mapLayerMask;
+
             CloseContextMenu();
         }
     }
 
+    private void DestroyLink()
+    {
+        seletedObject.GetComponent<Point>().DestroyLink();
+
+        isLinkActive = false;
+    }
+
     public void CreateLink()
     {
-        currentActiveLink = Instantiate(linkPrefab, seletedObject.transform.position, Quaternion.identity, linkHolder);
+        seletedObject.GetComponent<Point>().CreateLink(linkPrefab, linkHolder);
 
         isLinkActive = true;
 
         ClosePointContextMenu();
     }
-
-    public void UpdateLinkPosition()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100, mapLayerMask))
-        {
-            SetLinkTransform(hit.point);
-        }
-    }
-
 
     public void CloseContextMenu()
     {
@@ -197,15 +187,4 @@ public class MapEditor : MonoBehaviour
         pointContextMenu.SetActive(false);
     }
 
-
-    private void SetLinkTransform(Vector3 endPos)
-    {
-        Vector3 dir = endPos - seletedObject.transform.position;
-
-        Vector3 newPosition = seletedObject.transform.position + (dir / 2);
-
-        currentActiveLink.transform.position = newPosition;
-        currentActiveLink.transform.rotation = Quaternion.LookRotation(dir.normalized);
-        currentActiveLink.transform.localScale = new Vector3(0.2f, 0.2f, dir.magnitude);
-    }
 }
