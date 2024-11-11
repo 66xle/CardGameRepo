@@ -31,7 +31,7 @@ public class MapEditor : MonoBehaviour
     [Separator]
 
     public GameObject seletedObject;
-    private GameObject seletedLink;
+    public GameObject seletedLink;
     private Vector3 offSetDir;
 
     public bool isMenuOpen;
@@ -108,6 +108,12 @@ public class MapEditor : MonoBehaviour
                 seletedObject = null;
             }
 
+            if (seletedLink != null)
+            {
+                seletedLink.transform.GetComponent<MeshRenderer>().material = defaultMat;
+                seletedLink = null;
+            }
+
             if (isMenuOpen)
             {
                 contextMenu.SetActive(false);
@@ -153,7 +159,10 @@ public class MapEditor : MonoBehaviour
             }
 
             if (seletedLink != null)
+            {
                 seletedLink.transform.GetComponent<MeshRenderer>().material = defaultMat;
+                seletedLink = null;
+            }
 
             if (hit.transform.CompareTag("Point"))
             {
