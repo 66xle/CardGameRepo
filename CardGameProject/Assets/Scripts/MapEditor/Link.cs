@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Link : MonoBehaviour
@@ -8,21 +9,20 @@ public class Link : MonoBehaviour
     public GameObject pointB;
 
 
-    // Start is called before the first frame update
-    void Start()
+    public void DeleteLink()
     {
-        
+        RemoveLink(pointA);
+        RemoveLink(pointB);
+
+        Destroy(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
+    void RemoveLink(GameObject obj)
     {
-        Vector3 dir = pointB.transform.position - pointA.transform.position;
+        Point point = obj.GetComponent<Point>();
 
-        Vector3 newPosition = pointA.transform.position + (dir / 2);
+        LinkData removeLink = point.links.First(data => data.linkObj == gameObject);
 
-        transform.position = newPosition;
-        transform.rotation = Quaternion.LookRotation(dir.normalized);
-        transform.localScale = new Vector3(0.2f, 0.2f, dir.magnitude);
+        point.links.Remove(removeLink);
     }
 }

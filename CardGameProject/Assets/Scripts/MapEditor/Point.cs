@@ -72,6 +72,12 @@ public class Point : MonoBehaviour
         links.Add(pointAData);
         pointB.GetComponent<Point>().links.Add(pointBData);
 
+
+        Link link = currentLinkObj.GetComponent<Link>();
+        link.pointA = pointA;
+        link.pointB = pointB;
+
+
         SetLinkTransform(currentLinkObj, pointB.transform.position);
 
         isLinkActive = false;
