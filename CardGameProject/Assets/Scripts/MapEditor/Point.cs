@@ -96,10 +96,22 @@ public class Point : MonoBehaviour
         }
     }
 
-    public void DestroyLink()
+    public void DestroyTempLink()
     {
         Destroy(currentLinkObj);
 
         isLinkActive = false;
+    }
+
+    public void DestoryPoint()
+    {
+        int length = links.Count;
+
+        for (int i = 0; i < length; i++)
+        {
+            links[0].linkObj.GetComponent<Link>().DeleteLink();
+        }
+
+        Destroy(gameObject);
     }
 }

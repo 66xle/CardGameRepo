@@ -201,13 +201,13 @@ public class MapEditor : MonoBehaviour
         {
             if (seletedObject != null)
             {
-                
-
-                Destroy(seletedObject);
+                seletedObject.GetComponent<Point>().DestoryPoint();
+                seletedLink = null;
             }
             else if (seletedLink != null)
             {
                 seletedLink.GetComponent<Link>().DeleteLink();
+                seletedLink = null;
             }
         }
     }
@@ -229,7 +229,7 @@ public class MapEditor : MonoBehaviour
 
     private void DestroyLink()
     {
-        seletedObject.GetComponent<Point>().DestroyLink();
+        seletedObject.GetComponent<Point>().DestroyTempLink();
         seletedObject.transform.GetComponent<MeshRenderer>().material = defaultMat;
         seletedObject = null;
 
