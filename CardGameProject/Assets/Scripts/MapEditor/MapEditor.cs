@@ -103,7 +103,10 @@ public class MapEditor : MonoBehaviour
                 DestroyLink();
 
             if (seletedObject != null)
+            {
                 seletedObject.transform.GetComponent<MeshRenderer>().material = defaultMat;
+                seletedObject = null;
+            }
 
             if (isMenuOpen)
             {
@@ -143,8 +146,11 @@ public class MapEditor : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100))
         {
-            if (seletedObject != null)
+            if (seletedObject != null && !isLinkActive)
+            {
                 seletedObject.transform.GetComponent<MeshRenderer>().material = defaultMat;
+                seletedObject = null;
+            }
 
             if (seletedLink != null)
                 seletedLink.transform.GetComponent<MeshRenderer>().material = defaultMat;
@@ -154,6 +160,9 @@ public class MapEditor : MonoBehaviour
                 if (isLinkActive)
                 {
                     seletedObject.GetComponent<Point>().AddLink(hit.transform.gameObject);
+                    seletedObject.transform.GetComponent<MeshRenderer>().material = defaultMat;
+                    seletedObject = null;
+
                     isLinkActive = false;
 
                     return;
@@ -212,6 +221,8 @@ public class MapEditor : MonoBehaviour
     private void DestroyLink()
     {
         seletedObject.GetComponent<Point>().DestroyLink();
+        seletedObject.transform.GetComponent<MeshRenderer>().material = defaultMat;
+        seletedObject = null;
 
         isLinkActive = false;
     }
