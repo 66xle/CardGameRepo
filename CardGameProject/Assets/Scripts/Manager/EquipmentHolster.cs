@@ -42,7 +42,7 @@ public class EquipmentHolster : MonoBehaviour
         };
 
         weapon.holsterSlot = rightHand;
-        Instantiate(weapon, rightHand);
+        Instantiate(newData.prefab, rightHand);
     }
 
     public void SetOffHand(WeaponData weapon)

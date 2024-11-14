@@ -95,14 +95,14 @@ public class CardPopupWindow : PopupWindow
             EditorUtility.DisplayDialog($"Error", $"Card already exists", "Ok");
             return;
         }
-        else
-        {
-            Card card = CreateNewCard(newCard);
 
-            AssetDatabase.CreateAsset(card, $"Assets/ScriptableObjects/Cards/{fileName}.asset");
+        Card card = CreateNewCard(newCard);
 
-            window.CreateListView();
-        }
+        AssetDatabase.CreateAsset(card, $"Assets/ScriptableObjects/Cards/{fileName}.asset");
+
+        window.CreateListView();
+        window.list.selectedIndex = 0;
+
 
         CloseWindow();
     }

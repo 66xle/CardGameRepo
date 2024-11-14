@@ -33,13 +33,17 @@ public class CardEditorWindow : BaseEditorWindow
     {
         FindAllCards(out List<Card> cards);
 
-        list = rootVisualElement.Query<ListView>("card-list").First();
-        list.makeItem = () => new Label();
-        list.bindItem = (element, i) => (element as Label).text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(cards[i].guid));
+        list = rootVisualElement.Query<ListView>($"card-list").First();
 
         list.itemsSource = cards;
-        list.itemHeight = 16;
-        list.selectionType = SelectionType.Single;
+
+        list.bindItem = (element, i) =>
+        {
+            Label label = element.Q<Label>("list-item");
+            label.text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(cards[i].guid));
+        };
+
+        SetupListView();
 
         list.onSelectionChange += (enumerable) =>
         {
@@ -121,6 +125,20 @@ public class CardEditorWindow : BaseEditorWindow
             AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedCard.guid));
 
             CreateListView();
+
+            #region Clear Text
+
+            Label title = rootVisualElement.Query<Label>("title").First();
+            Label description = rootVisualElement.Query<Label>("description").First();
+            Label flavour = rootVisualElement.Query<Label>("flavour").First();
+            Label cost = rootVisualElement.Query<Label>("cost").First();
+
+            title.text = null;
+            description.text = null;
+            flavour.text = null;
+            cost.text = null;
+
+            #endregion
         }
     }
 
@@ -161,17 +179,24 @@ public class CardEditorWindow : BaseEditorWindow
         Image cardPreviewImage = rootVisualElement.Query<Image>("preview").First();
         Image cardPreviewFrame = rootVisualElement.Query<Image>("preview2").First();
 
+
         try
         {
             cardPreviewImage.image = card.image.texture;
         }
-        catch (Exception err) { }
+        catch (Exception err) 
+        {
+            cardPreviewImage.image = null;
+        }
 
         try
         {
             cardPreviewFrame.image = card.frame.texture;
         }
-        catch (Exception err) { }
+        catch (Exception err) 
+        {
+            cardPreviewFrame.image = null;
+        }
     }
 
     private void LoadCardText(Card card, ListView cardList = null)
@@ -180,6 +205,7 @@ public class CardEditorWindow : BaseEditorWindow
         Label description = rootVisualElement.Query<Label>("description").First();
         Label flavour = rootVisualElement.Query<Label>("flavour").First();
         Label cost = rootVisualElement.Query<Label>("cost").First();
+
 
         title.text = card.name;
         description.text = card.description.Replace("$value", card.value.ToString());

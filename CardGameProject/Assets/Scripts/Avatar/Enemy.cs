@@ -10,11 +10,11 @@ public class Enemy : Avatar
     private GameObject arrow;
 
     [Header("References")]
-    [HideInInspector] public Slider healthBar;
-    [HideInInspector] public TMP_Text healthValue;
-    [HideInInspector] public Slider guardBar;
-    [HideInInspector] public TMP_Text guardValue;
-    [HideInInspector] public TMP_Text blockValue;
+    [HideInInspector] public Image healthBar;
+    [HideInInspector] public Image guardBar;
+    //[HideInInspector] public TMP_Text healthValue;
+    //[HideInInspector] public TMP_Text guardValue;
+    //[HideInInspector] public TMP_Text blockValue;
     [HideInInspector] public EnemyUI enemyUI;
     [HideInInspector] public DetailedUI detailedUI;
 
@@ -38,11 +38,11 @@ public class Enemy : Avatar
 
     public void InitStats(GameObject statsUI, DetailedUI detailedUI)
     {
-        healthBar = statsUI.GetComponentsInChildren<Slider>()[0];
-        guardBar = statsUI.GetComponentsInChildren<Slider>()[1];
-        healthValue = statsUI.GetComponentsInChildren<TMP_Text>()[0];
-        guardValue = statsUI.GetComponentsInChildren<TMP_Text>()[1];
-        blockValue = statsUI.GetComponentsInChildren<TMP_Text>()[2];
+        healthBar = statsUI.GetComponentsInChildren<Image>()[1];
+        guardBar = statsUI.GetComponentsInChildren<Image>()[2];
+        //healthValue = statsUI.GetComponentsInChildren<TMP_Text>()[0];
+        //guardValue = statsUI.GetComponentsInChildren<TMP_Text>()[1];
+        //blockValue = statsUI.GetComponentsInChildren<TMP_Text>()[2];
         enemyUI = statsUI.GetComponent<EnemyUI>();
         this.detailedUI = detailedUI;
 
@@ -90,13 +90,13 @@ public class Enemy : Avatar
     {
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
 
-        healthBar.value = currentHealth / maxHealth;
-        healthValue.text = currentHealth.ToString() + " / " + maxHealth.ToString();
+        healthBar.fillAmount = currentHealth / maxHealth;
+        //healthValue.text = currentHealth.ToString() + " / " + maxHealth.ToString();
 
-        guardBar.value = (float)currentGuard / maxGuard;
-        guardValue.text = currentGuard.ToString() + " / " + maxGuard.ToString();
+        guardBar.fillAmount = (float)currentGuard / maxGuard;
+        //guardValue.text = currentGuard.ToString() + " / " + maxGuard.ToString();
 
-        blockValue.text = currentBlock.ToString();
+        //blockValue.text = currentBlock.ToString();
 
         detailedUI.DisplayStats();
         detailedUI.UpdateEffectUI();

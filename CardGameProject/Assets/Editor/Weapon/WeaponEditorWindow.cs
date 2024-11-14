@@ -48,12 +48,16 @@ public class WeaponEditorWindow : BaseEditorWindow
         FindAllWeapons(out List<WeaponData> weapons);
 
         list = rootVisualElement.Query<ListView>("weapon-list").First();
-        list.makeItem = () => new Label();
-        list.bindItem = (element, i) => (element as Label).text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(weapons[i].guid));
 
         list.itemsSource = weapons;
-        list.itemHeight = 16;
-        list.selectionType = SelectionType.Single;
+
+        list.bindItem = (element, i) =>
+        {
+            Label label = element.Q<Label>("list-item");
+            label.text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(weapons[i].guid));
+        };
+
+        SetupListView();
 
         list.onSelectionChange += (enumerable) =>
         {
@@ -133,6 +137,9 @@ public class WeaponEditorWindow : BaseEditorWindow
             AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedWeapon.guid));
 
             CreateListView();
+
+            Box gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
+            gameObjectPreview.Clear();
         }
     }
 

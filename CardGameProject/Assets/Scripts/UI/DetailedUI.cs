@@ -12,9 +12,9 @@ public class DetailedUI : MonoBehaviour
 
     
 
-    private Slider healthBar;
+    private Image healthBar;
     private TMP_Text healthValue;
-    private Slider guardBar;
+    private Image guardBar;
     private TMP_Text guardValue;
     private TMP_Text blockValue;
 
@@ -25,11 +25,11 @@ public class DetailedUI : MonoBehaviour
 
     public void Init(CombatStateMachine state)
     {
-        healthBar = GetComponentsInChildren<Slider>()[0];
-        guardBar = GetComponentsInChildren<Slider>()[1];
-        healthValue = GetComponentsInChildren<TMP_Text>()[0];
-        guardValue = GetComponentsInChildren<TMP_Text>()[1];
-        blockValue = GetComponentsInChildren<TMP_Text>()[2];
+        healthBar = GetComponentsInChildren<Image>()[1];
+        guardBar = GetComponentsInChildren<Image>()[2];
+        //healthValue = GetComponentsInChildren<TMP_Text>()[0];
+        //guardValue = GetComponentsInChildren<TMP_Text>()[1];
+        //blockValue = GetComponentsInChildren<TMP_Text>()[2];
 
         this.state = state;
     }
@@ -48,13 +48,13 @@ public class DetailedUI : MonoBehaviour
         if (enemy == null)
             return;
 
-        healthBar.value = enemy.healthBar.value;
-        healthValue.text = enemy.healthValue.text;
+        healthBar.fillAmount = enemy.healthBar.fillAmount;
+        //healthValue.text = enemy.healthValue.text;
 
-        guardBar.value = enemy.guardBar.value;
-        guardValue.text = enemy.guardValue.text;
+        guardBar.fillAmount = enemy.guardBar.fillAmount;
+        //guardValue.text = enemy.guardValue.text;
 
-        blockValue.text = enemy.blockValue.text;
+        //blockValue.text = enemy.blockValue.text;
     }
 
     public void UpdateEffectUI()
