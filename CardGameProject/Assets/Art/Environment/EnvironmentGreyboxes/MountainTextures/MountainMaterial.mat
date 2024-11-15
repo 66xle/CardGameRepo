@@ -2,28 +2,52 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MountainMaterial
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _METALLICSPECGLOSSMAP
+  - _NORMALMAP
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AOTex:
+        m_Texture: {fileID: 2800000, guid: 7186e60cd50df43778fbe10f752ee77c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AlbedoTex:
+        m_Texture: {fileID: 2800000, guid: 637d8eec58bcb47fd90d39417b5a33e9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 637d8eec58bcb47fd90d39417b5a33e9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 2800000, guid: 29cc5f4b59edf4a0db52ddf409d93d1a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMAoHSMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -47,6 +71,18 @@ Material:
         m_Texture: {fileID: 2800000, guid: 7186e60cd50df43778fbe10f752ee77c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMapMAHS:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicTex:
+        m_Texture: {fileID: 2800000, guid: 7186e60cd50df43778fbe10f752ee77c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTex:
+        m_Texture: {fileID: 2800000, guid: 29cc5f4b59edf4a0db52ddf409d93d1a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -55,24 +91,156 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SmoothnessTex:
+        m_Texture: {fileID: 2800000, guid: 637d8eec58bcb47fd90d39417b5a33e9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SnowAlbedoTex:
+        m_Texture: {fileID: 2800000, guid: a8348e56b9e6ff3438f6a463a9962f2c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SnowNormalTex:
+        m_Texture: {fileID: 2800000, guid: 25250f76c07d2e54793057cdd032599d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SparkleMask:
+        m_Texture: {fileID: 2800000, guid: fc7cffc75d5499f47bdfaaaea634daa8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlbedoUseTex: 1
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _AmountBottom: 0.555584
+    - _AmountSparkle: 1
+    - _AmountTop: 0.5
+    - _AoIntensity: 0
+    - _AoIntensityDetail: 0
+    - _AoMask: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _BlendNormal: 0
+    - _BlendingModeCrystals: 0
+    - _Brightness: 1
     - _BumpScale: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _ContrastDetailMap: 0
+    - _ContrastDotMask: 0
+    - _ContrastSparkles: 3.5
+    - _CrystalsIntensity: 5
+    - _Cull: 2
     - _Cutoff: 0.5
+    - _Desaturatecrystals: 0.5
+    - _DetailAlbedoMapScale: 1
+    - _DetailBrightness: 1
     - _DetailNormalMapScale: 1
+    - _DetailSaturation: 0
     - _DstBlend: 0
+    - _DstBlendAlpha: 0
+    - _EmissionIntensity: 1
+    - _EnableBottomAccum: 0
+    - _EnableTopAccum: 0
+    - _EnvironmentReflections: 1
+    - _ExcludeMask: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
+    - _GlossinessDetail: 0.5
     - _GlossyReflections: 1
+    - _GradientBottom: 5
+    - _GradientTop: 5
+    - _IntensityDotMask: 1
+    - _IntensityMask: 1
+    - _InvertABaseColor: 0
+    - _InvertMask: 0
     - _Metallic: 0
+    - _MetallicDetail: 0
+    - _MetallicUseTex: 1
     - _Mode: 0
+    - _NoiseScale: 10
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _ParallaxDetail: 0
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Saturation: 0
+    - _ScaleAmount: 0.0245
+    - _ShadowMask: 0
+    - _SharpenEdge: 10
+    - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
+    - _SmoothnessUseTex: 1
+    - _SnowAmount: 0.44
+    - _SnowAngle: 0.47
+    - _SnowBottomIntensity: 1
+    - _SnowTopIntensity: 1
+    - _SourceEdgeBlendTop: 0
+    - _SourceMask: 0
+    - _SparklePower: 2
+    - _SparkleSource: 2
     - _SpecularHighlights: 1
+    - _SpreadDetailMap: 0.5
+    - _SpreadDotMask: 0.5
     - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
+    - _TilingCrystals: 7
+    - _TilingDotMask: 5
+    - _TilingInstance: 1
+    - _TopCoverage: 0
+    - _TopCoverageMask: 0
     - _UVSec: 0
+    - _UseEmissionFromMainProperties: 0
+    - _VisualizeMask: 0
+    - _VisualizeSparkle: 0
+    - _WorkflowMode: 1
     - _ZWrite: 1
+    - __dirty: 1
     m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DetailColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GlobalXYTilingXYZWOffsetXY: {r: 1, g: 1, b: 0, a: 0}
+    - _GlobalXYTilingXYZWOffsetXYSnow: {r: 1, g: 1, b: 0, a: 0}
+    - _SnowDirection: {r: 0, g: 1, b: 0, a: 0}
+    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _TexColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!114 &521869863830412107
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9

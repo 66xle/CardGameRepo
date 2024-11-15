@@ -84,7 +84,7 @@ public class CardEditorWindow : BaseEditorWindow
             }
         };
 
-        list.Refresh();
+        list.Rebuild();
     }
 
     private void SetButtons()

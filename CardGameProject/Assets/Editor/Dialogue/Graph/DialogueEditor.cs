@@ -348,7 +348,7 @@ public class DialogueEditor : EditorWindow
             }
         };
 
-        eventList.Refresh();
+        eventList.Rebuild();
     }
 
     #endregion

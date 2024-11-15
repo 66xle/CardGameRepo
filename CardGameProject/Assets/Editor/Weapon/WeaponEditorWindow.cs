@@ -94,7 +94,7 @@ public class WeaponEditorWindow : BaseEditorWindow
             }
         };
 
-        list.Refresh();
+        list.Rebuild();
     }
 
     
