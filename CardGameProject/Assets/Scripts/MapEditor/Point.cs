@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Point : MonoBehaviour
 {
     public List<LinkData> links = new List<LinkData>();
 
-    public GameObject currentLinkObj;
+    public string guid;
 
+    public GameObject currentLinkObj;
+        
     public LayerMask mapLayerMask;
 
 
@@ -16,7 +19,7 @@ public class Point : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        guid = GUID.Generate().ToString();
     }
 
     // Update is called once per frame
