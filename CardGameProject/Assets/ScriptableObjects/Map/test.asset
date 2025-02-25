@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abcf72fa818e6274ab8f2e5c3d5a5af9, type: 3}
+  m_Name: test
+  m_EditorClassIdentifier: 
+  pointDataList:
+  - Guid: a9217ea1e7ea74048a912027e4ecfa82
+    Position: {x: -5.4123, y: 0.5120659, z: -1.5535021}
+    IsStart: 0
+    Connections:
+    - 6b780519575ab3941bfbe0bfb3fdeaea
+  - Guid: 6b780519575ab3941bfbe0bfb3fdeaea
+    Position: {x: -8.828209, y: 0.5120659, z: -0.451725}
+    IsStart: 0
+    Connections:
+    - a9217ea1e7ea74048a912027e4ecfa82
+    - 5b5d64d285a21da4d921925eceb23d33
+  - Guid: 5b5d64d285a21da4d921925eceb23d33
+    Position: {x: -7.825739, y: 0.5120659, z: -3.4558592}
+    IsStart: 0
+    Connections:
+    - 6b780519575ab3941bfbe0bfb3fdeaea
