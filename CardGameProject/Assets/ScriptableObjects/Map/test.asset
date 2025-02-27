@@ -13,19 +13,59 @@ MonoBehaviour:
   m_Name: test
   m_EditorClassIdentifier: 
   pointDataList:
-  - Guid: a9217ea1e7ea74048a912027e4ecfa82
-    Position: {x: -5.4123, y: 0.5120659, z: -1.5535021}
+  - Guid: 9e48bde0c40d74c4281ca310f5a1033c
+    Position: {x: 0.09149742, y: 0.5120659, z: -5.7353935}
     IsStart: 0
     Connections:
-    - 6b780519575ab3941bfbe0bfb3fdeaea
-  - Guid: 6b780519575ab3941bfbe0bfb3fdeaea
-    Position: {x: -8.828209, y: 0.5120659, z: -0.451725}
+    - targetGUID: 4bc3f0cff36f07940b02013fda8a59ac
+      linkGUID: 4ef73830d1205164fb596244812b2f50
+    - targetGUID: 034833d77071275458106262bfb4e026
+      linkGUID: 1b2fc59aa567a79408967a52435e3a3c
+  - Guid: 034833d77071275458106262bfb4e026
+    Position: {x: -3.826847, y: 0.5120659, z: -3.7460728}
     IsStart: 0
     Connections:
-    - a9217ea1e7ea74048a912027e4ecfa82
-    - 5b5d64d285a21da4d921925eceb23d33
-  - Guid: 5b5d64d285a21da4d921925eceb23d33
-    Position: {x: -7.825739, y: 0.5120659, z: -3.4558592}
+    - targetGUID: 4bc3f0cff36f07940b02013fda8a59ac
+      linkGUID: f51cda9f890a7834083b007e8cab607a
+    - targetGUID: 9e48bde0c40d74c4281ca310f5a1033c
+      linkGUID: 1b2fc59aa567a79408967a52435e3a3c
+  - Guid: 7a065487dceb06446b51213cddfc4933
+    Position: {x: -8.089552, y: 0.5120659, z: 3.9241123}
     IsStart: 0
     Connections:
-    - 6b780519575ab3941bfbe0bfb3fdeaea
+    - targetGUID: b7c76743ee284c446965e1ac69fd18fb
+      linkGUID: a7f3fb632c5689c4184f7f4b87d427a5
+    - targetGUID: b5b1158bf8eae404b9cb375c120e6435
+      linkGUID: 0c840e2eb0d967845869adc3f7fbdcfa
+  - Guid: b7c76743ee284c446965e1ac69fd18fb
+    Position: {x: -13.335983, y: 0.5120659, z: -0.2800932}
+    IsStart: 0
+    Connections:
+    - targetGUID: 7a065487dceb06446b51213cddfc4933
+      linkGUID: a7f3fb632c5689c4184f7f4b87d427a5
+    - targetGUID: 6d1b0451e7f996740b1149c7ef2bb4df
+      linkGUID: b007d5c97fc557a438bd17f5ec8683de
+    - targetGUID: b5b1158bf8eae404b9cb375c120e6435
+      linkGUID: dd5daaa9d922c60488fd9646cacbf4ef
+  - Guid: b5b1158bf8eae404b9cb375c120e6435
+    Position: {x: -5.2758408, y: 0.5120659, z: -0.12359524}
+    IsStart: 0
+    Connections:
+    - targetGUID: b7c76743ee284c446965e1ac69fd18fb
+      linkGUID: dd5daaa9d922c60488fd9646cacbf4ef
+    - targetGUID: 7a065487dceb06446b51213cddfc4933
+      linkGUID: 0c840e2eb0d967845869adc3f7fbdcfa
+  - Guid: 6d1b0451e7f996740b1149c7ef2bb4df
+    Position: {x: -9.248884, y: 0.5120659, z: -4.0498924}
+    IsStart: 0
+    Connections:
+    - targetGUID: b7c76743ee284c446965e1ac69fd18fb
+      linkGUID: b007d5c97fc557a438bd17f5ec8683de
+  - Guid: 4bc3f0cff36f07940b02013fda8a59ac
+    Position: {x: -0.04077339, y: 0.5120659, z: -1.6894388}
+    IsStart: 0
+    Connections:
+    - targetGUID: 034833d77071275458106262bfb4e026
+      linkGUID: f51cda9f890a7834083b007e8cab607a
+    - targetGUID: 9e48bde0c40d74c4281ca310f5a1033c
+      linkGUID: 4ef73830d1205164fb596244812b2f50

@@ -238,7 +238,7 @@ public class MapEditor : MonoBehaviour
 
     public void CreateLink()
     {
-        seletedObject.GetComponent<Point>().CreateLink(linkPrefab, linkHolder);
+        seletedObject.GetComponent<Point>().CreateLinkActive(linkPrefab, linkHolder);
 
         isLinkActive = true;
 

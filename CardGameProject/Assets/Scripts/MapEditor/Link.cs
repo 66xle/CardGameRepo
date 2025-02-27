@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public class Link : MonoBehaviour
 {
+    public string guid;
     public GameObject pointA;
     public GameObject pointB;
 
+
+    public void Start()
+    {
+        guid = GUID.Generate().ToString();
+    }
 
     public void DeleteLink()
     {

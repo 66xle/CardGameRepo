@@ -56,6 +56,11 @@ public class Point : MonoBehaviour
     public void CreateLink(GameObject linkPrefab, Transform parent)
     {
         currentLinkObj = Instantiate(linkPrefab, transform.position, Quaternion.identity, parent);
+    }
+
+    public void CreateLinkActive(GameObject linkPrefab, Transform parent)
+    {
+        currentLinkObj = Instantiate(linkPrefab, transform.position, Quaternion.identity, parent);
 
         isLinkActive = true;
     }

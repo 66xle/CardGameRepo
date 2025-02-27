@@ -11,6 +11,6 @@ public class PointData
     public Vector3 Position;
     public bool IsStart;
 
-    public List<string> Connections = new List<string>();
+    public List<Connection> Connections = new List<Connection>();
     
 }
