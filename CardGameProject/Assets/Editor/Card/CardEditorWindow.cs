@@ -45,7 +45,7 @@ public class CardEditorWindow : BaseEditorWindow
 
         SetupListView();
 
-        list.onSelectionChange += (enumerable) =>
+        list.selectionChanged += (enumerable) =>
         {
             foreach (UnityEngine.Object it in enumerable)
             {

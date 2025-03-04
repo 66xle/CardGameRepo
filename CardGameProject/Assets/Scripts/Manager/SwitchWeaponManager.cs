@@ -15,7 +15,7 @@ public class SwitchWeaponManager : MonoBehaviour
     [HideInInspector] public WeaponData currentMainHand;
     [HideInInspector] public WeaponData currentOffHand;
     [HideInInspector] public List<WeaponData> currentEquippedWeapons;
-    private List<CinemachineVirtualCamera> cameraList;
+    private List<CinemachineVirtualCamera> cameraList = new List<CinemachineVirtualCamera>();
 
     [Separator("Cameras")]
 
