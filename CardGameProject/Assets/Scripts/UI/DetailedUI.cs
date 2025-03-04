@@ -69,6 +69,7 @@ public class DetailedUI : MonoBehaviour
         {
             StatusEffectData data = enemy.listOfEffects[i];
 
+            // Check activeParent childs
             GameObject activeObj = GetEffectObject(activeParent, data.effectName);
             if (activeObj != null)
             {
@@ -77,6 +78,7 @@ public class DetailedUI : MonoBehaviour
                 continue;
             }
 
+            // Check deactiveParent childs
             GameObject deactiveObj = GetEffectObject(deactiveParent, data.effectName);
             if (deactiveObj != null)
             {

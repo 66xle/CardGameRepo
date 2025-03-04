@@ -96,6 +96,22 @@ public class Avatar : MonoBehaviour
 
     public void ApplyBleed(StatusEffect effectObject)
     {
+        // Check if bleed exists
+
+        for (int i = 0; i < listOfEffects.Count; i++)
+        {
+            StatusEffectData effectData = listOfEffects[i];
+
+            if (effectData.effect == effectObject.effect)
+            {
+                StatusBleed overiteEffect = effectObject as StatusBleed;
+
+                listOfEffects[i].turnRemaining = overiteEffect.turnsRemaning;
+                return;
+            }
+        }
+            
+
         StatusBleed effect = effectObject as StatusBleed;
         listOfEffects.Add(new StatusEffectData(effect.effect, effect.effectName, effect.turnsRemaning, effect.uiPrefab, reduceDmgPer: effect.reduceHealthPercentage));
     }
