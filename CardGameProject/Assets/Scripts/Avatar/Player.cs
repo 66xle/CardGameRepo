@@ -102,13 +102,13 @@ public class Player : Avatar
         currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
 
         healthBar.value = currentHealth / maxHealth;
-        healthValue.text = currentHealth.ToString() + " / " + maxHealth.ToString();
+        healthValue.text = currentHealth.ToString();
 
         staminaBar.value = currentStamina / maxStamina;
-        staminaValue.text = currentStamina.ToString() + " / " + maxStamina.ToString();
+        staminaValue.text = currentStamina.ToString();
 
         guardBar.value = (float)currentGuard / maxGuard;
-        guardValue.text = currentGuard.ToString() + " / " + maxGuard.ToString();
+        guardValue.text = currentGuard.ToString();
 
         blockValue.text = currentBlock.ToString();
     }
