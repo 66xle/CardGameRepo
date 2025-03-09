@@ -7,6 +7,7 @@ public class StatusGuardBroken : StatusEffect
 {
     public int numberOfHitsToRecover;
     [Range(0, 1)] public float extraDamagePercentage;
+    public bool removeEffectNextTurn;
 
     public StatusGuardBroken()
     {

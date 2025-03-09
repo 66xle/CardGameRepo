@@ -32,6 +32,8 @@ public class Avatar : MonoBehaviour
     [HideInInspector] public bool attackFinished;
 
     [HideInInspector] public bool isInCounterState;
+    [HideInInspector] public bool isInStatusActivation;
+    [HideInInspector] public bool doStatusDmg;
 
     protected float currentHealth;
     protected float currentBlock = 0f;
@@ -91,7 +93,7 @@ public class Avatar : MonoBehaviour
     public virtual void ApplyGuardBreak(StatusEffect effectObject)
     {
         StatusGuardBroken effect = effectObject as StatusGuardBroken;
-        listOfEffects.Add(new StatusEffectData(effect.effect, effect.effectName, effect.turnsRemaning, effect.uiPrefab, numHitToRecover: effect.numberOfHitsToRecover, extraDmgPer: effect.extraDamagePercentage));
+        listOfEffects.Add(new StatusEffectData(effect.effect, effect.effectName, effect.turnsRemaning, effect.uiPrefab, numHitToRecover: effect.numberOfHitsToRecover, extraDmgPer: effect.extraDamagePercentage, nextTurn: effect.removeEffectNextTurn));
     }
 
     public void ApplyBleed(StatusEffect effectObject)

@@ -10,12 +10,13 @@ public class StatusEffectData
     public float reduceDamagePercentage;
     public float extraDamagePercentage;
     public int numberOfHitsToRecover;
+    public int stacks;
 
     public bool removeEffectNextTurn;
 
     public GameObject uiPrefab;
 
-    public StatusEffectData(Effect effect, string name, int turnRemaining, GameObject prefab, float reduceDmgPer = 0f, int numHitToRecover = 0, float extraDmgPer = 0f, bool nextTurn = false)
+    public StatusEffectData(Effect effect, string name, int turnRemaining, GameObject prefab, float reduceDmgPer = 0f, int numHitToRecover = 0, float extraDmgPer = 0f, bool nextTurn = false, int stacks = 0)
     {
         // Required
         this.effect = effect;
@@ -28,6 +29,7 @@ public class StatusEffectData
         numberOfHitsToRecover = numHitToRecover;
         extraDamagePercentage = extraDmgPer;
         removeEffectNextTurn = nextTurn;
+        this.stacks = stacks;
     }
 
 }

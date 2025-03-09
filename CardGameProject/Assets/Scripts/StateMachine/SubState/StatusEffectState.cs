@@ -7,6 +7,8 @@ using UnityEngine.Rendering;
 public class StatusEffectState : CombatBaseState
 {
     Avatar currentAvatarSelected;
+    bool doRecoverGuardBreak;
+    bool isStatusEffectFinished;
 
     public StatusEffectState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso) { }
 
@@ -32,7 +34,12 @@ public class StatusEffectState : CombatBaseState
 
         #endregion
 
-        CheckStatusEffect();
+        currentAvatarSelected.isInStatusActivation = true;
+        currentAvatarSelected.doStatusDmg = false;
+        doRecoverGuardBreak = false;
+        isStatusEffectFinished = false;
+
+        ctx.StartCoroutine(CheckStatusEffect());
     }
     public override void UpdateState()
     {
@@ -52,7 +59,7 @@ public class StatusEffectState : CombatBaseState
         {
             SwitchState(factory.Draw());
         }
-        else
+        else if (isStatusEffectFinished)
         {
             if (ctx.skipTurn || currentAvatarSelected.IsAvatarDead())
             {
@@ -66,8 +73,10 @@ public class StatusEffectState : CombatBaseState
     }
     public override void InitializeSubState() { }
 
-    void CheckStatusEffect()
+    IEnumerator CheckStatusEffect()
     {
+        List<StatusEffectData> statusQueue = new List<StatusEffectData>();
+
         for (int i = currentAvatarSelected.listOfEffects.Count - 1; i >= 0; i--)
         {
             StatusEffectData currentEffect = currentAvatarSelected.listOfEffects[i];
@@ -75,7 +84,7 @@ public class StatusEffectState : CombatBaseState
             // Check effect
             if (currentAvatarSelected.listOfEffects[i].turnRemaining > 0)
             {
-                ActivateEffect(currentEffect);
+                statusQueue.Add(currentEffect);
                 IsAvatarDead();
             }
 
@@ -93,10 +102,9 @@ public class StatusEffectState : CombatBaseState
 
                 if (currentEffect.effect == Effect.GuardBroken)
                 {
-                    currentAvatarSelected.RecoverGuardBreak();
+                    doRecoverGuardBreak = true;
                 }
 
-                
 
                 currentAvatarSelected.listOfEffects.RemoveAt(i);
 
@@ -109,7 +117,24 @@ public class StatusEffectState : CombatBaseState
             }
         }
 
+        if (doRecoverGuardBreak)
+        {
+            currentAvatarSelected.RecoverGuardBreak();
+
+            yield return new WaitForSeconds(1f);
+        }
+        
+
+        foreach (StatusEffectData effect in statusQueue)
+        {
+            ActivateEffect(effect);
+
+            yield return new WaitForSeconds(0.3f);
+        }
+
         currentAvatarSelected.DisplayStats();
+
+        isStatusEffectFinished = true;
     }
 
     public void ActivateEffect(StatusEffectData data)
