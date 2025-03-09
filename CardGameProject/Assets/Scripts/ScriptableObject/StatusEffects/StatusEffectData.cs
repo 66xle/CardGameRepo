@@ -16,7 +16,8 @@ public class StatusEffectData
 
     public GameObject uiPrefab;
 
-    public StatusEffectData(Effect effect, string name, int turnRemaining, GameObject prefab, float reduceDmgPer = 0f, int numHitToRecover = 0, float extraDmgPer = 0f, bool nextTurn = false, int stacks = 0)
+    public StatusEffectData(Effect effect, string name, int turnRemaining, GameObject prefab, float reduceDmgPer = 0f, int numHitToRecover = 0, float extraDmgPer = 0f, bool nextTurn = false,
+                            bool stackable = false)
     {
         // Required
         this.effect = effect;
@@ -29,7 +30,10 @@ public class StatusEffectData
         numberOfHitsToRecover = numHitToRecover;
         extraDamagePercentage = extraDmgPer;
         removeEffectNextTurn = nextTurn;
-        this.stacks = stacks;
+
+        if (stackable)
+            stacks = 1;
+
     }
 
 }

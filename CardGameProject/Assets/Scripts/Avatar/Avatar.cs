@@ -99,7 +99,6 @@ public class Avatar : MonoBehaviour
     public void ApplyBleed(StatusEffect effectObject)
     {
         // Check if bleed exists
-
         for (int i = 0; i < listOfEffects.Count; i++)
         {
             StatusEffectData effectData = listOfEffects[i];
@@ -109,13 +108,14 @@ public class Avatar : MonoBehaviour
                 StatusBleed overiteEffect = effectObject as StatusBleed;
 
                 listOfEffects[i].turnRemaining = overiteEffect.turnsRemaning;
+                listOfEffects[i].stacks++;
                 return;
             }
         }
             
 
         StatusBleed effect = effectObject as StatusBleed;
-        listOfEffects.Add(new StatusEffectData(effect.effect, effect.effectName, effect.turnsRemaning, effect.uiPrefab, reduceDmgPer: effect.reduceHealthPercentage));
+        listOfEffects.Add(new StatusEffectData(effect.effect, effect.effectName, effect.turnsRemaning, effect.uiPrefab, reduceDmgPer: effect.reduceHealthPercentage, stackable: effect.stackable));
     }
 
     #endregion
@@ -135,9 +135,9 @@ public class Avatar : MonoBehaviour
         return false;
     }
 
-    public void ReduceHealth(float percentage)
+    public void ReduceHealth(float percentage, int stacks)
     {
-        currentHealth -= maxHealth * percentage;
+        currentHealth -= maxHealth * (percentage * stacks);
     }
 
     public float DoExtraDmgCheck(float damage)

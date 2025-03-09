@@ -124,8 +124,11 @@ public class DetailedUI : MonoBehaviour
 
     void UpdateStatusUI(int index, GameObject effectObj, StatusEffectData data)
     {
-        effectObj.GetComponent<RectTransform>().position = new Vector3(activeParent.transform.position.x + (effectUIOffset * index), activeParent.transform.position.y, activeParent.transform.position.z);
-        effectObj.GetComponentInChildren<TMP_Text>().text = data.turnRemaining.ToString();
+        effectObj.GetComponent<RectTransform>().localPosition = new Vector3(activeParent.transform.localPosition.x + (effectUIOffset * index), activeParent.transform.localPosition.y, activeParent.transform.localPosition.z);
+        
+        if (data.stacks > 0)
+            effectObj.GetComponentInChildren<TMP_Text>().text = data.stacks.ToString();
+
     }
 
 

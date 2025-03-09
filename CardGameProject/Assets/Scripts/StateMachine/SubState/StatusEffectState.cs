@@ -141,7 +141,7 @@ public class StatusEffectState : CombatBaseState
     {
         if (data.effect == Effect.Bleed)
         {
-            currentAvatarSelected.ReduceHealth(data.reduceDamagePercentage);
+            currentAvatarSelected.ReduceHealth(data.reduceDamagePercentage, data.stacks);
             // Play Bleed effect
         }
 
