@@ -8,7 +8,8 @@ public enum Effect
 {
     Stunned,
     GuardBroken,
-    Bleed
+    Bleed,
+    Poison
 }
 
 

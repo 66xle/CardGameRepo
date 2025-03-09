@@ -145,6 +145,11 @@ public class StatusEffectState : CombatBaseState
             // Play Bleed effect
         }
 
+        if (data.effect == Effect.Poison)
+        {
+            currentAvatarSelected.ReduceHealth(data.reduceDamagePercentage);
+        }
+
 
         if (data.effect == Effect.GuardBroken)
         {

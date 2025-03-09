@@ -118,6 +118,25 @@ public class Avatar : MonoBehaviour
         listOfEffects.Add(new StatusEffectData(effect.effect, effect.effectName, effect.turnsRemaning, effect.uiPrefab, reduceDmgPer: effect.reduceHealthPercentage, stackable: effect.stackable));
     }
 
+    public void ApplyPoison(StatusEffect effectObject)
+    {
+        for (int i = 0; i < listOfEffects.Count; i++)
+        {
+            StatusEffectData effectData = listOfEffects[i];
+
+            if (effectData.effect == effectObject.effect)
+            {
+                StatusPoison overiteEffect = effectObject as StatusPoison;
+
+                listOfEffects[i].turnRemaining = overiteEffect.turnsRemaning;
+                return;
+            }
+        }
+
+        StatusPoison effect = effectObject as StatusPoison;
+        listOfEffects.Add(new StatusEffectData(effect.effect, effect.effectName, effect.turnsRemaning, effect.uiPrefab, reduceDmgPer: effect.reduceHealthPercentage));
+    }
+
     #endregion
 
     #region Status Effects Methods
@@ -135,7 +154,7 @@ public class Avatar : MonoBehaviour
         return false;
     }
 
-    public void ReduceHealth(float percentage, int stacks)
+    public void ReduceHealth(float percentage, int stacks = 1)
     {
         currentHealth -= maxHealth * (percentage * stacks);
     }

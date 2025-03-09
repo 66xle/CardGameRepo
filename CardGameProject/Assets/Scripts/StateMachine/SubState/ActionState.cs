@@ -280,6 +280,10 @@ public class ActionState : CombatBaseState
         {
             targetAvatar.ApplyBleed(effectObj);
         }
+        else if (effect == Effect.Poison)
+        {
+            targetAvatar.ApplyPoison(effectObj);
+        }
     }
 
 
