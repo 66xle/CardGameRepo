@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Rendering;
+using Cinemachine;
 
 public class StatusEffectState : CombatBaseState
 {
@@ -19,8 +20,6 @@ public class StatusEffectState : CombatBaseState
         ctx.skipTurn = false;
 
         #region Decide Which Side Acts
-
-
 
 
         if (ctx.currentState.ToString() == PLAYERSTATE)
@@ -117,20 +116,32 @@ public class StatusEffectState : CombatBaseState
             }
         }
 
-        if (doRecoverGuardBreak)
+        if (doRecoverGuardBreak || statusQueue.Count > 0)
         {
-            currentAvatarSelected.RecoverGuardBreak();
+            // Switch camera for enemy
+            if (ctx.currentState.ToString() != PLAYERSTATE)
+                ActivateStatusCamera();
 
-            yield return new WaitForSeconds(1f);
+            if (doRecoverGuardBreak)
+            {
+                currentAvatarSelected.RecoverGuardBreak();
+
+                yield return new WaitForSeconds(1f);
+            }
+
+
+            foreach (StatusEffectData effect in statusQueue)
+            {
+                ActivateEffect(effect);
+
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            // Deactive camera
+            if (ctx.currentState.ToString() != PLAYERSTATE)
+                DeactivateStatusCamera();
         }
-        
 
-        foreach (StatusEffectData effect in statusQueue)
-        {
-            ActivateEffect(effect);
-
-            yield return new WaitForSeconds(0.3f);
-        }
 
         currentAvatarSelected.DisplayStats();
 
@@ -181,5 +192,18 @@ public class StatusEffectState : CombatBaseState
         }
     }
 
-    
+    public void ActivateStatusCamera()
+    {
+        CinemachineVirtualCamera vcam = currentAvatarSelected.transform.parent.GetChild(0).GetComponent<CinemachineVirtualCamera>();
+        vcam.Priority = 40;
+    }
+
+    public void DeactivateStatusCamera()
+    {
+        CinemachineVirtualCamera vcam = currentAvatarSelected.transform.parent.GetChild(0).GetComponent<CinemachineVirtualCamera>();
+        vcam.Priority = 0;
+    }
+
+
+
 }
