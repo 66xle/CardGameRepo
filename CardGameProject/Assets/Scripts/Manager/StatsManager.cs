@@ -20,7 +20,7 @@ public class StatsManager : MonoBehaviour
     [Range(0, 2)] public float heavyMultiplier;
 
 
-    void Start() // Initalise variables for now
+    void Awake() // Initalise variables for now
     {
         currentMaxHealth = baseHealth;
         currentMaxGuard = baseGuard;

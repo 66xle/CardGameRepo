@@ -78,6 +78,8 @@ public class CombatStateMachine : MonoBehaviour
     public CombatUIManager combatUIManager;
     public EventDisplay eventDisplay;
     public CardManager cardManager;
+    public EnemyManager enemyManager;
+    
     
 
     #region Internal Variables
@@ -105,6 +107,27 @@ public class CombatStateMachine : MonoBehaviour
     {
         this.nodeData = nodeData;
 
+        isPlayedCard = false;
+        cardPlayed = null;
+        isPlayState = false;
+        pressedEndTurnButton = false;
+        enemyTurnDone = false;
+        skipTurn = false;
+
+        enemyList = new List<Enemy>();
+        discardPile = new List<Card>();
+        enemyCardQueue = new List<Card>();
+
+        LoadPlayer();
+        LoadEnemy();
+
+        states = new CombatStateFactory(this, vso);
+        currentState = new PlayerState(this, states, vso);
+        currentState.EnterState();
+    }
+
+    public void Start()
+    {
         isPlayedCard = false;
         cardPlayed = null;
         isPlayState = false;
@@ -184,7 +207,9 @@ public class CombatStateMachine : MonoBehaviour
 
     private void LoadEnemy()
     {
-        List<EnemyObj> enemyObjList = nodeData.enemies;
+        //List<EnemyObj> enemyObjList = nodeData.enemies;
+        List<EnemyObj> enemyObjList = enemyManager.enemies;
+
 
         // Spawn Enemy
         for (int i = 0; i < enemyObjList.Count; i++)
@@ -328,7 +353,7 @@ public class CombatStateMachine : MonoBehaviour
                 {
                     ClearCombatScene();
 
-                    eventDisplay.FinishCombatEvent();
+                    //eventDisplay.FinishCombatEvent();
                 }
 
                 #endregion
