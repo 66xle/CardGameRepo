@@ -169,6 +169,14 @@ public class ActionState : CombatBaseState
 
         isInAction = false;
         Debug.Log("Finished Attacking");
+
+
+
+        if (ctx.currentState.ToString() == PLAYERSTATE)
+            ctx.AvatarDeath(avatarOpponent, "Enemy");
+        else
+            ctx.AvatarDeath(avatarOpponent, "Player");
+
     }
 
 
@@ -195,8 +203,6 @@ public class ActionState : CombatBaseState
                 ApplyGuardBroken();
             }
         }
-
-        ctx.AvatarDeath(avatarOpponent, "Enemy");
     }
 
     private void Defend(Card cardPlayed)

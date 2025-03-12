@@ -79,6 +79,8 @@ public class CombatStateMachine : MonoBehaviour
     public EventDisplay eventDisplay;
     public CardManager cardManager;
     public EnemyManager enemyManager;
+    public GameObject rewardUI;
+    public GameObject gameOverUI;
     
     
 
@@ -353,6 +355,8 @@ public class CombatStateMachine : MonoBehaviour
                 {
                     ClearCombatScene();
 
+                    RewardUI();
+
                     //eventDisplay.FinishCombatEvent();
                 }
 
@@ -363,11 +367,24 @@ public class CombatStateMachine : MonoBehaviour
                 #region Player
 
                 // Game over UI
+                GameOverUI();
 
                 #endregion
 
             }
         }
+    }
+
+    public void RewardUI()
+    {
+        rewardUI.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void GameOverUI()
+    {
+        gameOverUI.SetActive(true);
+        Time.timeScale = 0;
     }
 
     #endregion
