@@ -156,7 +156,7 @@ public class CombatStateMachine : MonoBehaviour
             subState = currentState.currentSubState.ToString();
         }
 
-        if (inputManager.leftClickInputDown && isPlayState)
+        if (inputManager.leftClickInputDown && isPlayState && Time.timeScale == 1)
         {
             SelectEnemy();
         }

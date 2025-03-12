@@ -24,7 +24,10 @@ namespace demo {
         private Dictionary<CardWrapper, Transform> previews = new Dictionary<CardWrapper, Transform>();
         
         public void OnCardHover(CardHover cardHover) {
-            OnCardPreviewStarted(cardHover.card);
+
+            if (Time.timeScale == 1)
+                OnCardPreviewStarted(cardHover.card);
+
         }
         
         public void OnCardUnhover(CardUnhover cardUnhover) {
@@ -43,7 +46,6 @@ namespace demo {
             RectTransform cardPos = card.GetComponent<RectTransform>();
             previewPos.localPosition = new Vector3(previewPos.localPosition.x, verticalPosition, previewPos.localPosition.z);
             previewPos.position = new Vector3(card.transform.position.x, previewPos.transform.position.y, card.transform.position.z);
-            //cardPos = 
         }
 
         private void CreateCloneForCard(CardWrapper card) {
