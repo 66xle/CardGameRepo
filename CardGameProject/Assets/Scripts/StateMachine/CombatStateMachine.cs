@@ -57,8 +57,7 @@ public class CombatStateMachine : MonoBehaviour
     public GameObject cardPrefab;
     public Transform playerHand;
     public Transform displayCard;
-    [HideInInspector] public List<Card> discardPile;
-    [HideInInspector] public List<Card> enemyCardQueue;
+    
 
     [Foldout("StatusEffectObj", true)]
     public StatusEffect guardBreakLightArmour;
@@ -105,28 +104,7 @@ public class CombatStateMachine : MonoBehaviour
 
     #endregion
 
-    public void Init(DialogueNodeData nodeData)
-    {
-        this.nodeData = nodeData;
 
-        isPlayedCard = false;
-        cardPlayed = null;
-        isPlayState = false;
-        pressedEndTurnButton = false;
-        enemyTurnDone = false;
-        skipTurn = false;
-
-        enemyList = new List<Enemy>();
-        discardPile = new List<Card>();
-        enemyCardQueue = new List<Card>();
-
-        LoadPlayer();
-        LoadEnemy();
-
-        states = new CombatStateFactory(this, vso);
-        currentState = new PlayerState(this, states, vso);
-        currentState.EnterState();
-    }
 
     public void Start()
     {
@@ -138,8 +116,8 @@ public class CombatStateMachine : MonoBehaviour
         skipTurn = false;
 
         enemyList = new List<Enemy>();
-        discardPile = new List<Card>();
-        enemyCardQueue = new List<Card>();
+        cardManager.discardPile = new List<Card>();
+        cardManager.enemyCardQueue = new List<Card>();
 
         LoadPlayer();
         LoadEnemy();
@@ -249,7 +227,7 @@ public class CombatStateMachine : MonoBehaviour
             {
                 player.ConsumeStamina(card.cost);
 
-                discardPile.Add(card);
+                cardManager.discardPile.Add(card);
 
                 // Destory Card
                 CardContainer container = playerHand.GetComponent<CardContainer>();

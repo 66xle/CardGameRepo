@@ -1832,7 +1832,7 @@ GameObject:
   - component: {fileID: 467955061}
   - component: {fileID: 467955062}
   m_Layer: 0
-  m_Name: TurnBaseSystem
+  m_Name: CombatStateMachine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1898,8 +1898,6 @@ MonoBehaviour:
   cardPrefab: {fileID: 7406141934112961317, guid: f40acb07258ef8741bc094a7dcd310cf, type: 3}
   playerHand: {fileID: 347342559}
   displayCard: {fileID: 1574049916}
-  discardPile: []
-  enemyCardQueue: []
   guardBreakLightArmour: {fileID: 11400000, guid: 22974f550817d694a9585e4c24e462df, type: 2}
   guardBreakMediumArmour: {fileID: 11400000, guid: b1df9181f8abd10449f8e576b86ffcc3, type: 2}
   guardBreakHeavyArmour: {fileID: 11400000, guid: 51d93ea6466088b4c828670f7c81a7ba, type: 2}
@@ -5087,12 +5085,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1cb70d12e1ad34419239db382130c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerDeck:
-  - {fileID: 11400000, guid: 38fce7d3e7fa4834d88c29a8e87c113d, type: 2}
-  - {fileID: 11400000, guid: 38fce7d3e7fa4834d88c29a8e87c113d, type: 2}
-  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
-  - {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
-  - {fileID: 11400000, guid: 3bb4ed6f7d8b86947a5c35a5d85c92b6, type: 2}
+  playerDeck: []
+  discardPile: []
+  enemyCardQueue: []
 --- !u!4 &1150495171
 Transform:
   m_ObjectHideFlags: 0

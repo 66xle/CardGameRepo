@@ -12,7 +12,7 @@ public class EnemyDrawState : CombatBaseState
     {
         Debug.Log("Enemy Draw State");
 
-        ctx.enemyCardQueue.Clear();
+        ctx.cardManager.enemyCardQueue.Clear();
 
         DrawCards();
     }
@@ -38,6 +38,6 @@ public class EnemyDrawState : CombatBaseState
     {
         List<Card> cards = ctx.currentEnemyTurn.GetComponent<Enemy>().DrawCards();
 
-        ctx.enemyCardQueue.AddRange(cards);
+        ctx.cardManager.enemyCardQueue.AddRange(cards);
     }
 }

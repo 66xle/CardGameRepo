@@ -196,7 +196,7 @@ public class EventDisplay : MonoBehaviour
         combatScene.SetActive(true);
         mapScene.SetActive(false);
 
-        turnBaseSystem.Init(currentNode);
+        //turnBaseSystem.Init(currentNode);
     }    
 
     public void FinishCombatEvent()

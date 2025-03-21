@@ -37,8 +37,8 @@ public class DrawState : CombatBaseState
             if (cm.playerDeck.Count <= 0)
             {
                 // Reset deck and clear discard pile
-                cm.playerDeck = new List<Card>(ctx.discardPile);
-                ctx.discardPile.Clear();
+                cm.playerDeck = new List<Card>(cm.discardPile);
+                cm.discardPile.Clear();
 
                 // Shuffle deck
                 Extensions.Shuffle(cm.playerDeck);

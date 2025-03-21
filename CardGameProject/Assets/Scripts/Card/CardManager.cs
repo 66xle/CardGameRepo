@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class CardManager : MonoBehaviour
 {
-    [Header("Card References")]
-    public List<Card> playerDeck;
-
-    private List<Card> cards;
+    [HideInInspector] public List<Card> playerDeck;
+    [HideInInspector] public List<Card> discardPile;
+    [HideInInspector] public List<Card> enemyCardQueue;
 }

@@ -74,7 +74,7 @@ public class ActionState : CombatBaseState
     private IEnumerator EnemyTurnPlayCard()
     {
         // Play all enemy cards in queue
-        foreach (Card cardPlayed in ctx.enemyCardQueue)
+        foreach (Card cardPlayed in ctx.cardManager.enemyCardQueue)
         {
             if (isInAction)
                 yield return new WaitForEndOfFrame();
