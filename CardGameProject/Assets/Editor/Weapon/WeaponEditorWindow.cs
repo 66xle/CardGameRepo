@@ -59,7 +59,7 @@ public class WeaponEditorWindow : BaseEditorWindow
 
         SetupListView();
 
-        list.onSelectionChange += (enumerable) =>
+        list.selectionChanged += (enumerable) =>
         {
             foreach (UnityEngine.Object it in enumerable)
             {

@@ -1,22 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<engine:UXML
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:engine="UnityEngine.UIElements"
-    xmlns:editor="UnityEditor.UIElements"
-    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
->
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <engine:Box name="toolbar">
-        <engine:Button text="Add Weapon" name="add-weapon"/>
-        <engine:Button text="Delete Weapon" name="delete-weapon"/>
-        <engine:Button text="Rename Weapon" name="rename-weapon"/>
+        <engine:Button text="Add Weapon" name="add-weapon" />
+        <engine:Button text="Delete Weapon" name="delete-weapon" />
+        <engine:Button text="Rename Weapon" name="rename-weapon" />
     </engine:Box>
     <engine:Box name="container">
-        <engine:ListView name="weapon-list"/>
+        <engine:ListView name="weapon-list" />
         <engine:Box name="weapon">
             <engine:Box name="object-preview" />
-            <engine:ScrollView name="weapon-info-scroll">
-                <engine:Box name="weapon-info"/>
-            </engine:ScrollView>
         </engine:Box>
+        <engine:ScrollView name="weapon-info-scroll" style="position: absolute; left: auto; right: 0; bottom: 0; top: 0;">
+            <engine:Box name="weapon-info" />
+        </engine:ScrollView>
     </engine:Box>
 </engine:UXML>

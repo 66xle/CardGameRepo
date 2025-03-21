@@ -19,7 +19,7 @@
 {
 	height: 500px;
 	width: 200px;
-	align-self: center;
+	
 
 	martin-top: 15px;
 
@@ -30,44 +30,44 @@
 {
 	height: 500px;
 	width: 200px;
-	align-self: center;
+	
 	position: absolute;
 }
 
 #title
 {
-	top: -192px;
+	top: -200px;
 	left: 253px;
 	width: 75px;
 	-unity-text-align: middle-center;
 	-unity-font: resource("Assets/Textures/Cards/Fonts/Assassins Font/Assassin$.ttf");
-	font-size: 20px;
+	font-size: 18px;
 }
 
 #description
 {
-	top: 335px;
+	top: 330px;
 	left: 214px;
 	width: 147px;
 	height: 50px;
 	white-space: normal;
 	-unity-text-align: middle-center;
 	-unity-font: resource("Assets/Textures/Cards/Fonts/Libre Baskerville/LibreBaskerville-Regular.ttf");
-	font-size: 10px;
+	font-size: 8px;
 	color: #8C7864;
 	position: absolute;
 }
 
 #flavour
 {
-	top: 390px;
+	top: 380px;
 	left: 224px;
 	width: 130px;
 	height: 42px;
 	white-space: normal;
 	-unity-text-align: middle-center;
 	-unity-font: resource("Assets/Textures/Cards/Fonts/Libre Baskerville/LibreBaskerville-Italic.ttf");
-	font-size: 10px;
+	font-size: 6px;
 	color: #616161;
 	position: absolute;
 }
@@ -109,7 +109,15 @@
 	flex-direction: row;
 }
 
+#unity-list-selfEffects
+{
+	width: 400px;
+}
 
+#unity-list-applyEffects
+{
+	width: 400px;
+}
 
 Button
 {
