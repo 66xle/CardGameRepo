@@ -74,7 +74,7 @@ public class ActionState : CombatBaseState
     private IEnumerator EnemyTurnPlayCard()
     {
         // Play all enemy cards in queue
-        foreach (Card cardPlayed in ctx.cardManager.enemyCardQueue)
+        foreach (CardData cardPlayed in ctx.cardManager.enemyCardQueue)
         {
             if (isInAction)
                 yield return new WaitForEndOfFrame();
@@ -83,8 +83,11 @@ public class ActionState : CombatBaseState
         }
     }
 
-    private IEnumerator PlayCard(Card cardPlayed)
+    private IEnumerator PlayCard(CardData cardData)
     {
+        WeaponData weapon = cardData.weapon;
+        Card cardPlayed = cardData.card;
+
         isInAction = true;
         hasAttacked = false;
         isPlayingCard = true;
@@ -135,7 +138,7 @@ public class ActionState : CombatBaseState
             }
             else
             {
-                Attack(cardPlayed);
+                Attack(cardPlayed, weapon);
             }
         }
         else if (cardPlayed.cardType == Type.Counter)
@@ -187,12 +190,12 @@ public class ActionState : CombatBaseState
 
     #region Card Type
 
-    private void Attack(Card cardPlayed)
+    private void Attack(Card cardPlayed, WeaponData weapon)
     {
         float damage = cardPlayed.value;
         avatarOpponent.TakeDamage(damage);
 
-        ReduceGuard();
+        ReduceGuard(weapon.type);
 
         if (avatarOpponent.IsAvatarDead())
         {
@@ -249,11 +252,11 @@ public class ActionState : CombatBaseState
         }
     }
 
-    private void ReduceGuard()
+    private void ReduceGuard(DamageType type)
     {
-        if (avatarOpponent.armourType == ArmourType.Light && avatarPlayingCard.damageType == DamageType.Slash ||
-            avatarOpponent.armourType == ArmourType.Medium && avatarPlayingCard.damageType == DamageType.Pierce ||
-            avatarOpponent.armourType == ArmourType.Heavy && avatarPlayingCard.damageType == DamageType.Blunt ||
+        if (avatarOpponent.armourType == ArmourType.Light && type == DamageType.Slash ||
+            avatarOpponent.armourType == ArmourType.Medium && type == DamageType.Pierce ||
+            avatarOpponent.armourType == ArmourType.Heavy && type == DamageType.Blunt ||
             avatarOpponent.armourType == ArmourType.None)
         {
             avatarOpponent.ReduceGuard();

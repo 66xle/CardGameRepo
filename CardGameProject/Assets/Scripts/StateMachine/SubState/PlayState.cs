@@ -13,7 +13,6 @@ public class PlayState : CombatBaseState
         Debug.Log("Play State");
 
         ctx.isPlayedCard = false;
-        ctx.cardPlayed = null;
         
 
         ctx.isPlayState = true;

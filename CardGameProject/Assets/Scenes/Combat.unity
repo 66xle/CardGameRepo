@@ -1387,8 +1387,8 @@ MonoBehaviour:
   equippedWeapons:
   - {fileID: 11400000, guid: b1486cd1dbe26ad4bb9faacfcd3676cb, type: 2}
   - {fileID: 11400000, guid: b1486cd1dbe26ad4bb9faacfcd3676cb, type: 2}
-  - {fileID: 11400000, guid: 66a6de7f3ad13ef4fabae90577c5ed63, type: 2}
-  - {fileID: 11400000, guid: 0ed5cab276926d248893d6659fea0c62, type: 2}
+  - {fileID: 11400000, guid: b1486cd1dbe26ad4bb9faacfcd3676cb, type: 2}
+  - {fileID: 11400000, guid: b1486cd1dbe26ad4bb9faacfcd3676cb, type: 2}
 --- !u!4 &393357798
 Transform:
   m_ObjectHideFlags: 0
@@ -1965,7 +1965,6 @@ MonoBehaviour:
   pressedEndTurnButton: 0
   enemyTurnDone: 0
   skipTurn: 0
-  cardPlayed: {fileID: 0}
   selectedEnemyToAttack: {fileID: 0}
   vso: {fileID: 0}
 --- !u!1 &474643709
@@ -5085,9 +5084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1cb70d12e1ad34419239db382130c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerDeck: []
-  discardPile: []
-  enemyCardQueue: []
+  equipmentManager: {fileID: 393357797}
 --- !u!4 &1150495171
 Transform:
   m_ObjectHideFlags: 0

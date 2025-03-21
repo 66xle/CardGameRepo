@@ -93,7 +93,7 @@ public class CombatStateMachine : MonoBehaviour
     [ReadOnly] public bool enemyTurnDone;
     [ReadOnly] public bool skipTurn;
 
-    [HideInInspector] public Card cardPlayed;
+    [HideInInspector] public CardData cardPlayed;
     [HideInInspector] public Enemy selectedEnemyToAttack;
 
     [HideInInspector] public VariableScriptObject vso; // Not using for now
@@ -109,15 +109,12 @@ public class CombatStateMachine : MonoBehaviour
     public void Start()
     {
         isPlayedCard = false;
-        cardPlayed = null;
         isPlayState = false;
         pressedEndTurnButton = false;
         enemyTurnDone = false;
         skipTurn = false;
 
         enemyList = new List<Enemy>();
-        cardManager.discardPile = new List<Card>();
-        cardManager.enemyCardQueue = new List<Card>();
 
         LoadPlayer();
         LoadEnemy();
@@ -227,7 +224,8 @@ public class CombatStateMachine : MonoBehaviour
             {
                 player.ConsumeStamina(card.cost);
 
-                cardManager.discardPile.Add(card);
+                CardData cardData = cardManager.playerDeck.First(data => data.card == card);
+                cardManager.discardPile.Add(cardData);
 
                 // Destory Card
                 CardContainer container = playerHand.GetComponent<CardContainer>();
@@ -235,7 +233,7 @@ public class CombatStateMachine : MonoBehaviour
 
                 // Allow to switch to attack state
                 isPlayedCard = true;
-                cardPlayed = card;
+                cardPlayed = cardData;
             }
         }
         else if (tag == "Recycle")
@@ -259,9 +257,9 @@ public class CombatStateMachine : MonoBehaviour
 
     #region Used by StateMachine
 
-    public void CreateCard(Card cardDrawed, Transform parent)
+    public void CreateCard(CardData cardDrawed, Transform parent)
     {
-        Instantiate(cardPrefab, parent).GetComponent<CardDisplay>().card = cardDrawed;
+        Instantiate(cardPrefab, parent).GetComponent<CardDisplay>().card = cardDrawed.card;
     }
 
     public void EndTurn()

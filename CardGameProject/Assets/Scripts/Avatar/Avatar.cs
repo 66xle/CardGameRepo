@@ -4,20 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-public enum ArmourType
-{
-    None,
-    Light,
-    Medium,
-    Heavy
-}
 
-public enum DamageType
-{
-    Slash,
-    Pierce,
-    Blunt
-}
 
 public class Avatar : MonoBehaviour
 {

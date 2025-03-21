@@ -1,6 +1,7 @@
 using events;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -38,6 +39,9 @@ public class EnemyDrawState : CombatBaseState
     {
         List<Card> cards = ctx.currentEnemyTurn.GetComponent<Enemy>().DrawCards();
 
-        ctx.cardManager.enemyCardQueue.AddRange(cards);
+        WeaponData weapon = new WeaponData();
+        weapon.type = ctx.currentEnemyTurn.damageType;
+
+        ctx.cardManager.enemyCardQueue.AddRange(cards.Select(card => new CardData(weapon, card)));
     }
 }
