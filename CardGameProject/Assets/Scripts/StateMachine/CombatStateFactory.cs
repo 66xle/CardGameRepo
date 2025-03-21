@@ -48,4 +48,9 @@ public class CombatStateFactory
     {
         return new StatusEffectState(context, this, vso);
     }
+
+    public CombatBaseState CombatEnd()
+    {
+        return new CombatEndState(context, this, vso);
+    }
 }

@@ -304,6 +304,10 @@ public class CombatStateMachine : MonoBehaviour
         Destroy(enemy.gameObject);
     }
 
+
+    /// <summary>
+    /// Not using atm
+    /// </summary>
     public void ClearCombatScene()
     {
         // Destroy card in hand
@@ -325,67 +329,25 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
-    public void AvatarDeath(Avatar currentAvatar, string deathType)
+    public void EnemyDied()
     {
-        if (currentAvatar.IsAvatarDead())
+        ResetSelectedEnemyUI();
+        selectedEnemyToAttack.disableSelection = true;
+
+        // Remove enemy
+        enemyList.Remove(selectedEnemyToAttack as Enemy);
+        enemyTurnQueue.Remove(selectedEnemyToAttack as Enemy);
+        //ctx.DestroyEnemy(ctx.selectedEnemyToAttack);
+
+        // Are there enemies still alive
+        if (enemyList.Count > 0)
         {
-            currentAvatar.GetComponent<Animator>().SetTrigger("Death");
-
-            // Check deaths
-            if (deathType == "Enemy")
-            {
-                #region Enemies
-
-                ResetSelectedEnemyUI();
-                selectedEnemyToAttack.disableSelection = true;
-
-                // Remove enemy
-                enemyList.Remove(currentAvatar as Enemy);
-                enemyTurnQueue.Remove(currentAvatar as Enemy);
-                //ctx.DestroyEnemy(ctx.selectedEnemyToAttack);
-
-                // Are there enemies still alive
-                if (enemyList.Count > 0)
-                {
-                    // Select different enemy
-                    selectedEnemyToAttack = enemyList[0];
-                    selectedEnemyToAttack.EnemySelection(true);
-                }
-                else if (enemyList.Count == 0) // No enemies
-                {
-                    ClearCombatScene();
-
-                    RewardUI();
-
-                    //eventDisplay.FinishCombatEvent();
-                }
-
-                #endregion
-            }
-            else
-            {
-                #region Player
-
-                // Game over UI
-                GameOverUI();
-
-                #endregion
-
-            }
+            // Select different enemy
+            selectedEnemyToAttack = enemyList[0];
+            selectedEnemyToAttack.EnemySelection(true);
         }
     }
 
-    public void RewardUI()
-    {
-        rewardUI.SetActive(true);
-        Time.timeScale = 0;
-    }
-
-    public void GameOverUI()
-    {
-        gameOverUI.SetActive(true);
-        Time.timeScale = 0;
-    }
 
     #endregion
 

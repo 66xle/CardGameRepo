@@ -29,7 +29,7 @@ public class Avatar : MonoBehaviour
 
     // Animation Events
     [HideInInspector] public bool doDamage;
-    [HideInInspector] public bool attackFinished;
+    [HideInInspector] public bool isAttackFinished;
 
     [HideInInspector] public bool isInCounterState;
     [HideInInspector] public bool isInStatusActivation;
@@ -194,6 +194,6 @@ public class Avatar : MonoBehaviour
 
     public void AnimationEventAttackFinish()
     {
-        attackFinished = true;
+        isAttackFinished = true;
     }
 }

@@ -54,6 +54,11 @@ public class StatusEffectState : CombatBaseState
 
     public override void CheckSwitchState()
     {
+        if (ctx.player.IsAvatarDead() || ctx.enemyList.Count == 0)
+        {
+            SwitchState(factory.CombatEnd());
+        }
+
         if (ctx.currentState.ToString() == PLAYERSTATE && !ctx.skipTurn)
         {
             SwitchState(factory.Draw());
@@ -80,11 +85,10 @@ public class StatusEffectState : CombatBaseState
         {
             StatusEffectData currentEffect = currentAvatarSelected.listOfEffects[i];
 
-            // Check effect
+            // Check effect to trigger
             if (currentAvatarSelected.listOfEffects[i].turnRemaining > 0)
             {
                 statusQueue.Add(currentEffect);
-                IsAvatarDead();
             }
 
             currentAvatarSelected.listOfEffects[i].turnRemaining--;
@@ -134,6 +138,9 @@ public class StatusEffectState : CombatBaseState
             {
                 ActivateEffect(effect);
 
+                if (IsAvatarDeadByStatusEffect())
+                    yield break;
+
                 yield return new WaitForSeconds(0.5f);
             }
 
@@ -175,21 +182,19 @@ public class StatusEffectState : CombatBaseState
         }
     }
 
-    public void IsAvatarDead()
+    public bool IsAvatarDeadByStatusEffect()
     {
         if (currentAvatarSelected.IsAvatarDead())
         {
             currentAvatarSelected.GetComponent<Animator>().SetTrigger("Death");
 
-            string deathType;
+            if (ctx.currentState.ToString() != PLAYERSTATE)
+                ctx.EnemyDied();
 
-            if (ctx.currentState.ToString() == PLAYERSTATE)
-                deathType = "Player";
-            else
-                deathType = "Enemy";
-
-            ctx.AvatarDeath(currentAvatarSelected, deathType);
+            return true;
         }
+
+        return false;
     }
 
     public void ActivateStatusCamera()

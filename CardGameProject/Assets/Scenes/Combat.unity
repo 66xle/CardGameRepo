@@ -352,9 +352,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1801102329}
-        m_TargetAssemblyTypeName: CombatMenuUI, Assembly-CSharp
-        m_MethodName: CloseMenu
+      - m_Target: {fileID: 602362924}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: RestartCombat
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6954,7 +6954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bee7f48f60872484e96fc5f340e88a38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseHealth: 1000
+  baseHealth: 1
   baseStamina: 50
   baseGuard: 5
   armourType: 0

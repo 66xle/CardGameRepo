@@ -55,7 +55,11 @@ public class ActionState : CombatBaseState
     {
         if (!isInAction)
         {
-            if (ctx.currentState.ToString() == PLAYERSTATE)
+            if (ctx.player.IsAvatarDead() || ctx.enemyList.Count == 0)
+            {
+                SwitchState(factory.CombatEnd());
+            }
+            else if (ctx.currentState.ToString() == PLAYERSTATE)
             {
                 SwitchState(factory.Play());
             }
@@ -85,8 +89,9 @@ public class ActionState : CombatBaseState
         hasAttacked = false;
         isPlayingCard = true;
         avatarPlayingCard.doDamage = false;
-        avatarPlayingCard.attackFinished = false;
+        avatarPlayingCard.isAttackFinished = false;
 
+        // Display Card
         ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
         ctx.displayCard.gameObject.SetActive(true);
 
@@ -172,11 +177,10 @@ public class ActionState : CombatBaseState
 
 
 
-        if (ctx.currentState.ToString() == PLAYERSTATE)
-            ctx.AvatarDeath(avatarOpponent, "Enemy");
-        else
-            ctx.AvatarDeath(avatarOpponent, "Player");
-
+        if (ctx.currentState.ToString() == PLAYERSTATE && ctx.selectedEnemyToAttack.IsAvatarDead())
+        {
+            ctx.EnemyDied();
+        }
     }
 
 
@@ -189,6 +193,12 @@ public class ActionState : CombatBaseState
         avatarOpponent.TakeDamage(damage);
 
         ReduceGuard();
+
+        if (avatarOpponent.IsAvatarDead())
+        {
+            avatarOpponent.GetComponent<Animator>().SetTrigger("Death");
+            return;
+        }
 
         // Apply effect when guard is broken
         if (avatarOpponent.isGuardBroken())
@@ -350,9 +360,9 @@ public class ActionState : CombatBaseState
         }
 
         // Move back to spot
-        if (avatarPlayingCard.attackFinished)
+        if (avatarPlayingCard.isAttackFinished)
         {
-            avatarPlayingCard.attackFinished = false;
+            avatarPlayingCard.isAttackFinished = false;
             ReturnAvatar();
 
             if (avatarPlayingCard.gameObject.CompareTag("Player"))
