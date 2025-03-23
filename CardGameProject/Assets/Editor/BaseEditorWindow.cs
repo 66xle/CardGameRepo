@@ -57,7 +57,7 @@ public class BaseEditorWindow : EditorWindow
             return visualElement;
         };
         
-        list.itemHeight = 32;
+        list.fixedItemHeight = 32;
         list.selectionType = SelectionType.Single;
     }
 

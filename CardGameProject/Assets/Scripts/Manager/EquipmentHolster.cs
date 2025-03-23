@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -10,6 +11,10 @@ using Debug = UnityEngine.Debug;
 
 public class EquipmentHolster : MonoBehaviour
 {
+    [Separator("Read Only")]
+    [ReadOnly]
+    public List<GameObject> equippedWeapons = new List<GameObject>();
+
     [Separator("Transform")]
     public Transform rightHand;
     public Transform leftHand;
@@ -30,25 +35,36 @@ public class EquipmentHolster : MonoBehaviour
     public List<Transform> daggerHolsterPriority;
     public List<Transform> scytheHolsterPriority;
 
-    public void SetMainHand(WeaponData weapon)
-    {
-        WeaponData newData = new WeaponData
-        {
-            weaponName = weapon.weaponName,
-            description = weapon.description,
-            cards = weapon.cards,
-            prefab = weapon.prefab,
-            holsterSlot = weapon.holsterSlot
-        };
+    
 
-        weapon.holsterSlot = rightHand;
-        Instantiate(newData.prefab, rightHand);
+    public void EquipWeapon(GameObject weaponToEquip)
+    {
+        Vector3 localPos = weaponToEquip.transform.localPosition;
+        Vector3 localRot = weaponToEquip.transform.localEulerAngles;
+
+        weaponToEquip.transform.parent = rightHand;
+
+        weaponToEquip.transform.localPosition = localPos;
+        weaponToEquip.transform.localEulerAngles = localRot;
     }
 
-    public void SetOffHand(WeaponData weapon)
+    public void HolsterWeapon(GameObject weaponToEquip)
     {
-        weapon.holsterSlot = leftHand;
-        Instantiate(weapon, leftHand);
+        Weapon weaponScript = weaponToEquip.GetComponent<Weapon>();
+
+        Vector3 localPos = weaponToEquip.transform.localPosition;
+        Vector3 localRot = weaponToEquip.transform.localEulerAngles;
+
+        weaponToEquip.transform.parent = weaponScript.HolsterParent;
+
+        weaponToEquip.transform.localPosition = localPos;
+        weaponToEquip.transform.localEulerAngles = localRot;
+    }
+
+    public void SetOffHand(WeaponData weaponData)
+    {
+        weaponData.holsterSlot = leftHand;
+        CreateWeaponObject(weaponData.prefab, leftHand, weaponData);
     }
 
     public void SetHolsteredWeapons(List<WeaponData> weapons)
@@ -89,7 +105,7 @@ public class EquipmentHolster : MonoBehaviour
 
                 data.holsterSlot = holsterTransfrom;
 
-                Instantiate(prefabToSpawn, holsterTransfrom);
+                CreateWeaponObject(prefabToSpawn, holsterTransfrom, data);
                 return;
             }
         }
@@ -133,6 +149,15 @@ public class EquipmentHolster : MonoBehaviour
         return null;
     }
 
+    private void CreateWeaponObject(GameObject prefab, Transform parent, WeaponData data)
+    {
+        GameObject newWeapon = Instantiate(prefab, parent);
+        equippedWeapons.Add(newWeapon);
+
+        Weapon weaponScript = newWeapon.GetComponent<Weapon>();
+        weaponScript.Guid = data.guid;
+        weaponScript.HolsterParent = parent;
+    }
 
     int GetChildLength(Transform parent)
     {

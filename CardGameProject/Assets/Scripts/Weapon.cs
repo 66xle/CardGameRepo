@@ -28,6 +28,9 @@ public enum OffSetHolster
 
 public class Weapon : MonoBehaviour
 {
+    [ReadOnly] public string Guid;
+    [HideInInspector] public Transform HolsterParent;
+
     public WeaponType weaponType;
 
     [Separator("Offset")]

@@ -98,6 +98,9 @@ public class CombatStateMachine : MonoBehaviour
 
     [HideInInspector] public VariableScriptObject vso; // Not using for now
 
+    private EquipmentHolster equipmentHolsterScript;
+
+
     public CombatBaseState currentState;
     private CombatStateFactory states;
     private DialogueNodeData nodeData;
@@ -118,6 +121,8 @@ public class CombatStateMachine : MonoBehaviour
 
         LoadPlayer();
         LoadEnemy();
+
+        
 
         states = new CombatStateFactory(this, vso);
         currentState = new PlayerState(this, states, vso);
@@ -166,17 +171,25 @@ public class CombatStateMachine : MonoBehaviour
                     statsManager.armourType, statsManager.damageType);
 
         // Equipment
-        EquipmentHolster holsterScript = player.GetComponent<EquipmentHolster>();
+        equipmentHolsterScript = player.GetComponent<EquipmentHolster>();
 
         switchWeaponManager.InitWeaponData();
 
-        holsterScript.SetMainHand(switchWeaponManager.currentMainHand);
-
-        if (switchWeaponManager.IsHolstersEquipped())
-            holsterScript.SetHolsteredWeapons(switchWeaponManager.currentEquippedWeapons);
+        List<WeaponData> holsterWeapons = new List<WeaponData>();
+        holsterWeapons.Add(switchWeaponManager.currentMainHand);
 
         if (switchWeaponManager.IsOffhandEquipped())
-            holsterScript.SetOffHand(switchWeaponManager.currentOffHand);
+            holsterWeapons.Add(switchWeaponManager.currentOffHand);
+
+        holsterWeapons.AddRange(switchWeaponManager.currentEquippedWeapons);
+
+        if (switchWeaponManager.IsHolstersEquipped())
+        {
+            equipmentHolsterScript.SetHolsteredWeapons(holsterWeapons);
+
+            GameObject weaponToEquip = equipmentHolsterScript.equippedWeapons.First(weapon => weapon.GetComponent<Weapon>().Guid == switchWeaponManager.currentMainHand.guid);
+            equipmentHolsterScript.EquipWeapon(weaponToEquip);
+        }
 
         followCam.Follow = player.gameObject.transform;
         panCam.Follow = player.gameObject.transform;
@@ -230,6 +243,21 @@ public class CombatStateMachine : MonoBehaviour
                 // Destory Card
                 CardContainer container = playerHand.GetComponent<CardContainer>();
                 container.DestroyCard(evt.card);
+
+
+                GameObject mainHandWeapon = equipmentHolsterScript.rightHand.GetChild(0).gameObject;
+                Weapon weaponScript = mainHandWeapon.GetComponent<Weapon>();
+
+                // Swap Weapon
+                if (weaponScript.Guid != cardData.weapon.guid)
+                {
+                    GameObject holsteredWeapon = equipmentHolsterScript.equippedWeapons.First(weapon => weapon.gameObject.GetComponent<Weapon>().Guid == cardData.weapon.guid);
+
+                    equipmentHolsterScript.HolsterWeapon(mainHandWeapon);   
+
+                    equipmentHolsterScript.EquipWeapon(holsteredWeapon);
+                }
+
 
                 // Allow to switch to attack state
                 isPlayedCard = true;
