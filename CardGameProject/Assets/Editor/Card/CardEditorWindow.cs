@@ -115,7 +115,7 @@ public class CardEditorWindow : BaseEditorWindow
         if (list.selectedItem != null)
         {
             Card selectedCard = list.selectedItem as Card;
-            if (!EditorUtility.DisplayDialog($"Delete Card", $"Delete {selectedCard.name}?", "Delete", "Cancel"))
+            if (!EditorUtility.DisplayDialog($"Delete Card", $"Delete {selectedCard.cardName}?", "Delete", "Cancel"))
                 return;
 
             list.ClearSelection();
@@ -207,7 +207,7 @@ public class CardEditorWindow : BaseEditorWindow
         Label cost = rootVisualElement.Query<Label>("cost").First();
 
 
-        title.text = card.name;
+        title.text = card.cardName;
         description.text = card.description.Replace("$value", card.value.ToString());
         flavour.text = card.flavour;
         cost.text = card.cost.ToString();

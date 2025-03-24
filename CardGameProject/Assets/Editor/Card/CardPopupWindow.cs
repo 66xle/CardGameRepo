@@ -28,7 +28,7 @@ public class CardPopupWindow : PopupWindow
 
         var createButton = new UnityEngine.UIElements.Button();
         createButton.text = "Create Card";
-        createButton.clicked += () => CreateCard(newCard.name);
+        createButton.clicked += () => CreateCard(newCard.cardName);
         rootVisualElement.Add(createButton);
 
         var cancelButton = new UnityEngine.UIElements.Button();
@@ -148,7 +148,7 @@ public class CardPopupWindow : PopupWindow
     Card CreateNewCard(Card newCard)
     {
         Card card = new Card();
-        card.name = newCard.name;
+        card.cardName = newCard.cardName;
         card.description = newCard.description;
         card.flavour = newCard.flavour;
         card.cardType = newCard.cardType;

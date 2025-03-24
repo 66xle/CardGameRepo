@@ -13,7 +13,7 @@ public class EquipmentHolster : MonoBehaviour
 {
     [Separator("Read Only")]
     [ReadOnly]
-    public List<GameObject> equippedWeapons = new List<GameObject>();
+    public List<GameObject> equippedWeaponObjects = new List<GameObject>();
 
     [Separator("Transform")]
     public Transform rightHand;
@@ -152,7 +152,7 @@ public class EquipmentHolster : MonoBehaviour
     private void CreateWeaponObject(GameObject prefab, Transform parent, WeaponData data)
     {
         GameObject newWeapon = Instantiate(prefab, parent);
-        equippedWeapons.Add(newWeapon);
+        equippedWeaponObjects.Add(newWeapon);
 
         Weapon weaponScript = newWeapon.GetComponent<Weapon>();
         weaponScript.Guid = data.guid;

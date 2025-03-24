@@ -55,7 +55,7 @@ public class CombatStateMachine : MonoBehaviour
 
     [Header("References")]
     public GameObject cardPrefab;
-    public Transform playerHand;
+    public Transform playerHandTransform;
     public Transform displayCard;
     
 
@@ -121,8 +121,9 @@ public class CombatStateMachine : MonoBehaviour
 
         LoadPlayer();
         LoadEnemy();
+        cardManager.LoadCards();
 
-        
+
 
         states = new CombatStateFactory(this, vso);
         currentState = new PlayerState(this, states, vso);
@@ -187,7 +188,7 @@ public class CombatStateMachine : MonoBehaviour
         {
             equipmentHolsterScript.SetHolsteredWeapons(holsterWeapons);
 
-            GameObject weaponToEquip = equipmentHolsterScript.equippedWeapons.First(weapon => weapon.GetComponent<Weapon>().Guid == switchWeaponManager.currentMainHand.guid);
+            GameObject weaponToEquip = equipmentHolsterScript.equippedWeaponObjects.First(weapon => weapon.GetComponent<Weapon>().Guid == switchWeaponManager.currentMainHand.guid);
             equipmentHolsterScript.EquipWeapon(weaponToEquip);
         }
 
@@ -237,11 +238,12 @@ public class CombatStateMachine : MonoBehaviour
             {
                 player.ConsumeStamina(card.cost);
 
-                CardData cardData = cardManager.playerDeck.First(data => data.card == card);
+                CardData cardData = cardManager.playerHand.First(data => data.card.guid == card.guid);
+                cardManager.playerHand.Remove(cardData);
                 cardManager.discardPile.Add(cardData);
 
                 // Destory Card
-                CardContainer container = playerHand.GetComponent<CardContainer>();
+                CardContainer container = playerHandTransform.GetComponent<CardContainer>();
                 container.DestroyCard(evt.card);
 
 
@@ -251,7 +253,7 @@ public class CombatStateMachine : MonoBehaviour
                 // Swap Weapon
                 if (weaponScript.Guid != cardData.weapon.guid)
                 {
-                    GameObject holsteredWeapon = equipmentHolsterScript.equippedWeapons.First(weapon => weapon.gameObject.GetComponent<Weapon>().Guid == cardData.weapon.guid);
+                    GameObject holsteredWeapon = equipmentHolsterScript.equippedWeaponObjects.First(weapon => weapon.gameObject.GetComponent<Weapon>().Guid == cardData.weapon.guid);
 
                     equipmentHolsterScript.HolsterWeapon(mainHandWeapon);   
 
@@ -267,7 +269,7 @@ public class CombatStateMachine : MonoBehaviour
         else if (tag == "Recycle")
         {
             // Destory Card
-            CardContainer container = playerHand.GetComponent<CardContainer>();
+            CardContainer container = playerHandTransform.GetComponent<CardContainer>();
             container.DestroyCard(evt.card);
 
             player.RecycleCardToStamina(card.recycleValue);
@@ -315,7 +317,7 @@ public class CombatStateMachine : MonoBehaviour
     public void ClearCombatScene()
     {
         // Destroy card in hand
-        foreach (Transform child in playerHand)
+        foreach (Transform child in playerHandTransform)
         {
             Destroy(child.gameObject);
         }

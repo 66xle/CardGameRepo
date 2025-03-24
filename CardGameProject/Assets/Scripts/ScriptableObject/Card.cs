@@ -16,7 +16,7 @@ public class Card : ScriptableObject
     [HideInInspector]
     public string guid;
 
-    public string name;
+    public string cardName;
     [TextArea] public string description;
     [TextArea] public string flavour;
 
@@ -31,6 +31,6 @@ public class Card : ScriptableObject
     public int recycleValue;
 
     [Header("Status Effects")]
-    public List<StatusEffect> selfEffects;
-    public List<StatusEffect> applyEffects;
+    public List<StatusEffect> selfEffects = new List<StatusEffect>();
+    public List<StatusEffect> applyEffects = new List<StatusEffect>();
 }

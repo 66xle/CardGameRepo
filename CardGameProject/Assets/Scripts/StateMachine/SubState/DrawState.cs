@@ -52,8 +52,9 @@ public class DrawState : CombatBaseState
             int index = Random.Range(0, cm.playerDeck.Count);
             CardData cardDrawed = cm.playerDeck[index];
 
-            ctx.CreateCard(cardDrawed, ctx.playerHand);
+            ctx.CreateCard(cardDrawed, ctx.playerHandTransform);
             cm.playerDeck.Remove(cardDrawed);
+            cm.playerHand.Add(cardDrawed);
         }
     }
 

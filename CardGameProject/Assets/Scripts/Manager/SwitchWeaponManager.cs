@@ -4,6 +4,7 @@ using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using UnityEngine.UI;
 
 public class SwitchWeaponManager : MonoBehaviour
@@ -78,6 +79,7 @@ public class SwitchWeaponManager : MonoBehaviour
         newData.description = data.description;
         newData.cards = data.cards;
         newData.prefab = data.prefab;
+        newData.guid = Guid.NewGuid().ToString();
 
 
         return newData;

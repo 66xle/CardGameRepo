@@ -27,6 +27,4 @@ public class EquipmentManager : MonoBehaviour
     [Separator]
 
     public List<WeaponData> equippedWeapons;
-    
-
 }
