@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
-using System;
 using DG.Tweening;
+using Object = UnityEngine.Object;
 
 public class ActionState : CombatBaseState
 {
@@ -139,6 +139,7 @@ public class ActionState : CombatBaseState
             else
             {
                 Attack(cardPlayed, weapon);
+                SpawnDamagePopupUI();
             }
         }
         else if (cardPlayed.cardType == Type.Counter)
@@ -374,4 +375,14 @@ public class ActionState : CombatBaseState
     }
 
     #endregion
+
+    void SpawnDamagePopupUI()
+    {
+        CombatUIManager UIManager = ctx.combatUIManager;
+
+        GameObject popupObj = Object.Instantiate(UIManager.damagePopupPrefab, UIManager.worldSpaceCanvas);
+        popupObj.transform.position = new Vector3(avatarOpponent.transform.position.x + Random.Range(-UIManager.randomHorizontalOffset, UIManager.randomHorizontalOffset),
+                                                  avatarOpponent.transform.position.y + UIManager.verticalOffset,
+                                                  avatarOpponent.transform.position.z + Random.Range(-UIManager.randomHorizontalOffset, UIManager.randomHorizontalOffset));
+    }
 }

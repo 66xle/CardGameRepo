@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-
+    
 
 
     public void RestartCombat()
