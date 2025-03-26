@@ -82,6 +82,7 @@ public class CombatStateMachine : MonoBehaviour
     public GameObject gameOverUI;
     
     
+    
 
     #region Internal Variables
 
@@ -169,7 +170,7 @@ public class CombatStateMachine : MonoBehaviour
         player = Instantiate(playerPrefab, playerSpawnPos).GetComponent<Player>();
         player.Init(healthBar, healthValue, staminaBar, staminaValue, blockValue, guardBar, guardValue,
                     statsManager.currentMaxHealth, statsManager.currentMaxStamina, statsManager.currentMaxGuard,
-                    statsManager.armourType, statsManager.damageType);
+                    statsManager.armourType);
 
         // Equipment
         equipmentHolsterScript = player.GetComponent<EquipmentHolster>();

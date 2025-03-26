@@ -22,7 +22,7 @@ public class Player : Avatar
     public void Init(Slider healthBar, TMP_Text healthValue, Slider staminaBar, TMP_Text staminaValue, TMP_Text blockValue, 
                      Slider guardBar, TMP_Text guardValue,
                      float maxHealth, float maxStamina, int maxGuard, 
-                     ArmourType armourType, DamageType damageType)
+                     ArmourType armourType)
     {
         this.healthBar = healthBar;
         this.healthValue = healthValue;
@@ -32,7 +32,6 @@ public class Player : Avatar
         this.guardValue = guardValue;
         this.blockValue = blockValue;
         this.armourType = armourType;
-        this.damageType = damageType;
 
         base.maxHealth = maxHealth;
         this.maxStamina = maxStamina;

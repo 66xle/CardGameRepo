@@ -8,7 +8,6 @@ public class StatsManager : MonoBehaviour
     [SerializeField] float baseStamina;
     [SerializeField] int baseGuard;
     public ArmourType armourType;
-    public DamageType damageType;
 
     [HideInInspector] public float currentMaxHealth;
     [HideInInspector] public float currentMaxStamina;
