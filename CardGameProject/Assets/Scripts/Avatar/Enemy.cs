@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Enemy : Avatar
 {
     [HideInInspector] public EnemyObj enemyObj;
-    private GameObject arrow;
+    private GameObject selectionRing;
 
     [Header("References")]
     [HideInInspector] public Image healthBar;
@@ -58,7 +58,7 @@ public class Enemy : Avatar
         deck = enemyObj.cardList;
         maxHealth = enemyObj.health;
 
-        arrow = transform.GetChild(0).gameObject; // Grab arrow object (temp)
+        selectionRing = transform.GetChild(0).gameObject;
     }
   
     public List<Card> DrawCards()
@@ -107,7 +107,7 @@ public class Enemy : Avatar
         if (disableSelection)
             return;
         
-        arrow.SetActive(toggle);
+        selectionRing.SetActive(toggle);
         enemyUI.SetUIActive(toggle);
 
         if (toggle)
