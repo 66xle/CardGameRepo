@@ -1890,6 +1890,8 @@ MonoBehaviour:
   enemyTurnQueue: []
   turnIndex: 0
   currentEnemyTurn: {fileID: 0}
+  statusEffectDelay: 0.5
+  statusEffectAfterDelay: 1
   defaultCam: {fileID: 1720531969}
   followCam: {fileID: 1427997845}
   panCam: {fileID: 1377993572}
@@ -2391,8 +2393,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damagePopupPrefab: {fileID: 1751356153391490187, guid: d4558f44bed57f8408c5689783a1f8fd, type: 3}
   worldSpaceCanvas: {fileID: 5839485938255906829}
-  randomHorizontalOffset: 0.5
-  verticalOffset: 1.5
+  randomOffsetHorizontal: 0.5
+  offsetVertical: 1
+  moveDuration: 0.8
+  fadeDuration: 0.2
+  moveVertical: 0.5
   endTurnButton: {fileID: 189252620}
   switchButton: {fileID: 2116849180}
   combatUI: {fileID: 484505292}
@@ -7072,7 +7077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bee7f48f60872484e96fc5f340e88a38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseHealth: 1
+  baseHealth: 100
   baseStamina: 50
   baseGuard: 5
   armourType: 0

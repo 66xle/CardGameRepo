@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Cinemachine;
+using MyBox;
 
 public class StatusEffectState : CombatBaseState
 {
@@ -141,8 +142,12 @@ public class StatusEffectState : CombatBaseState
                 if (IsAvatarDeadByStatusEffect())
                     yield break;
 
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(ctx.statusEffectDelay);
             }
+
+            if (statusQueue.Count > 0)
+                yield return new WaitForSeconds(ctx.statusEffectAfterDelay);
+
 
             // Deactive camera
             if (ctx.currentState.ToString() != PLAYERSTATE)
@@ -159,13 +164,17 @@ public class StatusEffectState : CombatBaseState
     {
         if (data.effect == Effect.Bleed)
         {
-            currentAvatarSelected.ReduceHealth(data.reduceDamagePercentage, data.stacks);
+            currentAvatarSelected.ReduceHealthByPercentage(data.reduceDamagePercentage, data.stacks);
+
+            ctx.SpawnDamagePopupUI(currentAvatarSelected, currentAvatarSelected.maxHealth * (data.reduceDamagePercentage * data.stacks), Color.red);
             // Play Bleed effect
         }
 
         if (data.effect == Effect.Poison)
         {
-            currentAvatarSelected.ReduceHealth(data.reduceDamagePercentage);
+            currentAvatarSelected.ReduceHealthByPercentage(data.reduceDamagePercentage);
+
+            ctx.SpawnDamagePopupUI(currentAvatarSelected, currentAvatarSelected.maxHealth * data.reduceDamagePercentage, new Color(0f, 0.39f, 0f));
         }
 
 

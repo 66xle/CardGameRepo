@@ -9,6 +9,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Cinemachine;
 using MyBox;
+using DG.Tweening;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 public class CombatStateMachine : MonoBehaviour
 {
@@ -46,6 +49,8 @@ public class CombatStateMachine : MonoBehaviour
     [HideInInspector] public Enemy currentEnemyTurn;
 
     [Foldout("Camera", true)]
+    public float statusEffectDelay = 0.5f;
+    public float statusEffectAfterDelay = 1f;
     public CinemachineVirtualCamera defaultCam;
     public CinemachineVirtualCamera followCam;
     public CinemachineVirtualCamera panCam;
@@ -57,9 +62,9 @@ public class CombatStateMachine : MonoBehaviour
     public GameObject cardPrefab;
     public Transform playerHandTransform;
     public Transform displayCard;
-    
 
-    [Foldout("StatusEffectObj", true)]
+
+    [Foldout("StatusEffect", true)]
     public StatusEffect guardBreakLightArmour;
     public StatusEffect guardBreakMediumArmour;
     public StatusEffect guardBreakHeavyArmour;
@@ -355,6 +360,29 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
+
+    public void SpawnDamagePopupUI(Avatar avatar, float damage, Color color)
+    {
+
+        Debug.Log("spawn popup");
+        CombatUIManager UIManager = combatUIManager;
+
+        GameObject popupObj = Instantiate(UIManager.damagePopupPrefab, UIManager.worldSpaceCanvas);
+        popupObj.transform.position = new Vector3(avatar.transform.position.x + Random.Range(-UIManager.randomOffsetHorizontal, UIManager.randomOffsetHorizontal),
+                                                  avatar.transform.position.y + UIManager.offsetVertical,
+                                                  avatar.transform.position.z + Random.Range(-UIManager.randomOffsetHorizontal, UIManager.randomOffsetHorizontal));
+        Vector3 moveToPos = popupObj.transform.position;
+        moveToPos.y += 1f;
+
+        TextMeshProUGUI popupText = popupObj.GetComponent<TextMeshProUGUI>();
+        popupText.text = damage.ToString();
+        popupText.color = color;
+
+        popupObj.transform.DOMoveY(popupObj.transform.position.y + UIManager.moveVertical, UIManager.moveDuration).SetEase(Ease.OutQuad).OnComplete(() =>
+        {
+            popupText.DOFade(0, UIManager.fadeDuration).OnComplete(() => { Destroy(popupObj); });
+        });
+    }
 
     #endregion
 

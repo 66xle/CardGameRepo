@@ -5,7 +5,8 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using DG.Tweening;
-using Object = UnityEngine.Object;
+
+
 
 public class ActionState : CombatBaseState
 {
@@ -95,8 +96,8 @@ public class ActionState : CombatBaseState
         avatarPlayingCard.isAttackFinished = false;
 
         // Display Card
-        ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
-        ctx.displayCard.gameObject.SetActive(true);
+        //ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
+        //ctx.displayCard.gameObject.SetActive(true);
 
 
         Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
@@ -139,7 +140,7 @@ public class ActionState : CombatBaseState
             else
             {
                 Attack(cardPlayed, weapon);
-                SpawnDamagePopupUI();
+                ctx.SpawnDamagePopupUI(avatarOpponent, cardPlayed.value, Color.white);
             }
         }
         else if (cardPlayed.cardType == Type.Counter)
@@ -178,8 +179,6 @@ public class ActionState : CombatBaseState
 
         isInAction = false;
         Debug.Log("Finished Attacking");
-
-
 
         if (ctx.currentState.ToString() == PLAYERSTATE && ctx.selectedEnemyToAttack.IsAvatarDead())
         {
@@ -376,13 +375,5 @@ public class ActionState : CombatBaseState
 
     #endregion
 
-    void SpawnDamagePopupUI()
-    {
-        CombatUIManager UIManager = ctx.combatUIManager;
-
-        GameObject popupObj = Object.Instantiate(UIManager.damagePopupPrefab, UIManager.worldSpaceCanvas);
-        popupObj.transform.position = new Vector3(avatarOpponent.transform.position.x + Random.Range(-UIManager.randomHorizontalOffset, UIManager.randomHorizontalOffset),
-                                                  avatarOpponent.transform.position.y + UIManager.verticalOffset,
-                                                  avatarOpponent.transform.position.z + Random.Range(-UIManager.randomHorizontalOffset, UIManager.randomHorizontalOffset));
-    }
+    
 }

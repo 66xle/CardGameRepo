@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
 
@@ -31,7 +32,7 @@ public class Avatar : MonoBehaviour
 
     public void TakeDamage(float damage) 
     {
-        damage = DoExtraDmgCheck(damage);
+        damage = ApplyAdditionalDmgCheck(damage);
 
         currentBlock -= damage;
 
@@ -141,12 +142,12 @@ public class Avatar : MonoBehaviour
         return false;
     }
 
-    public void ReduceHealth(float percentage, int stacks = 1)
+    public void ReduceHealthByPercentage(float percentage, int stacks = 1)
     {
         currentHealth -= maxHealth * (percentage * stacks);
     }
 
-    public float DoExtraDmgCheck(float damage)
+    public float ApplyAdditionalDmgCheck(float damage)
     {
         // Don't need to check
         if (listOfEffects.Count == 0) return damage;
