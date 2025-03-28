@@ -155,7 +155,7 @@ public class StatusEffectState : CombatBaseState
         }
 
 
-        currentAvatarSelected.DisplayStats();
+        currentAvatarSelected.UpdateStatsUI();
 
         isStatusEffectFinished = true;
     }

@@ -40,7 +40,7 @@ public class DetailedUI : MonoBehaviour
         this.enemy = enemy;
         DisplayStats();
         ResetStatusUI();
-        UpdateEffectUI();
+        UpdateStatusEffectsUI();
     }
 
     public void DisplayStats()
@@ -57,7 +57,7 @@ public class DetailedUI : MonoBehaviour
         //blockValue.text = enemy.blockValue.text;
     }
 
-    public void UpdateEffectUI()
+    public void UpdateStatusEffectsUI()
     {
         if (enemy == null)
             return;

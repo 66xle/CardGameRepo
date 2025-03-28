@@ -6,9 +6,9 @@ public class Player : Avatar
 {
     private float maxStamina = 5f;
     [SerializeField] float recoverStaminaAmount = 2f;
-    [HideInInspector] public float currentStamina;
 
-    private Animator animController;
+    private float _currentStamina;
+    [HideInInspector] public float CurrentStamina { get { return _currentStamina; } set { _currentStamina = value; UpdateStatsUI(); } }
 
     [Header("References")]
     private Slider healthBar;
@@ -18,10 +18,20 @@ public class Player : Avatar
     private TMP_Text blockValue;
     private Slider guardBar;
     private TMP_Text guardValue;
+    private Animator animController;
+
+    private void OnEnable()
+    {
+        OnStatChanged += DisplayStats;
+    }
+
+    private void OnDisable()
+    {
+        OnStatChanged -= DisplayStats;
+    }
 
     public void Init(Slider healthBar, TMP_Text healthValue, Slider staminaBar, TMP_Text staminaValue, TMP_Text blockValue, 
                      Slider guardBar, TMP_Text guardValue,
-                     float maxHealth, float maxStamina, int maxGuard, 
                      ArmourType armourType)
     {
         this.healthBar = healthBar;
@@ -33,24 +43,24 @@ public class Player : Avatar
         this.blockValue = blockValue;
         this.armourType = armourType;
 
-        base.maxHealth = maxHealth;
-        this.maxStamina = maxStamina;
-        base.maxGuard = maxGuard;
-
-        isInCounterState = false;
-
         animController = GetComponent<Animator>();
 
-        currentHealth = base.maxHealth;
-        currentStamina = this.maxStamina;
-        currentGuard = base.maxGuard;
+        
+    }
 
-        DisplayStats();
+    public void InitStats(float maxHealth, float maxStamina, int maxGuard)
+    {
+        base.maxHealth = maxHealth;
+        base.maxGuard = maxGuard;
+
+        CurrentHealth = maxHealth;
+        CurrentGuard = maxGuard;
+        CurrentStamina = this.maxStamina;
     }
 
     public bool hasEnoughStamina(float cost)
     {
-        if (currentStamina >= cost)
+        if (CurrentStamina >= cost)
         {
             return true;
         }
@@ -75,41 +85,39 @@ public class Player : Avatar
 
     public void RecycleCardToStamina(float cost)
     {
-        currentStamina += cost;
-        DisplayStats();
+        CurrentStamina += cost;
+        CurrentStamina = Mathf.Clamp(CurrentStamina, 0f, maxStamina);
     }
 
     public void RecoverStamina()
     {
-        currentStamina += recoverStaminaAmount;
-        DisplayStats();
+        CurrentStamina += recoverStaminaAmount;
+        CurrentStamina = Mathf.Clamp(CurrentStamina, 0f, maxStamina);
     }
 
     public void ConsumeStamina(float stamAmount)
     {
-        currentStamina -= stamAmount;
-        Mathf.Clamp(currentStamina, 0f, maxStamina);
-
-        DisplayStats();
+        CurrentStamina -= stamAmount;
+        CurrentStamina = Mathf.Clamp(CurrentStamina, 0f, maxStamina);
     }
 
     #endregion
 
-    public override void DisplayStats()
+    private void DisplayStats()
     {
-        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
-        currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
+        _currentStamina = Mathf.Clamp(_currentHealth, 0f, maxHealth);
+        _currentStamina = Mathf.Clamp(_currentStamina, 0f, maxStamina);
 
-        healthBar.value = currentHealth / maxHealth;
-        healthValue.text = currentHealth.ToString();
+        healthBar.value = _currentHealth / maxHealth;
+        healthValue.text = _currentHealth.ToString();
 
-        staminaBar.value = currentStamina / maxStamina;
-        staminaValue.text = currentStamina.ToString();
+        staminaBar.value = _currentStamina / maxStamina;
+        staminaValue.text = _currentStamina.ToString();
 
-        guardBar.value = (float)currentGuard / maxGuard;
-        guardValue.text = currentGuard.ToString();
+        guardBar.value = (float)_currentGuard / maxGuard;
+        guardValue.text = _currentGuard.ToString();
 
-        blockValue.text = currentBlock.ToString();
+        blockValue.text = _currentBlock.ToString();
     }
 
 }

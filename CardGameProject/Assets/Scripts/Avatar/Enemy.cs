@@ -7,14 +7,10 @@ using UnityEngine.UI;
 public class Enemy : Avatar
 {
     [HideInInspector] public EnemyObj enemyObj;
-    private GameObject selectionRing;
 
     [Header("References")]
     [HideInInspector] public Image healthBar;
     [HideInInspector] public Image guardBar;
-    //[HideInInspector] public TMP_Text healthValue;
-    //[HideInInspector] public TMP_Text guardValue;
-    //[HideInInspector] public TMP_Text blockValue;
     [HideInInspector] public EnemyUI enemyUI;
     [HideInInspector] public DetailedUI detailedUI;
 
@@ -22,38 +18,39 @@ public class Enemy : Avatar
     [SerializeField] float drawAmount;
     public List<Card> deck;
     [HideInInspector] public List<Card> cardsToPlay;
-
     [HideInInspector] public bool disableSelection;
 
     private Animator animController;
+    private GameObject selectionRing;
 
-    // Start is called before the first frame update
-    void Start()
+
+    private void OnEnable()
     {
-        isInCounterState = false;
-        disableSelection = false;
+        OnStatChanged += DisplayStats;
+    }
 
-        animController = GetComponent<Animator>();
+    private void OnDisable()
+    {
+        OnStatChanged -= DisplayStats;
     }
 
     public void InitStats(GameObject statsUI, DetailedUI detailedUI)
     {
         healthBar = statsUI.GetComponentsInChildren<Image>()[1];
         guardBar = statsUI.GetComponentsInChildren<Image>()[2];
-        //healthValue = statsUI.GetComponentsInChildren<TMP_Text>()[0];
-        //guardValue = statsUI.GetComponentsInChildren<TMP_Text>()[1];
-        //blockValue = statsUI.GetComponentsInChildren<TMP_Text>()[2];
         enemyUI = statsUI.GetComponent<EnemyUI>();
         this.detailedUI = detailedUI;
 
 
-        currentHealth = maxHealth;
-        currentGuard = maxGuard;
-        DisplayStats();
+        CurrentHealth = maxHealth;
+        CurrentGuard = maxGuard;
     }
 
     public void Init(EnemyObj obj)
     {
+        disableSelection = false;
+        animController = GetComponent<Animator>();
+
         enemyObj = obj;
         deck = enemyObj.cardList;
         maxHealth = enemyObj.health;
@@ -86,20 +83,16 @@ public class Enemy : Avatar
         base.ApplyGuardBreak(effectObject);
     }
 
-    public override void DisplayStats()
+    private void DisplayStats()
     {
-        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+        _currentHealth = Mathf.Clamp(_currentHealth, 0f, maxHealth);
 
-        healthBar.fillAmount = currentHealth / maxHealth;
-        //healthValue.text = currentHealth.ToString() + " / " + maxHealth.ToString();
+        healthBar.fillAmount = _currentHealth / maxHealth;
 
-        guardBar.fillAmount = (float)currentGuard / maxGuard;
-        //guardValue.text = currentGuard.ToString() + " / " + maxGuard.ToString();
-
-        //blockValue.text = currentBlock.ToString();
+        guardBar.fillAmount = (float)_currentGuard / maxGuard;
 
         detailedUI.DisplayStats();
-        detailedUI.UpdateEffectUI();
+        detailedUI.UpdateStatusEffectsUI();
     }
 
     public void EnemySelection(bool toggle)

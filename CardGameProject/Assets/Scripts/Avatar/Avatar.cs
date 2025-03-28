@@ -4,6 +4,8 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.Android.Gradle.Manifest;
 using UnityEngine;
+using System;
+using Action = System.Action;
 
 
 
@@ -19,13 +21,20 @@ public class Avatar : MonoBehaviour
     [HideInInspector] public bool doDamage;
     [HideInInspector] public bool isAttackFinished;
 
-    [HideInInspector] public bool isInCounterState;
+    [HideInInspector] public bool isInCounterState = false;
     [HideInInspector] public bool isInStatusActivation;
     [HideInInspector] public bool doStatusDmg;
 
-    protected float currentHealth;
-    protected float currentBlock = 0f;
-    protected int currentGuard;
+    [HideInInspector] public event Action OnStatChanged;
+
+    protected float _currentHealth;
+    protected float _currentBlock;
+    protected int _currentGuard;
+
+    protected float CurrentHealth { get { return _currentHealth; } set { _currentHealth = value; UpdateStatsUI(); } }
+    protected float CurrentBlock { get { return _currentBlock; } set { _currentBlock = value; UpdateStatsUI(); } }
+    protected int CurrentGuard { get { return _currentGuard; } set { _currentGuard = value; UpdateStatsUI(); } }
+
     [HideInInspector] public List<StatusEffectData> listOfEffects = new List<StatusEffectData>();
 
     #region Avatar Methods
@@ -34,45 +43,43 @@ public class Avatar : MonoBehaviour
     {
         damage = ApplyAdditionalDmgCheck(damage);
 
-        currentBlock -= damage;
+        _currentBlock -= damage;
 
         // Block is negative do damage / Block is positive dont do damage
-        damage = currentBlock < 0 ? Mathf.Abs(currentBlock) : 0;
+        damage = _currentBlock < 0 ? Mathf.Abs(_currentBlock) : 0;
 
-        if (currentBlock < 0) currentBlock = 0;
+        if (_currentBlock < 0) _currentBlock = 0;
 
-        currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        _currentHealth -= damage;
+        _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);
     }
 
     public void AddBlock(float block)
     {
-        currentBlock += block;
+        _currentBlock += block;
     }
 
     public void Heal(float healAmount)
     {
-        currentHealth += healAmount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        _currentHealth += healAmount;
+        _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);
     }
 
     public void ReduceGuard()
     {
-        currentGuard--;
-        currentGuard = Mathf.Clamp(currentGuard, 0, maxGuard);
+        _currentGuard--;
+        _currentGuard = Mathf.Clamp(_currentGuard, 0, maxGuard);
     }
 
     public bool isGuardBroken()
     {
-        return currentGuard == 0 ? true : false;
+        return _currentGuard == 0 ? true : false;
     }
 
     public virtual void RecoverGuardBreak()
     {
-        currentGuard = maxGuard;
+        _currentGuard = maxGuard;
     }
-
-    public virtual void DisplayStats() { }
 
     #endregion
 
@@ -82,6 +89,7 @@ public class Avatar : MonoBehaviour
     {
         StatusGuardBroken effect = effectObject as StatusGuardBroken;
         listOfEffects.Add(new StatusEffectData(effect.effect, effect.effectName, effect.turnsRemaning, effect.uiPrefab, numHitToRecover: effect.numberOfHitsToRecover, extraDmgPer: effect.extraDamagePercentage, nextTurn: effect.removeEffectNextTurn));
+        UpdateStatsUI();
     }
 
     public void ApplyBleed(StatusEffect effectObject)
@@ -97,6 +105,7 @@ public class Avatar : MonoBehaviour
 
                 listOfEffects[i].turnRemaining = overiteEffect.turnsRemaning;
                 listOfEffects[i].stacks++;
+                UpdateStatsUI();
                 return;
             }
         }
@@ -104,6 +113,7 @@ public class Avatar : MonoBehaviour
 
         StatusBleed effect = effectObject as StatusBleed;
         listOfEffects.Add(new StatusEffectData(effect.effect, effect.effectName, effect.turnsRemaning, effect.uiPrefab, reduceDmgPer: effect.reduceHealthPercentage, stackable: effect.stackable));
+        UpdateStatsUI();
     }
 
     public void ApplyPoison(StatusEffect effectObject)
@@ -117,12 +127,14 @@ public class Avatar : MonoBehaviour
                 StatusPoison overiteEffect = effectObject as StatusPoison;
 
                 listOfEffects[i].turnRemaining = overiteEffect.turnsRemaning;
+                UpdateStatsUI();
                 return;
             }
         }
 
         StatusPoison effect = effectObject as StatusPoison;
         listOfEffects.Add(new StatusEffectData(effect.effect, effect.effectName, effect.turnsRemaning, effect.uiPrefab, reduceDmgPer: effect.reduceHealthPercentage));
+        UpdateStatsUI();
     }
 
     #endregion
@@ -144,7 +156,7 @@ public class Avatar : MonoBehaviour
 
     public void ReduceHealthByPercentage(float percentage, int stacks = 1)
     {
-        currentHealth -= maxHealth * (percentage * stacks);
+        _currentHealth -= maxHealth * (percentage * stacks);
     }
 
     public float ApplyAdditionalDmgCheck(float damage)
@@ -165,7 +177,7 @@ public class Avatar : MonoBehaviour
 
     public bool IsAvatarDead()
     {
-        if (currentHealth <= 0f)
+        if (CurrentHealth <= 0f)
         {
             return true;
         }
@@ -174,6 +186,12 @@ public class Avatar : MonoBehaviour
     }
 
     #endregion
+
+
+    public void UpdateStatsUI()
+    {
+        OnStatChanged?.Invoke();
+    }
 
     public void AnimationEventAttack()
     {

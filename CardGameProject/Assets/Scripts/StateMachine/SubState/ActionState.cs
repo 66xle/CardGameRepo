@@ -163,8 +163,6 @@ public class ActionState : CombatBaseState
 
         // Play Card Effect
         DetermineEffectTarget(cardPlayed);
-        avatarPlayingCard.DisplayStats();
-        avatarOpponent.DisplayStats();
 
         // Avatar returns to spot or finishes animation
         yield return new WaitWhile(() => isPlayingCard);

@@ -173,9 +173,8 @@ public class CombatStateMachine : MonoBehaviour
     {
         // Spawn Player
         player = Instantiate(playerPrefab, playerSpawnPos).GetComponent<Player>();
-        player.Init(healthBar, healthValue, staminaBar, staminaValue, blockValue, guardBar, guardValue,
-                    statsManager.currentMaxHealth, statsManager.currentMaxStamina, statsManager.currentMaxGuard,
-                    statsManager.armourType);
+        player.Init(healthBar, healthValue, staminaBar, staminaValue, blockValue, guardBar, guardValue, statsManager.armourType);
+        player.InitStats(statsManager.currentMaxHealth, statsManager.currentMaxStamina, statsManager.currentMaxGuard);
 
         // Equipment
         equipmentHolsterScript = player.GetComponent<EquipmentHolster>();
