@@ -168,7 +168,7 @@ public class ActionState : CombatBaseState
         yield return new WaitWhile(() => isPlayingCard);
 
         // Attack finished
-        ctx.displayCard.gameObject.SetActive(false);
+        //ctx.displayCard.gameObject.SetActive(false);
 
         if (avatarPlayingCard.gameObject.CompareTag("Player"))
         {
