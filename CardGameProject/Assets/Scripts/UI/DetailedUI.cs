@@ -10,8 +10,6 @@ public class DetailedUI : MonoBehaviour
     private Enemy enemy;
     private CombatStateMachine state;
 
-    
-
     private Image healthBar;
     private TMP_Text healthValue;
     private Image guardBar;
@@ -39,7 +37,7 @@ public class DetailedUI : MonoBehaviour
     {
         this.enemy = enemy;
         DisplayStats();
-        ResetStatusUI();
+        ClearStatusUI();
         UpdateStatusEffectsUI();
     }
 
@@ -97,7 +95,7 @@ public class DetailedUI : MonoBehaviour
         }
     }
     
-    public void ResetStatusUI()
+    public void ClearStatusUI()
     {
         int parentCount = activeParent.transform.childCount;
 

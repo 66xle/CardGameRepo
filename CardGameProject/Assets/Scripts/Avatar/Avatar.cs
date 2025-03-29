@@ -54,6 +54,24 @@ public class Avatar : MonoBehaviour
         _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);
     }
 
+    public void TakeDamageByStatusEffect(float damage)
+    {
+        damage = ApplyAdditionalDmgCheck(damage);
+
+        _currentHealth -= damage;
+        _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);
+    }
+
+    public bool IsAvatarDead()
+    {
+        if (_currentHealth <= 0f)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public void AddBlock(float block)
     {
         _currentBlock += block;
@@ -156,7 +174,8 @@ public class Avatar : MonoBehaviour
 
     public void ReduceHealthByPercentage(float percentage, int stacks = 1)
     {
-        _currentHealth -= maxHealth * (percentage * stacks);
+        float damage = maxHealth * (percentage * stacks);
+        TakeDamageByStatusEffect(damage);
     }
 
     public float ApplyAdditionalDmgCheck(float damage)
@@ -173,16 +192,6 @@ public class Avatar : MonoBehaviour
         }
 
         return damage;
-    }
-
-    public bool IsAvatarDead()
-    {
-        if (CurrentHealth <= 0f)
-        {
-            return true;
-        }
-
-        return false;
     }
 
     #endregion

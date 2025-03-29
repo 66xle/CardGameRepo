@@ -44,8 +44,6 @@ public class Player : Avatar
         this.armourType = armourType;
 
         animController = GetComponent<Animator>();
-
-        
     }
 
     public void InitStats(float maxHealth, float maxStamina, int maxGuard)

@@ -116,7 +116,7 @@ public class StatusEffectState : CombatBaseState
                 if (currentAvatarSelected == ctx.selectedEnemyToAttack)
                 {
                     Enemy enemy = currentAvatarSelected as Enemy;
-                    enemy.detailedUI.ResetStatusUI();
+                    enemy.detailedUI.ClearStatusUI();
                 }
             }
         }

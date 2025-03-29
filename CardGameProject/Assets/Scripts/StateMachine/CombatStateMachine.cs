@@ -362,8 +362,6 @@ public class CombatStateMachine : MonoBehaviour
 
     public void SpawnDamagePopupUI(Avatar avatar, float damage, Color color)
     {
-
-        Debug.Log("spawn popup");
         CombatUIManager UIManager = combatUIManager;
 
         GameObject popupObj = Instantiate(UIManager.damagePopupPrefab, UIManager.worldSpaceCanvas);
