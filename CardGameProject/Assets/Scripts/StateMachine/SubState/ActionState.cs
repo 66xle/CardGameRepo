@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using DG.Tweening;
+using System.Security.Cryptography;
 
 
 
@@ -14,7 +15,6 @@ public class ActionState : CombatBaseState
     Avatar avatarOpponent;
 
     bool isInAction;
-    bool isPlayingCard; // Playing Card animations
     bool hasAttacked; // Attack Animations
 
     public ActionState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso) { }
@@ -22,7 +22,6 @@ public class ActionState : CombatBaseState
     public override void EnterState()
     {
         Debug.Log("Action State");
-        
 
         #region Decide Which Side Acts
 
@@ -51,7 +50,14 @@ public class ActionState : CombatBaseState
     }   
 
     public override void FixedUpdateState() { }
-    public override void ExitState() { }
+    public override void ExitState() 
+    {
+        avatarPlayingCard.doDamage = false;
+        avatarPlayingCard.isAttackFinished = false;
+
+        ExecutableParameters.MoveToEnemy -= MoveAvatar;
+        ExecutableParameters.ReturnToPosition -= ReturnAvatar;
+    }
     public override void CheckSwitchState()
     {
         if (!isInAction)
@@ -77,95 +83,64 @@ public class ActionState : CombatBaseState
         // Play all enemy cards in queue
         foreach (CardData cardPlayed in ctx.cardManager.enemyCardQueue)
         {
-            if (isInAction)
-                yield return new WaitForEndOfFrame();
-            else
-                ctx.StartCoroutine(PlayCard(cardPlayed));
+            yield return ctx.StartCoroutine(PlayCard(cardPlayed));
         }
     }
 
     private IEnumerator PlayCard(CardData cardData)
     {
+        avatarPlayingCard.doDamage = false;
+        avatarPlayingCard.isAttackFinished = false;
+
+        ExecutableParameters.ctx = ctx;
+        ExecutableParameters.card = cardData.card;
+        ExecutableParameters.weapon = cardData.weapon;
+        ExecutableParameters.avatarPlayingCard = avatarPlayingCard;
+        ExecutableParameters.avatarOpponent = avatarOpponent;
+
+
+
+        ExecutableParameters.hasMoved = false;
+        ExecutableParameters.hasAttacked = false;
+
+
+        ExecutableParameters.MoveToEnemy += MoveAvatar;
+        ExecutableParameters.ReturnToPosition += ReturnAvatar;
+
+
         WeaponData weapon = cardData.weapon;
         Card cardPlayed = cardData.card;
 
         isInAction = true;
-        hasAttacked = false;
-        isPlayingCard = true;
-        avatarPlayingCard.doDamage = false;
-        avatarPlayingCard.isAttackFinished = false;
+        
+        
 
         // Display Card
         //ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
         //ctx.displayCard.gameObject.SetActive(true);
 
 
-        Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
-        Animator opponentController = avatarOpponent.GetComponent<Animator>();
-
-
+        yield return ctx.StartCoroutine(ExecuteCommands(cardPlayed));
         
 
         #region Deterimine card type
 
-        if (cardPlayed.cardType == Type.Attack)
+        if (cardPlayed.cardType == CardType.Attack)
         {
-            // Play Move Animation
-            MoveAvatar();
-            avatarPlayingCardController.SetTrigger("Move");
-
-            if (avatarPlayingCard.gameObject.CompareTag("Player"))
-            {
-                ctx.followCam.LookAt = null;
-                ctx.followCam.transform.rotation = ctx.defaultCam.transform.rotation;
-                ctx.followCam.LookAt = avatarOpponent.transform;
-                ctx.panCam.LookAt = avatarOpponent.transform;
-                ctx.followCam.Priority = 30;
-            }
-                
-
-            // Wait until opponent attacks
-            yield return new WaitWhile(() => !hasAttacked);
-
-            // Check counter
-            if (avatarOpponent.isInCounterState)
-            {
-                opponentController.SetBool("isReady", false);
-                opponentController.SetTrigger("Counter");
-
-                avatarPlayingCardController.SetTrigger("Recoil");
-
-                avatarOpponent.isInCounterState = false;
-            }
-            else
-            {
-                Attack(cardPlayed, weapon);
-                ctx.SpawnDamagePopupUI(avatarOpponent, cardPlayed.value, Color.white);
-            }
+            
         }
-        else if (cardPlayed.cardType == Type.Counter)
+        else if (cardPlayed.cardType == CardType.Counter)
         {
             avatarPlayingCard.isInCounterState = true;
-            avatarPlayingCardController.SetBool("isReady", true);
+            //avatarPlayingCardController.SetBool("isReady", true);
 
-            isPlayingCard = false;
-        }
-        else if (cardPlayed.cardType == Type.Defend)
-        {
-            Defend(cardPlayed);
-        }
-        else if (cardPlayed.cardType == Type.Heal)
-        {
-            Heal(cardPlayed);
+            avatarPlayingCard.isAttackFinished = true;
         }
 
         #endregion
 
         // Play Card Effect
-        DetermineEffectTarget(cardPlayed);
-
-        // Avatar returns to spot or finishes animation
-        yield return new WaitWhile(() => isPlayingCard);
+        //DetermineEffectTarget(cardPlayed);
 
         // Attack finished
         //ctx.displayCard.gameObject.SetActive(false);
@@ -184,53 +159,18 @@ public class ActionState : CombatBaseState
         }
     }
 
-
-
-    #region Card Type
-
-    private void Attack(Card cardPlayed, WeaponData weapon)
-    {
-        float damage = cardPlayed.value;
-        avatarOpponent.TakeDamage(damage);
-
-        ReduceGuard(weapon.type);
-
-        if (avatarOpponent.IsAvatarDead())
+    private IEnumerator ExecuteCommands(Card card)
+    { 
+        foreach (Executable executable in card.commands)
         {
-            avatarOpponent.GetComponent<Animator>().SetTrigger("Death");
-            return;
-        }
+            bool isConditionTrue = false;
+            yield return ctx.StartCoroutine(executable.Execute(result => isConditionTrue = result));
 
-        // Apply effect when guard is broken
-        if (avatarOpponent.isGuardBroken())
-        {
-            // Check if avatar has guard broken effect
-            if (avatarOpponent.hasStatusEffect(Effect.GuardBroken))
-            {
-                ReduceHitToRecover();
-            }
-            else
-            {
-                ApplyGuardBroken();
-            }
+            if (!isConditionTrue) yield break;
         }
     }
 
-    private void Defend(Card cardPlayed)
-    {
-        float block = cardPlayed.value;
 
-        avatarPlayingCard.AddBlock(block);
-    }
-
-    private void Heal(Card cardPlayed)
-    {
-        float healAmount = cardPlayed.value;
-
-        avatarPlayingCard.Heal(healAmount);
-    }
-
-    #endregion
 
     #region Card Actions
 
@@ -261,12 +201,7 @@ public class ActionState : CombatBaseState
         }
     }
 
-    private void ApplyGuardBroken()
-    {
-        if (avatarOpponent.armourType == ArmourType.Light || avatarOpponent.armourType == ArmourType.None) avatarOpponent.ApplyGuardBreak(ctx.guardBreakLightArmour);
-        else if (avatarOpponent.armourType == ArmourType.Medium) avatarOpponent.ApplyGuardBreak(ctx.guardBreakMediumArmour);
-        else if (avatarOpponent.armourType == ArmourType.Heavy) avatarOpponent.ApplyGuardBreak(ctx.guardBreakHeavyArmour);
-    }
+    
 
     
 
@@ -309,6 +244,9 @@ public class ActionState : CombatBaseState
     #region Animation Related
     private void MoveAvatar()
     {
+        Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
+        avatarPlayingCardController.SetTrigger("Move");
+
         // Determine position to move to
         Transform currentTransform = avatarPlayingCard.transform;
         Transform opponentTransform = avatarOpponent.transform;
@@ -320,20 +258,23 @@ public class ActionState : CombatBaseState
 
         currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), ctx.moveDuration).SetEase(ctx.moveAnimCurve).OnComplete(() =>
         {
-            // Play attack animation
-            avatarPlayingCard.GetComponent<Animator>().SetTrigger("Attack");
-
-            if (avatarPlayingCard.gameObject.CompareTag("Player"))
-            {
-                ctx.panCam.transform.position = ctx.followCam.transform.position;
-                ctx.panCam.transform.rotation = ctx.followCam.transform.rotation;
-                ctx.panCam.Priority = 31;
-            }
+            ExecutableParameters.hasMoved = true;
         });
+
+        if (avatarPlayingCard.gameObject.CompareTag("Player"))
+        {
+            ctx.followCam.LookAt = null;
+            ctx.followCam.transform.rotation = ctx.defaultCam.transform.rotation;
+            ctx.followCam.LookAt = avatarOpponent.transform;
+            ctx.panCam.LookAt = avatarOpponent.transform;
+            ctx.followCam.Priority = 30;
+        }
     }
 
     private void ReturnAvatar()
     {
+        Debug.Log("RETURNNN");
+
         // Determine position to move to
         Transform currentTransform = avatarPlayingCard.transform;
         Transform parentTransform = currentTransform.parent.transform;
@@ -345,7 +286,7 @@ public class ActionState : CombatBaseState
 
         currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), ctx.jumpDuration).SetEase(ctx.jumpAnimCurve).OnComplete(() =>
         {
-            isPlayingCard = false;
+            avatarPlayingCard.isAttackFinished = true;
         });
     }
 
@@ -354,20 +295,10 @@ public class ActionState : CombatBaseState
         if (avatarPlayingCard.doDamage)
         {
             avatarPlayingCard.doDamage = false;
-            hasAttacked = true;
+            ExecutableParameters.hasAttacked = true;
             
             if (!avatarOpponent.isInCounterState)
                 avatarOpponent.GetComponent<Animator>().SetTrigger("TakeDamage");
-        }
-
-        // Move back to spot
-        if (avatarPlayingCard.isAttackFinished)
-        {
-            avatarPlayingCard.isAttackFinished = false;
-            ReturnAvatar();
-
-            if (avatarPlayingCard.gameObject.CompareTag("Player"))
-                ctx.panCam.Priority = 0;
         }
     }
 

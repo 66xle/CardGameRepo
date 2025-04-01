@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Type
+public enum CardType
 {
     Attack,
     Counter,
@@ -25,10 +25,11 @@ public class Card : ScriptableObject
     public Sprite frame;
 
     [Header("Card Info")]
-    public Type cardType;
+    public CardType cardType;
     public int value;
     public int cost;
     public int recycleValue;
+    public List<Executable> commands = new List<Executable>();
 
     [Header("Status Effects")]
     public List<StatusEffect> selfEffects = new List<StatusEffect>();

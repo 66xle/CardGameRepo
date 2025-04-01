@@ -27,6 +27,7 @@ public struct CardData
         copyCard.cardName = card.cardName;
         copyCard.applyEffects = card.applyEffects;
         copyCard.selfEffects = card.selfEffects;
+        copyCard.commands = card.commands;
 
         this.card = copyCard;
     }

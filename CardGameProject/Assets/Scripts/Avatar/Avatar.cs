@@ -6,6 +6,8 @@ using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using System;
 using Action = System.Action;
+using System.ComponentModel;
+using MyBox;
 
 
 
@@ -27,7 +29,7 @@ public class Avatar : MonoBehaviour
 
     [HideInInspector] public event Action OnStatChanged;
 
-    protected float _currentHealth;
+    [MyBox.ReadOnly] public float _currentHealth;
     protected float _currentBlock;
     protected int _currentGuard;
 
@@ -209,6 +211,7 @@ public class Avatar : MonoBehaviour
 
     public void AnimationEventAttackFinish()
     {
+        Debug.Log("test");
         isAttackFinished = true;
     }
 }
