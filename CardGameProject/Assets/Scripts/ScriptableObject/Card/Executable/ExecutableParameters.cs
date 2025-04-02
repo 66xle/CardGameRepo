@@ -8,10 +8,4 @@ public static class ExecutableParameters
     public static Avatar avatarOpponent;
     public static Card card;
     public static WeaponData weapon;
-
-    public static void Clear()
-    {
-        avatarPlayingCard = null;
-        avatarOpponent = null;
-    }
 }

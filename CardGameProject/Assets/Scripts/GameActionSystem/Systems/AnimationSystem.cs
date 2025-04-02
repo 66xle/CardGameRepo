@@ -8,12 +8,14 @@ public class AnimationSystem : MonoBehaviour
     {
         ActionSystem.AttachPerformer<MoveToPosGA>(MoveToPosPerformer);
         ActionSystem.AttachPerformer<ReturnToPosGA>(ReturnToPosPerformer);
+        ActionSystem.AttachPerformer<TriggerAttackAnimGA>(TriggerAttackAnimPerformer);
     }
 
     private void OnDisable()
     {
         ActionSystem.DetachPerformer<MoveToPosGA>();
         ActionSystem.DetachPerformer<ReturnToPosGA>();
+        ActionSystem.DetachPerformer<TriggerAttackAnimGA>();
     }
 
     private IEnumerator MoveToPosPerformer(MoveToPosGA moveToPosGA)
@@ -60,5 +62,12 @@ public class AnimationSystem : MonoBehaviour
         yield return tween.WaitForCompletion();
 
         returnToPosGA.IsReturnFinished = true;
+    }
+
+    private IEnumerator TriggerAttackAnimPerformer(TriggerAttackAnimGA triggerAttackAnimGA)
+    {
+        triggerAttackAnimGA.avatarPlayingCard.GetComponent<Animator>().SetTrigger("Attack");
+
+        yield return null;
     }
 }

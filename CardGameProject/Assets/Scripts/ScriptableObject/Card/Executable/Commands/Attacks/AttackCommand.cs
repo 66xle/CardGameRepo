@@ -1,15 +1,16 @@
-using DG.Tweening;
-using events;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DealDamageToEnemy", menuName = "Executable/Commands/DealDamageToEnemy")]
-public class DealDamageToEnemy : Command
+public abstract class AttackCommand : TargetCommand
 {
+    protected abstract override List<Avatar> GetTargets();
+
     public override IEnumerator Execute(Action<bool> onComplete)
     {
+        List<Avatar> targets = GetTargets();
+
         CombatStateMachine ctx = ExecutableParameters.ctx;
         Avatar avatarPlayingCard = ExecutableParameters.avatarPlayingCard;
         Avatar avatarOpponent = ExecutableParameters.avatarOpponent;
@@ -24,19 +25,11 @@ public class DealDamageToEnemy : Command
         yield return new WaitWhile(() => !moveToPosGA.IsMoveFinished);
 
         // Trigger attack animation
-        avatarPlayingCard.GetComponent<Animator>().SetTrigger("Attack");
-
-        if (avatarPlayingCard.gameObject.CompareTag("Player"))
-        {
-            ctx.panCam.transform.position = ctx.followCam.transform.position;
-            ctx.panCam.transform.rotation = ctx.followCam.transform.rotation;
-            ctx.panCam.Priority = 31;
-        }
+        TriggerAttackAnimGA triggerAttackAnimGA = new(avatarPlayingCard, ctx);
+        ActionSystem.Instance.Perform(triggerAttackAnimGA);
 
         yield return new WaitWhile(() => !avatarPlayingCard.doDamage);
 
-        if (!avatarOpponent.isInCounterState)
-            
 
         if (avatarOpponent.isInCounterState)
         {
@@ -76,7 +69,7 @@ public class DealDamageToEnemy : Command
                     }
                 }
             }
-            
+
 
             ctx.SpawnDamagePopupUI(avatarOpponent, ExecutableParameters.card.value, Color.white);
         }
@@ -110,6 +103,4 @@ public class DealDamageToEnemy : Command
         else if (avatarOpponent.armourType == ArmourType.Medium) avatarOpponent.ApplyGuardBreak(ctx.guardBreakMediumArmour);
         else if (avatarOpponent.armourType == ArmourType.Heavy) avatarOpponent.ApplyGuardBreak(ctx.guardBreakHeavyArmour);
     }
-
-    
 }

@@ -6,12 +6,14 @@ public class CameraSystem : MonoBehaviour
     {
         ActionSystem.SubscribeReaction<MoveToPosGA>(MoveToPosReaction, ReactionTiming.PRE);
         ActionSystem.SubscribeReaction<ReturnToPosGA>(ReturnToPosReaction, ReactionTiming.PRE);
+        ActionSystem.SubscribeReaction<TriggerAttackAnimGA>(TriggerAttackAnimReaction, ReactionTiming.PRE);
     }
 
     private void OnDisable()
     {
         ActionSystem.UnsubscribeReaction<MoveToPosGA>(MoveToPosReaction, ReactionTiming.PRE);
         ActionSystem.UnsubscribeReaction<ReturnToPosGA>(ReturnToPosReaction, ReactionTiming.PRE);
+        ActionSystem.UnsubscribeReaction<TriggerAttackAnimGA>(TriggerAttackAnimReaction, ReactionTiming.PRE);
     }
 
     private void MoveToPosReaction(MoveToPosGA moveToPosGA)
@@ -34,5 +36,18 @@ public class CameraSystem : MonoBehaviour
     {
         if (returnToPosGA.avatarPlayingCard.gameObject.CompareTag("Player"))
             returnToPosGA.ctx.panCam.Priority = 0;
+    }
+
+    private void TriggerAttackAnimReaction(TriggerAttackAnimGA triggerAttackAnimGA)
+    {
+        Avatar avatarPlayingCard = triggerAttackAnimGA.avatarPlayingCard;
+        CombatStateMachine ctx = triggerAttackAnimGA.ctx;
+
+        if (avatarPlayingCard.gameObject.CompareTag("Player"))
+        {
+            ctx.panCam.transform.position = ctx.followCam.transform.position;
+            ctx.panCam.transform.rotation = ctx.followCam.transform.rotation;
+            ctx.panCam.Priority = 31;
+        }
     }
 }
