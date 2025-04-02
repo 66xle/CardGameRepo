@@ -9,14 +9,6 @@ public static class ExecutableParameters
     public static Card card;
     public static WeaponData weapon;
 
-
-    public static bool hasAttacked;
-    public static bool hasMoved;
-
-
-    public static Action MoveToEnemy;
-    public static Action ReturnToPosition;
-
     public static void Clear()
     {
         avatarPlayingCard = null;

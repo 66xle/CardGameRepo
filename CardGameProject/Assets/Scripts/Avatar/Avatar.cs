@@ -211,7 +211,6 @@ public class Avatar : MonoBehaviour
 
     public void AnimationEventAttackFinish()
     {
-        Debug.Log("test");
         isAttackFinished = true;
     }
 }

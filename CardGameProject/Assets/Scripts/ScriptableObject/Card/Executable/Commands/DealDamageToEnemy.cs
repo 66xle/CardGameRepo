@@ -18,9 +18,10 @@ public class DealDamageToEnemy : Command
         Animator opponentController = avatarOpponent.GetComponent<Animator>();
 
         // Trigger move animation
-        ExecutableParameters.MoveToEnemy?.Invoke();
+        MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, ctx);
+        ActionSystem.Instance.Perform(moveToPosGA);
 
-        yield return new WaitWhile(() => !ExecutableParameters.hasMoved);
+        yield return new WaitWhile(() => !moveToPosGA.IsMoveFinished);
 
         // Trigger attack animation
         avatarPlayingCard.GetComponent<Animator>().SetTrigger("Attack");
@@ -32,8 +33,10 @@ public class DealDamageToEnemy : Command
             ctx.panCam.Priority = 31;
         }
 
-        yield return new WaitWhile(() => !ExecutableParameters.hasAttacked);
+        yield return new WaitWhile(() => !avatarPlayingCard.doDamage);
 
+        if (!avatarOpponent.isInCounterState)
+            
 
         if (avatarOpponent.isInCounterState)
         {
@@ -47,6 +50,7 @@ public class DealDamageToEnemy : Command
         else
         {
             avatarOpponent.TakeDamage(ExecutableParameters.card.value);
+            avatarOpponent.GetComponent<Animator>().SetTrigger("TakeDamage");
 
             avatarOpponent.UpdateStatsUI();
 
@@ -79,10 +83,16 @@ public class DealDamageToEnemy : Command
 
         yield return new WaitWhile(() => !avatarPlayingCard.isAttackFinished);
 
-        ExecutableParameters.ReturnToPosition?.Invoke();
+        // Return to position
+        ReturnToPosGA returnToPosGA = new(avatarPlayingCard, ctx);
+        ActionSystem.Instance.Perform(returnToPosGA);
+
 
         if (avatarPlayingCard.gameObject.CompareTag("Player"))
             ctx.panCam.Priority = 0;
+
+        // wait until we return to our spot
+        yield return new WaitWhile(() => !returnToPosGA.IsReturnFinished);
 
         onComplete?.Invoke(true);
     }

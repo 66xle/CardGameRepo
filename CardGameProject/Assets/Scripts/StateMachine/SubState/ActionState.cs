@@ -45,8 +45,6 @@ public class ActionState : CombatBaseState
     public override void UpdateState()
     {
         CheckSwitchState();
-
-        AnimationEvent();
     }   
 
     public override void FixedUpdateState() { }
@@ -54,9 +52,6 @@ public class ActionState : CombatBaseState
     {
         avatarPlayingCard.doDamage = false;
         avatarPlayingCard.isAttackFinished = false;
-
-        ExecutableParameters.MoveToEnemy -= MoveAvatar;
-        ExecutableParameters.ReturnToPosition -= ReturnAvatar;
     }
     public override void CheckSwitchState()
     {
@@ -100,12 +95,8 @@ public class ActionState : CombatBaseState
 
 
 
-        ExecutableParameters.hasMoved = false;
-        ExecutableParameters.hasAttacked = false;
 
 
-        ExecutableParameters.MoveToEnemy += MoveAvatar;
-        ExecutableParameters.ReturnToPosition += ReturnAvatar;
 
 
         WeaponData weapon = cardData.weapon;
@@ -241,68 +232,6 @@ public class ActionState : CombatBaseState
 
     #endregion
 
-    #region Animation Related
-    private void MoveAvatar()
-    {
-        Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
-        avatarPlayingCardController.SetTrigger("Move");
-
-        // Determine position to move to
-        Transform currentTransform = avatarPlayingCard.transform;
-        Transform opponentTransform = avatarOpponent.transform;
-
-        Vector3 currentPos = new Vector3(currentTransform.position.x, 0, currentTransform.position.z);
-        Vector3 opponentPos = new Vector3(opponentTransform.position.x, 0, opponentTransform.position.z);
-
-        Vector3 posToMove = opponentPos + opponentTransform.parent.transform.forward * 1.5f;
-
-        currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), ctx.moveDuration).SetEase(ctx.moveAnimCurve).OnComplete(() =>
-        {
-            ExecutableParameters.hasMoved = true;
-        });
-
-        if (avatarPlayingCard.gameObject.CompareTag("Player"))
-        {
-            ctx.followCam.LookAt = null;
-            ctx.followCam.transform.rotation = ctx.defaultCam.transform.rotation;
-            ctx.followCam.LookAt = avatarOpponent.transform;
-            ctx.panCam.LookAt = avatarOpponent.transform;
-            ctx.followCam.Priority = 30;
-        }
-    }
-
-    private void ReturnAvatar()
-    {
-        Debug.Log("RETURNNN");
-
-        // Determine position to move to
-        Transform currentTransform = avatarPlayingCard.transform;
-        Transform parentTransform = currentTransform.parent.transform;
-
-        Vector3 currentPos = new Vector3(currentTransform.position.x, 0, currentTransform.position.z);
-        Vector3 parentPos = new Vector3(parentTransform.position.x, 0, parentTransform.position.z);
-
-        Vector3 posToMove = parentPos;
-
-        currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), ctx.jumpDuration).SetEase(ctx.jumpAnimCurve).OnComplete(() =>
-        {
-            avatarPlayingCard.isAttackFinished = true;
-        });
-    }
-
-    private void AnimationEvent()
-    {
-        if (avatarPlayingCard.doDamage)
-        {
-            avatarPlayingCard.doDamage = false;
-            ExecutableParameters.hasAttacked = true;
-            
-            if (!avatarOpponent.isInCounterState)
-                avatarOpponent.GetComponent<Animator>().SetTrigger("TakeDamage");
-        }
-    }
-
-    #endregion
 
     
 }
