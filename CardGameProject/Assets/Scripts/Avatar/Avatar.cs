@@ -91,6 +91,19 @@ public class Avatar : MonoBehaviour
         _currentGuard = Mathf.Clamp(_currentGuard, 0, maxGuard);
     }
 
+    public bool IsGuardReducible(DamageType damageType )
+    {
+        if (armourType == ArmourType.Light && damageType == DamageType.Slash ||
+            armourType == ArmourType.Medium && damageType == DamageType.Pierce ||
+            armourType == ArmourType.Heavy && damageType == DamageType.Blunt ||
+            armourType == ArmourType.None)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public bool isGuardBroken()
     {
         return _currentGuard == 0 ? true : false;

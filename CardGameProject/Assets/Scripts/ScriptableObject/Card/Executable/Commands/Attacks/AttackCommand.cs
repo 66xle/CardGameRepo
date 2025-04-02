@@ -42,34 +42,8 @@ public abstract class AttackCommand : TargetCommand
         }
         else
         {
-            avatarOpponent.TakeDamage(ExecutableParameters.card.value);
-            avatarOpponent.GetComponent<Animator>().SetTrigger("TakeDamage");
-
-            avatarOpponent.UpdateStatsUI();
-
-            ReduceGuard(ExecutableParameters.weapon.type, avatarOpponent);
-
-            if (avatarOpponent.IsAvatarDead())
-            {
-                avatarOpponent.GetComponent<Animator>().SetTrigger("Death");
-            }
-            else
-            {
-                // Apply effect when guard is broken
-                if (avatarOpponent.isGuardBroken())
-                {
-                    // Check if avatar has guard broken effect
-                    if (avatarOpponent.hasStatusEffect(Effect.GuardBroken))
-                    {
-                        //ReduceHitToRecover();
-                    }
-                    else
-                    {
-                        ApplyGuardBroken(ctx, avatarOpponent);
-                    }
-                }
-            }
-
+            TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(targets, avatarOpponent, ctx);
+            ActionSystem.Instance.Perform(takeDamageFromWeaponGA);
 
             ctx.SpawnDamagePopupUI(avatarOpponent, ExecutableParameters.card.value, Color.white);
         }
@@ -84,23 +58,5 @@ public abstract class AttackCommand : TargetCommand
         yield return new WaitWhile(() => !returnToPosGA.IsReturnFinished);
 
         onComplete?.Invoke(true);
-    }
-
-    private void ReduceGuard(DamageType type, Avatar avatarOpponent)
-    {
-        if (avatarOpponent.armourType == ArmourType.Light && type == DamageType.Slash ||
-            avatarOpponent.armourType == ArmourType.Medium && type == DamageType.Pierce ||
-            avatarOpponent.armourType == ArmourType.Heavy && type == DamageType.Blunt ||
-            avatarOpponent.armourType == ArmourType.None)
-        {
-            avatarOpponent.ReduceGuard();
-        }
-    }
-
-    private void ApplyGuardBroken(CombatStateMachine ctx, Avatar avatarOpponent)
-    {
-        if (avatarOpponent.armourType == ArmourType.Light || avatarOpponent.armourType == ArmourType.None) avatarOpponent.ApplyGuardBreak(ctx.guardBreakLightArmour);
-        else if (avatarOpponent.armourType == ArmourType.Medium) avatarOpponent.ApplyGuardBreak(ctx.guardBreakMediumArmour);
-        else if (avatarOpponent.armourType == ArmourType.Heavy) avatarOpponent.ApplyGuardBreak(ctx.guardBreakHeavyArmour);
     }
 }

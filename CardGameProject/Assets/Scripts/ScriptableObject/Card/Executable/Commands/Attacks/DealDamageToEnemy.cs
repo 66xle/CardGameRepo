@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "DealDamageToEnemy", menuName = "Executable/Commands/DealDamageToEnemy")]
+[CreateAssetMenu(fileName = "DealDamageToEnemy", menuName = "Commands/Attacks/DealDamageToEnemy")]
 public class DealDamageToEnemy : AttackCommand
 {
     protected override List<Avatar> GetTargets()
