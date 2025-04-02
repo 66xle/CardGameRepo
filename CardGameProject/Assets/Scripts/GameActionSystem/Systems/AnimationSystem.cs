@@ -34,15 +34,6 @@ public class AnimationSystem : MonoBehaviour
 
         Vector3 posToMove = opponentPos + opponentTransform.parent.transform.forward * 1.5f;
 
-        if (avatarPlayingCard.gameObject.CompareTag("Player"))
-        {
-            ctx.followCam.LookAt = null;
-            ctx.followCam.transform.rotation = ctx.defaultCam.transform.rotation;
-            ctx.followCam.LookAt = avatarOpponent.transform;
-            ctx.panCam.LookAt = avatarOpponent.transform;
-            ctx.followCam.Priority = 30;
-        }
-
         Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), ctx.moveDuration).SetEase(ctx.moveAnimCurve);
 
         yield return tween.WaitForCompletion();

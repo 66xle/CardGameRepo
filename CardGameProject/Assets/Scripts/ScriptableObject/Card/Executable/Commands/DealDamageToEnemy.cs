@@ -87,10 +87,6 @@ public class DealDamageToEnemy : Command
         ReturnToPosGA returnToPosGA = new(avatarPlayingCard, ctx);
         ActionSystem.Instance.Perform(returnToPosGA);
 
-
-        if (avatarPlayingCard.gameObject.CompareTag("Player"))
-            ctx.panCam.Priority = 0;
-
         // wait until we return to our spot
         yield return new WaitWhile(() => !returnToPosGA.IsReturnFinished);
 
