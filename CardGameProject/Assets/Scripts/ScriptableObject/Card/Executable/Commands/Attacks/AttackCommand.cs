@@ -40,11 +40,9 @@ public abstract class AttackCommand : TargetCommand
         {
             foreach (Avatar avatarToTakeDamage in targets)
             {
-                TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, ctx);
+                TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, ctx, ExecutableParameters.card.value, ExecutableParameters.weapon.type);
                 ActionSystem.Instance.Perform(takeDamageFromWeaponGA);
             }
-
-            ctx.SpawnDamagePopupUI(avatarOpponent, ExecutableParameters.card.value, Color.white);
         }
 
         yield return new WaitWhile(() => !avatarPlayingCard.isAttackFinished);
