@@ -4,13 +4,11 @@ using System.Collections.Generic;
 
 public class TakeDamageFromWeaponGA : GameAction
 {
-    public List<Avatar> targets;
     public Avatar avatarToTakeDamage;
     public CombatStateMachine ctx;
 
-    public TakeDamageFromWeaponGA(List<Avatar> targets, Avatar avatarToTakeDamage, CombatStateMachine ctx)
+    public TakeDamageFromWeaponGA(Avatar avatarToTakeDamage, CombatStateMachine ctx)
     {
-        this.targets = targets;
         this.avatarToTakeDamage = avatarToTakeDamage;
         this.ctx = ctx;
     }

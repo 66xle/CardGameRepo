@@ -17,34 +17,33 @@ public class DamageSystem : MonoBehaviour
 
     private IEnumerator TakeDamageFromWeaponPerformer(TakeDamageFromWeaponGA takeDamageFromWeaponGA)
     {
-        foreach (Avatar avatarToTakeDamage in takeDamageFromWeaponGA.targets)
+        Avatar avatarToTakeDamage = takeDamageFromWeaponGA.avatarToTakeDamage;
+
+        avatarToTakeDamage.TakeDamage(ExecutableParameters.card.value);
+        avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
+
+        if (avatarToTakeDamage.IsGuardReducible(ExecutableParameters.weapon.type))
+            avatarToTakeDamage.ReduceGuard();
+
+
+        if (avatarToTakeDamage.IsAvatarDead())
         {
-            avatarToTakeDamage.TakeDamage(ExecutableParameters.card.value);
-            avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
-
-            if (avatarToTakeDamage.IsGuardReducible(ExecutableParameters.weapon.type))
-                avatarToTakeDamage.ReduceGuard();
-
-
-            if (avatarToTakeDamage.IsAvatarDead())
-            {
-                avatarToTakeDamage.GetComponent<Animator>().SetTrigger("Death");
-            }
-            else if (avatarToTakeDamage.isGuardBroken())
-            {
-                // Check if avatar has guard broken effect
-                if (avatarToTakeDamage.hasStatusEffect(Effect.GuardBroken))
-                {
-                    //ReduceHitToRecover();
-                }
-                else
-                {
-                    takeDamageFromWeaponGA.ApplyGuardBroken(takeDamageFromWeaponGA.ctx, avatarToTakeDamage);
-                }
-            }
-
-            avatarToTakeDamage.UpdateStatsUI();
+            avatarToTakeDamage.GetComponent<Animator>().SetTrigger("Death");
         }
+        else if (avatarToTakeDamage.isGuardBroken())
+        {
+            // Check if avatar has guard broken effect
+            if (avatarToTakeDamage.hasStatusEffect(Effect.GuardBroken))
+            {
+                //ReduceHitToRecover();
+            }
+            else
+            {
+                takeDamageFromWeaponGA.ApplyGuardBroken(takeDamageFromWeaponGA.ctx, avatarToTakeDamage);
+            }
+        }
+
+        avatarToTakeDamage.UpdateStatsUI();
 
         yield return null;
     }

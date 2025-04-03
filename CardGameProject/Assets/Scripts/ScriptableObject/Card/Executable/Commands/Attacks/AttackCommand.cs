@@ -38,8 +38,11 @@ public abstract class AttackCommand : TargetCommand
         }
         else
         {
-            TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(targets, avatarOpponent, ctx);
-            ActionSystem.Instance.Perform(takeDamageFromWeaponGA);
+            foreach (Avatar avatarToTakeDamage in targets)
+            {
+                TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, ctx);
+                ActionSystem.Instance.Perform(takeDamageFromWeaponGA);
+            }
 
             ctx.SpawnDamagePopupUI(avatarOpponent, ExecutableParameters.card.value, Color.white);
         }
