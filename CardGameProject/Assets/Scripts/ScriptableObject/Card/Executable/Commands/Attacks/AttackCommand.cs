@@ -33,12 +33,8 @@ public abstract class AttackCommand : TargetCommand
 
         if (avatarOpponent.isInCounterState)
         {
-            opponentController.SetBool("isReady", false);
-            opponentController.SetTrigger("Counter");
-
-            avatarPlayingCardController.SetTrigger("Recoil");
-
-            avatarOpponent.isInCounterState = false;
+            CounterGA counterGA = new(avatarOpponent, avatarPlayingCardController, opponentController);
+            ActionSystem.Instance.Perform(counterGA);
         }
         else
         {

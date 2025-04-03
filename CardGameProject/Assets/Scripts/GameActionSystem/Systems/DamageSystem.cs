@@ -6,11 +6,13 @@ public class DamageSystem : MonoBehaviour
     private void OnEnable()
     {
         ActionSystem.AttachPerformer<TakeDamageFromWeaponGA>(TakeDamageFromWeaponPerformer);
+        ActionSystem.AttachPerformer<CounterGA>(CounterPerformer);
     }
 
     private void OnDisable()
     {
         ActionSystem.DetachPerformer<TakeDamageFromWeaponGA>();
+        ActionSystem.DetachPerformer<CounterGA>();
     }
 
     private IEnumerator TakeDamageFromWeaponPerformer(TakeDamageFromWeaponGA takeDamageFromWeaponGA)
@@ -43,6 +45,20 @@ public class DamageSystem : MonoBehaviour
 
             avatarToTakeDamage.UpdateStatsUI();
         }
+
+        yield return null;
+    }
+
+    private IEnumerator CounterPerformer(CounterGA counterGA)
+    {
+        counterGA.opponentController.SetBool("isReady", false);
+        counterGA.opponentController.SetTrigger("Counter");
+
+        counterGA.avatarPlayingCardController.SetTrigger("Recoil");
+
+        counterGA.avatarOpponent.isInCounterState = false;
+
+
 
         yield return null;
     }
