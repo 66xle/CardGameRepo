@@ -19,10 +19,10 @@ public class DamageSystem : MonoBehaviour
     {
         Avatar avatarToTakeDamage = takeDamageFromWeaponGA.avatarToTakeDamage;
 
-        avatarToTakeDamage.TakeDamage(ExecutableParameters.card.value);
+        avatarToTakeDamage.TakeDamage(takeDamageFromWeaponGA.damage);
         avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
 
-        if (avatarToTakeDamage.IsGuardReducible(ExecutableParameters.weapon.type))
+        if (avatarToTakeDamage.IsGuardReducible(takeDamageFromWeaponGA.damageType))
             avatarToTakeDamage.ReduceGuard();
 
 
