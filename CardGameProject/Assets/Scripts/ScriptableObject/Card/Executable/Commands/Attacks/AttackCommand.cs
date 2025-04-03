@@ -22,12 +22,6 @@ public abstract class AttackCommand : TargetCommand
         MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, ctx);
         ActionSystem.Instance.Perform(moveToPosGA);
 
-        yield return new WaitWhile(() => !moveToPosGA.IsMoveFinished);
-
-        // Trigger attack animation
-        TriggerAttackAnimGA triggerAttackAnimGA = new(avatarPlayingCard, ctx);
-        ActionSystem.Instance.Perform(triggerAttackAnimGA);
-
         yield return new WaitWhile(() => !avatarPlayingCard.doDamage);
 
 

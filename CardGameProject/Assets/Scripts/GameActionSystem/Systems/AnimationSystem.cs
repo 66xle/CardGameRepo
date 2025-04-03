@@ -9,6 +9,8 @@ public class AnimationSystem : MonoBehaviour
         ActionSystem.AttachPerformer<MoveToPosGA>(MoveToPosPerformer);
         ActionSystem.AttachPerformer<ReturnToPosGA>(ReturnToPosPerformer);
         ActionSystem.AttachPerformer<TriggerAttackAnimGA>(TriggerAttackAnimPerformer);
+
+        ActionSystem.SubscribeReaction<MoveToPosGA>(MoveToPosReaction, ReactionTiming.POST);
     }
 
     private void OnDisable()
@@ -16,6 +18,8 @@ public class AnimationSystem : MonoBehaviour
         ActionSystem.DetachPerformer<MoveToPosGA>();
         ActionSystem.DetachPerformer<ReturnToPosGA>();
         ActionSystem.DetachPerformer<TriggerAttackAnimGA>();
+
+        ActionSystem.UnsubscribeReaction<MoveToPosGA>(MoveToPosReaction, ReactionTiming.POST);
     }
 
     private IEnumerator MoveToPosPerformer(MoveToPosGA moveToPosGA)
@@ -39,8 +43,6 @@ public class AnimationSystem : MonoBehaviour
         Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), ctx.moveDuration).SetEase(ctx.moveAnimCurve);
 
         yield return tween.WaitForCompletion();
-
-        moveToPosGA.IsMoveFinished = true;
     }
 
     private IEnumerator ReturnToPosPerformer(ReturnToPosGA returnToPosGA)
@@ -69,5 +71,11 @@ public class AnimationSystem : MonoBehaviour
         triggerAttackAnimGA.avatarPlayingCard.GetComponent<Animator>().SetTrigger("Attack");
 
         yield return null;
+    }
+
+    private void MoveToPosReaction(MoveToPosGA moveToPosGA)
+    {
+        TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.avatarPlayingCard, moveToPosGA.ctx);
+        ActionSystem.Instance.AddReaction(triggerAttackAnimGA);
     }
 }
