@@ -151,14 +151,11 @@ public class ActionState : CombatBaseState
     }
 
     private IEnumerator ExecuteCommands(Card card)
-    { 
-        foreach (Executable executable in card.commands)
-        {
-            bool isConditionTrue = false;
-            yield return ctx.StartCoroutine(executable.Execute(result => isConditionTrue = result));
+    {
+        ActionSequence sequence = new ActionSequence();
+        sequence.SetCommands(card.commands);
 
-            if (!isConditionTrue) yield break;
-        }
+        yield return sequence.Execute(null);
     }
 
 

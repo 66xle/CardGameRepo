@@ -8,7 +8,7 @@ public class DealDamageToSelf : AttackCommand
     {
         List<Avatar> targets = new List<Avatar>();
 
-        targets.Add(ExecutableParameters.ctx.player);
+        targets.Add(ExecutableParameters.avatarPlayingCard);
 
         return targets;
     }

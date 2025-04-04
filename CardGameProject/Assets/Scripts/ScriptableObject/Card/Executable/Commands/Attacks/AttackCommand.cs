@@ -7,10 +7,8 @@ public abstract class AttackCommand : TargetCommand
 {
     protected abstract override List<Avatar> GetTargets();
 
-    public override IEnumerator Execute(Action<bool> onComplete)
+    public override IEnumerator Execute(Action<bool> IsConditionTrue)
     {
-        List<Avatar> targets = GetTargets();
-
         CombatStateMachine ctx = ExecutableParameters.ctx;
         Avatar avatarPlayingCard = ExecutableParameters.avatarPlayingCard;
         Avatar avatarOpponent = ExecutableParameters.avatarOpponent;
@@ -18,12 +16,7 @@ public abstract class AttackCommand : TargetCommand
         Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
         Animator opponentController = avatarOpponent.GetComponent<Animator>();
 
-        // Trigger move animation
-        MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, ctx);
-        ActionSystem.Instance.Perform(moveToPosGA);
-
-        yield return new WaitWhile(() => !avatarPlayingCard.doDamage);
-
+        Debug.Log(ActionSystem.Instance.IsPerforming);
 
         if (avatarOpponent.isInCounterState)
         {
@@ -32,22 +25,18 @@ public abstract class AttackCommand : TargetCommand
         }
         else
         {
+            List<Avatar> targets = GetTargets();
+
             foreach (Avatar avatarToTakeDamage in targets)
             {
                 TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, ctx, ExecutableParameters.card.value, ExecutableParameters.weapon.type);
                 ActionSystem.Instance.Perform(takeDamageFromWeaponGA);
+
+                SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.ctx.combatUIManager, takeDamageFromWeaponGA.avatarToTakeDamage, takeDamageFromWeaponGA.damage, Color.white);
+                takeDamageFromWeaponGA.PostReactions.Add(spawnDamageUIPopupGA);
             }
         }
 
-        yield return new WaitWhile(() => !avatarPlayingCard.isAttackFinished);
-
-        // Return to position
-        ReturnToPosGA returnToPosGA = new(avatarPlayingCard, ctx);
-        ActionSystem.Instance.Perform(returnToPosGA);
-
-        // wait until we return to our spot
-        yield return new WaitWhile(() => !returnToPosGA.IsReturnFinished);
-
-        onComplete?.Invoke(true);
+        yield return null;
     }
 }

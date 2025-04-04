@@ -4,6 +4,8 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "DealDamageToAllEnemies", menuName = "Commands/Attacks/DealDamageToAllEnemies")]
 public class DealDamageToAllEnemies : AttackCommand
 {
+    public override bool RequiresMovement => true;
+
     protected override List<Avatar> GetTargets()
     {
         List<Avatar> targets = new List<Avatar>();

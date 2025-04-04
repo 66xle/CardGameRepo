@@ -19,7 +19,12 @@ public class ActionSystem : Singleton<ActionSystem>
 
     public void Perform(GameAction action, System.Action OnPerformFinished = null)
     {
-        if (IsPerforming) return;
+        //Debug.LogError("Performing a game action: " + action.ToString());
+        //if (IsPerforming)
+        //{
+        //    Debug.LogError("Action System is already performing a game action: " + action.ToString());
+        //    return;
+        //}
         IsPerforming = true;
         StartCoroutine(Flow(action, () =>
         {
@@ -35,14 +40,18 @@ public class ActionSystem : Singleton<ActionSystem>
 
     private IEnumerator Flow(GameAction action, Action OnFlowFinished = null)
     {
+        Debug.LogError("Pre Performer: " + action.ToString());
         reactions = action.PreReactions;
         PerformSubscribers(action, preSubs);
         yield return PerformReactions();
 
+
+        Debug.LogError("Perform Performer: " + action.ToString());
         reactions = action.PerformReactions;
         yield return PerformPerformer(action);
         yield return PerformReactions();
 
+        Debug.LogError("Post Performer: " + action.ToString());
         reactions = action.PostReactions;
         PerformSubscribers(action, postSubs);
         yield return PerformReactions();

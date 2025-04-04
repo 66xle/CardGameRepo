@@ -5,5 +5,6 @@ using UnityEngine;
 
 public abstract class Executable : ScriptableObject
 {
-    public abstract IEnumerator Execute(Action<bool> onComplete);
+    public virtual bool RequiresMovement => false;
+    public abstract IEnumerator Execute(Action<bool> IsConditionTrue);
 }
