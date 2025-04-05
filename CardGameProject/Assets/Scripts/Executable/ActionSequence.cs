@@ -44,6 +44,8 @@ public class ActionSequence : Command
             if (!isConditionTrue) break;
         }
 
+        ActionSystem.Instance.PerformQueue();
+
         yield return new WaitWhile(() => !avatarPlayingCard.isAttackFinished); // TODO - Rename to isAnimationFinished
 
         if (hasMoved)

@@ -17,14 +17,14 @@ public abstract class AttackCommand : ActionSequence
         if (avatarOpponent.isInCounterState)
         {
             CounterGA counterGA = new(avatarOpponent, avatarPlayingCardController, opponentController);
-            ActionSystem.Instance.Perform(counterGA);
+            ActionSystem.Instance.AddGameActionToQueue(counterGA);
         }
         else
         {
             foreach (Avatar avatarToTakeDamage in ExecutableParameters.Targets)
             {
                 TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, ctx, ExecutableParameters.card.value, ExecutableParameters.weapon.type);
-                ActionSystem.Instance.Perform(takeDamageFromWeaponGA);
+                ActionSystem.Instance.AddGameActionToQueue(takeDamageFromWeaponGA);
 
                 SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.ctx.combatUIManager, takeDamageFromWeaponGA.avatarToTakeDamage, takeDamageFromWeaponGA.damage, Color.white);
                 takeDamageFromWeaponGA.PostReactions.Add(spawnDamageUIPopupGA);

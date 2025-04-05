@@ -11,11 +11,22 @@ public enum ReactionTiming
 
 public class ActionSystem : Singleton<ActionSystem>
 {
+    private List<GameAction> queueActions = new();
     private List<GameAction> reactions = null;
     public bool IsPerforming { get; private set; } = false;
     private static Dictionary<Type, List<Action<GameAction>>> preSubs = new();
     private static Dictionary<Type, List<Action<GameAction>>> postSubs = new();
     private static Dictionary<Type, Func<GameAction, IEnumerator>> performers = new();
+
+    public void PerformQueue()
+    {
+        foreach (GameAction action in queueActions)
+        {
+            Perform(action);
+        }
+
+        queueActions.Clear();
+    }
 
     public void Perform(GameAction action, System.Action OnPerformFinished = null)
     {
@@ -31,6 +42,11 @@ public class ActionSystem : Singleton<ActionSystem>
             IsPerforming = false;
             OnPerformFinished?.Invoke();
         }));
+    }
+
+    public void AddGameActionToQueue(GameAction gameAction)
+    {
+        queueActions?.Add(gameAction);
     }
 
     public void AddReaction(GameAction gameAction)
