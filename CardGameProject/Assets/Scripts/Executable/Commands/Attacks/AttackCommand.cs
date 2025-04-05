@@ -24,6 +24,8 @@ public abstract class AttackCommand : ActionSequence
         {
             foreach (Avatar avatarToTakeDamage in ExecutableParameters.Targets)
             {
+                
+
                 TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, ctx, ExecutableParameters.card.value, ExecutableParameters.weapon.type);
                 ActionSystem.Instance.AddGameActionToQueue(takeDamageFromWeaponGA);
 

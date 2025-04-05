@@ -7,7 +7,7 @@ public class IsStunned : Condition
 { 
     public override bool Evaluate()
     {
-        List<Avatar> currentTargets = ExecutableParameters.Targets;
+        List<Avatar> currentTargets = Extensions.Clone(ExecutableParameters.Targets);
 
         for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
         {
@@ -15,9 +15,11 @@ public class IsStunned : Condition
 
             if (!avatar.isGuardBroken())
             {
-                ExecutableParameters.Targets.Remove(avatar);
+                currentTargets.Remove(avatar);
             }
         }
+
+        ExecutableParameters.Targets = currentTargets;
 
         if (ExecutableParameters.Targets.Count > 0)
             return true;

@@ -15,8 +15,6 @@ public class UISystem : MonoBehaviour
         ActionSystem.DetachPerformer<SpawnDamageUIPopupGA>();
     }
 
-
-
     private IEnumerator SpawnDamageUIPopupPerformer(SpawnDamageUIPopupGA spawnDamageUIPopupGA)
     {
         Avatar avatar = spawnDamageUIPopupGA.avatarTakingDamage;
