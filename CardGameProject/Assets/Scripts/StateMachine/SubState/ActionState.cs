@@ -94,44 +94,19 @@ public class ActionState : CombatBaseState
         ExecutableParameters.avatarOpponent = avatarOpponent;
 
         ExecutableParameters.Targets = new List<Avatar>();
-        ExecutableParameters.HasConditionPassed = false;
-
-
-
-
-
-
 
         WeaponData weapon = cardData.weapon;
         Card cardPlayed = cardData.card;
 
         isInAction = true;
         
-        
-
         // Display Card
         //ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
         //ctx.displayCard.gameObject.SetActive(true);
 
 
         yield return ctx.StartCoroutine(ExecuteCommands(cardPlayed));
-        
-
-        #region Deterimine card type
-
-        if (cardPlayed.cardType == CardType.Attack)
-        {
-            
-        }
-        else if (cardPlayed.cardType == CardType.Counter)
-        {
-            avatarPlayingCard.isInCounterState = true;
-            //avatarPlayingCardController.SetBool("isReady", true);
-
-            avatarPlayingCard.isAttackFinished = true;
-        }
-
-        #endregion
+ 
 
         // Play Card Effect
         //DetermineEffectTarget(cardPlayed);
@@ -139,10 +114,7 @@ public class ActionState : CombatBaseState
         // Attack finished
         //ctx.displayCard.gameObject.SetActive(false);
 
-        if (avatarPlayingCard.gameObject.CompareTag("Player"))
-        {
-            ctx.followCam.Priority = 10;
-        }
+        
 
         isInAction = false;
         Debug.Log("Finished Attacking");
