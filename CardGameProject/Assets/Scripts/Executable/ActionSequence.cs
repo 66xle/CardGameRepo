@@ -4,6 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro.EditorUtilities;
 
+public enum CardTarget
+{
+    Enemy,
+    AllEnemies,
+    Self
+}
+
 public class ActionSequence : Command
 {
     protected List<Executable> _actionCommands;

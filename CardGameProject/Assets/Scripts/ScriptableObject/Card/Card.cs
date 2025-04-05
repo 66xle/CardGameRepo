@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using SerializeReferenceEditor;
 using UnityEngine;
 
 public enum CardType
@@ -29,7 +30,7 @@ public class Card : ScriptableObject
     public int value;
     public int cost;
     public int recycleValue;
-    public List<Executable> commands = new List<Executable>();
+    [SerializeReference][SR] public List<Executable> commands = new List<Executable>();
 
     [Header("Status Effects")]
     public List<StatusEffect> selfEffects = new List<StatusEffect>();

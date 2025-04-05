@@ -40,18 +40,18 @@ public class ActionSystem : Singleton<ActionSystem>
 
     private IEnumerator Flow(GameAction action, Action OnFlowFinished = null)
     {
-        Debug.LogError("Pre Performer: " + action.ToString());
+        //Debug.LogError("Pre Performer: " + action.ToString());
         reactions = action.PreReactions;
         PerformSubscribers(action, preSubs);
         yield return PerformReactions();
 
 
-        Debug.LogError("Perform Performer: " + action.ToString());
+        //Debug.LogError("Perform Performer: " + action.ToString());
         reactions = action.PerformReactions;
         yield return PerformPerformer(action);
         yield return PerformReactions();
 
-        Debug.LogError("Post Performer: " + action.ToString());
+        //Debug.LogError("Post Performer: " + action.ToString());
         reactions = action.PostReactions;
         PerformSubscribers(action, postSubs);
         yield return PerformReactions();
