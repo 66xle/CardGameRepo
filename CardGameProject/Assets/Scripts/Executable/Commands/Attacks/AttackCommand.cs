@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AttackCommand : TargetCommand
+public abstract class AttackCommand : ActionSequence
 {
-    protected abstract override List<Avatar> GetTargets();
-
     public override IEnumerator Execute(Action<bool> IsConditionTrue)
     {
         CombatStateMachine ctx = ExecutableParameters.ctx;
@@ -16,8 +14,6 @@ public abstract class AttackCommand : TargetCommand
         Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
         Animator opponentController = avatarOpponent.GetComponent<Animator>();
 
-        Debug.Log(ActionSystem.Instance.IsPerforming);
-
         if (avatarOpponent.isInCounterState)
         {
             CounterGA counterGA = new(avatarOpponent, avatarPlayingCardController, opponentController);
@@ -25,9 +21,7 @@ public abstract class AttackCommand : TargetCommand
         }
         else
         {
-            List<Avatar> targets = GetTargets();
-
-            foreach (Avatar avatarToTakeDamage in targets)
+            foreach (Avatar avatarToTakeDamage in ExecutableParameters.Targets)
             {
                 TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, ctx, ExecutableParameters.card.value, ExecutableParameters.weapon.type);
                 ActionSystem.Instance.Perform(takeDamageFromWeaponGA);

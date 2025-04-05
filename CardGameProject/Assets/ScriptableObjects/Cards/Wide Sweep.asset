@@ -23,13 +23,14 @@ MonoBehaviour:
   cost: 2
   recycleValue: 1
   commands:
-  - rid: 8735464965215355095
+  - rid: 8735464965215355114
   selfEffects: []
   applyEffects:
   - {fileID: 11400000, guid: 90d36c736626d7141bcbad2ac758115e, type: 2}
   references:
     version: 2
     RefIds:
-    - rid: 8735464965215355095
-      type: {class: DealDamageToAllEnemies, ns: , asm: Assembly-CSharp}
-      data: 
+    - rid: 8735464965215355114
+      type: {class: DealDamage, ns: , asm: Assembly-CSharp}
+      data:
+        target: 2

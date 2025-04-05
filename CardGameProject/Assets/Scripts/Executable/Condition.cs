@@ -13,5 +13,5 @@ public abstract class Condition : Executable
         onComplete?.Invoke(result);
     }
 
-    protected abstract bool Evaluate();
+    public abstract bool Evaluate();
 }

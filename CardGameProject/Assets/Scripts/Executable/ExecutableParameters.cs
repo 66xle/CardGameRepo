@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public static class ExecutableParameters
 {
@@ -8,4 +9,7 @@ public static class ExecutableParameters
     public static Avatar avatarOpponent;
     public static Card card;
     public static WeaponData weapon;
+
+    public static List<Avatar> Targets;
+    public static bool HasConditionPassed;
 }

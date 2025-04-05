@@ -5,29 +5,18 @@ using UnityEngine;
 
 public class DealDamage : AttackCommand
 {
-    public override bool RequiresMovement => true;
+    public override bool RequiresMovement => SetMovement();
+
+    public override CardTarget CardTarget => target;
 
     public CardTarget target;
 
-    protected override List<Avatar> GetTargets()
+    bool SetMovement()
     {
-        List<Avatar> targets = new List<Avatar>();
+        if (CardTarget == CardTarget.Self)
+            return false;
 
-        if (target == CardTarget.Enemy)
-        {
-            targets.Add(ExecutableParameters.avatarOpponent);
-        }
-        else if (target  == CardTarget.Enemy)
-        {
-            targets.AddRange(ExecutableParameters.ctx.enemyList);
-        }
-        else if (target == CardTarget.Self)
-        {
-            targets.Add(ExecutableParameters.avatarPlayingCard);
-        }
-
-        return targets;
+        return true;
     }
 
-    
 }

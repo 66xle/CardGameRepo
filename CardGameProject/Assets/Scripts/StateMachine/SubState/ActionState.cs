@@ -93,6 +93,9 @@ public class ActionState : CombatBaseState
         ExecutableParameters.avatarPlayingCard = avatarPlayingCard;
         ExecutableParameters.avatarOpponent = avatarOpponent;
 
+        ExecutableParameters.Targets = new List<Avatar>();
+        ExecutableParameters.HasConditionPassed = false;
+
 
 
 

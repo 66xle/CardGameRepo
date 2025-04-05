@@ -6,9 +6,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public abstract class TargetCommand : ActionSequence
-{
-    protected abstract List<Avatar> GetTargets();
 
-    public abstract override IEnumerator Execute(Action<bool> onComplete);
+public abstract class TargetCommand
+{
+
 }

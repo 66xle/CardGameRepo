@@ -4,22 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro.EditorUtilities;
 
-public enum CardTarget
-{
-    Enemy,
-    AllEnemies,
-    Self
-}
+
 
 public class ActionSequence : Command
 {
     protected List<Executable> _actionCommands;
     public override bool RequiresMovement => _actionCommands.Exists(cmd => cmd.RequiresMovement);
-
-    public void SetCommands(List<Executable> actionCommands)
-    {
-        _actionCommands = actionCommands;
-    }
 
     public override IEnumerator Execute(Action<bool> IsConditionTrue)
     {
@@ -45,6 +35,9 @@ public class ActionSequence : Command
 
         foreach (Executable command in _actionCommands)
         {
+            if (!ExecutableParameters.HasConditionPassed)
+                ExecutableParameters.Targets = GetTargets(command.CardTarget);
+
             bool isConditionTrue = true;
             yield return command.Execute(result => isConditionTrue = result);
 
@@ -64,6 +57,35 @@ public class ActionSequence : Command
         }
 
         yield return new WaitWhile(() => ActionSystem.Instance.IsPerforming);
+    }
+
+    private List<Avatar> GetTargets(CardTarget target)
+    {
+        List<Avatar> targets = new List<Avatar>();
+
+        if (target == CardTarget.Enemy)
+        {
+            targets.Add(ExecutableParameters.avatarOpponent);
+        }
+        else if (target == CardTarget.AllEnemies)
+        {
+            targets.AddRange(ExecutableParameters.ctx.enemyList);
+        }
+        else if (target == CardTarget.Self)
+        {
+            targets.Add(ExecutableParameters.avatarPlayingCard);
+        }
+        else if (target == CardTarget.PreviousTarget)
+        {
+            return ExecutableParameters.Targets;
+        }
+
+        return targets;
+    }
+
+    public void SetCommands(List<Executable> actionCommands)
+    {
+        _actionCommands = actionCommands;
     }
 }
 
