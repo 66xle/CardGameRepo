@@ -20,10 +20,7 @@ public class IsStunned : Condition
         }
 
         if (ExecutableParameters.Targets.Count > 0)
-        {
-            ExecutableParameters.HasConditionPassed = true;
             return true;
-        }
 
         return false;
     }

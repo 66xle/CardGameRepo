@@ -11,6 +11,8 @@ public class ActionSequence : Command
     protected List<Executable> _actionCommands;
     public override bool RequiresMovement => _actionCommands.Exists(cmd => cmd.RequiresMovement);
 
+    
+
     public override IEnumerator Execute(Action<bool> IsConditionTrue)
     {
         CombatStateMachine ctx = ExecutableParameters.ctx;
@@ -35,8 +37,8 @@ public class ActionSequence : Command
 
         foreach (Executable command in _actionCommands)
         {
-            if (!ExecutableParameters.HasConditionPassed)
-                ExecutableParameters.Targets = GetTargets(command.CardTarget);
+            ExecutableParameters.Targets = GetTargets(command.CardTarget);
+            ExecutableParameters.CardTarget = command.CardTarget;
 
             bool isConditionTrue = true;
             yield return command.Execute(result => isConditionTrue = result);
