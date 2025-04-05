@@ -29,15 +29,27 @@ public class Avatar : MonoBehaviour
 
     [HideInInspector] public event Action OnStatChanged;
 
+    [HideInInspector] public List<StatusEffectData> listOfEffects = new List<StatusEffectData>();
+    [HideInInspector] public List<GameAction> queueGameActions = new();
+
+    [HideInInspector] public string guid;
+
     [MyBox.ReadOnly] public float _currentHealth;
     protected float _currentBlock;
     protected int _currentGuard;
+
+    
 
     protected float CurrentHealth { get { return _currentHealth; } set { _currentHealth = value; UpdateStatsUI(); } }
     protected float CurrentBlock { get { return _currentBlock; } set { _currentBlock = value; UpdateStatsUI(); } }
     protected int CurrentGuard { get { return _currentGuard; } set { _currentGuard = value; UpdateStatsUI(); } }
 
-    [HideInInspector] public List<StatusEffectData> listOfEffects = new List<StatusEffectData>();
+
+    private void Awake()
+    {
+        guid = Guid.NewGuid().ToString();
+    }
+
 
     #region Avatar Methods
 
@@ -211,6 +223,19 @@ public class Avatar : MonoBehaviour
 
     #endregion
 
+    #region Game Action
+
+    public bool IsGameActionInQueue<T>() where T : GameAction
+    {
+        return queueGameActions.Any(gameAction => gameAction is T);
+    }
+
+    public GameAction GetGameActionFromQueue<T>() where T : GameAction
+    {
+        return queueGameActions.First(gameAction => gameAction is T);
+    }
+
+    #endregion
 
     public void UpdateStatsUI()
     {

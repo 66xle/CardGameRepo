@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class AttackCommand : ActionSequence
@@ -18,20 +19,48 @@ public abstract class AttackCommand : ActionSequence
         if (avatarOpponent.isInCounterState)
         {
             CounterGA counterGA = new(avatarOpponent, avatarPlayingCardController, opponentController);
-            ActionSystem.Instance.AddGameActionToQueue(counterGA);
+            avatarOpponent.queueGameActions.Add(counterGA);
         }
         else
         {
-            foreach (Avatar avatarToTakeDamage in ExecutableParameters.Targets)
+            for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
             {
-                
+                Avatar avatarToTakeDamage = ExecutableParameters.Targets[i];
 
-                TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, ctx, ExecutableParameters.card.value, ExecutableParameters.weapon.type);
-                ActionSystem.Instance.AddGameActionToQueue(takeDamageFromWeaponGA);
+                if (avatarToTakeDamage.IsGameActionInQueue<TakeDamageFromWeaponGA>())
+                {
+                    TakeDamageFromWeaponGA takeDamageFromWeaponGA = avatarToTakeDamage.GetGameActionFromQueue<TakeDamageFromWeaponGA>() as TakeDamageFromWeaponGA;
+                    takeDamageFromWeaponGA.damage += ExecutableParameters.card.value;
 
-                SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.ctx.combatUIManager, takeDamageFromWeaponGA.avatarToTakeDamage, takeDamageFromWeaponGA.damage, Color.white);
-                takeDamageFromWeaponGA.PostReactions.Add(spawnDamageUIPopupGA);
+                    SpawnDamageUIPopupGA spawnDamageUIPopupGA = takeDamageFromWeaponGA.PostReactions.First(gameAction => gameAction is SpawnDamageUIPopupGA) as SpawnDamageUIPopupGA;
+                    spawnDamageUIPopupGA.damage = takeDamageFromWeaponGA.damage;
+                }
+                else
+                {
+                    TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, ctx, ExecutableParameters.card.value, ExecutableParameters.weapon.type);
+                    avatarToTakeDamage.queueGameActions.Add(takeDamageFromWeaponGA);
+
+                    SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.ctx.combatUIManager, takeDamageFromWeaponGA.avatarToTakeDamage, takeDamageFromWeaponGA.damage, Color.white);
+                    takeDamageFromWeaponGA.PostReactions.Add(spawnDamageUIPopupGA);
+                }
+
+                ExecutableParameters.Targets[i] = avatarToTakeDamage;
             }
+
+            if (ExecutableParameters.Queue.Count == 0)
+            {
+                ExecutableParameters.Queue = ExecutableParameters.Targets;
+            }
+            else
+            {
+                foreach (Avatar target in ExecutableParameters.Targets)
+                {
+                    Avatar avatar = ExecutableParameters.Queue.First(avatar => avatar.guid == target.guid);
+                    avatar.queueGameActions = target.queueGameActions;
+                }
+            }
+
+            
         }
 
         yield return null;

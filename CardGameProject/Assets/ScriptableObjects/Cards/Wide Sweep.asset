@@ -24,6 +24,8 @@ MonoBehaviour:
   recycleValue: 1
   commands:
   - rid: 8735464965215355114
+  - rid: 8735464970770186300
+  - rid: 8735464970770186301
   selfEffects: []
   applyEffects:
   - {fileID: 11400000, guid: 90d36c736626d7141bcbad2ac758115e, type: 2}
@@ -34,3 +36,10 @@ MonoBehaviour:
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 2
+    - rid: 8735464970770186300
+      type: {class: IsStunned, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 8735464970770186301
+      type: {class: DealDamage, ns: , asm: Assembly-CSharp}
+      data:
+        target: 0

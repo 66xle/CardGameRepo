@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public enum ReactionTiming
 {
@@ -11,21 +12,20 @@ public enum ReactionTiming
 
 public class ActionSystem : Singleton<ActionSystem>
 {
-    private List<GameAction> queueActions = new();
     private List<GameAction> reactions = null;
     public bool IsPerforming { get; private set; } = false;
     private static Dictionary<Type, List<Action<GameAction>>> preSubs = new();
     private static Dictionary<Type, List<Action<GameAction>>> postSubs = new();
     private static Dictionary<Type, Func<GameAction, IEnumerator>> performers = new();
 
-    public void PerformQueue()
+    public void PerformQueue(List<GameAction> queue)
     {
-        foreach (GameAction action in queueActions)
+        foreach (GameAction action in queue)
         {
             Perform(action);
         }
 
-        queueActions.Clear();
+        queue.Clear();
     }
 
     public void Perform(GameAction action, System.Action OnPerformFinished = null)
@@ -44,10 +44,7 @@ public class ActionSystem : Singleton<ActionSystem>
         }));
     }
 
-    public void AddGameActionToQueue(GameAction gameAction)
-    {
-        queueActions?.Add(gameAction);
-    }
+    
 
     public void AddReaction(GameAction gameAction)
     {

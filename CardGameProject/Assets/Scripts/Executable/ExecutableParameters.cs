@@ -11,5 +11,6 @@ public static class ExecutableParameters
     public static WeaponData weapon;
 
     public static List<Avatar> Targets;
+    public static List<Avatar> Queue;
     public static CardTarget CardTarget;
 }

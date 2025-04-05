@@ -94,6 +94,7 @@ public class ActionState : CombatBaseState
         ExecutableParameters.avatarOpponent = avatarOpponent;
 
         ExecutableParameters.Targets = new List<Avatar>();
+        ExecutableParameters.Queue = new List<Avatar>();
 
         WeaponData weapon = cardData.weapon;
         Card cardPlayed = cardData.card;

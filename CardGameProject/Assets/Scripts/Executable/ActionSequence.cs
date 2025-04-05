@@ -46,7 +46,10 @@ public class ActionSequence : Command
             if (!isConditionTrue) break;
         }
 
-        ActionSystem.Instance.PerformQueue();
+        foreach (Avatar avatar in ExecutableParameters.Queue)
+        {
+            ActionSystem.Instance.PerformQueue(avatar.queueGameActions);
+        }
 
         yield return new WaitWhile(() => !avatarPlayingCard.isAttackFinished); // TODO - Rename to isAnimationFinished
 
