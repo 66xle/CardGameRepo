@@ -59,8 +59,6 @@ public abstract class AttackCommand : ActionSequence
                     avatar.queueGameActions = target.queueGameActions;
                 }
             }
-
-            
         }
 
         yield return null;
