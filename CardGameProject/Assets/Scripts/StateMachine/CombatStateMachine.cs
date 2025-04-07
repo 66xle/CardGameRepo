@@ -65,9 +65,9 @@ public class CombatStateMachine : MonoBehaviour
 
 
     [Foldout("StatusEffect", true)]
-    public StatusEffect guardBreakLightArmour;
-    public StatusEffect guardBreakMediumArmour;
-    public StatusEffect guardBreakHeavyArmour;
+    public StatusEffectData guardBreakLightArmourData;
+    public StatusEffectData guardBreakMediumArmourData;
+    public StatusEffectData guardBreakHeavyArmourData;
     
     [Foldout("Animation Settings", true)]
     public float moveDuration = 0.5f;
@@ -97,7 +97,6 @@ public class CombatStateMachine : MonoBehaviour
     [ReadOnly] public bool isPlayState;
     [ReadOnly] public bool pressedEndTurnButton;
     [ReadOnly] public bool enemyTurnDone;
-    [ReadOnly] public bool skipTurn;
 
     [HideInInspector] public CardData cardPlayed;
     [HideInInspector] public Enemy selectedEnemyToAttack;
@@ -121,7 +120,6 @@ public class CombatStateMachine : MonoBehaviour
         isPlayState = false;
         pressedEndTurnButton = false;
         enemyTurnDone = false;
-        skipTurn = false;
 
         enemyList = new List<Enemy>();
 

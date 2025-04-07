@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 920424e820b10864681c40f471d24442, type: 3}
-  m_Name: GuardBrokenMedium
+  m_Name: Bleed
   m_EditorClassIdentifier: 
   statusEffect:
-    rid: 8735465014653354045
+    rid: 8735465014653354046
   uiPrefab: {fileID: 425717489898406801, guid: 3a66dd0d7c258054a933f3ddf2bd5f87, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 8735465014653354045
-      type: {class: StatusGuardBroken, ns: , asm: Assembly-CSharp}
+    - rid: 8735465014653354046
+      type: {class: StatusBleed, ns: , asm: Assembly-CSharp}
       data:
-        effect: 1
-        effectName: Guard Broken
+        effect: 2
+        effectName: Bleed
         maxTurnsRemaining: 2
         currentTurnsRemaning: 0
-        isActiveEffect: 0
-        numberOfHitsToRecover: 2
-        extraDamagePercentage: 0.2
+        isActiveEffect: 1
+        reduceHealthPercentage: 0.1
+        stacks: 0

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class UISystem : MonoBehaviour
 {
+    public CombatUIManager CombatUIManager;
+
     private void OnEnable()
     {
         ActionSystem.AttachPerformer<SpawnDamageUIPopupGA>(SpawnDamageUIPopupPerformer);
@@ -18,12 +20,11 @@ public class UISystem : MonoBehaviour
     private IEnumerator SpawnDamageUIPopupPerformer(SpawnDamageUIPopupGA spawnDamageUIPopupGA)
     {
         Avatar avatar = spawnDamageUIPopupGA.avatarTakingDamage;
-        CombatUIManager UIManager = spawnDamageUIPopupGA.combatUIManager;
 
-        GameObject popupObj = Instantiate(UIManager.damagePopupPrefab, UIManager.worldSpaceCanvas);
-        popupObj.transform.position = new Vector3(avatar.transform.position.x + Random.Range(-UIManager.randomOffsetHorizontal, UIManager.randomOffsetHorizontal),
-                                                  avatar.transform.position.y + UIManager.offsetVertical,
-                                                  avatar.transform.position.z + Random.Range(-UIManager.randomOffsetHorizontal, UIManager.randomOffsetHorizontal));
+        GameObject popupObj = Instantiate(CombatUIManager.damagePopupPrefab, CombatUIManager.worldSpaceCanvas);
+        popupObj.transform.position = new Vector3(avatar.transform.position.x + Random.Range(-CombatUIManager.randomOffsetHorizontal, CombatUIManager.randomOffsetHorizontal),
+                                                  avatar.transform.position.y + CombatUIManager.offsetVertical,
+                                                  avatar.transform.position.z + Random.Range(-CombatUIManager.randomOffsetHorizontal, CombatUIManager.randomOffsetHorizontal));
         Vector3 moveToPos = popupObj.transform.position;
         moveToPos.y += 1f;
 
@@ -31,11 +32,11 @@ public class UISystem : MonoBehaviour
         popupText.text = spawnDamageUIPopupGA.damage.ToString();
         popupText.color = spawnDamageUIPopupGA.color;
 
-        Tween tween = popupObj.transform.DOMoveY(popupObj.transform.position.y + UIManager.moveVertical, UIManager.moveDuration).SetEase(Ease.OutQuad);
+        Tween tween = popupObj.transform.DOMoveY(popupObj.transform.position.y + CombatUIManager.moveVertical, CombatUIManager.moveDuration).SetEase(Ease.OutQuad);
 
         yield return tween.WaitForCompletion();
 
-        popupText.DOFade(0, UIManager.fadeDuration).OnComplete(() => { Destroy(popupObj); });
+        popupText.DOFade(0, CombatUIManager.fadeDuration).OnComplete(() => { Destroy(popupObj); });
     }
 
 }

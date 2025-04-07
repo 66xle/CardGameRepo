@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using Cinemachine;
 using MyBox;
+using Unity.Android.Gradle.Manifest;
 
 public class StatusEffectState : CombatBaseState
 {
@@ -12,13 +13,15 @@ public class StatusEffectState : CombatBaseState
     bool doRecoverGuardBreak;
     bool isStatusEffectFinished;
 
+    bool skipTurn;
+
     public StatusEffectState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso) { }
 
     public override void EnterState()
     {
         Debug.Log("Status Effect State");
 
-        ctx.skipTurn = false;
+        skipTurn = false;
 
         #region Decide Which Side Acts
 
@@ -60,13 +63,13 @@ public class StatusEffectState : CombatBaseState
             SwitchState(factory.CombatEnd());
         }
 
-        if (ctx.currentState.ToString() == PLAYERSTATE && !ctx.skipTurn)
+        if (ctx.currentState.ToString() == PLAYERSTATE && !skipTurn)
         {
             SwitchState(factory.Draw());
         }
         else if (isStatusEffectFinished)
         {
-            if (ctx.skipTurn || currentAvatarSelected.IsAvatarDead())
+            if (skipTurn || currentAvatarSelected.IsAvatarDead())
             {
                 SwitchState(factory.EnemyTurn());
             }
@@ -80,27 +83,27 @@ public class StatusEffectState : CombatBaseState
 
     IEnumerator CheckStatusEffect()
     {
-        List<StatusEffectData> statusQueue = new List<StatusEffectData>();
+        List<StatusEffect> statusQueue = new List<StatusEffect>();
 
         for (int i = currentAvatarSelected.listOfEffects.Count - 1; i >= 0; i--)
         {
-            StatusEffectData currentEffect = currentAvatarSelected.listOfEffects[i];
+            StatusEffect currentEffect = currentAvatarSelected.listOfEffects[i];
 
             // Check effect to trigger
-            if (currentAvatarSelected.listOfEffects[i].turnRemaining > 0)
+            if (currentAvatarSelected.listOfEffects[i].currentTurnsRemaning > 0)
             {
                 statusQueue.Add(currentEffect);
             }
 
-            currentAvatarSelected.listOfEffects[i].turnRemaining--;
+            currentAvatarSelected.listOfEffects[i].currentTurnsRemaning--;
 
             // Status Effect expired
-            if (currentAvatarSelected.listOfEffects[i].turnRemaining <= 0)
+            if (currentAvatarSelected.listOfEffects[i].currentTurnsRemaning <= 0)
             {
                 // This effect will expire next turn
-                if (currentEffect.removeEffectNextTurn)
+                if (currentEffect.ShouldRemoveEffectNextTurn())
                 {
-                    currentAvatarSelected.listOfEffects[i].removeEffectNextTurn = false;
+                    currentAvatarSelected.listOfEffects[i].SetRemoveEffectNextTurn(false);
                     continue;
                 }
 
@@ -109,8 +112,8 @@ public class StatusEffectState : CombatBaseState
                     doRecoverGuardBreak = true;
                 }
 
-
                 currentAvatarSelected.listOfEffects.RemoveAt(i);
+                currentEffect.OnRemoval(currentAvatarSelected);
 
                 // Is enemy being selected
                 if (currentAvatarSelected == ctx.selectedEnemyToAttack)
@@ -135,9 +138,22 @@ public class StatusEffectState : CombatBaseState
             }
 
 
-            foreach (StatusEffectData effect in statusQueue)
+            foreach (StatusEffect effect in statusQueue)
             {
-                ActivateEffect(effect);
+                if (effect.effect == Effect.GuardBroken)
+                {
+                    skipTurn = true;
+
+                    if (ctx.currentState.ToString() == PLAYERSTATE)
+                        ctx.EndTurn();
+                    else
+                        ctx.enemyTurnQueue.Remove(ctx.currentEnemyTurn);
+
+                    Debug.Log("SKIP TURN");
+                }
+
+                if (effect.isActiveEffect)
+                    effect.ActivateEffect(currentAvatarSelected);
 
                 if (IsAvatarDeadByStatusEffect())
                     yield break;
@@ -158,37 +174,6 @@ public class StatusEffectState : CombatBaseState
         currentAvatarSelected.UpdateStatsUI();
 
         isStatusEffectFinished = true;
-    }
-
-    public void ActivateEffect(StatusEffectData data)
-    {
-        if (data.effect == Effect.Bleed)
-        {
-            currentAvatarSelected.ReduceHealthByPercentage(data.reduceDamagePercentage, data.stacks);
-
-            ctx.SpawnDamagePopupUI(currentAvatarSelected, currentAvatarSelected.maxHealth * (data.reduceDamagePercentage * data.stacks), Color.red);
-            // Play Bleed effect
-        }
-
-        if (data.effect == Effect.Poison)
-        {
-            currentAvatarSelected.ReduceHealthByPercentage(data.reduceDamagePercentage);
-
-            ctx.SpawnDamagePopupUI(currentAvatarSelected, currentAvatarSelected.maxHealth * data.reduceDamagePercentage, new Color(0f, 0.39f, 0f));
-        }
-
-
-        if (data.effect == Effect.GuardBroken)
-        {
-            ctx.skipTurn = true;
-
-            if (ctx.currentState.ToString() == PLAYERSTATE)
-                ctx.EndTurn();
-            else
-                ctx.enemyTurnQueue.Remove(ctx.currentEnemyTurn);
-
-            Debug.Log("SKIP TURN");
-        }
     }
 
     public bool IsAvatarDeadByStatusEffect()

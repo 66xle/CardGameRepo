@@ -26,7 +26,6 @@ public class PlayerState : CombatBaseState
     public override void ExitState() 
     {
         ctx.pressedEndTurnButton = false;
-        ctx.skipTurn = false;
     }
     public override void InitializeSubState()
     {

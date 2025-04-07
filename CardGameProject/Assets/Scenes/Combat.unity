@@ -199,6 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 338263c1fa7cca94ab3b0150aff57caf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CombatUIManager: {fileID: 563799117}
 --- !u!1 &43354390
 GameObject:
   m_ObjectHideFlags: 0
@@ -1982,9 +1983,9 @@ MonoBehaviour:
   cardPrefab: {fileID: 7406141934112961317, guid: f40acb07258ef8741bc094a7dcd310cf, type: 3}
   playerHandTransform: {fileID: 347342559}
   displayCard: {fileID: 1574049916}
-  guardBreakLightArmour: {fileID: 11400000, guid: 22974f550817d694a9585e4c24e462df, type: 2}
-  guardBreakMediumArmour: {fileID: 11400000, guid: b1df9181f8abd10449f8e576b86ffcc3, type: 2}
-  guardBreakHeavyArmour: {fileID: 11400000, guid: 51d93ea6466088b4c828670f7c81a7ba, type: 2}
+  guardBreakLightArmourData: {fileID: 11400000, guid: 7f708d99636aaca458a333d372d8c63e, type: 2}
+  guardBreakMediumArmourData: {fileID: 11400000, guid: f0f40d97d9765da48b9d5f2e6b2c67bd, type: 2}
+  guardBreakHeavyArmourData: {fileID: 11400000, guid: 9d3744ce53e51b34e93d9a72b302117a, type: 2}
   moveDuration: 0.5
   jumpDuration: 0.65
   moveAnimCurve:
@@ -2048,7 +2049,6 @@ MonoBehaviour:
   isPlayState: 0
   pressedEndTurnButton: 0
   enemyTurnDone: 0
-  skipTurn: 0
   selectedEnemyToAttack: {fileID: 0}
   vso: {fileID: 0}
 --- !u!1 &474643709
@@ -4141,6 +4141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeParent: {fileID: 1630148121}
   deactiveParent: {fileID: 618117097}
+  uiPrefab: {fileID: 425717489898406801, guid: 3a66dd0d7c258054a933f3ddf2bd5f87, type: 3}
   effectUIOffset: 50
 --- !u!1 &890503402
 GameObject:

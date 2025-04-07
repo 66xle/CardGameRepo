@@ -11,5 +11,16 @@ public class StatusPoison : StatusEffect
     {
         effectName = "Poison";
         effect = Effect.Poison;
+        isActiveEffect = true;
+    }
+
+    public override void ActivateEffect(Avatar avatar)
+    {
+        float damage = avatar.maxHealth * reduceHealthPercentage;
+
+        avatar.TakeDamageByStatusEffect(damage);
+
+        SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatar, damage, Color.red);
+        ActionSystem.Instance.Perform(spawnDamageUIPopupGA);
     }
 }

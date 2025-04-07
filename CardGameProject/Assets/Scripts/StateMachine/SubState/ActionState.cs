@@ -109,9 +109,6 @@ public class ActionState : CombatBaseState
         yield return ctx.StartCoroutine(ExecuteCommands(cardPlayed));
  
 
-        // Play Card Effect
-        //DetermineEffectTarget(cardPlayed);
-
         // Attack finished
         //ctx.displayCard.gameObject.SetActive(false);
 
@@ -140,68 +137,19 @@ public class ActionState : CombatBaseState
 
     public void ReduceHitToRecover()
     {
-        for (int i = avatarOpponent.listOfEffects.Count - 1; i >= 0; i--)
-        {
-            if (avatarOpponent.listOfEffects[i].effect != Effect.GuardBroken)
-                continue;
+        //for (int i = avatarOpponent.listOfEffects.Count - 1; i >= 0; i--)
+        //{
+        //    if (avatarOpponent.listOfEffects[i].effect != Effect.GuardBroken)
+        //        continue;
 
-            avatarOpponent.listOfEffects[i].numberOfHitsToRecover--;
-            if (avatarOpponent.listOfEffects[i].numberOfHitsToRecover <= 0)
-            {
-                avatarOpponent.RecoverGuardBreak();
-                avatarOpponent.listOfEffects.RemoveAt(i);
-            }
-        }
+        //    avatarOpponent.listOfEffects[i].numberOfHitsToRecover--;
+        //    if (avatarOpponent.listOfEffects[i].numberOfHitsToRecover <= 0)
+        //    {
+        //        avatarOpponent.RecoverGuardBreak();
+        //        avatarOpponent.listOfEffects.RemoveAt(i);
+        //    }
+        //}
     }
-
-    private void ReduceGuard(DamageType type)
-    {
-        if (avatarOpponent.armourType == ArmourType.Light && type == DamageType.Slash ||
-            avatarOpponent.armourType == ArmourType.Medium && type == DamageType.Pierce ||
-            avatarOpponent.armourType == ArmourType.Heavy && type == DamageType.Blunt ||
-            avatarOpponent.armourType == ArmourType.None)
-        {
-            avatarOpponent.ReduceGuard();
-        }
-    }
-
-    
-
-    
-
-    #endregion
-
-    #region Status Effect
-
-    private void DetermineEffectTarget(Card cardPlayed)
-    {
-        // Apply status effect on self and/or opponent
-
-        foreach (StatusEffect effect in cardPlayed.selfEffects)
-        {
-            ApplyEffects(effect, avatarPlayingCard);
-        }
-
-        foreach (StatusEffect effect in cardPlayed.applyEffects)
-        {
-            ApplyEffects(effect, avatarOpponent);
-        }
-    }
-
-    private void ApplyEffects(StatusEffect effectObj, Avatar targetAvatar)
-    {
-        Effect effect = effectObj.effect;
-
-        if (effect == Effect.Bleed)
-        {
-            targetAvatar.ApplyBleed(effectObj);
-        }
-        else if (effect == Effect.Poison)
-        {
-            targetAvatar.ApplyPoison(effectObj);
-        }
-    }
-
 
     #endregion
 

@@ -3,9 +3,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro.EditorUtilities;
+using SerializeReferenceEditor;
 
 
-
+[SRHidden]
 public class ActionSequence : Command
 {
     protected List<Executable> _actionCommands;

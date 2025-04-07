@@ -29,7 +29,7 @@ public class Avatar : MonoBehaviour
 
     [HideInInspector] public event Action OnStatChanged;
 
-    [HideInInspector] public List<StatusEffectData> listOfEffects = new List<StatusEffectData>();
+    [HideInInspector] public List<StatusEffect> listOfEffects = new List<StatusEffect>();
     [HideInInspector] public List<GameAction> queueGameActions = new();
 
     [HideInInspector] public string guid;
@@ -38,7 +38,7 @@ public class Avatar : MonoBehaviour
     protected float _currentBlock;
     protected int _currentGuard;
 
-    
+    [HideInInspector] public Animator animator;
 
     protected float CurrentHealth { get { return _currentHealth; } set { _currentHealth = value; UpdateStatsUI(); } }
     protected float CurrentBlock { get { return _currentBlock; } set { _currentBlock = value; UpdateStatsUI(); } }
@@ -48,6 +48,7 @@ public class Avatar : MonoBehaviour
     private void Awake()
     {
         guid = Guid.NewGuid().ToString();
+        animator = GetComponent<Animator>();
     }
 
 
@@ -130,55 +131,19 @@ public class Avatar : MonoBehaviour
 
     #region Apply Status Effects
 
-    public virtual void ApplyGuardBreak(StatusEffect effectObject)
+    public void ApplyStatusEffect(StatusEffect statusEffect)
     {
-        StatusGuardBroken effect = effectObject as StatusGuardBroken;
-        listOfEffects.Add(new StatusEffectData(effect.effect, effect.effectName, effect.turnsRemaning, effect.uiPrefab, numHitToRecover: effect.numberOfHitsToRecover, extraDmgPer: effect.extraDamagePercentage, nextTurn: effect.removeEffectNextTurn));
-        UpdateStatsUI();
-    }
-
-    public void ApplyBleed(StatusEffect effectObject)
-    {
-        // Check if bleed exists
-        for (int i = 0; i < listOfEffects.Count; i++)
+        if (listOfEffects.Any(status => status.effect == statusEffect.effect))
         {
-            StatusEffectData effectData = listOfEffects[i];
-
-            if (effectData.effect == effectObject.effect)
-            {
-                StatusBleed overiteEffect = effectObject as StatusBleed;
-
-                listOfEffects[i].turnRemaining = overiteEffect.turnsRemaning;
-                listOfEffects[i].stacks++;
-                UpdateStatsUI();
-                return;
-            }
+            int index = listOfEffects.FindIndex(status => status.effect == statusEffect.effect);
+            listOfEffects[index].OnApply(this);
         }
-            
-
-        StatusBleed effect = effectObject as StatusBleed;
-        listOfEffects.Add(new StatusEffectData(effect.effect, effect.effectName, effect.turnsRemaning, effect.uiPrefab, reduceDmgPer: effect.reduceHealthPercentage, stackable: effect.stackable));
-        UpdateStatsUI();
-    }
-
-    public void ApplyPoison(StatusEffect effectObject)
-    {
-        for (int i = 0; i < listOfEffects.Count; i++)
+        else
         {
-            StatusEffectData effectData = listOfEffects[i];
-
-            if (effectData.effect == effectObject.effect)
-            {
-                StatusPoison overiteEffect = effectObject as StatusPoison;
-
-                listOfEffects[i].turnRemaining = overiteEffect.turnsRemaning;
-                UpdateStatsUI();
-                return;
-            }
+            listOfEffects.Add(statusEffect);
+            statusEffect.OnApply(this);
         }
-
-        StatusPoison effect = effectObject as StatusPoison;
-        listOfEffects.Add(new StatusEffectData(effect.effect, effect.effectName, effect.turnsRemaning, effect.uiPrefab, reduceDmgPer: effect.reduceHealthPercentage));
+        
         UpdateStatsUI();
     }
 
@@ -188,7 +153,7 @@ public class Avatar : MonoBehaviour
 
     public bool hasStatusEffect(Effect effect)
     {
-        foreach (StatusEffectData data in listOfEffects)
+        foreach (StatusEffect data in listOfEffects)
         {
             if (data.effect == effect)
             {
@@ -210,11 +175,12 @@ public class Avatar : MonoBehaviour
         // Don't need to check
         if (listOfEffects.Count == 0) return damage;
 
-        foreach (StatusEffectData statusEffect in listOfEffects)
+        foreach (StatusEffect statusEffect in listOfEffects)
         {
             if (statusEffect.effect == Effect.GuardBroken)
             {
-                return damage * statusEffect.extraDamagePercentage + damage;
+                StatusGuardBroken statusGuardBroken = statusEffect as StatusGuardBroken;
+                return damage * statusGuardBroken.extraDamagePercentage + damage;
             }
         }
 

@@ -18,7 +18,6 @@ public class Player : Avatar
     private TMP_Text blockValue;
     private Slider guardBar;
     private TMP_Text guardValue;
-    private Animator animController;
 
     private void OnEnable()
     {
@@ -42,8 +41,6 @@ public class Player : Avatar
         this.guardValue = guardValue;
         this.blockValue = blockValue;
         this.armourType = armourType;
-
-        animController = GetComponent<Animator>();
     }
 
     public void InitStats(float maxHealth, float maxStamina, int maxGuard)
@@ -64,18 +61,6 @@ public class Player : Avatar
         }
 
         return false;
-    }
-
-    public override void RecoverGuardBreak()
-    {
-        animController.SetBool("isStunned", false);
-        base.RecoverGuardBreak();
-    }
-
-    public override void ApplyGuardBreak(StatusEffect effectObject)
-    {
-        animController.SetBool("isStunned", true);
-        base.ApplyGuardBreak(effectObject);
     }
 
 

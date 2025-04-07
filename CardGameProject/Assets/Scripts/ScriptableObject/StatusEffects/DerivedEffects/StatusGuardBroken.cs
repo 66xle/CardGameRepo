@@ -7,11 +7,32 @@ public class StatusGuardBroken : StatusEffect
 {
     public int numberOfHitsToRecover;
     [Range(0, 1)] public float extraDamagePercentage;
-    public bool removeEffectNextTurn;
+    private bool removeEffectNextTurn;
 
     public StatusGuardBroken()
     {
         effectName = "Guard Broken";
         effect = Effect.GuardBroken;
+        removeEffectNextTurn = true;
+    }
+
+    public override bool ShouldRemoveEffectNextTurn()
+    {
+        return removeEffectNextTurn;
+    }
+
+    public override void SetRemoveEffectNextTurn(bool value)
+    {
+        removeEffectNextTurn = value;
+    }
+
+    public override void OnApply(Avatar avatar)
+    {
+        avatar.animator.SetBool("isStunned", true);
+    }
+
+    public override void OnRemoval(Avatar avatar)
+    {
+        avatar.animator.SetBool("isStunned", false);
     }
 }

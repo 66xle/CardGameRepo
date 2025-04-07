@@ -18,6 +18,7 @@ public class DetailedUI : MonoBehaviour
 
     public GameObject activeParent;
     public GameObject deactiveParent;
+    public GameObject uiPrefab;
     public float effectUIOffset = 50f;
 
 
@@ -65,7 +66,7 @@ public class DetailedUI : MonoBehaviour
 
         for (int i = 0; i < enemy.listOfEffects.Count; i++)
         {
-            StatusEffectData data = enemy.listOfEffects[i];
+            StatusEffect data = enemy.listOfEffects[i];
 
             // Check activeParent childs
             GameObject activeObj = GetEffectObject(activeParent, data.effectName);
@@ -89,7 +90,7 @@ public class DetailedUI : MonoBehaviour
             }
 
             // Instanitate object in active
-            GameObject newEffectObj = Instantiate(data.uiPrefab, activeParent.transform);
+            GameObject newEffectObj = Instantiate(uiPrefab, activeParent.transform);
             newEffectObj.tag = data.effectName;
             UpdateStatusUI(i, newEffectObj, data);
         }
@@ -120,12 +121,12 @@ public class DetailedUI : MonoBehaviour
         return null;
     }
 
-    void UpdateStatusUI(int index, GameObject effectObj, StatusEffectData data)
+    void UpdateStatusUI(int index, GameObject effectObj, StatusEffect effect)
     {
         effectObj.GetComponent<RectTransform>().localPosition = new Vector3(activeParent.transform.localPosition.x + (effectUIOffset * index), activeParent.transform.localPosition.y, activeParent.transform.localPosition.z);
         
-        if (data.stacks > 0)
-            effectObj.GetComponentInChildren<TMP_Text>().text = data.stacks.ToString();
+        if (effect.GetStacks() > 0)
+            effectObj.GetComponentInChildren<TMP_Text>().text = effect.GetStacks().ToString();
 
     }
 

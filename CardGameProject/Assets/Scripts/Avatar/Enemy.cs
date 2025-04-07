@@ -20,7 +20,6 @@ public class Enemy : Avatar
     [HideInInspector] public List<Card> cardsToPlay;
     [HideInInspector] public bool disableSelection;
 
-    private Animator animController;
     private GameObject selectionRing;
 
 
@@ -49,7 +48,6 @@ public class Enemy : Avatar
     public void Init(EnemyObj obj)
     {
         disableSelection = false;
-        animController = GetComponent<Animator>();
 
         enemyObj = obj;
         deck = enemyObj.cardList;
@@ -69,18 +67,6 @@ public class Enemy : Avatar
         }
 
         return cardDrawn;
-    }
-
-    public override void RecoverGuardBreak()
-    {
-        animController.SetBool("isStunned", false);
-        base.RecoverGuardBreak();
-    }
-
-    public override void ApplyGuardBreak(StatusEffect effectObject)
-    {
-        animController.SetBool("isStunned", true);
-        base.ApplyGuardBreak(effectObject);
     }
 
     private void DisplayStats()

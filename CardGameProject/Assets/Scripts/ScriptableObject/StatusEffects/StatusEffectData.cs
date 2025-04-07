@@ -1,39 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SerializeReferenceEditor;
 
-public class StatusEffectData
+[CreateAssetMenu(fileName = "StatusEffectData", menuName = "StatusEffectData")]
+public class StatusEffectData : ScriptableObject
 {
-    public Effect effect;
-    public string effectName;
-    public int turnRemaining;
-    public float reduceDamagePercentage;
-    public float extraDamagePercentage;
-    public int numberOfHitsToRecover;
-    public int stacks;
-
-    public bool removeEffectNextTurn;
-
-    public GameObject uiPrefab;
-
-    public StatusEffectData(Effect effect, string name, int turnRemaining, GameObject prefab, float reduceDmgPer = 0f, int numHitToRecover = 0, float extraDmgPer = 0f, bool nextTurn = false,
-                            bool stackable = false)
-    {
-        // Required
-        this.effect = effect;
-        effectName = name;
-        this.turnRemaining = turnRemaining;
-        uiPrefab = prefab;
-
-        // Optional
-        reduceDamagePercentage = reduceDmgPer;
-        numberOfHitsToRecover = numHitToRecover;
-        extraDamagePercentage = extraDmgPer;
-        removeEffectNextTurn = nextTurn;
-
-        if (stackable)
-            stacks = 1;
-
-    }
-
+    [SerializeReference][SR] public StatusEffect statusEffect;
 }

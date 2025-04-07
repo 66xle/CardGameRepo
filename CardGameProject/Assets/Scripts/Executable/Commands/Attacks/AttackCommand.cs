@@ -40,7 +40,7 @@ public abstract class AttackCommand : ActionSequence
                     TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, ctx, ExecutableParameters.card.value, ExecutableParameters.weapon.type);
                     avatarToTakeDamage.queueGameActions.Add(takeDamageFromWeaponGA);
 
-                    SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.ctx.combatUIManager, takeDamageFromWeaponGA.avatarToTakeDamage, takeDamageFromWeaponGA.damage, Color.white);
+                    SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.avatarToTakeDamage, takeDamageFromWeaponGA.damage, Color.white);
                     takeDamageFromWeaponGA.PostReactions.Add(spawnDamageUIPopupGA);
                 }
 
