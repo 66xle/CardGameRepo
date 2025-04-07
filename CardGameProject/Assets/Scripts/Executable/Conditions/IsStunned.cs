@@ -15,7 +15,7 @@ public class IsStunned : Condition
         {
             Avatar avatar = ExecutableParameters.Targets[i];
 
-            if (!avatar.isGuardBroken())
+            if (!avatar.IsGuardBroken())
             {
                 currentTargets.Remove(avatar);
             }

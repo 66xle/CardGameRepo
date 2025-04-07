@@ -54,6 +54,8 @@ public class Avatar : MonoBehaviour
 
     #region Avatar Methods
 
+    #region Take Damage
+
     public void TakeDamage(float damage) 
     {
         damage = ApplyAdditionalDmgCheck(damage);
@@ -77,6 +79,41 @@ public class Avatar : MonoBehaviour
         _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);
     }
 
+    #endregion
+
+    #region Guard
+
+    public bool IsGuardReducible(DamageType damageType)
+    {
+        if (armourType == ArmourType.Light && damageType == DamageType.Slash ||
+            armourType == ArmourType.Medium && damageType == DamageType.Pierce ||
+            armourType == ArmourType.Heavy && damageType == DamageType.Blunt ||
+            armourType == ArmourType.None)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool IsGuardBroken()
+    {
+        return _currentGuard == 0 ? true : false;
+    }
+
+    public void ReduceGuard()
+    {
+        _currentGuard--;
+        _currentGuard = Mathf.Clamp(_currentGuard, 0, maxGuard);
+    }
+
+    public virtual void RecoverGuardBreak()
+    {
+        _currentGuard = maxGuard;
+    }
+
+    #endregion
+
     public bool IsAvatarDead()
     {
         if (_currentHealth <= 0f)
@@ -96,35 +133,6 @@ public class Avatar : MonoBehaviour
     {
         _currentHealth += healAmount;
         _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);
-    }
-
-    public void ReduceGuard()
-    {
-        _currentGuard--;
-        _currentGuard = Mathf.Clamp(_currentGuard, 0, maxGuard);
-    }
-
-    public bool IsGuardReducible(DamageType damageType )
-    {
-        if (armourType == ArmourType.Light && damageType == DamageType.Slash ||
-            armourType == ArmourType.Medium && damageType == DamageType.Pierce ||
-            armourType == ArmourType.Heavy && damageType == DamageType.Blunt ||
-            armourType == ArmourType.None)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    public bool isGuardBroken()
-    {
-        return _currentGuard == 0 ? true : false;
-    }
-
-    public virtual void RecoverGuardBreak()
-    {
-        _currentGuard = maxGuard;
     }
 
     #endregion

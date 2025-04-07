@@ -6,7 +6,6 @@ using UnityEngine;
 
 public abstract class AttackCommand : ActionSequence
 {
-
     public override IEnumerator Execute(Action<bool> IsConditionTrue)
     {
         CombatStateMachine ctx = ExecutableParameters.ctx;

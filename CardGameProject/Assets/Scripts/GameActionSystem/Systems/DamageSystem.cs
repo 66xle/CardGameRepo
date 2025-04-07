@@ -34,7 +34,7 @@ public class DamageSystem : MonoBehaviour
         {
             avatarToTakeDamage.GetComponent<Animator>().SetTrigger("Death");
         }
-        else if (avatarToTakeDamage.isGuardBroken())
+        else if (avatarToTakeDamage.IsGuardBroken())
         {
             // Check if avatar has guard broken effect
             if (avatarToTakeDamage.hasStatusEffect(Effect.GuardBroken))
