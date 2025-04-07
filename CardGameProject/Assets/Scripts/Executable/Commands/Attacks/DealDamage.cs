@@ -1,8 +1,9 @@
+using SerializeReferenceEditor;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-
+[SRName("Commands/Deal Damage")]
 public class DealDamage : AttackCommand
 {
     public override bool RequiresMovement => SetMovement();

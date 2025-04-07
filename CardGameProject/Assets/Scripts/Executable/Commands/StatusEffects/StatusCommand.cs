@@ -1,7 +1,9 @@
+using SerializeReferenceEditor;
 using System;
 using System.Collections;
 using UnityEngine;
 
+[SRHidden]
 public class StatusCommand : ActionSequence
 {
     public virtual StatusEffect Effect => null;

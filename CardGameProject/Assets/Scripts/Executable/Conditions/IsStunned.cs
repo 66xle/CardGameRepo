@@ -1,8 +1,10 @@
+using SerializeReferenceEditor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[SRName("Conditions/Is Stunned")]
 public class IsStunned : Condition
 { 
     public override bool Evaluate()
