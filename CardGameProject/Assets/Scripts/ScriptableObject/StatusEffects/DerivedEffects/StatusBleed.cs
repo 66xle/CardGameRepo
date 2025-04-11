@@ -16,6 +16,11 @@ public class StatusBleed : StatusEffect
         isActiveEffect = true;
     }
 
+    public override StatusEffect Clone()
+    {
+        return (StatusEffect)this.MemberwiseClone();
+    }
+
     public override int GetStacks()
     {
         return stacks;
@@ -24,6 +29,7 @@ public class StatusBleed : StatusEffect
     public override void OnApply(Avatar avatar)
     {
         stacks++;
+        base.OnApply(avatar);
     }
 
     public override void ActivateEffect(Avatar avatar)

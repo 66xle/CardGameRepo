@@ -106,12 +106,26 @@ public class ActionState : CombatBaseState
         //ctx.displayCard.gameObject.SetActive(true);
 
 
-        yield return ctx.StartCoroutine(ExecuteCommands(cardPlayed));
+        yield return ctx.StartCoroutine(ExecuteCommands(cardPlayed.commands));
  
 
         // Attack finished
         //ctx.displayCard.gameObject.SetActive(false);
 
+        if (avatarOpponent.AfterTakeDamageFromWeaponCMD.Count > 0)
+        {
+            Debug.Log("AFTER TAKE DAMAGE");
+
+            ExecutableParameters.avatarPlayingCard = avatarOpponent;
+            ExecutableParameters.avatarOpponent = avatarPlayingCard;
+
+            ExecutableParameters.Targets = new List<Avatar>();
+            ExecutableParameters.Queue = new List<Avatar>();
+
+            yield return ctx.StartCoroutine(ExecuteCommands(avatarOpponent.AfterTakeDamageFromWeaponCMD));
+
+            avatarOpponent.AfterTakeDamageFromWeaponCMD.Clear();
+        }
         
 
         isInAction = false;
@@ -123,10 +137,9 @@ public class ActionState : CombatBaseState
         }
     }
 
-    private IEnumerator ExecuteCommands(Card card)
+    private IEnumerator ExecuteCommands(List<Executable> commands)
     {
-        ActionSequence sequence = new ActionSequence();
-        sequence.SetCommands(card.commands);
+        ActionSequence sequence = new ActionSequence(commands);
 
         yield return sequence.Execute(null);
     }

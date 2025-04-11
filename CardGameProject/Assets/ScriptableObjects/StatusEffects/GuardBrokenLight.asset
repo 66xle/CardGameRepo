@@ -13,17 +13,18 @@ MonoBehaviour:
   m_Name: GuardBrokenLight
   m_EditorClassIdentifier: 
   statusEffect:
-    rid: 8735465014653354045
-  uiPrefab: {fileID: 425717489898406801, guid: 3a66dd0d7c258054a933f3ddf2bd5f87, type: 3}
+    rid: 8735465109001076806
   references:
     version: 2
     RefIds:
-    - rid: 8735465014653354045
+    - rid: 8735465109001076806
       type: {class: StatusGuardBroken, ns: , asm: Assembly-CSharp}
       data:
         effect: 1
         effectName: Guard Broken
-        turnsRemaning: 1
+        maxTurnsRemaining: 1
+        currentTurnsRemaning: 0
         isActiveEffect: 0
         numberOfHitsToRecover: 2
         extraDamagePercentage: 0.2
+        removeEffectNextTurn: 1

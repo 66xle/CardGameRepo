@@ -103,6 +103,8 @@ public class StatusEffectState : CombatBaseState
                 // This effect will expire next turn
                 if (currentEffect.ShouldRemoveEffectNextTurn())
                 {
+                    Debug.Log("REMOVE GUARD BREAK NEXT TURN");
+
                     currentAvatarSelected.listOfEffects[i].SetRemoveEffectNextTurn(false);
                     continue;
                 }

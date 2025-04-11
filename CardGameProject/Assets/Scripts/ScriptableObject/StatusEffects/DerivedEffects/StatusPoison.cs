@@ -14,6 +14,11 @@ public class StatusPoison : StatusEffect
         isActiveEffect = true;
     }
 
+    public override StatusEffect Clone()
+    {
+        return (StatusEffect)this.MemberwiseClone();
+    }
+
     public override void ActivateEffect(Avatar avatar)
     {
         float damage = avatar.maxHealth * reduceHealthPercentage;

@@ -4,9 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public abstract class AttackCommand : ActionSequence
+public abstract class AttackCommand : Command
 {
-    public override IEnumerator Execute(Action<bool> IsConditionTrue)
+    public override IEnumerator Execute(Action<bool> IsConditionTrue = null)
+    {
+        ExecuteCommand();
+
+        yield return null;
+    }
+
+    public override void ExecuteCommand()
     {
         CombatStateMachine ctx = ExecutableParameters.ctx;
         Avatar avatarPlayingCard = ExecutableParameters.avatarPlayingCard;
@@ -48,10 +55,12 @@ public abstract class AttackCommand : ActionSequence
 
             if (ExecutableParameters.Queue.Count == 0)
             {
+                // Set avatar queue game actions
                 ExecutableParameters.Queue = ExecutableParameters.Targets;
             }
             else
             {
+                // Update avatar queue game actions
                 foreach (Avatar target in ExecutableParameters.Targets)
                 {
                     Avatar avatar = ExecutableParameters.Queue.First(avatar => avatar.guid == target.guid);
@@ -59,7 +68,5 @@ public abstract class AttackCommand : ActionSequence
                 }
             }
         }
-
-        yield return null;
     }
 }

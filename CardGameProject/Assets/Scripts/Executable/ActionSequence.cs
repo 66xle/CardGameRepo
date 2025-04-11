@@ -4,15 +4,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro.EditorUtilities;
 using SerializeReferenceEditor;
+using DG.Tweening.Core.Easing;
 
 
 [SRHidden]
-public class ActionSequence : Command
+public class ActionSequence : Executable
 {
-    protected List<Executable> _actionCommands;
     public override bool RequiresMovement => _actionCommands.Exists(cmd => cmd.RequiresMovement);
 
-    
+    private List<Executable> _actionCommands;
+    private Condition currentReactiveCondition = null;
+
+    public ActionSequence(List<Executable> actionCommands)
+    {
+        _actionCommands = actionCommands;
+    }
 
     public override IEnumerator Execute(Action<bool> IsConditionTrue)
     {
@@ -38,6 +44,20 @@ public class ActionSequence : Command
 
         foreach (Executable command in _actionCommands)
         {
+            if (command.IsReactiveCondition)
+            {
+                currentReactiveCondition = command as Condition;
+                continue;
+            }
+            else if (currentReactiveCondition != null && command is Command c) // not conditions
+            {
+                currentReactiveCondition.AddCommand(c);
+                continue;
+            }
+
+            currentReactiveCondition = null;
+
+
             ExecutableParameters.Targets = GetTargets(command.CardTarget);
             ExecutableParameters.CardTarget = command.CardTarget;
 
@@ -89,11 +109,6 @@ public class ActionSequence : Command
         }
 
         return targets;
-    }
-
-    public void SetCommands(List<Executable> actionCommands)
-    {
-        _actionCommands = actionCommands;
     }
 }
 

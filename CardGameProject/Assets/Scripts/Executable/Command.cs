@@ -6,4 +6,6 @@ using System;
 public abstract class Command : Executable
 {
     public abstract override IEnumerator Execute(Action<bool> IsConditionTrue);
+
+    public abstract void ExecuteCommand();
 }

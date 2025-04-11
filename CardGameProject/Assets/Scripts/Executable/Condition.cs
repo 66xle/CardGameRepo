@@ -14,4 +14,6 @@ public abstract class Condition : Executable
     }
 
     public abstract bool Evaluate();
+
+    public virtual void AddCommand(Command command) { }
 }

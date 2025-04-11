@@ -18,11 +18,13 @@ public enum Effect
 [Serializable]
 public abstract class StatusEffect
 {
-    [HideInInspector] public Effect effect;
+    [ReadOnly] public Effect effect;
     public string effectName;
     public int maxTurnsRemaining = 1;
     [ReadOnly] public int currentTurnsRemaning;
     [ReadOnly] public bool isActiveEffect = false;
+
+    public abstract StatusEffect Clone();
 
     public virtual void OnApply(Avatar avatar) 
     {
