@@ -23,12 +23,19 @@ MonoBehaviour:
   cost: 1
   recycleValue: 1
   commands:
-  - rid: -2
-  - rid: -2
-  selfEffects: []
-  applyEffects: []
+  - rid: 8735465150654185532
+  - rid: 8735465150654185533
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 8735465150654185532
+      type: {class: IfAttacked, ns: , asm: Assembly-CSharp}
+      data:
+        reactiveTrigger: 4
+        effectTrigger: 2
+        effectDuration: 0
+        turns: 1
+    - rid: 8735465150654185533
+      type: {class: DealDamage, ns: , asm: Assembly-CSharp}
+      data:
+        target: 1

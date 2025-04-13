@@ -28,7 +28,7 @@ public class Avatar : MonoBehaviour
     [HideInInspector] public bool doStatusDmg;
 
     [HideInInspector] public event Action OnStatChanged;
-    [HideInInspector] public List<Executable> AfterTakeDamageFromWeaponCMD = new();
+    [HideInInspector] public Dictionary<ReactiveTrigger, List<ExecutableWrapper>> DictReactiveEffects = new();
 
     [HideInInspector] public List<StatusEffect> listOfEffects = new List<StatusEffect>();
     [HideInInspector] public List<GameAction> queueGameActions = new();

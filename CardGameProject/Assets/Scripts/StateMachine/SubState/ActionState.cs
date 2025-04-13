@@ -112,20 +112,20 @@ public class ActionState : CombatBaseState
         // Attack finished
         //ctx.displayCard.gameObject.SetActive(false);
 
-        if (avatarOpponent.AfterTakeDamageFromWeaponCMD.Count > 0)
-        {
-            Debug.Log("AFTER TAKE DAMAGE");
+        //if (avatarOpponent.AfterTakeDamageFromWeaponCMD.Count > 0)
+        //{
+        //    Debug.Log("AFTER TAKE DAMAGE");
 
-            ExecutableParameters.avatarPlayingCard = avatarOpponent;
-            ExecutableParameters.avatarOpponent = avatarPlayingCard;
+        //    ExecutableParameters.avatarPlayingCard = avatarOpponent;
+        //    ExecutableParameters.avatarOpponent = avatarPlayingCard;
 
-            ExecutableParameters.Targets = new List<Avatar>();
-            ExecutableParameters.Queue = new List<Avatar>();
+        //    ExecutableParameters.Targets = new List<Avatar>();
+        //    ExecutableParameters.Queue = new List<Avatar>();
 
-            yield return ctx.StartCoroutine(ExecuteCommands(avatarOpponent.AfterTakeDamageFromWeaponCMD));
+        //    yield return ctx.StartCoroutine(ExecuteCommands(avatarOpponent.AfterTakeDamageFromWeaponCMD));
 
-            avatarOpponent.AfterTakeDamageFromWeaponCMD.Clear();
-        }
+        //    avatarOpponent.AfterTakeDamageFromWeaponCMD.Clear(); // Which commands this turn, next turn, etc
+        //}
         
 
         isInAction = false;

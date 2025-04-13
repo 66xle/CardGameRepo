@@ -11,6 +11,31 @@ public enum CardTarget
     Self
 }
 
+public enum ReactiveTrigger
+{
+    StartOfTurn,
+    DrawCard,
+    AfterPlayCard,
+    EndOfTurn,
+    BeforeTakeDamageByWeapon,
+    AfterTakeDamageByWeapon,
+}
+
+
+public enum EffectTiming
+{
+    Immediate,
+    NextTurn
+}
+
+public enum EffectDuration
+{
+    ThisTurn,
+    UntilNextTurn,
+    NumberOfTurns
+}
+
+
 [Serializable]
 public abstract class Executable
 {

@@ -47,11 +47,12 @@ public class ActionSequence : Executable
             if (command.IsReactiveCondition)
             {
                 currentReactiveCondition = command as Condition;
+                currentReactiveCondition.AddReactiveEffect();
                 continue;
             }
-            else if (currentReactiveCondition != null && command is Command c) // not conditions
+            else if (currentReactiveCondition != null && command is Executable c)
             {
-                currentReactiveCondition.AddCommand(c);
+                currentReactiveCondition.AddExecutable(c);
                 continue;
             }
 
