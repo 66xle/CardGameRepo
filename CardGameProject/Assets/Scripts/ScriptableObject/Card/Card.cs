@@ -31,8 +31,4 @@ public class Card : ScriptableObject
     public int cost;
     public int recycleValue;
     [SerializeReference][SR] public List<Executable> commands = new List<Executable>();
-
-    [Header("Status Effects")]
-    public List<StatusEffect> selfEffects = new List<StatusEffect>();
-    public List<StatusEffect> applyEffects = new List<StatusEffect>();
 }

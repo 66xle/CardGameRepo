@@ -25,8 +25,6 @@ public struct CardData
         copyCard.frame = card.frame;
         copyCard.guid = Guid.NewGuid().ToString();
         copyCard.cardName = card.cardName;
-        copyCard.applyEffects = card.applyEffects;
-        copyCard.selfEffects = card.selfEffects;
         copyCard.commands = card.commands;
 
         this.card = copyCard;
