@@ -1,4 +1,5 @@
 
+using System.Collections;
 using System.Collections.Generic;
 
 public class ExecutableWrapper
@@ -15,5 +16,11 @@ public class ExecutableWrapper
         Turns = turns;
         EffectTiming = effectTiming;
         ReactiveTrigger = reactiveTrigger;
+    }
+
+    public IEnumerator ExecuteCommands()
+    {
+        ActionSequence actionSequence = new(Commands);
+        yield return actionSequence.Execute(null);
     }
 }

@@ -39,8 +39,6 @@ public class AnimationSystem : MonoBehaviour
         Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), ctx.moveDuration).SetEase(ctx.moveAnimCurve);
 
         yield return tween.WaitForCompletion();
-
-        Debug.Log("move finished");
     }
 
     private IEnumerator ReturnToPosPerformer(ReturnToPosGA returnToPosGA)

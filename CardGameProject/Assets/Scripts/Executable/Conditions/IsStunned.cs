@@ -9,7 +9,7 @@ public class IsStunned : Condition
 { 
     public override bool Evaluate()
     {
-        List<Avatar> currentTargets = Extensions.Clone(ExecutableParameters.Targets);
+        List<Avatar> currentTargets = Extensions.CloneList(ExecutableParameters.Targets);
 
         for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
         {

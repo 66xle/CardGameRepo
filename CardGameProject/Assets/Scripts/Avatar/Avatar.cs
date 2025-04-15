@@ -8,6 +8,7 @@ using System;
 using Action = System.Action;
 using System.ComponentModel;
 using MyBox;
+using UnityEngine.Rendering;
 
 
 
@@ -173,12 +174,6 @@ public class Avatar : MonoBehaviour
         return false;
     }
 
-    public void ReduceHealthByPercentage(float percentage, int stacks = 1)
-    {
-        float damage = maxHealth * (percentage * stacks);
-        TakeDamageByStatusEffect(damage);
-    }
-
     public float ApplyAdditionalDmgCheck(float damage)
     {
         // Don't need to check
@@ -211,6 +206,67 @@ public class Avatar : MonoBehaviour
     }
 
     #endregion
+
+    public IEnumerator CheckReactiveEffects(ReactiveTrigger trigger)
+    {
+        if (!DictReactiveEffects.ContainsKey(trigger)) yield break;
+
+        List<ExecutableWrapper> listWrapper = Extensions.CloneList(DictReactiveEffects[trigger]);
+
+        for (int i = 0; i < listWrapper.Count; i++)
+        {
+            ExecutableWrapper wrapper = listWrapper[i];
+
+            if (wrapper.EffectTiming == EffectTiming.Immediate && trigger == wrapper.ReactiveTrigger)
+            {
+                // run commands
+                Debug.Log("COUNTERATTACK NOW");
+                yield return wrapper.ExecuteCommands();
+            }
+            else if (wrapper.EffectTiming == EffectTiming.NextTurn && trigger == ReactiveTrigger.StartOfTurn)
+            {
+                wrapper.EffectTiming = EffectTiming.Immediate;
+
+                if (trigger != wrapper.ReactiveTrigger)
+                {
+                    // Move wrapper to correct reactive trigger
+                    DictReactiveEffects[trigger].RemoveAt(i);
+                    DictReactiveEffects[wrapper.ReactiveTrigger].Add(wrapper);
+                    continue;
+                }
+
+                // run commands
+                Debug.Log("COUNTERATTACK NOW");
+                yield return wrapper.ExecuteCommands();
+                DictReactiveEffects[trigger][i] = wrapper;
+            }
+        }
+    }
+
+    public void CheckTurnsReactiveEffects(ReactiveTrigger trigger)
+    {
+        Dictionary<ReactiveTrigger, List<ExecutableWrapper>> tempDict = DictReactiveEffects.ToDictionary(pair => pair.Key, pair => new List<ExecutableWrapper>(pair.Value));
+
+        foreach (KeyValuePair<ReactiveTrigger, List<ExecutableWrapper>> pair in tempDict)
+        {
+            List<ExecutableWrapper> listWrapper = Extensions.CloneList(pair.Value);
+
+            for (int i = 0; i < listWrapper.Count; i++)
+            {
+                ExecutableWrapper wrapper = listWrapper[i];
+
+                if (trigger == ReactiveTrigger.StartOfTurn)
+                {
+                    if (wrapper.Turns > 1) DictReactiveEffects[pair.Key][i].Turns--;
+                    else if (wrapper.Turns == 1) DictReactiveEffects[pair.Key].RemoveAt(i); // retarded
+                }
+                else if (wrapper.Turns == 0 && trigger == ReactiveTrigger.EndOfTurn)
+                {
+                    DictReactiveEffects[pair.Key].RemoveAt(i);
+                }
+            }
+        }
+    }
 
     public void UpdateStatsUI()
     {

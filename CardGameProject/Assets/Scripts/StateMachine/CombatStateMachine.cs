@@ -297,14 +297,21 @@ public class CombatStateMachine : MonoBehaviour
 
     public void EndTurn()
     {
+        StartCoroutine(EndTurnReactiveEffect());
+    }
+
+    public IEnumerator EndTurnReactiveEffect()
+    {
+        yield return player.CheckReactiveEffects(ReactiveTrigger.EndOfTurn);
+        player.CheckTurnsReactiveEffects(ReactiveTrigger.EndOfTurn);
+
         Debug.Log("END PLAYER'S TURN");
 
         pressedEndTurnButton = true;
 
         // For enemy state
         enemyTurnQueue.Clear();
-        enemyTurnQueue = Extensions.Clone(enemyList);
-
+        enemyTurnQueue = Extensions.CloneList(enemyList);
         enemyTurnDone = false;
     }
 

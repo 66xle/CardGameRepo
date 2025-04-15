@@ -24,7 +24,7 @@ public class CameraSystem : MonoBehaviour
         Avatar avatarOpponent = moveToPosGA.avatarOpponent;
         CombatStateMachine ctx = moveToPosGA.ctx;
 
-        if (avatarPlayingCard.gameObject.CompareTag("Player"))
+        if (avatarPlayingCard is Player)
         {
             ctx.followCam.LookAt = null;
             ctx.followCam.transform.rotation = ctx.defaultCam.transform.rotation;
@@ -36,13 +36,15 @@ public class CameraSystem : MonoBehaviour
 
     private void ReturnToPosReactionPre(ReturnToPosGA returnToPosGA)
     {
-        if (returnToPosGA.avatarPlayingCard.gameObject.CompareTag("Player"))
+        if (returnToPosGA.avatarPlayingCard is Player)
+        {
             returnToPosGA.ctx.panCam.Priority = 0;
+        }
     }
 
     private void ReturnToPosReactionPost(ReturnToPosGA returnToPosGA)
     {
-        if (returnToPosGA.avatarPlayingCard.gameObject.CompareTag("Player"))
+        if (returnToPosGA.avatarPlayingCard is Player)
         {
             returnToPosGA.ctx.followCam.Priority = 10;
         }
@@ -53,7 +55,7 @@ public class CameraSystem : MonoBehaviour
         Avatar avatarPlayingCard = triggerAttackAnimGA.avatarPlayingCard;
         CombatStateMachine ctx = triggerAttackAnimGA.ctx;
 
-        if (avatarPlayingCard.gameObject.CompareTag("Player"))
+        if (avatarPlayingCard is Player)
         {
             ctx.panCam.transform.position = ctx.followCam.transform.position;
             ctx.panCam.transform.rotation = ctx.followCam.transform.rotation;

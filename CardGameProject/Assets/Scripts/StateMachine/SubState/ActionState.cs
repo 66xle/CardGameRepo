@@ -48,11 +48,7 @@ public class ActionState : CombatBaseState
     }   
 
     public override void FixedUpdateState() { }
-    public override void ExitState() 
-    {
-        avatarPlayingCard.doDamage = false;
-        avatarPlayingCard.isAttackFinished = false;
-    }
+    public override void ExitState() {}
     public override void CheckSwitchState()
     {
         if (!isInAction)
@@ -80,13 +76,13 @@ public class ActionState : CombatBaseState
         {
             yield return ctx.StartCoroutine(PlayCard(cardPlayed));
         }
+
+        yield return ctx.currentEnemyTurn.CheckReactiveEffects(ReactiveTrigger.EndOfTurn);
+        ctx.currentEnemyTurn.CheckTurnsReactiveEffects(ReactiveTrigger.EndOfTurn);
     }
 
     private IEnumerator PlayCard(CardData cardData)
     {
-        avatarPlayingCard.doDamage = false;
-        avatarPlayingCard.isAttackFinished = false;
-
         ExecutableParameters.ctx = ctx;
         ExecutableParameters.card = cardData.card;
         ExecutableParameters.weapon = cardData.weapon;
@@ -100,14 +96,23 @@ public class ActionState : CombatBaseState
         Card cardPlayed = cardData.card;
 
         isInAction = true;
-        
+
         // Display Card
         //ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
         //ctx.displayCard.gameObject.SetActive(true);
 
+        yield return avatarOpponent.CheckReactiveEffects(ReactiveTrigger.BeforeTakeDamageByWeapon);
 
-        yield return ctx.StartCoroutine(ExecuteCommands(cardPlayed.commands));
- 
+
+        yield return ExecuteCommands(cardPlayed.commands);
+
+
+
+        ExecutableParameters.avatarPlayingCard = avatarOpponent;
+        ExecutableParameters.avatarOpponent = avatarPlayingCard;
+        ExecutableParameters.Targets = new List<Avatar>();
+        ExecutableParameters.Queue = new List<Avatar>();
+        yield return avatarOpponent.CheckReactiveEffects(ReactiveTrigger.AfterTakeDamageByWeapon);
 
         // Attack finished
         //ctx.displayCard.gameObject.SetActive(false);
@@ -131,7 +136,7 @@ public class ActionState : CombatBaseState
         isInAction = false;
         Debug.Log("Finished Attacking");
 
-        if (ctx.currentState.ToString() == PLAYERSTATE && ctx.selectedEnemyToAttack.IsAvatarDead())
+        if (avatarOpponent is Enemy && avatarOpponent.IsAvatarDead() || avatarPlayingCard is Enemy && avatarPlayingCard.IsAvatarDead())
         {
             ctx.EnemyDied();
         }
@@ -140,7 +145,6 @@ public class ActionState : CombatBaseState
     private IEnumerator ExecuteCommands(List<Executable> commands)
     {
         ActionSequence sequence = new ActionSequence(commands);
-
         yield return sequence.Execute(null);
     }
 

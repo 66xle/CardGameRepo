@@ -22,7 +22,7 @@ public static class Extensions
         }
     }
 
-    public static List<T> Clone<T>(this List<T> listToClone)
+    public static List<T> CloneList<T>(this List<T> listToClone)
     {
         List<T> listToSave = new List<T>();
 

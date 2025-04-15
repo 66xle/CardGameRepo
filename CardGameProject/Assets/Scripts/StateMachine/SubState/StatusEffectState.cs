@@ -147,7 +147,7 @@ public class StatusEffectState : CombatBaseState
                     skipTurn = true;
 
                     if (ctx.currentState.ToString() == PLAYERSTATE)
-                        ctx.EndTurn();
+                        yield return ctx.EndTurnReactiveEffect();
                     else
                         ctx.enemyTurnQueue.Remove(ctx.currentEnemyTurn);
 
@@ -157,8 +157,15 @@ public class StatusEffectState : CombatBaseState
                 if (effect.isActiveEffect)
                     effect.ActivateEffect(currentAvatarSelected);
 
-                if (IsAvatarDeadByStatusEffect())
+                if (currentAvatarSelected.IsAvatarDead())
+                {
+                    currentAvatarSelected.GetComponent<Animator>().SetTrigger("Death");
+                    currentAvatarSelected.DictReactiveEffects.Clear();
+
+                    if (currentAvatarSelected is Enemy) ctx.EnemyDied();
+
                     yield break;
+                }
 
                 yield return new WaitForSeconds(ctx.statusEffectDelay);
             }
@@ -176,21 +183,10 @@ public class StatusEffectState : CombatBaseState
         currentAvatarSelected.UpdateStatsUI();
 
         isStatusEffectFinished = true;
-    }
 
-    public bool IsAvatarDeadByStatusEffect()
-    {
-        if (currentAvatarSelected.IsAvatarDead())
-        {
-            currentAvatarSelected.GetComponent<Animator>().SetTrigger("Death");
 
-            if (ctx.currentState.ToString() != PLAYERSTATE)
-                ctx.EnemyDied();
-
-            return true;
-        }
-
-        return false;
+        yield return currentAvatarSelected.CheckReactiveEffects(ReactiveTrigger.StartOfTurn);
+        currentAvatarSelected.CheckTurnsReactiveEffects(ReactiveTrigger.StartOfTurn);
     }
 
     public void ActivateStatusCamera()

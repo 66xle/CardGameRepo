@@ -345,7 +345,7 @@ public class GridMap : MonoBehaviour
         // Remove other tiles, not selected tile
         nextTileList.Remove(selectedTile);
 
-        List<DisplayTile> tempList = Extensions.Clone(nextTileList);
+        List<DisplayTile> tempList = Extensions.CloneList(nextTileList);
         foreach (DisplayTile nextTile in tempList)
         {
             // If skip event tile, disable it

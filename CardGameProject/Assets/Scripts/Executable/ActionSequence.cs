@@ -26,6 +26,8 @@ public class ActionSequence : Executable
         Avatar avatarPlayingCard = ExecutableParameters.avatarPlayingCard;
         Avatar avatarOpponent = ExecutableParameters.avatarOpponent;
 
+        avatarPlayingCard.doDamage = false;
+        avatarPlayingCard.isAttackFinished = false;
         bool hasMoved = false;
 
         if (RequiresMovement && !hasMoved)

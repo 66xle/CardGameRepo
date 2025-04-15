@@ -33,6 +33,7 @@ public class DamageSystem : MonoBehaviour
         if (avatarToTakeDamage.IsAvatarDead())
         {
             avatarToTakeDamage.GetComponent<Animator>().SetTrigger("Death");
+            avatarToTakeDamage.DictReactiveEffects.Clear();
         }
         else if (avatarToTakeDamage.IsGuardBroken())
         {
