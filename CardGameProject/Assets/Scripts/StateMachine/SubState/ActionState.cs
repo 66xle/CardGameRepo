@@ -105,7 +105,9 @@ public class ActionState : CombatBaseState
         
         yield return avatarOpponent.CheckReactiveEffects(ReactiveTrigger.AfterTakeDamageByWeapon);
 
-        
+        ExecutableParameters.avatarPlayingCard = avatarPlayingCard;
+        ExecutableParameters.avatarOpponent = avatarOpponent;
+
 
         isInAction = false;
         Debug.Log("Finished Attacking");
