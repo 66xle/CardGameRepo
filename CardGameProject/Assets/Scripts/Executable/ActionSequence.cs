@@ -12,6 +12,8 @@ public class ActionSequence : Executable
 {
     public override bool RequiresMovement => _actionCommands.Exists(cmd => cmd.RequiresMovement);
 
+    private bool IsAttackCommand => _actionCommands.Exists(cmd => cmd is AttackCommand);
+
     private List<Executable> _actionCommands;
     private Condition currentReactiveCondition = null;
 
@@ -25,24 +27,12 @@ public class ActionSequence : Executable
         CombatStateMachine ctx = ExecutableParameters.ctx;
         Avatar avatarPlayingCard = ExecutableParameters.avatarPlayingCard;
         Avatar avatarOpponent = ExecutableParameters.avatarOpponent;
+        ExecutableParameters.Targets = new List<Avatar>();
+        ExecutableParameters.Queue = new List<Avatar>();
 
         avatarPlayingCard.doDamage = false;
         avatarPlayingCard.isAttackFinished = false;
         bool hasMoved = false;
-
-        if (RequiresMovement && !hasMoved)
-        {
-            // Trigger move animation | After move GA, reaction will trigger attack GA
-            MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, ctx);
-            ActionSystem.Instance.Perform(moveToPosGA);
-
-            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.avatarPlayingCard, moveToPosGA.ctx);
-            moveToPosGA.PostReactions.Add(triggerAttackAnimGA);
-
-            yield return new WaitWhile(() => !avatarPlayingCard.doDamage);
-
-            hasMoved = true;
-        }
 
         foreach (Executable command in _actionCommands)
         {
@@ -70,8 +60,49 @@ public class ActionSequence : Executable
             if (!isConditionTrue) break;
         }
 
+        foreach (Avatar avatarTarget in ExecutableParameters.Queue)
+        {
+            if (!avatarTarget.isTakeDamage) continue;
+            avatarTarget.isTakeDamage = false;
+
+            ExecutableParameters.avatarPlayingCard = avatarOpponent;
+            ExecutableParameters.avatarOpponent = avatarPlayingCard;
+            List<Avatar> tempQueue = Extensions.CloneList(ExecutableParameters.Queue);
+            List<Avatar> tempTargets = Extensions.CloneList(ExecutableParameters.Targets);
+
+            yield return avatarTarget.CheckReactiveEffects(ReactiveTrigger.BeforeTakeDamageByWeapon);
+
+
+            ExecutableParameters.avatarPlayingCard = avatarPlayingCard;
+            ExecutableParameters.avatarOpponent = avatarOpponent;
+            ExecutableParameters.Queue = tempQueue;
+            ExecutableParameters.Targets = tempTargets;
+        }
+
+        if (avatarPlayingCard.IsGuardBroken())
+        {
+            ExecutableParameters.Queue.ForEach(avatar => avatar.queueGameActions.Clear());
+            yield break;
+        }
+            
+
+        if (RequiresMovement && !hasMoved)
+        {
+            // Trigger move animation | After move GA, reaction will trigger attack GA
+            MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, ctx);
+            ActionSystem.Instance.Perform(moveToPosGA);
+
+            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.avatarPlayingCard, moveToPosGA.ctx);
+            moveToPosGA.PostReactions.Add(triggerAttackAnimGA);
+
+            yield return new WaitWhile(() => !avatarPlayingCard.doDamage);
+
+            hasMoved = true;
+        }
+
         foreach (Avatar avatar in ExecutableParameters.Queue)
         {
+            // Perform the game actions on themselfs
             ActionSystem.Instance.PerformQueue(avatar.queueGameActions);
         }
 
@@ -86,6 +117,7 @@ public class ActionSequence : Executable
             // wait until we return to our spot
             yield return new WaitWhile(() => !returnToPosGA.IsReturnFinished);
         }
+
 
         yield return new WaitWhile(() => ActionSystem.Instance.IsPerforming);
     }

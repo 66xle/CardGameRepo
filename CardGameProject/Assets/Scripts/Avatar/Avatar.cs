@@ -23,6 +23,8 @@ public class Avatar : MonoBehaviour
     // Animation Events
     [HideInInspector] public bool doDamage;
     [HideInInspector] public bool isAttackFinished;
+    [HideInInspector] public bool isTakeDamage = false;
+    [HideInInspector] public bool isRunningReactiveEffect = false;
 
     [HideInInspector] public bool isInCounterState = false;
     [HideInInspector] public bool isInStatusActivation;
@@ -207,8 +209,12 @@ public class Avatar : MonoBehaviour
 
     #endregion
 
+    #region Reactive Effects
+
     public IEnumerator CheckReactiveEffects(ReactiveTrigger trigger)
     {
+        if (isRunningReactiveEffect) yield break;
+
         if (!DictReactiveEffects.ContainsKey(trigger)) yield break;
 
         List<ExecutableWrapper> listWrapper = Extensions.CloneList(DictReactiveEffects[trigger]);
@@ -217,11 +223,17 @@ public class Avatar : MonoBehaviour
         {
             ExecutableWrapper wrapper = listWrapper[i];
 
+            if (IsGuardBroken() && wrapper.Commands.Any(command => command is AttackCommand)) continue;
+
+            
             if (wrapper.EffectTiming == EffectTiming.Immediate && trigger == wrapper.ReactiveTrigger)
             {
                 // run commands
-                Debug.Log("COUNTERATTACK NOW");
+                isRunningReactiveEffect = true;
+
                 yield return wrapper.ExecuteCommands();
+
+                isRunningReactiveEffect = false;
             }
             else if (wrapper.EffectTiming == EffectTiming.NextTurn && trigger == ReactiveTrigger.StartOfTurn)
             {
@@ -235,10 +247,14 @@ public class Avatar : MonoBehaviour
                     continue;
                 }
 
+                
+                isRunningReactiveEffect = true;
+
                 // run commands
-                Debug.Log("COUNTERATTACK NOW");
                 yield return wrapper.ExecuteCommands();
                 DictReactiveEffects[trigger][i] = wrapper;
+
+                isRunningReactiveEffect = false;
             }
         }
     }
@@ -267,6 +283,8 @@ public class Avatar : MonoBehaviour
             }
         }
     }
+
+    #endregion
 
     public void UpdateStatsUI()
     {

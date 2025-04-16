@@ -35,6 +35,7 @@ public abstract class AttackCommand : Command
 
                 if (avatarToTakeDamage.IsGameActionInQueue<TakeDamageFromWeaponGA>())
                 {
+                    // Update damage value
                     TakeDamageFromWeaponGA takeDamageFromWeaponGA = avatarToTakeDamage.GetGameActionFromQueue<TakeDamageFromWeaponGA>() as TakeDamageFromWeaponGA;
                     takeDamageFromWeaponGA.damage += ExecutableParameters.card.value;
 
@@ -43,11 +44,14 @@ public abstract class AttackCommand : Command
                 }
                 else
                 {
+                    // Add game action to queue
                     TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, ctx, ExecutableParameters.card.value, ExecutableParameters.weapon.type);
                     avatarToTakeDamage.queueGameActions.Add(takeDamageFromWeaponGA);
 
                     SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.avatarToTakeDamage, takeDamageFromWeaponGA.damage, Color.white);
                     takeDamageFromWeaponGA.PostReactions.Add(spawnDamageUIPopupGA);
+
+                    avatarToTakeDamage.isTakeDamage = true;
                 }
 
                 ExecutableParameters.Targets[i] = avatarToTakeDamage;

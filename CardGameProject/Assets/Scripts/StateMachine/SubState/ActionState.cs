@@ -86,14 +86,6 @@ public class ActionState : CombatBaseState
         ExecutableParameters.ctx = ctx;
         ExecutableParameters.card = cardData.card;
         ExecutableParameters.weapon = cardData.weapon;
-        ExecutableParameters.avatarPlayingCard = avatarPlayingCard;
-        ExecutableParameters.avatarOpponent = avatarOpponent;
-
-        ExecutableParameters.Targets = new List<Avatar>();
-        ExecutableParameters.Queue = new List<Avatar>();
-
-        WeaponData weapon = cardData.weapon;
-        Card cardPlayed = cardData.card;
 
         isInAction = true;
 
@@ -101,40 +93,26 @@ public class ActionState : CombatBaseState
         //ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
         //ctx.displayCard.gameObject.SetActive(true);
 
-        yield return avatarOpponent.CheckReactiveEffects(ReactiveTrigger.BeforeTakeDamageByWeapon);
 
+        ExecutableParameters.avatarPlayingCard = avatarPlayingCard;
+        ExecutableParameters.avatarOpponent = avatarOpponent;
 
-        yield return ExecuteCommands(cardPlayed.commands);
-
+        yield return ExecuteCommands(cardData.card.commands);
 
 
         ExecutableParameters.avatarPlayingCard = avatarOpponent;
         ExecutableParameters.avatarOpponent = avatarPlayingCard;
-        ExecutableParameters.Targets = new List<Avatar>();
-        ExecutableParameters.Queue = new List<Avatar>();
+        
         yield return avatarOpponent.CheckReactiveEffects(ReactiveTrigger.AfterTakeDamageByWeapon);
 
-        // Attack finished
-        //ctx.displayCard.gameObject.SetActive(false);
-
-        //if (avatarOpponent.AfterTakeDamageFromWeaponCMD.Count > 0)
-        //{
-        //    Debug.Log("AFTER TAKE DAMAGE");
-
-        //    ExecutableParameters.avatarPlayingCard = avatarOpponent;
-        //    ExecutableParameters.avatarOpponent = avatarPlayingCard;
-
-        //    ExecutableParameters.Targets = new List<Avatar>();
-        //    ExecutableParameters.Queue = new List<Avatar>();
-
-        //    yield return ctx.StartCoroutine(ExecuteCommands(avatarOpponent.AfterTakeDamageFromWeaponCMD));
-
-        //    avatarOpponent.AfterTakeDamageFromWeaponCMD.Clear(); // Which commands this turn, next turn, etc
-        //}
         
 
         isInAction = false;
         Debug.Log("Finished Attacking");
+
+        ctx.enemyList.ForEach(enemy => enemy.isTakeDamage = false);
+        ctx.player.isTakeDamage = false;
+
 
         if (avatarOpponent is Enemy && avatarOpponent.IsAvatarDead() || avatarPlayingCard is Enemy && avatarPlayingCard.IsAvatarDead())
         {
