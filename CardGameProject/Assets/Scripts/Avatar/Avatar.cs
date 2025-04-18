@@ -213,8 +213,6 @@ public class Avatar : MonoBehaviour
 
     public IEnumerator CheckReactiveEffects(ReactiveTrigger trigger)
     {
-        if (isRunningReactiveEffect) yield break;
-
         if (!DictReactiveEffects.ContainsKey(trigger)) yield break;
 
         List<ExecutableWrapper> listWrapper = Extensions.CloneList(DictReactiveEffects[trigger]);

@@ -2349,14 +2349,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
-  maxGuard: 1
+  maxGuard: 5
   armourType: 1
   damageType: 0
   doDamage: 0
   isAttackFinished: 0
+  isTakeDamage: 0
+  isRunningReactiveEffect: 0
   isInCounterState: 0
   isInStatusActivation: 0
   doStatusDmg: 0
+  guid: 
+  _currentHealth: 0
+  animator: {fileID: 0}
   enemyObj: {fileID: 0}
   healthBar: {fileID: 0}
   guardBar: {fileID: 0}

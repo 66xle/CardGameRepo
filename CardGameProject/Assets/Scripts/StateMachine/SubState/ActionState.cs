@@ -86,6 +86,8 @@ public class ActionState : CombatBaseState
         ExecutableParameters.ctx = ctx;
         ExecutableParameters.card = cardData.card;
         ExecutableParameters.weapon = cardData.weapon;
+        ExecutableParameters.avatarPlayingCard = avatarPlayingCard;
+        ExecutableParameters.avatarOpponent = avatarOpponent;
 
         isInAction = true;
 
@@ -94,19 +96,8 @@ public class ActionState : CombatBaseState
         //ctx.displayCard.gameObject.SetActive(true);
 
 
-        ExecutableParameters.avatarPlayingCard = avatarPlayingCard;
-        ExecutableParameters.avatarOpponent = avatarOpponent;
-
         yield return ExecuteCommands(cardData.card.commands);
 
-
-        ExecutableParameters.avatarPlayingCard = avatarOpponent;
-        ExecutableParameters.avatarOpponent = avatarPlayingCard;
-        
-        yield return avatarOpponent.CheckReactiveEffects(ReactiveTrigger.AfterTakeDamageByWeapon);
-
-        ExecutableParameters.avatarPlayingCard = avatarPlayingCard;
-        ExecutableParameters.avatarOpponent = avatarOpponent;
 
 
         isInAction = false;

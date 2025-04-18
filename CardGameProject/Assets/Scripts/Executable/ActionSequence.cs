@@ -58,24 +58,8 @@ public class ActionSequence : Executable
             if (!isConditionTrue) break;
         }
 
-        foreach (Avatar avatarTarget in ExecutableParameters.Queue)
-        {
-            if (!avatarTarget.isTakeDamage) continue;
-            avatarTarget.isTakeDamage = false;
-
-            ExecutableParameters.avatarPlayingCard = avatarOpponent;
-            ExecutableParameters.avatarOpponent = avatarPlayingCard;
-            List<Avatar> tempQueue = Extensions.CloneList(ExecutableParameters.Queue);
-            List<Avatar> tempTargets = Extensions.CloneList(ExecutableParameters.Targets);
-
-            yield return avatarTarget.CheckReactiveEffects(ReactiveTrigger.BeforeTakeDamageByWeapon);
-
-
-            ExecutableParameters.avatarPlayingCard = avatarPlayingCard;
-            ExecutableParameters.avatarOpponent = avatarOpponent;
-            ExecutableParameters.Queue = tempQueue;
-            ExecutableParameters.Targets = tempTargets;
-        }
+        if (!avatarOpponent.isRunningReactiveEffect)
+            yield return CheckReactiveEffect(avatarPlayingCard, avatarOpponent, ReactiveTrigger.BeforeTakeDamageByWeapon);
 
         if (avatarPlayingCard.IsGuardBroken())
         {
@@ -116,8 +100,43 @@ public class ActionSequence : Executable
             yield return new WaitWhile(() => !returnToPosGA.IsReturnFinished);
         }
 
+        if (!avatarOpponent.isRunningReactiveEffect)
+            yield return CheckReactiveEffect(avatarPlayingCard, avatarOpponent, ReactiveTrigger.AfterTakeDamageByWeapon);
+
+
 
         yield return new WaitWhile(() => ActionSystem.Instance.IsPerforming);
+    }
+
+    private IEnumerator CheckReactiveEffect(Avatar avatarPlayingCard, Avatar avatarOpponent, ReactiveTrigger trigger)
+    {
+        foreach (Avatar avatarTarget in ExecutableParameters.Queue)
+        {
+            if (!avatarTarget.isTakeDamage) continue;
+
+            if (trigger == ReactiveTrigger.AfterTakeDamageByWeapon) 
+                avatarTarget.isTakeDamage = false;
+
+            Debug.Log(trigger);
+
+            ExecutableParameters.avatarPlayingCard = avatarOpponent;
+            ExecutableParameters.avatarOpponent = avatarPlayingCard;
+            List<Avatar> tempQueue = Extensions.CloneList(ExecutableParameters.Queue);
+            List<Avatar> tempTargets = Extensions.CloneList(ExecutableParameters.Targets);
+            List<GameAction> tempGA = Extensions.CloneList(avatarTarget.queueGameActions);
+            avatarTarget.queueGameActions.Clear();
+
+            yield return avatarTarget.CheckReactiveEffects(trigger);
+
+            ExecutableParameters.avatarPlayingCard = avatarPlayingCard;
+            ExecutableParameters.avatarOpponent = avatarOpponent;
+            ExecutableParameters.Queue = tempQueue;
+            ExecutableParameters.Targets = tempTargets;
+            avatarTarget.queueGameActions = tempGA;
+
+            avatarPlayingCard.doDamage = false;
+            avatarPlayingCard.isAttackFinished = false;
+        }
     }
 
     private List<Avatar> GetTargets(CardTarget target)
