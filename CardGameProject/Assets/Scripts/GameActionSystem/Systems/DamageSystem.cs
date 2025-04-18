@@ -21,7 +21,7 @@ public class DamageSystem : MonoBehaviour
 
         avatarToTakeDamage.TakeDamage(takeDamageFromWeaponGA.damage);
 
-        if (ExecutableParameters.CardTarget != CardTarget.Self)
+        if (takeDamageFromWeaponGA.cardTarget != CardTarget.Self)
         {
             avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
 

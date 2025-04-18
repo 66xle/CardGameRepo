@@ -12,8 +12,6 @@ public class ActionSequence : Executable
 {
     public override bool RequiresMovement => _actionCommands.Exists(cmd => cmd.RequiresMovement);
 
-    private bool IsAttackCommand => _actionCommands.Exists(cmd => cmd is AttackCommand);
-
     private List<Executable> _actionCommands;
     private Condition currentReactiveCondition = null;
 

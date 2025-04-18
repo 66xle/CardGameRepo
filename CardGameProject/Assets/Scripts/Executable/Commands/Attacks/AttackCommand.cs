@@ -45,7 +45,7 @@ public abstract class AttackCommand : Command
                 else
                 {
                     // Add game action to queue
-                    TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, ctx, ExecutableParameters.card.value, ExecutableParameters.weapon.type);
+                    TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, ctx, ExecutableParameters.card.value, ExecutableParameters.weapon.type, ExecutableParameters.CardTarget);
                     avatarToTakeDamage.queueGameActions.Add(takeDamageFromWeaponGA);
 
                     SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.avatarToTakeDamage, takeDamageFromWeaponGA.damage, Color.white);
@@ -57,18 +57,17 @@ public abstract class AttackCommand : Command
                 ExecutableParameters.Targets[i] = avatarToTakeDamage;
             }
 
-            if (ExecutableParameters.Queue.Count == 0)
+            // Update avatar queue game actions
+            foreach (Avatar target in ExecutableParameters.Targets)
             {
-                // Set avatar queue game actions
-                ExecutableParameters.Queue = ExecutableParameters.Targets;
-            }
-            else
-            {
-                // Update avatar queue game actions
-                foreach (Avatar target in ExecutableParameters.Targets)
+                if (ExecutableParameters.Queue.Exists(avatar => avatar.guid == target.guid))
                 {
                     Avatar avatar = ExecutableParameters.Queue.First(avatar => avatar.guid == target.guid);
                     avatar.queueGameActions = target.queueGameActions;
+                }
+                else
+                {
+                    ExecutableParameters.Queue.Add(target);
                 }
             }
         }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Heal
   m_EditorClassIdentifier: 
   guid: 7adfbb88d1838da4bacde094ec37a06c
-  cardName: 
+  cardName: Heal
   description: Heal 3 health
   flavour: Healing!
   image: {fileID: 21300000, guid: 950112b2bd6d2074ea8120822702c17a, type: 3}
@@ -32,10 +32,10 @@ MonoBehaviour:
       type: {class: IfAttacked, ns: , asm: Assembly-CSharp}
       data:
         effectTiming: 0
-        reactiveTrigger: 5
+        reactiveTrigger: 3
         effectDuration: 1
         turns: 1
     - rid: 8735465150654185533
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
-        target: 1
+        target: 2
