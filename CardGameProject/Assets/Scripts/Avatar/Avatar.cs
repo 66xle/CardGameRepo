@@ -6,7 +6,6 @@ using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using System;
 using Action = System.Action;
-using System.ComponentModel;
 using MyBox;
 using UnityEngine.Rendering;
 
@@ -24,7 +23,7 @@ public class Avatar : MonoBehaviour
     [HideInInspector] public bool doDamage;
     [HideInInspector] public bool isAttackFinished;
     [HideInInspector] public bool isTakeDamage = false;
-    [HideInInspector] public bool isRunningReactiveEffect = false;
+    [ReadOnly] public bool isRunningReactiveEffect = false;
 
     [HideInInspector] public bool isInCounterState = false;
     [HideInInspector] public bool isInStatusActivation;

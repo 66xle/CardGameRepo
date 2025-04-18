@@ -119,7 +119,7 @@ public class ActionSequence : Executable
 
             Debug.Log(trigger);
 
-            ExecutableParameters.avatarPlayingCard = avatarOpponent;
+            ExecutableParameters.avatarPlayingCard = avatarTarget;
             ExecutableParameters.avatarOpponent = avatarPlayingCard;
             List<Avatar> tempQueue = Extensions.CloneList(ExecutableParameters.Queue);
             List<Avatar> tempTargets = Extensions.CloneList(ExecutableParameters.Targets);

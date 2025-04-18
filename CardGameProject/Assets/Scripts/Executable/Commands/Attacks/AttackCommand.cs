@@ -68,6 +68,7 @@ public abstract class AttackCommand : Command
                 else
                 {
                     ExecutableParameters.Queue.Add(target);
+                    Debug.Log("Add enemy");
                 }
             }
         }
