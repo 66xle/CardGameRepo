@@ -10,7 +10,7 @@ using DG.Tweening.Core.Easing;
 [SRHidden]
 public class ActionSequence : Executable
 {
-    public override bool RequiresMovement => _actionCommands.Exists(cmd => cmd.RequiresMovement);
+    public override bool RequiresMovement => CheckRequireMovement();
 
     private List<Executable> _actionCommands;
     private Condition currentReactiveCondition = null;
@@ -137,6 +137,20 @@ public class ActionSequence : Executable
             avatarPlayingCard.doDamage = false;
             avatarPlayingCard.isAttackFinished = false;
         }
+    }
+
+    private bool CheckRequireMovement()
+    {
+        foreach (Executable command in _actionCommands)
+        {
+            if (command.IsReactiveCondition)
+                return false;
+
+            if (command.RequiresMovement) 
+                return true;
+        }
+
+        return false;
     }
 
     private List<Avatar> GetTargets(CardTarget target)
