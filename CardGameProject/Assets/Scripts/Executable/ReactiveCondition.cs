@@ -29,6 +29,6 @@ public abstract class ReactiveCondition : Condition
         ExecutableParameters.avatarPlayingCard.DictReactiveEffects[triggerTemp].Add(wrapper);
     }
 
-    public abstract void AddExecutable(Executable command);
+    public abstract void SetCommands();
 
 }

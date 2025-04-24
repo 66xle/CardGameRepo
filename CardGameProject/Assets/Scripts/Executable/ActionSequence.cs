@@ -13,7 +13,6 @@ public class ActionSequence : Executable
     public override bool RequiresMovement => CheckRequireMovement();
 
     private List<Executable> _actionCommands;
-    private ReactiveCondition currentReactiveCondition = null;
 
     public ActionSequence(List<Executable> actionCommands)
     {
@@ -32,31 +31,7 @@ public class ActionSequence : Executable
         avatarPlayingCard.isAttackFinished = false;
         bool hasMoved = false;
 
-        foreach (Executable command in _actionCommands)
-        {
-            if (command.IsReactiveCondition)
-            {
-                currentReactiveCondition = command as ReactiveCondition;
-                currentReactiveCondition.AddReactiveEffect();
-                continue;
-            }
-            else if (currentReactiveCondition != null && command is Executable c)
-            {
-                currentReactiveCondition.AddExecutable(c);
-                continue;
-            }
-
-            currentReactiveCondition = null;
-
-
-            ExecutableParameters.Targets = GetTargets(command.CardTarget);
-            ExecutableParameters.CardTarget = command.CardTarget;
-
-            bool isConditionTrue = true;
-            yield return command.Execute(result => isConditionTrue = result);
-
-            if (!isConditionTrue) break;
-        }
+        yield return ReadCommands(_actionCommands);
 
         if (!avatarOpponent.isRunningReactiveEffect)
             yield return CheckReactiveEffect(avatarPlayingCard, avatarOpponent, ReactiveTrigger.BeforeTakeDamageByWeapon);
@@ -106,6 +81,33 @@ public class ActionSequence : Executable
 
 
         yield return new WaitWhile(() => ActionSystem.Instance.IsPerforming);
+    }
+
+    private IEnumerator ReadCommands(List<Executable> actionCommands)
+    {
+        foreach (Executable command in actionCommands)
+        {
+            if (command.IsReactiveCondition)
+            {
+                ReactiveCondition currentReactiveCondition = command as ReactiveCondition;
+                currentReactiveCondition.AddReactiveEffect();
+                currentReactiveCondition.SetCommands();
+                continue;
+            }
+
+
+            ExecutableParameters.Targets = GetTargets(command.CardTarget);
+            ExecutableParameters.CardTarget = command.CardTarget;
+
+            bool isConditionTrue = true;
+            yield return command.Execute(result => isConditionTrue = result);
+
+            if (isConditionTrue)
+            {
+                Condition condition = command as Condition;
+                yield return ReadCommands(condition.Commands);
+            }
+        }
     }
 
     private IEnumerator CheckReactiveEffect(Avatar avatarPlayingCard, Avatar avatarOpponent, ReactiveTrigger trigger)

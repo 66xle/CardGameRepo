@@ -6,11 +6,13 @@ using UnityEngine;
 
 public abstract class AttackCommand : Command
 {
-    public override IEnumerator Execute(Action<bool> IsConditionTrue = null)
+    public override IEnumerator Execute(Action<bool> IsConditionTrue)
     {
         ExecuteCommand();
 
         yield return null;
+
+        IsConditionTrue.Invoke(false);
     }
 
     public override void ExecuteCommand()
@@ -68,7 +70,6 @@ public abstract class AttackCommand : Command
                 else
                 {
                     ExecutableParameters.Queue.Add(target);
-                    Debug.Log("Add enemy");
                 }
             }
         }

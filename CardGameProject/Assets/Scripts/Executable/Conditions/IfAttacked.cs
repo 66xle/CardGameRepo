@@ -19,11 +19,11 @@ public class IfAttacked : ReactiveCondition
         return true;
     }
 
-    public override void AddExecutable(Executable command)
+    public override void SetCommands()
     {
         ReactiveTrigger triggerTemp = ReactiveOptions.ReactiveTrigger;
         if (ReactiveOptions.EffectTiming == EffectTiming.NextTurn) triggerTemp = ReactiveTrigger.StartOfTurn;
 
-        ExecutableParameters.avatarPlayingCard.DictReactiveEffects[triggerTemp][ExecutableParameters.avatarPlayingCard.DictReactiveEffects.Count - 1].Commands.Add(command);
+        ExecutableParameters.avatarPlayingCard.DictReactiveEffects[triggerTemp][ExecutableParameters.avatarPlayingCard.DictReactiveEffects.Count - 1].Commands = commands;
     }
 }
