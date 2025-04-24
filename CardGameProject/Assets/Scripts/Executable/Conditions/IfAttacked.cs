@@ -4,19 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [SRName("Reactive Conditions/If Attacked")]
-public class IfAttacked : Condition
+public class IfAttacked : ReactiveCondition
 {
     public override bool IsReactiveCondition => true;
 
-    public override ReactiveTrigger ReactiveTrigger => reactiveTrigger;
-    public override EffectTiming EffectTiming => effectTiming;
-    public override EffectDuration EffectDuration => effectDuration;
-    public override int Turns => turns;
+    public override ReactiveOptions ReactiveOptions { get { return reactiveOptions; } }
+    public override List<Executable> Commands { get { return commands; } }
 
-    public EffectTiming effectTiming;
-    public ReactiveTrigger reactiveTrigger;
-    public EffectDuration effectDuration;
-    [ConditionalField(nameof(effectDuration), false, EffectDuration.NumberOfTurns)] public int turns;
+    [SerializeReference][SR] public ReactiveOptions reactiveOptions = new();
+    [SerializeReference][SR] public List<Executable> commands;
 
     public override bool Evaluate()
     {
@@ -25,8 +21,8 @@ public class IfAttacked : Condition
 
     public override void AddExecutable(Executable command)
     {
-        ReactiveTrigger triggerTemp = ReactiveTrigger;
-        if (effectTiming == EffectTiming.NextTurn) triggerTemp = ReactiveTrigger.StartOfTurn;
+        ReactiveTrigger triggerTemp = ReactiveOptions.ReactiveTrigger;
+        if (ReactiveOptions.EffectTiming == EffectTiming.NextTurn) triggerTemp = ReactiveTrigger.StartOfTurn;
 
         ExecutableParameters.avatarPlayingCard.DictReactiveEffects[triggerTemp][ExecutableParameters.avatarPlayingCard.DictReactiveEffects.Count - 1].Commands.Add(command);
     }

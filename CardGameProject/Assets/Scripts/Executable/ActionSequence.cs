@@ -13,7 +13,7 @@ public class ActionSequence : Executable
     public override bool RequiresMovement => CheckRequireMovement();
 
     private List<Executable> _actionCommands;
-    private Condition currentReactiveCondition = null;
+    private ReactiveCondition currentReactiveCondition = null;
 
     public ActionSequence(List<Executable> actionCommands)
     {
@@ -36,7 +36,7 @@ public class ActionSequence : Executable
         {
             if (command.IsReactiveCondition)
             {
-                currentReactiveCondition = command as Condition;
+                currentReactiveCondition = command as ReactiveCondition;
                 currentReactiveCondition.AddReactiveEffect();
                 continue;
             }

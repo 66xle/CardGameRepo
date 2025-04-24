@@ -24,8 +24,10 @@ MonoBehaviour:
   recycleValue: 5
   commands:
   - rid: 8735464965215355107
-  - rid: 8735465109001076804
-  - rid: 8735465109001076805
+  - rid: 8735465310403166312
+  - rid: 8735465310403166313
+  - rid: 8735465310403166314
+  - rid: 8735465310403166316
   references:
     version: 2
     RefIds:
@@ -33,14 +35,29 @@ MonoBehaviour:
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 1
-    - rid: 8735465109001076804
+    - rid: 8735465310403166312
+      type: {class: IsStunned, ns: , asm: Assembly-CSharp}
+      data:
+        commands: []
+    - rid: 8735465310403166313
+      type: {class: ApplyStatusEffect, ns: , asm: Assembly-CSharp}
+      data:
+        target: 0
+        effect: {fileID: 11400000, guid: 14f185cb4736c07408720f340d3dfb74, type: 2}
+    - rid: 8735465310403166314
       type: {class: IfAttacked, ns: , asm: Assembly-CSharp}
       data:
-        effectTiming: 0
-        reactiveTrigger: 5
-        effectDuration: 1
-        turns: 0
-    - rid: 8735465109001076805
+        reactiveOptions:
+          rid: 8735465310403166315
+        commands: []
+    - rid: 8735465310403166315
+      type: {class: ReactiveOptions, ns: , asm: Assembly-CSharp}
+      data:
+        EffectTiming: 0
+        ReactiveTrigger: 5
+        EffectDuration: 1
+        Turns: 0
+    - rid: 8735465310403166316
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
-        target: 1
+        target: 0

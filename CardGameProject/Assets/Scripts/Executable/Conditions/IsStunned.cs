@@ -7,6 +7,10 @@ using UnityEngine;
 [SRName("Conditions/Is Stunned")]
 public class IsStunned : Condition
 { 
+    public override List<Executable> Commands { get { return commands; } }
+
+    [SerializeReference][SR] public List<Executable> commands;
+
     public override bool Evaluate()
     {
         List<Avatar> currentTargets = Extensions.CloneList(ExecutableParameters.Targets);
