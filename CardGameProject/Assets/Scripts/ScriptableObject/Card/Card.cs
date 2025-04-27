@@ -8,7 +8,7 @@ public enum EffectOption
 {
     None,
     Overwrite,
-    Stack
+    //Stack
 }
 
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]

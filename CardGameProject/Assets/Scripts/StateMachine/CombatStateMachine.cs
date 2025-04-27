@@ -248,10 +248,10 @@ public class CombatStateMachine : MonoBehaviour
                     {
                         wrapper.Overwrite();
                     }
-                    else if (card.effectOption == EffectOption.Stack)
-                    {
-                        // stack the damage or effect
-                    }
+                    //else if (card.effectOption == EffectOption.Stack)
+                    //{
+                    //    // stack the damage or effect
+                    //}
                 }
             }
 
