@@ -14,16 +14,17 @@ public struct CardData
         this.weapon = weapon;
 
         Card copyCard = new Card();
+        copyCard.guid = card.guid;
+        copyCard.InGameGUID = Guid.NewGuid().ToString();
         copyCard.cardName = card.cardName;
         copyCard.description = card.description;
         copyCard.flavour = card.flavour;
-        copyCard.cardType = card.cardType;
+        copyCard.effectOption = card.effectOption;
         copyCard.value = card.value;
         copyCard.cost = card.cost;
         copyCard.recycleValue = card.recycleValue;
         copyCard.image = card.image;
         copyCard.frame = card.frame;
-        copyCard.guid = Guid.NewGuid().ToString();
         copyCard.cardName = card.cardName;
         copyCard.commands = card.commands;
 

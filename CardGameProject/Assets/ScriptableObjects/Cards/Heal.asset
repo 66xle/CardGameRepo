@@ -24,7 +24,6 @@ MonoBehaviour:
   recycleValue: 1
   commands:
   - rid: 8735465310403166309
-  - rid: 8735465310403166319
   - rid: 8735465310403166306
   references:
     version: 2
@@ -40,7 +39,7 @@ MonoBehaviour:
       type: {class: ReactiveOptions, ns: , asm: Assembly-CSharp}
       data:
         EffectTiming: 0
-        ReactiveTrigger: 5
+        ReactiveTrigger: 0
         EffectDuration: 1
         Turns: 0
     - rid: 8735465310403166309
@@ -50,14 +49,4 @@ MonoBehaviour:
     - rid: 8735465310403166311
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
-        target: 0
-    - rid: 8735465310403166319
-      type: {class: IsStunned, ns: , asm: Assembly-CSharp}
-      data:
-        commands:
-        - rid: 8735465310403166321
-    - rid: 8735465310403166321
-      type: {class: ApplyStatusEffect, ns: , asm: Assembly-CSharp}
-      data:
-        target: 0
-        effect: {fileID: 11400000, guid: 14f185cb4736c07408720f340d3dfb74, type: 2}
+        target: 1

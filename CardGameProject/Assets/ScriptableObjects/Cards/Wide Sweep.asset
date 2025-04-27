@@ -13,19 +13,18 @@ MonoBehaviour:
   m_Name: Wide Sweep
   m_EditorClassIdentifier: 
   guid: 65ea7d66bc9a18640a6243c910780f4f
+  InGameGUID: 
   cardName: Wide Sweep
   description: Sweep your weapon in a wide arc, causing X damage. Unblockable.
   flavour: '"Try flipping over this one bastard..."'
   image: {fileID: 21300000, guid: 1e47ebf73f70f0a4db2f83f3bfd30bab, type: 3}
   frame: {fileID: 21300000, guid: d9649bd509957fd4a8a3e6480fd99aa2, type: 3}
-  cardType: 0
+  effectOption: 0
   value: 2
   cost: 2
   recycleValue: 1
   commands:
   - rid: 8735464993828634686
-  - rid: 8735465109001076803
-  - rid: 8735465014653354052
   references:
     version: 2
     RefIds:
@@ -33,11 +32,3 @@ MonoBehaviour:
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 2
-    - rid: 8735465014653354052
-      type: {class: ApplyStatusEffect, ns: , asm: Assembly-CSharp}
-      data:
-        target: 2
-        effect: {fileID: 11400000, guid: 14f185cb4736c07408720f340d3dfb74, type: 2}
-    - rid: 8735465109001076803
-      type: {class: IsStunned, ns: , asm: Assembly-CSharp}
-      data: 

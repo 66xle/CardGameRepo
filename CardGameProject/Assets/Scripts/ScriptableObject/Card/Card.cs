@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using SerializeReferenceEditor;
 using UnityEngine;
+using MyBox;
 
-public enum CardType
+public enum EffectOption
 {
-    Attack,
-    Counter,
-    Defend,
-    Heal
+    None,
+    Overwrite,
+    Stack
 }
 
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
 public class Card : ScriptableObject
 {
-    [HideInInspector]
-    public string guid;
+    [ReadOnly] public string guid;
+    [ReadOnly] public string InGameGUID;
 
     public string cardName;
     [TextArea] public string description;
@@ -26,7 +26,7 @@ public class Card : ScriptableObject
     public Sprite frame;
 
     [Header("Card Info")]
-    public CardType cardType;
+    public EffectOption effectOption;
     public int value;
     public int cost;
     public int recycleValue;
