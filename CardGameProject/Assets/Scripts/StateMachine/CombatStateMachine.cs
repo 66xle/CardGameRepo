@@ -12,6 +12,7 @@ using MyBox;
 using DG.Tweening;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
+using UnityEngine.Analytics;
 
 public class CombatStateMachine : MonoBehaviour
 {
@@ -237,11 +238,28 @@ public class CombatStateMachine : MonoBehaviour
     {
         if (tag == "Play")
         {
+            foreach (ReactiveTrigger trigger in player.DictReactiveEffects.Keys)
+            {
+                foreach (ExecutableWrapper wrapper in player.DictReactiveEffects[trigger])
+                {
+                    if (wrapper.Card.guid != card.guid) continue;
+
+                    if (card.effectOption == EffectOption.Overwrite)
+                    {
+                        wrapper.Overwrite();
+                    }
+                    else if (card.effectOption == EffectOption.Stack)
+                    {
+                        // stack the damage or effect
+                    }
+                }
+            }
+
             if (player.hasEnoughStamina(card.cost))
             {
                 player.ConsumeStamina(card.cost);
 
-                CardData cardData = cardManager.playerHand.First(data => data.card.guid == card.guid);
+                CardData cardData = cardManager.playerHand.First(data => data.card.InGameGUID == card.InGameGUID);
                 cardManager.playerHand.Remove(cardData);
                 cardManager.discardPile.Add(cardData);
 

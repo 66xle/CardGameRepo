@@ -151,7 +151,7 @@ public class CardPopupWindow : PopupWindow
         card.cardName = newCard.cardName;
         card.description = newCard.description;
         card.flavour = newCard.flavour;
-        card.cardType = newCard.cardType;
+        card.effectOption = newCard.effectOption;
         card.value = newCard.value;
         card.cost = newCard.cost;
         card.recycleValue = newCard.recycleValue;
