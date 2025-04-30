@@ -4,12 +4,7 @@ using SerializeReferenceEditor;
 using UnityEngine;
 using MyBox;
 
-public enum EffectOption
-{
-    None,
-    Overwrite,
-    //Stack
-}
+
 
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
 public class Card : ScriptableObject
@@ -26,7 +21,6 @@ public class Card : ScriptableObject
     public Sprite frame;
 
     [Header("Card Info")]
-    public EffectOption effectOption;
     public int value;
     public int cost;
     public int recycleValue;

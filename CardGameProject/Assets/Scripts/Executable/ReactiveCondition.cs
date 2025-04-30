@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+
 public abstract class ReactiveCondition : Condition
 {
+    public string GUID { get; } = Guid.NewGuid().ToString();
+
     public abstract ReactiveOptions ReactiveOptions { get; }
 
     public override abstract List<Executable> Commands { get; }
@@ -25,7 +28,7 @@ public abstract class ReactiveCondition : Condition
         if (ReactiveOptions.EffectDuration == EffectDuration.ThisTurn) turns = 0;
         else if (ReactiveOptions.EffectDuration == EffectDuration.UntilNextTurn) turns = 1;
 
-        ExecutableWrapper wrapper = new ExecutableWrapper(ExecutableParameters.card, turns, ReactiveOptions.EffectTiming, ReactiveOptions.ReactiveTrigger);
+        ExecutableWrapper wrapper = new ExecutableWrapper(ExecutableParameters.card, turns, ReactiveOptions.EffectTiming, ReactiveOptions.ReactiveTrigger, ReactiveOptions.EffectOption);
         ExecutableParameters.avatarPlayingCard.DictReactiveEffects[triggerTemp].Add(wrapper);
     }
 

@@ -238,22 +238,7 @@ public class CombatStateMachine : MonoBehaviour
     {
         if (tag == "Play")
         {
-            foreach (ReactiveTrigger trigger in player.DictReactiveEffects.Keys)
-            {
-                foreach (ExecutableWrapper wrapper in player.DictReactiveEffects[trigger])
-                {
-                    if (wrapper.Card.guid != card.guid) continue;
-
-                    if (card.effectOption == EffectOption.Overwrite)
-                    {
-                        wrapper.Overwrite();
-                    }
-                    //else if (card.effectOption == EffectOption.Stack)
-                    //{
-                    //    // stack the damage or effect
-                    //}
-                }
-            }
+            
 
             if (player.hasEnoughStamina(card.cost))
             {

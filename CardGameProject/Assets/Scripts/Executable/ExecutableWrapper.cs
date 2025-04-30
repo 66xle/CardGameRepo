@@ -8,16 +8,18 @@ public class ExecutableWrapper
     public int Turns;
     public EffectTiming EffectTiming;
     public ReactiveTrigger ReactiveTrigger;
+    public EffectOption EffectOption;
     public List<Executable> Commands = new();
 
     private int _maxTurns;
 
-    public ExecutableWrapper(Card card, int turns, EffectTiming effectTiming, ReactiveTrigger reactiveTrigger)
+    public ExecutableWrapper(Card card, int turns, EffectTiming effectTiming, ReactiveTrigger reactiveTrigger, EffectOption effectOption)
     {
         Card = card;
         Turns = turns;
         EffectTiming = effectTiming;
         ReactiveTrigger = reactiveTrigger;
+        EffectOption = effectOption;
 
         _maxTurns = turns;
     }

@@ -25,12 +25,20 @@ public enum EffectDuration
     NumberOfTurns
 }
 
+public enum EffectOption
+{
+    None,
+    Overwrite,
+    //Stack
+}
+
 [Serializable]
 [SRName("Options")]
 public class ReactiveOptions
 {
-    public EffectTiming EffectTiming = EffectTiming.Immediate;
-    public ReactiveTrigger ReactiveTrigger = ReactiveTrigger.StartOfTurn;
-    public EffectDuration EffectDuration = EffectDuration.ThisTurn;
+    [Tooltip("Determines the behavior when a reaction already exists")] public EffectOption EffectOption = EffectOption.None;
+    [Tooltip("Defines when the reaction starts")] public EffectTiming EffectTiming = EffectTiming.Immediate;
+    [Tooltip("Defines when the reaction triggers its effect")] public ReactiveTrigger ReactiveTrigger = ReactiveTrigger.StartOfTurn;
+    [Tooltip("How long the reaction remains active")] public EffectDuration EffectDuration = EffectDuration.ThisTurn;
     [ConditionalField(nameof(EffectDuration), false, EffectDuration.NumberOfTurns)] public int Turns = 0;
 }

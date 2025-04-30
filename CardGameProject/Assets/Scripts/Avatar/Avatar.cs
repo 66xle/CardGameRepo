@@ -270,8 +270,15 @@ public class Avatar : MonoBehaviour
 
                 if (trigger == ReactiveTrigger.StartOfTurn)
                 {
-                    if (wrapper.Turns > 1) DictReactiveEffects[pair.Key][i].Turns--;
-                    else if (wrapper.Turns == 1) DictReactiveEffects[pair.Key].RemoveAt(i); // retarded
+                    if (wrapper.Turns > 1)
+                    {
+                        DictReactiveEffects[pair.Key][i].Turns--;
+                    }
+                    else if (wrapper.Turns == 1)
+                    {
+                        DictReactiveEffects[pair.Key].RemoveAt(i);
+                        Debug.Log("Removed");
+                    }
                 }
                 else if (wrapper.Turns == 0 && trigger == ReactiveTrigger.EndOfTurn)
                 {

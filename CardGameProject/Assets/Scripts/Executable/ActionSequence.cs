@@ -89,6 +89,8 @@ public class ActionSequence : Executable
         {
             if (command.IsReactiveCondition)
             {
+                CheckReactiveCondition(ExecutableParameters.avatarPlayingCard);
+
                 ReactiveCondition currentReactiveCondition = command as ReactiveCondition;
                 currentReactiveCondition.AddReactiveEffect();
                 currentReactiveCondition.SetCommands();
@@ -106,6 +108,24 @@ public class ActionSequence : Executable
             {
                 Condition condition = command as Condition;
                 yield return ReadCommands(condition.Commands);
+            }
+        }
+    }
+
+    private void CheckReactiveCondition(Avatar avatarPlayingCard)
+    {
+        foreach (ReactiveTrigger trigger in avatarPlayingCard.DictReactiveEffects.Keys)
+        {
+            foreach (ExecutableWrapper wrapper in avatarPlayingCard.DictReactiveEffects[trigger])
+            {
+                if (wrapper.Card.guid != ExecutableParameters.card.guid) continue;
+
+                if (wrapper.EffectOption == EffectOption.Overwrite)
+                {
+                    wrapper.Overwrite();
+
+                    Debug.Log("overwrite");
+                }
             }
         }
     }
