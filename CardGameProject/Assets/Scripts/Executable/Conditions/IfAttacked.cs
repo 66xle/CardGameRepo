@@ -24,6 +24,6 @@ public class IfAttacked : ReactiveCondition
         ReactiveTrigger triggerTemp = ReactiveOptions.ReactiveTrigger;
         if (ReactiveOptions.EffectTiming == EffectTiming.NextTurn) triggerTemp = ReactiveTrigger.StartOfTurn;
 
-        ExecutableParameters.avatarPlayingCard.DictReactiveEffects[triggerTemp][ExecutableParameters.avatarPlayingCard.DictReactiveEffects.Count - 1].Commands = commands;
+        ExecutableParameters.avatarPlayingCard.DictReactiveEffects[triggerTemp][ExecutableParameters.avatarPlayingCard.DictReactiveEffects[triggerTemp].Count - 1].Commands = commands;
     }
 }
