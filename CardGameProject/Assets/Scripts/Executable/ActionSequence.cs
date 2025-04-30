@@ -89,9 +89,10 @@ public class ActionSequence : Executable
         {
             if (command.IsReactiveCondition)
             {
-                CheckReactiveCondition(ExecutableParameters.avatarPlayingCard);
-
                 ReactiveCondition currentReactiveCondition = command as ReactiveCondition;
+
+                CheckReactiveCondition(ExecutableParameters.avatarPlayingCard, currentReactiveCondition);
+
                 currentReactiveCondition.AddReactiveEffect();
                 currentReactiveCondition.SetCommands();
                 continue;
@@ -112,7 +113,7 @@ public class ActionSequence : Executable
         }
     }
 
-    private void CheckReactiveCondition(Avatar avatarPlayingCard)
+    private void CheckReactiveCondition(Avatar avatarPlayingCard, ReactiveCondition currentReactiveCondition)
     {
         foreach (ReactiveTrigger trigger in avatarPlayingCard.DictReactiveEffects.Keys)
         {
@@ -120,12 +121,16 @@ public class ActionSequence : Executable
             {
                 if (wrapper.Card.guid != ExecutableParameters.card.guid) continue;
 
+                if (currentReactiveCondition.GUID != wrapper.ReactiveConditionGUID) continue;
+
                 if (wrapper.EffectOption == EffectOption.Overwrite)
                 {
                     wrapper.Overwrite();
 
                     Debug.Log("overwrite");
                 }
+
+                return;
             }
         }
     }

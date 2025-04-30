@@ -6,6 +6,7 @@ public class ExecutableWrapper
 {
     public Card Card;
     public int Turns;
+    public string ReactiveConditionGUID;
     public EffectTiming EffectTiming;
     public ReactiveTrigger ReactiveTrigger;
     public EffectOption EffectOption;
@@ -13,13 +14,14 @@ public class ExecutableWrapper
 
     private int _maxTurns;
 
-    public ExecutableWrapper(Card card, int turns, EffectTiming effectTiming, ReactiveTrigger reactiveTrigger, EffectOption effectOption)
+    public ExecutableWrapper(Card card, int turns, EffectTiming effectTiming, ReactiveTrigger reactiveTrigger, EffectOption effectOption, string reactiveConditionGUID)
     {
         Card = card;
         Turns = turns;
         EffectTiming = effectTiming;
         ReactiveTrigger = reactiveTrigger;
         EffectOption = effectOption;
+        ReactiveConditionGUID = reactiveConditionGUID;
 
         _maxTurns = turns;
     }
