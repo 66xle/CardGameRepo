@@ -40,7 +40,6 @@ public class Enemy : Avatar
         enemyUI = statsUI.GetComponent<EnemyUI>();
         this.detailedUI = detailedUI;
 
-
         CurrentHealth = maxHealth;
         CurrentGuard = maxGuard;
     }
@@ -52,6 +51,7 @@ public class Enemy : Avatar
         enemyObj = obj;
         deck = enemyObj.cardList;
         maxHealth = enemyObj.health;
+        maxGuard = enemyObj.guard;
 
         selectionRing = transform.GetChild(0).gameObject;
     }

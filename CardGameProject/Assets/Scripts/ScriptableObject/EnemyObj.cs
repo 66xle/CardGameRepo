@@ -7,6 +7,7 @@ using UnityEngine;
 public class EnemyObj : ScriptableObject
 {
     public int health;
+    public int guard;
     public GameObject prefab;
     public List<Card> cardList;
 }

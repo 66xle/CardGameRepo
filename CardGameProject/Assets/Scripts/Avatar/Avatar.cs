@@ -264,7 +264,7 @@ public class Avatar : MonoBehaviour
         {
             List<ExecutableWrapper> listWrapper = Extensions.CloneList(pair.Value);
 
-            for (int i = 0; i < listWrapper.Count; i++)
+            for (int i = listWrapper.Count - 1; i >= 0; i--)
             {
                 ExecutableWrapper wrapper = listWrapper[i];
 
