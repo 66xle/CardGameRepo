@@ -93,8 +93,7 @@ public class ActionSequence : Executable
 
                 CheckReactiveCondition(ExecutableParameters.avatarPlayingCard, currentReactiveCondition);
 
-                currentReactiveCondition.AddReactiveEffect();
-                currentReactiveCondition.SetCommands();
+                
                 continue;
             }
 
@@ -117,22 +116,36 @@ public class ActionSequence : Executable
     {
         foreach (ReactiveTrigger trigger in avatarPlayingCard.DictReactiveEffects.Keys)
         {
-            foreach (ExecutableWrapper wrapper in avatarPlayingCard.DictReactiveEffects[trigger])
+            List<ExecutableWrapper> listWrapper = Extensions.CloneList(avatarPlayingCard.DictReactiveEffects[trigger]);
+
+            foreach (ExecutableWrapper wrapper in listWrapper)
             {
-                if (wrapper.Card.guid != ExecutableParameters.card.guid) continue;
+                if (wrapper.DuplicateEffect != DuplicateEffect.Overwrite) continue;
 
-                if (currentReactiveCondition.GUID != wrapper.ReactiveConditionGUID) continue;
+                // check if reactive effect is the same
+                if (wrapper.OverwriteType != currentReactiveCondition.ReactiveOptions.OverwriteType) continue;
 
-                if (wrapper.EffectOption == EffectOption.Overwrite)
-                {
-                    wrapper.Overwrite();
+                // compare if triggers are the same
+                if (trigger != wrapper.ReactiveTrigger) continue;
 
-                    Debug.Log("overwrite");
-                }
 
-                return;
+
+                //if (currentReactiveCondition.GUID != wrapper.ReactiveConditionGUID) continue;
+
+                // remove condition
+                avatarPlayingCard.DictReactiveEffects[trigger].Remove(wrapper);
+
+
+                Debug.Log("overwrite: " + wrapper.OverwriteType);
+
+
+
+                break;
             }
         }
+
+        currentReactiveCondition.AddReactiveEffect();
+        currentReactiveCondition.SetCommands();
     }
 
     private IEnumerator CheckReactiveEffect(Avatar avatarPlayingCard, Avatar avatarOpponent, ReactiveTrigger trigger)

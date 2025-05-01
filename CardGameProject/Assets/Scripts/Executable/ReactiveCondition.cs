@@ -28,7 +28,7 @@ public abstract class ReactiveCondition : Condition
         if (ReactiveOptions.EffectDuration == EffectDuration.ThisTurn) turns = 0;
         else if (ReactiveOptions.EffectDuration == EffectDuration.UntilNextTurn) turns = 1;
 
-        ExecutableWrapper wrapper = new ExecutableWrapper(ExecutableParameters.card, turns, ReactiveOptions.EffectTiming, ReactiveOptions.ReactiveTrigger, ReactiveOptions.EffectOption, GUID);
+        ExecutableWrapper wrapper = new ExecutableWrapper(ExecutableParameters.card, turns, ReactiveOptions.EffectTiming, ReactiveOptions.ReactiveTrigger, ReactiveOptions.DuplicateEffect, GUID, ReactiveOptions.OverwriteType);
         ExecutableParameters.avatarPlayingCard.DictReactiveEffects[triggerTemp].Add(wrapper);
     }
 

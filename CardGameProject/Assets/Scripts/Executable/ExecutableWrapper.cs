@@ -7,33 +7,26 @@ public class ExecutableWrapper
     public Card Card;
     public int Turns;
     public string ReactiveConditionGUID;
+    public OverwriteType OverwriteType;
     public EffectTiming EffectTiming;
     public ReactiveTrigger ReactiveTrigger;
-    public EffectOption EffectOption;
+    public DuplicateEffect DuplicateEffect;
     public List<Executable> Commands = new();
 
-    private int _maxTurns;
-
-    public ExecutableWrapper(Card card, int turns, EffectTiming effectTiming, ReactiveTrigger reactiveTrigger, EffectOption effectOption, string reactiveConditionGUID)
+    public ExecutableWrapper(Card card, int turns, EffectTiming effectTiming, ReactiveTrigger reactiveTrigger, DuplicateEffect duplicateEffect, string reactiveConditionGUID, OverwriteType overwriteType)
     {
         Card = card;
         Turns = turns;
         EffectTiming = effectTiming;
         ReactiveTrigger = reactiveTrigger;
-        EffectOption = effectOption;
+        DuplicateEffect = duplicateEffect;
         ReactiveConditionGUID = reactiveConditionGUID;
-
-        _maxTurns = turns;
+        OverwriteType = overwriteType;
     }
 
     public IEnumerator ExecuteCommands()
     {
         ActionSequence actionSequence = new(Commands);
         yield return actionSequence.Execute(null);
-    }
-
-    public void Overwrite()
-    {
-        Turns = _maxTurns;
     }
 }
