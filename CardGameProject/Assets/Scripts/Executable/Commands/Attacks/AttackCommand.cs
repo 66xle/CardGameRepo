@@ -11,8 +11,6 @@ public abstract class AttackCommand : Command
         ExecuteCommand();
 
         yield return null;
-
-        IsConditionTrue.Invoke(false);
     }
 
     public override void ExecuteCommand()

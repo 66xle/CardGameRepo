@@ -8,25 +8,22 @@ public class ExecutableWrapper
     public int Turns;
     public string ReactiveConditionGUID;
     public OverwriteType OverwriteType;
+    public StackType StackType;
     public EffectTiming EffectTiming;
     public ReactiveTrigger ReactiveTrigger;
     public DuplicateEffect DuplicateEffect;
     public List<Executable> Commands = new();
 
-    public ExecutableWrapper(Card card, int turns, EffectTiming effectTiming, ReactiveTrigger reactiveTrigger, DuplicateEffect duplicateEffect, string reactiveConditionGUID, OverwriteType overwriteType)
+    public ExecutableWrapper(Card card, int turns, ReactiveOptions reactiveOptions)
     {
         Card = card;
         Turns = turns;
-        EffectTiming = effectTiming;
-        ReactiveTrigger = reactiveTrigger;
-        DuplicateEffect = duplicateEffect;
-        ReactiveConditionGUID = reactiveConditionGUID;
-        OverwriteType = overwriteType;
+        EffectTiming = reactiveOptions.EffectTiming;
+        ReactiveTrigger = reactiveOptions.ReactiveTrigger;
+        DuplicateEffect = reactiveOptions.DuplicateEffect;
+        OverwriteType = reactiveOptions.OverwriteType;
+        StackType = reactiveOptions.StackType;
     }
 
-    public IEnumerator ExecuteCommands()
-    {
-        ActionSequence actionSequence = new(Commands);
-        yield return actionSequence.Execute(null);
-    }
+    
 }

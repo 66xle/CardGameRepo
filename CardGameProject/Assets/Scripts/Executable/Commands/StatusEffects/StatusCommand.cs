@@ -11,7 +11,6 @@ public class StatusCommand : Command
     public override IEnumerator Execute(Action<bool> IsConditionTrue)
     {
         ExecuteCommand();
-
         yield return null;
     }
 

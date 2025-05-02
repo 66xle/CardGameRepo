@@ -28,7 +28,11 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 7951907303819051080
+    - rid: 7082259011415310401
+      type: {class: DealDamage, ns: , asm: Assembly-CSharp}
+      data:
+        target: 1
+    - rid: 7082259011415310407
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 1
@@ -38,12 +42,14 @@ MonoBehaviour:
         reactiveOptions:
           rid: 8735465310403166307
         commands:
-        - rid: 7951907303819051080
+        - rid: 7082259011415310401
+        - rid: 7082259011415310407
     - rid: 8735465310403166307
       type: {class: ReactiveOptions, ns: , asm: Assembly-CSharp}
       data:
-        DuplicateEffect: 1
+        DuplicateEffect: 0
         OverwriteType: 0
+        StackType: 1
         EffectTiming: 0
         ReactiveTrigger: 5
         EffectDuration: 1

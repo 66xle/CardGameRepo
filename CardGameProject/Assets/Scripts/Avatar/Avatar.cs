@@ -214,6 +214,8 @@ public class Avatar : MonoBehaviour
     {
         if (!DictReactiveEffects.ContainsKey(trigger)) yield break;
 
+        List<ExecutableWrapper> reactiveQueue = new();
+
         List<ExecutableWrapper> listWrapper = Extensions.CloneList(DictReactiveEffects[trigger]);
 
         for (int i = 0; i < listWrapper.Count; i++)
@@ -222,18 +224,17 @@ public class Avatar : MonoBehaviour
 
             if (IsGuardBroken() && wrapper.Commands.Any(command => command is AttackCommand)) continue;
 
-            
+            #region Check Timing 
+
             if (wrapper.EffectTiming == EffectTiming.Immediate && trigger == wrapper.ReactiveTrigger)
             {
-                // run commands
-                isRunningReactiveEffect = true;
-
-                yield return wrapper.ExecuteCommands();
-
-                isRunningReactiveEffect = false;
+                // put in a queue
+                reactiveQueue.Add(wrapper);
             }
-            else if (wrapper.EffectTiming == EffectTiming.NextTurn && trigger == ReactiveTrigger.StartOfTurn)
+            else if (wrapper.EffectTiming == EffectTiming.NextTurn)
             {
+                if (trigger != ReactiveTrigger.StartOfTurn) continue;
+
                 wrapper.EffectTiming = EffectTiming.Immediate;
 
                 if (trigger != wrapper.ReactiveTrigger)
@@ -244,16 +245,29 @@ public class Avatar : MonoBehaviour
                     continue;
                 }
 
-                
-                isRunningReactiveEffect = true;
-
-                // run commands
-                yield return wrapper.ExecuteCommands();
                 DictReactiveEffects[trigger][i] = wrapper;
 
-                isRunningReactiveEffect = false;
+                reactiveQueue.Add(wrapper);
             }
+
+            #endregion
         }
+
+        #region Sort
+
+        List<List<Executable>> sortedCommands = SortQueue(reactiveQueue);
+
+        foreach (List<Executable> commands in sortedCommands)
+        {
+            isRunningReactiveEffect = true;
+
+            ActionSequence actionSequence = new(commands);
+            yield return actionSequence.Execute(null);
+
+            isRunningReactiveEffect = false;
+        }
+
+        #endregion
     }
 
     public void CheckTurnsReactiveEffects(ReactiveTrigger trigger)
@@ -286,6 +300,44 @@ public class Avatar : MonoBehaviour
                 }
             }
         }
+    }
+
+    public List<List<Executable>> SortQueue(List<ExecutableWrapper> reactiveQueue)
+    {
+        List<List<Executable>> sortedCommands = new();
+
+        foreach (OverwriteType type in Enum.GetValues(typeof(OverwriteType)))
+        {
+            if (type == OverwriteType.None) continue;
+
+            ExecutableWrapper wrapper = reactiveQueue.FirstOrDefault(w => w.OverwriteType == type);
+
+            if (wrapper == null) continue;
+
+            sortedCommands.Add(new List<Executable>(wrapper.Commands));
+        }
+
+        foreach (StackType type in Enum.GetValues(typeof(StackType)))
+        {
+            if (type == StackType.None) continue;
+
+            List<ExecutableWrapper> list = reactiveQueue.Where(w => w.StackType == type).ToList();
+
+            if (list.Count == 0) continue;
+
+            // Check to put any damage commands together with counterattack
+            if (type == StackType.DoDamage && !reactiveQueue.Exists(w => w.OverwriteType == OverwriteType.Counterattack))
+            {
+                sortedCommands.Add(new List<Executable>());
+            }
+
+            foreach (ExecutableWrapper wrapper in list)
+            {
+                sortedCommands[sortedCommands.Count - 1].AddRange(wrapper.Commands);
+            }
+        }
+
+        return sortedCommands;
     }
 
     #endregion

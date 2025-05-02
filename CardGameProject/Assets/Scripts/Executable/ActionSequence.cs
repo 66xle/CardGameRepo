@@ -101,7 +101,7 @@ public class ActionSequence : Executable
             ExecutableParameters.Targets = GetTargets(command.CardTarget);
             ExecutableParameters.CardTarget = command.CardTarget;
 
-            bool isConditionTrue = true;
+            bool isConditionTrue = false;
             yield return command.Execute(result => isConditionTrue = result);
 
             if (isConditionTrue)

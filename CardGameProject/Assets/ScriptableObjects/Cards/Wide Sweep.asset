@@ -19,16 +19,37 @@ MonoBehaviour:
   flavour: '"Try flipping over this one bastard..."'
   image: {fileID: 21300000, guid: 1e47ebf73f70f0a4db2f83f3bfd30bab, type: 3}
   frame: {fileID: 21300000, guid: d9649bd509957fd4a8a3e6480fd99aa2, type: 3}
-  effectOption: 0
   value: 2
   cost: 2
   recycleValue: 1
   commands:
   - rid: 8735464993828634686
+  - rid: 7082259011415310396
   references:
     version: 2
     RefIds:
+    - rid: 7082259011415310396
+      type: {class: IfAttacked, ns: , asm: Assembly-CSharp}
+      data:
+        reactiveOptions:
+          rid: 7082259011415310397
+        commands:
+        - rid: 7082259011415310398
+    - rid: 7082259011415310397
+      type: {class: ReactiveOptions, ns: , asm: Assembly-CSharp}
+      data:
+        DuplicateEffect: 1
+        OverwriteType: 2
+        StackType: 0
+        EffectTiming: 0
+        ReactiveTrigger: 5
+        EffectDuration: 1
+        Turns: 0
+    - rid: 7082259011415310398
+      type: {class: DealDamage, ns: , asm: Assembly-CSharp}
+      data:
+        target: 1
     - rid: 8735464993828634686
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
-        target: 2
+        target: 1

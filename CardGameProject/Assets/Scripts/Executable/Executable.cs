@@ -19,7 +19,7 @@ public abstract class Executable
 {
     public virtual bool RequiresMovement => false;
     public virtual bool IsReactiveCondition => false;
-    public virtual CardTarget CardTarget => CardTarget.PreviousTarget;
+    public virtual CardTarget CardTarget => CardTarget.Enemy;
 
     public abstract IEnumerator Execute(Action<bool> IsConditionTrue);
 }

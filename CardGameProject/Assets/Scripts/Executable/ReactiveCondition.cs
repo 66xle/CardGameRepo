@@ -15,6 +15,9 @@ public abstract class ReactiveCondition : Condition
 
     public void AddReactiveEffect()
     {
+        if (ReactiveOptions.DuplicateEffect == DuplicateEffect.Stack && ReactiveOptions.StackType == StackType.None) Debug.LogError("Duplicate Effect is set to Stack, but is set to None. Must have a stack type!");
+        if (ReactiveOptions.DuplicateEffect == DuplicateEffect.Overwrite && ReactiveOptions.OverwriteType == OverwriteType.None) Debug.LogError("Duplicate Effect is set to Stack, but is set to None. Must have a stack type!");
+
         ReactiveTrigger triggerTemp = ReactiveOptions.ReactiveTrigger;
         if (ReactiveOptions.EffectTiming == EffectTiming.NextTurn) triggerTemp = ReactiveTrigger.StartOfTurn;
 
@@ -28,7 +31,7 @@ public abstract class ReactiveCondition : Condition
         if (ReactiveOptions.EffectDuration == EffectDuration.ThisTurn) turns = 0;
         else if (ReactiveOptions.EffectDuration == EffectDuration.UntilNextTurn) turns = 1;
 
-        ExecutableWrapper wrapper = new ExecutableWrapper(ExecutableParameters.card, turns, ReactiveOptions.EffectTiming, ReactiveOptions.ReactiveTrigger, ReactiveOptions.DuplicateEffect, GUID, ReactiveOptions.OverwriteType);
+        ExecutableWrapper wrapper = new ExecutableWrapper(ExecutableParameters.card, turns, ReactiveOptions);
         ExecutableParameters.avatarPlayingCard.DictReactiveEffects[triggerTemp].Add(wrapper);
     }
 
