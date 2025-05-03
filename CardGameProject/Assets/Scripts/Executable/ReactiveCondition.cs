@@ -15,9 +15,6 @@ public abstract class ReactiveCondition : Condition
 
     public void AddReactiveEffect()
     {
-        if (ReactiveOptions.DuplicateEffect == DuplicateEffect.Stack && ReactiveOptions.StackType == StackType.None) Debug.LogError("Duplicate Effect is set to Stack, but is set to None. Must have a stack type!");
-        if (ReactiveOptions.DuplicateEffect == DuplicateEffect.Overwrite && ReactiveOptions.OverwriteType == OverwriteType.None) Debug.LogError("Duplicate Effect is set to Stack, but is set to None. Must have a stack type!");
-
         ReactiveTrigger triggerTemp = ReactiveOptions.ReactiveTrigger;
         if (ReactiveOptions.EffectTiming == EffectTiming.NextTurn) triggerTemp = ReactiveTrigger.StartOfTurn;
 

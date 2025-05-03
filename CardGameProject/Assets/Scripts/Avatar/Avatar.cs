@@ -214,7 +214,8 @@ public class Avatar : MonoBehaviour
     {
         if (!DictReactiveEffects.ContainsKey(trigger)) yield break;
 
-        List<ExecutableWrapper> reactiveQueue = new();
+        List<ExecutableWrapper> overwriteQueue = new();
+        List<ExecutableWrapper> stackQueue = new();
 
         List<ExecutableWrapper> listWrapper = Extensions.CloneList(DictReactiveEffects[trigger]);
 
@@ -229,7 +230,14 @@ public class Avatar : MonoBehaviour
             if (wrapper.EffectTiming == EffectTiming.Immediate && trigger == wrapper.ReactiveTrigger)
             {
                 // put in a queue
-                reactiveQueue.Add(wrapper);
+                if (wrapper.DuplicateEffect == DuplicateEffect.Overwrite)
+                {
+                    overwriteQueue.Add(wrapper);
+                }
+                else if (wrapper.DuplicateEffect == DuplicateEffect.Stack)
+                {
+                    stackQueue.Add(wrapper);
+                }
             }
             else if (wrapper.EffectTiming == EffectTiming.NextTurn)
             {
@@ -247,7 +255,14 @@ public class Avatar : MonoBehaviour
 
                 DictReactiveEffects[trigger][i] = wrapper;
 
-                reactiveQueue.Add(wrapper);
+                if (wrapper.DuplicateEffect == DuplicateEffect.Overwrite)
+                {
+                    overwriteQueue.Add(wrapper);
+                }
+                else if (wrapper.DuplicateEffect == DuplicateEffect.Stack)
+                {
+                    stackQueue.Add(wrapper);
+                }
             }
 
             #endregion
@@ -255,7 +270,7 @@ public class Avatar : MonoBehaviour
 
         #region Sort
 
-        List<List<Executable>> sortedCommands = SortQueue(reactiveQueue);
+        List<List<Executable>> sortedCommands = SortQueue(overwriteQueue, stackQueue);
 
         foreach (List<Executable> commands in sortedCommands)
         {
@@ -302,15 +317,13 @@ public class Avatar : MonoBehaviour
         }
     }
 
-    public List<List<Executable>> SortQueue(List<ExecutableWrapper> reactiveQueue)
+    public List<List<Executable>> SortQueue(List<ExecutableWrapper> overwriteQueue, List<ExecutableWrapper> stackQueue)
     {
         List<List<Executable>> sortedCommands = new();
 
         foreach (OverwriteType type in Enum.GetValues(typeof(OverwriteType)))
         {
-            if (type == OverwriteType.None) continue;
-
-            ExecutableWrapper wrapper = reactiveQueue.FirstOrDefault(w => w.OverwriteType == type);
+            ExecutableWrapper wrapper = overwriteQueue.FirstOrDefault(w => w.OverwriteType == type);
 
             if (wrapper == null) continue;
 
@@ -319,14 +332,12 @@ public class Avatar : MonoBehaviour
 
         foreach (StackType type in Enum.GetValues(typeof(StackType)))
         {
-            if (type == StackType.None) continue;
-
-            List<ExecutableWrapper> list = reactiveQueue.Where(w => w.StackType == type).ToList();
+            List<ExecutableWrapper> list = stackQueue.Where(w => w.StackType == type).ToList();
 
             if (list.Count == 0) continue;
 
             // Check to put any damage commands together with counterattack
-            if (type == StackType.DoDamage && !reactiveQueue.Exists(w => w.OverwriteType == OverwriteType.Counterattack))
+            if (type == StackType.DoDamage && !overwriteQueue.Exists(w => w.OverwriteType == OverwriteType.Counterattack))
             {
                 sortedCommands.Add(new List<Executable>());
             }
