@@ -7,8 +7,6 @@ using UnityEngine;
 
 public abstract class ReactiveCondition : Condition
 {
-    public string GUID { get; } = Guid.NewGuid().ToString();
-
     public abstract ReactiveOptions ReactiveOptions { get; }
 
     public override abstract List<Executable> Commands { get; }

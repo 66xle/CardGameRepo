@@ -91,7 +91,7 @@ public class ActionSequence : Executable
             {
                 ReactiveCondition currentReactiveCondition = command as ReactiveCondition;
 
-                CheckReactiveCondition(ExecutableParameters.avatarPlayingCard, currentReactiveCondition);
+                CheckDuplicateReactiveCondition(ExecutableParameters.avatarPlayingCard, currentReactiveCondition);
 
                 
                 continue;
@@ -112,7 +112,7 @@ public class ActionSequence : Executable
         }
     }
 
-    private void CheckReactiveCondition(Avatar avatarPlayingCard, ReactiveCondition currentReactiveCondition)
+    private void CheckDuplicateReactiveCondition(Avatar avatarPlayingCard, ReactiveCondition currentReactiveCondition)
     {
         foreach (ReactiveTrigger trigger in avatarPlayingCard.DictReactiveEffects.Keys)
         {
@@ -128,17 +128,10 @@ public class ActionSequence : Executable
                 // compare if triggers are the same
                 if (trigger != wrapper.ReactiveTrigger) continue;
 
-
-
-                //if (currentReactiveCondition.GUID != wrapper.ReactiveConditionGUID) continue;
-
                 // remove condition
                 avatarPlayingCard.DictReactiveEffects[trigger].Remove(wrapper);
 
-
                 Debug.Log("overwrite: " + wrapper.OverwriteType);
-
-
 
                 break;
             }
