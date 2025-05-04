@@ -59,19 +59,7 @@ public abstract class AttackCommand : Command
                 ExecutableParameters.Targets[i] = avatarToTakeDamage;
             }
 
-            // Update avatar queue game actions
-            foreach (Avatar target in ExecutableParameters.Targets)
-            {
-                if (ExecutableParameters.Queue.Exists(avatar => avatar.guid == target.guid))
-                {
-                    Avatar avatar = ExecutableParameters.Queue.First(avatar => avatar.guid == target.guid);
-                    avatar.queueGameActions = target.queueGameActions;
-                }
-                else
-                {
-                    ExecutableParameters.Queue.Add(target);
-                }
-            }
+            UpdateGameActionQueue();
         }
     }
 }

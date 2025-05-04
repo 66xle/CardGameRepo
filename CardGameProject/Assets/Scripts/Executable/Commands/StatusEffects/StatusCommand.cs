@@ -1,6 +1,7 @@
-using SerializeReferenceEditor;
 using System;
 using System.Collections;
+using System.Linq;
+using SerializeReferenceEditor;
 using UnityEngine;
 
 [SRHidden]
@@ -16,10 +17,28 @@ public class StatusCommand : Command
 
     public override void ExecuteCommand()
     {
-        // Add effect to avatar list
-        foreach (Avatar avatar in ExecutableParameters.Targets)
+        for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
         {
-            avatar.ApplyStatusEffect(Effect.Clone());
+            Avatar avatarToApply = ExecutableParameters.Targets[i];
+
+            if (avatarToApply.IsGameActionInQueue<ApplyStatusEffectGA>())
+            {
+                // Update damage value
+                ApplyStatusEffectGA applyStatusEffectGA = avatarToApply.GetGameActionFromQueue<ApplyStatusEffectGA>() as ApplyStatusEffectGA;
+                avatarToApply.queueGameActions.Add(applyStatusEffectGA);
+            }
+            else
+            {
+                // Add game action to queue
+                ApplyStatusEffectGA applyStatusEffectGA = new(avatarToApply, Effect);
+                avatarToApply.queueGameActions.Add(applyStatusEffectGA);
+
+                // ui update here
+            }
+
+            ExecutableParameters.Targets[i] = avatarToApply;
         }
+
+        UpdateGameActionQueue();
     }
 }

@@ -10,7 +10,7 @@ public class ApplyStatusEffect : StatusCommand
 
     public override CardTarget CardTarget => target;
 
-    public CardTarget target;
+    public CardTarget target = CardTarget.Enemy;
 
     public StatusEffectData effect;
 
