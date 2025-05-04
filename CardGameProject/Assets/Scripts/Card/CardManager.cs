@@ -19,7 +19,7 @@ public struct CardData
         copyCard.cardName = card.cardName;
         copyCard.description = card.description;
         copyCard.flavour = card.flavour;
-        copyCard.value = card.value;
+        copyCard.valuesToReference = card.valuesToReference;
         copyCard.cost = card.cost;
         copyCard.recycleValue = card.recycleValue;
         copyCard.image = card.image;

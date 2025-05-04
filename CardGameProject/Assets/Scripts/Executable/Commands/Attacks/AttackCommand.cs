@@ -6,6 +6,8 @@ using UnityEngine;
 
 public abstract class AttackCommand : Command
 {
+    public override float Value { get; }
+
     public override IEnumerator Execute(Action<bool> IsConditionTrue)
     {
         ExecuteCommand();
@@ -37,7 +39,7 @@ public abstract class AttackCommand : Command
                 {
                     // Update damage value
                     TakeDamageFromWeaponGA takeDamageFromWeaponGA = avatarToTakeDamage.GetGameActionFromQueue<TakeDamageFromWeaponGA>() as TakeDamageFromWeaponGA;
-                    takeDamageFromWeaponGA.damage += ExecutableParameters.card.value;
+                    takeDamageFromWeaponGA.damage += Value;
 
                     SpawnDamageUIPopupGA spawnDamageUIPopupGA = takeDamageFromWeaponGA.PostReactions.First(gameAction => gameAction is SpawnDamageUIPopupGA) as SpawnDamageUIPopupGA;
                     spawnDamageUIPopupGA.damage = takeDamageFromWeaponGA.damage;
@@ -45,7 +47,7 @@ public abstract class AttackCommand : Command
                 else
                 {
                     // Add game action to queue
-                    TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, ctx, ExecutableParameters.card.value, ExecutableParameters.weapon.type, ExecutableParameters.CardTarget);
+                    TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, ctx, Value, ExecutableParameters.weapon.type, ExecutableParameters.CardTarget);
                     avatarToTakeDamage.queueGameActions.Add(takeDamageFromWeaponGA);
 
                     SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.avatarToTakeDamage, takeDamageFromWeaponGA.damage, Color.white);

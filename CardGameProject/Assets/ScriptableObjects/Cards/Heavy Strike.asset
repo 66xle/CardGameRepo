@@ -19,10 +19,10 @@ MonoBehaviour:
   flavour: A strike with overwhelming force, meant to break defenses
   image: {fileID: 21300000, guid: 2802e999abef6aa4f92b30fdab726646, type: 3}
   frame: {fileID: 21300000, guid: b3fae2c0cdbb4f042add3fb53b89ec99, type: 3}
-  effectOption: 0
-  value: 5
   cost: 2
   recycleValue: 5
+  valuesToReference:
+  - 5
   commands:
   - rid: 8735464965215355107
   references:
@@ -32,3 +32,4 @@ MonoBehaviour:
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 1
+        value: 5

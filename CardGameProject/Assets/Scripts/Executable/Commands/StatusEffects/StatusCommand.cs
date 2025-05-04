@@ -22,6 +22,4 @@ public class StatusCommand : Command
             avatar.ApplyStatusEffect(Effect.Clone());
         }
     }
-
-
 }
