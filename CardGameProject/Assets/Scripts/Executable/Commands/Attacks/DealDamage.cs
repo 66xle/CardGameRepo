@@ -15,7 +15,7 @@ public class DealDamage : AttackCommand
 
     public override CardTarget CardTarget => target;
 
-    public CardTarget target;
+    public CardTarget target = CardTarget.Enemy;
     public float value;
 
     bool SetMovement()

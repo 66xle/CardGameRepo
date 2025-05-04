@@ -24,6 +24,8 @@ MonoBehaviour:
   valuesToReference:
   - 3
   - 5
+  - 10
+  - 2
   commands:
   - rid: 8735465310403166309
   - rid: 8735465310403166306
@@ -35,6 +37,16 @@ MonoBehaviour:
       data:
         target: 1
         value: 5
+    - rid: 7082259055436628051
+      type: {class: DealDamage, ns: , asm: Assembly-CSharp}
+      data:
+        target: 1
+        value: 10
+    - rid: 7082259055436628067
+      type: {class: DealDamage, ns: , asm: Assembly-CSharp}
+      data:
+        target: 1
+        value: 2
     - rid: 8735465310403166306
       type: {class: IfAttacked, ns: , asm: Assembly-CSharp}
       data:
@@ -42,6 +54,8 @@ MonoBehaviour:
           rid: 8735465310403166307
         commands:
         - rid: 7082259055436628029
+        - rid: 7082259055436628051
+        - rid: 7082259055436628067
     - rid: 8735465310403166307
       type: {class: ReactiveOptions, ns: , asm: Assembly-CSharp}
       data:
