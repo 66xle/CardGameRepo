@@ -16,7 +16,7 @@ public class Card : ScriptableObject
 
     public string cardName;
     [TextArea] public string description;
-    private string displayDescription;
+    [HideInInspector] public string displayDescription;
     [TextArea] public string flavour;
 
     [Header("Card Image")]
@@ -41,7 +41,9 @@ public class Card : ScriptableObject
         valuesToReference.Clear();
 
         CheckCommandsForValues(commands);
-    }
+
+        GenerateDisplayDescription();
+    } 
 
     private void CheckCommandsForValues(List<Executable> commands)
     {
@@ -62,6 +64,18 @@ public class Card : ScriptableObject
             if (!command.IsUsingValue) continue;
 
             valuesToReference.Add(command.Value);
+        }
+    }
+
+    public void GenerateDisplayDescription()
+    {
+        displayDescription = description;
+
+        for (int i = 0; i < valuesToReference.Count; i++)
+        {
+            float value = valuesToReference[i];
+
+            displayDescription = displayDescription.Replace($"#{i}", value.ToString());
         }
     }
 }

@@ -208,16 +208,7 @@ public class CardEditorWindow : BaseEditorWindow
 
 
         title.text = card.cardName;
-
-        if (card.valuesToReference.Count == 0)
-        {
-            description.text = card.description.Replace("$value", "0");
-        }
-        else
-        {
-            description.text = card.description.Replace("$value", card.valuesToReference[0].ToString());
-        }
-            
+        description.text = card.displayDescription;
         flavour.text = card.flavour;
         cost.text = card.cost.ToString();
     }

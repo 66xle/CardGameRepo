@@ -15,7 +15,8 @@ MonoBehaviour:
   guid: 7adfbb88d1838da4bacde094ec37a06c
   InGameGUID: 
   cardName: Heal
-  description: Heal $value health
+  description: Heal #0 health. Do #1 damage
+  displayDescription: Heal 3 health. Do 5 damage
   flavour: Healing!
   image: {fileID: 21300000, guid: 950112b2bd6d2074ea8120822702c17a, type: 3}
   frame: {fileID: 21300000, guid: 61329542160dc15418ac2da74fe16cf1, type: 3}
@@ -24,8 +25,6 @@ MonoBehaviour:
   valuesToReference:
   - 3
   - 5
-  - 10
-  - 2
   commands:
   - rid: 8735465310403166309
   - rid: 8735465310403166306
@@ -37,16 +36,6 @@ MonoBehaviour:
       data:
         target: 1
         value: 5
-    - rid: 7082259055436628051
-      type: {class: DealDamage, ns: , asm: Assembly-CSharp}
-      data:
-        target: 1
-        value: 10
-    - rid: 7082259055436628067
-      type: {class: DealDamage, ns: , asm: Assembly-CSharp}
-      data:
-        target: 1
-        value: 2
     - rid: 8735465310403166306
       type: {class: IfAttacked, ns: , asm: Assembly-CSharp}
       data:
@@ -54,8 +43,6 @@ MonoBehaviour:
           rid: 8735465310403166307
         commands:
         - rid: 7082259055436628029
-        - rid: 7082259055436628051
-        - rid: 7082259055436628067
     - rid: 8735465310403166307
       type: {class: ReactiveOptions, ns: , asm: Assembly-CSharp}
       data:
