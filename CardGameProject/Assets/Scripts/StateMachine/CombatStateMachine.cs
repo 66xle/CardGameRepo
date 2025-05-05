@@ -188,7 +188,7 @@ public class CombatStateMachine : MonoBehaviour
 
         holsterWeapons.AddRange(switchWeaponManager.currentEquippedWeapons);
 
-        if (switchWeaponManager.IsHolstersEquipped())
+        if (holsterWeapons.Count > 0)
         {
             equipmentHolsterScript.SetHolsteredWeapons(holsterWeapons);
 
