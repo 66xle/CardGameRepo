@@ -50,6 +50,8 @@ public class CardManager : MonoBehaviour
 
     public void LoadCards()
     {
+        playerDeck.AddRange(switchWeaponManager.currentMainHand.cards.Select(card => new CardData(switchWeaponManager.currentMainHand, card)));
+
         foreach (WeaponData weaponData in switchWeaponManager.currentEquippedWeapons)
         {
             playerDeck.AddRange(weaponData.cards.Select(card => new CardData(weaponData, card)));
