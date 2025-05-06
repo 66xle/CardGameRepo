@@ -20,7 +20,7 @@ public class Enemy : Avatar
     [HideInInspector] public List<Card> cardsToPlay;
     [HideInInspector] public bool disableSelection;
 
-    private GameObject selectionRing;
+    public GameObject selectionRing;
 
 
     private void OnEnable()
@@ -83,9 +83,8 @@ public class Enemy : Avatar
 
     public void EnemySelection(bool toggle)
     {
-        if (disableSelection)
-            return;
-        
+        if (disableSelection) return;
+
         selectionRing.SetActive(toggle);
         enemyUI.SetUIActive(toggle);
 

@@ -27,6 +27,8 @@ public class EnemyUI : MonoBehaviour
     /// </summary>
     public void SelectEnemy()
     {
+        if (enemy.IsAvatarDead()) return;
+
         stateMachine.ResetSelectedEnemyUI();
 
         stateMachine.selectedEnemyToAttack = enemy;

@@ -160,6 +160,10 @@ public class CombatStateMachine : MonoBehaviour
             Debug.Log("shoot ray");
             if (hit.transform.CompareTag("Enemy"))
             {
+                Enemy enemy = hit.transform.GetComponent<Enemy>();
+
+                if (enemy.IsAvatarDead()) return;
+
                 ResetSelectedEnemyUI();
                 
                 selectedEnemyToAttack = hit.transform.GetComponent<Enemy>();
@@ -352,6 +356,7 @@ public class CombatStateMachine : MonoBehaviour
     {
         ResetSelectedEnemyUI();
         selectedEnemyToAttack.disableSelection = true;
+        selectedEnemyToAttack.selectionRing.SetActive(false);
 
         // Remove enemy
         enemyList.Remove(selectedEnemyToAttack as Enemy);
