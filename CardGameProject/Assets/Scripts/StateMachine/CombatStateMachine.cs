@@ -248,6 +248,7 @@ public class CombatStateMachine : MonoBehaviour
             {
                 player.ConsumeStamina(card.cost);
 
+                // Get cardData from player hand to move to discard pile
                 CardData cardData = cardManager.playerHand.First(data => data.card.InGameGUID == card.InGameGUID);
                 cardManager.playerHand.Remove(cardData);
                 cardManager.discardPile.Add(cardData);
@@ -278,6 +279,11 @@ public class CombatStateMachine : MonoBehaviour
         }
         else if (tag == "Recycle")
         {
+            // Get cardData from player hand to move to discard pile
+            CardData cardData = cardManager.playerHand.First(data => data.card.InGameGUID == card.InGameGUID);
+            cardManager.playerHand.Remove(cardData);
+            cardManager.discardPile.Add(cardData);
+
             // Destory Card
             CardContainer container = playerHandTransform.GetComponent<CardContainer>();
             container.DestroyCard(evt.card);
