@@ -24,4 +24,15 @@ public class CombatUIManager : MonoBehaviour
     [Foldout("UI", true)]
     public GameObject combatUI;
     public GameObject switchWeaponUI;
+    public GameObject HideUI;
+    public GameObject DetailedUI;
+    public GameObject PlayerUI;
+
+
+    public void ToggleHideUI(bool toggle)
+    {
+        HideUI.SetActive(toggle);
+        DetailedUI.SetActive(toggle);
+        PlayerUI.SetActive(toggle);
+    }
 }

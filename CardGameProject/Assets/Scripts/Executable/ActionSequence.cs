@@ -56,12 +56,18 @@ public class ActionSequence : Executable
 
             hasMoved = true;
         }
+        else
+        {
+            avatarPlayingCard.isAttackFinished = true; // temp fix
+        }
 
         foreach (Avatar avatar in ExecutableParameters.Queue)
         {
             // Perform the game actions on themselfs
             ActionSystem.Instance.PerformQueue(avatar.queueGameActions);
         }
+
+        ctx.combatUIManager.ToggleHideUI(false);
 
         yield return new WaitWhile(() => !avatarPlayingCard.isAttackFinished); // TODO - Rename to isAnimationFinished
 

@@ -10,11 +10,15 @@ public class UISystem : MonoBehaviour
     private void OnEnable()
     {
         ActionSystem.AttachPerformer<SpawnDamageUIPopupGA>(SpawnDamageUIPopupPerformer);
+        ActionSystem.AttachPerformer<TogglePlayerUIGA>(TogglePlayerUIPerformer);
+        ActionSystem.AttachPerformer<ToggleEnemyUIGA>(ToggleEnemyUIPerformer);
     }
 
     private void OnDisable()
     {
         ActionSystem.DetachPerformer<SpawnDamageUIPopupGA>();
+        ActionSystem.DetachPerformer<TogglePlayerUIGA>();
+        ActionSystem.DetachPerformer<ToggleEnemyUIGA>();
     }
 
     private IEnumerator SpawnDamageUIPopupPerformer(SpawnDamageUIPopupGA spawnDamageUIPopupGA)
@@ -39,4 +43,17 @@ public class UISystem : MonoBehaviour
         popupText.DOFade(0, CombatUIManager.fadeDuration).OnComplete(() => { Destroy(popupObj); });
     }
 
+    private IEnumerator TogglePlayerUIPerformer(TogglePlayerUIGA togglePlayerUIGA)
+    {
+        CombatUIManager.PlayerUI.SetActive(togglePlayerUIGA.Toggle);
+
+        yield return null;
+    }
+
+    private IEnumerator ToggleEnemyUIPerformer(ToggleEnemyUIGA toggleEnemyUIGA)
+    {
+        CombatUIManager.DetailedUI.SetActive(toggleEnemyUIGA.Toggle);
+
+        yield return null;
+    }
 }

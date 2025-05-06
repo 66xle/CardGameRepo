@@ -54,6 +54,17 @@ public abstract class AttackCommand : Command
                     takeDamageFromWeaponGA.PostReactions.Add(spawnDamageUIPopupGA);
 
                     avatarToTakeDamage.isTakeDamage = true;
+
+                    if (avatarToTakeDamage is Player)
+                    {
+                        TogglePlayerUIGA togglePlayerUIGA = new(true);
+                        takeDamageFromWeaponGA.PreReactions.Add(togglePlayerUIGA);
+                    }
+                    else
+                    {
+                        ToggleEnemyUIGA toggleEnemyUIGA = new(true);
+                        takeDamageFromWeaponGA.PreReactions.Add(toggleEnemyUIGA); // runs multiple times if there are multiple enemy targets
+                    }
                 }
 
                 ExecutableParameters.Targets[i] = avatarToTakeDamage;

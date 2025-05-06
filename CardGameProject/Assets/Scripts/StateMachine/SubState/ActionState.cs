@@ -83,6 +83,8 @@ public class ActionState : CombatBaseState
 
     private IEnumerator PlayCard(CardData cardData)
     {
+        
+
         ExecutableParameters.ctx = ctx;
         ExecutableParameters.card = cardData.card;
         ExecutableParameters.weapon = cardData.weapon;
@@ -90,6 +92,7 @@ public class ActionState : CombatBaseState
         ExecutableParameters.avatarOpponent = avatarOpponent;
 
         isInAction = true;
+        ctx.combatUIManager.ToggleHideUI(false);
 
         // Display Card
         //ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
@@ -101,6 +104,7 @@ public class ActionState : CombatBaseState
 
 
         isInAction = false;
+        ctx.combatUIManager.ToggleHideUI(true);
         Debug.Log("Finished Attacking");
 
         ctx.enemyList.ForEach(enemy => enemy.isTakeDamage = false);
