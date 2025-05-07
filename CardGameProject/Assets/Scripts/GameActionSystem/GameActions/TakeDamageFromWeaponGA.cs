@@ -30,6 +30,7 @@ public class TakeDamageFromWeaponGA : GameAction
             if (avatarOpponent.listOfEffects[i].currentTurnsRemaning <= 0)
             {
                 avatarOpponent.RecoverGuardBreak();
+                avatarOpponent.listOfEffects[i].OnRemoval(avatarOpponent);
                 avatarOpponent.listOfEffects.RemoveAt(i);
             }
         }

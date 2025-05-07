@@ -15,15 +15,15 @@ MonoBehaviour:
   guid: 7adfbb88d1838da4bacde094ec37a06c
   InGameGUID: 
   cardName: Heal
-  description: Heal #0 health. Do #1 damage
-  displayDescription: Heal 100 health. Do #1 damage
+  description: Heal #0 health. Do #1 damage. #2
+  displayDescription: Heal 3 health. Do #1 damage. #2
   flavour: Healing!
   image: {fileID: 21300000, guid: 950112b2bd6d2074ea8120822702c17a, type: 3}
   frame: {fileID: 21300000, guid: 61329542160dc15418ac2da74fe16cf1, type: 3}
   cost: 1
   recycleValue: 1
   valuesToReference:
-  - 100
+  - 3
   commands:
   - rid: 8735465310403166309
   references:
@@ -33,4 +33,4 @@ MonoBehaviour:
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 1
-        value: 100
+        value: 3
