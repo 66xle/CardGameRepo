@@ -123,28 +123,5 @@ public class ActionState : CombatBaseState
         yield return sequence.Execute(null);
     }
 
-
-
-    #region Card Actions
-
-    public void ReduceHitToRecover()
-    {
-        //for (int i = avatarOpponent.listOfEffects.Count - 1; i >= 0; i--)
-        //{
-        //    if (avatarOpponent.listOfEffects[i].effect != Effect.GuardBroken)
-        //        continue;
-
-        //    avatarOpponent.listOfEffects[i].numberOfHitsToRecover--;
-        //    if (avatarOpponent.listOfEffects[i].numberOfHitsToRecover <= 0)
-        //    {
-        //        avatarOpponent.RecoverGuardBreak();
-        //        avatarOpponent.listOfEffects.RemoveAt(i);
-        //    }
-        //}
-    }
-
-    #endregion
-
-
     
 }

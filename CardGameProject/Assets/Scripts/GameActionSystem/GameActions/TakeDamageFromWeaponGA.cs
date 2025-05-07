@@ -19,6 +19,22 @@ public class TakeDamageFromWeaponGA : GameAction
         this.cardTarget = cardTarget;
     }
 
+    public void ReduceHitToRecover(Avatar avatarOpponent)
+    {
+        for (int i = avatarOpponent.listOfEffects.Count - 1; i >= 0; i--)
+        {
+            if (avatarOpponent.listOfEffects[i].effect != Effect.GuardBroken)
+                continue;
+
+            avatarOpponent.listOfEffects[i].currentTurnsRemaning--;
+            if (avatarOpponent.listOfEffects[i].currentTurnsRemaning <= 0)
+            {
+                avatarOpponent.RecoverGuardBreak();
+                avatarOpponent.listOfEffects.RemoveAt(i);
+            }
+        }
+    }
+
     public void ApplyGuardBroken(CombatStateMachine ctx, Avatar avatarOpponent)
     {
         if (avatarOpponent.armourType == ArmourType.Light || avatarOpponent.armourType == ArmourType.None) avatarOpponent.ApplyStatusEffect(ctx.guardBreakLightArmourData.statusEffect.Clone());

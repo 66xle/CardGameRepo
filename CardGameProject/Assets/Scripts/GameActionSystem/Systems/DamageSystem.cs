@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class DamageSystem : MonoBehaviour
 {
+
     private void OnEnable()
     {
         ActionSystem.AttachPerformer<TakeDamageFromWeaponGA>(TakeDamageFromWeaponPerformer);
@@ -41,7 +42,7 @@ public class DamageSystem : MonoBehaviour
             // Check if avatar has guard broken effect
             if (avatarToTakeDamage.hasStatusEffect(Effect.GuardBroken))
             {
-                //ReduceHitToRecover();
+                takeDamageFromWeaponGA.ReduceHitToRecover(avatarToTakeDamage);
             }
             else
             {
