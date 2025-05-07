@@ -53,8 +53,6 @@ public abstract class AttackCommand : Command
                     SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.avatarToTakeDamage, takeDamageFromWeaponGA.damage, Color.white);
                     takeDamageFromWeaponGA.PostReactions.Add(spawnDamageUIPopupGA);
 
-                    avatarToTakeDamage.isTakeDamage = true;
-
                     if (avatarToTakeDamage is Player)
                     {
                         TogglePlayerUIGA togglePlayerUIGA = new(true);

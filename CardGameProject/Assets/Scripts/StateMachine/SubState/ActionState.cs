@@ -105,11 +105,11 @@ public class ActionState : CombatBaseState
 
         isInAction = false;
         ctx.combatUIManager.ToggleHideUI(true);
-        Debug.Log("Finished Attacking");
 
         ctx.enemyList.ForEach(enemy => enemy.isTakeDamage = false);
         ctx.player.isTakeDamage = false;
 
+        Debug.Log("Finished Attacking");
 
         if (avatarOpponent is Enemy && avatarOpponent.IsAvatarDead() || avatarPlayingCard is Enemy && avatarPlayingCard.IsAvatarDead())
         {
