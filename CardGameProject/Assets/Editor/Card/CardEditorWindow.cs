@@ -14,6 +14,9 @@ using System.IO;
 
 public class CardEditorWindow : BaseEditorWindow
 {
+    private Card selectedCard;
+    private string lastDisplayDescription;
+
     [MenuItem("Editor/Card Editor")]
     public static void ShowWindow()
     {
@@ -27,6 +30,13 @@ public class CardEditorWindow : BaseEditorWindow
 
         CreateListView();
         SetButtons();
+
+        EditorApplication.update += UpdateCardUI;
+    }
+
+    private void OnDisable()
+    {
+        EditorApplication.update -= UpdateCardUI;
     }
 
     public override void CreateListView()
@@ -53,6 +63,7 @@ public class CardEditorWindow : BaseEditorWindow
                 cardInfoBox.Clear();
 
                 Card card = it as Card;
+                selectedCard = card;
 
                 SerializedObject serializeCard = new SerializedObject(card);
                 SerializedProperty cardProperty = serializeCard.GetIterator();
@@ -72,11 +83,17 @@ public class CardEditorWindow : BaseEditorWindow
                         prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadCardImage(card));
                     }
 
-                    if (cardProperty.name == "name" || cardProperty.name == "description" || 
+                    if (cardProperty.name == "name" || cardProperty.name == "description" ||
                         cardProperty.name == "flavour" || cardProperty.name == "value" || cardProperty.name == "cost")
                     {
                         prop.RegisterValueChangeCallback(changeEvt => LoadCardText(card, list));
                     }
+
+                    if (cardProperty.name == "displayDescription")
+                    {
+                        lastDisplayDescription = card.displayDescription;
+                    }
+
                 }
 
                 LoadCardImage(card);
@@ -211,6 +228,17 @@ public class CardEditorWindow : BaseEditorWindow
         description.text = card.displayDescription;
         flavour.text = card.flavour;
         cost.text = card.cost.ToString();
+    }
+
+    private void UpdateCardUI()
+    {
+        if (selectedCard == null) return;
+
+        if (selectedCard.displayDescription != lastDisplayDescription)
+        {
+            lastDisplayDescription = selectedCard.displayDescription;
+            LoadCardText(selectedCard, list);
+        }
     }
 
 }
