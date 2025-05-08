@@ -52,23 +52,23 @@ public class CombatStateMachine : MonoBehaviour
     [Foldout("Camera", true)]
     public float statusEffectDelay = 0.5f;
     public float statusEffectAfterDelay = 1f;
-    public CinemachineVirtualCamera defaultCam;
-    public CinemachineVirtualCamera followCam;
-    public CinemachineVirtualCamera panCam;
+    [MustBeAssigned] public CinemachineVirtualCamera defaultCam;
+    [MustBeAssigned] public CinemachineVirtualCamera followCam;
+    [MustBeAssigned] public CinemachineVirtualCamera panCam;
 
     [Foldout("Card", true)]
     public int cardsToDraw = 2;
 
     [Header("References")]
-    public GameObject cardPrefab;
-    public Transform playerHandTransform;
-    public Transform displayCard;
+    [MustBeAssigned] public GameObject cardPrefab;
+    [MustBeAssigned] public Transform playerHandTransform;
+    [MustBeAssigned] public Transform displayCard;
 
 
     [Foldout("StatusEffect", true)]
-    public StatusEffectData guardBreakLightArmourData;
-    public StatusEffectData guardBreakMediumArmourData;
-    public StatusEffectData guardBreakHeavyArmourData;
+    [MustBeAssigned]public StatusEffectData guardBreakLightArmourData;
+    [MustBeAssigned]public StatusEffectData guardBreakMediumArmourData;
+    [MustBeAssigned] public StatusEffectData guardBreakHeavyArmourData;
     
     [Foldout("Animation Settings", true)]
     public float moveDuration = 0.5f;

@@ -10,7 +10,7 @@ public class EnemyManager : MonoBehaviour
     {
         if (Enemies.Count == 0)
         {
-            Debug.LogAssertion("No Enemy in List.");
+            Debug.LogAssertion("Enemy Manager: No Enemy in List.");
         }
     }
 }

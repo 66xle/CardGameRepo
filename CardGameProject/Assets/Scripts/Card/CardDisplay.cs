@@ -17,6 +17,8 @@ public class CardDisplay : MonoBehaviour
 
     private void Start()
     {
+        if (Card == null) return;
+
         Card.GenerateDisplayDescription();
 
         Name.text = Card.CardName;
