@@ -4,20 +4,20 @@ using UnityEngine.UI;
 
 public class Player : Avatar
 {
-    private float maxStamina = 5f;
-    [SerializeField] float recoverStaminaAmount = 2f;
-
+    [SerializeField] float RecoverStaminaAmount = 2f;
+    private float _maxStamina = 5f;
     private float _currentStamina;
-    [HideInInspector] public float CurrentStamina { get { return _currentStamina; } set { _currentStamina = value; UpdateStatsUI(); } }
+
+    public float CurrentStamina { get { return _currentStamina; } set { _currentStamina = value; UpdateStatsUI(); } }
 
     [Header("References")]
-    private Slider healthBar;
-    private TMP_Text healthValue;
-    private Slider staminaBar;
-    private TMP_Text staminaValue;
-    private TMP_Text blockValue;
-    private Slider guardBar;
-    private TMP_Text guardValue;
+    private Slider _healthBar;
+    private TMP_Text _healthValue;
+    private Slider _staminaBar;
+    private TMP_Text _staminaValue;
+    private TMP_Text _blockValue;
+    private Slider _guardBar;
+    private TMP_Text _guardValue;
 
     private void OnEnable()
     {
@@ -33,24 +33,24 @@ public class Player : Avatar
                      Slider guardBar, TMP_Text guardValue,
                      ArmourType armourType)
     {
-        this.healthBar = healthBar;
-        this.healthValue = healthValue;
-        this.staminaBar = staminaBar;
-        this.staminaValue = staminaValue;
-        this.guardBar = guardBar;
-        this.guardValue = guardValue;
-        this.blockValue = blockValue;
-        this.armourType = armourType;
+        this._healthBar = healthBar;
+        this._healthValue = healthValue;
+        this._staminaBar = staminaBar;
+        this._staminaValue = staminaValue;
+        this._guardBar = guardBar;
+        this._guardValue = guardValue;
+        this._blockValue = blockValue;
+        this.ArmourType = armourType;
     }
 
     public void InitStats(float maxHealth, float maxStamina, int maxGuard)
     {
-        base.maxHealth = maxHealth;
-        base.maxGuard = maxGuard;
+        base.MaxHealth = maxHealth;
+        base.MaxGuard = maxGuard;
 
         CurrentHealth = maxHealth;
         CurrentGuard = maxGuard;
-        CurrentStamina = this.maxStamina;
+        CurrentStamina = this._maxStamina;
     }
 
     public bool hasEnoughStamina(float cost)
@@ -69,38 +69,38 @@ public class Player : Avatar
     public void RecycleCardToStamina(float cost)
     {
         CurrentStamina += cost;
-        CurrentStamina = Mathf.Clamp(CurrentStamina, 0f, maxStamina);
+        CurrentStamina = Mathf.Clamp(CurrentStamina, 0f, _maxStamina);
     }
 
     public void RecoverStamina()
     {
-        CurrentStamina += recoverStaminaAmount;
-        CurrentStamina = Mathf.Clamp(CurrentStamina, 0f, maxStamina);
+        CurrentStamina += RecoverStaminaAmount;
+        CurrentStamina = Mathf.Clamp(CurrentStamina, 0f, _maxStamina);
     }
 
     public void ConsumeStamina(float stamAmount)
     {
         CurrentStamina -= stamAmount;
-        CurrentStamina = Mathf.Clamp(CurrentStamina, 0f, maxStamina);
+        CurrentStamina = Mathf.Clamp(CurrentStamina, 0f, _maxStamina);
     }
 
     #endregion
 
     private void DisplayStats()
     {
-        _currentStamina = Mathf.Clamp(_currentHealth, 0f, maxHealth);
-        _currentStamina = Mathf.Clamp(_currentStamina, 0f, maxStamina);
+        _currentStamina = Mathf.Clamp(_currentHealth, 0f, MaxHealth);
+        _currentStamina = Mathf.Clamp(_currentStamina, 0f, _maxStamina);
 
-        healthBar.value = _currentHealth / maxHealth;
-        healthValue.text = _currentHealth.ToString();
+        _healthBar.value = _currentHealth / MaxHealth;
+        _healthValue.text = _currentHealth.ToString();
 
-        staminaBar.value = _currentStamina / maxStamina;
-        staminaValue.text = _currentStamina.ToString();
+        _staminaBar.value = _currentStamina / _maxStamina;
+        _staminaValue.text = _currentStamina.ToString();
 
-        guardBar.value = (float)_currentGuard / maxGuard;
-        guardValue.text = _currentGuard.ToString();
+        _guardBar.value = (float)_currentGuard / MaxGuard;
+        _guardValue.text = _currentGuard.ToString();
 
-        blockValue.text = _currentBlock.ToString();
+        _blockValue.text = _currentBlock.ToString();
     }
 
 }

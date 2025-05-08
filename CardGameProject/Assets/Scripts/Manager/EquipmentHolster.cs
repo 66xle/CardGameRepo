@@ -73,19 +73,19 @@ public class EquipmentHolster : MonoBehaviour
         {
             Weapon weaponScript = data.prefab.GetComponent<Weapon>();
             
-            if (weaponScript.weaponType == WeaponType.Sword)
+            if (weaponScript.WeaponType == WeaponType.Sword)
             {
                 SetWeapon(swordHolsterPriority, data, weaponScript);
             }
-            if (weaponScript.weaponType == WeaponType.Twohanded)
+            if (weaponScript.WeaponType == WeaponType.Twohanded)
             {
                 SetWeapon(twoHandedHolsterPriority, data, weaponScript);
             }
-            else if (weaponScript.weaponType == WeaponType.Dagger)
+            else if (weaponScript.WeaponType == WeaponType.Dagger)
             {
                 SetWeapon(daggerHolsterPriority, data, weaponScript);
             }
-            else if (weaponScript.weaponType == WeaponType.Scythe)
+            else if (weaponScript.WeaponType == WeaponType.Scythe)
             {
                 SetWeapon(scytheHolsterPriority, data, weaponScript);
             }
@@ -117,33 +117,33 @@ public class EquipmentHolster : MonoBehaviour
     {
         if (holsterTransfrom.CompareTag("Back"))
         {
-            if ((weaponScript.offSetHolster & OffSetHolster.Back) == OffSetHolster.Back)
-                return weaponScript.backPrefab;
+            if ((weaponScript.OffSetHolster & OffSetHolster.Back) == OffSetHolster.Back)
+                return weaponScript.BackPrefab;
         }
         else if (holsterTransfrom.CompareTag("Lower Back"))
         {
-            if ((weaponScript.offSetHolster & OffSetHolster.LowerBack) == OffSetHolster.LowerBack)
-                return weaponScript.lowerBackPrefab;
+            if ((weaponScript.OffSetHolster & OffSetHolster.LowerBack) == OffSetHolster.LowerBack)
+                return weaponScript.LowerBackPrefab;
         }
         else if (holsterTransfrom.CompareTag("Left Hip"))
         {
-            if ((weaponScript.offSetHolster & OffSetHolster.LeftHip) == OffSetHolster.LeftHip)
-                return weaponScript.leftHipPrefab;
+            if ((weaponScript.OffSetHolster & OffSetHolster.LeftHip) == OffSetHolster.LeftHip)
+                return weaponScript.LeftHipPrefab;
         }
         else if (holsterTransfrom.CompareTag("Right Hip"))
         {
-            if ((weaponScript.offSetHolster & OffSetHolster.RightHip) == OffSetHolster.RightHip)
-                return weaponScript.rightHipPrefab;
+            if ((weaponScript.OffSetHolster & OffSetHolster.RightHip) == OffSetHolster.RightHip)
+                return weaponScript.RightHipPrefab;
         }
         else if (holsterTransfrom.CompareTag("Left Chest"))
         {
-            if ((weaponScript.offSetHolster & OffSetHolster.LeftChest) == OffSetHolster.LeftChest)
-                return weaponScript.leftChestPrefab;
+            if ((weaponScript.OffSetHolster & OffSetHolster.LeftChest) == OffSetHolster.LeftChest)
+                return weaponScript.LeftChestPrefab;
         }
         else if (holsterTransfrom.CompareTag("Right Chest"))
         {
-            if ((weaponScript.offSetHolster & OffSetHolster.RightChest) == OffSetHolster.RightChest)
-                return weaponScript.rightChestPrefab;
+            if ((weaponScript.OffSetHolster & OffSetHolster.RightChest) == OffSetHolster.RightChest)
+                return weaponScript.RightChestPrefab;
         }
 
         return null;

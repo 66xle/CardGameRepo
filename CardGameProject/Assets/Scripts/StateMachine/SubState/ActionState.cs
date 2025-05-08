@@ -106,8 +106,8 @@ public class ActionState : CombatBaseState
         isInAction = false;
         ctx.combatUIManager.ToggleHideUI(true);
 
-        ctx.enemyList.ForEach(enemy => enemy.isTakeDamage = false);
-        ctx.player.isTakeDamage = false;
+        ctx.enemyList.ForEach(enemy => enemy.IsTakeDamage = false);
+        ctx.player.IsTakeDamage = false;
 
         Debug.Log("Finished Attacking");
 

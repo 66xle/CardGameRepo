@@ -361,8 +361,8 @@ public class CombatStateMachine : MonoBehaviour
     public void EnemyDied()
     {
         ResetSelectedEnemyUI();
-        selectedEnemyToAttack.disableSelection = true;
-        selectedEnemyToAttack.selectionRing.SetActive(false);
+        selectedEnemyToAttack.DisableSelection = true;
+        selectedEnemyToAttack.SelectionRing.SetActive(false);
 
         // Remove enemy
         enemyList.Remove(selectedEnemyToAttack as Enemy);

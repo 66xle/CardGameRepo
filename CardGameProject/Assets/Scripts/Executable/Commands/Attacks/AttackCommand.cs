@@ -24,10 +24,10 @@ public abstract class AttackCommand : Command
         Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
         Animator opponentController = avatarOpponent.GetComponent<Animator>();
 
-        if (avatarOpponent.isInCounterState)
+        if (avatarOpponent.IsInCounterState)
         {
             CounterGA counterGA = new(avatarOpponent, avatarPlayingCardController, opponentController);
-            avatarOpponent.queueGameActions.Add(counterGA);
+            avatarOpponent.QueueGameActions.Add(counterGA);
         }
         else
         {
@@ -48,7 +48,7 @@ public abstract class AttackCommand : Command
                 {
                     // Add game action to queue
                     TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, ctx, Value, ExecutableParameters.weapon.type, ExecutableParameters.CardTarget);
-                    avatarToTakeDamage.queueGameActions.Add(takeDamageFromWeaponGA);
+                    avatarToTakeDamage.QueueGameActions.Add(takeDamageFromWeaponGA);
 
                     SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.avatarToTakeDamage, takeDamageFromWeaponGA.damage, Color.white);
                     takeDamageFromWeaponGA.PostReactions.Add(spawnDamageUIPopupGA);

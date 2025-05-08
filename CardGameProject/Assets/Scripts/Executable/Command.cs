@@ -15,10 +15,10 @@ public abstract class Command : Executable
         // Update avatar queue game actions
         foreach (Avatar target in ExecutableParameters.Targets)
         {
-            if (ExecutableParameters.Queue.Exists(avatar => avatar.guid == target.guid))
+            if (ExecutableParameters.Queue.Exists(avatar => avatar.Guid == target.Guid))
             {
-                Avatar avatar = ExecutableParameters.Queue.First(avatar => avatar.guid == target.guid);
-                avatar.queueGameActions = target.queueGameActions;
+                Avatar avatar = ExecutableParameters.Queue.First(avatar => avatar.Guid == target.Guid);
+                avatar.QueueGameActions = target.QueueGameActions;
             }
             else
             {

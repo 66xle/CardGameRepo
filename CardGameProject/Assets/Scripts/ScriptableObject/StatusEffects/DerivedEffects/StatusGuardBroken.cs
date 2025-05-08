@@ -34,12 +34,12 @@ public class StatusGuardBroken : StatusEffect
 
     public override void OnApply(Avatar avatar)
     {
-        avatar.animator.SetBool("isStunned", true);
+        avatar.Animator.SetBool("isStunned", true);
         base.OnApply(avatar);
     }
 
     public override void OnRemoval(Avatar avatar)
     {
-        avatar.animator.SetBool("isStunned", false);
+        avatar.Animator.SetBool("isStunned", false);
     }
 }

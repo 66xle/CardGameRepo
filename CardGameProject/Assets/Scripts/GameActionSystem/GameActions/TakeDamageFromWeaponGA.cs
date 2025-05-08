@@ -21,25 +21,25 @@ public class TakeDamageFromWeaponGA : GameAction
 
     public void ReduceHitToRecover(Avatar avatarOpponent)
     {
-        for (int i = avatarOpponent.listOfEffects.Count - 1; i >= 0; i--)
+        for (int i = avatarOpponent.ListOfEffects.Count - 1; i >= 0; i--)
         {
-            if (avatarOpponent.listOfEffects[i].effect != Effect.GuardBroken)
+            if (avatarOpponent.ListOfEffects[i].effect != Effect.GuardBroken)
                 continue;
 
-            avatarOpponent.listOfEffects[i].currentTurnsRemaning--;
-            if (avatarOpponent.listOfEffects[i].currentTurnsRemaning <= 0)
+            avatarOpponent.ListOfEffects[i].currentTurnsRemaning--;
+            if (avatarOpponent.ListOfEffects[i].currentTurnsRemaning <= 0)
             {
                 avatarOpponent.RecoverGuardBreak();
-                avatarOpponent.listOfEffects[i].OnRemoval(avatarOpponent);
-                avatarOpponent.listOfEffects.RemoveAt(i);
+                avatarOpponent.ListOfEffects[i].OnRemoval(avatarOpponent);
+                avatarOpponent.ListOfEffects.RemoveAt(i);
             }
         }
     }
 
     public void ApplyGuardBroken(CombatStateMachine ctx, Avatar avatarOpponent)
     {
-        if (avatarOpponent.armourType == ArmourType.Light || avatarOpponent.armourType == ArmourType.None) avatarOpponent.ApplyStatusEffect(ctx.guardBreakLightArmourData.statusEffect.Clone());
-        else if (avatarOpponent.armourType == ArmourType.Medium) avatarOpponent.ApplyStatusEffect(ctx.guardBreakMediumArmourData.statusEffect.Clone());
-        else if (avatarOpponent.armourType == ArmourType.Heavy) avatarOpponent.ApplyStatusEffect(ctx.guardBreakHeavyArmourData.statusEffect.Clone());
+        if (avatarOpponent.ArmourType == ArmourType.Light || avatarOpponent.ArmourType == ArmourType.None) avatarOpponent.ApplyStatusEffect(ctx.guardBreakLightArmourData.statusEffect.Clone());
+        else if (avatarOpponent.ArmourType == ArmourType.Medium) avatarOpponent.ApplyStatusEffect(ctx.guardBreakMediumArmourData.statusEffect.Clone());
+        else if (avatarOpponent.ArmourType == ArmourType.Heavy) avatarOpponent.ApplyStatusEffect(ctx.guardBreakHeavyArmourData.statusEffect.Clone());
     }
 }

@@ -37,8 +37,8 @@ public class StatusEffectState : CombatBaseState
 
         #endregion
 
-        currentAvatarSelected.isInStatusActivation = true;
-        currentAvatarSelected.doStatusDmg = false;
+        currentAvatarSelected.IsInStatusActivation = true;
+        currentAvatarSelected.DoStatusDmg = false;
         doRecoverGuardBreak = false;
         isStatusEffectFinished = false;
 
@@ -85,27 +85,27 @@ public class StatusEffectState : CombatBaseState
     {
         List<StatusEffect> statusQueue = new List<StatusEffect>();
 
-        for (int i = currentAvatarSelected.listOfEffects.Count - 1; i >= 0; i--)
+        for (int i = currentAvatarSelected.ListOfEffects.Count - 1; i >= 0; i--)
         {
-            StatusEffect currentEffect = currentAvatarSelected.listOfEffects[i];
+            StatusEffect currentEffect = currentAvatarSelected.ListOfEffects[i];
 
             // Check effect to trigger
-            if (currentAvatarSelected.listOfEffects[i].currentTurnsRemaning > 0)
+            if (currentAvatarSelected.ListOfEffects[i].currentTurnsRemaning > 0)
             {
                 statusQueue.Add(currentEffect);
             }
 
-            currentAvatarSelected.listOfEffects[i].currentTurnsRemaning--;
+            currentAvatarSelected.ListOfEffects[i].currentTurnsRemaning--;
 
             // Status Effect expired
-            if (currentAvatarSelected.listOfEffects[i].currentTurnsRemaning <= 0)
+            if (currentAvatarSelected.ListOfEffects[i].currentTurnsRemaning <= 0)
             {
                 // This effect will expire next turn
                 if (currentEffect.ShouldRemoveEffectNextTurn())
                 {
                     Debug.Log("REMOVE GUARD BREAK NEXT TURN");
 
-                    currentAvatarSelected.listOfEffects[i].SetRemoveEffectNextTurn(false);
+                    currentAvatarSelected.ListOfEffects[i].SetRemoveEffectNextTurn(false);
                     continue;
                 }
 
@@ -114,14 +114,14 @@ public class StatusEffectState : CombatBaseState
                     doRecoverGuardBreak = true;
                 }
 
-                currentAvatarSelected.listOfEffects.RemoveAt(i);
+                currentAvatarSelected.ListOfEffects.RemoveAt(i);
                 currentEffect.OnRemoval(currentAvatarSelected);
 
                 // Is enemy being selected
                 if (currentAvatarSelected == ctx.selectedEnemyToAttack)
                 {
                     Enemy enemy = currentAvatarSelected as Enemy;
-                    enemy.detailedUI.ClearStatusUI();
+                    enemy.DetailedUI.ClearStatusUI();
                 }
             }
         }

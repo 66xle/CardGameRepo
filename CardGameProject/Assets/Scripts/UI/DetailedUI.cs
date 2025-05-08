@@ -47,10 +47,10 @@ public class DetailedUI : MonoBehaviour
         if (enemy == null)
             return;
 
-        healthBar.fillAmount = enemy.healthBar.fillAmount;
+        healthBar.fillAmount = enemy.HealthBar.fillAmount;
         //healthValue.text = enemy.healthValue.text;
 
-        guardBar.fillAmount = enemy.guardBar.fillAmount;
+        guardBar.fillAmount = enemy.GuardBar.fillAmount;
         //guardValue.text = enemy.guardValue.text;
 
         //blockValue.text = enemy.blockValue.text;
@@ -64,9 +64,9 @@ public class DetailedUI : MonoBehaviour
         if (state.selectedEnemyToAttack != enemy)
             return;
 
-        for (int i = 0; i < enemy.listOfEffects.Count; i++)
+        for (int i = 0; i < enemy.ListOfEffects.Count; i++)
         {
-            StatusEffect data = enemy.listOfEffects[i];
+            StatusEffect data = enemy.ListOfEffects[i];
 
             // Check activeParent childs
             GameObject activeObj = GetEffectObject(activeParent, data.effectName);

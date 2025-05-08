@@ -25,13 +25,13 @@ public class StatusCommand : Command
             {
                 // Update damage value
                 ApplyStatusEffectGA applyStatusEffectGA = avatarToApply.GetGameActionFromQueue<ApplyStatusEffectGA>() as ApplyStatusEffectGA;
-                avatarToApply.queueGameActions.Add(applyStatusEffectGA);
+                avatarToApply.QueueGameActions.Add(applyStatusEffectGA);
             }
             else
             {
                 // Add game action to queue
                 ApplyStatusEffectGA applyStatusEffectGA = new(avatarToApply, Effect);
-                avatarToApply.queueGameActions.Add(applyStatusEffectGA);
+                avatarToApply.QueueGameActions.Add(applyStatusEffectGA);
 
                 // ui update here
             }

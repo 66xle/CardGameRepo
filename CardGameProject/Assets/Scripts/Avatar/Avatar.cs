@@ -1,142 +1,163 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using System;
 using Action = System.Action;
 using MyBox;
-using UnityEngine.Rendering;
 
 
 
 public class Avatar : MonoBehaviour
 {
+    #region Public Variables
+
     [Header("Stats")]
-    public float maxHealth = 100f;
-    public int maxGuard = 10;
-    public ArmourType armourType;
-    public DamageType damageType;
+    public float MaxHealth = 100f;
+    public int MaxGuard = 10;
+    public ArmourType ArmourType;
+    public DamageType DamageType;
 
-    // Animation Events
-    [HideInInspector] public bool doDamage;
-    [HideInInspector] public bool isAttackFinished;
-    [HideInInspector] public bool isTakeDamage = false;
-    [ReadOnly] public bool isRunningReactiveEffect = false;
+    #endregion
 
-    [HideInInspector] public bool isInCounterState = false;
-    [HideInInspector] public bool isInStatusActivation;
-    [HideInInspector] public bool doStatusDmg;
+    #region Bools
+    public bool DoDamage { get; set; }
+    public bool IsAttackFinished { get; set; }
+    public bool IsTakeDamage { get; set; } = false;
+    public bool IsRunningReactiveEffect { get; set; } = false;
 
-    [HideInInspector] public event Action OnStatChanged;
+    public bool IsInCounterState { get; set; } = false;
+    public bool IsInStatusActivation { get; set; }
+    public bool DoStatusDmg { get; set; }
+
+    #endregion
+
+    #region Lists
+
     [HideInInspector] public Dictionary<ReactiveTrigger, List<ExecutableWrapper>> DictReactiveEffects = new();
+    [HideInInspector] public List<StatusEffect> ListOfEffects = new();
+    [HideInInspector] public List<GameAction> QueueGameActions = new();
 
-    [HideInInspector] public List<StatusEffect> listOfEffects = new List<StatusEffect>();
-    [HideInInspector] public List<GameAction> queueGameActions = new();
+    #endregion
 
-    [HideInInspector] public string guid;
+    #region Read Only
 
-    [MyBox.ReadOnly] public float _currentHealth;
+    public string Guid { get; private set; }
+    public Animator Animator { get; private set; }
+
+    #endregion
+
+    #region Internal Variables
+
+    protected event Action OnStatChanged;
+    protected float _currentHealth;
     protected float _currentBlock;
     protected int _currentGuard;
-
-    [HideInInspector] public Animator animator;
 
     protected float CurrentHealth { get { return _currentHealth; } set { _currentHealth = value; UpdateStatsUI(); } }
     protected float CurrentBlock { get { return _currentBlock; } set { _currentBlock = value; UpdateStatsUI(); } }
     protected int CurrentGuard { get { return _currentGuard; } set { _currentGuard = value; UpdateStatsUI(); } }
 
+    #endregion
+
 
     private void Awake()
     {
-        guid = Guid.NewGuid().ToString();
-        animator = GetComponent<Animator>();
+        Guid = System.Guid.NewGuid().ToString();
+        Animator = GetComponent<Animator>();
     }
 
 
     #region Avatar Methods
 
-    #region Take Damage
+        #region Take Damage
 
-    public void TakeDamage(float damage) 
-    {
-        damage = ApplyAdditionalDmgCheck(damage);
-
-        _currentBlock -= damage;
-
-        // Block is negative do damage / Block is positive dont do damage
-        damage = _currentBlock < 0 ? Mathf.Abs(_currentBlock) : 0;
-
-        if (_currentBlock < 0) _currentBlock = 0;
-
-        _currentHealth -= damage;
-        _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);
-    }
-
-    public void TakeDamageByStatusEffect(float damage)
-    {
-        damage = ApplyAdditionalDmgCheck(damage);
-
-        _currentHealth -= damage;
-        _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);
-    }
-
-    #endregion
-
-    #region Guard
-
-    public bool IsGuardReducible(DamageType damageType)
-    {
-        if (armourType == ArmourType.Light && damageType == DamageType.Slash ||
-            armourType == ArmourType.Medium && damageType == DamageType.Pierce ||
-            armourType == ArmourType.Heavy && damageType == DamageType.Blunt ||
-            armourType == ArmourType.None)
+        public void TakeDamage(float damage) 
         {
-            return true;
+            damage = ApplyAdditionalDmgCheck(damage);
+
+            _currentBlock -= damage;
+
+            // Block is negative do damage / Block is positive dont do damage
+            damage = _currentBlock < 0 ? Mathf.Abs(_currentBlock) : 0;
+
+            if (_currentBlock < 0) _currentBlock = 0;
+
+            _currentHealth -= damage;
+            _currentHealth = Mathf.Clamp(_currentHealth, 0, MaxHealth);
         }
 
-        return false;
-    }
-
-    public bool IsGuardBroken()
-    {
-        return _currentGuard == 0 ? true : false;
-    }
-
-    public void ReduceGuard()
-    {
-        _currentGuard--;
-        _currentGuard = Mathf.Clamp(_currentGuard, 0, maxGuard);
-    }
-
-    public virtual void RecoverGuardBreak()
-    {
-        _currentGuard = maxGuard;
-    }
-
-    #endregion
-
-    public bool IsAvatarDead()
-    {
-        if (_currentHealth <= 0f)
+        public void TakeDamageByStatusEffect(float damage)
         {
-            return true;
+            damage = ApplyAdditionalDmgCheck(damage);
+
+            _currentHealth -= damage;
+            _currentHealth = Mathf.Clamp(_currentHealth, 0, MaxHealth);
         }
 
-        return false;
-    }
+        #endregion
 
-    public void AddBlock(float block)
-    {
-        _currentBlock += block;
-    }
+        #region Guard
 
-    public void Heal(float healAmount)
-    {
-        _currentHealth += healAmount;
-        _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);
-    }
+        public bool IsGuardReducible(DamageType damageType)
+        {
+            if (ArmourType == ArmourType.Light && damageType == DamageType.Slash ||
+                ArmourType == ArmourType.Medium && damageType == DamageType.Pierce ||
+                ArmourType == ArmourType.Heavy && damageType == DamageType.Blunt ||
+                ArmourType == ArmourType.None)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool IsGuardBroken()
+        {
+            return _currentGuard == 0 ? true : false;
+        }
+
+        public void ReduceGuard()
+        {
+            _currentGuard--;
+            _currentGuard = Mathf.Clamp(_currentGuard, 0, MaxGuard);
+        }
+
+        public virtual void RecoverGuardBreak()
+        {
+            _currentGuard = MaxGuard;
+        }
+
+        #endregion
+
+        #region Other
+
+        public bool IsAvatarDead()
+        {
+            if (_currentHealth <= 0f)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public void AddBlock(float block)
+        {
+            _currentBlock += block;
+        }
+
+        public void Heal(float healAmount)
+        {
+            _currentHealth += healAmount;
+            _currentHealth = Mathf.Clamp(_currentHealth, 0, MaxHealth);
+        }
+
+        public void UpdateStatsUI()
+        {
+            OnStatChanged?.Invoke();
+        }
+    #endregion
 
     #endregion
 
@@ -144,14 +165,14 @@ public class Avatar : MonoBehaviour
 
     public void ApplyStatusEffect(StatusEffect statusEffect)
     {
-        if (listOfEffects.Any(status => status.effect == statusEffect.effect))
+        if (ListOfEffects.Any(status => status.effect == statusEffect.effect))
         {
-            int index = listOfEffects.FindIndex(status => status.effect == statusEffect.effect);
-            listOfEffects[index].OnApply(this);
+            int index = ListOfEffects.FindIndex(status => status.effect == statusEffect.effect);
+            ListOfEffects[index].OnApply(this);
         }
         else
         {
-            listOfEffects.Add(statusEffect);
+            ListOfEffects.Add(statusEffect);
             statusEffect.OnApply(this);
         }
         
@@ -164,7 +185,7 @@ public class Avatar : MonoBehaviour
 
     public bool hasStatusEffect(Effect effect)
     {
-        foreach (StatusEffect data in listOfEffects)
+        foreach (StatusEffect data in ListOfEffects)
         {
             if (data.effect == effect)
             {
@@ -178,9 +199,9 @@ public class Avatar : MonoBehaviour
     public float ApplyAdditionalDmgCheck(float damage)
     {
         // Don't need to check
-        if (listOfEffects.Count == 0) return damage;
+        if (ListOfEffects.Count == 0) return damage;
 
-        foreach (StatusEffect statusEffect in listOfEffects)
+        foreach (StatusEffect statusEffect in ListOfEffects)
         {
             if (statusEffect.effect == Effect.GuardBroken)
             {
@@ -198,12 +219,12 @@ public class Avatar : MonoBehaviour
 
     public bool IsGameActionInQueue<T>() where T : GameAction
     {
-        return queueGameActions.Any(gameAction => gameAction is T);
+        return QueueGameActions.Any(gameAction => gameAction is T);
     }
 
     public GameAction GetGameActionFromQueue<T>() where T : GameAction
     {
-        return queueGameActions.First(gameAction => gameAction is T);
+        return QueueGameActions.First(gameAction => gameAction is T);
     }
 
     #endregion
@@ -274,12 +295,12 @@ public class Avatar : MonoBehaviour
 
         foreach (List<Executable> commands in sortedCommands)
         {
-            isRunningReactiveEffect = true;
+            IsRunningReactiveEffect = true;
 
             ActionSequence actionSequence = new(commands);
             yield return actionSequence.Execute(null);
 
-            isRunningReactiveEffect = false;
+            IsRunningReactiveEffect = false;
         }
 
         #endregion
@@ -353,18 +374,19 @@ public class Avatar : MonoBehaviour
 
     #endregion
 
-    public void UpdateStatsUI()
-    {
-        OnStatChanged?.Invoke();
-    }
+    
+
+    #region Animation Events
 
     public void AnimationEventAttack()
     {
-        doDamage = true;
+        DoDamage = true;
     }
 
     public void AnimationEventAttackFinish()
     {
-        isAttackFinished = true;
+        IsAttackFinished = true;
     }
+
+    #endregion
 }

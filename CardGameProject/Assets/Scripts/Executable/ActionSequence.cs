@@ -27,18 +27,18 @@ public class ActionSequence : Executable
         ExecutableParameters.Targets = new List<Avatar>();
         ExecutableParameters.Queue = new List<Avatar>();
 
-        avatarPlayingCard.doDamage = false;
-        avatarPlayingCard.isAttackFinished = false;
+        avatarPlayingCard.DoDamage = false;
+        avatarPlayingCard.IsAttackFinished = false;
         bool hasMoved = false;
 
         yield return ReadCommands(_actionCommands);
 
-        if (!avatarOpponent.isRunningReactiveEffect)
+        if (!avatarOpponent.IsRunningReactiveEffect)
             yield return CheckReactiveEffect(avatarPlayingCard, avatarOpponent, ReactiveTrigger.BeforeTakeDamageByWeapon);
 
         if (avatarPlayingCard.IsGuardBroken())
         {
-            ExecutableParameters.Queue.ForEach(avatar => avatar.queueGameActions.Clear());
+            ExecutableParameters.Queue.ForEach(avatar => avatar.QueueGameActions.Clear());
             yield break;
         }
             
@@ -52,24 +52,24 @@ public class ActionSequence : Executable
             TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.avatarPlayingCard, moveToPosGA.ctx);
             moveToPosGA.PostReactions.Add(triggerAttackAnimGA);
 
-            yield return new WaitWhile(() => !avatarPlayingCard.doDamage);
+            yield return new WaitWhile(() => !avatarPlayingCard.DoDamage);
 
             hasMoved = true;
         }
         else
         {
-            avatarPlayingCard.isAttackFinished = true; // temp fix
+            avatarPlayingCard.IsAttackFinished = true; // temp fix
         }
 
         foreach (Avatar avatar in ExecutableParameters.Queue)
         {
             // Perform the game actions on themselfs
-            ActionSystem.Instance.PerformQueue(avatar.queueGameActions);
+            ActionSystem.Instance.PerformQueue(avatar.QueueGameActions);
         }
 
         ctx.combatUIManager.ToggleHideUI(false);
 
-        yield return new WaitWhile(() => !avatarPlayingCard.isAttackFinished); // TODO - Rename to isAnimationFinished
+        yield return new WaitWhile(() => !avatarPlayingCard.IsAttackFinished); // TODO - Rename to isAnimationFinished
 
         if (hasMoved)
         {
@@ -81,7 +81,7 @@ public class ActionSequence : Executable
             yield return new WaitWhile(() => !returnToPosGA.IsReturnFinished);
         }
 
-        if (!avatarOpponent.isRunningReactiveEffect)
+        if (!avatarOpponent.IsRunningReactiveEffect)
             yield return CheckReactiveEffect(avatarPlayingCard, avatarOpponent, ReactiveTrigger.AfterTakeDamageByWeapon);
 
 
@@ -151,10 +151,10 @@ public class ActionSequence : Executable
     {
         foreach (Avatar avatarTarget in ExecutableParameters.Queue)
         {
-            if (!avatarTarget.isTakeDamage) continue;
+            if (!avatarTarget.IsTakeDamage) continue;
 
             if (trigger == ReactiveTrigger.AfterTakeDamageByWeapon) 
-                avatarTarget.isTakeDamage = false;
+                avatarTarget.IsTakeDamage = false;
 
             Debug.Log(trigger);
 
@@ -162,8 +162,8 @@ public class ActionSequence : Executable
             ExecutableParameters.avatarOpponent = avatarPlayingCard;
             List<Avatar> tempQueue = Extensions.CloneList(ExecutableParameters.Queue);
             List<Avatar> tempTargets = Extensions.CloneList(ExecutableParameters.Targets);
-            List<GameAction> tempGA = Extensions.CloneList(avatarTarget.queueGameActions);
-            avatarTarget.queueGameActions.Clear();
+            List<GameAction> tempGA = Extensions.CloneList(avatarTarget.QueueGameActions);
+            avatarTarget.QueueGameActions.Clear();
 
             yield return avatarTarget.CheckReactiveEffects(trigger);
 
@@ -171,10 +171,10 @@ public class ActionSequence : Executable
             ExecutableParameters.avatarOpponent = avatarOpponent;
             ExecutableParameters.Queue = tempQueue;
             ExecutableParameters.Targets = tempTargets;
-            avatarTarget.queueGameActions = tempGA;
+            avatarTarget.QueueGameActions = tempGA;
 
-            avatarPlayingCard.doDamage = false;
-            avatarPlayingCard.isAttackFinished = false;
+            avatarPlayingCard.DoDamage = false;
+            avatarPlayingCard.IsAttackFinished = false;
         }
     }
 

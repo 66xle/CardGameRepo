@@ -31,16 +31,16 @@ public class Weapon : MonoBehaviour
     [ReadOnly] public string Guid;
     [HideInInspector] public Transform HolsterParent;
 
-    public WeaponType weaponType;
+    public WeaponType WeaponType;
 
     [Separator("Offset")]
 
-    public OffSetHolster offSetHolster;
+    public OffSetHolster OffSetHolster;
 
-    [ConditionalField(nameof(offSetHolster), false, OffSetHolster.Back)] public GameObject backPrefab = null;
-    [ConditionalField(nameof(offSetHolster), false, OffSetHolster.LowerBack)] public GameObject lowerBackPrefab = null;
-    [ConditionalField(nameof(offSetHolster), false, OffSetHolster.RightHip)] public GameObject rightHipPrefab = null;
-    [ConditionalField(nameof(offSetHolster), false, OffSetHolster.LeftHip)] public GameObject leftHipPrefab = null ;
-    [ConditionalField(nameof(offSetHolster), false, OffSetHolster.RightChest)] public GameObject rightChestPrefab = null;
-    [ConditionalField(nameof(offSetHolster), false, OffSetHolster.LeftChest)] public GameObject leftChestPrefab = null;
+    [ConditionalField(nameof(OffSetHolster), false, OffSetHolster.Back)] public GameObject BackPrefab = null;
+    [ConditionalField(nameof(OffSetHolster), false, OffSetHolster.LowerBack)] public GameObject LowerBackPrefab = null;
+    [ConditionalField(nameof(OffSetHolster), false, OffSetHolster.RightHip)] public GameObject RightHipPrefab = null;
+    [ConditionalField(nameof(OffSetHolster), false, OffSetHolster.LeftHip)] public GameObject LeftHipPrefab = null ;
+    [ConditionalField(nameof(OffSetHolster), false, OffSetHolster.RightChest)] public GameObject RightChestPrefab = null;
+    [ConditionalField(nameof(OffSetHolster), false, OffSetHolster.LeftChest)] public GameObject LeftChestPrefab = null;
 }

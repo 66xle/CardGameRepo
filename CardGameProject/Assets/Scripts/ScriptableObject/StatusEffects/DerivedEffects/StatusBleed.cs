@@ -34,7 +34,7 @@ public class StatusBleed : StatusEffect
 
     public override void ActivateEffect(Avatar avatar)
     {
-        float damage = avatar.maxHealth * reduceHealthPercentage * stacks;
+        float damage = avatar.MaxHealth * reduceHealthPercentage * stacks;
 
         avatar.TakeDamageByStatusEffect(damage);
 

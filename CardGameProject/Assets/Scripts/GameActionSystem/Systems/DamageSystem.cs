@@ -24,7 +24,7 @@ public class DamageSystem : MonoBehaviour
 
         if (takeDamageFromWeaponGA.cardTarget != CardTarget.Self)
         {
-            avatarToTakeDamage.isTakeDamage = true;
+            avatarToTakeDamage.IsTakeDamage = true;
             avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
 
             if (avatarToTakeDamage.IsGuardReducible(takeDamageFromWeaponGA.damageType))
@@ -62,7 +62,7 @@ public class DamageSystem : MonoBehaviour
 
         counterGA.avatarPlayingCardController.SetTrigger("Recoil");
 
-        counterGA.avatarOpponent.isInCounterState = false;
+        counterGA.avatarOpponent.IsInCounterState = false;
 
 
 

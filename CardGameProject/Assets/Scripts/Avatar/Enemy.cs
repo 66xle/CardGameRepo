@@ -1,26 +1,23 @@
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+using MyBox;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Enemy : Avatar
 {
-    [HideInInspector] public EnemyObj enemyObj;
+    [Header("Cards")]
+    [SerializeField] float DrawAmount;
+    [ReadOnly] public List<Card> Deck;
+    public List<Card> CardsToPlay { get; set; }
+    public bool DisableSelection { get; set; }
 
     [Header("References")]
-    [HideInInspector] public Image healthBar;
-    [HideInInspector] public Image guardBar;
-    [HideInInspector] public EnemyUI enemyUI;
-    [HideInInspector] public DetailedUI detailedUI;
-
-    [Header("Cards")]
-    [SerializeField] float drawAmount;
-    public List<Card> deck;
-    [HideInInspector] public List<Card> cardsToPlay;
-    [HideInInspector] public bool disableSelection;
-
-    public GameObject selectionRing;
+    public EnemyObj EnemyObj { get; private set; }
+    public Image HealthBar { get; private set; }
+    public Image GuardBar { get; private set; }
+    public EnemyUI EnemyUI { get; private set; }
+    public DetailedUI DetailedUI { get; private set; }
+    public GameObject SelectionRing { get; private set; }
 
 
     private void OnEnable()
@@ -35,35 +32,35 @@ public class Enemy : Avatar
 
     public void InitStats(GameObject statsUI, DetailedUI detailedUI)
     {
-        healthBar = statsUI.GetComponentsInChildren<Image>()[1];
-        guardBar = statsUI.GetComponentsInChildren<Image>()[2];
-        enemyUI = statsUI.GetComponent<EnemyUI>();
-        this.detailedUI = detailedUI;
+        HealthBar = statsUI.GetComponentsInChildren<Image>()[1];
+        GuardBar = statsUI.GetComponentsInChildren<Image>()[2];
+        EnemyUI = statsUI.GetComponent<EnemyUI>();
+        DetailedUI = detailedUI;
 
-        CurrentHealth = maxHealth;
-        CurrentGuard = maxGuard;
+        CurrentHealth = MaxHealth;
+        CurrentGuard = MaxGuard;
     }
 
     public void Init(EnemyObj obj)
     {
-        disableSelection = false;
+        DisableSelection = false;
 
-        enemyObj = obj;
-        deck = enemyObj.cardList;
-        maxHealth = enemyObj.health;
-        maxGuard = enemyObj.guard;
+        EnemyObj = obj;
+        Deck = EnemyObj.cardList;
+        MaxHealth = EnemyObj.health;
+        MaxGuard = EnemyObj.guard;
 
-        selectionRing = transform.GetChild(0).gameObject;
+        SelectionRing = transform.GetChild(0).gameObject;
     }
   
     public List<Card> DrawCards()
     {
         List<Card> cardDrawn = new List<Card>();
 
-        for (int i = 0; i < drawAmount; i++)
+        for (int i = 0; i < DrawAmount; i++)
         {
-            int index = Random.Range(0, deck.Count);
-            cardDrawn.Add(deck[index]);
+            int index = Random.Range(0, Deck.Count);
+            cardDrawn.Add(Deck[index]);
         }
 
         return cardDrawn;
@@ -71,26 +68,26 @@ public class Enemy : Avatar
 
     private void DisplayStats()
     {
-        _currentHealth = Mathf.Clamp(_currentHealth, 0f, maxHealth);
+        _currentHealth = Mathf.Clamp(_currentHealth, 0f, MaxHealth);
 
-        healthBar.fillAmount = _currentHealth / maxHealth;
+        HealthBar.fillAmount = _currentHealth / MaxHealth;
 
-        guardBar.fillAmount = (float)_currentGuard / maxGuard;
+        GuardBar.fillAmount = (float)_currentGuard / MaxGuard;
 
-        detailedUI.DisplayStats();
-        detailedUI.UpdateStatusEffectsUI();
+        DetailedUI.DisplayStats();
+        DetailedUI.UpdateStatusEffectsUI();
     }
 
     public void EnemySelection(bool toggle)
     {
-        if (disableSelection) return;
+        if (DisableSelection) return;
 
-        selectionRing.SetActive(toggle);
-        enemyUI.SetUIActive(toggle);
+        SelectionRing.SetActive(toggle);
+        EnemyUI.SetUIActive(toggle);
 
         if (toggle)
         {
-            detailedUI.ChangeTarget(this);
+            DetailedUI.ChangeTarget(this);
         }
     }
 }
