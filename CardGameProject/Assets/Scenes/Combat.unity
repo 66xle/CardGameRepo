@@ -1525,9 +1525,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86c8c3ca964195747b8a7a19e7bbd3a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainHand: {fileID: 11400000, guid: b1486cd1dbe26ad4bb9faacfcd3676cb, type: 2}
-  offHand: {fileID: 0}
-  equippedWeapons: []
+  MainHand: {fileID: 0}
+  OffHand: {fileID: 0}
+  EquippedWeapons: []
 --- !u!4 &393357798
 Transform:
   m_ObjectHideFlags: 0
@@ -2401,19 +2401,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 720effb2a2b33154cbacf27194eb1112, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equipmentManager: {fileID: 393357797}
-  combatUIManager: {fileID: 563799117}
-  currentMainHand: {fileID: 0}
-  currentOffHand: {fileID: 0}
-  currentEquippedWeapons: []
-  transitionSpeed: 1
-  equipmentCam: {fileID: 657095241}
-  rightHipCam: {fileID: 1485547897}
-  leftHipCam: {fileID: 426474399}
-  backCam: {fileID: 1855615365}
-  lowerBackCam: {fileID: 1405917808}
-  rightChestCam: {fileID: 513496018}
-  leftChestCam: {fileID: 692133121}
+  EquipmentManager: {fileID: 393357797}
+  CombatUIManager: {fileID: 563799117}
+  TransitionSpeed: 1
+  EquipmentCam: {fileID: 657095241}
+  RightHipCam: {fileID: 1485547897}
+  LeftHipCam: {fileID: 426474399}
+  BackCam: {fileID: 1855615365}
+  LowerBackCam: {fileID: 1405917808}
+  RightChestCam: {fileID: 513496018}
+  LeftChestCam: {fileID: 692133121}
 --- !u!4 &510262702
 Transform:
   m_ObjectHideFlags: 0
@@ -7596,16 +7593,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bee7f48f60872484e96fc5f340e88a38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseHealth: 100
-  baseStamina: 50
-  baseGuard: 10
+  BaseHealth: 0
+  BaseStamina: 0
+  BaseGuard: 0
   armourType: 0
-  currentMaxHealth: 0
-  currentMaxStamina: 0
-  currentMaxGuard: 0
-  lightMultiplier: 1.2
-  mediumMultiplier: 1
-  heavyMultiplier: 0.65
+  LightMultiplier: 0
+  MediumMultiplier: 0
+  HeavyMultiplier: 0
 --- !u!4 &1461295040
 Transform:
   m_ObjectHideFlags: 0

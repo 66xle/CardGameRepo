@@ -84,7 +84,7 @@ public class WeaponEditorWindow : BaseEditorWindow
                     weaponDataInfoBox.Add(prop);
 
                     // Update prefab
-                    if (weaponDataProperty.name == "prefab")
+                    if (weaponDataProperty.name == "Prefab")
                     {
                         prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadWeaponPrefab(weaponData));
                     }

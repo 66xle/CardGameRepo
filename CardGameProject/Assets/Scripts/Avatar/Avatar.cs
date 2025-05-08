@@ -289,8 +289,8 @@ public class Avatar : MonoBehaviour
             #endregion
         }
 
-        #region Sort
-
+        #region Sort and Run
+        
         List<List<Executable>> sortedCommands = SortQueue(overwriteQueue, stackQueue);
 
         foreach (List<Executable> commands in sortedCommands)

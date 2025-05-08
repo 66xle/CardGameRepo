@@ -78,18 +78,18 @@ public class CardEditorWindow : BaseEditorWindow
                     cardInfoBox.Add(prop);
 
                     // Update images and text
-                    if (cardProperty.name == "image" || cardProperty.name == "frame")
+                    if (cardProperty.name == "Image" || cardProperty.name == "Frame")
                     {
                         prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadCardImage(card));
                     }
 
-                    if (cardProperty.name == "name" || cardProperty.name == "description" ||
-                        cardProperty.name == "flavour" || cardProperty.name == "value" || cardProperty.name == "cost")
+                    if (cardProperty.name == "CardName" || cardProperty.name == "Description" ||
+                        cardProperty.name == "Flavour" || cardProperty.name == "Value" || cardProperty.name == "Cost")
                     {
                         prop.RegisterValueChangeCallback(changeEvt => LoadCardText(card, list));
                     }
 
-                    if (cardProperty.name == "displayDescription")
+                    if (cardProperty.name == "DisplayDescription")
                     {
                         lastDisplayDescription = card.DisplayDescription;
                     }
