@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Enemy : Avatar
 {
     [Header("Cards")]
-    [SerializeField] float DrawAmount;
+    [SerializeField] int DrawAmount = 1;
     [ReadOnly] public List<Card> Deck;
     public List<Card> CardsToPlay { get; set; }
     public bool DisableSelection { get; set; }
