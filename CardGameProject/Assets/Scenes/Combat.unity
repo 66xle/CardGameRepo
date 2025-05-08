@@ -1525,7 +1525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86c8c3ca964195747b8a7a19e7bbd3a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainHand: {fileID: 0}
+  MainHand: {fileID: 11400000, guid: b1486cd1dbe26ad4bb9faacfcd3676cb, type: 2}
   OffHand: {fileID: 0}
   EquippedWeapons: []
 --- !u!4 &393357798
@@ -2239,8 +2239,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 679c07a5fbe766a41a954a19d0f948e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies:
-  - {fileID: 11400000, guid: f8f5501ea10342745832c6803eacac6e, type: 2}
+  Enemies:
+  - {fileID: 11400000, guid: 35289a3758b892e499c304d3a5e1fa90, type: 2}
 --- !u!4 &481923475
 Transform:
   m_ObjectHideFlags: 0
@@ -2564,9 +2564,9 @@ MonoBehaviour:
   WorldSpaceCanvas: {fileID: 5839485938255906829}
   RandomOffsetHorizontal: 0.5
   OffsetVertical: 1
-  MoveDuration: 0
-  FadeDuration: 0
-  MoveVertical: 0
+  MoveDuration: 1
+  FadeDuration: 2
+  MoveVertical: 1
   EndTurnButton: {fileID: 189252620}
   SwitchButton: {fileID: 678684090}
   CombatUI: {fileID: 484505292}
@@ -5538,7 +5538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1cb70d12e1ad34419239db382130c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SwitchWeaponManager: {fileID: 0}
+  SwitchWeaponManager: {fileID: 510262701}
 --- !u!4 &1150495171
 Transform:
   m_ObjectHideFlags: 0
@@ -7233,7 +7233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1445763642}
   m_Layer: 0
-  m_Name: AVATARHOLDERS
+  m_Name: AVATAR HOLDERS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7593,13 +7593,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bee7f48f60872484e96fc5f340e88a38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BaseHealth: 0
-  BaseStamina: 0
-  BaseGuard: 0
+  BaseHealth: 100
+  BaseStamina: 20
+  BaseGuard: 5
   armourType: 0
   LightMultiplier: 0
-  MediumMultiplier: 0
-  HeavyMultiplier: 0
+  MediumMultiplier: 1.3
+  HeavyMultiplier: 1.5
 --- !u!4 &1461295040
 Transform:
   m_ObjectHideFlags: 0
@@ -11217,7 +11217,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!224 &5839485938255906829
 RectTransform:
   m_ObjectHideFlags: 0

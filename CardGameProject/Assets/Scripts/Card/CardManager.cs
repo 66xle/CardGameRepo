@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using MyBox;
 using UnityEngine;
 
 
 public class CardManager : MonoBehaviour
 {
-    public SwitchWeaponManager SwitchWeaponManager;
+    [MustBeAssigned] public SwitchWeaponManager SwitchWeaponManager;
 
     [HideInInspector] public List<CardData> PlayerDeck;
     [HideInInspector] public List<CardData> PlayerHand;

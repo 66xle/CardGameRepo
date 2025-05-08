@@ -15,10 +15,10 @@ public class SwitchWeaponManager : MonoBehaviour
 
     public WeaponData CurrentMainHand { get; set; }
     public WeaponData CurrentOffHand { get; set; }
-    public List<WeaponData> CurrentEquippedWeapons { get; set; }
+    public List<WeaponData> CurrentEquippedWeapons { get; set; } = new();
 
 
-    private List<CinemachineVirtualCamera> _cameraList = new List<CinemachineVirtualCamera>();
+    private List<CinemachineVirtualCamera> _cameraList = new();
 
     [Separator("Cameras")]
 

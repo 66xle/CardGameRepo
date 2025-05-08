@@ -20,7 +20,7 @@ public enum DamageType
 
 public class EquipmentManager : MonoBehaviour
 {
-    public WeaponData MainHand;
+    [MustBeAssigned] public WeaponData MainHand;
     public WeaponData OffHand;
 
 
