@@ -140,5 +140,12 @@ public class ActionSystem : Singleton<ActionSystem>
         }
     }
 
+    public void Reset()
+    {
+        _preSubs.Clear();
+        _postSubs.Clear();
+        _performers.Clear();
 
+        Instance = null;
+    }
 }

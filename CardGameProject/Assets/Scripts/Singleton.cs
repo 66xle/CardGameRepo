@@ -1,14 +1,15 @@
 using UnityEngine;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    public static T Instance { get; private set; }
+    public static T Instance { get; protected set; }
 
     protected virtual void Awake()
     {
-        if (Instance != null)
+        if (Instance != null && Instance != this)
         {
-            Destroy(Instance);
+            Destroy(gameObject);
             return;
         }
         Instance = this as T;

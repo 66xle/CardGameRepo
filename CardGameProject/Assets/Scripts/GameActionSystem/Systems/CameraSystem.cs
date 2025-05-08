@@ -7,8 +7,6 @@ public class CameraSystem : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log($"CameraSystem enabled with ID {GetInstanceID()}, Ctx = {Ctx}");
-
         ActionSystem.SubscribeReaction<MoveToPosGA>(MoveToPosReaction, ReactionTiming.PRE);
         ActionSystem.SubscribeReaction<ReturnToPosGA>(ReturnToPosReactionPre, ReactionTiming.PRE);
         ActionSystem.SubscribeReaction<ReturnToPosGA>(ReturnToPosReactionPost, ReactionTiming.POST);
@@ -25,8 +23,6 @@ public class CameraSystem : MonoBehaviour
 
     private void MoveToPosReaction(MoveToPosGA moveToPosGA)
     {
-        
-
         Avatar avatarPlayingCard = moveToPosGA.AvatarPlayingCard;
         Avatar avatarOpponent = moveToPosGA.AvatarOpponent;
 
