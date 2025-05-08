@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using MyBox;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CardDisplay : MonoBehaviour
 {
-    [SerializeField] TMP_Text Name;
-    [SerializeField] TMP_Text Description;
-    [SerializeField] TMP_Text Flavour;
-    [SerializeField] TMP_Text Cost;
-    [SerializeField] Image Image;
-    [SerializeField] Image Frame;
+    [MustBeAssigned][SerializeField] TMP_Text Name;
+    [MustBeAssigned] [SerializeField] TMP_Text Description;
+    [MustBeAssigned] [SerializeField] TMP_Text Flavour;
+    [MustBeAssigned] [SerializeField] TMP_Text Cost;
+    [MustBeAssigned] [SerializeField] Image Image;
+    [MustBeAssigned] [SerializeField] Image Frame;
     public Card Card { get; private set; }
 
     private void Start()

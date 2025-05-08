@@ -104,7 +104,7 @@ public class CombatStateMachine : MonoBehaviour
 
     [HideInInspector] public VariableScriptObject vso; // Not using for now
 
-    private EquipmentHolster equipmentHolsterScript;
+    private EquipmentHolster _equipmentHolsterScript;
 
 
     public CombatBaseState currentState;
@@ -180,7 +180,7 @@ public class CombatStateMachine : MonoBehaviour
         player.InitStats(statsManager.CurrentMaxHealth, statsManager.CurrentMaxStamina, statsManager.CurrentMaxGuard);
 
         // Equipment
-        equipmentHolsterScript = player.GetComponent<EquipmentHolster>();
+        _equipmentHolsterScript = player.GetComponent<EquipmentHolster>();
 
         switchWeaponManager.InitWeaponData();
 
@@ -194,10 +194,10 @@ public class CombatStateMachine : MonoBehaviour
 
         if (holsterWeapons.Count > 0)
         {
-            equipmentHolsterScript.SetHolsteredWeapons(holsterWeapons);
+            _equipmentHolsterScript.SetHolsteredWeapons(holsterWeapons);
 
-            GameObject weaponToEquip = equipmentHolsterScript.EquippedWeaponObjects.First(weapon => weapon.GetComponent<Weapon>().Guid == switchWeaponManager.CurrentMainHand.Guid);
-            equipmentHolsterScript.EquipWeapon(weaponToEquip);
+            GameObject weaponToEquip = _equipmentHolsterScript.EquippedWeaponObjects.First(weapon => weapon.GetComponent<Weapon>().Guid == switchWeaponManager.CurrentMainHand.Guid);
+            _equipmentHolsterScript.EquipWeapon(weaponToEquip);
         }
 
         followCam.Follow = player.gameObject.transform;
@@ -258,17 +258,17 @@ public class CombatStateMachine : MonoBehaviour
                 container.DestroyCard(evt.card);
 
 
-                GameObject mainHandWeapon = equipmentHolsterScript.RightHand.GetChild(0).gameObject;
+                GameObject mainHandWeapon = _equipmentHolsterScript.RightHand.GetChild(0).gameObject;
                 Weapon weaponScript = mainHandWeapon.GetComponent<Weapon>();
 
                 // Swap Weapon
                 if (weaponScript.Guid != cardData.Weapon.Guid)
                 {
-                    GameObject holsteredWeapon = equipmentHolsterScript.EquippedWeaponObjects.First(weapon => weapon.gameObject.GetComponent<Weapon>().Guid == cardData.Weapon.Guid);
+                    GameObject holsteredWeapon = _equipmentHolsterScript.EquippedWeaponObjects.First(weapon => weapon.gameObject.GetComponent<Weapon>().Guid == cardData.Weapon.Guid);
 
-                    equipmentHolsterScript.HolsterWeapon(mainHandWeapon);   
+                    _equipmentHolsterScript.HolsterWeapon(mainHandWeapon);   
 
-                    equipmentHolsterScript.EquipWeapon(holsteredWeapon);
+                    _equipmentHolsterScript.EquipWeapon(holsteredWeapon);
                 }
 
 

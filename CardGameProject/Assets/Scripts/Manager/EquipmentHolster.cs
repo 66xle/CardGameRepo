@@ -15,26 +15,24 @@ public class EquipmentHolster : MonoBehaviour
     [ReadOnly] public List<GameObject> EquippedWeaponObjects { get; private set; } = new List<GameObject>();
 
     [Separator("Transform")]
-    public Transform RightHand;
-    public Transform LeftHand;
+    [MustBeAssigned] public Transform RightHand;
+    [MustBeAssigned] public Transform LeftHand;
 
-    public Transform BackHolster;
-    public Transform LowerBackHolster;
+    [MustBeAssigned]public Transform BackHolster;
+    [MustBeAssigned] public Transform LowerBackHolster;
 
-    public Transform RightHipHolster;
-    public Transform LeftHipHolster;
+    [MustBeAssigned] public Transform RightHipHolster;
+    [MustBeAssigned] public Transform LeftHipHolster;
 
-    public Transform RightChestHolster;
-    public Transform LeftChestHolster;
+    [MustBeAssigned] public Transform RightChestHolster;
+    [MustBeAssigned] public Transform LeftChestHolster;
 
 
     [Separator("Holster Priority")]
-    public List<Transform> SwordHolsterPriority;
-    public List<Transform> TwoHandedHolsterPriority;
-    public List<Transform> DaggerHolsterPriority;
-    public List<Transform> ScytheHolsterPriority;
-
-    
+    [MustBeAssigned] public List<Transform> SwordHolsterPriority;
+    [MustBeAssigned] public List<Transform> TwoHandedHolsterPriority;
+    [MustBeAssigned] public List<Transform> DaggerHolsterPriority;
+    [MustBeAssigned] public List<Transform> ScytheHolsterPriority;
 
     public void EquipWeapon(GameObject weaponToEquip)
     {

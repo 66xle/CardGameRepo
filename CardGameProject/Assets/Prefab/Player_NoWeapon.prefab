@@ -8208,17 +8208,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b06ade74b318a348a3a2c6bafc0e9a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 50
-  maxGuard: 10
-  armourType: 0
-  damageType: 0
-  doDamage: 0
-  isAttackFinished: 0
-  isInCounterState: 0
-  isInStatusActivation: 0
-  doStatusDmg: 0
-  recoverStaminaAmount: 4
-  currentStamina: 0
+  MaxHealth: 100
+  MaxGuard: 10
+  ArmourType: 0
+  DamageType: 0
+  RecoverStaminaAmount: 2
 --- !u!114 &4483618664206724025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8231,27 +8225,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 498db33883f78494688d8479318f0299, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightHand: {fileID: 3107273431550378342}
-  leftHand: {fileID: 7652738387003713}
-  backHolster: {fileID: 3982419626436518012}
-  lowerBackHolster: {fileID: 5074487194131054484}
-  rightHipHolster: {fileID: 6234150951377506782}
-  leftHipHolster: {fileID: 4266873208759639823}
-  rightChestHolster: {fileID: 5739991997226290769}
-  leftChestHolster: {fileID: 1073358542923039749}
-  swordHolsterPriority:
+  RightHand: {fileID: 3107273431550378342}
+  LeftHand: {fileID: 7652738387003713}
+  BackHolster: {fileID: 3982419626436518012}
+  LowerBackHolster: {fileID: 5074487194131054484}
+  RightHipHolster: {fileID: 6234150951377506782}
+  LeftHipHolster: {fileID: 4266873208759639823}
+  RightChestHolster: {fileID: 5739991997226290769}
+  LeftChestHolster: {fileID: 1073358542923039749}
+  SwordHolsterPriority:
   - {fileID: 4266873208759639823}
+  - {fileID: 6234150951377506782}
   - {fileID: 3982419626436518012}
-  twoHandedHolsterPriority:
+  TwoHandedHolsterPriority:
   - {fileID: 3982419626436518012}
-  daggerHolsterPriority:
+  DaggerHolsterPriority:
   - {fileID: 1073358542923039749}
+  - {fileID: 5739991997226290769}
   - {fileID: 5074487194131054484}
+  ScytheHolsterPriority:
   - {fileID: 4266873208759639823}
-  scytheHolsterPriority:
+  - {fileID: 6234150951377506782}
   - {fileID: 5074487194131054484}
-  - {fileID: 4266873208759639823}
-  - {fileID: 3982419626436518012}
 --- !u!1 &5650481228670210214
 GameObject:
   m_ObjectHideFlags: 0
