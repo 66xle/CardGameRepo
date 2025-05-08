@@ -33,14 +33,14 @@ public class Player : Avatar
                      Slider guardBar, TMP_Text guardValue,
                      ArmourType armourType)
     {
-        this._healthBar = healthBar;
-        this._healthValue = healthValue;
-        this._staminaBar = staminaBar;
-        this._staminaValue = staminaValue;
-        this._guardBar = guardBar;
-        this._guardValue = guardValue;
-        this._blockValue = blockValue;
-        this.ArmourType = armourType;
+        _healthBar = healthBar;
+        _healthValue = healthValue;
+        _staminaBar = staminaBar;
+        _staminaValue = staminaValue;
+        _guardBar = guardBar;
+        _guardValue = guardValue;
+        _blockValue = blockValue;
+        ArmourType = armourType;
     }
 
     public void InitStats(float maxHealth, float maxStamina, int maxGuard)
@@ -50,7 +50,7 @@ public class Player : Avatar
 
         CurrentHealth = maxHealth;
         CurrentGuard = maxGuard;
-        CurrentStamina = this._maxStamina;
+        CurrentStamina = _maxStamina;
     }
 
     public bool hasEnoughStamina(float cost)

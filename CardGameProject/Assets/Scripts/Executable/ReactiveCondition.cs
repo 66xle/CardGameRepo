@@ -16,18 +16,18 @@ public abstract class ReactiveCondition : Condition
         ReactiveTrigger triggerTemp = ReactiveOptions.ReactiveTrigger;
         if (ReactiveOptions.EffectTiming == EffectTiming.NextTurn) triggerTemp = ReactiveTrigger.StartOfTurn;
 
-        if (!ExecutableParameters.avatarPlayingCard.DictReactiveEffects.TryGetValue(triggerTemp, out var list))
+        if (!ExecutableParameters.AvatarPlayingCard.DictReactiveEffects.TryGetValue(triggerTemp, out var list))
         {
             list = new List<ExecutableWrapper>();
-            ExecutableParameters.avatarPlayingCard.DictReactiveEffects[triggerTemp] = list;
+            ExecutableParameters.AvatarPlayingCard.DictReactiveEffects[triggerTemp] = list;
         }
 
         int turns = ReactiveOptions.Turns;
         if (ReactiveOptions.EffectDuration == EffectDuration.ThisTurn) turns = 0;
         else if (ReactiveOptions.EffectDuration == EffectDuration.UntilNextTurn) turns = 1;
 
-        ExecutableWrapper wrapper = new ExecutableWrapper(ExecutableParameters.card, turns, ReactiveOptions);
-        ExecutableParameters.avatarPlayingCard.DictReactiveEffects[triggerTemp].Add(wrapper);
+        ExecutableWrapper wrapper = new ExecutableWrapper(ExecutableParameters.Card, turns, ReactiveOptions);
+        ExecutableParameters.AvatarPlayingCard.DictReactiveEffects[triggerTemp].Add(wrapper);
     }
 
     public abstract void SetCommands();

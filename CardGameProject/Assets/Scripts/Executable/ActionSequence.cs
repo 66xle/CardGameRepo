@@ -2,9 +2,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro.EditorUtilities;
 using SerializeReferenceEditor;
-using DG.Tweening.Core.Easing;
 
 
 [SRHidden]
@@ -21,9 +19,11 @@ public class ActionSequence : Executable
 
     public override IEnumerator Execute(Action<bool> IsConditionTrue)
     {
-        CombatStateMachine ctx = ExecutableParameters.ctx;
-        Avatar avatarPlayingCard = ExecutableParameters.avatarPlayingCard;
-        Avatar avatarOpponent = ExecutableParameters.avatarOpponent;
+        #region Initialize
+
+        CombatStateMachine ctx = ExecutableParameters.Ctx;
+        Avatar avatarPlayingCard = ExecutableParameters.AvatarPlayingCard;
+        Avatar avatarOpponent = ExecutableParameters.AvatarOpponent;
         ExecutableParameters.Targets = new List<Avatar>();
         ExecutableParameters.Queue = new List<Avatar>();
 
@@ -31,25 +31,28 @@ public class ActionSequence : Executable
         avatarPlayingCard.IsAttackFinished = false;
         bool hasMoved = false;
 
+        #endregion
+
         yield return ReadCommands(_actionCommands);
 
         if (!avatarOpponent.IsRunningReactiveEffect)
-            yield return CheckReactiveEffect(avatarPlayingCard, avatarOpponent, ReactiveTrigger.BeforeTakeDamageByWeapon);
+            yield return TriggerReactiveEffect(avatarPlayingCard, avatarOpponent, ReactiveTrigger.BeforeTakeDamageByWeapon);
 
         if (avatarPlayingCard.IsGuardBroken())
         {
             ExecutableParameters.Queue.ForEach(avatar => avatar.QueueGameActions.Clear());
             yield break;
         }
-            
+
+        #region Movement
 
         if (RequiresMovement && !hasMoved)
         {
             // Trigger move animation | After move GA, reaction will trigger attack GA
-            MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, ctx);
+            MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent);
             ActionSystem.Instance.Perform(moveToPosGA);
 
-            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.avatarPlayingCard, moveToPosGA.ctx);
+            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard);
             moveToPosGA.PostReactions.Add(triggerAttackAnimGA);
 
             yield return new WaitWhile(() => !avatarPlayingCard.DoDamage);
@@ -61,6 +64,8 @@ public class ActionSequence : Executable
             avatarPlayingCard.IsAttackFinished = true; // temp fix
         }
 
+        #endregion
+
         foreach (Avatar avatar in ExecutableParameters.Queue)
         {
             // Perform the game actions on themselfs
@@ -71,18 +76,22 @@ public class ActionSequence : Executable
 
         yield return new WaitWhile(() => !avatarPlayingCard.IsAttackFinished); // TODO - Rename to isAnimationFinished
 
+        #region Return
+
         if (hasMoved)
         {
             // Return to position
-            ReturnToPosGA returnToPosGA = new(avatarPlayingCard, ctx);
+            ReturnToPosGA returnToPosGA = new(avatarPlayingCard);
             ActionSystem.Instance.Perform(returnToPosGA);
 
             // wait until we return to our spot
             yield return new WaitWhile(() => !returnToPosGA.IsReturnFinished);
         }
 
+        #endregion
+
         if (!avatarOpponent.IsRunningReactiveEffect)
-            yield return CheckReactiveEffect(avatarPlayingCard, avatarOpponent, ReactiveTrigger.AfterTakeDamageByWeapon);
+            yield return TriggerReactiveEffect(avatarPlayingCard, avatarOpponent, ReactiveTrigger.AfterTakeDamageByWeapon);
 
 
 
@@ -97,12 +106,10 @@ public class ActionSequence : Executable
             {
                 ReactiveCondition currentReactiveCondition = command as ReactiveCondition;
 
-                CheckDuplicateReactiveCondition(ExecutableParameters.avatarPlayingCard, currentReactiveCondition);
-
+                TriggerDuplicateReactiveCondition(ExecutableParameters.AvatarPlayingCard, currentReactiveCondition);
                 
                 continue;
             }
-
 
             ExecutableParameters.Targets = GetTargets(command.CardTarget);
             ExecutableParameters.CardTarget = command.CardTarget;
@@ -118,7 +125,7 @@ public class ActionSequence : Executable
         }
     }
 
-    private void CheckDuplicateReactiveCondition(Avatar avatarPlayingCard, ReactiveCondition currentReactiveCondition)
+    private void TriggerDuplicateReactiveCondition(Avatar avatarPlayingCard, ReactiveCondition currentReactiveCondition)
     {
         foreach (ReactiveTrigger trigger in avatarPlayingCard.DictReactiveEffects.Keys)
         {
@@ -147,7 +154,7 @@ public class ActionSequence : Executable
         currentReactiveCondition.SetCommands();
     }
 
-    private IEnumerator CheckReactiveEffect(Avatar avatarPlayingCard, Avatar avatarOpponent, ReactiveTrigger trigger)
+    private IEnumerator TriggerReactiveEffect(Avatar avatarPlayingCard, Avatar avatarOpponent, ReactiveTrigger trigger)
     {
         foreach (Avatar avatarTarget in ExecutableParameters.Queue)
         {
@@ -158,23 +165,31 @@ public class ActionSequence : Executable
 
             Debug.Log(trigger);
 
-            ExecutableParameters.avatarPlayingCard = avatarTarget;
-            ExecutableParameters.avatarOpponent = avatarPlayingCard;
+            #region Avatar Reference
+
+            ExecutableParameters.AvatarPlayingCard = avatarTarget;
+            ExecutableParameters.AvatarOpponent = avatarPlayingCard;
             List<Avatar> tempQueue = Extensions.CloneList(ExecutableParameters.Queue);
             List<Avatar> tempTargets = Extensions.CloneList(ExecutableParameters.Targets);
             List<GameAction> tempGA = Extensions.CloneList(avatarTarget.QueueGameActions);
             avatarTarget.QueueGameActions.Clear();
 
+            #endregion
+
             yield return avatarTarget.CheckReactiveEffects(trigger);
 
-            ExecutableParameters.avatarPlayingCard = avatarPlayingCard;
-            ExecutableParameters.avatarOpponent = avatarOpponent;
+            #region Reset
+
+            ExecutableParameters.AvatarPlayingCard = avatarPlayingCard;
+            ExecutableParameters.AvatarOpponent = avatarOpponent;
             ExecutableParameters.Queue = tempQueue;
             ExecutableParameters.Targets = tempTargets;
             avatarTarget.QueueGameActions = tempGA;
 
             avatarPlayingCard.DoDamage = false;
             avatarPlayingCard.IsAttackFinished = false;
+
+            #endregion
         }
     }
 
@@ -198,15 +213,15 @@ public class ActionSequence : Executable
 
         if (target == CardTarget.Enemy)
         {
-            targets.Add(ExecutableParameters.avatarOpponent);
+            targets.Add(ExecutableParameters.AvatarOpponent);
         }
         else if (target == CardTarget.AllEnemies)
         {
-            targets.AddRange(ExecutableParameters.ctx.enemyList);
+            targets.AddRange(ExecutableParameters.Ctx.enemyList);
         }
         else if (target == CardTarget.Self)
         {
-            targets.Add(ExecutableParameters.avatarPlayingCard);
+            targets.Add(ExecutableParameters.AvatarPlayingCard);
         }
         else if (target == CardTarget.PreviousTarget)
         {

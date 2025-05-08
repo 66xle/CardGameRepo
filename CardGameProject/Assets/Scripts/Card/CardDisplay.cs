@@ -6,25 +6,29 @@ using UnityEngine.UI;
 
 public class CardDisplay : MonoBehaviour
 {
-    public Card card;
-
-    public TMP_Text name;
-    public TMP_Text description;
-    public TMP_Text flavour;
-    public TMP_Text cost;
-    public Image image;
-    public Image frame;
+    [SerializeField] TMP_Text Name;
+    [SerializeField] TMP_Text Description;
+    [SerializeField] TMP_Text Flavour;
+    [SerializeField] TMP_Text Cost;
+    [SerializeField] Image Image;
+    [SerializeField] Image Frame;
+    public Card Card { get; private set; }
 
     private void Start()
     {
-        card.GenerateDisplayDescription();
+        Card.GenerateDisplayDescription();
 
-        name.text = card.cardName;
-        description.text = card.displayDescription;
-        flavour.text = card.flavour;
-        cost.text = card.cost.ToString();
+        Name.text = Card.cardName;
+        Description.text = Card.displayDescription;
+        Flavour.text = Card.flavour;
+        Cost.text = Card.cost.ToString();
 
-        image.sprite = card.image;
-        frame.sprite = card.frame;
+        Image.sprite = Card.image;
+        Frame.sprite = Card.frame;
+    }
+
+    public void SetCard(Card card)
+    {
+        Card = card;
     }
 }

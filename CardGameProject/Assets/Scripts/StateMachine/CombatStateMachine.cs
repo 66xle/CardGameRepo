@@ -249,9 +249,9 @@ public class CombatStateMachine : MonoBehaviour
                 player.ConsumeStamina(card.cost);
 
                 // Get cardData from player hand to move to discard pile
-                CardData cardData = cardManager.playerHand.First(data => data.card.InGameGUID == card.InGameGUID);
-                cardManager.playerHand.Remove(cardData);
-                cardManager.discardPile.Add(cardData);
+                CardData cardData = cardManager.PlayerHand.First(data => data.Card.InGameGUID == card.InGameGUID);
+                cardManager.PlayerHand.Remove(cardData);
+                cardManager.DiscardPile.Add(cardData);
 
                 // Destory Card
                 CardContainer container = playerHandTransform.GetComponent<CardContainer>();
@@ -262,9 +262,9 @@ public class CombatStateMachine : MonoBehaviour
                 Weapon weaponScript = mainHandWeapon.GetComponent<Weapon>();
 
                 // Swap Weapon
-                if (weaponScript.Guid != cardData.weapon.guid)
+                if (weaponScript.Guid != cardData.Weapon.guid)
                 {
-                    GameObject holsteredWeapon = equipmentHolsterScript.equippedWeaponObjects.First(weapon => weapon.gameObject.GetComponent<Weapon>().Guid == cardData.weapon.guid);
+                    GameObject holsteredWeapon = equipmentHolsterScript.equippedWeaponObjects.First(weapon => weapon.gameObject.GetComponent<Weapon>().Guid == cardData.Weapon.guid);
 
                     equipmentHolsterScript.HolsterWeapon(mainHandWeapon);   
 
@@ -280,9 +280,9 @@ public class CombatStateMachine : MonoBehaviour
         else if (tag == "Recycle")
         {
             // Get cardData from player hand to move to discard pile
-            CardData cardData = cardManager.playerHand.First(data => data.card.InGameGUID == card.InGameGUID);
-            cardManager.playerHand.Remove(cardData);
-            cardManager.discardPile.Add(cardData);
+            CardData cardData = cardManager.PlayerHand.First(data => data.Card.InGameGUID == card.InGameGUID);
+            cardManager.PlayerHand.Remove(cardData);
+            cardManager.DiscardPile.Add(cardData);
 
             // Destory Card
             CardContainer container = playerHandTransform.GetComponent<CardContainer>();
@@ -305,7 +305,8 @@ public class CombatStateMachine : MonoBehaviour
 
     public void CreateCard(CardData cardDrawed, Transform parent)
     {
-        Instantiate(cardPrefab, parent).GetComponent<CardDisplay>().card = cardDrawed.card;
+        CardDisplay cardDisplay = Instantiate(cardPrefab, parent).GetComponent<CardDisplay>();
+        cardDisplay.SetCard(cardDrawed.Card);
     }
 
     public void EndTurn()

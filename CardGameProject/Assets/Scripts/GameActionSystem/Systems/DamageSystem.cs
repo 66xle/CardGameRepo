@@ -1,8 +1,10 @@
 using System.Collections;
+using MyBox;
 using UnityEngine;
 
 public class DamageSystem : MonoBehaviour
 {
+    [MustBeAssigned] public CombatStateMachine Ctx;
 
     private void OnEnable()
     {
@@ -18,16 +20,16 @@ public class DamageSystem : MonoBehaviour
 
     private IEnumerator TakeDamageFromWeaponPerformer(TakeDamageFromWeaponGA takeDamageFromWeaponGA)
     {
-        Avatar avatarToTakeDamage = takeDamageFromWeaponGA.avatarToTakeDamage;
+        Avatar avatarToTakeDamage = takeDamageFromWeaponGA.AvatarToTakeDamage;
 
-        avatarToTakeDamage.TakeDamage(takeDamageFromWeaponGA.damage);
+        avatarToTakeDamage.TakeDamage(takeDamageFromWeaponGA.Damage);
 
-        if (takeDamageFromWeaponGA.cardTarget != CardTarget.Self)
+        if (takeDamageFromWeaponGA.CardTarget != CardTarget.Self)
         {
             avatarToTakeDamage.IsTakeDamage = true;
             avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
 
-            if (avatarToTakeDamage.IsGuardReducible(takeDamageFromWeaponGA.damageType))
+            if (avatarToTakeDamage.IsGuardReducible(takeDamageFromWeaponGA.DamageType))
                 avatarToTakeDamage.ReduceGuard();
         }
 
@@ -42,11 +44,11 @@ public class DamageSystem : MonoBehaviour
             // Check if avatar has guard broken effect
             if (avatarToTakeDamage.hasStatusEffect(Effect.GuardBroken))
             {
-                takeDamageFromWeaponGA.ReduceHitToRecover(avatarToTakeDamage);
+                ReduceHitToRecover(avatarToTakeDamage);
             }
             else
             {
-                takeDamageFromWeaponGA.ApplyGuardBroken(takeDamageFromWeaponGA.ctx, avatarToTakeDamage);
+                ApplyGuardBroken(avatarToTakeDamage);
             }
         }
 
@@ -57,15 +59,39 @@ public class DamageSystem : MonoBehaviour
 
     private IEnumerator CounterPerformer(CounterGA counterGA)
     {
-        counterGA.opponentController.SetBool("isReady", false);
-        counterGA.opponentController.SetTrigger("Counter");
+        counterGA.OpponentController.SetBool("isReady", false);
+        counterGA.OpponentController.SetTrigger("Counter");
 
-        counterGA.avatarPlayingCardController.SetTrigger("Recoil");
+        counterGA.AvatarPlayingCardController.SetTrigger("Recoil");
 
-        counterGA.avatarOpponent.IsInCounterState = false;
+        counterGA.AvatarOpponent.IsInCounterState = false;
 
 
 
         yield return null;
+    }
+
+    public void ReduceHitToRecover(Avatar avatarOpponent)
+    {
+        for (int i = avatarOpponent.ListOfEffects.Count - 1; i >= 0; i--)
+        {
+            if (avatarOpponent.ListOfEffects[i].effect != Effect.GuardBroken)
+                continue;
+
+            avatarOpponent.ListOfEffects[i].currentTurnsRemaning--;
+            if (avatarOpponent.ListOfEffects[i].currentTurnsRemaning <= 0)
+            {
+                avatarOpponent.RecoverGuardBreak();
+                avatarOpponent.ListOfEffects[i].OnRemoval(avatarOpponent);
+                avatarOpponent.ListOfEffects.RemoveAt(i);
+            }
+        }
+    }
+
+    public void ApplyGuardBroken(Avatar avatarOpponent)
+    {
+        if (avatarOpponent.ArmourType == ArmourType.Light || avatarOpponent.ArmourType == ArmourType.None) avatarOpponent.ApplyStatusEffect(Ctx.guardBreakLightArmourData.statusEffect.Clone());
+        else if (avatarOpponent.ArmourType == ArmourType.Medium) avatarOpponent.ApplyStatusEffect(Ctx.guardBreakMediumArmourData.statusEffect.Clone());
+        else if (avatarOpponent.ArmourType == ArmourType.Heavy) avatarOpponent.ApplyStatusEffect(Ctx.guardBreakHeavyArmourData.statusEffect.Clone());
     }
 }

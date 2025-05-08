@@ -12,11 +12,11 @@ public enum ReactionTiming
 
 public class ActionSystem : Singleton<ActionSystem>
 {
-    private List<GameAction> reactions = null;
+    private List<GameAction> _reactions = null;
     public bool IsPerforming { get; private set; } = false;
-    private static Dictionary<Type, List<Action<GameAction>>> preSubs = new();
-    private static Dictionary<Type, List<Action<GameAction>>> postSubs = new();
-    private static Dictionary<Type, Func<GameAction, IEnumerator>> performers = new();
+    private static Dictionary<Type, List<Action<GameAction>>> _preSubs = new();
+    private static Dictionary<Type, List<Action<GameAction>>> _postSubs = new();
+    private static Dictionary<Type, Func<GameAction, IEnumerator>> _performers = new();
 
     public void PerformQueue(List<GameAction> queue)
     {
@@ -48,25 +48,25 @@ public class ActionSystem : Singleton<ActionSystem>
 
     public void AddReaction(GameAction gameAction)
     {
-        reactions?.Add(gameAction);
+        _reactions?.Add(gameAction);
     }
 
     private IEnumerator Flow(GameAction action, Action OnFlowFinished = null)
     {
         //Debug.LogError("Pre Performer: " + action.ToString());
-        reactions = action.PreReactions;
-        PerformSubscribers(action, preSubs);
+        _reactions = action.PreReactions;
+        PerformSubscribers(action, _preSubs);
         yield return PerformReactions();
 
 
         //Debug.LogError("Perform Performer: " + action.ToString());
-        reactions = action.PerformReactions;
+        _reactions = action.PerformReactions;
         yield return PerformPerformer(action);
         yield return PerformReactions();
 
         //Debug.LogError("Post Performer: " + action.ToString());
-        reactions = action.PostReactions;
-        PerformSubscribers(action, postSubs);
+        _reactions = action.PostReactions;
+        PerformSubscribers(action, _postSubs);
         yield return PerformReactions();
 
         OnFlowFinished?.Invoke();
@@ -75,9 +75,9 @@ public class ActionSystem : Singleton<ActionSystem>
     private IEnumerator PerformPerformer(GameAction action)
     {
         Type type = action.GetType();
-        if (performers.ContainsKey(type))
+        if (_performers.ContainsKey(type))
         {
-            yield return performers[type](action);
+            yield return _performers[type](action);
         }
     }
 
@@ -95,7 +95,7 @@ public class ActionSystem : Singleton<ActionSystem>
 
     private IEnumerator PerformReactions()
     {
-        foreach (var reaction in reactions)
+        foreach (var reaction in _reactions)
         {
             yield return Flow(reaction);
         }
@@ -105,19 +105,19 @@ public class ActionSystem : Singleton<ActionSystem>
     {
         Type type = typeof(T);
         IEnumerator wrapperPerformer(GameAction action) => performer((T)action);
-        if (performers.ContainsKey(type)) performers[type] = wrapperPerformer;
-        else performers.Add(type, wrapperPerformer);
+        if (_performers.ContainsKey(type)) _performers[type] = wrapperPerformer;
+        else _performers.Add(type, wrapperPerformer);
     }
 
     public static void DetachPerformer<T>() where T : GameAction
     {
         Type type = typeof(T);
-        if (performers.ContainsKey((Type)type)) performers.Remove(type);
+        if (_performers.ContainsKey((Type)type)) _performers.Remove(type);
     }
 
     public static void SubscribeReaction<T>(Action<T> reaction, ReactionTiming timing) where T : GameAction
     {
-        Dictionary<Type, List<Action<GameAction>>> subs = timing == ReactionTiming.PRE ? preSubs : postSubs;
+        Dictionary<Type, List<Action<GameAction>>> subs = timing == ReactionTiming.PRE ? _preSubs : _postSubs;
         void wrappedReaction(GameAction action) => reaction((T)action);
         if (subs.ContainsKey(typeof(T)))
         {
@@ -132,7 +132,7 @@ public class ActionSystem : Singleton<ActionSystem>
 
     public static void UnsubscribeReaction<T>(Action <T> reaction, ReactionTiming timing) where T : GameAction
     {
-        Dictionary<Type, List<Action<GameAction>>> subs = timing == ReactionTiming.PRE ? preSubs : postSubs;
+        Dictionary<Type, List<Action<GameAction>>> subs = timing == ReactionTiming.PRE ? _preSubs : _postSubs;
         if (subs.ContainsKey(typeof(T)))
         {
             void wrappedReaction(GameAction action) => reaction((T)action);

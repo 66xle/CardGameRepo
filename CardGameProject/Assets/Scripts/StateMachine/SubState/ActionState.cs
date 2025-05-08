@@ -72,7 +72,7 @@ public class ActionState : CombatBaseState
     private IEnumerator EnemyTurnPlayCard()
     {
         // Play all enemy cards in queue
-        foreach (CardData cardPlayed in ctx.cardManager.enemyCardQueue)
+        foreach (CardData cardPlayed in ctx.cardManager.EnemyCardQueue)
         {
             yield return ctx.StartCoroutine(PlayCard(cardPlayed));
         }
@@ -85,11 +85,11 @@ public class ActionState : CombatBaseState
     {
         
 
-        ExecutableParameters.ctx = ctx;
-        ExecutableParameters.card = cardData.card;
-        ExecutableParameters.weapon = cardData.weapon;
-        ExecutableParameters.avatarPlayingCard = avatarPlayingCard;
-        ExecutableParameters.avatarOpponent = avatarOpponent;
+        ExecutableParameters.Ctx = ctx;
+        ExecutableParameters.Card = cardData.Card;
+        ExecutableParameters.WeaponData = cardData.Weapon;
+        ExecutableParameters.AvatarPlayingCard = avatarPlayingCard;
+        ExecutableParameters.AvatarOpponent = avatarOpponent;
 
         isInAction = true;
         ctx.combatUIManager.ToggleHideUI(false);
@@ -99,7 +99,7 @@ public class ActionState : CombatBaseState
         //ctx.displayCard.gameObject.SetActive(true);
 
 
-        yield return ExecuteCommands(cardData.card.commands);
+        yield return ExecuteCommands(cardData.Card.commands);
 
 
 

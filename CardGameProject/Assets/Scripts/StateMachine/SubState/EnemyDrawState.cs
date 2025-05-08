@@ -13,7 +13,7 @@ public class EnemyDrawState : CombatBaseState
     {
         Debug.Log("Enemy Draw State");
 
-        ctx.cardManager.enemyCardQueue.Clear();
+        ctx.cardManager.EnemyCardQueue.Clear();
 
         DrawCards();
     }
@@ -42,6 +42,6 @@ public class EnemyDrawState : CombatBaseState
         WeaponData weapon = new WeaponData();
         weapon.type = ctx.currentEnemyTurn.DamageType;
 
-        ctx.cardManager.enemyCardQueue.AddRange(cards.Select(card => new CardData(weapon, card)));
+        ctx.cardManager.EnemyCardQueue.AddRange(cards.Select(card => new CardData(weapon, card)));
     }
 }

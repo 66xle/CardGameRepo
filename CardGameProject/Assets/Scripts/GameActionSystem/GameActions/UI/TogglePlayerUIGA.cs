@@ -6,6 +6,6 @@ public class TogglePlayerUIGA : GameAction
 
     public TogglePlayerUIGA(bool toggle)
     {
-        this.Toggle = toggle;
+        Toggle = toggle;
     }
 }

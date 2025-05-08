@@ -2,12 +2,10 @@ using UnityEngine;
 
 public class TriggerAttackAnimGA : GameAction
 {
-    public Avatar avatarPlayingCard;
-    public CombatStateMachine ctx;
+    public Avatar AvatarPlayingCard;
 
-    public TriggerAttackAnimGA(Avatar avatarPlayingCard, CombatStateMachine ctx)
+    public TriggerAttackAnimGA(Avatar avatarPlayingCard)
     {
-        this.avatarPlayingCard = avatarPlayingCard;
-        this.ctx = ctx;
+        AvatarPlayingCard = avatarPlayingCard;
     }
 }

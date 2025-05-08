@@ -17,9 +17,8 @@ public abstract class AttackCommand : Command
 
     public override void ExecuteCommand()
     {
-        CombatStateMachine ctx = ExecutableParameters.ctx;
-        Avatar avatarPlayingCard = ExecutableParameters.avatarPlayingCard;
-        Avatar avatarOpponent = ExecutableParameters.avatarOpponent;
+        Avatar avatarPlayingCard = ExecutableParameters.AvatarPlayingCard;
+        Avatar avatarOpponent = ExecutableParameters.AvatarOpponent;
 
         Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
         Animator opponentController = avatarOpponent.GetComponent<Animator>();
@@ -39,18 +38,18 @@ public abstract class AttackCommand : Command
                 {
                     // Update damage value
                     TakeDamageFromWeaponGA takeDamageFromWeaponGA = avatarToTakeDamage.GetGameActionFromQueue<TakeDamageFromWeaponGA>() as TakeDamageFromWeaponGA;
-                    takeDamageFromWeaponGA.damage += Value;
+                    takeDamageFromWeaponGA.Damage += Value;
 
                     SpawnDamageUIPopupGA spawnDamageUIPopupGA = takeDamageFromWeaponGA.PostReactions.First(gameAction => gameAction is SpawnDamageUIPopupGA) as SpawnDamageUIPopupGA;
-                    spawnDamageUIPopupGA.damage = takeDamageFromWeaponGA.damage;
+                    spawnDamageUIPopupGA.Damage = takeDamageFromWeaponGA.Damage;
                 }
                 else
                 {
                     // Add game action to queue
-                    TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, ctx, Value, ExecutableParameters.weapon.type, ExecutableParameters.CardTarget);
+                    TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, Value, ExecutableParameters.WeaponData.type, ExecutableParameters.CardTarget);
                     avatarToTakeDamage.QueueGameActions.Add(takeDamageFromWeaponGA);
 
-                    SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.avatarToTakeDamage, takeDamageFromWeaponGA.damage, Color.white);
+                    SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.AvatarToTakeDamage, takeDamageFromWeaponGA.Damage, Color.white);
                     takeDamageFromWeaponGA.PostReactions.Add(spawnDamageUIPopupGA);
 
                     if (avatarToTakeDamage is Player)

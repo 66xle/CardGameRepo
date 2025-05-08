@@ -1,7 +1,10 @@
+using MyBox;
 using UnityEngine;
 
 public class CameraSystem : MonoBehaviour
 {
+    [MustBeAssigned] public CombatStateMachine Ctx;
+
     private void OnEnable()
     {
         ActionSystem.SubscribeReaction<MoveToPosGA>(MoveToPosReaction, ReactionTiming.PRE);
@@ -20,46 +23,44 @@ public class CameraSystem : MonoBehaviour
 
     private void MoveToPosReaction(MoveToPosGA moveToPosGA)
     {
-        Avatar avatarPlayingCard = moveToPosGA.avatarPlayingCard;
-        Avatar avatarOpponent = moveToPosGA.avatarOpponent;
-        CombatStateMachine ctx = moveToPosGA.ctx;
+        Avatar avatarPlayingCard = moveToPosGA.AvatarPlayingCard;
+        Avatar avatarOpponent = moveToPosGA.AvatarOpponent;
 
         if (avatarPlayingCard is Player)
         {
-            ctx.followCam.LookAt = null;
-            ctx.followCam.transform.rotation = ctx.defaultCam.transform.rotation;
-            ctx.followCam.LookAt = avatarOpponent.transform;
-            ctx.panCam.LookAt = avatarOpponent.transform;
-            ctx.followCam.Priority = 30;
+            Ctx.followCam.LookAt = null;
+            Ctx.followCam.transform.rotation = Ctx.defaultCam.transform.rotation;
+            Ctx.followCam.LookAt = avatarOpponent.transform;
+            Ctx.panCam.LookAt = avatarOpponent.transform;
+            Ctx.followCam.Priority = 30;
         }
     }
 
     private void ReturnToPosReactionPre(ReturnToPosGA returnToPosGA)
     {
-        if (returnToPosGA.avatarPlayingCard is Player)
+        if (returnToPosGA.AvatarPlayingCard is Player)
         {
-            returnToPosGA.ctx.panCam.Priority = 0;
+            Ctx.panCam.Priority = 0;
         }
     }
 
     private void ReturnToPosReactionPost(ReturnToPosGA returnToPosGA)
     {
-        if (returnToPosGA.avatarPlayingCard is Player)
+        if (returnToPosGA.AvatarPlayingCard is Player)
         {
-            returnToPosGA.ctx.followCam.Priority = 10;
+            Ctx.followCam.Priority = 10;
         }
     }
 
     private void TriggerAttackAnimReaction(TriggerAttackAnimGA triggerAttackAnimGA)
     {
-        Avatar avatarPlayingCard = triggerAttackAnimGA.avatarPlayingCard;
-        CombatStateMachine ctx = triggerAttackAnimGA.ctx;
+        Avatar avatarPlayingCard = triggerAttackAnimGA.AvatarPlayingCard;
 
         if (avatarPlayingCard is Player)
         {
-            ctx.panCam.transform.position = ctx.followCam.transform.position;
-            ctx.panCam.transform.rotation = ctx.followCam.transform.rotation;
-            ctx.panCam.Priority = 31;
+            Ctx.panCam.transform.position = Ctx.followCam.transform.position;
+            Ctx.panCam.transform.rotation = Ctx.followCam.transform.rotation;
+            Ctx.panCam.Priority = 31;
         }
     }
 }

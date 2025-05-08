@@ -100,7 +100,7 @@ public class CardContainer : MonoBehaviour {
             wrapper.animationSpeedConfig = animationSpeedConfig;
             wrapper.eventsConfig = eventsConfig;
             wrapper.container = this;
-            wrapper.card = card.GetComponent<CardDisplay>().card;
+            wrapper.card = card.GetComponent<CardDisplay>().Card;
             wrapper.combatStateMachine = combatStateMachine;
         }
     }

@@ -1,9 +1,12 @@
 using DG.Tweening;
+using MyBox;
 using System.Collections;
 using UnityEngine;
 
 public class AnimationSystem : MonoBehaviour
 {
+    [MustBeAssigned] public CombatStateMachine Ctx;
+
     private void OnEnable()
     {
         ActionSystem.AttachPerformer<MoveToPosGA>(MoveToPosPerformer);
@@ -20,9 +23,8 @@ public class AnimationSystem : MonoBehaviour
 
     private IEnumerator MoveToPosPerformer(MoveToPosGA moveToPosGA)
     {
-        Avatar avatarPlayingCard = moveToPosGA.avatarPlayingCard;
-        Avatar avatarOpponent = moveToPosGA.avatarOpponent;
-        CombatStateMachine ctx = moveToPosGA.ctx;
+        Avatar avatarPlayingCard = moveToPosGA.AvatarPlayingCard;
+        Avatar avatarOpponent = moveToPosGA.AvatarOpponent;
 
         Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
         avatarPlayingCardController.SetTrigger("Move");
@@ -36,15 +38,14 @@ public class AnimationSystem : MonoBehaviour
 
         Vector3 posToMove = opponentPos + opponentTransform.parent.transform.forward * 1.5f;
 
-        Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), ctx.moveDuration).SetEase(ctx.moveAnimCurve);
+        Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), Ctx.moveDuration).SetEase(Ctx.moveAnimCurve);
 
         yield return tween.WaitForCompletion();
     }
 
     private IEnumerator ReturnToPosPerformer(ReturnToPosGA returnToPosGA)
     {
-        Avatar avatarPlayingCard = returnToPosGA.avatarPlayingCard;
-        CombatStateMachine ctx = returnToPosGA.ctx;
+        Avatar avatarPlayingCard = returnToPosGA.AvatarPlayingCard;
 
         // Determine position to move to
         Transform currentTransform = avatarPlayingCard.transform;
@@ -55,7 +56,7 @@ public class AnimationSystem : MonoBehaviour
 
         Vector3 posToMove = parentPos;
 
-        Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), ctx.jumpDuration).SetEase(ctx.jumpAnimCurve);
+        Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), Ctx.jumpDuration).SetEase(Ctx.jumpAnimCurve);
 
         yield return tween.WaitForCompletion();
 
@@ -64,7 +65,7 @@ public class AnimationSystem : MonoBehaviour
 
     private IEnumerator TriggerAttackAnimPerformer(TriggerAttackAnimGA triggerAttackAnimGA)
     {
-        triggerAttackAnimGA.avatarPlayingCard.GetComponent<Animator>().SetTrigger("Attack");
+        triggerAttackAnimGA.AvatarPlayingCard.GetComponent<Animator>().SetTrigger("Attack");
 
         yield return null;
     }

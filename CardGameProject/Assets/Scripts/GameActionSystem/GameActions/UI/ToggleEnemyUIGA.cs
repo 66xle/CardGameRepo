@@ -6,6 +6,6 @@ public class ToggleEnemyUIGA : GameAction
 
     public ToggleEnemyUIGA(bool toggle)
     {
-        this.Toggle = toggle;
+        Toggle = toggle;
     }
 }

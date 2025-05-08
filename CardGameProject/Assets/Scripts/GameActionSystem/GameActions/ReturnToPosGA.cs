@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class ReturnToPosGA : GameAction
 {
-    public Avatar avatarPlayingCard;
-    public CombatStateMachine ctx;
+    public Avatar AvatarPlayingCard;
 
     public bool IsReturnFinished;
 
-    public ReturnToPosGA(Avatar avatarToMove, CombatStateMachine ctx)
+    public ReturnToPosGA(Avatar avatarToMove)
     {
-        this.avatarPlayingCard = avatarToMove;
-        this.ctx = ctx;
+        AvatarPlayingCard = avatarToMove;
 
         IsReturnFinished = false;
     }

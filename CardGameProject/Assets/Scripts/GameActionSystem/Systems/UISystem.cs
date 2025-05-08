@@ -1,11 +1,12 @@
 using DG.Tweening;
+using MyBox;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 
 public class UISystem : MonoBehaviour
 {
-    public CombatUIManager CombatUIManager;
+    [MustBeAssigned] public CombatUIManager CombatUIManager;
 
     private void OnEnable()
     {
@@ -23,7 +24,7 @@ public class UISystem : MonoBehaviour
 
     private IEnumerator SpawnDamageUIPopupPerformer(SpawnDamageUIPopupGA spawnDamageUIPopupGA)
     {
-        Avatar avatar = spawnDamageUIPopupGA.avatarTakingDamage;
+        Avatar avatar = spawnDamageUIPopupGA.AvatarTakingDamage;
 
         GameObject popupObj = Instantiate(CombatUIManager.damagePopupPrefab, CombatUIManager.worldSpaceCanvas);
         popupObj.transform.position = new Vector3(avatar.transform.position.x + Random.Range(-CombatUIManager.randomOffsetHorizontal, CombatUIManager.randomOffsetHorizontal),
@@ -33,8 +34,8 @@ public class UISystem : MonoBehaviour
         moveToPos.y += 1f;
 
         TextMeshProUGUI popupText = popupObj.GetComponent<TextMeshProUGUI>();
-        popupText.text = spawnDamageUIPopupGA.damage.ToString();
-        popupText.color = spawnDamageUIPopupGA.color;
+        popupText.text = spawnDamageUIPopupGA.Damage.ToString();
+        popupText.color = spawnDamageUIPopupGA.Color;
 
         Tween tween = popupObj.transform.DOMoveY(popupObj.transform.position.y + CombatUIManager.moveVertical, CombatUIManager.moveDuration).SetEase(Ease.OutQuad);
 
