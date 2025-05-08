@@ -7,7 +7,7 @@ public class LoadManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        StartCoroutine(AsyncLoadScene(GameManager.sceneToLoad));
+        StartCoroutine(AsyncLoadScene(GameManager.SceneToLoad));
     }
 
     IEnumerator AsyncLoadScene(string sceneName)

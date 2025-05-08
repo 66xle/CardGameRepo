@@ -6,14 +6,14 @@ using System;
 
 public class StatusBleed : StatusEffect
 {
-    [Range(0, 1)] public float reduceHealthPercentage;
-    [ReadOnly] public int stacks;
+    [Range(0, 1)] public float ReduceHealthPercentage;
+    [ReadOnly] public int Stacks;
 
     public StatusBleed()
     {
-        effectName = "Bleed";
-        effect = Effect.Bleed;
-        isActiveEffect = true;
+        EffectName = "Bleed";
+        Effect = Effect.Bleed;
+        IsActiveEffect = true;
     }
 
     public override StatusEffect Clone()
@@ -23,18 +23,18 @@ public class StatusBleed : StatusEffect
 
     public override int GetStacks()
     {
-        return stacks;
+        return Stacks;
     }
 
     public override void OnApply(Avatar avatar)
     {
-        stacks++;
+        Stacks++;
         base.OnApply(avatar);
     }
 
     public override void ActivateEffect(Avatar avatar)
     {
-        float damage = avatar.MaxHealth * reduceHealthPercentage * stacks;
+        float damage = avatar.MaxHealth * ReduceHealthPercentage * Stacks;
 
         avatar.TakeDamageByStatusEffect(damage);
 

@@ -25,7 +25,7 @@ public class WeaponPopupWindow : PopupWindow
 
         var createButton = new Button();
         createButton.text = "Create Weapon";
-        createButton.clicked += () => CreateWeapon(newWeapon.weaponName);
+        createButton.clicked += () => CreateWeapon(newWeapon.WeaponName);
         rootVisualElement.Add(createButton);
 
         var cancelButton = new Button();
@@ -42,7 +42,7 @@ public class WeaponPopupWindow : PopupWindow
         // Create textfield
         var textField = new TextField();
         WeaponData selectedWeaponData = window.list.selectedItem as WeaponData;
-        string path = AssetDatabase.GUIDToAssetPath(selectedWeaponData.guid);
+        string path = AssetDatabase.GUIDToAssetPath(selectedWeaponData.Guid);
         string fileName = Path.GetFileNameWithoutExtension(path);
         textField.value = fileName;
         rootVisualElement.Add(textField);
@@ -146,9 +146,9 @@ public class WeaponPopupWindow : PopupWindow
     {
         WeaponData weapon = new WeaponData();
         weapon.name = newWeaponData.name;
-        weapon.description = newWeaponData.description;
-        weapon.prefab = newWeaponData.prefab;
-        weapon.cards = newWeaponData.cards;
+        weapon.Description = newWeaponData.Description;
+        weapon.Prefab = newWeaponData.Prefab;
+        weapon.Cards = newWeaponData.Cards;
 
         return weapon;
     }

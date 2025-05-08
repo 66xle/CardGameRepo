@@ -12,7 +12,7 @@ public class Enemy : Avatar
     public bool DisableSelection { get; set; }
 
     [Header("References")]
-    public EnemyObj EnemyObj { get; private set; }
+    public EnemyData EnemyData { get; private set; }
     public Image HealthBar { get; private set; }
     public Image GuardBar { get; private set; }
     public EnemyUI EnemyUI { get; private set; }
@@ -41,14 +41,14 @@ public class Enemy : Avatar
         CurrentGuard = MaxGuard;
     }
 
-    public void Init(EnemyObj obj)
+    public void Init(EnemyData data)
     {
         DisableSelection = false;
 
-        EnemyObj = obj;
-        Deck = EnemyObj.cardList;
-        MaxHealth = EnemyObj.health;
-        MaxGuard = EnemyObj.guard;
+        EnemyData = data;
+        Deck = EnemyData.CardList;
+        MaxHealth = EnemyData.Health;
+        MaxGuard = EnemyData.Guard;
 
         SelectionRing = transform.GetChild(0).gameObject;
     }

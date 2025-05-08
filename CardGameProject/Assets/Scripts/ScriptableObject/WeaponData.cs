@@ -6,18 +6,17 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "WeaponData")]
 public class WeaponData : ScriptableObject 
 {
-    [ReadOnly]
-    public string guid;
 
-    public string weaponName;
-    public string description;
-    public DamageType type;
+    [ReadOnly] public string Guid;
 
-    public GameObject prefab;
+    public string WeaponName;
+    public string Description;
+    public DamageType Type;
 
-    [HideInInspector]
-    public Transform holsterSlot;
+    public GameObject Prefab;
+
+    [HideInInspector] public Transform HolsterSlot;
 
     [Separator]
-    public List<Card> cards;
+    public List<Card> Cards;
 }

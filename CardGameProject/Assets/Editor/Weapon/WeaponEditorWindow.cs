@@ -54,7 +54,7 @@ public class WeaponEditorWindow : BaseEditorWindow
         list.bindItem = (element, i) =>
         {
             Label label = element.Q<Label>("list-item");
-            label.text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(weapons[i].guid));
+            label.text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(weapons[i].Guid));
         };
 
         SetupListView();
@@ -134,7 +134,7 @@ public class WeaponEditorWindow : BaseEditorWindow
             rootVisualElement.Query<Box>("weapon-info").First().Clear();
             list.itemsSource = null;
 
-            AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedWeapon.guid));
+            AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedWeapon.Guid));
 
             CreateListView();
 
@@ -169,7 +169,7 @@ public class WeaponEditorWindow : BaseEditorWindow
             string path = AssetDatabase.GUIDToAssetPath(guids[i]);
 
             WeaponData loadedWeaponData = AssetDatabase.LoadAssetAtPath<WeaponData>(path);
-            loadedWeaponData.guid = guids[i];
+            loadedWeaponData.Guid = guids[i];
 
             weapons.Add(loadedWeaponData);
         }
@@ -177,7 +177,7 @@ public class WeaponEditorWindow : BaseEditorWindow
 
     private void LoadWeaponPrefab(WeaponData weaponData)
     {
-        if (weaponData.prefab == null)
+        if (weaponData.Prefab == null)
             return;
 
         Box gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
@@ -187,7 +187,7 @@ public class WeaponEditorWindow : BaseEditorWindow
         bgColor.normal.background = EditorGUIUtility.whiteTexture;
 
         DestroyImmediate(gameObjectEditor);
-        gameObjectEditor = Editor.CreateEditor(weaponData.prefab);
+        gameObjectEditor = Editor.CreateEditor(weaponData.Prefab);
         IMGUIContainer container = new IMGUIContainer(() => { gameObjectEditor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(1000, 500), bgColor); });
         gameObjectPreview.Add(container);
     }

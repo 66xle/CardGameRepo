@@ -99,7 +99,7 @@ public class ActionState : CombatBaseState
         //ctx.displayCard.gameObject.SetActive(true);
 
 
-        yield return ExecuteCommands(cardData.Card.commands);
+        yield return ExecuteCommands(cardData.Card.Commands);
 
 
 

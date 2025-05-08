@@ -469,7 +469,7 @@ public class DialogueEditor : EditorWindow
         return false;
     }
 
-    bool CompareEnemy(List<EnemyObj> listA, List<EnemyObj> listB)
+    bool CompareEnemy(List<EnemyData> listA, List<EnemyData> listB)
     {
         if (listA == null && listB == null)
             return false;

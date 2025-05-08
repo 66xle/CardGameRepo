@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BattleModifier : Modifier
 {
-    public List<EnemyObj> enemies;
+    public List<EnemyData> enemies;
 
     [Space]
     [Space]
@@ -17,7 +17,7 @@ public class BattleModifier : Modifier
 
     public BattleModifier() { }
 
-    public BattleModifier(List<EnemyObj> enemies, List<Card> cards, int money)
+    public BattleModifier(List<EnemyData> enemies, List<Card> cards, int money)
     {
         this.enemies = enemies;
         this.cards = cards;

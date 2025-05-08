@@ -69,7 +69,7 @@ public class DetailedUI : MonoBehaviour
             StatusEffect data = enemy.ListOfEffects[i];
 
             // Check activeParent childs
-            GameObject activeObj = GetEffectObject(activeParent, data.effectName);
+            GameObject activeObj = GetEffectObject(activeParent, data.EffectName);
             if (activeObj != null)
             {
                 // Update Effect
@@ -78,7 +78,7 @@ public class DetailedUI : MonoBehaviour
             }
 
             // Check deactiveParent childs
-            GameObject deactiveObj = GetEffectObject(deactiveParent, data.effectName);
+            GameObject deactiveObj = GetEffectObject(deactiveParent, data.EffectName);
             if (deactiveObj != null)
             {
                 // Set to active and update effect
@@ -91,7 +91,7 @@ public class DetailedUI : MonoBehaviour
 
             // Instanitate object in active
             GameObject newEffectObj = Instantiate(uiPrefab, activeParent.transform);
-            newEffectObj.tag = data.effectName;
+            newEffectObj.tag = data.EffectName;
             UpdateStatusUI(i, newEffectObj, data);
         }
     }

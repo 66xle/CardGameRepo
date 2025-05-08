@@ -26,10 +26,10 @@ public class UISystem : MonoBehaviour
     {
         Avatar avatar = spawnDamageUIPopupGA.AvatarTakingDamage;
 
-        GameObject popupObj = Instantiate(CombatUIManager.damagePopupPrefab, CombatUIManager.worldSpaceCanvas);
-        popupObj.transform.position = new Vector3(avatar.transform.position.x + Random.Range(-CombatUIManager.randomOffsetHorizontal, CombatUIManager.randomOffsetHorizontal),
-                                                  avatar.transform.position.y + CombatUIManager.offsetVertical,
-                                                  avatar.transform.position.z + Random.Range(-CombatUIManager.randomOffsetHorizontal, CombatUIManager.randomOffsetHorizontal));
+        GameObject popupObj = Instantiate(CombatUIManager.DamagePopupPrefab, CombatUIManager.WorldSpaceCanvas);
+        popupObj.transform.position = new Vector3(avatar.transform.position.x + Random.Range(-CombatUIManager.RandomOffsetHorizontal, CombatUIManager.RandomOffsetHorizontal),
+                                                  avatar.transform.position.y + CombatUIManager.OffsetVertical,
+                                                  avatar.transform.position.z + Random.Range(-CombatUIManager.RandomOffsetHorizontal, CombatUIManager.RandomOffsetHorizontal));
         Vector3 moveToPos = popupObj.transform.position;
         moveToPos.y += 1f;
 
@@ -37,11 +37,11 @@ public class UISystem : MonoBehaviour
         popupText.text = spawnDamageUIPopupGA.Damage.ToString();
         popupText.color = spawnDamageUIPopupGA.Color;
 
-        Tween tween = popupObj.transform.DOMoveY(popupObj.transform.position.y + CombatUIManager.moveVertical, CombatUIManager.moveDuration).SetEase(Ease.OutQuad);
+        Tween tween = popupObj.transform.DOMoveY(popupObj.transform.position.y + CombatUIManager.MoveVertical, CombatUIManager.MoveDuration).SetEase(Ease.OutQuad);
 
         yield return tween.WaitForCompletion();
 
-        popupText.DOFade(0, CombatUIManager.fadeDuration).OnComplete(() => { Destroy(popupObj); });
+        popupText.DOFade(0, CombatUIManager.FadeDuration).OnComplete(() => { Destroy(popupObj); });
     }
 
     private IEnumerator TogglePlayerUIPerformer(TogglePlayerUIGA togglePlayerUIGA)

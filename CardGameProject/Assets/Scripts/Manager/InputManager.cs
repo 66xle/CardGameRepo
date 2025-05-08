@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public bool leftClickInputDown { get; private set; } = false;
+    public bool LeftClickInputDown { get; private set; } = false;
 
     // Update is called once per frame
     void Update()
     {
-        leftClickInputDown = Input.GetKeyDown(KeyCode.Mouse0) ? true : false;
+        LeftClickInputDown = Input.GetKeyDown(KeyCode.Mouse0) ? true : false;
     }
 }

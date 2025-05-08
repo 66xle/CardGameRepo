@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class StatusPoison : StatusEffect
 {
-    [Range(0, 1)] public float reduceHealthPercentage;
+    [Range(0, 1)] public float ReduceHealthPercentage;
 
     public StatusPoison()
     {
-        effectName = "Poison";
-        effect = Effect.Poison;
-        isActiveEffect = true;
+        EffectName = "Poison";
+        Effect = Effect.Poison;
+        IsActiveEffect = true;
     }
 
     public override StatusEffect Clone()
@@ -21,7 +21,7 @@ public class StatusPoison : StatusEffect
 
     public override void ActivateEffect(Avatar avatar)
     {
-        float damage = avatar.MaxHealth * reduceHealthPercentage;
+        float damage = avatar.MaxHealth * ReduceHealthPercentage;
 
         avatar.TakeDamageByStatusEffect(damage);
 

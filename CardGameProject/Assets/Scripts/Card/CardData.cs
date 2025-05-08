@@ -10,19 +10,19 @@ public struct CardData
         Weapon = weapon;
 
         Card copyCard = new Card();
-        copyCard.guid = card.guid;
+        copyCard.Guid = card.Guid;
         copyCard.InGameGUID = Guid.NewGuid().ToString();
-        copyCard.cardName = card.cardName;
-        copyCard.description = card.description;
-        copyCard.displayDescription = card.displayDescription;
-        copyCard.flavour = card.flavour;
-        copyCard.valuesToReference = card.valuesToReference;
-        copyCard.cost = card.cost;
-        copyCard.recycleValue = card.recycleValue;
-        copyCard.image = card.image;
-        copyCard.frame = card.frame;
-        copyCard.cardName = card.cardName;
-        copyCard.commands = card.commands;
+        copyCard.CardName = card.CardName;
+        copyCard.Description = card.Description;
+        copyCard.DisplayDescription = card.DisplayDescription;
+        copyCard.Flavour = card.Flavour;
+        copyCard.ValuesToReference = card.ValuesToReference;
+        copyCard.Cost = card.Cost;
+        copyCard.RecycleValue = card.RecycleValue;
+        copyCard.Image = card.Image;
+        copyCard.Frame = card.Frame;
+        copyCard.CardName = card.CardName;
+        copyCard.Commands = card.Commands;
 
         Card = copyCard;
     }

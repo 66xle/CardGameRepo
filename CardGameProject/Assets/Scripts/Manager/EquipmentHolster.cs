@@ -12,28 +12,27 @@ using Debug = UnityEngine.Debug;
 public class EquipmentHolster : MonoBehaviour
 {
     [Separator("Read Only")]
-    [ReadOnly]
-    public List<GameObject> equippedWeaponObjects = new List<GameObject>();
+    [ReadOnly] public List<GameObject> EquippedWeaponObjects { get; private set; } = new List<GameObject>();
 
     [Separator("Transform")]
-    public Transform rightHand;
-    public Transform leftHand;
+    public Transform RightHand;
+    public Transform LeftHand;
 
-    public Transform backHolster;
-    public Transform lowerBackHolster;
+    public Transform BackHolster;
+    public Transform LowerBackHolster;
 
-    public Transform rightHipHolster;
-    public Transform leftHipHolster;
+    public Transform RightHipHolster;
+    public Transform LeftHipHolster;
 
-    public Transform rightChestHolster;
-    public Transform leftChestHolster;
+    public Transform RightChestHolster;
+    public Transform LeftChestHolster;
 
 
     [Separator("Holster Priority")]
-    public List<Transform> swordHolsterPriority;
-    public List<Transform> twoHandedHolsterPriority;
-    public List<Transform> daggerHolsterPriority;
-    public List<Transform> scytheHolsterPriority;
+    public List<Transform> SwordHolsterPriority;
+    public List<Transform> TwoHandedHolsterPriority;
+    public List<Transform> DaggerHolsterPriority;
+    public List<Transform> ScytheHolsterPriority;
 
     
 
@@ -42,7 +41,7 @@ public class EquipmentHolster : MonoBehaviour
         Vector3 localPos = weaponToEquip.transform.localPosition;
         Vector3 localRot = weaponToEquip.transform.localEulerAngles;
 
-        weaponToEquip.transform.parent = rightHand;
+        weaponToEquip.transform.parent = RightHand;
 
         weaponToEquip.transform.localPosition = localPos;
         weaponToEquip.transform.localEulerAngles = localRot;
@@ -63,31 +62,31 @@ public class EquipmentHolster : MonoBehaviour
 
     public void SetOffHand(WeaponData weaponData)
     {
-        weaponData.holsterSlot = leftHand;
-        CreateWeaponObject(weaponData.prefab, leftHand, weaponData);
+        weaponData.HolsterSlot = LeftHand;
+        CreateWeaponObject(weaponData.Prefab, LeftHand, weaponData);
     }
 
     public void SetHolsteredWeapons(List<WeaponData> weapons)
     {
         foreach (WeaponData data in weapons)
         {
-            Weapon weaponScript = data.prefab.GetComponent<Weapon>();
+            Weapon weaponScript = data.Prefab.GetComponent<Weapon>();
             
             if (weaponScript.WeaponType == WeaponType.Sword)
             {
-                SetWeapon(swordHolsterPriority, data, weaponScript);
+                SetWeapon(SwordHolsterPriority, data, weaponScript);
             }
             if (weaponScript.WeaponType == WeaponType.Twohanded)
             {
-                SetWeapon(twoHandedHolsterPriority, data, weaponScript);
+                SetWeapon(TwoHandedHolsterPriority, data, weaponScript);
             }
             else if (weaponScript.WeaponType == WeaponType.Dagger)
             {
-                SetWeapon(daggerHolsterPriority, data, weaponScript);
+                SetWeapon(DaggerHolsterPriority, data, weaponScript);
             }
             else if (weaponScript.WeaponType == WeaponType.Scythe)
             {
-                SetWeapon(scytheHolsterPriority, data, weaponScript);
+                SetWeapon(ScytheHolsterPriority, data, weaponScript);
             }
         }
     }
@@ -101,9 +100,9 @@ public class EquipmentHolster : MonoBehaviour
                 GameObject prefabToSpawn = DeterminePrefabOffset(holsterTransfrom, weaponScript);
 
                 if (prefabToSpawn == null) 
-                    prefabToSpawn = data.prefab;
+                    prefabToSpawn = data.Prefab;
 
-                data.holsterSlot = holsterTransfrom;
+                data.HolsterSlot = holsterTransfrom;
 
                 CreateWeaponObject(prefabToSpawn, holsterTransfrom, data);
                 return;
@@ -152,10 +151,10 @@ public class EquipmentHolster : MonoBehaviour
     private void CreateWeaponObject(GameObject prefab, Transform parent, WeaponData data)
     {
         GameObject newWeapon = Instantiate(prefab, parent);
-        equippedWeaponObjects.Add(newWeapon);
+        EquippedWeaponObjects.Add(newWeapon);
 
         Weapon weaponScript = newWeapon.GetComponent<Weapon>();
-        weaponScript.Guid = data.guid;
+        weaponScript.Guid = data.Guid;
         weaponScript.HolsterParent = parent;
     }
 

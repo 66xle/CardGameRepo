@@ -10,63 +10,65 @@ using UnityEngine.UI;
 public class SwitchWeaponManager : MonoBehaviour
 {
     [Header("References")]
-    public EquipmentManager equipmentManager;
-    public CombatUIManager combatUIManager;
+    [MustBeAssigned] public EquipmentManager EquipmentManager;
+    [MustBeAssigned] public CombatUIManager CombatUIManager;
 
-    [HideInInspector] public WeaponData currentMainHand;
-    [HideInInspector] public WeaponData currentOffHand;
-    [HideInInspector] public List<WeaponData> currentEquippedWeapons;
-    private List<CinemachineVirtualCamera> cameraList = new List<CinemachineVirtualCamera>();
+    public WeaponData CurrentMainHand { get; set; }
+    public WeaponData CurrentOffHand { get; set; }
+    public List<WeaponData> CurrentEquippedWeapons { get; set; }
+
+
+    private List<CinemachineVirtualCamera> _cameraList = new List<CinemachineVirtualCamera>();
 
     [Separator("Cameras")]
 
-    public float transitionSpeed = 1f;
+    public float TransitionSpeed = 1f;
 
-    public CinemachineVirtualCamera equipmentCam;
-    public CinemachineVirtualCamera rightHipCam;
-    public CinemachineVirtualCamera leftHipCam;
-    public CinemachineVirtualCamera backCam;
-    public CinemachineVirtualCamera lowerBackCam;
-    public CinemachineVirtualCamera rightChestCam;
-    public CinemachineVirtualCamera leftChestCam;
+    [MustBeAssigned] public CinemachineVirtualCamera EquipmentCam;
+    [MustBeAssigned] public CinemachineVirtualCamera RightHipCam;
+    [MustBeAssigned] public CinemachineVirtualCamera LeftHipCam;
+    [MustBeAssigned] public CinemachineVirtualCamera BackCam;
+    [MustBeAssigned] public CinemachineVirtualCamera LowerBackCam;
+    [MustBeAssigned] public CinemachineVirtualCamera RightChestCam;
+    [MustBeAssigned] public CinemachineVirtualCamera LeftChestCam;
 
-    private int cameraIndex;
-    private bool currSwitchCam;
+    private int _cameraIndex;
+    private bool _currSwitchCam;
 
 
     public void InitWeaponData()
     {
         // Reset Variables
-        currSwitchCam = false;
-        currentEquippedWeapons.Clear();
+        _currSwitchCam = false;
+        CurrentEquippedWeapons.Clear();
 
         // Copy Data
-        currentMainHand = CopyWeaponData(equipmentManager.mainHand);
+        CurrentMainHand = CopyWeaponData(EquipmentManager.MainHand);
 
         if (IsOffhandEquipped())
-            currentOffHand = CopyWeaponData(equipmentManager.offHand);
+            CurrentOffHand = CopyWeaponData(EquipmentManager.OffHand);
 
         if (IsHolstersEquipped())
         {
-            foreach (WeaponData weaponData in equipmentManager.equippedWeapons)
+            foreach (WeaponData weaponData in EquipmentManager.EquippedWeapons)
             {
-                currentEquippedWeapons.Add(CopyWeaponData(weaponData));
+                CurrentEquippedWeapons.Add(CopyWeaponData(weaponData));
             }
         }
     }
 
     public void InitCameraList()
     {
-        cameraList.Clear();
+        _cameraList.Clear();
 
-        foreach (WeaponData data in currentEquippedWeapons)
+        foreach (WeaponData data in CurrentEquippedWeapons)
         {
-            Transform holsterTransform = data.holsterSlot;
+            Transform holsterTransform = data.HolsterSlot;
             CinemachineVirtualCamera camera = DetermineCamera(holsterTransform);
 
             if (camera != null)
             {
-                cameraList.Add(camera);
+                _cameraList.Add(camera);
             }
         }
     }
@@ -75,11 +77,11 @@ public class SwitchWeaponManager : MonoBehaviour
     {
         WeaponData newData = new WeaponData();
 
-        newData.weaponName = data.weaponName;
-        newData.description = data.description;
-        newData.cards = data.cards;
-        newData.prefab = data.prefab;
-        newData.guid = Guid.NewGuid().ToString();
+        newData.WeaponName = data.WeaponName;
+        newData.Description = data.Description;
+        newData.Cards = data.Cards;
+        newData.Prefab = data.Prefab;
+        newData.Guid = Guid.NewGuid().ToString();
 
 
         return newData;
@@ -87,38 +89,38 @@ public class SwitchWeaponManager : MonoBehaviour
 
     public bool IsOffhandEquipped()
     {
-        return equipmentManager.offHand != null ? true : false;
+        return EquipmentManager.OffHand != null ? true : false;
     }
 
     public bool IsHolstersEquipped()
     {
-        return equipmentManager.equippedWeapons.Count > 0 ? true : false;
+        return EquipmentManager.EquippedWeapons.Count > 0 ? true : false;
     }
 
     public void OpenSwitchWeaponUI()
     {
-        cameraIndex = 0;
+        _cameraIndex = 0;
 
         InitCameraList();
 
-        SetEquipmentCameraPosition(cameraList[cameraIndex]);
-        equipmentCam.Priority = 50;
+        SetEquipmentCameraPosition(_cameraList[_cameraIndex]);
+        EquipmentCam.Priority = 50;
 
-        combatUIManager.switchWeaponUI.SetActive(true);
-        combatUIManager.combatUI.SetActive(false);
+        CombatUIManager.SwitchWeaponUI.SetActive(true);
+        CombatUIManager.CombatUI.SetActive(false);
     }
 
     public void NextWeapon()
     {
-        if (currSwitchCam)
+        if (_currSwitchCam)
             return;
 
-        cameraIndex++;
+        _cameraIndex++;
 
-        if (cameraIndex >= cameraList.Count)
-            cameraIndex = 0;
+        if (_cameraIndex >= _cameraList.Count)
+            _cameraIndex = 0;
 
-        TransitionToNextWeapon(cameraList[cameraIndex]);
+        TransitionToNextWeapon(_cameraList[_cameraIndex]);
     }
 
     #region Camera
@@ -128,27 +130,27 @@ public class SwitchWeaponManager : MonoBehaviour
 
         if (holsterTransform.CompareTag("Left Hip"))
         {
-            return leftHipCam;
+            return LeftHipCam;
         }
         else if (holsterTransform.CompareTag("Right Hip"))
         {
-            return rightHipCam;
+            return RightHipCam;
         }
         else if (holsterTransform.CompareTag("Back"))
         {
-            return backCam;
+            return BackCam;
         }
         else if (holsterTransform.CompareTag("Lower Back"))
         {
-            return lowerBackCam;
+            return LowerBackCam;
         }
         else if (holsterTransform.CompareTag("Left Chest"))
         {
-            return leftChestCam;
+            return LeftChestCam;
         }
         else if (holsterTransform.CompareTag("Right Chest"))
         {
-            return rightChestCam;
+            return RightChestCam;
         }
 
         return null;
@@ -156,12 +158,12 @@ public class SwitchWeaponManager : MonoBehaviour
 
     public void SetEquipmentCameraPosition(CinemachineVirtualCamera camera)
     {
-        equipmentCam.transform.position = camera.transform.position;
-        equipmentCam.transform.rotation = camera.transform.rotation;
-        equipmentCam.m_Lens = camera.m_Lens;
+        EquipmentCam.transform.position = camera.transform.position;
+        EquipmentCam.transform.rotation = camera.transform.rotation;
+        EquipmentCam.m_Lens = camera.m_Lens;
 
         CinemachineOrbitalTransposer camTransposer = camera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
-        CinemachineOrbitalTransposer equipTransposer = equipmentCam.GetCinemachineComponent<CinemachineOrbitalTransposer>();
+        CinemachineOrbitalTransposer equipTransposer = EquipmentCam.GetCinemachineComponent<CinemachineOrbitalTransposer>();
 
         equipTransposer.m_Heading = camTransposer.m_Heading;
         equipTransposer.m_FollowOffset = camTransposer.m_FollowOffset;
@@ -172,25 +174,25 @@ public class SwitchWeaponManager : MonoBehaviour
 
     public void TransitionToNextWeapon(CinemachineVirtualCamera camera)
     {
-        combatUIManager.switchButton.interactable = false;
+        CombatUIManager.SwitchButton.interactable = false;
 
-        DOVirtual.Float(equipmentCam.m_Lens.Dutch, camera.m_Lens.Dutch, transitionSpeed, v => equipmentCam.m_Lens.Dutch = v);
-        DOVirtual.Float(equipmentCam.m_Lens.FieldOfView, camera.m_Lens.FieldOfView, transitionSpeed, v => equipmentCam.m_Lens.FieldOfView = v);
+        DOVirtual.Float(EquipmentCam.m_Lens.Dutch, camera.m_Lens.Dutch, TransitionSpeed, v => EquipmentCam.m_Lens.Dutch = v);
+        DOVirtual.Float(EquipmentCam.m_Lens.FieldOfView, camera.m_Lens.FieldOfView, TransitionSpeed, v => EquipmentCam.m_Lens.FieldOfView = v);
 
-        equipmentCam.transform.DORotate(camera.transform.rotation.eulerAngles, transitionSpeed).OnComplete(() => combatUIManager.switchButton.interactable = true);
+        EquipmentCam.transform.DORotate(camera.transform.rotation.eulerAngles, TransitionSpeed).OnComplete(() => CombatUIManager.SwitchButton.interactable = true);
 
         CinemachineOrbitalTransposer camTransposer = camera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
-        CinemachineOrbitalTransposer equipTransposer = equipmentCam.GetCinemachineComponent<CinemachineOrbitalTransposer>();
+        CinemachineOrbitalTransposer equipTransposer = EquipmentCam.GetCinemachineComponent<CinemachineOrbitalTransposer>();
 
         // Y offset
-        DOVirtual.Float(equipTransposer.m_Heading.m_Bias, camTransposer.m_Heading.m_Bias, transitionSpeed, v => equipTransposer.m_Heading.m_Bias = v);
+        DOVirtual.Float(equipTransposer.m_Heading.m_Bias, camTransposer.m_Heading.m_Bias, TransitionSpeed, v => equipTransposer.m_Heading.m_Bias = v);
 
-        DOVirtual.Float(equipTransposer.m_FollowOffset.y, camTransposer.m_FollowOffset.y, transitionSpeed, v => equipTransposer.m_FollowOffset.y = v);
+        DOVirtual.Float(equipTransposer.m_FollowOffset.y, camTransposer.m_FollowOffset.y, TransitionSpeed, v => equipTransposer.m_FollowOffset.y = v);
 
         // Z offset
-        DOVirtual.Float(equipTransposer.m_FollowOffset.z, -1, transitionSpeed / 2, v => equipTransposer.m_FollowOffset.z = v).OnComplete(() =>
+        DOVirtual.Float(equipTransposer.m_FollowOffset.z, -1, TransitionSpeed / 2, v => equipTransposer.m_FollowOffset.z = v).OnComplete(() =>
         {
-            DOVirtual.Float(equipTransposer.m_FollowOffset.z, camTransposer.m_FollowOffset.z, transitionSpeed / 2, v => equipTransposer.m_FollowOffset.z = v);
+            DOVirtual.Float(equipTransposer.m_FollowOffset.z, camTransposer.m_FollowOffset.z, TransitionSpeed / 2, v => equipTransposer.m_FollowOffset.z = v);
         });
 
     }

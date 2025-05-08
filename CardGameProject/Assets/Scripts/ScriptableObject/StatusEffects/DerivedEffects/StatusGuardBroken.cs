@@ -6,15 +6,15 @@ using MyBox;
 [CreateAssetMenu(fileName = "GuardBroken", menuName = "StatusEffect/GuardBroken")]
 public class StatusGuardBroken : StatusEffect
 {
-    public int numberOfHitsToRecover;
-    [Range(0, 1)] public float extraDamagePercentage;
-    [SerializeField] bool removeEffectNextTurn;
+    public int NumberOfHitsToRecover;
+    [Range(0, 1)] public float ExtraDamagePercentage;
+    [SerializeField] bool RemoveEffectNextTurn;
 
     public StatusGuardBroken()
     {
-        effectName = "Guard Broken";
-        effect = Effect.GuardBroken;
-        removeEffectNextTurn = true;
+        EffectName = "Guard Broken";
+        Effect = Effect.GuardBroken;
+        RemoveEffectNextTurn = true;
     }
 
     public override StatusEffect Clone()
@@ -24,12 +24,12 @@ public class StatusGuardBroken : StatusEffect
 
     public override bool ShouldRemoveEffectNextTurn()
     {
-        return removeEffectNextTurn;
+        return RemoveEffectNextTurn;
     }
 
     public override void SetRemoveEffectNextTurn(bool value)
     {
-        removeEffectNextTurn = value;
+        RemoveEffectNextTurn = value;
     }
 
     public override void OnApply(Avatar avatar)

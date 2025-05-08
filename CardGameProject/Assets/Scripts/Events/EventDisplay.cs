@@ -56,7 +56,7 @@ public class EventDisplay : MonoBehaviour
 
     private void Update()
     {
-        if (inputManager.leftClickInputDown && waitToContinueDialogue)
+        if (inputManager.LeftClickInputDown && waitToContinueDialogue)
         {
             waitToContinueDialogue = false;
             NextDialogue();

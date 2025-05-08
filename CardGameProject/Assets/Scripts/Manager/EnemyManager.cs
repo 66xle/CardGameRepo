@@ -1,9 +1,8 @@
 using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    public List<EnemyObj> enemies = new List<EnemyObj> ();
-
-    
+    public List<EnemyData> enemies = new List<EnemyData> ();
 }

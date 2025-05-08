@@ -28,7 +28,7 @@ public class CardPopupWindow : PopupWindow
 
         var createButton = new UnityEngine.UIElements.Button();
         createButton.text = "Create Card";
-        createButton.clicked += () => CreateCard(newCard.cardName);
+        createButton.clicked += () => CreateCard(newCard.CardName);
         rootVisualElement.Add(createButton);
 
         var cancelButton = new UnityEngine.UIElements.Button();
@@ -45,7 +45,7 @@ public class CardPopupWindow : PopupWindow
         // Create textfield
         var textField = new TextField();
         Card selectedCard = window.list.selectedItem as Card;
-        string path = AssetDatabase.GUIDToAssetPath(selectedCard.guid);
+        string path = AssetDatabase.GUIDToAssetPath(selectedCard.Guid);
         string fileName = Path.GetFileNameWithoutExtension(path);
         textField.value = fileName;
         rootVisualElement.Add(textField);
@@ -148,14 +148,14 @@ public class CardPopupWindow : PopupWindow
     Card CreateNewCard(Card newCard)
     {
         Card card = new Card();
-        card.cardName = newCard.cardName;
-        card.description = newCard.description;
-        card.flavour = newCard.flavour;
-        card.valuesToReference = newCard.valuesToReference;
-        card.cost = newCard.cost;
-        card.recycleValue = newCard.recycleValue;
-        card.image = newCard.image;
-        card.frame = newCard.frame;
+        card.CardName = newCard.CardName;
+        card.Description = newCard.Description;
+        card.Flavour = newCard.Flavour;
+        card.ValuesToReference = newCard.ValuesToReference;
+        card.Cost = newCard.Cost;
+        card.RecycleValue = newCard.RecycleValue;
+        card.Image = newCard.Image;
+        card.Frame = newCard.Frame;
 
         return card;
     }

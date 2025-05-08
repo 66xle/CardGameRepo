@@ -73,7 +73,7 @@ public class GridMap : MonoBehaviour
 
             GenerateTile();
         }
-        else if (inputManager.leftClickInputDown && !eventDisplay.disableTileInteract)
+        else if (inputManager.LeftClickInputDown && !eventDisplay.disableTileInteract)
         { // Detect correct input / disable input
 
             DetectTileHit();

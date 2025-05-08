@@ -14,7 +14,7 @@ public class DialogueNodeData
     public List<DialogueChoices> Choices = new List<DialogueChoices>();
 
 
-    public List<EnemyObj> enemies;
+    public List<EnemyData> enemies;
     public List<Card> cards;
     public int money;
     public Sprite image;

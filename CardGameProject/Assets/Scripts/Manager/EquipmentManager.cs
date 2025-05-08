@@ -20,11 +20,11 @@ public enum DamageType
 
 public class EquipmentManager : MonoBehaviour
 {
-    public WeaponData mainHand;
-    public WeaponData offHand;
+    public WeaponData MainHand;
+    public WeaponData OffHand;
 
 
     [Separator]
 
-    public List<WeaponData> equippedWeapons;
+    public List<WeaponData> EquippedWeapons;
 }

@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour
     {
         Time.timeScale = 1.0f;
 
-        GameManager.sceneToLoad = SceneManager.GetActiveScene().name;
+        GameManager.SceneToLoad = SceneManager.GetActiveScene().name;
 
         SceneManager.LoadSceneAsync("LoadingScene");
     }

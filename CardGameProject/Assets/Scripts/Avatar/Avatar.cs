@@ -165,9 +165,9 @@ public class Avatar : MonoBehaviour
 
     public void ApplyStatusEffect(StatusEffect statusEffect)
     {
-        if (ListOfEffects.Any(status => status.effect == statusEffect.effect))
+        if (ListOfEffects.Any(status => status.Effect == statusEffect.Effect))
         {
-            int index = ListOfEffects.FindIndex(status => status.effect == statusEffect.effect);
+            int index = ListOfEffects.FindIndex(status => status.Effect == statusEffect.Effect);
             ListOfEffects[index].OnApply(this);
         }
         else
@@ -187,7 +187,7 @@ public class Avatar : MonoBehaviour
     {
         foreach (StatusEffect data in ListOfEffects)
         {
-            if (data.effect == effect)
+            if (data.Effect == effect)
             {
                 return true;
             }
@@ -203,10 +203,10 @@ public class Avatar : MonoBehaviour
 
         foreach (StatusEffect statusEffect in ListOfEffects)
         {
-            if (statusEffect.effect == Effect.GuardBroken)
+            if (statusEffect.Effect == Effect.GuardBroken)
             {
                 StatusGuardBroken statusGuardBroken = statusEffect as StatusGuardBroken;
-                return damage * statusGuardBroken.extraDamagePercentage + damage;
+                return damage * statusGuardBroken.ExtraDamagePercentage + damage;
             }
         }
 

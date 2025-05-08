@@ -7,26 +7,26 @@ using UnityEngine.UI;
 public class CombatUIManager : MonoBehaviour
 {
     [Foldout("Popup", true)]
-    public GameObject damagePopupPrefab;
-    public Transform worldSpaceCanvas;
-    [Range(0, 1)] public float randomOffsetHorizontal = 0.5f;
-    public float offsetVertical = 1f;
+    [MustBeAssigned] public GameObject DamagePopupPrefab;
+    [MustBeAssigned] public Transform WorldSpaceCanvas;
+    [Range(0, 1)] public float RandomOffsetHorizontal = 0.5f;
+    public float OffsetVertical = 1f;
 
     [Separator("Animate")]
-    public float moveDuration;
-    public float fadeDuration;
-    public float moveVertical;
+    public float MoveDuration;
+    public float FadeDuration;
+    public float MoveVertical;
 
     [Foldout("Button", true)]
-    public Button endTurnButton;
-    public Button switchButton;
+    [MustBeAssigned] public Button EndTurnButton;
+    [MustBeAssigned] public Button SwitchButton;
 
     [Foldout("UI", true)]
-    public GameObject combatUI;
-    public GameObject switchWeaponUI;
-    public GameObject HideUI;
-    public GameObject DetailedUI;
-    public GameObject PlayerUI;
+    [MustBeAssigned] public GameObject CombatUI;
+    [MustBeAssigned] public GameObject SwitchWeaponUI;
+    [MustBeAssigned] public GameObject HideUI;
+    [MustBeAssigned] public GameObject DetailedUI;
+    [MustBeAssigned] public GameObject PlayerUI;
 
 
     public void ToggleHideUI(bool toggle)

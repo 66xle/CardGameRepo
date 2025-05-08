@@ -4,41 +4,42 @@ using UnityEngine;
 
 public class StatsManager : MonoBehaviour
 {
-    [SerializeField] float baseHealth;
-    [SerializeField] float baseStamina;
-    [SerializeField] int baseGuard;
+    [Header("Stats")]
+    [SerializeField] float BaseHealth;
+    [SerializeField] float BaseStamina;
+    [SerializeField] int BaseGuard;
     public ArmourType armourType;
 
-    [HideInInspector] public float currentMaxHealth;
-    [HideInInspector] public float currentMaxStamina;
-    [HideInInspector] public int currentMaxGuard;
-
     [Header("Armour Stamina")]
-    [Range(0, 2)] public float lightMultiplier;
-    [Range(0, 2)] public float mediumMultiplier;
-    [Range(0, 2)] public float heavyMultiplier;
+    [Range(0, 2)] public float LightMultiplier;
+    [Range(0, 2)] public float MediumMultiplier;
+    [Range(0, 2)] public float HeavyMultiplier;
+
+    public float CurrentMaxHealth { get; private set; }
+    public float CurrentMaxStamina { get; private set; }
+    public int CurrentMaxGuard { get; private set; }
 
 
     void Awake() // Initalise variables for now
     {
-        currentMaxHealth = baseHealth;
-        currentMaxGuard = baseGuard;
+        CurrentMaxHealth = BaseHealth;
+        CurrentMaxGuard = BaseGuard;
 
         if (armourType == ArmourType.Light)
         {
-            currentMaxStamina = Mathf.RoundToInt(baseStamina * lightMultiplier);
+            CurrentMaxStamina = Mathf.RoundToInt(BaseStamina * LightMultiplier);
         }
         else if (armourType == ArmourType.Medium)
         {
-            currentMaxStamina = Mathf.RoundToInt(baseStamina * mediumMultiplier);
+            CurrentMaxStamina = Mathf.RoundToInt(BaseStamina * MediumMultiplier);
         }
         else if (armourType == ArmourType.Heavy)
         {
-            currentMaxStamina = Mathf.RoundToInt(baseStamina * heavyMultiplier);
+            CurrentMaxStamina = Mathf.RoundToInt(BaseStamina * HeavyMultiplier);
         }
         else
         {
-            currentMaxStamina = baseStamina;
+            CurrentMaxStamina = BaseStamina;
         }
     }
 

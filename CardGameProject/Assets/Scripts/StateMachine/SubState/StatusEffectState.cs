@@ -90,15 +90,15 @@ public class StatusEffectState : CombatBaseState
             StatusEffect currentEffect = currentAvatarSelected.ListOfEffects[i];
 
             // Check effect to trigger
-            if (currentAvatarSelected.ListOfEffects[i].currentTurnsRemaning > 0)
+            if (currentAvatarSelected.ListOfEffects[i].CurrentTurnsRemaning > 0)
             {
                 statusQueue.Add(currentEffect);
             }
 
-            currentAvatarSelected.ListOfEffects[i].currentTurnsRemaning--;
+            currentAvatarSelected.ListOfEffects[i].CurrentTurnsRemaning--;
 
             // Status Effect expired
-            if (currentAvatarSelected.ListOfEffects[i].currentTurnsRemaning <= 0)
+            if (currentAvatarSelected.ListOfEffects[i].CurrentTurnsRemaning <= 0)
             {
                 // This effect will expire next turn
                 if (currentEffect.ShouldRemoveEffectNextTurn())
@@ -109,7 +109,7 @@ public class StatusEffectState : CombatBaseState
                     continue;
                 }
 
-                if (currentEffect.effect == Effect.GuardBroken)
+                if (currentEffect.Effect == Effect.GuardBroken)
                 {
                     doRecoverGuardBreak = true;
                 }
@@ -142,7 +142,7 @@ public class StatusEffectState : CombatBaseState
 
             foreach (StatusEffect effect in statusQueue)
             {
-                if (effect.effect == Effect.GuardBroken)
+                if (effect.Effect == Effect.GuardBroken)
                 {
                     skipTurn = true;
 
@@ -154,7 +154,7 @@ public class StatusEffectState : CombatBaseState
                     Debug.Log("SKIP TURN");
                 }
 
-                if (effect.isActiveEffect)
+                if (effect.IsActiveEffect)
                     effect.ActivateEffect(currentAvatarSelected);
 
                 if (currentAvatarSelected.IsAvatarDead())

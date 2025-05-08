@@ -12,36 +12,36 @@ using UnityEditor;
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
 public class Card : ScriptableObject
 {
-    [ReadOnly] public string guid;
+    [ReadOnly] public string Guid;
     [ReadOnly] public string InGameGUID;
 
-    public string cardName;
-    [TextArea] public string description;
-    [HideInInspector] public string displayDescription;
-    [TextArea] public string flavour;
+    public string CardName;
+    [TextArea] public string Description;
+    [HideInInspector] public string DisplayDescription;
+    [TextArea] public string Flavour;
 
     [Header("Card Image")]
-    public Sprite image;
-    public Sprite frame;
+    public Sprite Image;
+    public Sprite Frame;
 
     [Header("Card Info")]
-    public int cost;
-    public int recycleValue;
+    public int Cost;
+    public int RecycleValue;
 
     [Separator]
 
-    public List<float> valuesToReference = new();
+    public List<float> ValuesToReference = new();
 
     [Separator]
 
-    [SerializeReference][SR] public List<Executable> commands = new List<Executable>();
+    [SerializeReference][SR] public List<Executable> Commands = new List<Executable>();
 
 
     private void OnValidate()
     {
-        valuesToReference.Clear();
+        ValuesToReference.Clear();
 
-        CheckCommandsForValues(commands);
+        CheckCommandsForValues(Commands);
 
         GenerateDisplayDescription();
     } 
@@ -55,7 +55,7 @@ public class Card : ScriptableObject
             if (command is Condition)
             {
                 if (command.IsUsingValue) 
-                    valuesToReference.Add(command.Value);
+                    ValuesToReference.Add(command.Value);
 
                 Condition condition = command as Condition;
                 CheckCommandsForValues(condition.Commands);
@@ -64,19 +64,19 @@ public class Card : ScriptableObject
 
             if (!command.IsUsingValue) continue;
 
-            valuesToReference.Add(command.Value);
+            ValuesToReference.Add(command.Value);
         }
     }
 
     public void GenerateDisplayDescription()
     {
-        displayDescription = description;
+        DisplayDescription = Description;
 
-        for (int i = 0; i < valuesToReference.Count; i++)
+        for (int i = 0; i < ValuesToReference.Count; i++)
         {
-            float value = valuesToReference[i];
+            float value = ValuesToReference[i];
 
-            displayDescription = displayDescription.Replace($"#{i}", value.ToString());
+            DisplayDescription = DisplayDescription.Replace($"#{i}", value.ToString());
         }
     }
 }

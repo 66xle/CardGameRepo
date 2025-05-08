@@ -144,7 +144,7 @@ public class CombatStateMachine : MonoBehaviour
             subState = currentState.currentSubState.ToString();
         }
 
-        if (inputManager.leftClickInputDown && isPlayState && Time.timeScale == 1)
+        if (inputManager.LeftClickInputDown && isPlayState && Time.timeScale == 1)
         {
             SelectEnemy();
         }
@@ -177,7 +177,7 @@ public class CombatStateMachine : MonoBehaviour
         // Spawn Player
         player = Instantiate(playerPrefab, playerSpawnPos).GetComponent<Player>();
         player.Init(healthBar, healthValue, staminaBar, staminaValue, blockValue, guardBar, guardValue, statsManager.armourType);
-        player.InitStats(statsManager.currentMaxHealth, statsManager.currentMaxStamina, statsManager.currentMaxGuard);
+        player.InitStats(statsManager.CurrentMaxHealth, statsManager.CurrentMaxStamina, statsManager.CurrentMaxGuard);
 
         // Equipment
         equipmentHolsterScript = player.GetComponent<EquipmentHolster>();
@@ -185,18 +185,18 @@ public class CombatStateMachine : MonoBehaviour
         switchWeaponManager.InitWeaponData();
 
         List<WeaponData> holsterWeapons = new List<WeaponData>();
-        holsterWeapons.Add(switchWeaponManager.currentMainHand);
+        holsterWeapons.Add(switchWeaponManager.CurrentMainHand);
 
         if (switchWeaponManager.IsOffhandEquipped())
-            holsterWeapons.Add(switchWeaponManager.currentOffHand);
+            holsterWeapons.Add(switchWeaponManager.CurrentOffHand);
 
-        holsterWeapons.AddRange(switchWeaponManager.currentEquippedWeapons);
+        holsterWeapons.AddRange(switchWeaponManager.CurrentEquippedWeapons);
 
         if (holsterWeapons.Count > 0)
         {
             equipmentHolsterScript.SetHolsteredWeapons(holsterWeapons);
 
-            GameObject weaponToEquip = equipmentHolsterScript.equippedWeaponObjects.First(weapon => weapon.GetComponent<Weapon>().Guid == switchWeaponManager.currentMainHand.guid);
+            GameObject weaponToEquip = equipmentHolsterScript.EquippedWeaponObjects.First(weapon => weapon.GetComponent<Weapon>().Guid == switchWeaponManager.CurrentMainHand.Guid);
             equipmentHolsterScript.EquipWeapon(weaponToEquip);
         }
 
@@ -207,15 +207,15 @@ public class CombatStateMachine : MonoBehaviour
     private void LoadEnemy()
     {
         //List<EnemyObj> enemyObjList = nodeData.enemies;
-        List<EnemyObj> enemyObjList = enemyManager.enemies;
+        List<EnemyData> enemyDataList = enemyManager.enemies;
 
 
         // Spawn Enemy
-        for (int i = 0; i < enemyObjList.Count; i++)
+        for (int i = 0; i < enemyDataList.Count; i++)
         {
             // Init Obj
-            Enemy enemy = Instantiate(enemyObjList[i].prefab, enemySpawnPosList[i]).GetComponent<Enemy>();
-            enemy.Init(enemyObjList[i]);
+            Enemy enemy = Instantiate(enemyDataList[i].Prefab, enemySpawnPosList[i]).GetComponent<Enemy>();
+            enemy.Init(enemyDataList[i]);
             enemyList.Add(enemy);
 
             // Init Stats
@@ -244,9 +244,9 @@ public class CombatStateMachine : MonoBehaviour
         {
             
 
-            if (player.hasEnoughStamina(card.cost))
+            if (player.hasEnoughStamina(card.Cost))
             {
-                player.ConsumeStamina(card.cost);
+                player.ConsumeStamina(card.Cost);
 
                 // Get cardData from player hand to move to discard pile
                 CardData cardData = cardManager.PlayerHand.First(data => data.Card.InGameGUID == card.InGameGUID);
@@ -258,13 +258,13 @@ public class CombatStateMachine : MonoBehaviour
                 container.DestroyCard(evt.card);
 
 
-                GameObject mainHandWeapon = equipmentHolsterScript.rightHand.GetChild(0).gameObject;
+                GameObject mainHandWeapon = equipmentHolsterScript.RightHand.GetChild(0).gameObject;
                 Weapon weaponScript = mainHandWeapon.GetComponent<Weapon>();
 
                 // Swap Weapon
-                if (weaponScript.Guid != cardData.Weapon.guid)
+                if (weaponScript.Guid != cardData.Weapon.Guid)
                 {
-                    GameObject holsteredWeapon = equipmentHolsterScript.equippedWeaponObjects.First(weapon => weapon.gameObject.GetComponent<Weapon>().Guid == cardData.Weapon.guid);
+                    GameObject holsteredWeapon = equipmentHolsterScript.EquippedWeaponObjects.First(weapon => weapon.gameObject.GetComponent<Weapon>().Guid == cardData.Weapon.Guid);
 
                     equipmentHolsterScript.HolsterWeapon(mainHandWeapon);   
 
@@ -288,7 +288,7 @@ public class CombatStateMachine : MonoBehaviour
             CardContainer container = playerHandTransform.GetComponent<CardContainer>();
             container.DestroyCard(evt.card);
 
-            player.RecycleCardToStamina(card.recycleValue);
+            player.RecycleCardToStamina(card.RecycleValue);
         }
     }
 
@@ -384,10 +384,10 @@ public class CombatStateMachine : MonoBehaviour
     {
         CombatUIManager UIManager = combatUIManager;
 
-        GameObject popupObj = Instantiate(UIManager.damagePopupPrefab, UIManager.worldSpaceCanvas);
-        popupObj.transform.position = new Vector3(avatar.transform.position.x + Random.Range(-UIManager.randomOffsetHorizontal, UIManager.randomOffsetHorizontal),
-                                                  avatar.transform.position.y + UIManager.offsetVertical,
-                                                  avatar.transform.position.z + Random.Range(-UIManager.randomOffsetHorizontal, UIManager.randomOffsetHorizontal));
+        GameObject popupObj = Instantiate(UIManager.DamagePopupPrefab, UIManager.WorldSpaceCanvas);
+        popupObj.transform.position = new Vector3(avatar.transform.position.x + Random.Range(-UIManager.RandomOffsetHorizontal, UIManager.RandomOffsetHorizontal),
+                                                  avatar.transform.position.y + UIManager.OffsetVertical,
+                                                  avatar.transform.position.z + Random.Range(-UIManager.RandomOffsetHorizontal, UIManager.RandomOffsetHorizontal));
         Vector3 moveToPos = popupObj.transform.position;
         moveToPos.y += 1f;
 
@@ -395,9 +395,9 @@ public class CombatStateMachine : MonoBehaviour
         popupText.text = damage.ToString();
         popupText.color = color;
 
-        popupObj.transform.DOMoveY(popupObj.transform.position.y + UIManager.moveVertical, UIManager.moveDuration).SetEase(Ease.OutQuad).OnComplete(() =>
+        popupObj.transform.DOMoveY(popupObj.transform.position.y + UIManager.MoveVertical, UIManager.MoveDuration).SetEase(Ease.OutQuad).OnComplete(() =>
         {
-            popupText.DOFade(0, UIManager.fadeDuration).OnComplete(() => { Destroy(popupObj); });
+            popupText.DOFade(0, UIManager.FadeDuration).OnComplete(() => { Destroy(popupObj); });
         });
     }
 

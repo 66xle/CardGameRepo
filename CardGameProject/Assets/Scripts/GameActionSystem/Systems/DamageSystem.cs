@@ -75,11 +75,11 @@ public class DamageSystem : MonoBehaviour
     {
         for (int i = avatarOpponent.ListOfEffects.Count - 1; i >= 0; i--)
         {
-            if (avatarOpponent.ListOfEffects[i].effect != Effect.GuardBroken)
+            if (avatarOpponent.ListOfEffects[i].Effect != Effect.GuardBroken)
                 continue;
 
-            avatarOpponent.ListOfEffects[i].currentTurnsRemaning--;
-            if (avatarOpponent.ListOfEffects[i].currentTurnsRemaning <= 0)
+            avatarOpponent.ListOfEffects[i].CurrentTurnsRemaning--;
+            if (avatarOpponent.ListOfEffects[i].CurrentTurnsRemaning <= 0)
             {
                 avatarOpponent.RecoverGuardBreak();
                 avatarOpponent.ListOfEffects[i].OnRemoval(avatarOpponent);
@@ -90,8 +90,8 @@ public class DamageSystem : MonoBehaviour
 
     public void ApplyGuardBroken(Avatar avatarOpponent)
     {
-        if (avatarOpponent.ArmourType == ArmourType.Light || avatarOpponent.ArmourType == ArmourType.None) avatarOpponent.ApplyStatusEffect(Ctx.guardBreakLightArmourData.statusEffect.Clone());
-        else if (avatarOpponent.ArmourType == ArmourType.Medium) avatarOpponent.ApplyStatusEffect(Ctx.guardBreakMediumArmourData.statusEffect.Clone());
-        else if (avatarOpponent.ArmourType == ArmourType.Heavy) avatarOpponent.ApplyStatusEffect(Ctx.guardBreakHeavyArmourData.statusEffect.Clone());
+        if (avatarOpponent.ArmourType == ArmourType.Light || avatarOpponent.ArmourType == ArmourType.None) avatarOpponent.ApplyStatusEffect(Ctx.guardBreakLightArmourData.StatusEffect.Clone());
+        else if (avatarOpponent.ArmourType == ArmourType.Medium) avatarOpponent.ApplyStatusEffect(Ctx.guardBreakMediumArmourData.StatusEffect.Clone());
+        else if (avatarOpponent.ArmourType == ArmourType.Heavy) avatarOpponent.ApplyStatusEffect(Ctx.guardBreakHeavyArmourData.StatusEffect.Clone());
     }
 }

@@ -18,13 +18,13 @@ public class CardDisplay : MonoBehaviour
     {
         Card.GenerateDisplayDescription();
 
-        Name.text = Card.cardName;
-        Description.text = Card.displayDescription;
-        Flavour.text = Card.flavour;
-        Cost.text = Card.cost.ToString();
+        Name.text = Card.CardName;
+        Description.text = Card.DisplayDescription;
+        Flavour.text = Card.Flavour;
+        Cost.text = Card.Cost.ToString();
 
-        Image.sprite = Card.image;
-        Frame.sprite = Card.frame;
+        Image.sprite = Card.Image;
+        Frame.sprite = Card.Frame;
     }
 
     public void SetCard(Card card)

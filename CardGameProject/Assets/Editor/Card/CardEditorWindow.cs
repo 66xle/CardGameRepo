@@ -50,7 +50,7 @@ public class CardEditorWindow : BaseEditorWindow
         list.bindItem = (element, i) =>
         {
             Label label = element.Q<Label>("list-item");
-            label.text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(cards[i].guid));
+            label.text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(cards[i].Guid));
         };
 
         SetupListView();
@@ -91,7 +91,7 @@ public class CardEditorWindow : BaseEditorWindow
 
                     if (cardProperty.name == "displayDescription")
                     {
-                        lastDisplayDescription = card.displayDescription;
+                        lastDisplayDescription = card.DisplayDescription;
                     }
 
                 }
@@ -132,14 +132,14 @@ public class CardEditorWindow : BaseEditorWindow
         if (list.selectedItem != null)
         {
             Card selectedCard = list.selectedItem as Card;
-            if (!EditorUtility.DisplayDialog($"Delete Card", $"Delete {selectedCard.cardName}?", "Delete", "Cancel"))
+            if (!EditorUtility.DisplayDialog($"Delete Card", $"Delete {selectedCard.CardName}?", "Delete", "Cancel"))
                 return;
 
             list.ClearSelection();
             rootVisualElement.Query<Box>("card-info").First().Clear();
             list.itemsSource = null;
 
-            AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedCard.guid));
+            AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedCard.Guid));
 
             CreateListView();
 
@@ -185,7 +185,7 @@ public class CardEditorWindow : BaseEditorWindow
             string path = AssetDatabase.GUIDToAssetPath(guids[i]);
 
             Card loadedCard = AssetDatabase.LoadAssetAtPath<Card>(path);
-            loadedCard.guid = guids[i];
+            loadedCard.Guid = guids[i];
 
             cards.Add(loadedCard);
         }
@@ -199,7 +199,7 @@ public class CardEditorWindow : BaseEditorWindow
 
         try
         {
-            cardPreviewImage.image = card.image.texture;
+            cardPreviewImage.image = card.Image.texture;
         }
         catch (Exception err) 
         {
@@ -208,7 +208,7 @@ public class CardEditorWindow : BaseEditorWindow
 
         try
         {
-            cardPreviewFrame.image = card.frame.texture;
+            cardPreviewFrame.image = card.Frame.texture;
         }
         catch (Exception err) 
         {
@@ -224,19 +224,19 @@ public class CardEditorWindow : BaseEditorWindow
         Label cost = rootVisualElement.Query<Label>("cost").First();
 
 
-        title.text = card.cardName;
-        description.text = card.displayDescription;
-        flavour.text = card.flavour;
-        cost.text = card.cost.ToString();
+        title.text = card.CardName;
+        description.text = card.DisplayDescription;
+        flavour.text = card.Flavour;
+        cost.text = card.Cost.ToString();
     }
 
     private void UpdateCardUI()
     {
         if (selectedCard == null) return;
 
-        if (selectedCard.displayDescription != lastDisplayDescription)
+        if (selectedCard.DisplayDescription != lastDisplayDescription)
         {
-            lastDisplayDescription = selectedCard.displayDescription;
+            lastDisplayDescription = selectedCard.DisplayDescription;
             LoadCardText(selectedCard, list);
         }
     }
