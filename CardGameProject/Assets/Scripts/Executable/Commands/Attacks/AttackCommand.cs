@@ -46,7 +46,7 @@ public abstract class AttackCommand : Command
                 else
                 {
                     // Add game action to queue
-                    TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, Value, ExecutableParameters.WeaponData.Type, ExecutableParameters.CardTarget);
+                    TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, Value, ExecutableParameters.WeaponData.DamageType, ExecutableParameters.CardTarget);
                     avatarToTakeDamage.QueueGameActions.Add(takeDamageFromWeaponGA);
 
                     SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.AvatarToTakeDamage, takeDamageFromWeaponGA.Damage, Color.white);

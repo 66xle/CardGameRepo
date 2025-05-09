@@ -386,6 +386,7 @@ public class Avatar : MonoBehaviour
     public void AnimationEventAttackFinish()
     {
         IsAttackFinished = true;
+        Animator.SetBool("IsAttacking", false);
     }
 
     #endregion

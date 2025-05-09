@@ -65,7 +65,13 @@ public class AnimationSystem : MonoBehaviour
 
     private IEnumerator TriggerAttackAnimPerformer(TriggerAttackAnimGA triggerAttackAnimGA)
     {
-        triggerAttackAnimGA.AvatarPlayingCard.GetComponent<Animator>().SetTrigger("Attack");
+        Avatar avatarPlayingCard = triggerAttackAnimGA.AvatarPlayingCard;
+        Animator animator = avatarPlayingCard.GetComponent<Animator>();
+
+        Debug.Log(triggerAttackAnimGA.WeaponType.ToString());
+
+        animator.SetTrigger(triggerAttackAnimGA.WeaponType.ToString());
+        animator.SetBool("IsAttacking", true);
 
         yield return null;
     }

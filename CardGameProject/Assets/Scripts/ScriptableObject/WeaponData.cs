@@ -11,7 +11,9 @@ public class WeaponData : ScriptableObject
 
     public string WeaponName;
     public string Description;
-    public DamageType Type;
+    public DamageType DamageType;
+    public WeaponType WeaponType;
+    
 
     public GameObject Prefab;
 

@@ -78,6 +78,8 @@ public class SwitchWeaponManager : MonoBehaviour
         WeaponData newData = new WeaponData();
 
         newData.WeaponName = data.WeaponName;
+        newData.DamageType = data.DamageType;
+        newData.WeaponType = data.WeaponType;
         newData.Description = data.Description;
         newData.Cards = data.Cards;
         newData.Prefab = data.Prefab;

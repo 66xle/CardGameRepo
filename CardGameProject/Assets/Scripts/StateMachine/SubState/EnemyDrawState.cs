@@ -40,7 +40,7 @@ public class EnemyDrawState : CombatBaseState
         List<Card> cards = ctx.currentEnemyTurn.GetComponent<Enemy>().DrawCards();
 
         WeaponData weapon = new WeaponData();
-        weapon.Type = ctx.currentEnemyTurn.DamageType;
+        weapon.DamageType = ctx.currentEnemyTurn.DamageType;
 
         ctx.cardManager.EnemyCardQueue.AddRange(cards.Select(card => new CardData(weapon, card)));
     }

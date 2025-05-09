@@ -18,6 +18,7 @@ public enum DamageType
     Blunt
 }
 
+
 public class EquipmentManager : MonoBehaviour
 {
     [MustBeAssigned] public WeaponData MainHand;

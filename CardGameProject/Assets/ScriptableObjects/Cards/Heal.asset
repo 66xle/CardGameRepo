@@ -16,14 +16,14 @@ MonoBehaviour:
   InGameGUID: 
   CardName: Heal
   Description: Deal #0 damage
-  DisplayDescription: Deal 2 damage
+  DisplayDescription: Deal 5 damage
   Flavour: 
   Image: {fileID: 21300000, guid: 950112b2bd6d2074ea8120822702c17a, type: 3}
   Frame: {fileID: 21300000, guid: a0be78c2424db6a488d2f683021a99a4, type: 3}
   Cost: 3
   RecycleValue: 1
   ValuesToReference:
-  - 2
+  - 5
   Commands:
   - rid: 7082259141368479806
   references:
@@ -33,4 +33,4 @@ MonoBehaviour:
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 1
-        value: 2
+        value: 5

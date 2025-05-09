@@ -52,7 +52,9 @@ public class ActionSequence : Executable
             MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent);
             ActionSystem.Instance.Perform(moveToPosGA);
 
-            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard);
+            Debug.Log(ExecutableParameters.WeaponData.DamageType);
+
+            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, ExecutableParameters.WeaponData.WeaponType);
             moveToPosGA.PostReactions.Add(triggerAttackAnimGA);
 
             yield return new WaitWhile(() => !avatarPlayingCard.DoDamage);
