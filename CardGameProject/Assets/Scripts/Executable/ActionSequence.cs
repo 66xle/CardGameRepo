@@ -10,6 +10,8 @@ public class ActionSequence : Executable
 {
     public override bool RequiresMovement => CheckRequireMovement();
 
+    private bool IsAttackingAllEnemies;
+
     private List<Executable> _actionCommands;
 
     public ActionSequence(List<Executable> actionCommands)
@@ -30,6 +32,7 @@ public class ActionSequence : Executable
         avatarPlayingCard.DoDamage = false;
         avatarPlayingCard.IsAttackFinished = false;
         bool hasMoved = false;
+        IsAttackingAllEnemies = false;
 
         #endregion
 
@@ -49,7 +52,7 @@ public class ActionSequence : Executable
         if (RequiresMovement && !hasMoved)
         {
             // Trigger move animation | After move GA, reaction will trigger attack GA
-            MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent);
+            MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, IsAttackingAllEnemies);
             ActionSystem.Instance.Perform(moveToPosGA);
 
             Debug.Log(ExecutableParameters.WeaponData.DamageType);
@@ -115,6 +118,9 @@ public class ActionSequence : Executable
 
             ExecutableParameters.Targets = GetTargets(command.CardTarget);
             ExecutableParameters.CardTarget = command.CardTarget;
+
+            if (command.CardTarget == CardTarget.AllEnemies) 
+                IsAttackingAllEnemies = true;
 
             bool isConditionTrue = false;
             yield return command.Execute(result => isConditionTrue = result);

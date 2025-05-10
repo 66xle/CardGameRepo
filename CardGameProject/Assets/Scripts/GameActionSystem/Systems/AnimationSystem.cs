@@ -25,18 +25,19 @@ public class AnimationSystem : MonoBehaviour
     {
         Avatar avatarPlayingCard = moveToPosGA.AvatarPlayingCard;
         Avatar avatarOpponent = moveToPosGA.AvatarOpponent;
+        bool moveToCenter = moveToPosGA.MoveToCenter;
 
         Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
         avatarPlayingCardController.SetTrigger("Move");
 
         // Determine position to move to
         Transform currentTransform = avatarPlayingCard.transform;
-        Transform opponentTransform = avatarOpponent.transform;
+        Transform opponentTransform = moveToCenter ? avatarOpponent.transform.parent.parent : avatarOpponent.transform;
 
         Vector3 currentPos = new Vector3(currentTransform.position.x, 0, currentTransform.position.z);
         Vector3 opponentPos = new Vector3(opponentTransform.position.x, 0, opponentTransform.position.z);
 
-        Vector3 posToMove = opponentPos + opponentTransform.parent.transform.forward * 1.5f;
+        Vector3 posToMove = opponentPos + opponentTransform.transform.forward * 1.5f;
 
         Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), Ctx.moveDuration).SetEase(Ctx.moveAnimCurve);
 
