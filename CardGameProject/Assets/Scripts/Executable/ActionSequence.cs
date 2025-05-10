@@ -225,7 +225,14 @@ public class ActionSequence : Executable
         }
         else if (target == CardTarget.AllEnemies)
         {
-            targets.AddRange(ExecutableParameters.Ctx.enemyList);
+            if (ExecutableParameters.AvatarPlayingCard is Player)
+            {
+                targets.AddRange(ExecutableParameters.Ctx.enemyList);
+            }
+            else
+            {
+                targets.Add(ExecutableParameters.AvatarOpponent);
+            }
         }
         else if (target == CardTarget.Self)
         {
