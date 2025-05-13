@@ -14,6 +14,7 @@ public class Card : ScriptableObject
 {
     [ReadOnly] public string Guid;
     [ReadOnly] public string InGameGUID;
+    [HideInInspector] public string Animation;
 
     public string CardName;
     [TextArea] public string Description;

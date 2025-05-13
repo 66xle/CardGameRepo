@@ -5,25 +5,32 @@ public struct CardData
     public WeaponData Weapon { get; private set; }
     public Card Card { get; private set; }
 
-    public CardData(WeaponData weapon, Card card)
+    public CardData(WeaponData weapon, WeaponCardData data)
     {
-        Weapon = weapon;
-
+        Card card = data.Card;
         Card copyCard = new Card();
+
         copyCard.Guid = card.Guid;
         copyCard.InGameGUID = Guid.NewGuid().ToString();
+
         copyCard.CardName = card.CardName;
         copyCard.Description = card.Description;
         copyCard.DisplayDescription = card.DisplayDescription;
         copyCard.Flavour = card.Flavour;
-        copyCard.ValuesToReference = card.ValuesToReference;
+
         copyCard.Cost = card.Cost;
         copyCard.RecycleValue = card.RecycleValue;
+
         copyCard.Image = card.Image;
         copyCard.Frame = card.Frame;
-        copyCard.CardName = card.CardName;
+
+        copyCard.ValuesToReference = card.ValuesToReference;
         copyCard.Commands = card.Commands;
+        copyCard.Animation = data.Animation;
+
 
         Card = copyCard;
+        Weapon = weapon;
     }
+
 }

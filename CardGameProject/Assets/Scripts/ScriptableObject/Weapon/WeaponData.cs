@@ -29,7 +29,15 @@ public class WeaponData : ScriptableObject
 
     [Separator]
 
-    public List<Card> Cards;
+    
+
+    [SerializeReference][SR] public List<WeaponCardData> Cards;
+
+    [ButtonMethod]
+    public void Button()
+    {
+        EditorUtility.RequestScriptReload();
+    }
 
     public void OnValidate()
     {
@@ -41,6 +49,15 @@ public class WeaponData : ScriptableObject
 
             WeaponTypeAnimationSet = new(data.First(data => data.WeaponType == WeaponType).AnimationClipList);
             _weaponTypeCount = WeaponTypeAnimationSet.Count;
+
+
+
+            List<AnimationClip> animationClips = new();
+            WeaponTypeAnimationSet.ForEach(data => animationClips.AddRange(data.AnimationClipList));
+
+            Cards.ForEach(data => data.AnimationClipList = animationClips);
+
+            EditorUtility.RequestScriptReload();
         }
     }
 

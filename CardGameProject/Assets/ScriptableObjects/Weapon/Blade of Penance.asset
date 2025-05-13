@@ -16,10 +16,55 @@ MonoBehaviour:
   WeaponName: 
   Description: 
   DamageType: 0
-  WeaponType: 0
+  WeaponType: 1
   Prefab: {fileID: 573255403107502088, guid: 7b168040743b5c24b8abfdc5b22ff9b7, type: 3}
   HolsterSlot: {fileID: 0}
   WeaponTypeAnimationSet:
-  - {fileID: 1827226128182048838, guid: b766f3fdd3c320e409afa7076753976b, type: 3}
+  - rid: 7082259238184812628
+  - rid: 7082259238184812629
+  - rid: 7082259238184812630
   Cards:
-  - {fileID: 11400000, guid: 7adfbb88d1838da4bacde094ec37a06c, type: 2}
+  - rid: 7082259256776327237
+  - rid: 7082259256776327238
+  - rid: 7082259256776327243
+  references:
+    version: 2
+    RefIds:
+    - rid: 7082259238184812628
+      type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
+      data:
+        AnimationClipList:
+        - {fileID: 1827226128182048838, guid: 3d8051e0b50b9c84e8d5c5e945105220, type: 3}
+        - {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
+        - {fileID: 1827226128182048838, guid: 97b15962ca9b5e048a51b3ea243fcc52, type: 3}
+        - {fileID: 1827226128182048838, guid: 2680591b97b18a24cabe8e529c6763c4, type: 3}
+        - {fileID: 1827226128182048838, guid: 8103ac9a8d8b9534e94dfb347b8e8d5d, type: 3}
+    - rid: 7082259238184812629
+      type: {class: WeaponTypeAnimationHeavy, ns: , asm: Assembly-CSharp}
+      data:
+        AnimationClipList:
+        - {fileID: 1827226128182048838, guid: 04206163fa6f4ef47a2577edd8706e26, type: 3}
+        - {fileID: 1827226128182048838, guid: ba31907f1536e61439b0c4b2b1727f79, type: 3}
+    - rid: 7082259238184812630
+      type: {class: WeaponTypeAnimationAOE, ns: , asm: Assembly-CSharp}
+      data:
+        AnimationClipList:
+        - {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
+    - rid: 7082259256776327237
+      type: {class: WeaponCardData, ns: , asm: Assembly-CSharp}
+      data:
+        Card: {fileID: 11400000, guid: 38fce7d3e7fa4834d88c29a8e87c113d, type: 2}
+        AnimationClipList: []
+        Animation: 
+    - rid: 7082259256776327238
+      type: {class: WeaponCardData, ns: , asm: Assembly-CSharp}
+      data:
+        Card: {fileID: 11400000, guid: 38fce7d3e7fa4834d88c29a8e87c113d, type: 2}
+        AnimationClipList: []
+        Animation: 
+    - rid: 7082259256776327243
+      type: {class: WeaponCardData, ns: , asm: Assembly-CSharp}
+      data:
+        Card: {fileID: 11400000, guid: 65ea7d66bc9a18640a6243c910780f4f, type: 2}
+        AnimationClipList: []
+        Animation: 

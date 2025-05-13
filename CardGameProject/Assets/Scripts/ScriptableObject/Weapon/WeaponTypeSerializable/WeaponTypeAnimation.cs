@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using SerializeReferenceEditor;
 using UnityEngine;
@@ -8,5 +9,5 @@ using UnityEngine;
 [SRHidden]
 public class WeaponTypeAnimation
 {
-    
+    public List<AnimationClip> AnimationClipList;
 }
