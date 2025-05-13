@@ -15,6 +15,9 @@ using System.Runtime.CompilerServices;
 
 public class WeaponEditorWindow : BaseEditorWindow
 {
+    static int listIndex;
+    static bool isInitialized;
+    static bool editorReadyToInit;
 
     GameObject gameObject;
     Editor gameObjectEditor;
@@ -28,18 +31,36 @@ public class WeaponEditorWindow : BaseEditorWindow
 
     private void OnEnable()
     {
-        Enable("WeaponEditorWindow", "WeaponEditorStyles", "weapon", "Weapon");
+        Init(); 
+    }
+
+    private void Init()
+    {
+        Enable("WeaponEditorWindow", "WeaponEditorStyles", "weapon", "Weapon"); 
 
         CreateListView();
         SetButtons();
+
+        isInitialized = true;
     }
 
-    private void OnFocus()
+    [InitializeOnLoadMethod]
+    private static void OnLoad()
     {
-        if (isPopupActive)
+        EditorApplication.delayCall += () =>
         {
-            window.Focus();
-            EditorUtility.DisplayDialog($"Error", $"Currently creating weapon", "Ok");
+            listIndex = SessionState.GetInt("weaponListIndex", 0);
+            isInitialized = false;
+            editorReadyToInit = true;
+        };
+    }
+
+    private void OnGUI()
+    {
+        if (!isInitialized && editorReadyToInit)
+        {
+            rootVisualElement.Clear();
+            Init();
         }
     }
 
@@ -59,8 +80,12 @@ public class WeaponEditorWindow : BaseEditorWindow
 
         SetupListView();
 
+
         list.selectionChanged += (enumerable) =>
         {
+            if (isInitialized)
+                SessionState.SetInt("weaponListIndex", list.selectedIndex); 
+
             foreach (UnityEngine.Object it in enumerable)
             {
                 Box weaponDataInfoBox = rootVisualElement.Query<Box>("weapon-info").First();
@@ -95,6 +120,9 @@ public class WeaponEditorWindow : BaseEditorWindow
         };
 
         list.Rebuild();
+
+        if (!isInitialized) 
+            list.SetSelection(listIndex);
     }
 
     
@@ -109,6 +137,9 @@ public class WeaponEditorWindow : BaseEditorWindow
         
         Button renameButton = rootVisualElement.Query<Button>("rename-weapon").First();
         renameButton.clicked += RenameWeapon;
+
+        Button refreshButton = rootVisualElement.Query<Button>("refresh").First();
+        refreshButton.clicked += RefreshScripts; 
     }
     private void AddWeapon()
     {
@@ -158,6 +189,11 @@ public class WeaponEditorWindow : BaseEditorWindow
         }
     }
 
+    private void RefreshScripts()
+    {
+        EditorUtility.RequestScriptReload();
+    }
+
     private void FindAllWeapons(out List<WeaponData> weapons)
     {
         string[] guids = AssetDatabase.FindAssets("t:WeaponData");
@@ -186,7 +222,9 @@ public class WeaponEditorWindow : BaseEditorWindow
         GUIStyle bgColor = new GUIStyle();
         bgColor.normal.background = EditorGUIUtility.whiteTexture;
 
-        DestroyImmediate(gameObjectEditor);
+        if (isInitialized)
+            DestroyImmediate(gameObjectEditor);
+
         gameObjectEditor = Editor.CreateEditor(weaponData.Prefab);
         IMGUIContainer container = new IMGUIContainer(() => { gameObjectEditor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(1000, 500), bgColor); });
         gameObjectPreview.Add(container);

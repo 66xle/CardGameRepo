@@ -35,8 +35,6 @@ public class BaseEditorWindow : EditorWindow
 
         StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>($"Assets/Editor/{typeName}/{stylesFileName}.uss");
         rootVisualElement.styleSheets.Add(styleSheet);
-
-        EditorStyles.label.wordWrap = true;
     }
 
     public void SetupListView()
