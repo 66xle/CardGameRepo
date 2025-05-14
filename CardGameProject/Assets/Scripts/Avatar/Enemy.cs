@@ -1,13 +1,15 @@
 using System.Collections.Generic;
+using System.Linq;
 using MyBox;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.GPUSort;
 
 public class Enemy : Avatar
 {
     [Header("Cards")]
     [SerializeField] int DrawAmount = 1;
-    [ReadOnly] public List<Card> Deck;
+    [ReadOnly] public List<CardData> Deck;
     public List<Card> CardsToPlay { get; set; }
     public bool DisableSelection { get; set; }
 
@@ -45,10 +47,13 @@ public class Enemy : Avatar
     {
         DisableSelection = false;
 
+        WeaponData weapon = new WeaponData();
+        weapon.DamageType = DamageType;
+
         EnemyData = data;
-        Deck = EnemyData.CardList;
         MaxHealth = EnemyData.Health;
         MaxGuard = EnemyData.Guard;
+        Deck.AddRange(data.Cards.Select(card => new CardData(weapon, card)));
 
         SelectionRing = transform.GetChild(0).gameObject;
     }
@@ -60,7 +65,7 @@ public class Enemy : Avatar
         for (int i = 0; i < DrawAmount; i++)
         {
             int index = Random.Range(0, Deck.Count);
-            cardDrawn.Add(Deck[index]);
+            cardDrawn.Add(Deck[index].Card);
         }
 
         return cardDrawn;
