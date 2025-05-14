@@ -6,7 +6,6 @@ using MyBox;
 [CreateAssetMenu(fileName = "GuardBroken", menuName = "StatusEffect/GuardBroken")]
 public class StatusGuardBroken : StatusEffect
 {
-    public int NumberOfHitsToRecover;
     [Range(0, 1)] public float ExtraDamagePercentage;
     [SerializeField] bool RemoveEffectNextTurn;
 

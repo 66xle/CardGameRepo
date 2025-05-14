@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 920424e820b10864681c40f471d24442, type: 3}
   m_Name: GuardBrokenMedium
   m_EditorClassIdentifier: 
-  statusEffect:
-    rid: 8735465014653354045
-  uiPrefab: {fileID: 425717489898406801, guid: 3a66dd0d7c258054a933f3ddf2bd5f87, type: 3}
+  StatusEffect:
+    rid: 7082259279571320986
   references:
     version: 2
     RefIds:
-    - rid: 8735465014653354045
+    - rid: 7082259279571320986
       type: {class: StatusGuardBroken, ns: , asm: Assembly-CSharp}
       data:
-        effect: 1
-        effectName: Guard Broken
-        maxTurnsRemaining: 2
-        currentTurnsRemaning: 0
-        isActiveEffect: 0
-        numberOfHitsToRecover: 2
-        extraDamagePercentage: 0.2
+        Effect: 1
+        EffectName: Guard Broken
+        MaxTurnsRemaining: 2
+        CurrentTurnsRemaning: 0
+        IsActiveEffect: 0
+        NumberOfHitsToRecover: 0
+        ExtraDamagePercentage: 0.2
+        RemoveEffectNextTurn: 1

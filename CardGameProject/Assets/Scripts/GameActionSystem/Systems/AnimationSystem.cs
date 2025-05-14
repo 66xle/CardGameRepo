@@ -1,6 +1,7 @@
 using DG.Tweening;
 using MyBox;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimationSystem : MonoBehaviour
@@ -69,11 +70,68 @@ public class AnimationSystem : MonoBehaviour
         Avatar avatarPlayingCard = triggerAttackAnimGA.AvatarPlayingCard;
         Animator animator = avatarPlayingCard.GetComponent<Animator>();
 
-        Debug.Log(triggerAttackAnimGA.WeaponType.ToString());
+        string animationName = GetAttackAnimation(triggerAttackAnimGA.AnimationList);
 
-        animator.SetTrigger(triggerAttackAnimGA.WeaponType.ToString());
+        string category = GetWeaponCategory(animationName);
+        animator.SetTrigger(category);
+
+        string attackType = GetAttackType(animationName);
+        animator.SetTrigger(attackType);
+
+        int index = GetAnimationIndex(animationName);
+        animator.SetInteger("AnimationIndex", index);
+
+        Debug.Log($"{animationName} - {category} - {attackType} - {index}");
+
         animator.SetBool("IsAttacking", true);
 
         yield return null;
+    }
+
+    private string GetAttackAnimation(List<string> list)
+    {
+        int index = Random.Range(0, list.Count);
+
+        return list[index];
+    }
+
+    private string GetWeaponCategory(string name)
+    {
+        if (name.Contains("Long"))
+        {
+            return "Long";
+        }
+        else if (name.Contains("Short"))
+        {
+            return "Short";
+        }
+
+        return "General";
+    }
+
+    private string GetAttackType(string name)
+    {
+        if (name.Contains(AttackType.Strike.ToString()))
+        {
+            return "Strike";
+        }
+        else if (name.Contains(AttackType.Heavy.ToString()))
+        {
+            return "Heavy";
+        }
+        else if (name.Contains(AttackType.AOE.ToString()))
+        {
+            return "AOE";
+        }
+
+        Debug.LogError("Animation Clip missing attack type! " + name);
+        return "Strike";
+    }
+
+    private int GetAnimationIndex(string name)
+    {
+        char index = name.ToCharArray()[name.Length - 1];
+
+        return int.Parse(index.ToString());
     }
 }

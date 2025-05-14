@@ -60,14 +60,14 @@ public class Enemy : Avatar
         SelectionRing = transform.GetChild(0).gameObject;
     }
   
-    public List<Card> DrawCards()
+    public List<CardData> DrawCards()
     {
-        List<Card> cardDrawn = new List<Card>();
+        List<CardData> cardDrawn = new();
 
         for (int i = 0; i < DrawAmount; i++)
         {
             int index = Random.Range(0, Deck.Count);
-            cardDrawn.Add(Deck[index].Card);
+            cardDrawn.Add(Deck[index]);
         }
 
         return cardDrawn;

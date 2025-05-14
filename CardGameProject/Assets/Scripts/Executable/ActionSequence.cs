@@ -57,7 +57,7 @@ public class ActionSequence : Executable
 
             Debug.Log(ExecutableParameters.WeaponData.DamageType);
 
-            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, ExecutableParameters.WeaponData.WeaponType);
+            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, ExecutableParameters.CardData.AnimationList);
             moveToPosGA.PostReactions.Add(triggerAttackAnimGA);
 
             yield return new WaitWhile(() => !avatarPlayingCard.DoDamage);

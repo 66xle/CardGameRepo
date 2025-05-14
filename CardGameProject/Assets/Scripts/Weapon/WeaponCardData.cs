@@ -6,6 +6,13 @@ using UnityEngine;
 using SerializeReferenceEditor;
 using System.Linq;
 
+public enum AttackType
+{
+    Strike,
+    Heavy,
+    AOE
+}
+
 [Serializable]
 [SRName("Card")]
 public class WeaponCardData 
@@ -37,11 +44,11 @@ public class WeaponCardData
 
         int index = -1;
 
-        if (Animation == "Strike")
+        if (Animation == AttackType.Strike.ToString())
             index = 0;
-        else if (Animation == "Heavy")
+        else if (Animation == AttackType.Heavy.ToString())
             index = 1;
-        else if (Animation == "AOE")
+        else if (Animation == AttackType.AOE.ToString())
             index = 2;
 
 

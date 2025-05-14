@@ -1,9 +1,13 @@
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public struct CardData
 {
     public WeaponData Weapon { get; private set; }
     public Card Card { get; private set; }
+
+    public List<string> AnimationList { get; private set; }
 
     public CardData(WeaponData weapon, WeaponCardData data)
     {
@@ -26,9 +30,9 @@ public struct CardData
 
         copyCard.ValuesToReference = card.ValuesToReference;
         copyCard.Commands = card.Commands;
-        copyCard.AnimationList = data.AnimationList;
 
 
+        AnimationList = data.AnimationList;
         Card = copyCard;
         Weapon = weapon;
     }

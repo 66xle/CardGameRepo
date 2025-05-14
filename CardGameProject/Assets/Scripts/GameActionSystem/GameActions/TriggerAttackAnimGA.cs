@@ -1,13 +1,15 @@
+using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 
 public class TriggerAttackAnimGA : GameAction
 {
     public Avatar AvatarPlayingCard;
-    public WeaponType WeaponType;
+    public List<string> AnimationList;
 
-    public TriggerAttackAnimGA(Avatar avatarPlayingCard, WeaponType weaponType)
+    public TriggerAttackAnimGA(Avatar avatarPlayingCard, List<string> animationList)
     {
         AvatarPlayingCard = avatarPlayingCard;
-        WeaponType = weaponType;
+        AnimationList = animationList;
     }
 }

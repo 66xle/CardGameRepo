@@ -37,17 +37,13 @@ public class EnemyDrawState : CombatBaseState
 
     public void DrawCards()
     {
-        List<Card> cards = ctx.currentEnemyTurn.GetComponent<Enemy>().DrawCards();
+        List<CardData> cards = ctx.currentEnemyTurn.GetComponent<Enemy>().DrawCards();
 
-        WeaponData weapon = new WeaponData();
-        weapon.DamageType = ctx.currentEnemyTurn.DamageType;
-
-        foreach (Card card in cards)
+        foreach (CardData card in cards)
         {
-            WeaponCardData data = new();
-            data.Card = card;
+            card.Weapon.DamageType = ctx.currentEnemyTurn.DamageType;
 
-            ctx.cardManager.EnemyCardQueue.Add(new CardData(weapon, data));
+            ctx.cardManager.EnemyCardQueue.Add(card);
         }
     }
 }
