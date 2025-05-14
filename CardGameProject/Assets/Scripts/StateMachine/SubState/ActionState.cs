@@ -83,10 +83,8 @@ public class ActionState : CombatBaseState
 
     private IEnumerator PlayCard(CardData cardData)
     {
-        
-
         ExecutableParameters.Ctx = ctx;
-        ExecutableParameters.Card = cardData.Card;
+        ExecutableParameters.CardData = cardData;
         ExecutableParameters.WeaponData = cardData.Weapon;
         ExecutableParameters.AvatarPlayingCard = avatarPlayingCard;
         ExecutableParameters.AvatarOpponent = avatarOpponent;

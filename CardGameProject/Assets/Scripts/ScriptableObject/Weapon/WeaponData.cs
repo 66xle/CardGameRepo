@@ -51,6 +51,16 @@ public class WeaponData : ScriptableObject
 
             Cards.ForEach(data => data.AnimationClipList = animationClips);
         }
+
+
+        if (WeaponTypeAnimationSet == null) return;
+
+        foreach (WeaponCardData data in Cards)
+        {
+            if (data == null) continue;
+
+            data.UpdateAnimationList(WeaponTypeAnimationSet);
+        }
     }
 
     private void FindAllWeaponTypeAnimationData(out List<WeaponTypeAnimationData> data)

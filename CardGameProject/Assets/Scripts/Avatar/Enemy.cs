@@ -47,12 +47,14 @@ public class Enemy : Avatar
     {
         DisableSelection = false;
 
-        WeaponData weapon = new WeaponData();
+        WeaponData weapon = new();
         weapon.DamageType = DamageType;
 
         EnemyData = data;
         MaxHealth = EnemyData.Health;
         MaxGuard = EnemyData.Guard;
+
+        Deck = new();
         Deck.AddRange(data.Cards.Select(card => new CardData(weapon, card)));
 
         SelectionRing = transform.GetChild(0).gameObject;

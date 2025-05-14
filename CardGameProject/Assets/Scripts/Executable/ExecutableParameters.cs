@@ -7,7 +7,7 @@ public static class ExecutableParameters
     public static CombatStateMachine Ctx;
     public static Avatar AvatarPlayingCard;
     public static Avatar AvatarOpponent;
-    public static Card Card;
+    public static CardData CardData;
     public static WeaponData WeaponData;
 
     public static List<Avatar> Targets;

@@ -26,7 +26,7 @@ public struct CardData
 
         copyCard.ValuesToReference = card.ValuesToReference;
         copyCard.Commands = card.Commands;
-        copyCard.Animation = data.Animation;
+        copyCard.AnimationList = data.AnimationList;
 
 
         Card = copyCard;
