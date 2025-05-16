@@ -12,9 +12,9 @@ public class PlayState : CombatBaseState
     {
         Debug.Log("Play State");
 
-        ctx.isPlayedCard = false;
-        
+        ctx.combatUIManager.ToggleHideUI(true);
 
+        ctx.isPlayedCard = false;
         ctx.isPlayState = true;
         ctx.combatUIManager.EndTurnButton.interactable = true;
     }
