@@ -9,6 +9,10 @@ using System.IO;
 
 public class BaseEditorWindow : EditorWindow
 {
+    protected static int listIndex;
+    protected static bool isInitialized;
+    protected static bool editorReadyToInit;
+
     public ListView list;
 
     public PopupWindow window;
@@ -37,8 +41,10 @@ public class BaseEditorWindow : EditorWindow
         rootVisualElement.styleSheets.Add(styleSheet);
     }
 
-    public void SetupListView()
+    public void SetupListView<T>(List<T> data, List<string> pathList, string listViewName)
     {
+        list = rootVisualElement.Query<ListView>(listViewName).First();
+
         list.makeItem = () =>
         {
             VisualElement visualElement = new VisualElement();
@@ -54,7 +60,17 @@ public class BaseEditorWindow : EditorWindow
             visualElement.Add(border);
             return visualElement;
         };
-        
+
+
+        list.bindItem = (element, i) =>
+        {
+            Label label = element.Q<Label>("list-item");
+            label.text = Path.GetFileNameWithoutExtension(pathList[i]);
+        };
+
+        if (data != null)
+            list.itemsSource = data;
+
         list.fixedItemHeight = 32;
         list.selectionType = SelectionType.Single;
     }

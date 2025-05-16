@@ -11,6 +11,8 @@ using System.Security.Policy;
 using System.Runtime.Remoting.Contexts;
 using UnityEditor.Experimental.GraphView;
 using System.IO;
+using UnityEngine.Assertions.Must;
+using System.Linq;
 
 public class CardEditorWindow : BaseEditorWindow
 {
@@ -43,17 +45,10 @@ public class CardEditorWindow : BaseEditorWindow
     {
         FindAllCards(out List<Card> cards);
 
-        list = rootVisualElement.Query<ListView>($"card-list").First();
+        if (cards.Count == 0) return;
 
-        list.itemsSource = cards;
-
-        list.bindItem = (element, i) =>
-        {
-            Label label = element.Q<Label>("list-item");
-            label.text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(cards[i].Guid));
-        };
-
-        SetupListView();
+        List<string> pathList = cards.Select(data => AssetDatabase.GUIDToAssetPath(data.Guid)).ToList();
+        SetupListView(cards, pathList, "card-list");
 
         list.selectionChanged += (enumerable) =>
         {
@@ -64,6 +59,8 @@ public class CardEditorWindow : BaseEditorWindow
 
                 Card card = it as Card;
                 selectedCard = card;
+
+                if (card == null) return;
 
                 SerializedObject serializeCard = new SerializedObject(card);
                 SerializedProperty cardProperty = serializeCard.GetIterator();
@@ -123,7 +120,7 @@ public class CardEditorWindow : BaseEditorWindow
         window.window = this;
 
         Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
-        window.position = new Rect(mousePos.x, mousePos.y, 300, 400);
+        window.position = new Rect(mousePos.x, mousePos.y, 500, 700);
         window.ShowPopup();
     }
 

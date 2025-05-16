@@ -97,13 +97,11 @@ public class CardPopupWindow : PopupWindow
         }
 
         Card card = CreateNewCard(newCard);
-
         AssetDatabase.CreateAsset(card, $"Assets/ScriptableObjects/Cards/{fileName}.asset");
 
+        
         window.CreateListView();
         window.list.selectedIndex = 0;
-
-
         CloseWindow();
     }
 

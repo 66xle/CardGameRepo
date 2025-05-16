@@ -12,13 +12,10 @@ using System.Runtime.Remoting.Contexts;
 using UnityEditor.Experimental.GraphView;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Linq;
 
 public class WeaponEditorWindow : BaseEditorWindow
 {
-    static int listIndex;
-    static bool isInitialized;
-    static bool editorReadyToInit;
-
     GameObject gameObject;
     Editor gameObjectEditor;
 
@@ -55,31 +52,14 @@ public class WeaponEditorWindow : BaseEditorWindow
         };
     }
 
-    private void OnGUI()
-    {
-        if (!isInitialized && editorReadyToInit)
-        {
-            rootVisualElement.Clear();
-            Init();
-        }
-    }
-
     public override void CreateListView()
     {
         FindAllWeapons(out List<WeaponData> weapons);
 
-        list = rootVisualElement.Query<ListView>("weapon-list").First();
+        if (weapons.Count == 0) return;
 
-        list.itemsSource = weapons;
-
-        list.bindItem = (element, i) =>
-        {
-            Label label = element.Q<Label>("list-item");
-            label.text = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(weapons[i].Guid));
-        };
-
-        SetupListView();
-
+        List<string> pathList = weapons.Select(data => AssetDatabase.GUIDToAssetPath(data.Guid)).ToList();
+        SetupListView(weapons, pathList, "weapon-list");
 
         list.selectionChanged += (enumerable) =>
         {
@@ -88,6 +68,7 @@ public class WeaponEditorWindow : BaseEditorWindow
 
             foreach (UnityEngine.Object it in enumerable)
             {
+
                 Box weaponDataInfoBox = rootVisualElement.Query<Box>("weapon-info").First();
                 weaponDataInfoBox.Clear();
 
@@ -95,6 +76,8 @@ public class WeaponEditorWindow : BaseEditorWindow
                 gameObjectPreview.Clear();
 
                 WeaponData weaponData = it as WeaponData;
+
+                if (weaponData == null) return;
 
                 SerializedObject serializeWeapon = new SerializedObject(weaponData);
                 SerializedProperty weaponDataProperty = serializeWeapon.GetIterator();
