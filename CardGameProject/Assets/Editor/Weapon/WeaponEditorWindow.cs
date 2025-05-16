@@ -26,30 +26,19 @@ public class WeaponEditorWindow : BaseEditorWindow
         ShowWindow(window, "Weapon Editor");
     }
 
-    private void OnEnable()
-    {
-        Init(); 
-    }
-
-    private void Init()
-    {
-        Enable("WeaponEditorWindow", "WeaponEditorStyles", "weapon", "Weapon"); 
-
-        CreateListView();
-        SetButtons();
-
-        isInitialized = true;
-    }
-
     [InitializeOnLoadMethod]
     private static void OnLoad()
     {
-        EditorApplication.delayCall += () =>
-        {
-            listIndex = SessionState.GetInt("weaponListIndex", 0);
-            isInitialized = false;
-            editorReadyToInit = true;
-        };
+        listIndex = SessionState.GetInt("weaponListIndex", 0);
+        isInitialized = false;
+        editorReadyToInit = true;
+    }
+
+    public override void Init()
+    {
+        Enable("WeaponEditorWindow", "WeaponEditorStyles", "weapon", "Weapon");
+
+        base.Init();
     }
 
     public override void CreateListView()
@@ -108,23 +97,15 @@ public class WeaponEditorWindow : BaseEditorWindow
             list.SetSelection(listIndex);
     }
 
-    
-
-    private void SetButtons()
+    public override void SetButtons()
     {
-        Button addButton = rootVisualElement.Query<Button>("add-weapon").First();
-        addButton.clicked += AddWeapon;
-        
-        Button deleteButton = rootVisualElement.Query<Button>("delete-weapon").First();
-        deleteButton.clicked += DeleteWeapon;
-        
-        Button renameButton = rootVisualElement.Query<Button>("rename-weapon").First();
-        renameButton.clicked += RenameWeapon;
+        base.SetButtons();
 
         Button refreshButton = rootVisualElement.Query<Button>("refresh").First();
         refreshButton.clicked += RefreshScripts; 
     }
-    private void AddWeapon()
+
+    public override void AddButton()
     {
         window = CreateInstance<WeaponPopupWindow>();
         window.addButtonPressed = true;
@@ -136,7 +117,7 @@ public class WeaponEditorWindow : BaseEditorWindow
         window.ShowPopup();
     }
 
-    private void DeleteWeapon()
+    public override void DeleteButton()
     {
         if (list.selectedItem != null)
         {
@@ -157,7 +138,7 @@ public class WeaponEditorWindow : BaseEditorWindow
         }
     }
 
-    private void RenameWeapon()
+    public override void RenameButton()
     {
         if (list.selectedItem != null)
         {

@@ -22,6 +22,37 @@ public class BaseEditorWindow : EditorWindow
     public string type;
     public string typeName;
 
+    private void OnFocus()
+    {
+        if (isPopupActive)
+        {
+            window.Focus();
+            EditorUtility.DisplayDialog($"Error", $"Currently creating {type}", "Ok");
+        }
+    }
+
+    private void OnEnable()
+    {
+        Init();
+    }
+
+    private void OnGUI()
+    {
+        if (!isInitialized && editorReadyToInit)
+        {
+            rootVisualElement.Clear();
+            Init();
+        }
+    }
+
+    public virtual void Init()
+    {
+        CreateListView();
+        SetButtons();
+
+        isInitialized = true;
+    }
+
     public static void ShowWindow(BaseEditorWindow window, string windowName)
     {
         window.titleContent = new GUIContent(windowName);
@@ -75,15 +106,26 @@ public class BaseEditorWindow : EditorWindow
         list.selectionType = SelectionType.Single;
     }
 
-    private void OnFocus()
-    {
-        if (isPopupActive)
-        {
-            window.Focus();
-            EditorUtility.DisplayDialog($"Error", $"Currently creating {type}", "Ok");
-        }
-    }
 
     public virtual void CreateListView() { }
+
+
+    public virtual void SetButtons()
+    {
+        Button addButton = rootVisualElement.Query<Button>($"add-{type}").First();
+        addButton.clicked += AddButton;
+
+        Button deleteButton = rootVisualElement.Query<Button>($"delete-{type}").First();
+        deleteButton.clicked += DeleteButton;
+
+        Button renameButton = rootVisualElement.Query<Button>($"rename-{type}").First();
+        renameButton.clicked += RenameButton;
+    }
+
+    public virtual void AddButton() { }
+
+    public virtual void DeleteButton() { }
+
+    public virtual void RenameButton() { }
 
 }

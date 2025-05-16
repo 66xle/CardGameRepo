@@ -26,14 +26,21 @@ public class CardEditorWindow : BaseEditorWindow
         ShowWindow(window, "Card Editor");
     }
 
-    private void OnEnable()
+    [InitializeOnLoadMethod]
+    private static void OnLoad()
+    {
+        listIndex = SessionState.GetInt("weaponListIndex", 0);
+        isInitialized = false;
+        editorReadyToInit = true;
+    }
+
+    public override void Init()
     {
         Enable("CardEditorWindow", "CardEditorStyles", "card", "Card");
 
-        CreateListView();
-        SetButtons();
-
         EditorApplication.update += UpdateCardUI;
+
+        base.Init();
     }
 
     private void OnDisable()
@@ -99,20 +106,17 @@ public class CardEditorWindow : BaseEditorWindow
         };
 
         list.Rebuild();
+
+        if (!isInitialized)
+            list.SetSelection(listIndex);
     }
 
-    private void SetButtons()
+    public override void SetButtons()
     {
-        Button addButton = rootVisualElement.Query<Button>($"add-{type}").First();
-        addButton.clicked += AddCard;
-
-        Button deleteButton = rootVisualElement.Query<Button>($"delete-{type}").First();
-        deleteButton.clicked += DeleteCard;
-
-        Button renameButton = rootVisualElement.Query<Button>($"rename-{type}").First();
-        renameButton.clicked += RenameCard;
+        base.SetButtons();
     }
-    private void AddCard()
+
+    public override void AddButton()
     {
         window = CreateInstance<CardPopupWindow>();
         window.addButtonPressed = true;
@@ -124,7 +128,7 @@ public class CardEditorWindow : BaseEditorWindow
         window.ShowPopup();
     }
 
-    private void DeleteCard()
+    public override void DeleteButton()
     {
         if (list.selectedItem != null)
         {
@@ -156,7 +160,7 @@ public class CardEditorWindow : BaseEditorWindow
         }
     }
 
-    private void RenameCard()
+    public override void RenameButton()
     {
         if (list.selectedItem != null)
         {
@@ -171,7 +175,7 @@ public class CardEditorWindow : BaseEditorWindow
         }
     }
 
-    private void FindAllCards(out List<Card> cards)
+    public void FindAllCards(out List<Card> cards)
     {
         string[] guids = AssetDatabase.FindAssets("t:Card");
 
