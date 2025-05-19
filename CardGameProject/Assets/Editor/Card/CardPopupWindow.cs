@@ -121,11 +121,14 @@ public class CardPopupWindow : PopupWindow
             return;
         }
 
-        //if (!Regex.IsMatch(newFileName, @"^[a-zA-Z]+$"))
-        //{
-        //    EditorUtility.DisplayDialog($"Error", $"Must only have letters", "Ok");
-        //    return;
-        //}
+        Card loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Cards/{newFileName}.asset", typeof(Card)) as Card;
+
+        if (loadedAsset != null)
+        {
+            // If Card exists
+            EditorUtility.DisplayDialog($"Error", $"Card already exists", "Ok");
+            return;
+        }
 
         // Clear selection
         window.list.ClearSelection();
@@ -146,6 +149,7 @@ public class CardPopupWindow : PopupWindow
     Card CreateNewCard(Card newCard)
     {
         Card card = new Card();
+        card.Guid = newCard.Guid;
         card.CardName = newCard.CardName;
         card.Description = newCard.Description;
         card.Flavour = newCard.Flavour;
@@ -154,6 +158,7 @@ public class CardPopupWindow : PopupWindow
         card.RecycleValue = newCard.RecycleValue;
         card.Image = newCard.Image;
         card.Frame = newCard.Frame;
+        card.Commands = newCard.Commands;
 
         return card;
     }

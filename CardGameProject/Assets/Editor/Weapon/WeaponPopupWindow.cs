@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 public class WeaponPopupWindow : PopupWindow
@@ -84,6 +85,7 @@ public class WeaponPopupWindow : PopupWindow
             return;
         }
 
+
         WeaponData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Weapon/{fileName}.asset", typeof(WeaponData)) as WeaponData;
 
         if (loadedAsset != null)
@@ -94,9 +96,9 @@ public class WeaponPopupWindow : PopupWindow
         }
         else
         {
-            WeaponData card = CreateNewWeapon(newWeapon);
+            WeaponData weapon = CreateNewWeapon(newWeapon);
 
-            AssetDatabase.CreateAsset(card, $"Assets/ScriptableObjects/Cards/{fileName}.asset");
+            AssetDatabase.CreateAsset(weapon, $"Assets/ScriptableObjects/Weapon/{fileName}.asset");
 
             window.CreateListView();
         }
@@ -109,7 +111,7 @@ public class WeaponPopupWindow : PopupWindow
         // Name is the same
         if (newFileName.Equals(Path.GetFileNameWithoutExtension(oldFileName)))
         {
-            CloseWindow();
+            EditorUtility.DisplayDialog($"Error", $"Name is the same", "Ok");
             return;
         }
 
@@ -120,11 +122,14 @@ public class WeaponPopupWindow : PopupWindow
             return;
         }
 
-        //if (!Regex.IsMatch(newFileName, @"^[a-zA-Z]+$"))
-        //{
-        //    EditorUtility.DisplayDialog($"Error", $"Must only have letters", "Ok");
-        //    return;
-        //}
+        WeaponData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Weapon/{newFileName}.asset", typeof(WeaponData)) as WeaponData;
+
+        if (loadedAsset != null)
+        {
+            // If Weapon exists
+            EditorUtility.DisplayDialog($"Error", $"Weapon already exists", "Ok");
+            return;
+        }
 
         // Clear selection
         window.list.ClearSelection();
@@ -145,10 +150,14 @@ public class WeaponPopupWindow : PopupWindow
     WeaponData CreateNewWeapon(WeaponData newWeaponData)
     {
         WeaponData weapon = new WeaponData();
-        weapon.name = newWeaponData.name;
+        weapon.name = newWeaponData.WeaponName;
         weapon.Description = newWeaponData.Description;
         weapon.Prefab = newWeaponData.Prefab;
         weapon.Cards = newWeaponData.Cards;
+        weapon.DamageType = newWeaponData.DamageType;
+        weapon.WeaponType = newWeaponData.WeaponType;
+        weapon.WeaponTypeAnimationSet = newWeaponData.WeaponTypeAnimationSet;
+
 
         return weapon;
     }
