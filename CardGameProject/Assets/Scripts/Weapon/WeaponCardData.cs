@@ -25,7 +25,7 @@ public class WeaponCardData
 
     private string[] GetAnimationList()
     {
-        List<string> strings = new() { "Strike", "Heavy", "AOE" };
+        List<string> strings = new() { "None", "Strike", "Heavy", "AOE" };
 
         for (int i = 0; i < AnimationClipList.Count; i++)
         {
