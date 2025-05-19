@@ -78,10 +78,12 @@ public class Avatar : MonoBehaviour
         if (state.IsTag("Attack") && state.normalizedTime > 0.05f && !IsAttackFinished)
         {
             RightHolder.parent = WeaponJoint;
+            //Animator.SetLayerWeight(1, 1);
         }
         else
         {
             RightHolder.parent = FollowJoint;
+            //Animator.SetLayerWeight(1, 0);
         }
     }
 
