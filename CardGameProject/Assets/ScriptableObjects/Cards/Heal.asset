@@ -12,42 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 229174bf3bf62b140ae8b2bba2c89d2d, type: 3}
   m_Name: Heal
   m_EditorClassIdentifier: 
-  Guid: 0fb0eaa8a787fa24e8fca1c1a0ab8d48
+  Guid: 7adfbb88d1838da4bacde094ec37a06c
   InGameGUID: 
   CardName: Heal
   Description: Deal #0 damage
-  DisplayDescription: 
+  DisplayDescription: Deal 1 damage
   Flavour: 
   Image: {fileID: 21300000, guid: 950112b2bd6d2074ea8120822702c17a, type: 3}
   Frame: {fileID: 21300000, guid: a0be78c2424db6a488d2f683021a99a4, type: 3}
   Cost: 3
   RecycleValue: 1
   ValuesToReference:
-  - 0
+  - 1
   Commands:
-  - rid: 7082259392929464512
+  - rid: 7082259392929464529
   references:
     version: 2
     RefIds:
-    - rid: 7082259392929464512
-      type: {class: IfAttacked, ns: , asm: Assembly-CSharp}
-      data:
-        reactiveOptions:
-          rid: 7082259392929464513
-        commands:
-        - rid: 7082259392929464514
-    - rid: 7082259392929464513
-      type: {class: ReactiveOptions, ns: , asm: Assembly-CSharp}
-      data:
-        DuplicateEffect: 0
-        OverwriteType: 0
-        StackType: 0
-        EffectTiming: 0
-        ReactiveTrigger: 5
-        EffectDuration: 1
-        Turns: 0
-    - rid: 7082259392929464514
+    - rid: 7082259392929464529
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 1
-        value: 0
+        value: 1

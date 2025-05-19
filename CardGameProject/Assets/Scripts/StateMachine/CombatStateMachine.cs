@@ -261,13 +261,23 @@ public class CombatStateMachine : MonoBehaviour
                 GameObject mainHandWeapon = _equipmentHolsterScript.RightHand.GetChild(0).gameObject;
                 Weapon weaponScript = mainHandWeapon.GetComponent<Weapon>();
 
+                
+
                 // Swap Weapon
                 if (weaponScript.Guid != cardData.Weapon.Guid)
                 {
                     GameObject holsteredWeapon = _equipmentHolsterScript.EquippedWeaponObjects.First(weapon => weapon.gameObject.GetComponent<Weapon>().Guid == cardData.Weapon.Guid);
 
-                    _equipmentHolsterScript.HolsterWeapon(mainHandWeapon);   
+                    WeaponType weaponType = holsteredWeapon.GetComponent<Weapon>().WeaponType;
 
+                    player.Animator.SetInteger("WeaponType", 0);
+                    if (weaponType == WeaponType.Dagger)
+                    {
+                        player.Animator.SetInteger("WeaponType", 1);
+                        Debug.Log("test");
+                    }
+
+                    _equipmentHolsterScript.HolsterWeapon(mainHandWeapon);
                     _equipmentHolsterScript.EquipWeapon(holsteredWeapon);
                 }
 
