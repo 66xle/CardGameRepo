@@ -40,7 +40,7 @@ public class CardEditorWindow : BaseEditorWindow
 
         EditorApplication.update += UpdateCardUI;
 
-        base.Init();
+        EditorApplication.delayCall += () => { base.Init(); };
     }
 
     private void OnDisable()

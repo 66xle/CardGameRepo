@@ -5,8 +5,11 @@
         <engine:Button text="Rename Weapon" name="rename-weapon" />
         <engine:Button text="Refresh Editor" name="refresh" style="right: 0; left: auto; top: auto; bottom: auto; position: absolute;" />
     </engine:Box>
-    <engine:Box name="container">
-        <engine:ListView name="weapon-list" />
+    <engine:Box name="container" style="top: auto; bottom: auto; right: auto; position: relative; left: auto;">
+        <engine:VisualElement style="flex-grow: 0; top: 0; left: 0; bottom: 29px; right: 0; background-color: rgba(32, 32, 32, 0);">
+            <engine:DropdownField label="Weapon Type" choices="Any,Sword,Dagger" name="filter" style="right: 0; left: 0; border-bottom-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-bottom-color: rgba(0, 0, 0, 0); border-top-width: 0; border-right-width: 0; border-left-width: 0; background-color: rgba(32, 32, 32, 0); -unity-background-image-tint-color: rgb(255, 255, 255); background-repeat: no-repeat no-repeat; margin-bottom: 5px;" />
+            <engine:ListView name="weapon-list" />
+        </engine:VisualElement>
         <engine:Box name="weapon">
             <engine:Box name="object-preview" />
         </engine:Box>

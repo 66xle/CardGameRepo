@@ -70,6 +70,8 @@ public class BaseEditorWindow : EditorWindow
 
         StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>($"Assets/Editor/{typeName}/{stylesFileName}.uss");
         rootVisualElement.styleSheets.Add(styleSheet);
+
+
     }
 
     public void SetupListView<T>(List<T> data, List<string> pathList, string listViewName)
@@ -92,11 +94,12 @@ public class BaseEditorWindow : EditorWindow
             return visualElement;
         };
 
-
         list.bindItem = (element, i) =>
         {
-            Label label = element.Q<Label>("list-item");
-            label.text = Path.GetFileNameWithoutExtension(pathList[i]);
+            Label label = element.Query<Label>("list-item");
+
+            if (i < pathList.Count) // Index error for some dumb reason
+                label.text = Path.GetFileNameWithoutExtension(pathList[i]);
         };
 
         if (data != null)

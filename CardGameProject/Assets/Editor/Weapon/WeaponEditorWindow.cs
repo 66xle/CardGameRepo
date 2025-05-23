@@ -38,12 +38,30 @@ public class WeaponEditorWindow : BaseEditorWindow
     {
         Enable("WeaponEditorWindow", "WeaponEditorStyles", "weapon", "Weapon");
 
-        base.Init();
+        EditorApplication.delayCall += () => 
+        {
+            base.Init();
+
+            DropdownField dropdownField = rootVisualElement.Query<DropdownField>("filter");
+            dropdownField.RegisterCallback<ChangeEvent<string>>((evt) =>
+            {
+                dropdownField.value = evt.newValue;
+                CreateListView();
+            });
+        };
     }
 
     public override void CreateListView()
     {
         FindAllWeapons(out List<WeaponData> weapons);
+
+        
+        DropdownField dropdownField = rootVisualElement.Query<DropdownField>("filter");
+        
+        if (dropdownField.value != "Any")
+        {
+            weapons = weapons.Where(data => data.WeaponType.ToString() == dropdownField.value).ToList();
+        }
 
         if (weapons.Count == 0) return;
 
