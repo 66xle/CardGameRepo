@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using Codice.CM.Interfaces;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -9,6 +11,8 @@ public class EnemyEditorWindow : BaseEditorWindow
 {
     GameObject gameObject;
     Editor gameObjectEditor;
+
+    CustomPreviewHandler previewHandler;
 
     [MenuItem("Editor/Enemy Editor")]
     public static void ShowWindow()
@@ -24,6 +28,7 @@ public class EnemyEditorWindow : BaseEditorWindow
         isInitialized = false;
         editorReadyToInit = true;
     }
+
 
     public override void Init()
     {
@@ -188,15 +193,29 @@ public class EnemyEditorWindow : BaseEditorWindow
         Box gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
         gameObjectPreview.Clear();
 
-        GUIStyle bgColor = new GUIStyle();
-        bgColor.normal.background = EditorGUIUtility.whiteTexture;
-
         if (isInitialized)
             DestroyImmediate(gameObjectEditor);
 
         gameObjectEditor = Editor.CreateEditor(enemyData.Prefab);
-        IMGUIContainer container = new IMGUIContainer(() => { gameObjectEditor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(1000, 500), bgColor); });
+        //gameObjectEditor.OnInteractivePreviewGUI(rect, GUIStyle.none);
+
+        if (previewHandler == null)
+            previewHandler = new CustomPreviewHandler();
+
+        previewHandler.Init(enemyData.Prefab);
+
+        IMGUIContainer container = new IMGUIContainer(() =>
+        {
+            Rect r = GUILayoutUtility.GetRect(1000, 700);
+            previewHandler.OnPreviewGUI(r);
+        });
+
+        container.style.flexGrow = 1;
         gameObjectPreview.Add(container);
     }
 
+    private void OnDisable()
+    {
+        previewHandler?.Cleanup();
+    }
 }
