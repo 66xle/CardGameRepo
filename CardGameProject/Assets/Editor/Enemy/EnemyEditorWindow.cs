@@ -1,42 +1,33 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using UnityEngine.UIElements;
-using UnityEditor.UIElements;
-using static UnityEngine.GraphicsBuffer;
-using UnityEditor.PackageManager.UI;
-using System;
-using System.Security.Policy;
-using System.Runtime.Remoting.Contexts;
-using UnityEditor.Experimental.GraphView;
-using System.IO;
-using System.Runtime.CompilerServices;
 using System.Linq;
+using UnityEditor;
+using UnityEditor.UIElements;
+using UnityEngine;
+using UnityEngine.UIElements;
 
-public class WeaponEditorWindow : BaseEditorWindow
+public class EnemyEditorWindow : BaseEditorWindow
 {
     GameObject gameObject;
     Editor gameObjectEditor;
 
-    [MenuItem("Editor/Weapon Editor")]
+    [MenuItem("Editor/Enemy Editor")]
     public static void ShowWindow()
     {
-        WeaponEditorWindow window = GetWindow<WeaponEditorWindow>();
-        ShowWindow(window, "Weapon Editor");
+        EnemyEditorWindow window = GetWindow<EnemyEditorWindow>();
+        ShowWindow(window, "Enemy Editor");
     }
 
     [InitializeOnLoadMethod]
     private static void OnLoad()
     {
-        listIndex = SessionState.GetInt("weaponListIndex", 0);
+        listIndex = SessionState.GetInt("enemyListIndex", 0);
         isInitialized = false;
         editorReadyToInit = true;
     }
 
     public override void Init()
     {
-        Enable("WeaponEditorWindow", "WeaponEditorStyles", "weapon", "Weapon");
+        Enable("EnemyEditorWindow", "EnemyEditorStyles", "enemy", "Enemy");
 
         EditorApplication.delayCall += () => 
         {
@@ -53,57 +44,55 @@ public class WeaponEditorWindow : BaseEditorWindow
 
     public override void CreateListView()
     {
-        FindAllWeapons(out List<WeaponData> weapons);
+        FindAllEnemies(out List<EnemyData> enemies);
 
-        
         DropdownField dropdownField = rootVisualElement.Query<DropdownField>("filter");
         
         if (dropdownField.value != "Any")
         {
-            weapons = weapons.Where(data => data.WeaponType.ToString() == dropdownField.value).ToList();
+            enemies = enemies.Where(data => data.EnemyType.ToString() == dropdownField.value).ToList();
         }
 
-        List<string> pathList = weapons.Select(data => AssetDatabase.GUIDToAssetPath(data.Guid)).ToList();
-        SetupListView(weapons, pathList, "weapon-list");
+        List<string> pathList = enemies.Select(data => AssetDatabase.GUIDToAssetPath(data.Guid)).ToList();
+        SetupListView(enemies, pathList, "enemy-list");
 
         list.selectionChanged += (enumerable) =>
         {
             if (isInitialized)
-                SessionState.SetInt("weaponListIndex", list.selectedIndex); 
+                SessionState.SetInt("enemyListIndex", list.selectedIndex); 
 
             foreach (UnityEngine.Object it in enumerable)
             {
-
-                Box weaponDataInfoBox = rootVisualElement.Query<Box>("weapon-info").First();
-                weaponDataInfoBox.Clear();
+                Box enemyDataInfoBox = rootVisualElement.Query<Box>("enemy-info").First();
+                enemyDataInfoBox.Clear();
 
                 Box gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
                 gameObjectPreview.Clear();
 
-                WeaponData weaponData = it as WeaponData;
+                EnemyData enemyData = it as EnemyData;
 
-                if (weaponData == null) return;
+                if (enemyData == null) return;
 
-                SerializedObject serializeWeapon = new SerializedObject(weaponData);
-                SerializedProperty weaponDataProperty = serializeWeapon.GetIterator();
-                weaponDataProperty.Next(true);
+                SerializedObject serializeEnemy = new SerializedObject(enemyData);
+                SerializedProperty enemyDataProperty = serializeEnemy.GetIterator();
+                enemyDataProperty.Next(true);
 
-                while (weaponDataProperty.NextVisible(false))
+                while (enemyDataProperty.NextVisible(false))
                 {
-                    PropertyField prop = new PropertyField(weaponDataProperty);
+                    PropertyField prop = new PropertyField(enemyDataProperty);
 
-                    prop.SetEnabled(weaponDataProperty.name != "m-Script");
-                    prop.Bind(serializeWeapon);
-                    weaponDataInfoBox.Add(prop);
+                    prop.SetEnabled(enemyDataProperty.name != "m-Script");
+                    prop.Bind(serializeEnemy);
+                    enemyDataInfoBox.Add(prop);
 
                     // Update prefab
-                    if (weaponDataProperty.name == "Prefab")
+                    if (enemyDataProperty.name == "Prefab")
                     {
-                        prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadWeaponPrefab(weaponData));
+                        prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadEnemyPrefab(enemyData));
                     }
                 }
 
-                LoadWeaponPrefab(weaponData);
+                LoadEnemyPrefab(enemyData);
             }
         };
 
@@ -123,7 +112,7 @@ public class WeaponEditorWindow : BaseEditorWindow
 
     public override void AddButton()
     {
-        window = CreateInstance<WeaponPopupWindow>();
+        window = CreateInstance<EnemyPopupWindow>();
         window.addButtonPressed = true;
         isPopupActive = true;
         window.window = this;
@@ -137,15 +126,15 @@ public class WeaponEditorWindow : BaseEditorWindow
     {
         if (list.selectedItem != null)
         {
-            WeaponData selectedWeapon = list.selectedItem as WeaponData;
-            if (!EditorUtility.DisplayDialog($"Delete Weapon", $"Delete {selectedWeapon.name}?", "Delete", "Cancel"))
+            EnemyData selectedEnemy = list.selectedItem as EnemyData;
+            if (!EditorUtility.DisplayDialog($"Delete Enemy", $"Delete {selectedEnemy.name}?", "Delete", "Cancel"))
                 return;
 
             list.ClearSelection();
-            rootVisualElement.Query<Box>("weapon-info").First().Clear();
+            rootVisualElement.Query<Box>("enemy-info").First().Clear();
             list.itemsSource = null;
 
-            AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedWeapon.Guid));
+            AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedEnemy.Guid));
 
             CreateListView();
 
@@ -158,7 +147,7 @@ public class WeaponEditorWindow : BaseEditorWindow
     {
         if (list.selectedItem != null)
         {
-            window = CreateInstance<WeaponPopupWindow>();
+            window = CreateInstance<EnemyPopupWindow>();
             window.renameButtonPressed = true;
             isPopupActive = true;
             window.window = this;
@@ -174,26 +163,26 @@ public class WeaponEditorWindow : BaseEditorWindow
         EditorUtility.RequestScriptReload();
     }
 
-    private void FindAllWeapons(out List<WeaponData> weapons)
+    private void FindAllEnemies(out List<EnemyData> enemies)
     {
-        string[] guids = AssetDatabase.FindAssets("t:WeaponData");
+        string[] guids = AssetDatabase.FindAssets("t:EnemyData");
 
-        weapons = new List<WeaponData>();
+        enemies = new List<EnemyData>();
 
         for (int i = 0; i < guids.Length; i++)
         {
             string path = AssetDatabase.GUIDToAssetPath(guids[i]);
 
-            WeaponData loadedWeaponData = AssetDatabase.LoadAssetAtPath<WeaponData>(path);
-            loadedWeaponData.Guid = guids[i];
+            EnemyData loadedEnemyData = AssetDatabase.LoadAssetAtPath<EnemyData>(path);
+            loadedEnemyData.Guid = guids[i];
 
-            weapons.Add(loadedWeaponData);
+            enemies.Add(loadedEnemyData);
         }
     }
 
-    private void LoadWeaponPrefab(WeaponData weaponData)
+    private void LoadEnemyPrefab(EnemyData enemyData)
     {
-        if (weaponData.Prefab == null)
+        if (enemyData.Prefab == null)
             return;
 
         Box gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
@@ -205,7 +194,7 @@ public class WeaponEditorWindow : BaseEditorWindow
         if (isInitialized)
             DestroyImmediate(gameObjectEditor);
 
-        gameObjectEditor = Editor.CreateEditor(weaponData.Prefab);
+        gameObjectEditor = Editor.CreateEditor(enemyData.Prefab);
         IMGUIContainer container = new IMGUIContainer(() => { gameObjectEditor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(1000, 500), bgColor); });
         gameObjectPreview.Add(container);
     }

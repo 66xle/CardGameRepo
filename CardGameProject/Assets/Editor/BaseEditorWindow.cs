@@ -78,6 +78,12 @@ public class BaseEditorWindow : EditorWindow
     {
         list = rootVisualElement.Query<ListView>(listViewName).First();
 
+        if (data.Count == 0)
+        {
+            list.itemsSource.Clear();
+            return;
+        }
+
         list.makeItem = () =>
         {
             VisualElement visualElement = new VisualElement();
