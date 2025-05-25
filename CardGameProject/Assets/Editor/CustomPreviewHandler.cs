@@ -1,12 +1,21 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 
 public class CustomPreviewHandler
 {
     PreviewRenderUtility previewRenderUtility;
     GameObject previewInstance;
+    Animator animator;
+    AnimationClip clip;
+    float animationSpeed = 1f;
+    float animationTime;
+
+    private PlayableGraph playableGraph;
+    private AnimationClipPlayable clipPlayable;
 
     float zoom = 1f;
     float rotationX = 20f;  // starting pitch
@@ -15,6 +24,9 @@ public class CustomPreviewHandler
     float minNear = 0.1f;   // smallest near plane distance
     float maxFar = 1000f;   // far plane distance
     Vector3 panOffset = Vector3.zero;
+
+    Bounds cachedBounds;
+
 
     public void Init(GameObject prefab, int textureSize = 512)
     {
@@ -31,12 +43,23 @@ public class CustomPreviewHandler
         previewInstance.hideFlags = HideFlags.HideAndDontSave;
         previewRenderUtility.AddSingleGO(previewInstance);
 
+        animator = previewInstance.GetComponent<Animator>();
+        if (animator == null)
+            animator = previewInstance.AddComponent<Animator>();
+
+        
+
+        cachedBounds = CalculateBounds(previewInstance);
+
         // Position camera so prefab is visible
         FrameObject();
     }
 
     public void Cleanup()
     {
+        if (playableGraph.IsValid())
+            playableGraph.Destroy();
+
         if (previewInstance != null)
         {
             GameObject.DestroyImmediate(previewInstance);
@@ -53,6 +76,21 @@ public class CustomPreviewHandler
     {
         if (previewRenderUtility == null)
             return;
+
+        if (playableGraph.IsValid())
+        {
+            if (clip.length > 0)
+            {
+                if (animationSpeed > 0f)
+                {
+                    animationTime += Time.deltaTime * animationSpeed;
+                    animationTime %= clip.length;
+                }
+
+                clipPlayable.SetTime(animationTime);
+                playableGraph.Evaluate(); // Important!
+            }
+        }
 
         HandleInput(rect);
 
@@ -119,7 +157,7 @@ public class CustomPreviewHandler
     {
         if (previewInstance == null || previewRenderUtility == null) return;
 
-        Bounds bounds = CalculateBounds(previewInstance);
+        Bounds bounds = cachedBounds;
         Vector3 center = bounds.center + panOffset;
 
         float radius = bounds.extents.magnitude;
@@ -146,5 +184,39 @@ public class CustomPreviewHandler
         return b;
     }
 
-    
+    public void PlayClip()
+    {
+        if (clip == null) return;
+
+        // Playable Graph setup
+        playableGraph = PlayableGraph.Create("PreviewGraph");
+        var playableOutput = AnimationPlayableOutput.Create(playableGraph, "AnimOutput", animator);
+
+        animationSpeed = 0.25f;
+
+        clip.wrapMode = WrapMode.Loop; // Ensures the clip itself is loopable
+        clipPlayable = AnimationClipPlayable.Create(playableGraph, clip);
+        clipPlayable.SetSpeed(0.25f);
+        playableOutput.SetSourcePlayable(clipPlayable);
+        playableGraph.Play();
+    }
+
+    public void PauseClip()
+    {
+        animationSpeed = 0f;
+    }
+
+    public void SetClip(AnimationClip clip)
+    {
+        this.clip = clip;
+    }
+
+    public bool IsClipEmpty()
+    {
+        if (clip == null)
+            return true;
+
+        return false;
+    }
+        
 }

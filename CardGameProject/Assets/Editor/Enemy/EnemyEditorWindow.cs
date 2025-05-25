@@ -13,6 +13,10 @@ public class EnemyEditorWindow : BaseEditorWindow
     Editor gameObjectEditor;
 
     CustomPreviewHandler previewHandler;
+    IMGUIContainer container;
+
+    List<AnimationClip> clipList;
+    bool IsPlayingAnimation;
 
     [MenuItem("Editor/Enemy Editor")]
     public static void ShowWindow()
@@ -29,6 +33,11 @@ public class EnemyEditorWindow : BaseEditorWindow
         editorReadyToInit = true;
     }
 
+    private void OnDisable()
+    {
+        previewHandler?.Cleanup();
+        EditorApplication.update -= RepaintPreview;
+    }
 
     public override void Init()
     {
@@ -38,12 +47,16 @@ public class EnemyEditorWindow : BaseEditorWindow
         {
             base.Init();
 
+            IsPlayingAnimation = false;
+
             DropdownField dropdownField = rootVisualElement.Query<DropdownField>("filter");
             dropdownField.RegisterCallback<ChangeEvent<string>>((evt) =>
             {
                 dropdownField.value = evt.newValue;
                 CreateListView();
             });
+
+            EditorApplication.update += RepaintPreview;
         };
     }
 
@@ -95,9 +108,16 @@ public class EnemyEditorWindow : BaseEditorWindow
                     {
                         prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadEnemyPrefab(enemyData));
                     }
+
+                    if (enemyDataProperty.name == "WeaponType")
+                    {
+                        prop.RegisterValueChangeCallback(changeEvt => GetAnimationList(enemyData));
+                    }
+
                 }
 
                 LoadEnemyPrefab(enemyData);
+                GetAnimationList(enemyData);
             }
         };
 
@@ -107,12 +127,17 @@ public class EnemyEditorWindow : BaseEditorWindow
             list.SetSelection(listIndex);
     }
 
+    #region Buttons
+
     public override void SetButtons()
     {
         base.SetButtons();
 
         Button refreshButton = rootVisualElement.Query<Button>("refresh").First();
-        refreshButton.clicked += RefreshScripts; 
+        refreshButton.clicked += RefreshScripts;
+
+        Button playButton = rootVisualElement.Query<Button>("play").First();
+        playButton.clicked += PlayButton;
     }
 
     public override void AddButton()
@@ -163,6 +188,27 @@ public class EnemyEditorWindow : BaseEditorWindow
         }
     }
 
+    public void PlayButton()
+    {
+        if (previewHandler.IsClipEmpty()) return;
+
+        Button playButton = rootVisualElement.Query<Button>("play").First();
+
+        if (IsPlayingAnimation)
+        {
+            playButton.text = "Play";
+            previewHandler.PauseClip();
+            IsPlayingAnimation = false;
+            return;
+        }
+
+        playButton.text = "Pause";
+        previewHandler.PlayClip();
+        IsPlayingAnimation = true;
+    }
+
+    #endregion
+
     private void RefreshScripts()
     {
         EditorUtility.RequestScriptReload();
@@ -185,6 +231,39 @@ public class EnemyEditorWindow : BaseEditorWindow
         }
     }
 
+    private void GetAnimationList(EnemyData enemyData)
+    {
+        List<AnimationClip> animationClips = new();
+        enemyData.WeaponTypeAnimationSet.ForEach(data => animationClips.AddRange(data.AnimationClipList));
+
+        clipList = animationClips;
+
+        DropdownField animationField = rootVisualElement.Query<DropdownField>("animationField");
+        animationField.choices.Clear();
+        animationField.choices.Add("None");
+        animationField.index = 0;
+        animationClips.ForEach(clip => animationField.choices.Add(clip.name));
+
+        EventCallback<ChangeEvent<string>> animationCallback = null;
+
+        animationCallback = evt =>
+        {
+            string clipName = animationField.value;
+
+            if (clipName == "None")
+            {
+                previewHandler.SetClip(null);
+                return;
+            }
+
+            AnimationClip clip = animationClips.First(clip => clip.name == clipName);
+            previewHandler.SetClip(clip);
+        };
+
+        animationField.UnregisterValueChangedCallback(animationCallback);
+        animationField.RegisterValueChangedCallback(animationCallback);
+    }
+
     private void LoadEnemyPrefab(EnemyData enemyData)
     {
         if (enemyData.Prefab == null)
@@ -204,9 +283,9 @@ public class EnemyEditorWindow : BaseEditorWindow
 
         previewHandler.Init(enemyData.Prefab);
 
-        IMGUIContainer container = new IMGUIContainer(() =>
+        container = new IMGUIContainer(() =>
         {
-            Rect r = GUILayoutUtility.GetRect(1000, 700);
+            Rect r = GUILayoutUtility.GetRect(800, 600);
             previewHandler.OnPreviewGUI(r);
         });
 
@@ -214,8 +293,11 @@ public class EnemyEditorWindow : BaseEditorWindow
         gameObjectPreview.Add(container);
     }
 
-    private void OnDisable()
+    void RepaintPreview()
     {
-        previewHandler?.Cleanup();
+        if (container != null && IsPlayingAnimation)
+            container.MarkDirtyRepaint();
     }
+
+    
 }
