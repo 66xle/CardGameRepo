@@ -202,6 +202,12 @@ public class EnemyEditorWindow : BaseEditorWindow
             return;
         }
 
+        Pause();
+    }
+
+    void Pause()
+    {
+        Button playButton = rootVisualElement.Query<Button>("play").First();
         playButton.text = "Pause";
         previewHandler.PlayClip();
         IsPlayingAnimation = true;
@@ -248,6 +254,9 @@ public class EnemyEditorWindow : BaseEditorWindow
 
         animationCallback = evt =>
         {
+            if (IsPlayingAnimation)
+                Pause();
+
             string clipName = animationField.value;
 
             if (clipName == "None")

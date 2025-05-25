@@ -192,11 +192,10 @@ public class CustomPreviewHandler
         playableGraph = PlayableGraph.Create("PreviewGraph");
         var playableOutput = AnimationPlayableOutput.Create(playableGraph, "AnimOutput", animator);
 
-        animationSpeed = 0.25f;
+        animationSpeed = 0.5f;
 
         clip.wrapMode = WrapMode.Loop; // Ensures the clip itself is loopable
         clipPlayable = AnimationClipPlayable.Create(playableGraph, clip);
-        clipPlayable.SetSpeed(0.25f);
         playableOutput.SetSourcePlayable(clipPlayable);
         playableGraph.Play();
     }
