@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using events;
+using MyBox;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
@@ -11,7 +13,10 @@ namespace demo {
      * Allows setting the global preview position and scale.
      */
     public class ClonePreviewManager : MonoBehaviour, CardPreviewManager {
-        
+
+        [SerializeField]
+        [MustBeAssigned] private InputManager InputManager;
+
         [SerializeField]
         private float verticalPosition;
         
@@ -22,16 +27,48 @@ namespace demo {
         private int previewSortingOrder = 1;
 
         private Dictionary<CardWrapper, Transform> previews = new Dictionary<CardWrapper, Transform>();
-        
-        public void OnCardHover(CardHover cardHover) {
 
-            if (Time.timeScale == 1)
-                OnCardPreviewStarted(cardHover.card);
+        CardWrapper currentCard;
+        bool IsCardClicked = false;
 
+        private void Update()
+        {
+            if (InputManager.LeftClickInputDown && !IsCardClicked && currentCard != null)
+            {
+                CardPreviewEnd();
+            }
+
+            if (IsCardClicked)
+                IsCardClicked = false;
         }
-        
-        public void OnCardUnhover(CardUnhover cardUnhover) {
-            OnCardPreviewEnded(cardUnhover.card);
+
+
+        public void OnCardClick(CardClick cardClick)
+        {
+            if (Time.timeScale == 1)
+            {
+                if (currentCard != null)
+                    CardPreviewEnd();
+
+                IsCardClicked = true;
+
+                currentCard = cardClick.card;
+                OnCardPreviewStarted(currentCard);
+
+                currentCard.gameObject.GetComponent<CanvasGroup>().alpha = 0f;
+            }
+        }
+
+        public void OnCardDrag(CardDrag cardDrag)
+        {
+            CardPreviewEnd();
+        }
+
+        private void CardPreviewEnd()
+        {
+            OnCardPreviewEnded(currentCard);
+            currentCard.gameObject.GetComponent<CanvasGroup>().alpha = 1f;
+            currentCard = null;
         }
 
         public void OnCardPreviewStarted(CardWrapper card) {

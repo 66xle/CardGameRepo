@@ -8,7 +8,13 @@ namespace config {
     public class EventsConfig {
         [SerializeField]
         public UnityEvent<CardPlayed, Card, string> OnCardPlayed;
-        
+
+        [SerializeField]
+        public UnityEvent<CardClick> OnCardClick;
+
+        [SerializeField]
+        public UnityEvent<CardDrag> OnCardDrag;
+
         [SerializeField]
         public UnityEvent<CardHover> OnCardHover;
         

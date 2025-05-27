@@ -756,7 +756,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.00012207031}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &230720528
@@ -771,8 +771,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f9ed3920ca40b2a02266c4e1703f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  verticalPosition: 700
-  previewScale: 3
+  InputManager: {fileID: 206437301}
+  verticalPosition: 500
+  previewScale: 2.5
   previewSortingOrder: 101
 --- !u!1 &254873617
 GameObject:
@@ -1063,7 +1064,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -8, y: 35}
+  m_AnchoredPosition: {x: -8, y: 106}
   m_SizeDelta: {x: 642.794, y: 312.943}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &347342560
@@ -1082,7 +1083,7 @@ MonoBehaviour:
   forceFitContainer: 1
   alignment: 1
   allowCardRepositioning: 0
-  maxCardRotation: 0
+  maxCardRotation: 5
   maxHeightDisplacement: 0
   zoomConfig:
     zoomOnHover: 1
@@ -1091,12 +1092,12 @@ MonoBehaviour:
     defaultSortOrder: 0
     bringToFrontOnHover: 1
     zoomedSortOrder: 100
-    resetRotationOnZoom: 0
+    resetRotationOnZoom: 1
   animationSpeedConfig:
     rotation: 100
     position: 1000
     releasePosition: 5000
-    zoom: 0.5
+    zoom: 3
   cardPlayConfig:
     playArea:
     - {fileID: 254873617}
@@ -1118,36 +1119,42 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+    OnCardClick:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 230720528}
+          m_TargetAssemblyTypeName: demo.ClonePreviewManager, Assembly-CSharp
+          m_MethodName: OnCardClick
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnCardDrag:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 230720528}
+          m_TargetAssemblyTypeName: demo.ClonePreviewManager, Assembly-CSharp
+          m_MethodName: OnCardDrag
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     OnCardHover:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 230720528}
-          m_TargetAssemblyTypeName: demo.ClonePreviewManager, Assembly-CSharp
-          m_MethodName: OnCardHover
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
     OnCardUnhover:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 230720528}
-          m_TargetAssemblyTypeName: demo.ClonePreviewManager, Assembly-CSharp
-          m_MethodName: OnCardUnhover
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
     OnCardDestroy:
       m_PersistentCalls:
         m_Calls: []
@@ -8353,8 +8360,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 189252617}
   - {fileID: 696582213}
+  - {fileID: 189252617}
   - {fileID: 432472688}
   - {fileID: 1801102328}
   m_Father: {fileID: 484505293}

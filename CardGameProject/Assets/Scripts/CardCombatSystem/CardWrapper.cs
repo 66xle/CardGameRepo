@@ -3,7 +3,7 @@ using events;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler,
+public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerMoveHandler,
     IPointerUpHandler {
     private const float EPS = 0.01f;
 
@@ -25,6 +25,8 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private bool isDragged;
     private Vector2 dragStartPos;
     public EventsConfig eventsConfig;
+
+    private bool isPointerDown = false;
 
     public float width {
         get => rectTransform.rect.width * rectTransform.localScale.x;
@@ -109,6 +111,18 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         rectTransform.anchorMax = max;
     }
 
+    public void OnPointerMove(PointerEventData eventData)
+    {
+        if (isPointerDown && !isDragged)
+        {
+            isDragged = true;
+            dragStartPos = new Vector2(transform.position.x - eventData.position.x,
+                transform.position.y - eventData.position.y);
+            container.OnCardDragStart(this);
+            eventsConfig?.OnCardDrag?.Invoke(new CardDrag(this));
+        }
+    }
+
     public void OnPointerEnter(PointerEventData eventData) {
         if (isDragged) {
             // Avoid hover events while dragging
@@ -136,15 +150,18 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (!combatStateMachine.isPlayState)
             return;
 
-        isDragged = true;
-        dragStartPos = new Vector2(transform.position.x - eventData.position.x,
-            transform.position.y - eventData.position.y);
-        container.OnCardDragStart(this);
-        eventsConfig?.OnCardUnhover?.Invoke(new CardUnhover(this));
+        isPointerDown = true;
+
+        eventsConfig?.OnCardClick?.Invoke(new CardClick(this));
     }
 
     public void OnPointerUp(PointerEventData eventData) {
-        isDragged = false;
-        container.OnCardDragEnd();
+        isPointerDown = false;
+
+        if (isDragged)
+        {
+            isDragged = false;
+            container.OnCardDragEnd();
+        }
     }
 }

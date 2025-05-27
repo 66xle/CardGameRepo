@@ -20,11 +20,12 @@ MonoBehaviour:
   Prefab: {fileID: 3606237064665495957, guid: 0a030890a8c1d8341a985f1ee681ad06, type: 3}
   HolsterSlot: {fileID: 0}
   WeaponTypeAnimationSet:
-  - rid: 7082259484101574987
-  - rid: 7082259484101574988
-  - rid: 7082259484101574989
+  - rid: 7082259572454326272
+  - rid: 7082259572454326273
+  - rid: 7082259572454326274
   Cards:
   - rid: 7082259392929464503
+  - rid: 7082259572454326405
   references:
     version: 2
     RefIds:
@@ -46,7 +47,7 @@ MonoBehaviour:
         - 1H Strike 2
         - 1H Short Strike 1
         - 1H Short Strike 2
-    - rid: 7082259484101574987
+    - rid: 7082259572454326272
       type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipList:
@@ -54,14 +55,25 @@ MonoBehaviour:
         - {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
         - {fileID: 1827226128182048838, guid: 97b15962ca9b5e048a51b3ea243fcc52, type: 3}
         - {fileID: 1827226128182048838, guid: 2680591b97b18a24cabe8e529c6763c4, type: 3}
-    - rid: 7082259484101574988
+    - rid: 7082259572454326273
       type: {class: WeaponTypeAnimationHeavy, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipList:
         - {fileID: 1827226128182048838, guid: 04206163fa6f4ef47a2577edd8706e26, type: 3}
         - {fileID: 1827226128182048838, guid: ba31907f1536e61439b0c4b2b1727f79, type: 3}
-    - rid: 7082259484101574989
+    - rid: 7082259572454326274
       type: {class: WeaponTypeAnimationAOE, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipList:
         - {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
+    - rid: 7082259572454326405
+      type: {class: WeaponCardData, ns: , asm: Assembly-CSharp}
+      data:
+        Card: {fileID: 11400000, guid: 7adfbb88d1838da4bacde094ec37a06c, type: 2}
+        AnimationClipList: []
+        Animation: Strike
+        AnimationList:
+        - 1H Strike 1
+        - 1H Strike 2
+        - 1H Short Strike 1
+        - 1H Short Strike 2
