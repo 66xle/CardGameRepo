@@ -15,7 +15,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public int uiLayer;
 
     private RectTransform rectTransform;
-    private Canvas canvas;
+    [HideInInspector] public Canvas canvas;
 
     public ZoomConfig zoomConfig;
     public AnimationSpeedConfig animationSpeedConfig;
@@ -129,9 +129,6 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             // Avoid hover events while dragging
             return;
         }
-        if (zoomConfig.bringToFrontOnHover) {
-            canvas.sortingOrder = zoomConfig.zoomedSortOrder;
-        }
 
         eventsConfig?.OnCardHover?.Invoke(new CardHover(this));
         isHovered = true;
@@ -142,7 +139,6 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             // Avoid hover events while dragging
             return;
         }
-        canvas.sortingOrder = uiLayer;
         isHovered = false;
         eventsConfig?.OnCardUnhover?.Invoke(new CardUnhover(this));
     }

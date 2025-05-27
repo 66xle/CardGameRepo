@@ -1,4 +1,4 @@
-using config;
+﻿using config;
 using DefaultNamespace;
 using demo;
 using events;
@@ -34,8 +34,8 @@ public class CardContainer : MonoBehaviour {
     [Range(0f, 90f)]
     private float maxCardRotation;
 
-    [SerializeField]
-    private float maxHeightDisplacement;
+    [SerializeField] private float maxHeightDisplacement;
+    [SerializeField] private float minRatio = 0.3f;
 
     [SerializeField]
     private ZoomConfig zoomConfig;
@@ -73,11 +73,13 @@ public class CardContainer : MonoBehaviour {
     }
 
     private float GetCardVerticalDisplacement(int index) {
-        if (cards.Count < 3) return 0;
-        // Associate a vertical displacement based on the index in the cards list
-        // so that the center card is at max displacement while the edges are at 0 displacement
-        return maxHeightDisplacement *
-               (1 - Mathf.Pow(index - (cards.Count - 1) / 2f, 2) / Mathf.Pow((cards.Count - 1) / 2f, 2));
+        float center = (cards.Count - 1) / 2f;
+        float normalizedDistance = (index - center) / center; // -1 to 1
+        float curve = 1 - Mathf.Pow(normalizedDistance, 2);   // Parabola: 1 at center, 0 at edges
+
+        // Raise the minimum displacement (e.g., 30% of max)
+        float finalRatio = Mathf.Lerp(minRatio, 1f, curve); // Curve goes from minRatio => 1
+        return maxHeightDisplacement * finalRatio;
     }
 
     private float GetCardRotation(int index) {

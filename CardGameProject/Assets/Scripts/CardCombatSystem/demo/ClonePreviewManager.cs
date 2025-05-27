@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using config;
 using events;
 using MyBox;
 using UnityEngine;
@@ -52,11 +53,11 @@ namespace demo {
 
                 IsCardClicked = true;
 
+                //OnCardPreviewStarted(currentCard);
+                //currentCard.gameObject.GetComponent<CanvasGroup>().alpha = 0f;
                 currentCard = cardClick.card;
-                OnCardPreviewStarted(currentCard);
-
+                currentCard.canvas.sortingOrder = previewSortingOrder;
                 currentCard.IsPreviewActive = true;
-                currentCard.gameObject.GetComponent<CanvasGroup>().alpha = 0f;
             }
         }
 
@@ -67,9 +68,10 @@ namespace demo {
 
         private void CardPreviewEnd()
         {
-            OnCardPreviewEnded(currentCard);
+            //OnCardPreviewEnded(currentCard);
+            //currentCard.gameObject.GetComponent<CanvasGroup>().alpha = 1f;
             currentCard.IsPreviewActive = false;
-            currentCard.gameObject.GetComponent<CanvasGroup>().alpha = 1f;
+            currentCard.canvas.sortingOrder = currentCard.uiLayer;
             currentCard = null;
         }
 

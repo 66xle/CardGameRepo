@@ -1083,26 +1083,28 @@ MonoBehaviour:
   combatStateMachine: {fileID: 467955062}
   clonePreviewManager: {fileID: 230720528}
   forceFitContainer: 1
-  pushAmount: 50
+  pushAmount: 100
   falloff: 0.5
   affectedCardCount: 2
+  pushAffectedCardCount: 5
   alignment: 1
   allowCardRepositioning: 0
   maxCardRotation: 5
-  maxHeightDisplacement: 0
+  maxHeightDisplacement: 80
+  minRatio: 0.5
   zoomConfig:
-    zoomOnHover: 1
-    multiplier: 1.1
-    overrideYPosition: -1
+    zoomOnHover: 0
+    multiplier: 1.3
+    overrideYPosition: 300
     defaultSortOrder: 0
     bringToFrontOnHover: 1
     zoomedSortOrder: 100
     resetRotationOnZoom: 1
   animationSpeedConfig:
     rotation: 100
-    position: 1000
-    releasePosition: 5000
-    zoom: 3
+    position: 500
+    releasePosition: 2000
+    zoom: 1
   cardPlayConfig:
     playArea:
     - {fileID: 254873617}
