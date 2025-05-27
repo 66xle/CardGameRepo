@@ -21,6 +21,7 @@ public class CardContainer : MonoBehaviour {
     [SerializeField] private float falloff = 0.5f;
     [SerializeField] [Tooltip("Cards adjacent affected by push")] private int affectedCardCount = 2;
     [SerializeField][Tooltip("Number of cards in hand to be affected by push")] private int pushAffectedCardCount = 2;
+    [SerializeField] private float rightPushMultiplier = 1.25f;
 
     [Header("Alignment")]
     [SerializeField]
@@ -36,6 +37,7 @@ public class CardContainer : MonoBehaviour {
 
     [SerializeField] private float maxHeightDisplacement;
     [SerializeField] private float minRatio = 0.3f;
+    
 
     [SerializeField]
     private ZoomConfig zoomConfig;
@@ -209,7 +211,13 @@ public class CardContainer : MonoBehaviour {
                 {
                     // Normalized falloff: closer cards are pushed more
                     float t = 1f - (distanceFromSelected / (float)(affectedCardCount + 1));
-                    t = Mathf.Pow(t, falloff); // Optional: use falloff to curve the strength
+                    t = Mathf.Pow(t, falloff);
+
+                    // Right side bias: push cards on the right harder
+                    if (i > selectedIndex)
+                    {
+                        t *= rightPushMultiplier; // e.g., 1.25f
+                    }
 
                     float direction = Mathf.Sign(i - selectedIndex); // -1 = left, +1 = right
                     pushOffset = direction * pushAmount * t;

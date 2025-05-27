@@ -30,7 +30,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [HideInInspector] public bool IsPreviewActive = false;
 
     public float width {
-        get => rectTransform.rect.width * rectTransform.localScale.x;
+        get => rectTransform.rect.width;
     }
 
     private void Awake() {
@@ -77,7 +77,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
 
     private void UpdateScale() {
-        var targetZoom = (isDragged || IsPreviewActive) && zoomConfig.zoomOnHover ? zoomConfig.multiplier : 1;
+        var targetZoom = (isDragged || IsPreviewActive) && zoomConfig.zoomOnClick ? zoomConfig.multiplier : 1;
         var delta = Mathf.Abs(rectTransform.localScale.x - targetZoom);
         var newZoom = Mathf.Lerp(rectTransform.localScale.x, targetZoom,
             animationSpeedConfig.zoom / delta * Time.deltaTime);
