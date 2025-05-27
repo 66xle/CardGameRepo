@@ -8,11 +8,12 @@ namespace config {
         [Tooltip("Animation speed in degrees per second")]
         public float rotation = 60f;
 
-        [SerializeField]
-        public float position = 500f;
-        
-        [SerializeField]
-        public float releasePosition = 2000f;
+
+        //[SerializeField] public float position = 500f;
+
+
+        //[SerializeField] public float releasePosition = 2000f;
+        public float duration = 5.0f;
 
         [SerializeField]
         public float zoom = 0.3f;

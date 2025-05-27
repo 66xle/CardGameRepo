@@ -63,7 +63,7 @@ namespace demo {
 
         public void OnCardDrag(CardDrag cardDrag)
         {
-            CardPreviewEnd();
+            //CardPreviewEnd();
         }
 
         private void CardPreviewEnd()

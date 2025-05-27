@@ -62,11 +62,13 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             }
 
             var distance = Vector2.Distance(rectTransform.position, target);
-            var repositionSpeed = rectTransform.position.y > target.y || rectTransform.position.y < 0
-                ? animationSpeedConfig.releasePosition
-                : animationSpeedConfig.position;
-            rectTransform.position = Vector2.Lerp(rectTransform.position, target,
-                repositionSpeed / distance * Time.deltaTime);
+            var repositionSpeed = distance / animationSpeedConfig.duration;
+
+            if (repositionSpeed == 0) 
+                repositionSpeed = 1;
+
+            Vector2 position = Vector2.Lerp(rectTransform.position, target, repositionSpeed / distance * Time.deltaTime);
+            rectTransform.position = position;
         }
         else {
             var delta = ((Vector2)Input.mousePosition + dragStartPos);
@@ -101,8 +103,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             : tempTargetRotation;
         var newDelta = Mathf.Abs(adjustedCurrent - adjustedTarget);
 
-        var nextRotation = Mathf.Lerp(adjustedCurrent, adjustedTarget,
-            animationSpeedConfig.rotation / newDelta * Time.deltaTime);
+        var nextRotation = Mathf.Lerp(adjustedCurrent, adjustedTarget, animationSpeedConfig.rotation / newDelta * Time.deltaTime);
         rectTransform.rotation = Quaternion.Euler(0, 0, nextRotation);
     }
 

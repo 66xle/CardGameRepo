@@ -1065,7 +1065,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -8, y: 106}
+  m_AnchoredPosition: {x: -8, y: -16}
   m_SizeDelta: {x: 642.794, y: 312.943}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &347342560
@@ -1091,19 +1091,18 @@ MonoBehaviour:
   allowCardRepositioning: 0
   maxCardRotation: 5
   maxHeightDisplacement: 80
-  minRatio: 0.5
+  minRatio: 0.8
   zoomConfig:
     zoomOnHover: 0
     multiplier: 1.3
-    overrideYPosition: 300
+    overrideYPosition: 250
     defaultSortOrder: 0
     bringToFrontOnHover: 1
     zoomedSortOrder: 100
     resetRotationOnZoom: 1
   animationSpeedConfig:
     rotation: 100
-    position: 500
-    releasePosition: 2000
+    duration: 0.1
     zoom: 1
   cardPlayConfig:
     playArea:
