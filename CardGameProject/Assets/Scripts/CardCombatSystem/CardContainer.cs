@@ -81,7 +81,12 @@ public class CardContainer : MonoBehaviour {
 
         // Raise the minimum displacement (e.g., 30% of max)
         float finalRatio = Mathf.Lerp(minRatio, 1f, curve); // Curve goes from minRatio => 1
-        return maxHeightDisplacement * finalRatio;
+
+        float baseHeight = 1080f;   // Your design height
+        float screenRatio = Screen.height / baseHeight;
+        float scaledOffsetY = maxHeightDisplacement * screenRatio;
+
+        return scaledOffsetY * finalRatio;
     }
 
     private float GetCardRotation(int index) {
