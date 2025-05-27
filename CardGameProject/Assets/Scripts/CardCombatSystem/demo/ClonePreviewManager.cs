@@ -28,7 +28,7 @@ namespace demo {
 
         private Dictionary<CardWrapper, Transform> previews = new Dictionary<CardWrapper, Transform>();
 
-        CardWrapper currentCard;
+        [HideInInspector] public CardWrapper currentCard;
         bool IsCardClicked = false;
 
         private void Update()
@@ -55,6 +55,7 @@ namespace demo {
                 currentCard = cardClick.card;
                 OnCardPreviewStarted(currentCard);
 
+                currentCard.IsPreviewActive = true;
                 currentCard.gameObject.GetComponent<CanvasGroup>().alpha = 0f;
             }
         }
@@ -67,6 +68,7 @@ namespace demo {
         private void CardPreviewEnd()
         {
             OnCardPreviewEnded(currentCard);
+            currentCard.IsPreviewActive = false;
             currentCard.gameObject.GetComponent<CanvasGroup>().alpha = 1f;
             currentCard = null;
         }

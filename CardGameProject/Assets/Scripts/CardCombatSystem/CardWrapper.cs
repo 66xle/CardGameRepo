@@ -27,6 +27,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public EventsConfig eventsConfig;
 
     private bool isPointerDown = false;
+    [HideInInspector] public bool IsPreviewActive = false;
 
     public float width {
         get => rectTransform.rect.width * rectTransform.localScale.x;
@@ -48,7 +49,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
 
     private void UpdateUILayer() {
-        if (!isHovered && !isDragged) {
+        if (!IsPreviewActive && !isDragged) {
             canvas.sortingOrder = uiLayer;
         }
     }
@@ -56,7 +57,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private void UpdatePosition() {
         if (!isDragged) {
             var target = new Vector2(targetPosition.x, targetPosition.y + targetVerticalDisplacement);
-            if (isHovered && zoomConfig.overrideYPosition != -1) {
+            if (IsPreviewActive && zoomConfig.overrideYPosition != -1) {
                 target = new Vector2(target.x, zoomConfig.overrideYPosition);
             }
 
@@ -74,7 +75,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
 
     private void UpdateScale() {
-        var targetZoom = (isDragged || isHovered) && zoomConfig.zoomOnHover ? zoomConfig.multiplier : 1;
+        var targetZoom = (isDragged || IsPreviewActive) && zoomConfig.zoomOnHover ? zoomConfig.multiplier : 1;
         var delta = Mathf.Abs(rectTransform.localScale.x - targetZoom);
         var newZoom = Mathf.Lerp(rectTransform.localScale.x, targetZoom,
             animationSpeedConfig.zoom / delta * Time.deltaTime);
@@ -86,7 +87,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         // If the angle is negative, add 360 to it to get the positive equivalent
         crtAngle = crtAngle < 0 ? crtAngle + 360 : crtAngle;
         // If the card is hovered and the rotation should be reset, set the target rotation to 0
-        var tempTargetRotation = (isHovered || isDragged) && zoomConfig.resetRotationOnZoom
+        var tempTargetRotation = (IsPreviewActive || isDragged) && zoomConfig.resetRotationOnZoom
             ? 0
             : targetRotation;
         tempTargetRotation = tempTargetRotation < 0 ? tempTargetRotation + 360 : tempTargetRotation;

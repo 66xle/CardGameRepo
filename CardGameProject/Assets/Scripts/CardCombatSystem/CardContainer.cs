@@ -1,6 +1,8 @@
 using config;
 using DefaultNamespace;
+using demo;
 using events;
+using MyBox;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,11 +10,17 @@ using UnityEngine.UI;
 
 public class CardContainer : MonoBehaviour {
     [Header("References")]
-    public CombatStateMachine combatStateMachine;
+    [MustBeAssigned] public CombatStateMachine combatStateMachine;
+    [MustBeAssigned] public ClonePreviewManager clonePreviewManager;
 
     [Header("Constraints")]
-    [SerializeField]
-    private bool forceFitContainer;
+    [SerializeField] private bool forceFitContainer;
+
+    [Header("Clone Preview")]
+    [SerializeField] private float pushAmount = 100f;
+    [SerializeField] private float falloff = 0.5f;
+    [SerializeField] [Tooltip("Cards adjacent affected by push")] private int affectedCardCount = 2;
+    [SerializeField][Tooltip("Number of cards in hand to be affected by push")] private int pushAffectedCardCount = 2;
 
     [Header("Alignment")]
     [SerializeField]
@@ -171,15 +179,42 @@ public class CardContainer : MonoBehaviour {
     }
 
     private void DistributeChildrenToFitContainer(float childrenTotalWidth) {
+
+        int selectedIndex = clonePreviewManager.currentCard == null ? -1 : cards.IndexOf(clonePreviewManager.currentCard);
+
         // Get the width of the container
         var width = rectTransform.rect.width * transform.lossyScale.x;
         // Get the distance between each child
         var distanceBetweenChildren = (width - childrenTotalWidth) / (cards.Count - 1);
         // Set all children's positions to be evenly spaced out
         var currentX = transform.position.x - width / 2;
-        foreach (CardWrapper child in cards) {
-            var adjustedChildWidth = child.width * child.transform.lossyScale.x;
-            child.targetPosition = new Vector2(currentX + adjustedChildWidth / 2, transform.position.y);
+
+        for (int i = 0; i < cards.Count; i++)
+        {
+            var child = cards[i];
+            float adjustedChildWidth = child.width * child.transform.lossyScale.x;
+
+            // Base X without push
+            float baseX = currentX + adjustedChildWidth / 2;
+
+            // Apply push if any card is selected
+            float pushOffset = 0f;
+            if (selectedIndex >= 0 && cards.Count >= pushAffectedCardCount)
+            {
+                int distanceFromSelected = Mathf.Abs(i - selectedIndex);
+
+                if (distanceFromSelected <= affectedCardCount && i != selectedIndex)
+                {
+                    // Normalized falloff: closer cards are pushed more
+                    float t = 1f - (distanceFromSelected / (float)(affectedCardCount + 1));
+                    t = Mathf.Pow(t, falloff); // Optional: use falloff to curve the strength
+
+                    float direction = Mathf.Sign(i - selectedIndex); // -1 = left, +1 = right
+                    pushOffset = direction * pushAmount * t;
+                }
+            }
+
+            child.targetPosition = new Vector2(baseX + pushOffset, transform.position.y);
             currentX += adjustedChildWidth + distanceBetweenChildren;
         }
     }
