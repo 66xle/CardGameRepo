@@ -18,11 +18,11 @@ MonoBehaviour:
   Health: 50
   Guard: 5
   EnemyType: 0
-  WeaponType: 1
+  WeaponType: 0
   WeaponTypeAnimationSet:
-  - rid: 7082259549927505962
-  - rid: 7082259549927505963
-  - rid: 7082259549927505964
+  - rid: 7082259594477830250
+  - rid: 7082259594477830251
+  - rid: 7082259594477830252
   Cards:
   - rid: 7082259279571320953
   - rid: 7082259279571320968
@@ -36,17 +36,14 @@ MonoBehaviour:
         AnimationClipList:
         - {fileID: 1827226128182048838, guid: 3d8051e0b50b9c84e8d5c5e945105220, type: 3}
         - {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
-        - {fileID: 1827226128182048838, guid: 97b15962ca9b5e048a51b3ea243fcc52, type: 3}
-        - {fileID: 1827226128182048838, guid: 2680591b97b18a24cabe8e529c6763c4, type: 3}
-        - {fileID: 1827226128182048838, guid: 04206163fa6f4ef47a2577edd8706e26, type: 3}
-        - {fileID: 1827226128182048838, guid: ba31907f1536e61439b0c4b2b1727f79, type: 3}
-        - {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
+        - {fileID: 1827226128182048838, guid: 6ff7221927b2e184592ac1f4822ab68a, type: 3}
+        - {fileID: 1827226128182048838, guid: 6c9c0d1dba8607441ab2711dabb88b4d, type: 3}
+        - {fileID: 1827226128182048838, guid: 038bd9b32bdfa4747a9476ecb109aea9, type: 3}
+        - {fileID: 1827226128182048838, guid: b766f3fdd3c320e409afa7076753976b, type: 3}
         Animation: Strike
         AnimationList:
         - 1H Strike 1
         - 1H Strike 2
-        - 1H Short Strike 1
-        - 1H Short Strike 2
     - rid: 7082259279571320968
       type: {class: WeaponCardData, ns: , asm: Assembly-CSharp}
       data:
@@ -54,33 +51,29 @@ MonoBehaviour:
         AnimationClipList:
         - {fileID: 1827226128182048838, guid: 3d8051e0b50b9c84e8d5c5e945105220, type: 3}
         - {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
-        - {fileID: 1827226128182048838, guid: 97b15962ca9b5e048a51b3ea243fcc52, type: 3}
-        - {fileID: 1827226128182048838, guid: 2680591b97b18a24cabe8e529c6763c4, type: 3}
-        - {fileID: 1827226128182048838, guid: 04206163fa6f4ef47a2577edd8706e26, type: 3}
-        - {fileID: 1827226128182048838, guid: ba31907f1536e61439b0c4b2b1727f79, type: 3}
-        - {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
+        - {fileID: 1827226128182048838, guid: 6ff7221927b2e184592ac1f4822ab68a, type: 3}
+        - {fileID: 1827226128182048838, guid: 6c9c0d1dba8607441ab2711dabb88b4d, type: 3}
+        - {fileID: 1827226128182048838, guid: 038bd9b32bdfa4747a9476ecb109aea9, type: 3}
+        - {fileID: 1827226128182048838, guid: b766f3fdd3c320e409afa7076753976b, type: 3}
         Animation: Strike
         AnimationList:
         - 1H Strike 1
         - 1H Strike 2
-        - 1H Short Strike 1
-        - 1H Short Strike 2
-    - rid: 7082259549927505962
+    - rid: 7082259594477830250
       type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipList:
         - {fileID: 1827226128182048838, guid: 3d8051e0b50b9c84e8d5c5e945105220, type: 3}
         - {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
-        - {fileID: 1827226128182048838, guid: 97b15962ca9b5e048a51b3ea243fcc52, type: 3}
-        - {fileID: 1827226128182048838, guid: 2680591b97b18a24cabe8e529c6763c4, type: 3}
-    - rid: 7082259549927505963
+    - rid: 7082259594477830251
       type: {class: WeaponTypeAnimationHeavy, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipList:
-        - {fileID: 1827226128182048838, guid: 04206163fa6f4ef47a2577edd8706e26, type: 3}
-        - {fileID: 1827226128182048838, guid: ba31907f1536e61439b0c4b2b1727f79, type: 3}
-    - rid: 7082259549927505964
+        - {fileID: 1827226128182048838, guid: 6ff7221927b2e184592ac1f4822ab68a, type: 3}
+        - {fileID: 1827226128182048838, guid: 6c9c0d1dba8607441ab2711dabb88b4d, type: 3}
+        - {fileID: 1827226128182048838, guid: 038bd9b32bdfa4747a9476ecb109aea9, type: 3}
+    - rid: 7082259594477830252
       type: {class: WeaponTypeAnimationAOE, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipList:
-        - {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
+        - {fileID: 1827226128182048838, guid: b766f3fdd3c320e409afa7076753976b, type: 3}

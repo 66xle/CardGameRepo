@@ -53,23 +53,14 @@ namespace demo {
 
                 IsCardClicked = true;
 
-                //OnCardPreviewStarted(currentCard);
-                //currentCard.gameObject.GetComponent<CanvasGroup>().alpha = 0f;
                 currentCard = cardClick.card;
                 currentCard.canvas.sortingOrder = previewSortingOrder;
                 currentCard.IsPreviewActive = true;
             }
         }
 
-        public void OnCardDrag(CardDrag cardDrag)
-        {
-            //CardPreviewEnd();
-        }
-
         private void CardPreviewEnd()
         {
-            //OnCardPreviewEnded(currentCard);
-            //currentCard.gameObject.GetComponent<CanvasGroup>().alpha = 1f;
             currentCard.IsPreviewActive = false;
             currentCard.canvas.sortingOrder = currentCard.uiLayer;
             currentCard = null;
