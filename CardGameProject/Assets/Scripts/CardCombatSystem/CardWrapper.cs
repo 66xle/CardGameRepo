@@ -42,6 +42,9 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
 
     private void Update() {
+
+        if (Time.timeScale == 0) return;
+
         UpdateRotation();
         UpdatePosition();
         UpdateScale();
@@ -79,8 +82,11 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private void UpdateScale() {
         var targetZoom = (isDragged || IsPreviewActive) && zoomConfig.zoomOnClick ? zoomConfig.multiplier : 1;
         var delta = Mathf.Abs(rectTransform.localScale.x - targetZoom);
-        var newZoom = Mathf.Lerp(rectTransform.localScale.x, targetZoom,
+        float newZoom = Mathf.Lerp(rectTransform.localScale.x, targetZoom,
             animationSpeedConfig.zoom / delta * Time.deltaTime);
+
+        if (float.IsNaN(newZoom)) return;
+
         rectTransform.localScale = new Vector3(newZoom, newZoom, 1);
     }
 
