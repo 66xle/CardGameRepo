@@ -38,9 +38,16 @@ public class AnimationSystem : MonoBehaviour
         Vector3 currentPos = new Vector3(currentTransform.position.x, 0, currentTransform.position.z);
         Vector3 opponentPos = new Vector3(opponentTransform.position.x, 0, opponentTransform.position.z);
 
-        Vector3 posToMove = opponentPos + opponentTransform.transform.forward * 1.5f;
+        Vector3 dir = (currentPos - opponentPos).normalized;
+
+        Vector3 posToMove = opponentPos + dir * 1.5f;
 
         Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), Ctx.moveDuration).SetEase(Ctx.moveAnimCurve);
+
+        Quaternion targetRotation = Quaternion.LookRotation(-dir);
+        currentTransform.DORotate(targetRotation.eulerAngles, 1f, RotateMode.Fast);
+
+
 
         yield return tween.WaitForCompletion();
     }
@@ -61,6 +68,10 @@ public class AnimationSystem : MonoBehaviour
         Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), Ctx.jumpDuration).SetEase(Ctx.jumpAnimCurve);
 
         yield return tween.WaitForCompletion();
+
+        Quaternion targetRotation = Quaternion.LookRotation(Vector3.zero);
+        currentTransform.DOLocalRotate(targetRotation.eulerAngles, 1f, RotateMode.Fast);
+
 
         returnToPosGA.IsReturnFinished = true;
     }
