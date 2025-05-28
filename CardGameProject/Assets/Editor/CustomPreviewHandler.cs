@@ -77,7 +77,7 @@ public class CustomPreviewHandler
         if (previewRenderUtility == null)
             return;
 
-        if (playableGraph.IsValid())
+        if (playableGraph.IsValid() && (clip != null))
         {
             if (clip.length > 0)
             {
