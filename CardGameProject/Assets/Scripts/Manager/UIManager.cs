@@ -13,6 +13,13 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadSceneAsync("LoadingScene");
     }
 
+    public void NextScene()
+    {
+        // difficulty manager
+
+        RestartCombat(); // temp
+    }
+
     public void Play()
     {
         GameManager.SceneToLoad = "Combat";

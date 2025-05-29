@@ -207,7 +207,7 @@ public class CombatStateMachine : MonoBehaviour
     private void LoadEnemy()
     {
         //List<EnemyObj> enemyObjList = nodeData.enemies;
-        List<EnemyData> enemyDataList = enemyManager.Enemies;
+        List<EnemyData> enemyDataList = enemyManager.GetEnemies();
 
 
         // Spawn Enemy

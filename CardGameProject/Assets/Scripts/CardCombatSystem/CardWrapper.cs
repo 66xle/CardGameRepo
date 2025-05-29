@@ -1,5 +1,6 @@
 using config;
 using events;
+using MyBox;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -71,6 +72,9 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 repositionSpeed = 1;
 
             Vector2 position = Vector2.Lerp(rectTransform.position, target, repositionSpeed / distance * Time.deltaTime);
+
+            if (float.IsNaN(position.x) || float.IsNaN(position.y)) return;
+
             rectTransform.position = position;
         }
         else {
