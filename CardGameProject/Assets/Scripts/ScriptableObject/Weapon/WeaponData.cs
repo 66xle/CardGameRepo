@@ -16,6 +16,8 @@ public class WeaponData : ScriptableObject
     public DamageType DamageType;
     public WeaponType WeaponType;
     private WeaponType _previousWeaponType;
+    public Texture IconTexture;
+    
 
     public GameObject Prefab;
 

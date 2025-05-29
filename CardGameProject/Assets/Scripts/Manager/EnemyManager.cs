@@ -6,8 +6,8 @@ using Random = UnityEngine.Random;
 
 public class EnemyManager : MonoBehaviour
 {
-    [SerializeField] [MinMaxRange(1, 3)] private RangedInt AmountOfEnemies = new RangedInt(1, 3);
-    [SerializeField] private List<EnemyData> Enemies = new();
+    [MinMaxRange(1, 3)] [SerializeField] RangedInt AmountOfEnemies = new RangedInt(1, 3);
+    [SerializeField] List<EnemyData> Enemies = new();
 
     private void Awake()
     {

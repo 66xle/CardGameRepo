@@ -77,15 +77,15 @@ public class CombatStateMachine : MonoBehaviour
     public AnimationCurve jumpAnimCurve;
 
     [Foldout("References", true)]
-    public InputManager inputManager;
-    public StatsManager statsManager;
-    public SwitchWeaponManager switchWeaponManager;
-    public CombatUIManager combatUIManager;
-    public EventDisplay eventDisplay;
-    public CardManager cardManager;
-    public EnemyManager enemyManager;
-    public GameObject rewardUI;
-    public GameObject gameOverUI;
+    [MustBeAssigned] public InputManager inputManager;
+    [MustBeAssigned] public StatsManager statsManager;
+    [MustBeAssigned] public SwitchWeaponManager switchWeaponManager;
+    [MustBeAssigned] public CombatUIManager combatUIManager;
+    [MustBeAssigned] public CardManager cardManager;
+    [MustBeAssigned] public EnemyManager enemyManager;
+    [MustBeAssigned] public RewardManager rewardManager;
+    [MustBeAssigned] public GameObject rewardUI;
+    [MustBeAssigned] public GameObject gameOverUI;
     
     
     
