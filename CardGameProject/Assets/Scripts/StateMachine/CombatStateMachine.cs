@@ -52,9 +52,7 @@ public class CombatStateMachine : MonoBehaviour
     [Foldout("Camera", true)]
     public float statusEffectDelay = 0.5f;
     public float statusEffectAfterDelay = 1f;
-    [MustBeAssigned] public CinemachineVirtualCamera defaultCam;
-    [MustBeAssigned] public CinemachineVirtualCamera followCam;
-    [MustBeAssigned] public CinemachineVirtualCamera panCam;
+    
 
     [Foldout("Card", true)]
     public int cardsToDraw = 2;
@@ -86,6 +84,9 @@ public class CombatStateMachine : MonoBehaviour
     [MustBeAssigned] public RewardManager rewardManager;
     [MustBeAssigned] public GameObject rewardUI;
     [MustBeAssigned] public GameObject gameOverUI;
+
+
+    [MustBeAssigned] public CameraSystem CameraSystem;
     
     
     
@@ -200,8 +201,7 @@ public class CombatStateMachine : MonoBehaviour
             _equipmentHolsterScript.EquipWeapon(weaponToEquip);
         }
 
-        followCam.Follow = player.gameObject.transform;
-        panCam.Follow = player.gameObject.transform;
+        CameraSystem.SetPlayer(player.transform);
     }
 
     private void LoadEnemy()

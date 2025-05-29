@@ -2203,9 +2203,6 @@ MonoBehaviour:
   currentEnemyTurn: {fileID: 0}
   statusEffectDelay: 0.5
   statusEffectAfterDelay: 1
-  defaultCam: {fileID: 1720531969}
-  followCam: {fileID: 1427997845}
-  panCam: {fileID: 1377993572}
   cardsToDraw: 5
   cardPrefab: {fileID: 7406141934112961317, guid: f40acb07258ef8741bc094a7dcd310cf, type: 3}
   playerHandTransform: {fileID: 347342559}
@@ -2272,6 +2269,7 @@ MonoBehaviour:
   rewardManager: {fileID: 1749312353}
   rewardUI: {fileID: 1642130248}
   gameOverUI: {fileID: 105679948}
+  CameraSystem: {fileID: 1314847668}
   isPlayedCard: 0
   isPlayState: 0
   pressedEndTurnButton: 0
@@ -6508,6 +6506,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Ctx: {fileID: 467955062}
+  defaultCam: {fileID: 1720531969}
+  followCam: {fileID: 1427997845}
+  panCam: {fileID: 1377993572}
 --- !u!4 &1314847669
 Transform:
   m_ObjectHideFlags: 0
@@ -7657,10 +7658,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SceneToLoad: 
-  EquippedWeapons: []
-  MainHand: {fileID: 0}
-  OffHand: {fileID: 0}
-  IsWeaponsSaved: 0
 --- !u!1 &1427997843
 GameObject:
   m_ObjectHideFlags: 0
@@ -10058,7 +10055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIManager: {fileID: 602362924}
-  EquipmentMan: {fileID: 393357797}
+  EquipmentManager: {fileID: 393357797}
   DisplayRewardsUI: {fileID: 935321547}
   IconPrefab: {fileID: 3563400640864021915, guid: 4df276be4a802764daae7027db7ef6ec, type: 3}
   PoolOfGear:

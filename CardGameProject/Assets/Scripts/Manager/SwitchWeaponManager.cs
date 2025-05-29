@@ -50,7 +50,7 @@ public class SwitchWeaponManager : MonoBehaviour
 
         if (IsHolstersEquipped())
         {
-            foreach (WeaponData weaponData in EquipmentManager.EquippedWeapons)
+            foreach (WeaponData weaponData in EquipmentManager.GetEquippedWeapons())
             {
                 CurrentEquippedWeapons.Add(CopyWeaponData(weaponData));
             }
@@ -96,7 +96,7 @@ public class SwitchWeaponManager : MonoBehaviour
 
     public bool IsHolstersEquipped()
     {
-        return EquipmentManager.EquippedWeapons.Count > 0 ? true : false;
+        return EquipmentManager.GetEquippedWeapons().Count > 0 ? true : false;
     }
 
     public void OpenSwitchWeaponUI()
