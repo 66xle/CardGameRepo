@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
     {
         Time.timeScale = 1.0f;
 
-        GameManager.SceneToLoad = SceneManager.GetActiveScene().name;
+        GameManager.Instance.SceneToLoad = SceneManager.GetActiveScene().name;
 
         SceneManager.LoadSceneAsync("LoadingScene");
     }
@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
 
     public void Play()
     {
-        GameManager.SceneToLoad = "Combat";
+        GameManager.Instance.SceneToLoad = "Combat";
 
         SceneManager.LoadSceneAsync("LoadingScene");
     }

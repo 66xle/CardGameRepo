@@ -1,6 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public static class GameManager
+public class GameManager : Singleton<GameManager>
 {
-    public static string SceneToLoad;
+    [HideInInspector] public string SceneToLoad;
+
+    [HideInInspector] public List<WeaponData> EquippedWeapons;
+    [HideInInspector] public WeaponData MainHand;
+    [HideInInspector] public WeaponData OffHand;
+
+    [HideInInspector] public bool IsWeaponsSaved = false;
 }

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class RewardManager : MonoBehaviour
 {
     [MustBeAssigned] [SerializeField] UIManager UIManager;
+    [MustBeAssigned] [SerializeField] EquipmentManager EquipmentMan;
     [MustBeAssigned] [SerializeField] Transform DisplayRewardsUI;
     [MustBeAssigned] [SerializeField] GameObject IconPrefab;
     [SerializeField] List<WeaponData> PoolOfGear;
@@ -14,6 +15,10 @@ public class RewardManager : MonoBehaviour
 
     public void ClaimGear()
     {
+        EquipmentMan.EquippedWeapons.AddRange(listOfWeaponReward);
+
+        EquipmentMan.SaveWeapons();
+
         UIManager.NextScene();
     }
 
@@ -28,7 +33,6 @@ public class RewardManager : MonoBehaviour
         }
 
         WeaponData weaponData = PoolOfGear[index];
-
         listOfWeaponReward.Add(weaponData);
         
 

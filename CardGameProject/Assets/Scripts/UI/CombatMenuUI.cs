@@ -20,7 +20,7 @@ public class CombatMenuUI : MonoBehaviour
 
     public void MainMenu()
     {
-        GameManager.SceneToLoad = "MainMenu";
+        GameManager.Instance.SceneToLoad = "MainMenu";
         Time.timeScale = 1f;
 
         SceneManager.LoadSceneAsync("LoadingScene");
