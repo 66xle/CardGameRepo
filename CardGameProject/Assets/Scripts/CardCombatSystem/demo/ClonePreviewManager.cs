@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using config;
 using events;
+using MyBox;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
@@ -11,7 +14,10 @@ namespace demo {
      * Allows setting the global preview position and scale.
      */
     public class ClonePreviewManager : MonoBehaviour, CardPreviewManager {
-        
+
+        [SerializeField]
+        [MustBeAssigned] private InputManager InputManager;
+
         [SerializeField]
         private float verticalPosition;
         
@@ -22,16 +28,42 @@ namespace demo {
         private int previewSortingOrder = 1;
 
         private Dictionary<CardWrapper, Transform> previews = new Dictionary<CardWrapper, Transform>();
-        
-        public void OnCardHover(CardHover cardHover) {
 
-            if (Time.timeScale == 1)
-                OnCardPreviewStarted(cardHover.card);
+        [HideInInspector] public CardWrapper currentCard;
+        bool IsCardClicked = false;
 
+        private void Update()
+        {
+            if (InputManager.LeftClickInputDown && !IsCardClicked && currentCard != null)
+            {
+                CardPreviewEnd();
+            }
+
+            if (IsCardClicked)
+                IsCardClicked = false;
         }
-        
-        public void OnCardUnhover(CardUnhover cardUnhover) {
-            OnCardPreviewEnded(cardUnhover.card);
+
+
+        public void OnCardClick(CardClick cardClick)
+        {
+            if (Time.timeScale == 1)
+            {
+                if (currentCard != null)
+                    CardPreviewEnd();
+
+                IsCardClicked = true;
+
+                currentCard = cardClick.card;
+                currentCard.canvas.sortingOrder = previewSortingOrder;
+                currentCard.IsPreviewActive = true;
+            }
+        }
+
+        private void CardPreviewEnd()
+        {
+            currentCard.IsPreviewActive = false;
+            currentCard.canvas.sortingOrder = currentCard.uiLayer;
+            currentCard = null;
         }
 
         public void OnCardPreviewStarted(CardWrapper card) {

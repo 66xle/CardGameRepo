@@ -29,7 +29,7 @@ public class CardEditorWindow : BaseEditorWindow
     [InitializeOnLoadMethod]
     private static void OnLoad()
     {
-        listIndex = SessionState.GetInt("weaponListIndex", 0);
+        listIndex = SessionState.GetInt("cardListIndex", 0);
         isInitialized = false;
         editorReadyToInit = true;
     }
@@ -40,7 +40,7 @@ public class CardEditorWindow : BaseEditorWindow
 
         EditorApplication.update += UpdateCardUI;
 
-        base.Init();
+        EditorApplication.delayCall += () => { base.Init(); };
     }
 
     private void OnDisable()

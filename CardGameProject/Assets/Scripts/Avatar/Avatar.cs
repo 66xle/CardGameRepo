@@ -18,6 +18,10 @@ public class Avatar : MonoBehaviour
     public ArmourType ArmourType;
     public DamageType DamageType;
 
+    public Transform WeaponJoint;
+    public Transform FollowJoint;
+    public Transform RightHolder;
+
     #endregion
 
     #region Bools
@@ -67,12 +71,28 @@ public class Avatar : MonoBehaviour
         Animator = GetComponent<Animator>();
     }
 
+    private void LateUpdate()
+    {
+        AnimatorStateInfo state = Animator.GetCurrentAnimatorStateInfo(0);
+
+        if (state.IsTag("Attack") && state.normalizedTime > 0.05f && !IsAttackFinished)
+        {
+            RightHolder.parent = WeaponJoint;
+            //Animator.SetLayerWeight(1, 1);
+        }
+        else
+        {
+            RightHolder.parent = FollowJoint;
+            //Animator.SetLayerWeight(1, 0);
+        }
+    }
+
 
     #region Avatar Methods
 
-        #region Take Damage
+    #region Take Damage
 
-        public void TakeDamage(float damage) 
+    public void TakeDamage(float damage) 
         {
             damage = ApplyAdditionalDmgCheck(damage);
 

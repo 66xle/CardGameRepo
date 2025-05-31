@@ -52,9 +52,7 @@ public class CombatStateMachine : MonoBehaviour
     [Foldout("Camera", true)]
     public float statusEffectDelay = 0.5f;
     public float statusEffectAfterDelay = 1f;
-    [MustBeAssigned] public CinemachineVirtualCamera defaultCam;
-    [MustBeAssigned] public CinemachineVirtualCamera followCam;
-    [MustBeAssigned] public CinemachineVirtualCamera panCam;
+    
 
     [Foldout("Card", true)]
     public int cardsToDraw = 2;
@@ -77,15 +75,18 @@ public class CombatStateMachine : MonoBehaviour
     public AnimationCurve jumpAnimCurve;
 
     [Foldout("References", true)]
-    public InputManager inputManager;
-    public StatsManager statsManager;
-    public SwitchWeaponManager switchWeaponManager;
-    public CombatUIManager combatUIManager;
-    public EventDisplay eventDisplay;
-    public CardManager cardManager;
-    public EnemyManager enemyManager;
-    public GameObject rewardUI;
-    public GameObject gameOverUI;
+    [MustBeAssigned] public InputManager inputManager;
+    [MustBeAssigned] public StatsManager statsManager;
+    [MustBeAssigned] public SwitchWeaponManager switchWeaponManager;
+    [MustBeAssigned] public CombatUIManager combatUIManager;
+    [MustBeAssigned] public CardManager cardManager;
+    [MustBeAssigned] public EnemyManager enemyManager;
+    [MustBeAssigned] public RewardManager rewardManager;
+    [MustBeAssigned] public GameObject rewardUI;
+    [MustBeAssigned] public GameObject gameOverUI;
+
+
+    [MustBeAssigned] public CameraSystem CameraSystem;
     
     
     
@@ -200,14 +201,13 @@ public class CombatStateMachine : MonoBehaviour
             _equipmentHolsterScript.EquipWeapon(weaponToEquip);
         }
 
-        followCam.Follow = player.gameObject.transform;
-        panCam.Follow = player.gameObject.transform;
+        CameraSystem.SetPlayer(player.transform);
     }
 
     private void LoadEnemy()
     {
         //List<EnemyObj> enemyObjList = nodeData.enemies;
-        List<EnemyData> enemyDataList = enemyManager.Enemies;
+        List<EnemyData> enemyDataList = enemyManager.GetEnemies();
 
 
         // Spawn Enemy
@@ -261,13 +261,23 @@ public class CombatStateMachine : MonoBehaviour
                 GameObject mainHandWeapon = _equipmentHolsterScript.RightHand.GetChild(0).gameObject;
                 Weapon weaponScript = mainHandWeapon.GetComponent<Weapon>();
 
+                
+
                 // Swap Weapon
                 if (weaponScript.Guid != cardData.Weapon.Guid)
                 {
                     GameObject holsteredWeapon = _equipmentHolsterScript.EquippedWeaponObjects.First(weapon => weapon.gameObject.GetComponent<Weapon>().Guid == cardData.Weapon.Guid);
 
-                    _equipmentHolsterScript.HolsterWeapon(mainHandWeapon);   
+                    WeaponType weaponType = holsteredWeapon.GetComponent<Weapon>().WeaponType;
 
+                    player.Animator.SetInteger("WeaponType", 0);
+                    if (weaponType == WeaponType.Dagger)
+                    {
+                        player.Animator.SetInteger("WeaponType", 1);
+                        Debug.Log("test");
+                    }
+
+                    _equipmentHolsterScript.HolsterWeapon(mainHandWeapon);
                     _equipmentHolsterScript.EquipWeapon(holsteredWeapon);
                 }
 

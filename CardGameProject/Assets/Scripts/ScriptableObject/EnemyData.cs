@@ -7,13 +7,23 @@ using System.Linq;
 using UnityEditor;
 
 
+public enum EnemyType
+{
+    Minion,
+    Elite,
+    Boss
+}
+
 [CreateAssetMenu(fileName = "New Enemy", menuName = "Enemy")]
 public class EnemyData : ScriptableObject
 {
+    [ReadOnly] public string Guid;
+    public GameObject Prefab;
+    public string Name;
     public int Health;
     public int Guard;
-    public GameObject Prefab;
 
+    public EnemyType EnemyType;
     public WeaponType WeaponType;
     [ReadOnly][SerializeReference][SR] public List<WeaponTypeAnimation> WeaponTypeAnimationSet;
 

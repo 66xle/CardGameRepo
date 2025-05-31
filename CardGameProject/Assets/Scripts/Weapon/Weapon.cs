@@ -43,4 +43,9 @@ public class Weapon : MonoBehaviour
     [ConditionalField(nameof(OffSetHolster), false, OffSetHolster.LeftHip)] public GameObject LeftHipPrefab = null ;
     [ConditionalField(nameof(OffSetHolster), false, OffSetHolster.RightChest)] public GameObject RightChestPrefab = null;
     [ConditionalField(nameof(OffSetHolster), false, OffSetHolster.LeftChest)] public GameObject LeftChestPrefab = null;
+
+    [Separator("Render Preview")]
+
+    public Vector3 positionOffset;
+    public Vector3 rotationOffset;
 }

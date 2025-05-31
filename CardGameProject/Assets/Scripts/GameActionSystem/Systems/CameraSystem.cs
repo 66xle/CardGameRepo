@@ -1,9 +1,13 @@
+using Cinemachine;
 using MyBox;
 using UnityEngine;
 
 public class CameraSystem : MonoBehaviour
 {
-    [MustBeAssigned] public CombatStateMachine Ctx;
+    [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
+    [MustBeAssigned] [SerializeField] CinemachineVirtualCamera defaultCam;
+    [MustBeAssigned] [SerializeField] CinemachineVirtualCamera followCam;
+    [MustBeAssigned] [SerializeField] CinemachineVirtualCamera panCam;
 
     private void OnEnable()
     {
@@ -21,6 +25,12 @@ public class CameraSystem : MonoBehaviour
         ActionSystem.UnsubscribeReaction<TriggerAttackAnimGA>(TriggerAttackAnimReaction, ReactionTiming.PRE);
     }
 
+    public void SetPlayer(Transform playerTransform)
+    {
+        followCam.Follow = playerTransform;
+        panCam.Follow = playerTransform;
+    }
+
     private void MoveToPosReaction(MoveToPosGA moveToPosGA)
     {
         Avatar avatarPlayingCard = moveToPosGA.AvatarPlayingCard;
@@ -28,11 +38,11 @@ public class CameraSystem : MonoBehaviour
 
         if (avatarPlayingCard is Player)
         {
-            Ctx.followCam.LookAt = null;
-            Ctx.followCam.transform.rotation = Ctx.defaultCam.transform.rotation;
-            Ctx.followCam.LookAt = avatarOpponent.transform;
-            Ctx.panCam.LookAt = avatarOpponent.transform;
-            Ctx.followCam.Priority = 30;
+            followCam.LookAt = null;
+            followCam.transform.rotation = defaultCam.transform.rotation;
+            followCam.LookAt = avatarOpponent.transform;
+            panCam.LookAt = avatarOpponent.transform;
+            followCam.Priority = 30;
         }
     }
 
@@ -40,7 +50,7 @@ public class CameraSystem : MonoBehaviour
     {
         if (returnToPosGA.AvatarPlayingCard is Player)
         {
-            Ctx.panCam.Priority = 0;
+            panCam.Priority = 0;
         }
     }
 
@@ -48,7 +58,7 @@ public class CameraSystem : MonoBehaviour
     {
         if (returnToPosGA.AvatarPlayingCard is Player)
         {
-            Ctx.followCam.Priority = 10;
+            followCam.Priority = 10;
         }
     }
 
@@ -58,9 +68,9 @@ public class CameraSystem : MonoBehaviour
 
         if (avatarPlayingCard is Player)
         {
-            Ctx.panCam.transform.position = Ctx.followCam.transform.position;
-            Ctx.panCam.transform.rotation = Ctx.followCam.transform.rotation;
-            Ctx.panCam.Priority = 31;
+            panCam.transform.position = followCam.transform.position;
+            panCam.transform.rotation = followCam.transform.rotation;
+            panCam.Priority = 31;
         }
     }
 }

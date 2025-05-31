@@ -1,6 +1,21 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public static class GameManager
+public class GameManager : Singleton<GameManager>
 {
-    public static string SceneToLoad;
+    [HideInInspector] public string SceneToLoad;
+
+    [HideInInspector] public WeaponData MainHand;
+    [HideInInspector] public WeaponData OffHand;
+    [HideInInspector] public List<WeaponData> EquippedWeapons;
+    
+    [HideInInspector] public bool IsWeaponsSaved = false;
+
+
+
+    public new void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(this);
+    }
 }

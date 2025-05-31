@@ -1,0 +1,27 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:Box name="toolbar">
+        <engine:Button text="Add Enemy" name="add-enemy" />
+        <engine:Button text="Delete Enemy" name="delete-enemy" />
+        <engine:Button text="Rename Enemy" name="rename-enemy" />
+        <engine:Button text="Refresh Editor" name="refresh" style="right: 0; left: auto; top: auto; bottom: auto; position: absolute;" />
+    </engine:Box>
+    <engine:Box name="container" style="top: auto; bottom: auto; right: auto; position: relative; left: auto;">
+        <engine:VisualElement style="flex-grow: 0; top: 0; left: 0; bottom: 29px; right: 0; background-color: rgba(32, 32, 32, 0);">
+            <engine:DropdownField label="Enemy Type" choices="Any,Minion,Elite,Boss" name="filter" index="0" style="right: 0; left: 0; border-bottom-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-bottom-color: rgba(0, 0, 0, 0); border-top-width: 0; border-right-width: 0; border-left-width: 0; background-color: rgba(32, 32, 32, 0); -unity-background-image-tint-color: rgb(255, 255, 255); background-repeat: no-repeat no-repeat; margin-bottom: 5px;" />
+            <engine:ListView name="enemy-list" />
+        </engine:VisualElement>
+        <engine:Box name="enemy">
+            <engine:VisualElement style="flex-grow: 1;">
+                <engine:Box name="object-preview" />
+                <engine:VisualElement name="controls" style="flex-grow: 1; flex-direction: row; margin-top: 17px;">
+                    <engine:Button text="Play" name="play" style="height: 30px; margin-right: 30px;" />
+                    <engine:Slider value="0" high-value="100" name="animationTime" style="width: 500px; height: auto; margin-top: 6px;" />
+                    <engine:DropdownField name="animationField" choices="None" index="0" style="height: 40px; width: 100px; margin-left: 20px;" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+        </engine:Box>
+        <engine:ScrollView name="enemy-info-scroll" style="position: absolute; left: auto; right: 0; bottom: 0; top: 0;">
+            <engine:Box name="enemy-info" />
+        </engine:ScrollView>
+    </engine:Box>
+</engine:UXML>

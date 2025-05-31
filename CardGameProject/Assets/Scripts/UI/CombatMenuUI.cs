@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CombatMenuUI : MonoBehaviour
 {
@@ -15,6 +16,14 @@ public class CombatMenuUI : MonoBehaviour
     {
         menu.SetActive(false);
         Time.timeScale = 1f;
+    }
+
+    public void MainMenu()
+    {
+        GameManager.Instance.SceneToLoad = "MainMenu";
+        Time.timeScale = 1f;
+
+        SceneManager.LoadSceneAsync("LoadingScene");
     }
 
 

@@ -6385,8 +6385,10 @@ MonoBehaviour:
   MaxGuard: 10
   ArmourType: 0
   DamageType: 0
+  WeaponJoint: {fileID: 435597230417150020}
+  FollowJoint: {fileID: 1796844115863226651}
+  RightHolder: {fileID: 1755699390075959939}
   DrawAmount: 1
-  Deck: []
 --- !u!65 &6572343549738278678
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7404,6 +7406,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1796844115863226651}
   - {fileID: 1755699390075959939}
   - {fileID: 8203889114910966684}
   - {fileID: 10961688829821653}
@@ -7997,6 +8000,37 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.049861796, y: 0.000107988715, z: 0.096392296}
     m_Extent: {x: 0.079231866, y: 0.16239832, z: 0.048171513}
   m_DirtyAABB: 0
+--- !u!1 &7326705445854505207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1796844115863226651}
+  m_Layer: 0
+  m_Name: FollowJoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1796844115863226651
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7326705445854505207}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4455519139845301834}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7415640210672539986
 GameObject:
   m_ObjectHideFlags: 0

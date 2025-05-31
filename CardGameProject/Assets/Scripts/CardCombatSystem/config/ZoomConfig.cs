@@ -6,7 +6,7 @@ namespace config {
     public class ZoomConfig {
 
         [SerializeField]
-        public bool zoomOnHover;
+        public bool zoomOnClick;
     
         [Range(1f, 5f)]
         [SerializeField]

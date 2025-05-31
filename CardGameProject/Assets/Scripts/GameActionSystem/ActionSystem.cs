@@ -18,6 +18,9 @@ public class ActionSystem : Singleton<ActionSystem>
     private static Dictionary<Type, List<Action<GameAction>>> _postSubs = new();
     private static Dictionary<Type, Func<GameAction, IEnumerator>> _performers = new();
 
+    private static Dictionary<Delegate, Action<GameAction>> _wrappedReactions = new();
+
+
     public void PerformQueue(List<GameAction> queue)
     {
         foreach (GameAction action in queue)
@@ -118,25 +121,24 @@ public class ActionSystem : Singleton<ActionSystem>
     public static void SubscribeReaction<T>(Action<T> reaction, ReactionTiming timing) where T : GameAction
     {
         Dictionary<Type, List<Action<GameAction>>> subs = timing == ReactionTiming.PRE ? _preSubs : _postSubs;
-        void wrappedReaction(GameAction action) => reaction((T)action);
-        if (subs.ContainsKey(typeof(T)))
-        {
-            subs[typeof(T)].Add(wrappedReaction);
-        }
-        else
-        {
-            subs.Add(typeof(T), new());
-            subs[typeof(T)].Add(wrappedReaction);
-        }
+
+        Action<GameAction> wrappedReaction = (GameAction action) => reaction((T)action);
+        _wrappedReactions[reaction] = wrappedReaction;
+
+        if (!subs.ContainsKey(typeof(T)))
+            subs[typeof(T)] = new();
+
+        subs[typeof(T)].Add(wrappedReaction);
     }
 
     public static void UnsubscribeReaction<T>(Action <T> reaction, ReactionTiming timing) where T : GameAction
     {
         Dictionary<Type, List<Action<GameAction>>> subs = timing == ReactionTiming.PRE ? _preSubs : _postSubs;
-        if (subs.ContainsKey(typeof(T)))
+
+        if (subs.ContainsKey(typeof(T)) && _wrappedReactions.TryGetValue(reaction, out var wrapped))
         {
-            void wrappedReaction(GameAction action) => reaction((T)action);
-            subs[typeof(T)].Remove(wrappedReaction);
+            subs[typeof(T)].Remove(wrapped);
+            _wrappedReactions.Remove(reaction);
         }
     }
 
