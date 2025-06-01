@@ -24,8 +24,9 @@ public class RewardManager : MonoBehaviour
     {
         EquipmentManager.AddWeapon(listOfWeaponReward[0]);
 
-        UIManager.NextScene();
+        EquipmentManager.SaveWeapons();
 
+        UIManager.NextScene();
     }
 
     public void DisplayReward()
@@ -41,7 +42,7 @@ public class RewardManager : MonoBehaviour
         WeaponData weaponData = PoolOfGear[index];
         listOfWeaponReward.Add(weaponData);
 
-        EquipmentManager.SaveWeapons();
+        
 
         GameObject icon = Instantiate(IconPrefab, DisplayRewardsUI);
         RawImage image = icon.GetComponent<RawImage>();

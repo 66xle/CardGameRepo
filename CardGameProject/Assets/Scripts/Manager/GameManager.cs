@@ -16,6 +16,7 @@ public class GameManager : Singleton<GameManager>
     public new void Awake()
     {
         base.Awake();
+        transform.SetParent(null);
         DontDestroyOnLoad(this);
     }
 }
