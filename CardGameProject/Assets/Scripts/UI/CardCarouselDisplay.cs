@@ -3,7 +3,7 @@ using events;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CardCarouselDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerMoveHandler,
+public class CardCarouselDisplay : MonoBehaviour, IPointerDownHandler, IPointerMoveHandler,
     IPointerUpHandler {
     private const float EPS = 0.01f;
 
@@ -23,8 +23,10 @@ public class CardCarouselDisplay : MonoBehaviour, IPointerEnterHandler, IPointer
     private bool isCardSelected;
     private Vector2 dragStartPos;
     public EventsConfig eventsConfig;
+    public Vector2 basePosition;
 
     private bool isPointerDown = false;
+    private bool isDragging = false;
     [HideInInspector] public bool IsPreviewActive = false;
 
     public float width
@@ -44,8 +46,6 @@ public class CardCarouselDisplay : MonoBehaviour, IPointerEnterHandler, IPointer
 
     private void Update()
     {
-        if (Time.timeScale == 0) return;
-
         UpdatePosition();
         UpdateScale();
         UpdateUILayer();
@@ -107,44 +107,18 @@ public class CardCarouselDisplay : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnPointerMove(PointerEventData eventData)
     {
-        //if (isPointerDown && !isSelected)
-        //{
-        //    
-        //    dragStartPos = new Vector2(transform.position.x - eventData.position.x,
-        //        transform.position.y - eventData.position.y);
-        //    container.OnCardDragStart(this);
-        //    //eventsConfig?.OnCardDrag?.Invoke(new CardDrag(this));
-        //}
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (isCardSelected)
+        if (isPointerDown && !isDragging)
         {
-            // Avoid hover events while dragging
-            return;
+            if (eventData.delta.x == 0) return;
+
+            isDragging = true;
+            container.OnCardDragStart(this);
         }
-
-        //eventsConfig?.OnCardHover?.Invoke(new CardHover(this));
-
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (isCardSelected)
-        {
-            // Avoid hover events while dragging
-            return;
-        }
-
-        //eventsConfig?.OnCardUnhover?.Invoke(new CardUnhover(this));
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         isPointerDown = true;
-
-        
 
         //eventsConfig?.OnCardClick?.Invoke(new CardClick(this));
     }
@@ -155,5 +129,8 @@ public class CardCarouselDisplay : MonoBehaviour, IPointerEnterHandler, IPointer
 
         isCardSelected = true;
         container.OnClickStart(this);
+
+        if (isDragging)
+            container.OnCardDragEnd();
     }
 }

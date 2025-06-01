@@ -44,6 +44,7 @@ public class CardCarousel : MonoBehaviour
     private RectTransform rectTransform;
     private CardCarouselDisplay currentDraggedCard;
     private CardCarouselDisplay currentSelectedCard;
+    private bool isDragging = false;
 
     private void Start()
     {
@@ -225,15 +226,18 @@ public class CardCarousel : MonoBehaviour
 
     public void OnCardDragStart(CardCarouselDisplay card)
     {
-        currentDraggedCard = card;
+        isDragging = true;
+        Debug.Log("is dragging");
     }
 
     public void OnCardDragEnd()
     {
+        isDragging = false;
+
+        Debug.Log("stop dragging");
+
         if (currentDraggedCard == null)
             return;
-
-        
 
         currentDraggedCard = null;
     }
