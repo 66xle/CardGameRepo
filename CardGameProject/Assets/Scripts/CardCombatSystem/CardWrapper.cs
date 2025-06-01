@@ -27,6 +27,8 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private Vector2 dragStartPos;
     public EventsConfig eventsConfig;
 
+    private float dragStartEventY;
+
     private bool isPointerDown = false;
     [HideInInspector] public bool IsPreviewActive = false;
 
@@ -130,6 +132,9 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             isDragged = true;
             dragStartPos = new Vector2(transform.position.x - eventData.position.x,
                 transform.position.y - eventData.position.y);
+
+            dragStartEventY = eventData.position.y;
+
             container.OnCardDragStart(this);
             eventsConfig?.OnCardDrag?.Invoke(new CardDrag(this));
         }
@@ -169,7 +174,10 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (isDragged)
         {
             isDragged = false;
-            container.OnCardDragEnd();
+
+            float Ydis = eventData.position.y - dragStartEventY;
+
+            container.OnCardDragEnd(Ydis);
         }
     }
 }

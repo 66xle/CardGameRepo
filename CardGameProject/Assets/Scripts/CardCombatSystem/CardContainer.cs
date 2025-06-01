@@ -35,9 +35,13 @@ public class CardContainer : MonoBehaviour {
     [Range(0f, 90f)]
     private float maxCardRotation;
 
-    [SerializeField] private float maxHeightDisplacement;
-    [SerializeField] private float minRatio = 0.3f;
     
+    [SerializeField] float maxHeightDisplacement;
+    [SerializeField] float minRatio = 0.3f;
+
+
+    [Header("Play Delta")]
+    [SerializeField] float YAmount = 0.3f;
 
     [SerializeField]
     private ZoomConfig zoomConfig;
@@ -267,16 +271,20 @@ public class CardContainer : MonoBehaviour {
         currentDraggedCard = card;
     }
 
-    public void OnCardDragEnd() {
+    public void OnCardDragEnd(float Ydis) {
         if (!combatStateMachine.isPlayState || currentDraggedCard == null)
             return;
 
-        foreach (GameObject gameObject in cardPlayConfig.playArea)
+        Debug.Log(Ydis);
+
+        foreach (GameObject playAreaObject in cardPlayConfig.playArea)
         {
             // If card is in play area, play it!
-            if (IsCursorInPlayArea(gameObject.GetComponent<RectTransform>()))
+            if (IsCursorInPlayArea(playAreaObject.GetComponent<RectTransform>()))
             {
-                eventsConfig?.OnCardPlayed?.Invoke(new CardPlayed(currentDraggedCard), currentDraggedCard.card, gameObject.transform.tag);
+                if (Ydis < YAmount) return;
+
+                eventsConfig?.OnCardPlayed?.Invoke(new CardPlayed(currentDraggedCard), currentDraggedCard.card, playAreaObject.transform.tag);
                 if (cardPlayConfig.destroyOnPlay)
                 {
                     DestroyCard(currentDraggedCard);

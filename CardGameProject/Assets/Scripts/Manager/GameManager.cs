@@ -11,8 +11,6 @@ public class GameManager : Singleton<GameManager>
     
     [HideInInspector] public bool IsWeaponsSaved = false;
 
-
-
     public new void Awake()
     {
         base.Awake();

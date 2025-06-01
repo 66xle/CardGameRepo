@@ -242,8 +242,6 @@ public class CombatStateMachine : MonoBehaviour
     {
         if (tag == "Play")
         {
-            
-
             if (player.hasEnoughStamina(card.Cost))
             {
                 player.ConsumeStamina(card.Cost);
