@@ -59,7 +59,7 @@ public class CardContainer : MonoBehaviour {
     private List<CardWrapper> cards = new List<CardWrapper>();
 
     private RectTransform rectTransform;
-    private CardWrapper currentDraggedCard;
+    [HideInInspector] public CardWrapper currentDraggedCard;
 
     private void Start() {
         rectTransform = GetComponent<RectTransform>();
