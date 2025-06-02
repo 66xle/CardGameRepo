@@ -22,12 +22,19 @@ public class CombatUIManager : MonoBehaviour
     [MustBeAssigned] public Button EndTurnButton;
     [MustBeAssigned] public Button SwitchButton;
 
+    [Foldout("Turns", true)]
+    public float TurnDuration = 1f;
+    public float TurnFadeDuration = 1f;
+    [MustBeAssigned] public GameObject PlayerTurnUI;
+    [MustBeAssigned] public GameObject EnemyTurnUI;
+
     [Foldout("UI", true)]
     [MustBeAssigned] public GameObject CombatUI;
     [MustBeAssigned] public GameObject SwitchWeaponUI;
     [MustBeAssigned] public GameObject HideUI;
     [MustBeAssigned] public GameObject DetailedUI;
     [MustBeAssigned] public GameObject PlayerUI;
+    
 
 
     public void ToggleHideUI(bool toggle)
