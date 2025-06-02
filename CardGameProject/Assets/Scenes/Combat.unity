@@ -200,6 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CombatUIManager: {fileID: 563799117}
+  MainCamera: {fileID: 765615826}
 --- !u!1 &43354390
 GameObject:
   m_ObjectHideFlags: 0
@@ -940,8 +941,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 159.77}
-  m_SizeDelta: {x: 0, y: -319.53}
+  m_AnchoredPosition: {x: 0, y: 233.76593}
+  m_SizeDelta: {x: 0, y: -467.5218}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &256556327
 GameObject:
@@ -1286,6 +1287,7 @@ MonoBehaviour:
     OnCardDestroy:
       m_PersistentCalls:
         m_Calls: []
+  currentDraggedCard: {fileID: 0}
 --- !u!1 &356584556
 GameObject:
   m_ObjectHideFlags: 3
@@ -2740,9 +2742,10 @@ MonoBehaviour:
   WorldSpaceCanvas: {fileID: 5839485938255906829}
   RandomOffsetHorizontal: 0.5
   OffsetVertical: 1
-  MoveDuration: 1
-  FadeDuration: 2
-  MoveVertical: 1
+  baseScale: 1
+  MoveDuration: 0.8
+  FadeDuration: 0.5
+  MoveVertical: 30
   EndTurnButton: {fileID: 189252620}
   SwitchButton: {fileID: 678684090}
   CombatUI: {fileID: 484505292}
@@ -4833,7 +4836,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -63, y: 4}
+  m_AnchoredPosition: {x: -63, y: 4.000061}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &869826084
@@ -7398,7 +7401,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96

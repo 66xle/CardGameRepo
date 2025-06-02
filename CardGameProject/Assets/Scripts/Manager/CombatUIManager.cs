@@ -11,6 +11,7 @@ public class CombatUIManager : MonoBehaviour
     [MustBeAssigned] public Transform WorldSpaceCanvas;
     [Range(0, 1)] public float RandomOffsetHorizontal = 0.5f;
     public float OffsetVertical = 1f;
+    public float baseScale = 1f;
 
     [Separator("Animate")]
     public float MoveDuration;

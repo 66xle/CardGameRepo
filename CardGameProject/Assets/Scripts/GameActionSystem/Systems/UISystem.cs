@@ -6,7 +6,9 @@ using UnityEngine;
 
 public class UISystem : MonoBehaviour
 {
-    [MustBeAssigned] public CombatUIManager CombatUIManager;
+    [Header("References")]
+    [MustBeAssigned] [SerializeField] CombatUIManager CombatUIManager;
+    [MustBeAssigned] [SerializeField] Camera MainCamera;
 
     private void OnEnable()
     {
@@ -26,18 +28,30 @@ public class UISystem : MonoBehaviour
     {
         Avatar avatar = spawnDamageUIPopupGA.AvatarTakingDamage;
 
+
         GameObject popupObj = Instantiate(CombatUIManager.DamagePopupPrefab, CombatUIManager.WorldSpaceCanvas);
-        popupObj.transform.position = new Vector3(avatar.transform.position.x + Random.Range(-CombatUIManager.RandomOffsetHorizontal, CombatUIManager.RandomOffsetHorizontal),
+
+        Vector3 spawnPos = new Vector3(avatar.transform.position.x + Random.Range(-CombatUIManager.RandomOffsetHorizontal, CombatUIManager.RandomOffsetHorizontal),
                                                   avatar.transform.position.y + CombatUIManager.OffsetVertical,
                                                   avatar.transform.position.z + Random.Range(-CombatUIManager.RandomOffsetHorizontal, CombatUIManager.RandomOffsetHorizontal));
-        Vector3 moveToPos = popupObj.transform.position;
-        moveToPos.y += 1f;
+
+        popupObj.transform.position = spawnPos;
+
 
         TextMeshProUGUI popupText = popupObj.GetComponent<TextMeshProUGUI>();
         popupText.text = spawnDamageUIPopupGA.Damage.ToString();
         popupText.color = spawnDamageUIPopupGA.Color;
 
-        Tween tween = popupObj.transform.DOMoveY(popupObj.transform.position.y + CombatUIManager.MoveVertical, CombatUIManager.MoveDuration).SetEase(Ease.OutQuad);
+
+        float distance = Vector3.Distance(transform.position, Camera.main.transform.position);
+        float scaleFactor = (CombatUIManager.baseScale / 10f) / distance;
+        Vector3 endOffset = Vector3.up * CombatUIManager.MoveVertical * scaleFactor;
+        Vector3 targetPos = spawnPos + endOffset;
+
+        Tween tween = DOTween.To(() => 0f, t => {
+            popupText.transform.localScale = Vector3.one * scaleFactor;
+            popupText.transform.position = Vector3.Lerp(spawnPos, targetPos, t / CombatUIManager.MoveDuration);
+        }, CombatUIManager.MoveDuration, CombatUIManager.MoveDuration).SetEase(Ease.OutQuad);
 
         yield return tween.WaitForCompletion();
 
