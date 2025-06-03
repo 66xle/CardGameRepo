@@ -2,6 +2,7 @@ using config;
 using events;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 
 public class CardCarouselDisplay : MonoBehaviour, IPointerDownHandler, IPointerMoveHandler,
     IPointerUpHandler {
@@ -27,6 +28,7 @@ public class CardCarouselDisplay : MonoBehaviour, IPointerDownHandler, IPointerM
 
     private bool isPointerDown = false;
     private bool isDragging = false;
+    private float pointDownStartEventX;
     [HideInInspector] public bool IsPreviewActive = false;
 
     public float width
@@ -55,7 +57,7 @@ public class CardCarouselDisplay : MonoBehaviour, IPointerDownHandler, IPointerM
     {
         if (!IsPreviewActive && !isCardSelected)
         {
-            canvas.sortingOrder = uiLayer;
+            transform.SetSiblingIndex(uiLayer);
         }
     }
 
@@ -109,16 +111,24 @@ public class CardCarouselDisplay : MonoBehaviour, IPointerDownHandler, IPointerM
     {
         if (isPointerDown && !isDragging)
         {
-            if (eventData.delta.x == 0) return;
+            float XDis = eventData.position.x - pointDownStartEventX;
 
-            isDragging = true;
-            container.OnCardDragStart(this);
+            Debug.Log(XDis);
+
+            if (Mathf.Abs(XDis) > 0)
+            {
+                Vector2 dragStartPos = eventData.position;
+
+                isDragging = true;
+                container.OnCardDragStart(this, dragStartPos);
+            }
         }
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         isPointerDown = true;
+        pointDownStartEventX = eventData.position.x;
 
         //eventsConfig?.OnCardClick?.Invoke(new CardClick(this));
     }
@@ -127,10 +137,16 @@ public class CardCarouselDisplay : MonoBehaviour, IPointerDownHandler, IPointerM
     {
         isPointerDown = false;
 
-        isCardSelected = true;
-        container.OnClickStart(this);
+        if (!isDragging)
+        {
+            isCardSelected = true;
+            container.OnClickStart(this);
+        }
 
         if (isDragging)
+        {
+            isDragging = false;
             container.OnCardDragEnd();
+        }
     }
 }

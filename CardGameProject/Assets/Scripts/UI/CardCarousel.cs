@@ -45,7 +45,7 @@ public class CardCarousel : MonoBehaviour
     private CardCarouselDisplay currentDraggedCard;
     private CardCarouselDisplay currentSelectedCard;
     private bool isDragging = false;
-
+    private Vector2 dragEventData;
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -71,7 +71,7 @@ public class CardCarousel : MonoBehaviour
 
             cards.Add(wrapper);
 
-            AddOtherComponentsIfNeeded(wrapper);
+            //AddOtherComponentsIfNeeded(wrapper);
 
             // Pass child card any extra config it should be aware of
             wrapper.zoomConfig = zoomConfig;
@@ -148,7 +148,7 @@ public class CardCarousel : MonoBehaviour
     {
         for (var i = 0; i < cards.Count; i++)
         {
-            cards[i].uiLayer = zoomConfig.defaultSortOrder + i;
+            cards[i].uiLayer = i;
         }
     }
 
@@ -192,7 +192,12 @@ public class CardCarousel : MonoBehaviour
             // Base X without push
             float baseX = currentX + adjustedChildWidth / 2;
 
+            
             child.targetPosition = new Vector2(baseX, transform.position.y);
+
+            if (isDragging)
+                child.targetPosition = new Vector2(baseX + dragEventData.x, transform.position.y);
+            
             currentX += adjustedChildWidth + distanceBetweenChildren;
         }
     }
@@ -200,10 +205,18 @@ public class CardCarousel : MonoBehaviour
     private void DistributeChildrenWithoutOverlap(float childrenTotalWidth)
     {
         var currentPosition = GetAnchorPositionByAlignment(childrenTotalWidth);
+
+
+        float dragOffsetX = isDragging ? Input.mousePosition.x - dragEventData.x : 0;
+
         foreach (CardCarouselDisplay child in cards)
         {
             var adjustedChildWidth = child.width;
-            child.targetPosition = new Vector2(currentPosition + adjustedChildWidth / 2, transform.position.y);
+
+            float xPos = currentPosition + adjustedChildWidth / 2 + dragOffsetX;
+
+            child.targetPosition = new Vector2(xPos, transform.position.y);
+
             currentPosition += adjustedChildWidth;
         }
     }
@@ -224,9 +237,10 @@ public class CardCarousel : MonoBehaviour
         }
     }
 
-    public void OnCardDragStart(CardCarouselDisplay card)
+    public void OnCardDragStart(CardCarouselDisplay card, Vector2 dragEventData)
     {
         isDragging = true;
+        this.dragEventData = dragEventData;
         Debug.Log("is dragging");
     }
 
