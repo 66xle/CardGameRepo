@@ -2816,6 +2816,7 @@ GameObject:
   - component: {fileID: 580482239}
   - component: {fileID: 580482240}
   - component: {fileID: 580482241}
+  - component: {fileID: 580482242}
   m_Layer: 5
   m_Name: PreviewCards
   m_TagString: Untagged
@@ -2842,8 +2843,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -7, y: -13}
-  m_SizeDelta: {x: 869.377, y: 654.5429}
+  m_AnchoredPosition: {x: 444.94897, y: 0.0000057620928}
+  m_SizeDelta: {x: 942.5574, y: 1076.7456}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &580482239
 MonoBehaviour:
@@ -2857,7 +2858,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9505d7b61271047ab982d7ac24e510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceFitContainer: 1
+  forceFitContainer: 0
   pushAmount: 0
   falloff: 0.5
   affectedCardCount: 2
@@ -2936,6 +2937,23 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 200
   m_TargetDisplay: 0
+--- !u!114 &580482242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580482237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &602362923
 GameObject:
   m_ObjectHideFlags: 0
@@ -6454,16 +6472,20 @@ PrefabInstance:
       value: Card
       objectReference: {fileID: 0}
     - target: {fileID: 8817824466287115139, guid: f40acb07258ef8741bc094a7dcd310cf, type: 3}
+      propertyPath: m_Alpha
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8817824466287115139, guid: f40acb07258ef8741bc094a7dcd310cf, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8817824466287115139, guid: f40acb07258ef8741bc094a7dcd310cf, type: 3}
       propertyPath: m_BlocksRaycasts
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8817824466287115139, guid: f40acb07258ef8741bc094a7dcd310cf, type: 3}
       propertyPath: m_IgnoreParentGroups
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

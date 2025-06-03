@@ -46,6 +46,13 @@ public class CardCarousel : MonoBehaviour
     private CardCarouselDisplay currentSelectedCard;
     private bool isDragging = false;
     private Vector2 dragEventData;
+    private float scrollOffsetX = 0f;         // Persistent total offset (includes snapping)
+    private float dragStartPointerX = 0f;     // Pointer x position at drag start
+    private bool wasDraggingLastFrame = false;
+    private float dragOffsetX;
+
+
+
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -204,21 +211,63 @@ public class CardCarousel : MonoBehaviour
 
     private void DistributeChildrenWithoutOverlap(float childrenTotalWidth)
     {
-        var currentPosition = GetAnchorPositionByAlignment(childrenTotalWidth);
+        float containerCenterX = transform.position.x;
+        float anchorPosition = GetAnchorPositionByAlignment(childrenTotalWidth);
 
-
-        float dragOffsetX = isDragging ? Input.mousePosition.x - dragEventData.x : 0;
-
-        foreach (CardCarouselDisplay child in cards)
+        if (isDragging)
         {
-            var adjustedChildWidth = child.width;
+            if (!wasDraggingLastFrame)
+            {
+                // Just started dragging — record starting pointer position
+                dragStartPointerX = Input.mousePosition.x;
+            }
 
-            float xPos = currentPosition + adjustedChildWidth / 2 + dragOffsetX;
-
-            child.targetPosition = new Vector2(xPos, transform.position.y);
-
-            currentPosition += adjustedChildWidth;
+            // Live offset based on current pointer vs start
+            float dragDelta = Input.mousePosition.x - dragStartPointerX;
+            dragOffsetX = scrollOffsetX + dragDelta;
         }
+        else if (wasDraggingLastFrame && !isDragging)
+        {
+            // Drag just ended — find nearest card and snap
+            float currentPos = anchorPosition + dragOffsetX;
+            float nearestDistance = float.MaxValue;
+            int nearestIndex = 0;
+
+            float[] predictedCenters = new float[cards.Count];
+            for (int i = 0; i < cards.Count; i++)
+            {
+                float width = cards[i].width;
+                float center = currentPos + width / 2f;
+                predictedCenters[i] = center;
+
+                float dist = Mathf.Abs(center - containerCenterX);
+                if (dist < nearestDistance)
+                {
+                    nearestDistance = dist;
+                    nearestIndex = i;
+                }
+
+                currentPos += width;
+            }
+
+            float snapOffset = containerCenterX - predictedCenters[nearestIndex];
+            dragOffsetX += snapOffset;
+
+            // Save this as new base scroll offset
+            scrollOffsetX = dragOffsetX;
+        }
+
+        // Apply layout
+        float currentX = anchorPosition + dragOffsetX;
+        foreach (var child in cards)
+        {
+            float w = child.width;
+            float xPos = currentX + w / 2f;
+            child.targetPosition = new Vector2(xPos, transform.position.y);
+            currentX += w;
+        }
+
+        wasDraggingLastFrame = isDragging;
     }
 
     private float GetAnchorPositionByAlignment(float childrenWidth)
