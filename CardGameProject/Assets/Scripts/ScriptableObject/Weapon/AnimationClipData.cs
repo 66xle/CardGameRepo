@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using SerializeReferenceEditor;
 using UnityEngine;
 
-
 [Serializable]
-[SRHidden]
-public class WeaponTypeAnimation
+public class AnimationClipData
 {
-    public List<AnimationClipData> AnimationClipDataList;
+    public AnimationClip clip;
+    public float distanceOffset = 0f;
 }

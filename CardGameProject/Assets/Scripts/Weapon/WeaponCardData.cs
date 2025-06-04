@@ -19,7 +19,7 @@ public class WeaponCardData
 {
     public Card Card;
     
-    [HideInInspector] public List<AnimationClip> AnimationClipList;
+    [HideInInspector] public List<AnimationClipData> AnimationClipDataList;
     [DefinedValues(nameof(GetAnimationList))] public string Animation;
     [ReadOnly] public List<string> AnimationList = new();
 
@@ -27,9 +27,9 @@ public class WeaponCardData
     {
         List<string> strings = new() { "None", "Strike", "Heavy", "AOE" };
 
-        for (int i = 0; i < AnimationClipList.Count; i++)
+        for (int i = 0; i < AnimationClipDataList.Count; i++)
         {
-            string name = AnimationClipList[i].name;
+            string name = AnimationClipDataList[i].clip.name;
 
             strings.Add(name);
         }
@@ -58,6 +58,6 @@ public class WeaponCardData
             return;
         }
 
-        WeaponTypeAnimationSet[index].AnimationClipList.ForEach(clip => AnimationList.Add(clip.name));
+        WeaponTypeAnimationSet[index].AnimationClipDataList.ForEach(clipData => AnimationList.Add(clipData.clip.name));
     }
 }

@@ -10,7 +10,7 @@ public class CustomPreviewHandler
     PreviewRenderUtility previewRenderUtility;
     GameObject previewInstance;
     Animator animator;
-    AnimationClip clip;
+    AnimationClipData clipData;
     float animationSpeed = 1f;
     float animationTime;
 
@@ -77,14 +77,14 @@ public class CustomPreviewHandler
         if (previewRenderUtility == null)
             return;
 
-        if (playableGraph.IsValid() && (clip != null))
+        if (playableGraph.IsValid() && (clipData != null))
         {
-            if (clip.length > 0)
+            if (clipData.clip.length > 0)
             {
                 if (animationSpeed > 0f)
                 {
                     animationTime += Time.deltaTime * animationSpeed;
-                    animationTime %= clip.length;
+                    animationTime %= clipData.clip.length;
                 }
 
                 clipPlayable.SetTime(animationTime);
@@ -186,7 +186,7 @@ public class CustomPreviewHandler
 
     public void PlayClip()
     {
-        if (clip == null) return;
+        if (clipData == null) return;
 
         // Playable Graph setup
         playableGraph = PlayableGraph.Create("PreviewGraph");
@@ -194,8 +194,8 @@ public class CustomPreviewHandler
 
         animationSpeed = 0.5f;
 
-        clip.wrapMode = WrapMode.Loop; // Ensures the clip itself is loopable
-        clipPlayable = AnimationClipPlayable.Create(playableGraph, clip);
+        clipData.clip.wrapMode = WrapMode.Loop; // Ensures the clip itself is loopable
+        clipPlayable = AnimationClipPlayable.Create(playableGraph, clipData.clip);
         playableOutput.SetSourcePlayable(clipPlayable);
         playableGraph.Play();
     }
@@ -205,14 +205,14 @@ public class CustomPreviewHandler
         animationSpeed = 0f;
     }
 
-    public void SetClip(AnimationClip clip)
+    public void SetClipData(AnimationClipData clipData)
     {
-        this.clip = clip;
+        this.clipData = clipData;
     }
 
     public bool IsClipEmpty()
     {
-        if (clip == null)
+        if (clipData == null)
             return true;
 
         return false;

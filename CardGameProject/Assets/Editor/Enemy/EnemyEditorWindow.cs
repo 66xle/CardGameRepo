@@ -15,7 +15,7 @@ public class EnemyEditorWindow : BaseEditorWindow
     CustomPreviewHandler previewHandler;
     IMGUIContainer container;
 
-    List<AnimationClip> clipList;
+    List<AnimationClipData> clipDataList;
     bool IsPlayingAnimation;
 
     [MenuItem("Editor/Enemy Editor")]
@@ -239,16 +239,16 @@ public class EnemyEditorWindow : BaseEditorWindow
 
     private void GetAnimationList(EnemyData enemyData)
     {
-        List<AnimationClip> animationClips = new();
-        enemyData.WeaponTypeAnimationSet.ForEach(data => animationClips.AddRange(data.AnimationClipList));
+        List<AnimationClipData> animationClipDataList = new();
+        enemyData.WeaponTypeAnimationSet.ForEach(data => animationClipDataList.AddRange(data.AnimationClipDataList));
 
-        clipList = animationClips;
+        clipDataList = animationClipDataList;
 
         DropdownField animationField = rootVisualElement.Query<DropdownField>("animationField");
         animationField.choices.Clear();
         animationField.choices.Add("None");
         animationField.index = 0;
-        animationClips.ForEach(clip => animationField.choices.Add(clip.name));
+        animationClipDataList.ForEach(clipData => animationField.choices.Add(clipData.clip.name));
 
         EventCallback<ChangeEvent<string>> animationCallback = null;
 
@@ -261,12 +261,12 @@ public class EnemyEditorWindow : BaseEditorWindow
 
             if (clipName == "None")
             {
-                previewHandler.SetClip(null);
+                previewHandler.SetClipData(null);
                 return;
             }
 
-            AnimationClip clip = animationClips.First(clip => clip.name == clipName);
-            previewHandler.SetClip(clip);
+            AnimationClipData clipData = animationClipDataList.First(clipData => clipData.clip.name == clipName);
+            previewHandler.SetClipData(clipData);
         };
 
         animationField.UnregisterValueChangedCallback(animationCallback);
