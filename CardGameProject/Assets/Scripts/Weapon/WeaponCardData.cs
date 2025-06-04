@@ -70,7 +70,7 @@ public class WeaponCardData
         {
             char split = '_';
             string[] stringSplit = Animation.Split(split);
-            float distance = float.Parse(stringSplit[0]);
+            float distance = AnimationClipDataList[int.Parse(stringSplit[0])].DistanceOffset;
 
             if (OverrideDistanceOffset == Boolean.True)
                 distance = distanceOffset;
