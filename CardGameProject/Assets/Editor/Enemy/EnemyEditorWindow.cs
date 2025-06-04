@@ -248,7 +248,7 @@ public class EnemyEditorWindow : BaseEditorWindow
         animationField.choices.Clear();
         animationField.choices.Add("None");
         animationField.index = 0;
-        animationClipDataList.ForEach(clipData => animationField.choices.Add(clipData.clip.name));
+        animationClipDataList.ForEach(clipData => animationField.choices.Add(clipData.Clip.name));
 
         EventCallback<ChangeEvent<string>> animationCallback = null;
 
@@ -265,7 +265,7 @@ public class EnemyEditorWindow : BaseEditorWindow
                 return;
             }
 
-            AnimationClipData clipData = animationClipDataList.First(clipData => clipData.clip.name == clipName);
+            AnimationClipData clipData = animationClipDataList.First(clipData => clipData.Clip.name == clipName);
             previewHandler.SetClipData(clipData);
         };
 

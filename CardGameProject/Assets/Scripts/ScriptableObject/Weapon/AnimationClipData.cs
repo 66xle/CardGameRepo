@@ -6,6 +6,6 @@ using UnityEngine;
 [Serializable]
 public class AnimationClipData
 {
-    public AnimationClip clip;
-    public float distanceOffset = 0f;
+    public AnimationClip Clip;
+    public float DistanceOffset = 0f;
 }

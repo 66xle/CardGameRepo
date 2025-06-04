@@ -79,12 +79,12 @@ public class CustomPreviewHandler
 
         if (playableGraph.IsValid() && (clipData != null))
         {
-            if (clipData.clip.length > 0)
+            if (clipData.Clip.length > 0)
             {
                 if (animationSpeed > 0f)
                 {
                     animationTime += Time.deltaTime * animationSpeed;
-                    animationTime %= clipData.clip.length;
+                    animationTime %= clipData.Clip.length;
                 }
 
                 clipPlayable.SetTime(animationTime);
@@ -194,8 +194,8 @@ public class CustomPreviewHandler
 
         animationSpeed = 0.5f;
 
-        clipData.clip.wrapMode = WrapMode.Loop; // Ensures the clip itself is loopable
-        clipPlayable = AnimationClipPlayable.Create(playableGraph, clipData.clip);
+        clipData.Clip.wrapMode = WrapMode.Loop; // Ensures the clip itself is loopable
+        clipPlayable = AnimationClipPlayable.Create(playableGraph, clipData.Clip);
         playableOutput.SetSourcePlayable(clipPlayable);
         playableGraph.Play();
     }

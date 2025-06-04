@@ -28,6 +28,8 @@ public class AnimationSystem : MonoBehaviour
         Avatar avatarOpponent = moveToPosGA.AvatarOpponent;
         bool moveToCenter = moveToPosGA.MoveToCenter;
 
+        float distanceOffset = moveToPosGA.DistanceOffset;
+
         Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
         avatarPlayingCardController.SetTrigger("Move");
 
@@ -40,7 +42,7 @@ public class AnimationSystem : MonoBehaviour
 
         Vector3 dir = (currentPos - opponentPos).normalized;
 
-        Vector3 posToMove = opponentPos + dir * 1.5f;
+        Vector3 posToMove = opponentPos + dir * (1.5f + distanceOffset);
 
         Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), Ctx.moveDuration).SetEase(Ctx.moveAnimCurve);
 
@@ -81,7 +83,7 @@ public class AnimationSystem : MonoBehaviour
         Avatar avatarPlayingCard = triggerAttackAnimGA.AvatarPlayingCard;
         Animator animator = avatarPlayingCard.GetComponent<Animator>();
 
-        string animationName = GetAttackAnimation(triggerAttackAnimGA.AnimationList);
+        string animationName = triggerAttackAnimGA.AnimationName;
 
         string category = GetWeaponCategory(animationName);
         animator.SetTrigger(category);
@@ -99,12 +101,7 @@ public class AnimationSystem : MonoBehaviour
         yield return null;
     }
 
-    private string GetAttackAnimation(List<string> list)
-    {
-        int index = Random.Range(0, list.Count);
-
-        return list[index];
-    }
+    
 
     private string GetWeaponCategory(string name)
     {

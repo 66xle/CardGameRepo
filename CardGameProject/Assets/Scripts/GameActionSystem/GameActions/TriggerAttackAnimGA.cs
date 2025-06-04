@@ -5,11 +5,11 @@ using UnityEngine;
 public class TriggerAttackAnimGA : GameAction
 {
     public Avatar AvatarPlayingCard;
-    public List<string> AnimationList;
+    public string AnimationName;
 
-    public TriggerAttackAnimGA(Avatar avatarPlayingCard, List<string> animationList)
+    public TriggerAttackAnimGA(Avatar avatarPlayingCard, string animationName)
     {
         AvatarPlayingCard = avatarPlayingCard;
-        AnimationList = animationList;
+        AnimationName = animationName;
     }
 }

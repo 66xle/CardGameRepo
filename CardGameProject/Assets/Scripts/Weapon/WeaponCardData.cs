@@ -5,9 +5,18 @@ using UnityEditor;
 using UnityEngine;
 using SerializeReferenceEditor;
 using System.Linq;
+using UnityEngine.Rendering;
+
+public enum Boolean
+{
+    True,
+    False
+}
+
 
 public enum AttackType
 {
+    None,
     Strike,
     Heavy,
     AOE
@@ -21,7 +30,10 @@ public class WeaponCardData
     
     [HideInInspector] public List<AnimationClipData> AnimationClipDataList;
     [DefinedValues(nameof(GetAnimationList))] public string Animation;
-    [ReadOnly] public List<string> AnimationList = new();
+    [ConditionalField(nameof(Animation), true, AttackType.None, AttackType.Strike, AttackType.Heavy, AttackType.AOE)] public Boolean OverrideDistanceOffset = Boolean.False;
+    [ConditionalField(false, nameof(OverrideDistance))] public float distanceOffset = 0;
+
+    [ReadOnly] public List<AnimationWrapper> AnimationList = new();
 
     private string[] GetAnimationList()
     {
@@ -29,7 +41,7 @@ public class WeaponCardData
 
         for (int i = 0; i < AnimationClipDataList.Count; i++)
         {
-            string name = AnimationClipDataList[i].clip.name;
+            string name = $"{i}_{AnimationClipDataList[i].Clip.name}";
 
             strings.Add(name);
         }
@@ -41,6 +53,8 @@ public class WeaponCardData
     public void UpdateAnimationList(List<WeaponTypeAnimation> WeaponTypeAnimationSet)
     {
         AnimationList.Clear();
+
+        if (Animation == AttackType.None.ToString()) return;
 
         int index = -1;
 
@@ -54,10 +68,33 @@ public class WeaponCardData
 
         if (index == -1)
         {
-            AnimationList.Add(Animation);
+            char split = '_';
+            string[] stringSplit = Animation.Split(split);
+            float distance = float.Parse(stringSplit[0]);
+
+            if (OverrideDistanceOffset == Boolean.True)
+                distance = distanceOffset;
+
+            AnimationList.Add(new AnimationWrapper(stringSplit[1], distance));
             return;
         }
 
-        WeaponTypeAnimationSet[index].AnimationClipDataList.ForEach(clipData => AnimationList.Add(clipData.clip.name));
+        WeaponTypeAnimationSet[index].AnimationClipDataList.ForEach(clipData => AnimationList.Add(new AnimationWrapper(clipData)));
+    }
+
+    public bool OverrideDistance()
+    {
+        if (OverrideDistanceOffset == Boolean.False) return false;
+
+        if (Animation == AttackType.None.ToString()) return false;
+
+        if (Animation == AttackType.Strike.ToString())
+            return false;
+        else if (Animation == AttackType.Heavy.ToString())
+            return false;
+        else if (Animation == AttackType.AOE.ToString())
+            return false;
+
+        return true;
     }
 }
