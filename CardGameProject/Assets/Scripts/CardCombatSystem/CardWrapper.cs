@@ -56,7 +56,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         UpdateUILayer();
 
 
-        if (InputManager.Instance.LeftClickInputUp && isDragged && !pointerDownCheck)
+        if (!InputManager.Instance.LeftClickInputDown && isDragged && !pointerDownCheck)
         {
             PointerUp(Input.mousePosition);
         }
