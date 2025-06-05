@@ -17,8 +17,11 @@ public class Card : ScriptableObject
 
     public string CardName;
     [TextArea] public string Description;
-    [ReadOnly][TextArea] public string DisplayDescription;
+    [HideInInspector] public string DisplayDescription;
+    [HideInInspector] public string LinkDescription; 
     [TextArea] public string Flavour;
+
+    [HideInInspector] public List<SerializableKeyValuePair<string, PopupText>> PopupKeyPair;
 
     [Header("Card Image")]
     public Sprite Image;
@@ -78,10 +81,5 @@ public class Card : ScriptableObject
 
             DisplayDescription = DisplayDescription.Replace($"#{i}", value.ToString());
         }
-    }
-
-    public void GenerateClickableText()
-    {
-        
     }
 }

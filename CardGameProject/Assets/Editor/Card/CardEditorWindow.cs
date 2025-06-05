@@ -239,10 +239,10 @@ public class CardEditorWindow : BaseEditorWindow
         Label flavour = rootVisualElement.Query<Label>("flavour").First();
         Label cost = rootVisualElement.Query<Label>("cost").First();
 
-        card.DisplayDescription = CreateClickableText(card.DisplayDescription);
+        CreateClickableText(card);
 
         title.text = card.CardName;
-        description.text = card.DisplayDescription;
+        description.text = card.LinkDescription;
         flavour.text = card.Flavour;
         cost.text = card.Cost.ToString();
     }
@@ -258,15 +258,21 @@ public class CardEditorWindow : BaseEditorWindow
         }
     }
 
-    private string CreateClickableText(string description)
+    private void CreateClickableText(Card card)
     {
+        if (card.PopupKeyPair == null) 
+            card.PopupKeyPair = new();
+
+        card.PopupKeyPair.Clear();
+
+        card.LinkDescription = card.DisplayDescription;
+
         FindAllPopupText(out List<PopupText> popupList);
 
         foreach (PopupText popupText in popupList)
         {
-            description = description.Replace($"#{popupText.Title}", $"<link=\"{popupText.Title}\"><color=#00FFFF><u>{popupText.Title}</u></color></link>");
+            card.LinkDescription = card.LinkDescription.Replace($"#{popupText.Title}", $"<link=\"{popupText.Title}\"><color=#00FFFF><u>{popupText.Title}</u></color></link>");
+            card.PopupKeyPair.Add(new SerializableKeyValuePair<string, PopupText>(popupText.Title, popupText));
         }
-
-        return description;
     }
 }

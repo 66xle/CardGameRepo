@@ -63,6 +63,7 @@ namespace demo {
         {
             currentCard.IsPreviewActive = false;
             currentCard.canvas.sortingOrder = currentCard.uiLayer;
+            currentCard.gameObject.GetComponent<CardDisplay>().ClosePopup();
             currentCard = null;
         }
 

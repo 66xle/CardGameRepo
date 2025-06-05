@@ -275,8 +275,6 @@ public class CardContainer : MonoBehaviour {
         if (!combatStateMachine.isPlayState || currentDraggedCard == null)
             return;
 
-        Debug.Log(Ydis);
-
         foreach (GameObject playAreaObject in cardPlayConfig.playArea)
         {
             // If card is in play area, play it!

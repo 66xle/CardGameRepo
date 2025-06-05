@@ -20,7 +20,9 @@ public struct CardData
         copyCard.CardName = card.CardName;
         copyCard.Description = card.Description;
         copyCard.DisplayDescription = card.DisplayDescription;
+        copyCard.LinkDescription = card.LinkDescription;
         copyCard.Flavour = card.Flavour;
+        copyCard.PopupKeyPair = card.PopupKeyPair;
 
         copyCard.Cost = card.Cost;
         copyCard.RecycleValue = card.RecycleValue;
