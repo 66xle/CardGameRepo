@@ -59,7 +59,7 @@ public class CardCarousel : MonoBehaviour
         InitCards();
     }
 
-    private void InitCards()
+    public void InitCards()
     {
         SetUpCards();
         SetCardsAnchor();
