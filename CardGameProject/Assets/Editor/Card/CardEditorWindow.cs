@@ -271,7 +271,7 @@ public class CardEditorWindow : BaseEditorWindow
 
         foreach (PopupText popupText in popupList)
         {
-            card.LinkDescription = card.LinkDescription.Replace($"#{popupText.Title}", $"<link=\"{popupText.Title}\"><color=#00FFFF><u>{popupText.Title}</u></color></link>");
+            card.LinkDescription = card.LinkDescription.Replace($"#{popupText.Title}", $"<link=\"{popupText.Title}\"><color=#FFBF00><u>{popupText.Title}</u></color></link>");
             card.PopupKeyPair.Add(new SerializableKeyValuePair<string, PopupText>(popupText.Title, popupText));
         }
     }
