@@ -17,7 +17,7 @@ public class Card : ScriptableObject
 
     public string CardName;
     [TextArea] public string Description;
-    [HideInInspector] public string DisplayDescription;
+    [ReadOnly][TextArea] public string DisplayDescription;
     [TextArea] public string Flavour;
 
     [Header("Card Image")]
@@ -78,5 +78,10 @@ public class Card : ScriptableObject
 
             DisplayDescription = DisplayDescription.Replace($"#{i}", value.ToString());
         }
+    }
+
+    public void GenerateClickableText()
+    {
+        
     }
 }

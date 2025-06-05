@@ -39,5 +39,5 @@ public abstract class StatusEffect
 
     public virtual int GetStacks() { return 0; }
 
-    
+    public virtual float GetDataPopup() { return 0; }
 }

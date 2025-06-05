@@ -41,4 +41,9 @@ public class StatusBleed : StatusEffect
         SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatar, damage, Color.red);
         ActionSystem.Instance.Perform(spawnDamageUIPopupGA);
     }
+
+    public override float GetDataPopup()
+    {
+        return ReduceHealthPercentage * 100;
+    }
 }
