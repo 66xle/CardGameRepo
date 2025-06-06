@@ -80,6 +80,8 @@ public class BaseEditorWindow : EditorWindow
 
         if (data.Count == 0)
         {
+            if (list.itemsSource == null) return;
+
             list.itemsSource.Clear();
             return;
         }
