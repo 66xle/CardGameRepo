@@ -6,7 +6,12 @@ using UnityEngine;
 
 public class AnimationSystem : MonoBehaviour
 {
-    [MustBeAssigned] public CombatStateMachine Ctx;
+    [Header("Animation Settings")]
+    public float moveDuration = 0.5f;
+    public float jumpDuration = 0.5f;
+    public AnimationCurve moveAnimCurve;
+    public AnimationCurve jumpAnimCurve;
+
 
     private void OnEnable()
     {
@@ -44,7 +49,7 @@ public class AnimationSystem : MonoBehaviour
 
         Vector3 posToMove = opponentPos + dir * (1.5f + distanceOffset);
 
-        Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), Ctx.moveDuration).SetEase(Ctx.moveAnimCurve);
+        Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), moveDuration).SetEase(moveAnimCurve);
 
         Quaternion targetRotation = Quaternion.LookRotation(-dir);
         currentTransform.DORotate(targetRotation.eulerAngles, 1f, RotateMode.Fast);
@@ -67,7 +72,7 @@ public class AnimationSystem : MonoBehaviour
 
         Vector3 posToMove = parentPos;
 
-        Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), Ctx.jumpDuration).SetEase(Ctx.jumpAnimCurve);
+        Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), jumpDuration).SetEase(jumpAnimCurve);
 
         yield return tween.WaitForCompletion();
 

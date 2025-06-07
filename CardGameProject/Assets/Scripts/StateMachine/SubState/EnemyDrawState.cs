@@ -13,7 +13,7 @@ public class EnemyDrawState : CombatBaseState
     {
         Debug.Log("Enemy Draw State");
 
-        ctx.cardManager.EnemyCardQueue.Clear();
+        ctx.CardManager.EnemyCardQueue.Clear();
 
         DrawCards();
     }
@@ -25,7 +25,7 @@ public class EnemyDrawState : CombatBaseState
     public override void FixedUpdateState() { }
     public override void ExitState()
     {
-        ctx.enemyTurnQueue.Remove(ctx.currentEnemyTurn);
+        ctx.EnemyTurnQueue.Remove(ctx.CurrentEnemyTurn);
     }
 
     public override void CheckSwitchState()
@@ -37,13 +37,13 @@ public class EnemyDrawState : CombatBaseState
 
     public void DrawCards()
     {
-        List<CardData> cards = ctx.currentEnemyTurn.GetComponent<Enemy>().DrawCards();
+        List<CardData> cards = ctx.CurrentEnemyTurn.GetComponent<Enemy>().DrawCards();
 
         foreach (CardData card in cards)
         {
-            card.Weapon.DamageType = ctx.currentEnemyTurn.DamageType;
+            card.Weapon.DamageType = ctx.CurrentEnemyTurn.DamageType;
 
-            ctx.cardManager.EnemyCardQueue.Add(card);
+            ctx.CardManager.EnemyCardQueue.Add(card);
         }
     }
 }

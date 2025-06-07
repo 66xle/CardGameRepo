@@ -90,8 +90,8 @@ public class DamageSystem : MonoBehaviour
 
     public void ApplyGuardBroken(Avatar avatarOpponent)
     {
-        if (avatarOpponent.ArmourType == ArmourType.Light || avatarOpponent.ArmourType == ArmourType.None) avatarOpponent.ApplyStatusEffect(Ctx.guardBreakLightArmourData.StatusEffect.Clone());
-        else if (avatarOpponent.ArmourType == ArmourType.Medium) avatarOpponent.ApplyStatusEffect(Ctx.guardBreakMediumArmourData.StatusEffect.Clone());
-        else if (avatarOpponent.ArmourType == ArmourType.Heavy) avatarOpponent.ApplyStatusEffect(Ctx.guardBreakHeavyArmourData.StatusEffect.Clone());
+        if (avatarOpponent.ArmourType == ArmourType.Light || avatarOpponent.ArmourType == ArmourType.None) avatarOpponent.ApplyStatusEffect(Ctx.GuardBreakLightArmourData.StatusEffect.Clone());
+        else if (avatarOpponent.ArmourType == ArmourType.Medium) avatarOpponent.ApplyStatusEffect(Ctx.GuardBreakMediumArmourData.StatusEffect.Clone());
+        else if (avatarOpponent.ArmourType == ArmourType.Heavy) avatarOpponent.ApplyStatusEffect(Ctx.GuardBreakHeavyArmourData.StatusEffect.Clone());
     }
 }

@@ -8,7 +8,7 @@ public class StatsManager : MonoBehaviour
     [SerializeField] float BaseHealth;
     [SerializeField] float BaseStamina;
     [SerializeField] int BaseGuard;
-    public ArmourType armourType;
+    public ArmourType ArmourType;
 
     [Header("Armour Stamina")]
     [Range(0, 2)] public float LightMultiplier;
@@ -25,15 +25,15 @@ public class StatsManager : MonoBehaviour
         CurrentMaxHealth = BaseHealth;
         CurrentMaxGuard = BaseGuard;
 
-        if (armourType == ArmourType.Light)
+        if (ArmourType == ArmourType.Light)
         {
             CurrentMaxStamina = Mathf.RoundToInt(BaseStamina * LightMultiplier);
         }
-        else if (armourType == ArmourType.Medium)
+        else if (ArmourType == ArmourType.Medium)
         {
             CurrentMaxStamina = Mathf.RoundToInt(BaseStamina * MediumMultiplier);
         }
-        else if (armourType == ArmourType.Heavy)
+        else if (ArmourType == ArmourType.Heavy)
         {
             CurrentMaxStamina = Mathf.RoundToInt(BaseStamina * HeavyMultiplier);
         }

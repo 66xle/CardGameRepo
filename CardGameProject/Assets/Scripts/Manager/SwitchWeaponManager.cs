@@ -73,6 +73,19 @@ public class SwitchWeaponManager : MonoBehaviour
         }
     }
 
+    public List<WeaponData> GetWeaponList()
+    {
+        List<WeaponData> holsterWeapons = new List<WeaponData>();
+        holsterWeapons.Add(CurrentMainHand);
+
+        if (IsOffhandEquipped())
+            holsterWeapons.Add(CurrentOffHand);
+
+        holsterWeapons.AddRange(CurrentEquippedWeapons);
+
+        return holsterWeapons;
+    }
+
     private WeaponData CopyWeaponData(WeaponData data)
     {
         WeaponData newData = new WeaponData();

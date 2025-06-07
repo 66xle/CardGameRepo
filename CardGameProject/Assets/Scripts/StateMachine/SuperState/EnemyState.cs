@@ -45,15 +45,15 @@ public class EnemyState : CombatBaseState
 
     IEnumerator ShowTurnUI()
     {
-        GameObject turnUI = ctx.combatUIManager.EnemyTurnUI;
+        GameObject turnUI = ctx.CombatUIManager.EnemyTurnUI;
 
         turnUI.SetActive(true);
-        yield return new WaitForSeconds(ctx.combatUIManager.TurnDuration);
+        yield return new WaitForSeconds(ctx.CombatUIManager.TurnDuration);
 
         Image image = turnUI.GetComponent<Image>();
         TextMeshProUGUI text = turnUI.GetComponentInChildren<TextMeshProUGUI>();
-        text.DOFade(0, ctx.combatUIManager.TurnFadeDuration);
-        Tween tween = image.DOFade(0, ctx.combatUIManager.TurnFadeDuration);
+        text.DOFade(0, ctx.CombatUIManager.TurnFadeDuration);
+        Tween tween = image.DOFade(0, ctx.CombatUIManager.TurnFadeDuration);
         yield return tween.WaitForCompletion();
 
         turnUI.SetActive(false);

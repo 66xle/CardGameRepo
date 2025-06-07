@@ -6,24 +6,26 @@ using UnityEditor.Compilation;
 
 public class RewardManager : MonoBehaviour
 {
-    [Header("References")]
+    [Foldout("Gear Overlay", true)]
+    [MustBeAssigned][SerializeField] GameObject GearOverlay;
+    [MustBeAssigned][SerializeField] Transform DisplayRewardsUI;
+    [MustBeAssigned][SerializeField] Transform PreviewCards;
+
+    [Foldout("Rewards", true)]
+    [SerializeField] List<WeaponData> PoolOfGear;
+
+    [Foldout("References", true)]
     [MustBeAssigned] [SerializeField] UIManager UIManager;
     [MustBeAssigned] [SerializeField] EquipmentManager EquipmentManager;
     [MustBeAssigned] [SerializeField] Camera RenderCamera;
     [MustBeAssigned] [SerializeField] GameObject IconPrefab;
     [MustBeAssigned] [SerializeField] GameObject CardPrefab;
-
-    [MustBeAssigned] [SerializeField] GameObject GearOverlay;
-    [MustBeAssigned] [SerializeField] Transform DisplayRewardsUI;
-    [MustBeAssigned] [SerializeField] Transform PreviewCards;
-
-    [Separator]
-
-    [SerializeField] List<WeaponData> PoolOfGear;
+    [MustBeAssigned] public GameObject RewardUI;
+    [MustBeAssigned] public GameObject GameOverUI;
+    
 
     private List<WeaponData> listOfWeaponReward = new();
     private GameObject currentObjectInOverlay;
-
     private CardCarousel cardCarousel;
 
     private void Awake()

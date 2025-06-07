@@ -32,7 +32,7 @@ public class StatusEffectState : CombatBaseState
         }
         else
         {
-            currentAvatarSelected = ctx.currentEnemyTurn;
+            currentAvatarSelected = ctx.CurrentEnemyTurn;
         }
 
         #endregion
@@ -58,7 +58,7 @@ public class StatusEffectState : CombatBaseState
 
     public override void CheckSwitchState()
     {
-        if (ctx.player.IsAvatarDead() || ctx.enemyList.Count == 0)
+        if (ctx.player.IsAvatarDead() || ctx.EnemyList.Count == 0)
         {
             SwitchState(factory.CombatEnd());
         }
@@ -149,7 +149,7 @@ public class StatusEffectState : CombatBaseState
                     if (ctx.currentState.ToString() == PLAYERSTATE)
                         yield return ctx.EndTurnReactiveEffect();
                     else
-                        ctx.enemyTurnQueue.Remove(ctx.currentEnemyTurn);
+                        ctx.EnemyTurnQueue.Remove(ctx.CurrentEnemyTurn);
 
                     Debug.Log("SKIP TURN");
                 }

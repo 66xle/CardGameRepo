@@ -29,7 +29,7 @@ public class Player : Avatar
         OnStatChanged -= DisplayStats;
     }
 
-    public void Init(Slider healthBar, TMP_Text healthValue, Slider staminaBar, TMP_Text staminaValue, TMP_Text blockValue, 
+    public void InitUI(Slider healthBar, TMP_Text healthValue, Slider staminaBar, TMP_Text staminaValue, TMP_Text blockValue, 
                      Slider guardBar, TMP_Text guardValue,
                      ArmourType armourType)
     {

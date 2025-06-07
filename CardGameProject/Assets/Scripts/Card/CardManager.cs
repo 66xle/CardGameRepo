@@ -7,7 +7,14 @@ using UnityEngine;
 
 public class CardManager : MonoBehaviour
 {
+    [Header("Card")]
+    public int CardsToDraw = 2;
+
+    [Header("References")]
+    [MustBeAssigned] public GameObject CardPrefab;
+    [MustBeAssigned] public Transform PlayerHandTransform;
     [MustBeAssigned] public SwitchWeaponManager SwitchWeaponManager;
+
 
     [HideInInspector] public List<CardData> PlayerDeck;
     [HideInInspector] public List<CardData> PlayerHand;

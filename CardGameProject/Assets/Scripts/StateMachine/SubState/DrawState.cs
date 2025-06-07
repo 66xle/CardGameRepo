@@ -11,7 +11,7 @@ public class DrawState : CombatBaseState
         Debug.Log("Draw State");
 
         ctx.player.RecoverStamina();
-        DrawCards(ctx.cardsToDraw);
+        DrawCards();
     }
 
     public override void UpdateState()
@@ -28,11 +28,11 @@ public class DrawState : CombatBaseState
     public override void InitializeSubState() { }
 
 
-    void DrawCards(int numberOfCards)
+    void DrawCards()
     {
-        CardManager cm = ctx.cardManager;
+        CardManager cm = ctx.CardManager;
 
-        for (int i = 0; i < numberOfCards; i++)
+        for (int i = 0; i < cm.CardsToDraw; i++)
         {
             if (cm.PlayerDeck.Count <= 0)
             {
@@ -52,7 +52,7 @@ public class DrawState : CombatBaseState
             int index = Random.Range(0, cm.PlayerDeck.Count);
             CardData cardDrawed = cm.PlayerDeck[index];
 
-            ctx.CreateCard(cardDrawed, ctx.playerHandTransform);
+            ctx.CreateCard(cardDrawed, cm.PlayerHandTransform);
             cm.PlayerDeck.Remove(cardDrawed);
             cm.PlayerHand.Add(cardDrawed);
         }

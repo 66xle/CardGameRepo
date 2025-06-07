@@ -12,11 +12,11 @@ public class PlayState : CombatBaseState
     {
         Debug.Log("Play State");
 
-        ctx.combatUIManager.ToggleHideUI(true);
+        ctx.CombatUIManager.ToggleHideUI(true);
 
         ctx.isPlayedCard = false;
         ctx.isPlayState = true;
-        ctx.combatUIManager.EndTurnButton.interactable = true;
+        ctx.CombatUIManager.EndTurnButton.interactable = true;
     }
     public override void UpdateState()
     {
@@ -27,7 +27,7 @@ public class PlayState : CombatBaseState
     public override void ExitState()
     {
         ctx.isPlayState = false;
-        ctx.combatUIManager.EndTurnButton.interactable = false;
+        ctx.CombatUIManager.EndTurnButton.interactable = false;
     }
 
 

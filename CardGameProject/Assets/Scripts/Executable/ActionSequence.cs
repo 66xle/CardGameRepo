@@ -77,7 +77,7 @@ public class ActionSequence : Executable
             ActionSystem.Instance.PerformQueue(avatar.QueueGameActions);
         }
 
-        ctx.combatUIManager.ToggleHideUI(false);
+        ctx.CombatUIManager.ToggleHideUI(false);
 
         yield return new WaitWhile(() => !avatarPlayingCard.IsAttackFinished); // TODO - Rename to isAnimationFinished
 
@@ -227,7 +227,7 @@ public class ActionSequence : Executable
         {
             if (ExecutableParameters.AvatarPlayingCard is Player)
             {
-                targets.AddRange(ExecutableParameters.Ctx.enemyList);
+                targets.AddRange(ExecutableParameters.Ctx.EnemyList);
             }
             else
             {

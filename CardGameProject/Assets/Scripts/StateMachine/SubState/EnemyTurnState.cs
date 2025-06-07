@@ -26,7 +26,7 @@ public class EnemyTurnState : CombatBaseState
 
     public override void CheckSwitchState()
     {
-        if (ctx.enemyTurnQueue.Count > 0)
+        if (ctx.EnemyTurnQueue.Count > 0)
         {
             SwitchState(factory.StatusEffect());
         }
@@ -40,9 +40,9 @@ public class EnemyTurnState : CombatBaseState
 
     void DecideEnemyTurn()
     {
-        if (ctx.enemyTurnQueue.Count > 0)
+        if (ctx.EnemyTurnQueue.Count > 0)
         {
-            ctx.currentEnemyTurn = ctx.enemyTurnQueue[0]; // TO DO: Elites move first
+            ctx.CurrentEnemyTurn = ctx.EnemyTurnQueue[0]; // TO DO: Elites move first
         }
     }
 }
