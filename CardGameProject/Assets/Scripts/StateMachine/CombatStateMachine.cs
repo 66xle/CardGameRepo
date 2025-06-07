@@ -29,8 +29,6 @@ public class CombatStateMachine : MonoBehaviour
     [HideInInspector] public Player player;
 
     [Header("Lists")]
-    public List<Transform> enemySpawnPosList;
-    public List<GameObject> enemyUISpawnPosList;
     [HideInInspector] public List<Enemy> EnemyList;
     [HideInInspector] public List<Enemy> EnemyTurnQueue;
     [HideInInspector] public int TurnIndex = 0;
@@ -46,13 +44,13 @@ public class CombatStateMachine : MonoBehaviour
     [MustBeAssigned] public StatusEffectData GuardBreakHeavyArmourData;
 
     [Foldout("References", true)]
-    [MustBeAssigned] public StatsManager StatsManager;
-    [MustBeAssigned] public SwitchWeaponManager SwitchWeaponManager;
+    [MustBeAssigned] [SerializeField] StatsManager StatsManager;
+    [MustBeAssigned] [SerializeField] SwitchWeaponManager SwitchWeaponManager;
+    [MustBeAssigned] [SerializeField] EnemyManager EnemyManager;
+    [MustBeAssigned] [SerializeField] CameraSystem CameraSystem;
     [MustBeAssigned] public CombatUIManager CombatUIManager;
     [MustBeAssigned] public CardManager CardManager;
-    [MustBeAssigned] public EnemyManager enemyManager;
     [MustBeAssigned] public RewardManager RewardManager;
-    [MustBeAssigned] public CameraSystem CameraSystem;
 
 
 
@@ -163,13 +161,13 @@ public class CombatStateMachine : MonoBehaviour
     private void LoadEnemy()
     {
         //List<EnemyObj> enemyObjList = nodeData.enemies;
-        List<EnemyData> enemyDataList = enemyManager.GetEnemies();
+        List<EnemyData> enemyDataList = EnemyManager.GetEnemies();
 
         // Spawn Enemy
         for (int i = 0; i < enemyDataList.Count; i++)
         {
             // Init Obj
-            Enemy enemy = Instantiate(enemyDataList[i].Prefab, enemySpawnPosList[i]).GetComponent<Enemy>();
+            Enemy enemy = Instantiate(enemyDataList[i].Prefab, EnemyManager.EnemySpawnPosList[i]).GetComponent<Enemy>();
             enemy.Init(enemyDataList[i]);
             EnemyList.Add(enemy);
 
@@ -177,7 +175,7 @@ public class CombatStateMachine : MonoBehaviour
             if (i == 0)
                 CombatUIManager.detailedUI.Init(this);
 
-            GameObject statsUI = Instantiate(CombatUIManager.enemyUIPrefab, enemyUISpawnPosList[i].GetComponent<RectTransform>());
+            GameObject statsUI = Instantiate(CombatUIManager.enemyUIPrefab, EnemyManager.EnemyUISpawnPosList[i].GetComponent<RectTransform>());
             enemy.InitStats(statsUI, CombatUIManager.detailedUI);
 
             EnemyUI enemyUI = statsUI.GetComponent<EnemyUI>();

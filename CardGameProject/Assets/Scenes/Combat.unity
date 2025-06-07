@@ -1819,14 +1819,6 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 4658104607824738427, guid: b57e0201ad3d41b468d63c53d10d003c, type: 3}
   PlayerSpawnPos: {fileID: 455335682}
   player: {fileID: 0}
-  enemySpawnPosList:
-  - {fileID: 1107061888}
-  - {fileID: 1433587770}
-  - {fileID: 835416437}
-  enemyUISpawnPosList:
-  - {fileID: 100472291}
-  - {fileID: 1420297799}
-  - {fileID: 1973464302}
   EnemyList: []
   EnemyTurnQueue: []
   TurnIndex: 0
@@ -1838,11 +1830,11 @@ MonoBehaviour:
   GuardBreakHeavyArmourData: {fileID: 11400000, guid: 7f708d99636aaca458a333d372d8c63e, type: 2}
   StatsManager: {fileID: 1461295039}
   SwitchWeaponManager: {fileID: 510262701}
+  EnemyManager: {fileID: 481923474}
+  CameraSystem: {fileID: 1314847668}
   CombatUIManager: {fileID: 563799117}
   CardManager: {fileID: 1150495170}
-  enemyManager: {fileID: 481923474}
   RewardManager: {fileID: 1749312353}
-  CameraSystem: {fileID: 1314847668}
   isPlayedCard: 0
   isPlayState: 0
   pressedEndTurnButton: 0
@@ -1984,6 +1976,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 35289a3758b892e499c304d3a5e1fa90, type: 2}
   - {fileID: 11400000, guid: 35289a3758b892e499c304d3a5e1fa90, type: 2}
   - {fileID: 11400000, guid: 35289a3758b892e499c304d3a5e1fa90, type: 2}
+  EnemySpawnPosList: []
+  EnemyUISpawnPosList:
+  - {fileID: 100472291}
+  - {fileID: 1420297799}
+  - {fileID: 1973464302}
 --- !u!4 &481923475
 Transform:
   m_ObjectHideFlags: 0
@@ -3983,11 +3980,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &835416437 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6696016494268208037, guid: 528eaa448d66f8b449e8c4da6ffe0f07, type: 3}
-  m_PrefabInstance: {fileID: 6060986440784778241}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &850853018
 GameObject:
   m_ObjectHideFlags: 0
@@ -5437,11 +5429,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1065561506}
   m_CullTransparentMesh: 1
---- !u!4 &1107061888 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8047258985603520320, guid: 528eaa448d66f8b449e8c4da6ffe0f07, type: 3}
-  m_PrefabInstance: {fileID: 6060986440784778241}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1110512358
 GameObject:
   m_ObjectHideFlags: 0
@@ -7420,11 +7407,6 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 1514151656}
---- !u!4 &1433587770 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8618182546134261367, guid: 528eaa448d66f8b449e8c4da6ffe0f07, type: 3}
-  m_PrefabInstance: {fileID: 6060986440784778241}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1451839961
 GameObject:
   m_ObjectHideFlags: 3

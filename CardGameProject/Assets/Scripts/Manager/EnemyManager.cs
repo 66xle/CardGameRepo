@@ -8,12 +8,24 @@ public class EnemyManager : MonoBehaviour
 {
     [MinMaxRange(1, 3)] [SerializeField] RangedInt AmountOfEnemies = new RangedInt(1, 3);
     [SerializeField] List<EnemyData> Enemies = new();
+    public List<Transform> EnemySpawnPosList;
+    public List<GameObject> EnemyUISpawnPosList;
 
     private void Awake()
     {
         if (Enemies.Count == 0)
         {
             Debug.LogAssertion("Enemy Manager: No Enemy in List.");
+        }
+
+        if (EnemySpawnPosList.Count == 0)
+        {
+            Debug.LogAssertion("Enemy Manager: No spawn position in List.");
+        }
+
+        if (EnemyUISpawnPosList.Count == 0)
+        {
+            Debug.LogAssertion("Enemy Manager: No UI spawn pos in List.");
         }
     }
 
