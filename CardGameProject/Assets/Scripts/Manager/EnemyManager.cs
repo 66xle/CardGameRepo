@@ -8,7 +8,7 @@ public class EnemyManager : MonoBehaviour
 {
     [MinMaxRange(1, 3)] [SerializeField] RangedInt AmountOfEnemies = new RangedInt(1, 3);
     [SerializeField] List<EnemyData> Enemies = new();
-    public List<Transform> EnemySpawnPosList;
+    [ReadOnly] public List<Transform> EnemySpawnPosList;
     public List<GameObject> EnemyUISpawnPosList;
 
     private void Awake()

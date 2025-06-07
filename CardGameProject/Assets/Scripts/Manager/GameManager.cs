@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    [MustBeAssigned] LevelSettings LevelSettings;
+    
 
     [HideInInspector] public string SceneToLoad;
 
@@ -14,7 +14,7 @@ public class GameManager : Singleton<GameManager>
     
     [HideInInspector] public bool IsWeaponsSaved = false;
 
-    private int currentLevel;
+    [HideInInspector] public int Level;
 
 
     public new void Awake()

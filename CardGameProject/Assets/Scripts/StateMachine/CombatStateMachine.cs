@@ -22,10 +22,9 @@ public class CombatStateMachine : MonoBehaviour
     public string currentSuperState; // ONLY FOR DEBUGGING DON'T USE
     [SerializeField] string subState;
 
-
     [Foldout("Player", true)]
     [MustBeAssigned] [SerializeField] GameObject PlayerPrefab;
-    public Transform PlayerSpawnPos;
+    [ReadOnly] public Transform PlayerSpawnPos;
     [HideInInspector] public Player player;
 
     [Header("Lists")]

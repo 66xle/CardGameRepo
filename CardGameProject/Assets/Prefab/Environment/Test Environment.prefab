@@ -742,6 +742,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5286737221473409480}
+  - component: {fileID: -7183455240524453221}
   m_Layer: 0
   m_Name: Test Environment
   m_TagString: Untagged
@@ -767,6 +768,23 @@ Transform:
   - {fileID: 3068751531246331203}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-7183455240524453221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7564131627356998574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3d61a6e7b3c444a8bed1575b9951cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemySpawnPositionList:
+  - {fileID: 8618182546134261367}
+  - {fileID: 8047258985603520320}
+  - {fileID: 6696016494268208037}
+  PlayerSpawnPosition: {fileID: 6217110550362294150}
 --- !u!1 &7632462131925073656
 GameObject:
   m_ObjectHideFlags: 0
