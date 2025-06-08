@@ -272,7 +272,7 @@ public class CardContainer : MonoBehaviour {
     }
 
     public void OnCardDragEnd(float Ydis) {
-        if (!combatStateMachine.isPlayState || currentDraggedCard == null)
+        if (!combatStateMachine._isPlayState || currentDraggedCard == null)
             return;
 
         foreach (GameObject playAreaObject in cardPlayConfig.playArea)

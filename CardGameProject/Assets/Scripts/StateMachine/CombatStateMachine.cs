@@ -57,13 +57,13 @@ public class CombatStateMachine : MonoBehaviour
 
     // Variables
     [Foldout("Private Variables", true)]
-    [ReadOnly] public bool isPlayedCard;
-    [ReadOnly] public bool isPlayState;
-    [ReadOnly] public bool pressedEndTurnButton;
-    [ReadOnly] public bool enemyTurnDone;
+    [ReadOnly] public bool _isPlayedCard;
+    [ReadOnly] public bool _isPlayState;
+    [ReadOnly] public bool _pressedEndTurnButton;
+    [ReadOnly] public bool _enemyTurnDone;
 
-    [HideInInspector] public CardData cardPlayed;
-    [HideInInspector] public Enemy selectedEnemyToAttack;
+    [HideInInspector] public CardData _cardPlayed;
+    [HideInInspector] public Enemy _selectedEnemyToAttack;
 
     [HideInInspector] public VariableScriptObject vso; // Not using for now
 
@@ -79,10 +79,10 @@ public class CombatStateMachine : MonoBehaviour
 
     public void Start()
     {
-        isPlayedCard = false;
-        isPlayState = false;
-        pressedEndTurnButton = false;
-        enemyTurnDone = false;
+        _isPlayedCard = false;
+        _isPlayState = false;
+        _pressedEndTurnButton = false;
+        _enemyTurnDone = false;
 
         EnemyList = new List<Enemy>();
 
@@ -106,7 +106,7 @@ public class CombatStateMachine : MonoBehaviour
             subState = currentState.currentSubState.ToString();
         }
 
-        if (InputManager.Instance.LeftClickInputDown && isPlayState && Time.timeScale == 1)
+        if (InputManager.Instance.LeftClickInputDown && _isPlayState && Time.timeScale == 1)
         {
             SelectEnemy();
         }
@@ -128,8 +128,8 @@ public class CombatStateMachine : MonoBehaviour
 
                 ResetSelectedEnemyUI();
                 
-                selectedEnemyToAttack = hit.transform.GetComponent<Enemy>();
-                selectedEnemyToAttack.EnemySelection(true);
+                _selectedEnemyToAttack = hit.transform.GetComponent<Enemy>();
+                _selectedEnemyToAttack.EnemySelection(true);
             }
         }
     }
@@ -159,34 +159,14 @@ public class CombatStateMachine : MonoBehaviour
 
     private void LoadEnemy()
     {
-        //List<EnemyObj> enemyObjList = nodeData.enemies;
         List<EnemyData> enemyDataList = EnemyManager.GetEnemies();
 
-        // Spawn Enemy
-        for (int i = 0; i < enemyDataList.Count; i++)
-        {
-            // Init Obj
-            Enemy enemy = Instantiate(enemyDataList[i].Prefab, EnemyManager.EnemySpawnPosList[i]).GetComponent<Enemy>();
-            enemy.Init(enemyDataList[i]);
-            EnemyList.Add(enemy);
+        EnemyList = EnemyManager.InitEnemies(enemyDataList);
 
-            // Init Stats
-            if (i == 0)
-                CombatUIManager.detailedUI.Init(this);
+        CombatUIManager.detailedUI.Init(this);
 
-            GameObject statsUI = Instantiate(CombatUIManager.enemyUIPrefab, EnemyManager.EnemyUISpawnPosList[i].GetComponent<RectTransform>());
-            enemy.InitStats(statsUI, CombatUIManager.detailedUI);
-
-            EnemyUI enemyUI = statsUI.GetComponent<EnemyUI>();
-            enemyUI.Init(this, enemy);
-
-            // Set default selection
-            if (i == 0)
-            {
-                selectedEnemyToAttack = enemy;
-                enemy.EnemySelection(true);
-            }
-        }
+        _selectedEnemyToAttack = EnemyList[0];
+        _selectedEnemyToAttack.EnemySelection(true);
     }
 
     public void OnCardPlayed(CardPlayed evt, Card card, string tag)
@@ -237,8 +217,8 @@ public class CombatStateMachine : MonoBehaviour
 
 
                 // Allow to switch to attack state
-                isPlayedCard = true;
-                cardPlayed = cardData;
+                _isPlayedCard = true;
+                _cardPlayed = cardData;
             }
         }
         else if (tag == "Recycle")
@@ -285,12 +265,12 @@ public class CombatStateMachine : MonoBehaviour
 
         Debug.Log("END PLAYER'S TURN");
 
-        pressedEndTurnButton = true;
+        _pressedEndTurnButton = true;
 
         // For enemy state
         EnemyTurnQueue.Clear();
         EnemyTurnQueue = Extensions.CloneList(EnemyList);
-        enemyTurnDone = false;
+        _enemyTurnDone = false;
     }
 
     public void DestroyEnemy(Enemy enemy)
@@ -301,20 +281,20 @@ public class CombatStateMachine : MonoBehaviour
     public void EnemyDied()
     {
         ResetSelectedEnemyUI();
-        selectedEnemyToAttack.DisableSelection = true;
-        selectedEnemyToAttack.SelectionRing.SetActive(false);
+        _selectedEnemyToAttack.DisableSelection = true;
+        _selectedEnemyToAttack.SelectionRing.SetActive(false);
 
         // Remove enemy
-        EnemyList.Remove(selectedEnemyToAttack as Enemy);
-        EnemyTurnQueue.Remove(selectedEnemyToAttack as Enemy);
+        EnemyList.Remove(_selectedEnemyToAttack as Enemy);
+        EnemyTurnQueue.Remove(_selectedEnemyToAttack as Enemy);
         //ctx.DestroyEnemy(ctx.selectedEnemyToAttack);
 
         // Are there enemies still alive
         if (EnemyList.Count > 0)
         {
             // Select different enemy
-            selectedEnemyToAttack = EnemyList[0];
-            selectedEnemyToAttack.EnemySelection(true);
+            _selectedEnemyToAttack = EnemyList[0];
+            _selectedEnemyToAttack.EnemySelection(true);
         }
     }
 

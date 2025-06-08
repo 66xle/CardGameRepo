@@ -61,7 +61,7 @@ public class DetailedUI : MonoBehaviour
         if (enemy == null)
             return;
 
-        if (state.selectedEnemyToAttack != enemy)
+        if (state._selectedEnemyToAttack != enemy)
             return;
 
         for (int i = 0; i < enemy.ListOfEffects.Count; i++)

@@ -11,6 +11,10 @@ public class EnemyManager : MonoBehaviour
     [ReadOnly] public List<Transform> EnemySpawnPosList;
     public List<GameObject> EnemyUISpawnPosList;
 
+    [Header("References")]
+    [SerializeField] CombatUIManager CombatUIManager;
+    [SerializeField] CombatStateMachine Ctx;
+
     private void Awake()
     {
         if (Enemies.Count == 0)
@@ -50,4 +54,26 @@ public class EnemyManager : MonoBehaviour
 
         return getEnemies;
     }
+    public List<Enemy> InitEnemies(List<EnemyData> enemyDataList)
+    {
+        List<Enemy> enemies = new();
+
+        // Spawn Enemy
+        for (int i = 0; i < enemyDataList.Count; i++)
+        {
+            // Init Obj
+            Enemy enemy = Instantiate(enemyDataList[i].Prefab, EnemySpawnPosList[i]).GetComponent<Enemy>();
+            enemy.InitStats(enemyDataList[i]);
+            enemies.Add(enemy);
+
+            GameObject statsUI = Instantiate(CombatUIManager.enemyUIPrefab, EnemyUISpawnPosList[i].GetComponent<RectTransform>());
+            enemy.InitUI(statsUI, CombatUIManager.detailedUI);
+
+            EnemyUI enemyUI = statsUI.GetComponent<EnemyUI>();
+            enemyUI.Init(Ctx, enemy);
+        }
+
+        return enemies;
+    }
+
 }

@@ -28,9 +28,9 @@ public class ActionState : CombatBaseState
         if (ctx.currentState.ToString() == PLAYERSTATE)
         {
             avatarPlayingCard = ctx.player;
-            avatarOpponent = ctx.selectedEnemyToAttack;
+            avatarOpponent = ctx._selectedEnemyToAttack;
 
-            ctx.StartCoroutine(PlayCard(ctx.cardPlayed));
+            ctx.StartCoroutine(PlayCard(ctx._cardPlayed));
         }
         else
         {

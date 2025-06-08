@@ -37,7 +37,7 @@ public class EnemyState : CombatBaseState
     public override void CheckSwitchState()
     {
         // Switch to player state
-        if (ctx.enemyTurnDone)
+        if (ctx._enemyTurnDone)
         {
             SwitchState(factory.Player());
         }

@@ -14,8 +14,8 @@ public class PlayState : CombatBaseState
 
         ctx.CombatUIManager.ToggleHideUI(true);
 
-        ctx.isPlayedCard = false;
-        ctx.isPlayState = true;
+        ctx._isPlayedCard = false;
+        ctx._isPlayState = true;
         ctx.CombatUIManager.EndTurnButton.interactable = true;
     }
     public override void UpdateState()
@@ -26,7 +26,7 @@ public class PlayState : CombatBaseState
     public override void FixedUpdateState() { }
     public override void ExitState()
     {
-        ctx.isPlayState = false;
+        ctx._isPlayState = false;
         ctx.CombatUIManager.EndTurnButton.interactable = false;
     }
 
@@ -34,7 +34,7 @@ public class PlayState : CombatBaseState
     public override void CheckSwitchState()
     {
         // Attack state
-        if (ctx.isPlayedCard)
+        if (ctx._isPlayedCard)
         {
             SwitchState(factory.Action());
         }

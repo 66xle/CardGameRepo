@@ -29,7 +29,7 @@ public class PlayerState : CombatBaseState
     public override void FixedUpdateState() { }
     public override void ExitState() 
     {
-        ctx.pressedEndTurnButton = false;
+        ctx._pressedEndTurnButton = false;
     }
     public override void InitializeSubState()
     {
@@ -40,7 +40,7 @@ public class PlayerState : CombatBaseState
     public override void CheckSwitchState()
     {
         // Switch to enemy state
-        if (ctx.pressedEndTurnButton)
+        if (ctx._pressedEndTurnButton)
         {
             SwitchState(factory.Enemy());
         }

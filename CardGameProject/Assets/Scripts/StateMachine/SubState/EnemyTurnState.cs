@@ -32,7 +32,7 @@ public class EnemyTurnState : CombatBaseState
         }
         else
         {
-            ctx.enemyTurnDone = true;
+            ctx._enemyTurnDone = true;
         }
     }
 

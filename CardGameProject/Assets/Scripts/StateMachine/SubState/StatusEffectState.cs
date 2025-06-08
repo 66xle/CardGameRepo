@@ -118,7 +118,7 @@ public class StatusEffectState : CombatBaseState
                 currentEffect.OnRemoval(currentAvatarSelected);
 
                 // Is enemy being selected
-                if (currentAvatarSelected == ctx.selectedEnemyToAttack)
+                if (currentAvatarSelected == ctx._selectedEnemyToAttack)
                 {
                     Enemy enemy = currentAvatarSelected as Enemy;
                     enemy.DetailedUI.ClearStatusUI();

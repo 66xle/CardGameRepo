@@ -32,7 +32,7 @@ public class Enemy : Avatar
         OnStatChanged -= DisplayStats;
     }
 
-    public void InitStats(GameObject statsUI, DetailedUI detailedUI)
+    public void InitUI(GameObject statsUI, DetailedUI detailedUI)
     {
         HealthBar = statsUI.GetComponentsInChildren<Image>()[1];
         GuardBar = statsUI.GetComponentsInChildren<Image>()[2];
@@ -43,7 +43,7 @@ public class Enemy : Avatar
         CurrentGuard = MaxGuard;
     }
 
-    public void Init(EnemyData data)
+    public void InitStats(EnemyData data)
     {
         DisableSelection = false;
 

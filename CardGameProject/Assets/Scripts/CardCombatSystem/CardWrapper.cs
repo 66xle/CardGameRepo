@@ -183,7 +183,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
 
     public void OnPointerDown(PointerEventData eventData) {
-        if (!combatStateMachine.isPlayState)
+        if (!combatStateMachine._isPlayState)
             return;
 
         isPointerDown = true;
