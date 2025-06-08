@@ -7,36 +7,36 @@ using UnityEngine.UI;
 
 public class DetailedUI : MonoBehaviour
 {
-    private Enemy enemy;
-    private CombatStateMachine state;
+    private Enemy _enemy;
+    private CombatStateMachine _ctx;
 
-    private Image healthBar;
+    private Image _healthBar;
     private TMP_Text healthValue;
-    private Image guardBar;
+    private Image _guardBar;
     private TMP_Text guardValue;
     private TMP_Text blockValue;
 
-    public GameObject activeParent;
-    public GameObject deactiveParent;
-    public GameObject uiPrefab;
-    public float effectUIOffset = 50f;
+    public GameObject ActiveParent;
+    public GameObject DeactiveParent;
+    public GameObject UiPrefab;
+    public float EffectUIOffset = 50f;
 
 
-    public void Init(CombatStateMachine state)
+    public void Init(CombatStateMachine ctx)
     {
-        healthBar = GetComponentsInChildren<Image>()[1];
-        guardBar = GetComponentsInChildren<Image>()[2];
+        _healthBar = GetComponentsInChildren<Image>()[1];
+        _guardBar = GetComponentsInChildren<Image>()[2];
         //healthValue = GetComponentsInChildren<TMP_Text>()[0];
         //guardValue = GetComponentsInChildren<TMP_Text>()[1];
         //blockValue = GetComponentsInChildren<TMP_Text>()[2];
 
-        this.state = state;
+        _ctx = ctx;
     }
 
 
     public void ChangeTarget(Enemy enemy)
     {
-        this.enemy = enemy;
+        _enemy = enemy;
         DisplayStats();
         ClearStatusUI();
         UpdateStatusEffectsUI();
@@ -44,13 +44,13 @@ public class DetailedUI : MonoBehaviour
 
     public void DisplayStats()
     {
-        if (enemy == null)
+        if (_enemy == null)
             return;
 
-        healthBar.fillAmount = enemy.HealthBar.fillAmount;
+        _healthBar.fillAmount = _enemy.HealthBar.fillAmount;
         //healthValue.text = enemy.healthValue.text;
 
-        guardBar.fillAmount = enemy.GuardBar.fillAmount;
+        _guardBar.fillAmount = _enemy.GuardBar.fillAmount;
         //guardValue.text = enemy.guardValue.text;
 
         //blockValue.text = enemy.blockValue.text;
@@ -58,18 +58,18 @@ public class DetailedUI : MonoBehaviour
 
     public void UpdateStatusEffectsUI()
     {
-        if (enemy == null)
+        if (_enemy == null)
             return;
 
-        if (state._selectedEnemyToAttack != enemy)
+        if (_ctx._selectedEnemyToAttack != _enemy)
             return;
 
-        for (int i = 0; i < enemy.ListOfEffects.Count; i++)
+        for (int i = 0; i < _enemy.ListOfEffects.Count; i++)
         {
-            StatusEffect data = enemy.ListOfEffects[i];
+            StatusEffect data = _enemy.ListOfEffects[i];
 
             // Check activeParent childs
-            GameObject activeObj = GetEffectObject(activeParent, data.EffectName);
+            GameObject activeObj = GetEffectObject(ActiveParent, data.EffectName);
             if (activeObj != null)
             {
                 // Update Effect
@@ -78,11 +78,11 @@ public class DetailedUI : MonoBehaviour
             }
 
             // Check deactiveParent childs
-            GameObject deactiveObj = GetEffectObject(deactiveParent, data.EffectName);
+            GameObject deactiveObj = GetEffectObject(DeactiveParent, data.EffectName);
             if (deactiveObj != null)
             {
                 // Set to active and update effect
-                deactiveObj.transform.parent = activeParent.transform;
+                deactiveObj.transform.parent = ActiveParent.transform;
                 deactiveObj.SetActive(true);
 
                 UpdateStatusUI(i, deactiveObj, data);
@@ -90,7 +90,7 @@ public class DetailedUI : MonoBehaviour
             }
 
             // Instanitate object in active
-            GameObject newEffectObj = Instantiate(uiPrefab, activeParent.transform);
+            GameObject newEffectObj = Instantiate(UiPrefab, ActiveParent.transform);
             newEffectObj.tag = data.EffectName;
             UpdateStatusUI(i, newEffectObj, data);
         }
@@ -98,12 +98,12 @@ public class DetailedUI : MonoBehaviour
     
     public void ClearStatusUI()
     {
-        int parentCount = activeParent.transform.childCount;
+        int parentCount = ActiveParent.transform.childCount;
 
         for (int i = 0; i < parentCount; i++)
         {
-            Transform effectTransform = activeParent.transform.GetChild(0);
-            effectTransform.parent = deactiveParent.transform;
+            Transform effectTransform = ActiveParent.transform.GetChild(0);
+            effectTransform.parent = DeactiveParent.transform;
             effectTransform.gameObject.SetActive(false);
         }
     }
@@ -123,7 +123,7 @@ public class DetailedUI : MonoBehaviour
 
     void UpdateStatusUI(int index, GameObject effectObj, StatusEffect effect)
     {
-        effectObj.GetComponent<RectTransform>().localPosition = new Vector3(activeParent.transform.localPosition.x + (effectUIOffset * index), activeParent.transform.localPosition.y, activeParent.transform.localPosition.z);
+        effectObj.GetComponent<RectTransform>().localPosition = new Vector3(ActiveParent.transform.localPosition.x + (EffectUIOffset * index), ActiveParent.transform.localPosition.y, ActiveParent.transform.localPosition.z);
         
         if (effect.GetStacks() > 0)
             effectObj.GetComponentInChildren<TMP_Text>().text = effect.GetStacks().ToString();
