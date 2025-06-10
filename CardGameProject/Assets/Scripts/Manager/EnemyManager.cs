@@ -12,8 +12,8 @@ public class EnemyManager : MonoBehaviour
     public List<GameObject> EnemyUISpawnPosList;
 
     [Header("References")]
-    [SerializeField] CombatUIManager CombatUIManager;
-    [SerializeField] CombatStateMachine Ctx;
+    [MustBeAssigned] [SerializeField] CombatUIManager CombatUIManager;
+    [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
 
     private void Awake()
     {

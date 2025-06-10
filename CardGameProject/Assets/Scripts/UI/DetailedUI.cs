@@ -1,4 +1,5 @@
 using DG.Tweening;
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -16,9 +17,9 @@ public class DetailedUI : MonoBehaviour
     private TMP_Text guardValue;
     private TMP_Text blockValue;
 
-    public GameObject ActiveParent;
-    public GameObject DeactiveParent;
-    public GameObject UiPrefab;
+    [MustBeAssigned] [SerializeField] GameObject ActiveParent;
+    [MustBeAssigned] [SerializeField] GameObject DeactiveParent;
+    [MustBeAssigned] [SerializeField] GameObject UiPrefab;
     public float EffectUIOffset = 50f;
 
 

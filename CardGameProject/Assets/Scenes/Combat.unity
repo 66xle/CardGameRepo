@@ -1835,11 +1835,11 @@ MonoBehaviour:
   CombatUIManager: {fileID: 563799117}
   CardManager: {fileID: 1150495170}
   RewardManager: {fileID: 1749312353}
-  isPlayedCard: 0
-  isPlayState: 0
-  pressedEndTurnButton: 0
-  enemyTurnDone: 0
-  selectedEnemyToAttack: {fileID: 0}
+  _isPlayedCard: 0
+  _isPlayState: 0
+  _pressedEndTurnButton: 0
+  _enemyTurnDone: 0
+  _selectedEnemyToAttack: {fileID: 0}
   vso: {fileID: 0}
 --- !u!1 &474643709
 GameObject:
@@ -1981,6 +1981,8 @@ MonoBehaviour:
   - {fileID: 100472291}
   - {fileID: 1420297799}
   - {fileID: 1973464302}
+  CombatUIManager: {fileID: 563799117}
+  Ctx: {fileID: 467955062}
 --- !u!4 &481923475
 Transform:
   m_ObjectHideFlags: 0
@@ -4140,10 +4142,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d53da6a14984e746b5bd014783dc0b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeParent: {fileID: 1630148121}
-  deactiveParent: {fileID: 618117097}
-  uiPrefab: {fileID: 425717489898406801, guid: 3a66dd0d7c258054a933f3ddf2bd5f87, type: 3}
-  effectUIOffset: 50
+  ActiveParent: {fileID: 1630148121}
+  DeactiveParent: {fileID: 618117097}
+  UiPrefab: {fileID: 1566083453977946612, guid: 0157f8451d8aacc49a989fb7a6307541, type: 3}
+  EffectUIOffset: 50
 --- !u!1 &890503402
 GameObject:
   m_ObjectHideFlags: 0
