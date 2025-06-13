@@ -9,23 +9,6 @@ using events;
 
 public class CardCarousel : MonoBehaviour
 {
-    [Header("Constraints")]
-    [SerializeField] private bool forceFitContainer;
-
-    [Header("Push")]
-    [SerializeField] private float pushAmount = 100f;
-    [SerializeField] private float falloff = 0.5f;
-    [SerializeField][Tooltip("Cards adjacent affected by push")] private int affectedCardCount = 2;
-    [SerializeField][Tooltip("Number of cards in hand to be affected by push")] private int pushAffectedCardCount = 2;
-    [SerializeField] private float rightPushMultiplier = 1.25f;
-
-    [Header("Alignment")]
-    [SerializeField]
-    private CardAlignment alignment = CardAlignment.Center;
-
-    [SerializeField]
-    private bool allowCardRepositioning = true;
-
     [SerializeField]
     private ZoomConfig zoomConfig;
 
@@ -35,13 +18,7 @@ public class CardCarousel : MonoBehaviour
     [SerializeField]
     private CardPlayConfig cardPlayConfig;
 
-    [Header("Events")]
-    [SerializeField]
-    private EventsConfig eventsConfig;
-
     private List<CardCarouselDisplay> cards = new List<CardCarouselDisplay>();
-
-    private RectTransform rectTransform;
 
     private CardCarouselDisplay currentSelectedCard;
     private int lastSiblingIndex;
@@ -61,7 +38,6 @@ public class CardCarousel : MonoBehaviour
 
     private void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
         InitCards();
     }
 
@@ -89,7 +65,6 @@ public class CardCarousel : MonoBehaviour
             // Pass child card any extra config it should be aware of
             wrapper.zoomConfig = zoomConfig;
             wrapper.animationSpeedConfig = animationSpeedConfig;
-            wrapper.eventsConfig = eventsConfig;
             wrapper.container = this;
             wrapper.card = card.GetComponent<CardDisplay>().Card;
         }
@@ -103,21 +78,6 @@ public class CardCarousel : MonoBehaviour
         }
     }
 
-    private void AddOtherComponentsIfNeeded(CardCarouselDisplay wrapper)
-    {
-        var canvas = wrapper.GetComponent<Canvas>();
-        if (canvas == null)
-        {
-            canvas = wrapper.gameObject.AddComponent<Canvas>();
-        }
-
-        canvas.overrideSorting = true;
-
-        if (wrapper.GetComponent<GraphicRaycaster>() == null)
-        {
-            wrapper.gameObject.AddComponent<GraphicRaycaster>();
-        }
-    }
 
     void Update()
     {
@@ -146,23 +106,13 @@ public class CardCarousel : MonoBehaviour
 
         SetCardsPosition();
         SetCardsUILayers();
-        UpdateCardOrder();
     }
 
     private void SetCardsPosition()
     {
         // Compute the total width of all the cards in global space
         var cardsTotalWidth = cards.Sum(card => card.width);
-        // Compute the width of the container in global space
-        var containerWidth = rectTransform.rect.width * transform.lossyScale.x;
-        if (forceFitContainer && cardsTotalWidth > containerWidth)
-        {
-            DistributeChildrenToFitContainer(cardsTotalWidth);
-        }
-        else
-        {
-            DistributeChildrenWithoutOverlap(cardsTotalWidth);
-        }
+        DistributeChildrenWithoutOverlap(cardsTotalWidth);
     }
 
     private void SetCardsUILayers()
@@ -173,60 +123,10 @@ public class CardCarousel : MonoBehaviour
         }
     }
 
-    private void UpdateCardOrder()
-    {
-        if (!allowCardRepositioning || currentDraggedCard == null) return;
-
-        // Get the index of the dragged card depending on its position
-        var newCardIdx = cards.Count(card => currentDraggedCard.transform.position.x > card.transform.position.x);
-        var originalCardIdx = cards.IndexOf(currentDraggedCard);
-        if (newCardIdx != originalCardIdx)
-        {
-            cards.RemoveAt(originalCardIdx);
-            if (newCardIdx > originalCardIdx && newCardIdx < cards.Count - 1)
-            {
-                newCardIdx--;
-            }
-
-            cards.Insert(newCardIdx, currentDraggedCard);
-        }
-        // Also reorder in the hierarchy
-        currentDraggedCard.transform.SetSiblingIndex(newCardIdx);
-    }
-
-    private void DistributeChildrenToFitContainer(float childrenTotalWidth)
-    {
-        int selectedIndex = currentSelectedCard == null ? -1 : cards.IndexOf(currentSelectedCard);
-
-        // Get the width of the container
-        var width = rectTransform.rect.width * transform.lossyScale.x;
-        // Get the distance between each child
-        var distanceBetweenChildren = (width - childrenTotalWidth) / (cards.Count - 1);
-        // Set all children's positions to be evenly spaced out
-        var currentX = transform.position.x - width / 2;
-
-        for (int i = 0; i < cards.Count; i++)
-        {
-            var child = cards[i];
-            float adjustedChildWidth = child.width;
-
-            // Base X without push
-            float baseX = currentX + adjustedChildWidth / 2;
-
-            
-            child.targetPosition = new Vector2(baseX, transform.position.y);
-
-            if (isDragging)
-                child.targetPosition = new Vector2(baseX + dragEventData.x, transform.position.y);
-            
-            currentX += adjustedChildWidth + distanceBetweenChildren;
-        }
-    }
-
     private void DistributeChildrenWithoutOverlap(float childrenTotalWidth)
     {
         float containerCenterX = transform.position.x;
-        float anchorPosition = GetAnchorPositionByAlignment(childrenTotalWidth);
+        float anchorPosition = transform.position.x - childrenTotalWidth / 2;
 
         if (isDragging)
         {
@@ -298,22 +198,6 @@ public class CardCarousel : MonoBehaviour
         }
 
         wasDraggingLastFrame = isDragging;
-    }
-
-    private float GetAnchorPositionByAlignment(float childrenWidth)
-    {
-        var containerWidthInGlobalSpace = rectTransform.rect.width * transform.lossyScale.x;
-        switch (alignment)
-        {
-            case CardAlignment.Left:
-                return transform.position.x - containerWidthInGlobalSpace / 2;
-            case CardAlignment.Center:
-                return transform.position.x - childrenWidth / 2;
-            case CardAlignment.Right:
-                return transform.position.x + containerWidthInGlobalSpace / 2 - childrenWidth;
-            default:
-                return 0;
-        }
     }
 
     private void CardPreviewEnd()

@@ -6,7 +6,6 @@ using UnityEngine.Rendering;
 
 public class CardCarouselDisplay : MonoBehaviour, IPointerDownHandler, IPointerMoveHandler,
     IPointerUpHandler {
-    private const float EPS = 0.01f;
 
     public Card card;
     public float targetRotation;
