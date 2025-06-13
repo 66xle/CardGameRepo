@@ -20,6 +20,8 @@ public class CardCarousel : MonoBehaviour
 
     private List<CardCarouselDisplay> cards = new List<CardCarouselDisplay>();
 
+    private bool wasCardClickedThisFrame = false;
+
     private CardCarouselDisplay currentSelectedCard;
     private int lastSiblingIndex;
     private bool isCardClicked = false;
@@ -33,7 +35,6 @@ public class CardCarousel : MonoBehaviour
     private float dragStartPointerX = 0f;     // Pointer x position at drag start
     private bool wasDraggingLastFrame = false;
     private float dragOffsetX;
-
 
 
     private void Start()
@@ -60,8 +61,6 @@ public class CardCarousel : MonoBehaviour
 
             cards.Add(wrapper);
 
-            //AddOtherComponentsIfNeeded(wrapper);
-
             // Pass child card any extra config it should be aware of
             wrapper.zoomConfig = zoomConfig;
             wrapper.animationSpeedConfig = animationSpeedConfig;
@@ -81,13 +80,16 @@ public class CardCarousel : MonoBehaviour
 
     void Update()
     {
-        if (InputManager.Instance.LeftClickInputUp && !isCardClicked && currentSelectedCard != null)
+        if (InputManager.Instance.LeftClickInputUp)
         {
-            CardPreviewEnd();
-        }
+            if (!isCardClicked && currentSelectedCard != null)
+            {
+                CardPreviewEnd();
+            }
 
-        if (isCardClicked)
+            // Reset click flag every mouse up
             isCardClicked = false;
+        }
 
         UpdateCards();
     }
@@ -134,41 +136,13 @@ public class CardCarousel : MonoBehaviour
             {
                 // Just started dragging — record starting pointer position
                 dragStartPointerX = Input.mousePosition.x;
+
+                scrollOffsetX = dragOffsetX;
             }
 
             // Live offset based on current pointer vs start
             float dragDelta = Input.mousePosition.x - dragStartPointerX;
             dragOffsetX = scrollOffsetX + dragDelta;
-        }
-        else if (wasDraggingLastFrame && !isDragging)
-        {
-            // Drag just ended — find nearest card and snap
-            float currentPos = anchorPosition + dragOffsetX;
-            float nearestDistance = float.MaxValue;
-            int nearestIndex = 0;
-
-            float[] predictedCenters = new float[cards.Count];
-            for (int i = 0; i < cards.Count; i++)
-            {
-                float width = cards[i].width;
-                float center = currentPos + width / 2f;
-                predictedCenters[i] = center;
-
-                float dist = Mathf.Abs(center - containerCenterX);
-                if (dist < nearestDistance)
-                {
-                    nearestDistance = dist;
-                    nearestIndex = i;
-                }
-
-                currentPos += width;
-            }
-
-            float snapOffset = containerCenterX - predictedCenters[nearestIndex];
-            dragOffsetX += snapOffset;
-
-            // Save this as new base scroll offset
-            scrollOffsetX = dragOffsetX;
         }
 
         if (snapToSelected && selectedCardIndex >= 0 && selectedCardIndex < cards.Count)
@@ -237,7 +211,6 @@ public class CardCarousel : MonoBehaviour
     {
         if (currentSelectedCard != null)
             CardPreviewEnd();
-
 
         isCardClicked = true;
 
