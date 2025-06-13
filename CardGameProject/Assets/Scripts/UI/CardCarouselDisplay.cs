@@ -54,31 +54,23 @@ public class CardCarouselDisplay : MonoBehaviour, IPointerDownHandler, IPointerM
 
     private void UpdatePosition()
     {
-        if (!IsPreviewActive)
+        var target = new Vector2(targetPosition.x, targetPosition.y + targetVerticalDisplacement);
+        if (IsPreviewActive && zoomConfig.overrideYPosition != -1)
         {
-            var target = new Vector2(targetPosition.x, targetPosition.y + targetVerticalDisplacement);
-            if (IsPreviewActive && zoomConfig.overrideYPosition != -1)
-            {
-                target = new Vector2(target.x, zoomConfig.overrideYPosition);
-            }
-
-            var distance = Vector2.Distance(rectTransform.position, target);
-            var repositionSpeed = distance / animationSpeedConfig.duration;
-
-            if (repositionSpeed == 0)
-                repositionSpeed = 1;
-
-            Vector2 position = Vector2.Lerp(rectTransform.position, target, repositionSpeed / distance * Time.unscaledDeltaTime);
-
-            if (float.IsNaN(position.x) || float.IsNaN(position.y)) return;
-
-            rectTransform.position = position;
+            target = new Vector2(target.x, zoomConfig.overrideYPosition);
         }
-        else
-        {
-            //var delta = ((Vector2)Input.mousePosition + dragStartPos);
-            //rectTransform.position = new Vector2(delta.x, delta.y);
-        }
+
+        var distance = Vector2.Distance(rectTransform.position, target);
+        var repositionSpeed = animationSpeedConfig.duration;
+
+        if (repositionSpeed == 0)
+            repositionSpeed = 1;
+
+        Vector2 position = Vector2.Lerp(rectTransform.position, target, repositionSpeed / distance * Time.unscaledDeltaTime);
+
+        if (float.IsNaN(position.x) || float.IsNaN(position.y)) return;
+
+        rectTransform.position = position;
     }
 
     private void UpdateScale()

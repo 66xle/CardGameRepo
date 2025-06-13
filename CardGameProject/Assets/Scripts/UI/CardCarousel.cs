@@ -46,6 +46,8 @@ public class CardCarousel : MonoBehaviour
     private CardCarouselDisplay currentSelectedCard;
     private int lastSiblingIndex;
     private bool isCardClicked = false;
+    private int selectedCardIndex = -1;
+    private bool snapToSelected = false;
 
     private CardCarouselDisplay currentDraggedCard;
     private bool isDragging = false;
@@ -269,22 +271,21 @@ public class CardCarousel : MonoBehaviour
             scrollOffsetX = dragOffsetX;
         }
 
-        //if (snapToSelected && selectedCardIndex >= 0 && selectedCardIndex < cards.Count)
-        //{
-        //    // Calculate position of selected card's center
-        //    float offset = 0f;
-        //    for (int i = 0; i < selectedCardIndex; i++)
-        //        offset += cards[i].width;
+        if (snapToSelected && selectedCardIndex >= 0 && selectedCardIndex < cards.Count)
+        {
+            float offset = 0f;
+            for (int i = 0; i < selectedCardIndex; i++)
+                offset += cards[i].width;
 
-        //    float selectedCardCenter = anchorPosition + offset + cards[selectedCardIndex].width / 2f;
+            float selectedCardCenter = anchorPosition + scrollOffsetX + offset + cards[selectedCardIndex].width / 2f;
 
-        //    float snapOffset = containerCenterX - selectedCardCenter;
+            float snapOffset = containerCenterX - selectedCardCenter;
 
-        //    scrollOffsetX += snapOffset;
-        //    dragOffsetX = scrollOffsetX;
+            scrollOffsetX += snapOffset;
+            dragOffsetX = scrollOffsetX;
 
-        //    snapToSelected = false;
-        //}
+            snapToSelected = false;
+        }
 
         // Apply layout
         float currentX = anchorPosition + dragOffsetX;
@@ -321,6 +322,9 @@ public class CardCarousel : MonoBehaviour
         currentSelectedCard.transform.SetSiblingIndex(lastSiblingIndex);
         currentSelectedCard.gameObject.GetComponent<CardDisplay>().ClosePopup();
         currentSelectedCard = null;
+
+        selectedCardIndex = -1;
+        snapToSelected = false;
     }
 
     public void OnCardDragStart(CardCarouselDisplay card, Vector2 dragEventData)
@@ -359,8 +363,8 @@ public class CardCarousel : MonoBehaviour
         currentSelectedCard.IsPreviewActive = true;
 
 
-        //selectedCardIndex = cards.IndexOf(card);
-        //if (selectedCardIndex != -1)
-        //    snapToSelected = true;
+        selectedCardIndex = cards.IndexOf(card);
+        if (selectedCardIndex != -1)
+            snapToSelected = true;
     }
 }
