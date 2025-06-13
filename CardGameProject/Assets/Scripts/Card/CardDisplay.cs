@@ -21,6 +21,8 @@ public class CardDisplay : MonoBehaviour
     [MustBeAssigned] [SerializeField] TMP_Text PopupDescription;
 
 
+    private bool _isPopupDisabled = false;
+
     public Card Card { get; private set; }
 
     private void Start()
@@ -38,7 +40,7 @@ public class CardDisplay : MonoBehaviour
 
     private void Update()
     {
-        if (InputManager.Instance.LeftClickInputDown)
+        if (InputManager.Instance.LeftClickInputDown && !_isPopupDisabled)
         {
             int linkIndex = TMP_TextUtilities.FindIntersectingLink(Description, Input.mousePosition, null);
             if (linkIndex != -1)
@@ -67,5 +69,10 @@ public class CardDisplay : MonoBehaviour
     public void ClosePopup()
     {
         PopupObj.SetActive(false);
+    }
+
+    public void DisablePopup()
+    {
+        _isPopupDisabled = true;
     }
 }

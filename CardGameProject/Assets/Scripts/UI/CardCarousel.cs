@@ -65,7 +65,11 @@ public class CardCarousel : MonoBehaviour
             wrapper.zoomConfig = zoomConfig;
             wrapper.animationSpeedConfig = animationSpeedConfig;
             wrapper.container = this;
-            wrapper.card = card.GetComponent<CardDisplay>().Card;
+
+            CardDisplay display = card.GetComponent<CardDisplay>();
+            display.DisablePopup();
+
+            wrapper.card = display.Card;
         }
     }
 
