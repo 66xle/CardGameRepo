@@ -16,9 +16,6 @@ namespace demo {
     public class ClonePreviewManager : MonoBehaviour, CardPreviewManager {
 
         [SerializeField]
-        [MustBeAssigned] private InputManager InputManager;
-
-        [SerializeField]
         private float verticalPosition;
         
         [SerializeField]
@@ -34,7 +31,7 @@ namespace demo {
 
         private void Update()
         {
-            if (InputManager.LeftClickInputDown && !IsCardClicked && currentCard != null)
+            if (InputManager.Instance.LeftClickInputDown && !IsCardClicked && currentCard != null)
             {
                 CardPreviewEnd();
             }
