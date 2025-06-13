@@ -21,7 +21,6 @@ public class CardCarouselDisplay : MonoBehaviour, IPointerDownHandler, IPointerM
     public AnimationSpeedConfig animationSpeedConfig;
     public CardCarousel container;
 
-    private bool isCardSelected;
     private Vector2 dragStartPos;
     public EventsConfig eventsConfig;
     public Vector2 basePosition;
@@ -50,20 +49,12 @@ public class CardCarouselDisplay : MonoBehaviour, IPointerDownHandler, IPointerM
     {
         UpdatePosition();
         UpdateScale();
-        UpdateUILayer();
     }
 
-    private void UpdateUILayer()
-    {
-        if (!IsPreviewActive && !isCardSelected)
-        {
-            transform.SetSiblingIndex(uiLayer);
-        }
-    }
 
     private void UpdatePosition()
     {
-        if (!isCardSelected)
+        if (!IsPreviewActive)
         {
             var target = new Vector2(targetPosition.x, targetPosition.y + targetVerticalDisplacement);
             if (IsPreviewActive && zoomConfig.overrideYPosition != -1)
@@ -92,7 +83,7 @@ public class CardCarouselDisplay : MonoBehaviour, IPointerDownHandler, IPointerM
 
     private void UpdateScale()
     {
-        var targetZoom = (isCardSelected || IsPreviewActive) && zoomConfig.zoomOnClick ? zoomConfig.multiplier : 1;
+        var targetZoom = (IsPreviewActive) && zoomConfig.zoomOnClick ? zoomConfig.multiplier : 1;
         var delta = Mathf.Abs(rectTransform.localScale.x - targetZoom);
         float newZoom = Mathf.Lerp(rectTransform.localScale.x, targetZoom,
             animationSpeedConfig.zoom / delta * Time.unscaledDeltaTime);
@@ -113,8 +104,6 @@ public class CardCarouselDisplay : MonoBehaviour, IPointerDownHandler, IPointerM
         {
             float XDis = eventData.position.x - pointDownStartEventX;
 
-            Debug.Log(XDis);
-
             if (Mathf.Abs(XDis) > 0)
             {
                 Vector2 dragStartPos = eventData.position;
@@ -129,17 +118,14 @@ public class CardCarouselDisplay : MonoBehaviour, IPointerDownHandler, IPointerM
     {
         isPointerDown = true;
         pointDownStartEventX = eventData.position.x;
-
-        //eventsConfig?.OnCardClick?.Invoke(new CardClick(this));
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         isPointerDown = false;
 
-        if (!isDragging)
+        if (!isDragging && !IsPreviewActive)
         {
-            isCardSelected = true;
             container.OnClickStart(this);
         }
 
