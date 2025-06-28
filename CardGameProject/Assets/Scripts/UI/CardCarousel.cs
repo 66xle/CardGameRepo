@@ -6,9 +6,22 @@ using UnityEngine.UI;
 using System.Linq;
 using demo;
 using events;
+using MyBox;
+using TMPro;
 
 public class CardCarousel : MonoBehaviour
 {
+    [MustBeAssigned] [SerializeField] GameObject InfoBoxObj;
+    private RectTransform InfoBoxRect;
+    [MustBeAssigned] [SerializeField] TMP_Text InfoTitle;
+    [MustBeAssigned] [SerializeField] TMP_Text InfoDescription;
+    [MustBeAssigned] [SerializeField] TMP_Text InfoFlavourText;
+
+    [MustBeAssigned] [SerializeField] GameObject PopupObj;
+    private RectTransform PopupRect;
+    [MustBeAssigned] [SerializeField] TMP_Text PopupTitle;
+    [MustBeAssigned] [SerializeField] TMP_Text PopupDescription;
+
     [SerializeField]
     private ZoomConfig zoomConfig;
 
@@ -40,6 +53,9 @@ public class CardCarousel : MonoBehaviour
     private void Start()
     {
         InitCards();
+
+        InfoBoxRect = InfoBoxObj.GetComponent<RectTransform>();
+        PopupRect = PopupObj.GetComponent<RectTransform>();
     }
 
     public void InitCards()
@@ -84,8 +100,17 @@ public class CardCarousel : MonoBehaviour
 
     void Update()
     {
+        UpdateCards();
+        UpdateLink();
+
         if (InputManager.Instance.LeftClickInputUp)
         {
+            if (RectTransformUtility.RectangleContainsScreenPoint(InfoBoxRect, Input.mousePosition))
+                return;
+
+            if (RectTransformUtility.RectangleContainsScreenPoint(PopupRect, Input.mousePosition))
+                return;
+
             if (!isCardClicked && currentSelectedCard != null)
             {
                 CardPreviewEnd();
@@ -94,8 +119,29 @@ public class CardCarousel : MonoBehaviour
             // Reset click flag every mouse up
             isCardClicked = false;
         }
+    }
 
-        UpdateCards();
+    private void UpdateLink()
+    {
+        if (InputManager.Instance.LeftClickInputDown)
+        {
+            int linkIndex = TMP_TextUtilities.FindIntersectingLink(InfoDescription, Input.mousePosition, null);
+            if (linkIndex != -1)
+            {
+                TMP_LinkInfo linkInfo = InfoDescription.textInfo.linkInfo[linkIndex];
+                string linkID = linkInfo.GetLinkID();
+
+                PopupObj.SetActive(true);
+
+                for (int i = 0; i < currentSelectedCard.card.PopupKeyPair.Count; i++)
+                {
+                    if (currentSelectedCard.card.PopupKeyPair[i].Key != linkID) continue;
+
+                    PopupTitle.text = currentSelectedCard.card.PopupKeyPair[i].Value.Title;
+                    PopupDescription.text = currentSelectedCard.card.PopupKeyPair[i].Value.DisplayDescription;
+                }
+            }
+        }
     }
 
     private void UpdateCards()
@@ -182,11 +228,12 @@ public class CardCarousel : MonoBehaviour
     {
         currentSelectedCard.IsPreviewActive = false;
         currentSelectedCard.transform.SetSiblingIndex(lastSiblingIndex);
-        currentSelectedCard.gameObject.GetComponent<CardDisplay>().ClosePopup();
         currentSelectedCard = null;
 
         selectedCardIndex = -1;
         snapToSelected = false;
+        InfoBoxObj.SetActive(false);
+        PopupObj.SetActive(false);
     }
 
     public void OnCardDragStart(CardCarouselDisplay card, Vector2 dragEventData)
@@ -216,7 +263,13 @@ public class CardCarousel : MonoBehaviour
         if (currentSelectedCard != null)
             CardPreviewEnd();
 
+        PopupObj.SetActive(false);
+
         isCardClicked = true;
+        InfoBoxObj.SetActive(true);
+        InfoTitle.text = card.card.CardName;
+        InfoDescription.text = card.card.LinkDescription;
+        InfoFlavourText.text = card.card.Flavour;
 
         currentSelectedCard = card;
         lastSiblingIndex = currentSelectedCard.transform.GetSiblingIndex();
