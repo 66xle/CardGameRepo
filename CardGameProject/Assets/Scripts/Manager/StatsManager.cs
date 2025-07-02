@@ -1,3 +1,4 @@
+using MyBox;
 using UnityEngine;
 
 
@@ -5,8 +6,9 @@ using UnityEngine;
 public class StatsManager : MonoBehaviour
 {
     [Header("Stats")]
-    [SerializeField] float BaseHealth;
-    [SerializeField] float BaseStamina;
+    [MustBeAssigned] [SerializeField] PlayerStatSettings PSS;
+
+    [SerializeField] int Level = 1;
     [SerializeField] int BaseGuard;
     public ArmourType ArmourType;
 
@@ -17,29 +19,30 @@ public class StatsManager : MonoBehaviour
 
     public float CurrentMaxHealth { get; private set; }
     public float CurrentMaxStamina { get; private set; }
+    [ReadOnly] public float CurrentDefence;
     public int CurrentMaxGuard { get; private set; }
-
 
     void Awake() // Initalise variables for now
     {
-        CurrentMaxHealth = BaseHealth;
+        CurrentMaxHealth = PSS.CalculateHealth(Level);
+        CurrentDefence = PSS.CalculateDefence(Level);
         CurrentMaxGuard = BaseGuard;
 
         if (ArmourType == ArmourType.Light)
         {
-            CurrentMaxStamina = Mathf.RoundToInt(BaseStamina * LightMultiplier);
+            CurrentMaxStamina = Mathf.RoundToInt(PSS.CalculateStamina(Level) * LightMultiplier);
         }
         else if (ArmourType == ArmourType.Medium)
         {
-            CurrentMaxStamina = Mathf.RoundToInt(BaseStamina * MediumMultiplier);
+            CurrentMaxStamina = Mathf.RoundToInt(PSS.CalculateStamina(Level) * MediumMultiplier);
         }
         else if (ArmourType == ArmourType.Heavy)
         {
-            CurrentMaxStamina = Mathf.RoundToInt(BaseStamina * HeavyMultiplier);
+            CurrentMaxStamina = Mathf.RoundToInt(PSS.CalculateStamina(Level) * HeavyMultiplier);
         }
         else
         {
-            CurrentMaxStamina = BaseStamina;
+            CurrentMaxStamina = PSS.CalculateStamina(Level);
         }
     }
 
