@@ -14,6 +14,7 @@ public class EnemyManager : MonoBehaviour
     [Header("References")]
     [MustBeAssigned] [SerializeField] CombatUIManager CombatUIManager;
     [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
+    [MustBeAssigned] [SerializeField] EnemyStatSettings ESS;
 
     private void Awake()
     {
@@ -63,7 +64,7 @@ public class EnemyManager : MonoBehaviour
         {
             // Init Obj
             Enemy enemy = Instantiate(enemyDataList[i].Prefab, EnemySpawnPosList[i]).GetComponent<Enemy>();
-            enemy.InitStats(enemyDataList[i]);
+            enemy.InitStats(enemyDataList[i], ESS);
             enemies.Add(enemy);
 
             GameObject statsUI = Instantiate(CombatUIManager.enemyUIPrefab, EnemyUISpawnPosList[i].GetComponent<RectTransform>());

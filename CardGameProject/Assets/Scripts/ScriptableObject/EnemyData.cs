@@ -22,6 +22,7 @@ public class EnemyData : ScriptableObject
     public string Name;
     public int Health;
     public int Guard;
+    public int Level = 1;
 
     public EnemyType EnemyType;
     public WeaponType WeaponType;

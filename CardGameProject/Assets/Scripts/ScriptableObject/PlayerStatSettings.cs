@@ -41,8 +41,6 @@ public class PlayerStatSettings : ScriptableObject
 
         float def = Mathf.Pow(a, 2) + b + c;
 
-        Debug.Log(def / (def + DefencePercentage));
-
         return def / (def + DefencePercentage);
     }
 

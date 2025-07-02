@@ -43,7 +43,7 @@ public class Enemy : Avatar
         CurrentGuard = MaxGuard;
     }
 
-    public void InitStats(EnemyData data)
+    public void InitStats(EnemyData data, EnemyStatSettings ess)
     {
         DisableSelection = false;
 
@@ -51,8 +51,10 @@ public class Enemy : Avatar
         weapon.DamageType = DamageType;
 
         EnemyData = data;
-        MaxHealth = EnemyData.Health;
-        MaxGuard = EnemyData.Guard;
+        MaxGuard = data.Guard;
+        MaxHealth = ess.CalculateHealth(data.Level, data.EnemyType);
+        Attack = ess.CalculateDamage(data.Level, data.EnemyType);
+        Defence = ess.CalculateDefence(data.Level, data.EnemyType);
 
         Deck = new();
         Deck.AddRange(data.Cards.Select(card => new CardData(weapon, card)));

@@ -15,6 +15,8 @@ public class Avatar : MonoBehaviour
     [Header("Stats")]
     public float MaxHealth = 100f;
     public int MaxGuard = 10;
+    public float Attack;
+    public float Defence;
     public ArmourType ArmourType;
     public DamageType DamageType;
 
