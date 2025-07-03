@@ -51,6 +51,7 @@ public class Player : Avatar
         CurrentHealth = maxHealth;
         CurrentGuard = maxGuard;
         CurrentStamina = _maxStamina;
+
         Defence = defence;
         Attack = attack;
     }

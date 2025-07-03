@@ -17,10 +17,11 @@ public class StatsManager : MonoBehaviour
     [Range(0, 2)] public float MediumMultiplier;
     [Range(0, 2)] public float HeavyMultiplier;
 
-    public float CurrentMaxHealth { get; private set; }
-    public float CurrentMaxStamina { get; private set; }
     [ReadOnly] public float Defence;
     [ReadOnly] public float Attack;
+
+    public float CurrentMaxHealth { get; private set; }
+    public float CurrentMaxStamina { get; private set; }
     public int CurrentMaxGuard { get; private set; }
 
     void Awake() // Initalise variables for now

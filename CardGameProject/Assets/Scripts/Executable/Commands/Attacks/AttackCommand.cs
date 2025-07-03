@@ -30,6 +30,8 @@ public abstract class AttackCommand : Command
         }
         else
         {
+            float damage = Mathf.RoundToInt(avatarPlayingCard.Attack * Value);
+
             for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
             {
                 Avatar avatarToTakeDamage = ExecutableParameters.Targets[i];
@@ -38,7 +40,7 @@ public abstract class AttackCommand : Command
                 {
                     // Update damage value
                     TakeDamageFromWeaponGA takeDamageFromWeaponGA = avatarToTakeDamage.GetGameActionFromQueue<TakeDamageFromWeaponGA>() as TakeDamageFromWeaponGA;
-                    takeDamageFromWeaponGA.Damage += Value;
+                    takeDamageFromWeaponGA.Damage += damage;
 
                     SpawnDamageUIPopupGA spawnDamageUIPopupGA = takeDamageFromWeaponGA.PostReactions.First(gameAction => gameAction is SpawnDamageUIPopupGA) as SpawnDamageUIPopupGA;
                     spawnDamageUIPopupGA.Damage = takeDamageFromWeaponGA.Damage;
@@ -46,7 +48,7 @@ public abstract class AttackCommand : Command
                 else
                 {
                     // Add game action to queue
-                    TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, Value, ExecutableParameters.WeaponData.DamageType, ExecutableParameters.CardTarget);
+                    TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, damage, ExecutableParameters.WeaponData.DamageType, ExecutableParameters.CardTarget);
                     avatarToTakeDamage.QueueGameActions.Add(takeDamageFromWeaponGA);
 
                     SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.AvatarToTakeDamage, takeDamageFromWeaponGA.Damage, Color.white);

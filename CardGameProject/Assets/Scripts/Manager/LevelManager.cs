@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
     public void Awake()
     {
         _currentLevel++;
-        GameManager.Instance.Level = _currentLevel;
+        GameManager.Instance.StageLevel = _currentLevel;
         LoadLevel();
     }
 

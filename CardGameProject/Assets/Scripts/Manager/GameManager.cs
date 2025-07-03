@@ -13,7 +13,7 @@ public class GameManager : Singleton<GameManager>
     
     [HideInInspector] public bool IsWeaponsSaved = false;
 
-    [HideInInspector] public int Level;
+    [HideInInspector] public int StageLevel;
 
 
     public new void Awake()

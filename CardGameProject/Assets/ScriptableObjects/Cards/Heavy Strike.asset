@@ -16,9 +16,9 @@ MonoBehaviour:
   InGameGUID: 
   CardName: Heavy Strike
   Description: Deal #0 Damage #Poison #Bleed
-  DisplayDescription: Deal 10 Damage #Poison #Bleed
-  LinkDescription: Deal 10 Damage <link="Poison"><color=#FFA500><u>Poison</u></color></link>
-    <link="Bleed"><color=#FFA500><u>Bleed</u></color></link>
+  DisplayDescription: Deal 1.5 Damage #Poison #Bleed
+  LinkDescription: Deal 1.5 Damage <link="Poison"><color=#FFBF00><u>Poison</u></color></link>
+    <link="Bleed"><color=#FFBF00><u>Bleed</u></color></link>
   Flavour: test
   PopupKeyPair:
   - Key: Bleed
@@ -30,7 +30,7 @@ MonoBehaviour:
   Cost: 3
   RecycleValue: 1
   ValuesToReference:
-  - 10
+  - 1.5
   Commands:
   - rid: 7082259346242928707
   references:
@@ -40,4 +40,4 @@ MonoBehaviour:
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 1
-        value: 10
+        value: 1.5
