@@ -6,6 +6,7 @@ public class PlayerStatSettings : ScriptableObject
     [SerializeField] Vector3 Experience;
     [SerializeField] Vector3 Health;
     [SerializeField] Vector3 Stamina;
+    [SerializeField] Vector3 Attack;
     [SerializeField] Vector3 Defence;
     [SerializeField] int DefencePercentage;
 
@@ -17,7 +18,7 @@ public class PlayerStatSettings : ScriptableObject
         float b = stat.y * level;
         float c = stat.z;
 
-        return Mathf.Pow(a, 2) + b + c;
+        return Mathf.RoundToInt(Mathf.Pow(a, 2) + b + c);
     }
 
     public float CalculateStamina(float level)
@@ -28,7 +29,7 @@ public class PlayerStatSettings : ScriptableObject
         float b = stat.y * level;
         float c = stat.z;
 
-        return Mathf.Pow(a, 2) + b + c;
+        return Mathf.RoundToInt(Mathf.Pow(a, 2) + b + c);
     }
 
     public float CalculateDefence(float level)
@@ -39,10 +40,19 @@ public class PlayerStatSettings : ScriptableObject
         float b = stat.y * level;
         float c = stat.z;
 
-        float def = Mathf.Pow(a, 2) + b + c;
+        float def = Mathf.RoundToInt(Mathf.Pow(a, 2) + b + c);
 
-        return def / (def + DefencePercentage);
+        return def / (def + DefencePercentage) * 100;
     }
 
+    public float CalculateAttack(float level)
+    {
+        Vector3 stat = Attack;
 
+        float a = stat.x * level;
+        float b = stat.y * level;
+        float c = stat.z;
+
+        return Mathf.RoundToInt(Mathf.Pow(a, 2) + b + c);
+    }
 }

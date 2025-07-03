@@ -1,16 +1,17 @@
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 [CreateAssetMenu(fileName = "Enemy Stats Settings", menuName = "Enemy Stats Settings")]
 public class EnemyStatSettings : ScriptableObject
 {
     [Header("Formula")]
-    [SerializeField] Vector3 Damage;
+    [SerializeField] Vector3 Attack;
     [SerializeField] Vector3 Health;
     [SerializeField] Vector3 Defence;
     [SerializeField] int DefencePercentage;
 
     [Header("Multiplier")]
-    [SerializeField] Vector3 DamageMultiplier;
+    [SerializeField] Vector3 AttackMultiplier;
     [SerializeField] Vector3 HealthMultiplier;
     [SerializeField] Vector3 DefenceMultiplier;
 
@@ -24,12 +25,12 @@ public class EnemyStatSettings : ScriptableObject
 
         float value = Mathf.Pow(a, 2) + b + c;
 
-        return value * GetMultiplier(HealthMultiplier, type);
+        return Mathf.RoundToInt(value * GetMultiplier(HealthMultiplier, type));
     }
 
-    public float CalculateDamage(float level, EnemyType type)
+    public float CalculateAttack(float level, EnemyType type)
     {
-        Vector3 stat = Damage;
+        Vector3 stat = Attack;
 
         float a = stat.x * level;
         float b = stat.y * level;
@@ -37,7 +38,7 @@ public class EnemyStatSettings : ScriptableObject
 
         float value = Mathf.Pow(a, 2) + b + c;
 
-        return value * GetMultiplier(DamageMultiplier, type);
+        return Mathf.RoundToInt(value * GetMultiplier(AttackMultiplier, type));
     }
 
     public float CalculateDefence(float level, EnemyType type)
@@ -47,12 +48,11 @@ public class EnemyStatSettings : ScriptableObject
         float a = stat.x * level;
         float b = stat.y * level;
         float c = stat.z;
-
         float def = Mathf.Pow(a, 2) + b + c;
 
-        float value = def * GetMultiplier(DamageMultiplier, type);
+        float value = Mathf.RoundToInt(def * GetMultiplier(AttackMultiplier, type));
 
-        return value / (value + DefencePercentage);
+        return value / (value + DefencePercentage) * 100;
     }
 
     float GetMultiplier(Vector3 multiplier, EnemyType type)

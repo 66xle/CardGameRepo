@@ -43,7 +43,7 @@ public class Player : Avatar
         ArmourType = armourType;
     }
 
-    public void InitStats(float maxHealth, float maxStamina, int maxGuard, float defence)
+    public void InitStats(float maxHealth, float maxStamina, int maxGuard, float defence, float attack)
     {
         base.MaxHealth = maxHealth;
         base.MaxGuard = maxGuard;
@@ -52,6 +52,7 @@ public class Player : Avatar
         CurrentGuard = maxGuard;
         CurrentStamina = _maxStamina;
         Defence = defence;
+        Attack = attack;
     }
 
     public bool hasEnoughStamina(float cost)

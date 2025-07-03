@@ -53,7 +53,7 @@ public class Enemy : Avatar
         EnemyData = data;
         MaxGuard = data.Guard;
         MaxHealth = ess.CalculateHealth(data.Level, data.EnemyType);
-        Attack = ess.CalculateDamage(data.Level, data.EnemyType);
+        Attack = ess.CalculateAttack(data.Level, data.EnemyType);
         Defence = ess.CalculateDefence(data.Level, data.EnemyType);
 
         Deck = new();

@@ -20,12 +20,14 @@ public class StatsManager : MonoBehaviour
     public float CurrentMaxHealth { get; private set; }
     public float CurrentMaxStamina { get; private set; }
     [ReadOnly] public float Defence;
+    [ReadOnly] public float Attack;
     public int CurrentMaxGuard { get; private set; }
 
     void Awake() // Initalise variables for now
     {
         CurrentMaxHealth = PSS.CalculateHealth(Level);
         Defence = PSS.CalculateDefence(Level);
+        Attack = PSS.CalculateAttack(Level);
         CurrentMaxGuard = BaseGuard;
 
         if (ArmourType == ArmourType.Light)
