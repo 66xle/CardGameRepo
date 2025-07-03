@@ -52,7 +52,7 @@ public class EnemyStatSettings : ScriptableObject
 
         float value = Mathf.RoundToInt(def * GetMultiplier(AttackMultiplier, type));
 
-        return value / (value + DefencePercentage) * 100;
+        return value / (value + DefencePercentage);
     }
 
     float GetMultiplier(Vector3 multiplier, EnemyType type)

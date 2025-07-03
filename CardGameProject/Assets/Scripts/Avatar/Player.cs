@@ -47,6 +47,7 @@ public class Player : Avatar
     {
         base.MaxHealth = maxHealth;
         base.MaxGuard = maxGuard;
+        _maxStamina = maxStamina;
 
         CurrentHealth = maxHealth;
         CurrentGuard = maxGuard;

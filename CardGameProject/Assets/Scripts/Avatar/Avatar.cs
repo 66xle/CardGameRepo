@@ -94,7 +94,7 @@ public class Avatar : MonoBehaviour
 
     #region Take Damage
 
-    public void TakeDamage(float damage) 
+        public void TakeDamage(float damage) 
         {
             damage = ApplyAdditionalDmgCheck(damage);
 

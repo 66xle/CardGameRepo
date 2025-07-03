@@ -42,7 +42,7 @@ public class PlayerStatSettings : ScriptableObject
 
         float def = Mathf.RoundToInt(Mathf.Pow(a, 2) + b + c);
 
-        return def / (def + DefencePercentage) * 100;
+        return def / (def + DefencePercentage);
     }
 
     public float CalculateAttack(float level)

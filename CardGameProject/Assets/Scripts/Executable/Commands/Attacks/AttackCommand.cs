@@ -30,7 +30,13 @@ public abstract class AttackCommand : Command
         }
         else
         {
-            float damage = Mathf.RoundToInt(avatarPlayingCard.Attack * Value);
+            float damage = avatarPlayingCard.Attack * Value;
+
+            // Additional Damage Check
+
+            damage -= damage * avatarOpponent.Defence;
+
+            damage = Mathf.RoundToInt(damage);
 
             for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
             {
