@@ -84,7 +84,8 @@ public class StatusEffectState : CombatBaseState
     IEnumerator CheckStatusEffect()
     {
         List<StatusEffect> statusQueue = new List<StatusEffect>();
-
+        
+        // Add effects to active to queue
         for (int i = _currentAvatarSelected.ListOfEffects.Count - 1; i >= 0; i--)
         {
             StatusEffect currentEffect = _currentAvatarSelected.ListOfEffects[i];
@@ -126,6 +127,8 @@ public class StatusEffectState : CombatBaseState
             }
         }
 
+
+        // Activate Effects in Queue
         if (_doRecoverGuardBreak || statusQueue.Count > 0)
         {
             // Switch camera for enemy

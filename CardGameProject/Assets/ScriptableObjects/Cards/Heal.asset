@@ -32,9 +32,15 @@ MonoBehaviour:
   - 1
   Commands:
   - rid: 7082259392929464529
+  - rid: 1089679886797242464
   references:
     version: 2
     RefIds:
+    - rid: 1089679886797242464
+      type: {class: ApplyStatusEffect, ns: , asm: Assembly-CSharp}
+      data:
+        target: 1
+        effect: {fileID: 11400000, guid: 14f185cb4736c07408720f340d3dfb74, type: 2}
     - rid: 7082259392929464529
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:

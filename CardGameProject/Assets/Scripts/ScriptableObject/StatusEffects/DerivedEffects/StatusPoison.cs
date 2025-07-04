@@ -21,7 +21,7 @@ public class StatusPoison : StatusEffect
 
     public override void ActivateEffect(Avatar avatar)
     {
-        float damage = avatar.MaxHealth * ReduceHealthPercentage;
+        float damage = Mathf.Ceil(avatar.MaxHealth * ReduceHealthPercentage);
 
         avatar.TakeDamageByStatusEffect(damage);
 

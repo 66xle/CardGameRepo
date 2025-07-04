@@ -1652,7 +1652,7 @@ MonoBehaviour:
   MainHand: {fileID: 11400000, guid: 6c8e5e6ed3d79954e87e45ed9908fda2, type: 2}
   OffHand: {fileID: 0}
   EquippedWeapons:
-  - {fileID: 11400000, guid: 6c8e5e6ed3d79954e87e45ed9908fda2, type: 2}
+  - {fileID: 11400000, guid: e33abf5e93cf1774b88081953d7c7b1a, type: 2}
 --- !u!4 &393357798
 Transform:
   m_ObjectHideFlags: 0
@@ -4598,7 +4598,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActiveParent: {fileID: 1630148121}
   DeactiveParent: {fileID: 618117097}
-  UiPrefab: {fileID: 1566083453977946612, guid: 0157f8451d8aacc49a989fb7a6307541, type: 3}
+  UiPrefab: {fileID: 425717489898406801, guid: 3a66dd0d7c258054a933f3ddf2bd5f87, type: 3}
   EffectUIOffset: 50
 --- !u!1 &890503402
 GameObject:
@@ -5612,6 +5612,7 @@ Transform:
   - {fileID: 1314847669}
   - {fileID: 1566844182}
   - {fileID: 39342961}
+  - {fileID: 1304901116}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1058429059
@@ -7132,6 +7133,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1288986831}
   m_CullTransparentMesh: 1
+--- !u!1 &1304901115
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1304901116}
+  - component: {fileID: 1304901117}
+  m_Layer: 0
+  m_Name: StatusEffectSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1304901116
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304901115}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1053628506}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1304901117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304901115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f07fb29d9edfa854ca967b29f4aac61e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1314847667
 GameObject:
   m_ObjectHideFlags: 0
@@ -8522,7 +8567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PSS: {fileID: 11400000, guid: a0448ceceb179ec4eb5912d845d90fc8, type: 2}
-  Level: 5
+  Level: 1
   BaseGuard: 5
   ArmourType: 0
   LightMultiplier: 0.7

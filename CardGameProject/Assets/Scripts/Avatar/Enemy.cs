@@ -74,14 +74,14 @@ public class Enemy : Avatar
 
         return cardDrawn;
     }
-
+    
     private void DisplayStats()
     {
         _currentHealth = Mathf.Clamp(_currentHealth, 0f, MaxHealth);
 
-        HealthBar.fillAmount = _currentHealth / MaxHealth;
+        HealthBar.fillAmount = CurrentHealth / MaxHealth;
 
-        GuardBar.fillAmount = (float)_currentGuard / MaxGuard;
+        GuardBar.fillAmount = (float)CurrentHealth / MaxGuard;
 
         DetailedUI.DisplayStats();
         DetailedUI.UpdateStatusEffectsUI();

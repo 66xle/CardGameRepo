@@ -96,25 +96,21 @@ public class Avatar : MonoBehaviour
 
         public void TakeDamage(float damage) 
         {
-            damage = ApplyAdditionalDmgCheck(damage);
-
-            _currentBlock -= damage;
+            CurrentBlock -= damage;
 
             // Block is negative do damage / Block is positive dont do damage
-            damage = _currentBlock < 0 ? Mathf.Abs(_currentBlock) : 0;
+            damage = CurrentBlock < 0 ? Mathf.Abs(CurrentBlock) : 0;
 
-            if (_currentBlock < 0) _currentBlock = 0;
+            if (CurrentBlock < 0) CurrentBlock = 0;
 
-            _currentHealth -= damage;
-            _currentHealth = Mathf.Clamp(_currentHealth, 0, MaxHealth);
+            CurrentHealth -= damage;
+            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
         }
 
         public void TakeDamageByStatusEffect(float damage)
         {
-            damage = ApplyAdditionalDmgCheck(damage);
-
-            _currentHealth -= damage;
-            _currentHealth = Mathf.Clamp(_currentHealth, 0, MaxHealth);
+            CurrentHealth -= damage;
+            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
         }
 
         #endregion
@@ -136,18 +132,18 @@ public class Avatar : MonoBehaviour
 
         public bool IsGuardBroken()
         {
-            return _currentGuard == 0 ? true : false;
+            return CurrentGuard == 0 ? true : false;
         }
 
         public void ReduceGuard()
         {
-            _currentGuard--;
-            _currentGuard = Mathf.Clamp(_currentGuard, 0, MaxGuard);
+            CurrentGuard--;
+            CurrentGuard = Mathf.Clamp(CurrentGuard, 0, MaxGuard);
         }
 
         public virtual void RecoverGuardBreak()
         {
-            _currentGuard = MaxGuard;
+            CurrentGuard = MaxGuard;
         }
 
         #endregion
@@ -156,7 +152,7 @@ public class Avatar : MonoBehaviour
 
         public bool IsAvatarDead()
         {
-            if (_currentHealth <= 0f)
+            if (CurrentHealth <= 0f)
             {
                 return true;
             }
@@ -166,13 +162,13 @@ public class Avatar : MonoBehaviour
 
         public void AddBlock(float block)
         {
-            _currentBlock += block;
+            CurrentBlock += block;
         }
 
         public void Heal(float healAmount)
         {
-            _currentHealth += healAmount;
-            _currentHealth = Mathf.Clamp(_currentHealth, 0, MaxHealth);
+            CurrentHealth += healAmount;
+            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
         }
 
         public void UpdateStatsUI()
