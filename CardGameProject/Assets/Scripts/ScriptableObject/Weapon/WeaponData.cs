@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
+
 [CreateAssetMenu(menuName = "WeaponData")]
 public class WeaponData : ScriptableObject 
 {
@@ -13,27 +14,41 @@ public class WeaponData : ScriptableObject
 
     public string WeaponName;
     public string Description;
+    public int WeaponAttack;
     public DamageType DamageType;
     public WeaponType WeaponType;
-    private WeaponType _previousWeaponType;
-    public Texture IconTexture;
-    
-
     public GameObject Prefab;
 
-    [HideInInspector] public Transform HolsterSlot;
+
+    // Reward Manager
+    public Texture IconTexture; 
+
+    // Equipment, Switch Weapon
+    [HideInInspector] public Transform HolsterSlot; 
 
     [Separator]
 
-    [ReadOnly][SerializeReference][SR] public List<WeaponTypeAnimation> WeaponTypeAnimationSet;
+    // Editor
+    [ReadOnly][SerializeReference][SR] public List<WeaponTypeAnimation> WeaponTypeAnimationSet; 
+    private WeaponType _previousWeaponType;
     private int _weaponTypeCount;
 
     [Separator]
 
-    
-
     [SerializeReference][SR] public List<WeaponCardData> Cards;
 
+    public WeaponData() { }
+
+    public WeaponData(WeaponData data)
+    {
+        WeaponName = data.WeaponName;
+        DamageType = data.DamageType;
+        WeaponAttack = data.WeaponAttack;
+        WeaponType = data.WeaponType;
+        Description = data.Description;
+        Cards = data.Cards;
+        Prefab = data.Prefab;
+    }
 
     public void OnValidate()
     {

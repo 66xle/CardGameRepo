@@ -149,15 +149,8 @@ public class WeaponPopupWindow : PopupWindow
 
     WeaponData CreateNewWeapon(WeaponData newWeaponData)
     {
-        WeaponData weapon = new WeaponData();
-        weapon.name = newWeaponData.WeaponName;
-        weapon.Description = newWeaponData.Description;
-        weapon.Prefab = newWeaponData.Prefab;
-        weapon.Cards = newWeaponData.Cards;
-        weapon.DamageType = newWeaponData.DamageType;
-        weapon.WeaponType = newWeaponData.WeaponType;
+        WeaponData weapon = new WeaponData(newWeaponData);
         weapon.WeaponTypeAnimationSet = newWeaponData.WeaponTypeAnimationSet;
-
 
         return weapon;
     }
