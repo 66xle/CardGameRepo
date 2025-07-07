@@ -151,8 +151,6 @@ public class StatusEffectState : CombatBaseState
 
                     if (ctx.currentState.ToString() == PLAYERSTATE)
                         yield return ctx.EndTurnReactiveEffect();
-                    else
-                        ctx.EnemyTurnQueue.Remove(ctx.CurrentEnemyTurn);
 
                     Debug.Log("SKIP TURN");
                 }
@@ -167,7 +165,7 @@ public class StatusEffectState : CombatBaseState
 
                     if (_currentAvatarSelected is Enemy) ctx.EnemyDied();
 
-                    yield break;
+                    break;
                 }
 
                 yield return new WaitForSeconds(ctx.statusEffectDelay);
@@ -187,6 +185,8 @@ public class StatusEffectState : CombatBaseState
 
         _isStatusEffectFinished = true;
 
+
+        if (_currentAvatarSelected.IsAvatarDead()) yield return null;
 
         yield return _currentAvatarSelected.CheckReactiveEffects(ReactiveTrigger.StartOfTurn);
         _currentAvatarSelected.CheckTurnsReactiveEffects(ReactiveTrigger.StartOfTurn);
