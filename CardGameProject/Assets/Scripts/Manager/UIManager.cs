@@ -1,9 +1,12 @@
+using MyBox;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+    [MustBeAssigned] [SerializeField] DifficultyManager DifficultyManager;
+
     public void RestartCombat()
     {
         Time.timeScale = 1.0f;
@@ -16,6 +19,7 @@ public class UIManager : MonoBehaviour
     public void NextScene()
     {
         // difficulty manager
+        DifficultyManager.OnBattleComplete();
 
         RestartCombat(); // temp
     }

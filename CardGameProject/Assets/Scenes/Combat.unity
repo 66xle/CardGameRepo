@@ -2150,10 +2150,6 @@ MonoBehaviour:
   AmountOfEnemies:
     Min: 1
     Max: 1
-  Enemies:
-  - {fileID: 11400000, guid: 35289a3758b892e499c304d3a5e1fa90, type: 2}
-  - {fileID: 11400000, guid: 35289a3758b892e499c304d3a5e1fa90, type: 2}
-  - {fileID: 11400000, guid: 35289a3758b892e499c304d3a5e1fa90, type: 2}
   EnemySpawnPosList: []
   EnemyUISpawnPosList:
   - {fileID: 100472291}
@@ -3007,6 +3003,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6deb041305094e94b8737d8f69c444a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DifficultyManager: {fileID: 1266213100}
 --- !u!4 &602362925
 Transform:
   m_ObjectHideFlags: 0
@@ -6881,14 +6878,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 919187dc8fcd7b94aa89be9a6584ca9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentScore: 1
+  currentScore: 5
   scoreIncrement: 5
+  acceptableRange: 3
+  statsManager: {fileID: 1461295039}
   minionListData:
   - {fileID: 11400000, guid: 35289a3758b892e499c304d3a5e1fa90, type: 2}
   eliteListData:
   - {fileID: 11400000, guid: 15be70bbc9b436444af9e3026ecfce7a, type: 2}
-  acceptableRange: 3
-  statsManager: {fileID: 1461295039}
 --- !u!1 &1266439819
 GameObject:
   m_ObjectHideFlags: 0
@@ -8206,11 +8203,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SceneToLoad: 
+  StageLevel: 0
   MainHand: {fileID: 0}
   OffHand: {fileID: 0}
   EquippedWeapons: []
   IsWeaponsSaved: 0
-  StageLevel: 0
+  DifficultyScore: 0
 --- !u!1 &1427997843
 GameObject:
   m_ObjectHideFlags: 0

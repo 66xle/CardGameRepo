@@ -25,6 +25,11 @@ public class DifficultyManager : MonoBehaviour
 
     private void Awake()
     {
+        if (GameManager.Instance.DifficultyScore > 0)
+        {
+            currentScore = GameManager.Instance.DifficultyScore;
+        }
+
         if (minionListData.Count == 0)
         {
             Debug.LogAssertion("Difficulty Manager: No Minon Data in List.");
@@ -39,6 +44,8 @@ public class DifficultyManager : MonoBehaviour
     public void OnBattleComplete()
     {
         currentScore += scoreIncrement;
+
+        GameManager.Instance.DifficultyScore = currentScore;
     }
 
     public List<EnemyData> GetEnemies()
