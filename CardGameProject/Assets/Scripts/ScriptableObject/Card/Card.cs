@@ -45,8 +45,6 @@ public class Card : ScriptableObject
         ValuesToReference.Clear();
 
         CheckCommandsForValues(Commands);
-
-        GenerateDisplayDescription();
     } 
 
     private void CheckCommandsForValues(List<Executable> commands)
@@ -71,15 +69,17 @@ public class Card : ScriptableObject
         }
     }
 
-    public void GenerateDisplayDescription()
+    public string GenerateDescriptionWithDamage(Card card, WeaponData weapon)
     {
-        DisplayDescription = Description;
+        string linkDescription = card.LinkDescription;
 
-        for (int i = 0; i < ValuesToReference.Count; i++)
+        for (int i = 0; i < card.ValuesToReference.Count; i++)
         {
-            float value = ValuesToReference[i];
+            float value = card.ValuesToReference[i];
 
-            DisplayDescription = DisplayDescription.Replace($"#{i}", value.ToString());
+            linkDescription = linkDescription.Replace($"#{i}", value.ToString());
         }
+
+        return linkDescription;
     }
 }

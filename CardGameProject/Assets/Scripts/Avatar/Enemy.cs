@@ -57,7 +57,7 @@ public class Enemy : Avatar
         Defence = ess.CalculateDefence(data.Level, data.EnemyType);
 
         Deck = new();
-        Deck.AddRange(data.Cards.Select(card => new CardData(weapon, card)));
+        Deck.AddRange(data.Cards.Select(card => new CardData(weapon, card, Attack)));
 
         SelectionRing = transform.GetChild(0).gameObject;
     }

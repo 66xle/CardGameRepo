@@ -265,7 +265,7 @@ public class CardEditorWindow : BaseEditorWindow
 
         card.PopupKeyPair.Clear();
 
-        card.LinkDescription = card.DisplayDescription;
+        card.LinkDescription = card.Description;
 
         FindAllPopupText(out List<PopupText> popupList);
 
