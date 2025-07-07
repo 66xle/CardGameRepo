@@ -7,7 +7,6 @@ using Random = UnityEngine.Random;
 public class EnemyManager : MonoBehaviour
 {
     [MinMaxRange(1, 3)] [SerializeField] RangedInt AmountOfEnemies = new RangedInt(1, 3);
-    [SerializeField] List<EnemyData> Enemies = new();
     [ReadOnly] public List<Transform> EnemySpawnPosList;
     public List<GameObject> EnemyUISpawnPosList;
 
@@ -15,14 +14,10 @@ public class EnemyManager : MonoBehaviour
     [MustBeAssigned] [SerializeField] CombatUIManager CombatUIManager;
     [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
     [MustBeAssigned] [SerializeField] EnemyStatSettings ESS;
+    [MustBeAssigned] [SerializeField] DifficultyManager DifficultyManager;
 
     private void Awake()
     {
-        if (Enemies.Count == 0)
-        {
-            Debug.LogAssertion("Enemy Manager: No Enemy in List.");
-        }
-
         if (EnemySpawnPosList.Count == 0)
         {
             Debug.LogAssertion("Enemy Manager: No spawn position in List.");
@@ -36,8 +31,10 @@ public class EnemyManager : MonoBehaviour
 
     public List<EnemyData> GetEnemies()
     {
+        return DifficultyManager.GetEnemies();
+
         List<EnemyData> getEnemies = new();
-        List<EnemyData> enemies = new(Enemies);
+        List<EnemyData> enemies = DifficultyManager.GetEnemies();
 
         int count = Random.Range(AmountOfEnemies.Min, AmountOfEnemies.Max + 1);
 
@@ -55,6 +52,7 @@ public class EnemyManager : MonoBehaviour
 
         return getEnemies;
     }
+
     public List<Enemy> InitEnemies(List<EnemyData> enemyDataList)
     {
         List<Enemy> enemies = new();

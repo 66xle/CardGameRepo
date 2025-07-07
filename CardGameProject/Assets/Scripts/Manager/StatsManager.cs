@@ -8,8 +8,8 @@ public class StatsManager : MonoBehaviour
     [Header("Stats")]
     [MustBeAssigned] [SerializeField] PlayerStatSettings PSS;
 
-    [SerializeField] int Level = 1;
-    [SerializeField] int BaseGuard;
+    public int Level = 1;
+    public int BaseGuard;
     public ArmourType ArmourType;
 
     [Header("Armour Stamina")]

@@ -16,8 +16,8 @@ MonoBehaviour:
   InGameGUID: 
   CardName: Heal
   Description: Deal #0 damage #Poison
-  DisplayDescription: Deal 1 damage #Poison
-  LinkDescription: Deal 1 damage <link="Poison"><color=#FFBF00><u>Poison</u></color></link>
+  DisplayDescription: Deal 1.2 damage #Poison
+  LinkDescription: Deal 1.2 damage <link="Poison"><color=#FFBF00><u>Poison</u></color></link>
   Flavour: 
   PopupKeyPair:
   - Key: Bleed
@@ -29,7 +29,7 @@ MonoBehaviour:
   Cost: 3
   RecycleValue: 1
   ValuesToReference:
-  - 1
+  - 1.2
   Commands:
   - rid: 7082259392929464529
   - rid: 1089679886797242464
@@ -45,4 +45,4 @@ MonoBehaviour:
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 1
-        value: 1
+        value: 1.2

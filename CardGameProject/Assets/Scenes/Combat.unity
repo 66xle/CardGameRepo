@@ -2162,6 +2162,7 @@ MonoBehaviour:
   CombatUIManager: {fileID: 563799117}
   Ctx: {fileID: 467955062}
   ESS: {fileID: 11400000, guid: 1ffb366668ce27e47a3be0956c3c485f, type: 2}
+  DifficultyManager: {fileID: 1266213100}
 --- !u!4 &481923475
 Transform:
   m_ObjectHideFlags: 0
@@ -3684,6 +3685,7 @@ Transform:
   - {fileID: 602362925}
   - {fileID: 563799118}
   - {fileID: 1749312352}
+  - {fileID: 1266213099}
   - {fileID: 1386923979}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6835,6 +6837,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1242251309}
   m_CullTransparentMesh: 1
+--- !u!1 &1266213098
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1266213099}
+  - component: {fileID: 1266213100}
+  m_Layer: 0
+  m_Name: DifficultyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1266213099
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266213098}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 674976766}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1266213100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266213098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 919187dc8fcd7b94aa89be9a6584ca9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentScore: 1
+  scoreIncrement: 5
+  minionListData:
+  - {fileID: 11400000, guid: 35289a3758b892e499c304d3a5e1fa90, type: 2}
+  eliteListData:
+  - {fileID: 11400000, guid: 15be70bbc9b436444af9e3026ecfce7a, type: 2}
+  acceptableRange: 3
+  statsManager: {fileID: 1461295039}
 --- !u!1 &1266439819
 GameObject:
   m_ObjectHideFlags: 0

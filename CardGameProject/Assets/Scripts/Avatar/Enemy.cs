@@ -77,7 +77,7 @@ public class Enemy : Avatar
     
     private void DisplayStats()
     {
-        _currentHealth = Mathf.Clamp(_currentHealth, 0f, MaxHealth);
+        _currentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);
 
         HealthBar.fillAmount = CurrentHealth / MaxHealth;
 
