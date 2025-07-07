@@ -29,7 +29,7 @@ public class Player : Avatar
         OnStatChanged -= DisplayStats;
     }
 
-    public void Init(Slider healthBar, TMP_Text healthValue, Slider staminaBar, TMP_Text staminaValue, TMP_Text blockValue, 
+    public void InitUI(Slider healthBar, TMP_Text healthValue, Slider staminaBar, TMP_Text staminaValue, TMP_Text blockValue, 
                      Slider guardBar, TMP_Text guardValue,
                      ArmourType armourType)
     {
@@ -43,14 +43,18 @@ public class Player : Avatar
         ArmourType = armourType;
     }
 
-    public void InitStats(float maxHealth, float maxStamina, int maxGuard)
+    public void InitStats(float maxHealth, float maxStamina, int maxGuard, float defence, float attack)
     {
         base.MaxHealth = maxHealth;
         base.MaxGuard = maxGuard;
+        _maxStamina = maxStamina;
 
         CurrentHealth = maxHealth;
         CurrentGuard = maxGuard;
         CurrentStamina = _maxStamina;
+
+        Defence = defence;
+        Attack = attack;
     }
 
     public bool hasEnoughStamina(float cost)
@@ -88,19 +92,19 @@ public class Player : Avatar
 
     private void DisplayStats()
     {
-        _currentStamina = Mathf.Clamp(_currentHealth, 0f, MaxHealth);
-        _currentStamina = Mathf.Clamp(_currentStamina, 0f, _maxStamina);
+        _currentStamina = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);
+        _currentStamina = Mathf.Clamp(CurrentStamina, 0f, _maxStamina);
 
-        _healthBar.value = _currentHealth / MaxHealth;
-        _healthValue.text = _currentHealth.ToString();
+        _healthBar.value = CurrentHealth / MaxHealth;
+        _healthValue.text = CurrentHealth.ToString();
 
-        _staminaBar.value = _currentStamina / _maxStamina;
-        _staminaValue.text = _currentStamina.ToString();
+        _staminaBar.value = CurrentStamina / _maxStamina;
+        _staminaValue.text = CurrentStamina.ToString();
 
-        _guardBar.value = (float)_currentGuard / MaxGuard;
-        _guardValue.text = _currentGuard.ToString();
+        _guardBar.value = (float)CurrentGuard / MaxGuard;
+        _guardValue.text = CurrentGuard.ToString();
 
-        _blockValue.text = _currentBlock.ToString();
+        _blockValue.text = CurrentBlock.ToString();
     }
 
 }

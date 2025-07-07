@@ -73,19 +73,23 @@ public class SwitchWeaponManager : MonoBehaviour
         }
     }
 
+    public List<WeaponData> GetWeaponList()
+    {
+        List<WeaponData> holsterWeapons = new List<WeaponData>();
+        holsterWeapons.Add(CurrentMainHand);
+
+        if (IsOffhandEquipped())
+            holsterWeapons.Add(CurrentOffHand);
+
+        holsterWeapons.AddRange(CurrentEquippedWeapons);
+
+        return holsterWeapons;
+    }
+
     private WeaponData CopyWeaponData(WeaponData data)
     {
-        WeaponData newData = new WeaponData();
-
-        newData.WeaponName = data.WeaponName;
-        newData.DamageType = data.DamageType;
-        newData.WeaponType = data.WeaponType;
-        newData.Description = data.Description;
-        newData.Cards = data.Cards;
-        newData.Prefab = data.Prefab;
+        WeaponData newData = new WeaponData(data);
         newData.Guid = Guid.NewGuid().ToString();
-
-
         return newData;
     }
 

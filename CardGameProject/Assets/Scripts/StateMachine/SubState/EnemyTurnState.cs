@@ -21,18 +21,21 @@ public class EnemyTurnState : CombatBaseState
     }
 
     public override void FixedUpdateState() { }
-    public override void ExitState() { }
+    public override void ExitState() 
+    {
+        
+    }
 
 
     public override void CheckSwitchState()
     {
-        if (ctx.enemyTurnQueue.Count > 0)
+        if (ctx.EnemyTurnQueue.Count > 0)
         {
             SwitchState(factory.StatusEffect());
         }
         else
         {
-            ctx.enemyTurnDone = true;
+            ctx._enemyTurnDone = true;
         }
     }
 
@@ -40,9 +43,9 @@ public class EnemyTurnState : CombatBaseState
 
     void DecideEnemyTurn()
     {
-        if (ctx.enemyTurnQueue.Count > 0)
+        if (ctx.EnemyTurnQueue.Count > 0)
         {
-            ctx.currentEnemyTurn = ctx.enemyTurnQueue[0]; // TO DO: Elites move first
+            ctx.CurrentEnemyTurn = ctx.EnemyTurnQueue[0]; // TO DO: Elites move first
         }
     }
 }

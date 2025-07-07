@@ -9,11 +9,11 @@ using Unity.Android.Gradle.Manifest;
 
 public class StatusEffectState : CombatBaseState
 {
-    Avatar currentAvatarSelected;
-    bool doRecoverGuardBreak;
-    bool isStatusEffectFinished;
+    Avatar _currentAvatarSelected;
+    bool _doRecoverGuardBreak;
+    bool _isStatusEffectFinished;
 
-    bool skipTurn;
+    bool _skipTurn;
 
     public StatusEffectState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso) { }
 
@@ -21,26 +21,26 @@ public class StatusEffectState : CombatBaseState
     {
         Debug.Log("Status Effect State");
 
-        skipTurn = false;
+        _skipTurn = false;
 
         #region Decide Which Side Acts
 
 
         if (ctx.currentState.ToString() == PLAYERSTATE)
         {
-            currentAvatarSelected = ctx.player;
+            _currentAvatarSelected = ctx.player;
         }
         else
         {
-            currentAvatarSelected = ctx.currentEnemyTurn;
+            _currentAvatarSelected = ctx.CurrentEnemyTurn;
         }
 
         #endregion
 
-        currentAvatarSelected.IsInStatusActivation = true;
-        currentAvatarSelected.DoStatusDmg = false;
-        doRecoverGuardBreak = false;
-        isStatusEffectFinished = false;
+        _currentAvatarSelected.IsInStatusActivation = true;
+        _currentAvatarSelected.DoStatusDmg = false;
+        _doRecoverGuardBreak = false;
+        _isStatusEffectFinished = false;
 
         ctx.StartCoroutine(CheckStatusEffect());
     }
@@ -58,18 +58,18 @@ public class StatusEffectState : CombatBaseState
 
     public override void CheckSwitchState()
     {
-        if (ctx.player.IsAvatarDead() || ctx.enemyList.Count == 0)
+        if (ctx.player.IsAvatarDead() || ctx.EnemyList.Count == 0)
         {
             SwitchState(factory.CombatEnd());
         }
 
-        if (ctx.currentState.ToString() == PLAYERSTATE && !skipTurn)
+        if (ctx.currentState.ToString() == PLAYERSTATE && !_skipTurn)
         {
             SwitchState(factory.Draw());
         }
-        else if (isStatusEffectFinished)
+        else if (_isStatusEffectFinished)
         {
-            if (skipTurn || currentAvatarSelected.IsAvatarDead())
+            if (_skipTurn || _currentAvatarSelected.IsAvatarDead())
             {
                 SwitchState(factory.EnemyTurn());
             }
@@ -84,57 +84,60 @@ public class StatusEffectState : CombatBaseState
     IEnumerator CheckStatusEffect()
     {
         List<StatusEffect> statusQueue = new List<StatusEffect>();
-
-        for (int i = currentAvatarSelected.ListOfEffects.Count - 1; i >= 0; i--)
+        
+        // Add effects to active to queue
+        for (int i = _currentAvatarSelected.ListOfEffects.Count - 1; i >= 0; i--)
         {
-            StatusEffect currentEffect = currentAvatarSelected.ListOfEffects[i];
+            StatusEffect currentEffect = _currentAvatarSelected.ListOfEffects[i];
 
             // Check effect to trigger
-            if (currentAvatarSelected.ListOfEffects[i].CurrentTurnsRemaning > 0)
+            if (_currentAvatarSelected.ListOfEffects[i].CurrentTurnsRemaning > 0)
             {
                 statusQueue.Add(currentEffect);
             }
 
-            currentAvatarSelected.ListOfEffects[i].CurrentTurnsRemaning--;
+            _currentAvatarSelected.ListOfEffects[i].CurrentTurnsRemaning--;
 
             // Status Effect expired
-            if (currentAvatarSelected.ListOfEffects[i].CurrentTurnsRemaning <= 0)
+            if (_currentAvatarSelected.ListOfEffects[i].CurrentTurnsRemaning <= 0)
             {
                 // This effect will expire next turn
                 if (currentEffect.ShouldRemoveEffectNextTurn())
                 {
                     Debug.Log("REMOVE GUARD BREAK NEXT TURN");
 
-                    currentAvatarSelected.ListOfEffects[i].SetRemoveEffectNextTurn(false);
+                    _currentAvatarSelected.ListOfEffects[i].SetRemoveEffectNextTurn(false);
                     continue;
                 }
 
                 if (currentEffect.Effect == Effect.GuardBroken)
                 {
-                    doRecoverGuardBreak = true;
+                    _doRecoverGuardBreak = true;
                 }
 
-                currentAvatarSelected.ListOfEffects.RemoveAt(i);
-                currentEffect.OnRemoval(currentAvatarSelected);
+                _currentAvatarSelected.ListOfEffects.RemoveAt(i);
+                currentEffect.OnRemoval(_currentAvatarSelected);
 
                 // Is enemy being selected
-                if (currentAvatarSelected == ctx.selectedEnemyToAttack)
+                if (_currentAvatarSelected == ctx._selectedEnemyToAttack)
                 {
-                    Enemy enemy = currentAvatarSelected as Enemy;
+                    Enemy enemy = _currentAvatarSelected as Enemy;
                     enemy.DetailedUI.ClearStatusUI();
                 }
             }
         }
 
-        if (doRecoverGuardBreak || statusQueue.Count > 0)
+
+        // Activate Effects in Queue
+        if (_doRecoverGuardBreak || statusQueue.Count > 0)
         {
             // Switch camera for enemy
             if (ctx.currentState.ToString() != PLAYERSTATE)
                 ActivateStatusCamera();
 
-            if (doRecoverGuardBreak)
+            if (_doRecoverGuardBreak)
             {
-                currentAvatarSelected.RecoverGuardBreak();
+                _currentAvatarSelected.RecoverGuardBreak();
 
                 yield return new WaitForSeconds(1f);
             }
@@ -144,27 +147,25 @@ public class StatusEffectState : CombatBaseState
             {
                 if (effect.Effect == Effect.GuardBroken)
                 {
-                    skipTurn = true;
+                    _skipTurn = true;
 
                     if (ctx.currentState.ToString() == PLAYERSTATE)
                         yield return ctx.EndTurnReactiveEffect();
-                    else
-                        ctx.enemyTurnQueue.Remove(ctx.currentEnemyTurn);
 
                     Debug.Log("SKIP TURN");
                 }
 
                 if (effect.IsActiveEffect)
-                    effect.ActivateEffect(currentAvatarSelected);
+                    effect.ActivateEffect(_currentAvatarSelected);
 
-                if (currentAvatarSelected.IsAvatarDead())
+                if (_currentAvatarSelected.IsAvatarDead())
                 {
-                    currentAvatarSelected.GetComponent<Animator>().SetTrigger("Death");
-                    currentAvatarSelected.DictReactiveEffects.Clear();
+                    _currentAvatarSelected.GetComponent<Animator>().SetTrigger("Death");
+                    _currentAvatarSelected.DictReactiveEffects.Clear();
 
-                    if (currentAvatarSelected is Enemy) ctx.EnemyDied();
+                    if (_currentAvatarSelected is Enemy) ctx.EnemyDied();
 
-                    yield break;
+                    break;
                 }
 
                 yield return new WaitForSeconds(ctx.statusEffectDelay);
@@ -180,24 +181,26 @@ public class StatusEffectState : CombatBaseState
         }
 
 
-        currentAvatarSelected.UpdateStatsUI();
+        _currentAvatarSelected.UpdateStatsUI();
 
-        isStatusEffectFinished = true;
+        _isStatusEffectFinished = true;
 
 
-        yield return currentAvatarSelected.CheckReactiveEffects(ReactiveTrigger.StartOfTurn);
-        currentAvatarSelected.CheckTurnsReactiveEffects(ReactiveTrigger.StartOfTurn);
+        if (_currentAvatarSelected.IsAvatarDead()) yield return null;
+
+        yield return _currentAvatarSelected.CheckReactiveEffects(ReactiveTrigger.StartOfTurn);
+        _currentAvatarSelected.CheckTurnsReactiveEffects(ReactiveTrigger.StartOfTurn);
     }
 
     public void ActivateStatusCamera()
     {
-        CinemachineVirtualCamera vcam = currentAvatarSelected.transform.parent.GetChild(0).GetComponent<CinemachineVirtualCamera>();
+        CinemachineVirtualCamera vcam = _currentAvatarSelected.transform.parent.GetChild(0).GetComponent<CinemachineVirtualCamera>();
         vcam.Priority = 40;
     }
 
     public void DeactivateStatusCamera()
     {
-        CinemachineVirtualCamera vcam = currentAvatarSelected.transform.parent.GetChild(0).GetComponent<CinemachineVirtualCamera>();
+        CinemachineVirtualCamera vcam = _currentAvatarSelected.transform.parent.GetChild(0).GetComponent<CinemachineVirtualCamera>();
         vcam.Priority = 0;
     }
 

@@ -23,11 +23,15 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public CardContainer container;
 
     private bool isHovered;
-    private bool isDragged;
+    private bool isDragged = false;
     private Vector2 dragStartPos;
     public EventsConfig eventsConfig;
 
+    private float dragStartEventY;
+    private float pointDownStartEventY;
+
     private bool isPointerDown = false;
+    private bool pointerDownCheck = false;
     [HideInInspector] public bool IsPreviewActive = false;
 
     public float width {
@@ -50,6 +54,12 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         UpdatePosition();
         UpdateScale();
         UpdateUILayer();
+
+
+        if (!InputManager.Instance.LeftClickInputDown && isDragged && !pointerDownCheck)
+        {
+            PointerUp(Input.mousePosition);
+        }
     }
 
     private void UpdateUILayer() {
@@ -127,17 +137,29 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         if (isPointerDown && !isDragged)
         {
+            float Ydis = Input.mousePosition.y - pointDownStartEventY;
+
+            if (Ydis < 50f) return;
+
             isDragged = true;
             dragStartPos = new Vector2(transform.position.x - eventData.position.x,
                 transform.position.y - eventData.position.y);
+
+            dragStartEventY = Input.mousePosition.y;
+
             container.OnCardDragStart(this);
             eventsConfig?.OnCardDrag?.Invoke(new CardDrag(this));
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
-        if (isDragged) {
-            // Avoid hover events while dragging
+        if (isDragged) return;
+
+        if (InputManager.Instance.HoldLeftClickInput && !isPointerDown && container.currentDraggedCard == null)
+        {
+            isPointerDown = true;
+            pointDownStartEventY = Input.mousePosition.y;
+            eventsConfig?.OnCardClick?.Invoke(new CardClick(this));
             return;
         }
 
@@ -150,26 +172,38 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             // Avoid hover events while dragging
             return;
         }
+
+        if (isPointerDown)
+        {
+            isPointerDown = false;
+        }
+
         isHovered = false;
         eventsConfig?.OnCardUnhover?.Invoke(new CardUnhover(this));
     }
 
     public void OnPointerDown(PointerEventData eventData) {
-        if (!combatStateMachine.isPlayState)
+        if (!combatStateMachine._isPlayState)
             return;
 
         isPointerDown = true;
+        pointerDownCheck = true;
+        pointDownStartEventY = eventData.position.y;
 
         eventsConfig?.OnCardClick?.Invoke(new CardClick(this));
     }
 
     public void OnPointerUp(PointerEventData eventData) {
-        isPointerDown = false;
+        
+        PointerUp(eventData.position);
+    }
 
-        if (isDragged)
-        {
-            isDragged = false;
-            container.OnCardDragEnd();
-        }
+    public void PointerUp(Vector2 position)
+    {
+        isPointerDown = false;
+        pointerDownCheck = false;
+        isDragged = false;
+        float Ydis = position.y - dragStartEventY;
+        container.OnCardDragEnd(Ydis);
     }
 }

@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
+using MyBox;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyState : CombatBaseState
 {
@@ -15,7 +19,7 @@ public class EnemyState : CombatBaseState
     {
         Debug.Log("ENEMY STATE");
 
-        InitializeSubState();
+        ctx.StartCoroutine(ShowTurnUI());
     }
     public override void UpdateState()
     {
@@ -33,9 +37,29 @@ public class EnemyState : CombatBaseState
     public override void CheckSwitchState()
     {
         // Switch to player state
-        if (ctx.enemyTurnDone)
+        if (ctx._enemyTurnDone)
         {
             SwitchState(factory.Player());
         }
+    }
+
+    IEnumerator ShowTurnUI()
+    {
+        GameObject turnUI = ctx.CombatUIManager.EnemyTurnUI;
+
+        turnUI.SetActive(true);
+        yield return new WaitForSeconds(ctx.CombatUIManager.TurnDuration);
+
+        Image image = turnUI.GetComponent<Image>();
+        TextMeshProUGUI text = turnUI.GetComponentInChildren<TextMeshProUGUI>();
+        text.DOFade(0, ctx.CombatUIManager.TurnFadeDuration);
+        Tween tween = image.DOFade(0, ctx.CombatUIManager.TurnFadeDuration);
+        yield return tween.WaitForCompletion();
+
+        turnUI.SetActive(false);
+        image.DOFade(1, 0f);
+        text.DOFade(1, 0f);
+
+        InitializeSubState();
     }
 }

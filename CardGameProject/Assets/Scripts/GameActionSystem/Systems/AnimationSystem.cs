@@ -6,7 +6,12 @@ using UnityEngine;
 
 public class AnimationSystem : MonoBehaviour
 {
-    [MustBeAssigned] public CombatStateMachine Ctx;
+    [Header("Animation Settings")]
+    public float moveDuration = 0.5f;
+    public float jumpDuration = 0.5f;
+    public AnimationCurve moveAnimCurve;
+    public AnimationCurve jumpAnimCurve;
+
 
     private void OnEnable()
     {
@@ -28,6 +33,8 @@ public class AnimationSystem : MonoBehaviour
         Avatar avatarOpponent = moveToPosGA.AvatarOpponent;
         bool moveToCenter = moveToPosGA.MoveToCenter;
 
+        float distanceOffset = moveToPosGA.DistanceOffset;
+
         Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
         avatarPlayingCardController.SetTrigger("Move");
 
@@ -40,9 +47,9 @@ public class AnimationSystem : MonoBehaviour
 
         Vector3 dir = (currentPos - opponentPos).normalized;
 
-        Vector3 posToMove = opponentPos + dir * 1.5f;
+        Vector3 posToMove = opponentPos + dir * (1.5f + distanceOffset);
 
-        Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), Ctx.moveDuration).SetEase(Ctx.moveAnimCurve);
+        Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), moveDuration).SetEase(moveAnimCurve);
 
         Quaternion targetRotation = Quaternion.LookRotation(-dir);
         currentTransform.DORotate(targetRotation.eulerAngles, 1f, RotateMode.Fast);
@@ -65,7 +72,7 @@ public class AnimationSystem : MonoBehaviour
 
         Vector3 posToMove = parentPos;
 
-        Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), Ctx.jumpDuration).SetEase(Ctx.jumpAnimCurve);
+        Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), jumpDuration).SetEase(jumpAnimCurve);
 
         yield return tween.WaitForCompletion();
 
@@ -81,7 +88,7 @@ public class AnimationSystem : MonoBehaviour
         Avatar avatarPlayingCard = triggerAttackAnimGA.AvatarPlayingCard;
         Animator animator = avatarPlayingCard.GetComponent<Animator>();
 
-        string animationName = GetAttackAnimation(triggerAttackAnimGA.AnimationList);
+        string animationName = triggerAttackAnimGA.AnimationName;
 
         string category = GetWeaponCategory(animationName);
         animator.SetTrigger(category);
@@ -99,12 +106,7 @@ public class AnimationSystem : MonoBehaviour
         yield return null;
     }
 
-    private string GetAttackAnimation(List<string> list)
-    {
-        int index = Random.Range(0, list.Count);
-
-        return list[index];
-    }
+    
 
     private string GetWeaponCategory(string name)
     {

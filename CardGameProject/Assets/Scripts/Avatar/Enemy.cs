@@ -32,7 +32,7 @@ public class Enemy : Avatar
         OnStatChanged -= DisplayStats;
     }
 
-    public void InitStats(GameObject statsUI, DetailedUI detailedUI)
+    public void InitUI(GameObject statsUI, DetailedUI detailedUI)
     {
         HealthBar = statsUI.GetComponentsInChildren<Image>()[1];
         GuardBar = statsUI.GetComponentsInChildren<Image>()[2];
@@ -43,7 +43,7 @@ public class Enemy : Avatar
         CurrentGuard = MaxGuard;
     }
 
-    public void Init(EnemyData data)
+    public void InitStats(EnemyData data, EnemyStatSettings ess)
     {
         DisableSelection = false;
 
@@ -51,11 +51,13 @@ public class Enemy : Avatar
         weapon.DamageType = DamageType;
 
         EnemyData = data;
-        MaxHealth = EnemyData.Health;
-        MaxGuard = EnemyData.Guard;
+        MaxGuard = data.Guard;
+        MaxHealth = ess.CalculateHealth(data.Level, data.EnemyType);
+        Attack = ess.CalculateAttack(data.Level, data.EnemyType);
+        Defence = ess.CalculateDefence(data.Level, data.EnemyType);
 
         Deck = new();
-        Deck.AddRange(data.Cards.Select(card => new CardData(weapon, card)));
+        Deck.AddRange(data.Cards.Select(card => new CardData(weapon, card, Attack)));
 
         SelectionRing = transform.GetChild(0).gameObject;
     }
@@ -72,14 +74,14 @@ public class Enemy : Avatar
 
         return cardDrawn;
     }
-
+    
     private void DisplayStats()
     {
-        _currentHealth = Mathf.Clamp(_currentHealth, 0f, MaxHealth);
+        _currentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);
 
-        HealthBar.fillAmount = _currentHealth / MaxHealth;
+        HealthBar.fillAmount = CurrentHealth / MaxHealth;
 
-        GuardBar.fillAmount = (float)_currentGuard / MaxGuard;
+        GuardBar.fillAmount = (float)CurrentHealth / MaxGuard;
 
         DetailedUI.DisplayStats();
         DetailedUI.UpdateStatusEffectsUI();

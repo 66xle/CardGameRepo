@@ -29,6 +29,7 @@ public class CameraSystem : MonoBehaviour
     {
         followCam.Follow = playerTransform;
         panCam.Follow = playerTransform;
+        defaultCam.Follow = playerTransform.parent.transform;
     }
 
     private void MoveToPosReaction(MoveToPosGA moveToPosGA)

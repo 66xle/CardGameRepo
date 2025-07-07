@@ -28,13 +28,13 @@ public class ActionState : CombatBaseState
         if (ctx.currentState.ToString() == PLAYERSTATE)
         {
             avatarPlayingCard = ctx.player;
-            avatarOpponent = ctx.selectedEnemyToAttack;
+            avatarOpponent = ctx._selectedEnemyToAttack;
 
-            ctx.StartCoroutine(PlayCard(ctx.cardPlayed));
+            ctx.StartCoroutine(PlayCard(ctx._cardPlayed));
         }
         else
         {
-            avatarPlayingCard = ctx.currentEnemyTurn;
+            avatarPlayingCard = ctx.CurrentEnemyTurn;
             avatarOpponent = ctx.player;
 
             ctx.StartCoroutine(EnemyTurnPlayCard());
@@ -53,7 +53,7 @@ public class ActionState : CombatBaseState
     {
         if (!isInAction)
         {
-            if (ctx.player.IsAvatarDead() || ctx.enemyList.Count == 0)
+            if (ctx.player.IsAvatarDead() || ctx.EnemyList.Count == 0)
             {
                 SwitchState(factory.CombatEnd());
             }
@@ -72,13 +72,13 @@ public class ActionState : CombatBaseState
     private IEnumerator EnemyTurnPlayCard()
     {
         // Play all enemy cards in queue
-        foreach (CardData cardPlayed in ctx.cardManager.EnemyCardQueue)
+        foreach (CardData cardPlayed in ctx.CardManager.EnemyCardQueue)
         {
             yield return ctx.StartCoroutine(PlayCard(cardPlayed));
         }
 
-        yield return ctx.currentEnemyTurn.CheckReactiveEffects(ReactiveTrigger.EndOfTurn);
-        ctx.currentEnemyTurn.CheckTurnsReactiveEffects(ReactiveTrigger.EndOfTurn);
+        yield return ctx.CurrentEnemyTurn.CheckReactiveEffects(ReactiveTrigger.EndOfTurn);
+        ctx.CurrentEnemyTurn.CheckTurnsReactiveEffects(ReactiveTrigger.EndOfTurn);
     }
 
     private IEnumerator PlayCard(CardData cardData)
@@ -90,7 +90,7 @@ public class ActionState : CombatBaseState
         ExecutableParameters.AvatarOpponent = avatarOpponent;
 
         isInAction = true;
-        ctx.combatUIManager.ToggleHideUI(false);
+        ctx.CombatUIManager.ToggleHideUI(false);
 
         // Display Card
         //ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
@@ -103,13 +103,13 @@ public class ActionState : CombatBaseState
 
         isInAction = false;
 
-        ctx.enemyList.ForEach(enemy => enemy.IsTakeDamage = false);
+        ctx.EnemyList.ForEach(enemy => enemy.IsTakeDamage = false);
         ctx.player.IsTakeDamage = false;
 
         Debug.Log("Finished Attacking");
 
         if (avatarPlayingCard is Player)
-            ctx.combatUIManager.ToggleHideUI(true);
+            ctx.CombatUIManager.ToggleHideUI(true);
 
         if (avatarOpponent is Enemy && avatarOpponent.IsAvatarDead() || avatarPlayingCard is Enemy && avatarPlayingCard.IsAvatarDead())
         {

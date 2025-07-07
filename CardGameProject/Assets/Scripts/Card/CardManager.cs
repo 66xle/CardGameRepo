@@ -7,7 +7,16 @@ using UnityEngine;
 
 public class CardManager : MonoBehaviour
 {
+    [Header("Card")]
+    public int CardsToDraw = 2;
+
+    [Header("References")]
+    [MustBeAssigned] public GameObject CardPrefab;
+    [MustBeAssigned] public Transform PlayerHandTransform;
     [MustBeAssigned] public SwitchWeaponManager SwitchWeaponManager;
+    [MustBeAssigned] [SerializeField] StatsManager StatsManager;
+
+
 
     [HideInInspector] public List<CardData> PlayerDeck;
     [HideInInspector] public List<CardData> PlayerHand;
@@ -24,11 +33,18 @@ public class CardManager : MonoBehaviour
 
     public void LoadCards()
     {
-        PlayerDeck.AddRange(SwitchWeaponManager.CurrentMainHand.Cards.Select(card => new CardData(SwitchWeaponManager.CurrentMainHand, card)));
+        PlayerDeck.AddRange(SwitchWeaponManager.CurrentMainHand.Cards.Select(card => new CardData(SwitchWeaponManager.CurrentMainHand, card, StatsManager.Attack)));
 
         foreach (WeaponData weaponData in SwitchWeaponManager.CurrentEquippedWeapons)
         {
-            PlayerDeck.AddRange(weaponData.Cards.Select(card => new CardData(weaponData, card)));
+            foreach (WeaponCardData data in weaponData.Cards)
+            {
+                CardData cardData = new(weaponData, data, StatsManager.Attack);
+
+                PlayerDeck.Add(cardData);
+            }
         }
     }
+
+    
 }

@@ -13,6 +13,7 @@ using DG.Tweening;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 using UnityEngine.Analytics;
+using Unity.Android.Gradle.Manifest;
 
 public class CombatStateMachine : MonoBehaviour
 {
@@ -21,87 +22,48 @@ public class CombatStateMachine : MonoBehaviour
     public string currentSuperState; // ONLY FOR DEBUGGING DON'T USE
     [SerializeField] string subState;
 
-
     [Foldout("Player", true)]
-    public GameObject playerPrefab;
-    public Transform playerSpawnPos;
+    [MustBeAssigned] [SerializeField] GameObject PlayerPrefab;
+    [ReadOnly] public Transform PlayerSpawnPos;
     [HideInInspector] public Player player;
 
-    [Header("UI References")]
-    public Slider healthBar;
-    public TMP_Text healthValue;
-    public Slider staminaBar;
-    public TMP_Text staminaValue;
-    public Slider guardBar;
-    public TMP_Text guardValue;
-    public TMP_Text blockValue;
-
-    [Foldout("Enemy", true)]
-    public GameObject enemyUIPrefab;
-    public DetailedUI detailedUI;
-
     [Header("Lists")]
-    public List<Transform> enemySpawnPosList;
-    public List<GameObject> enemyUISpawnPosList;
-
-    [HideInInspector] public List<Enemy> enemyList;
-    [HideInInspector] public List<Enemy> enemyTurnQueue;
-    [HideInInspector] public int turnIndex = 0;
-    [HideInInspector] public Enemy currentEnemyTurn;
+    [HideInInspector] public List<Enemy> EnemyList;
+    [HideInInspector] public List<Enemy> EnemyTurnQueue;
+    [HideInInspector] public int TurnIndex = 0;
+    [HideInInspector] public Enemy CurrentEnemyTurn;
 
     [Foldout("Camera", true)]
     public float statusEffectDelay = 0.5f;
     public float statusEffectAfterDelay = 1f;
-    
-
-    [Foldout("Card", true)]
-    public int cardsToDraw = 2;
-
-    [Header("References")]
-    [MustBeAssigned] public GameObject cardPrefab;
-    [MustBeAssigned] public Transform playerHandTransform;
-    [MustBeAssigned] public Transform displayCard;
-
 
     [Foldout("StatusEffect", true)]
-    [MustBeAssigned]public StatusEffectData guardBreakLightArmourData;
-    [MustBeAssigned]public StatusEffectData guardBreakMediumArmourData;
-    [MustBeAssigned] public StatusEffectData guardBreakHeavyArmourData;
-    
-    [Foldout("Animation Settings", true)]
-    public float moveDuration = 0.5f;
-    public float jumpDuration = 0.5f;
-    public AnimationCurve moveAnimCurve;
-    public AnimationCurve jumpAnimCurve;
+    [MustBeAssigned] public StatusEffectData GuardBreakLightArmourData;
+    [MustBeAssigned] public StatusEffectData GuardBreakMediumArmourData;
+    [MustBeAssigned] public StatusEffectData GuardBreakHeavyArmourData;
 
     [Foldout("References", true)]
-    [MustBeAssigned] public InputManager inputManager;
-    [MustBeAssigned] public StatsManager statsManager;
-    [MustBeAssigned] public SwitchWeaponManager switchWeaponManager;
-    [MustBeAssigned] public CombatUIManager combatUIManager;
-    [MustBeAssigned] public CardManager cardManager;
-    [MustBeAssigned] public EnemyManager enemyManager;
-    [MustBeAssigned] public RewardManager rewardManager;
-    [MustBeAssigned] public GameObject rewardUI;
-    [MustBeAssigned] public GameObject gameOverUI;
+    [MustBeAssigned] [SerializeField] StatsManager StatsManager;
+    [MustBeAssigned] [SerializeField] SwitchWeaponManager SwitchWeaponManager;
+    [MustBeAssigned] [SerializeField] EnemyManager EnemyManager;
+    [MustBeAssigned] [SerializeField] CameraSystem CameraSystem;
+    [MustBeAssigned] public CombatUIManager CombatUIManager;
+    [MustBeAssigned] public CardManager CardManager;
+    [MustBeAssigned] public RewardManager RewardManager;
 
 
-    [MustBeAssigned] public CameraSystem CameraSystem;
-    
-    
-    
 
     #region Internal Variables
 
     // Variables
     [Foldout("Private Variables", true)]
-    [ReadOnly] public bool isPlayedCard;
-    [ReadOnly] public bool isPlayState;
-    [ReadOnly] public bool pressedEndTurnButton;
-    [ReadOnly] public bool enemyTurnDone;
+    [ReadOnly] public bool _isPlayedCard;
+    [ReadOnly] public bool _isPlayState;
+    [ReadOnly] public bool _pressedEndTurnButton;
+    [ReadOnly] public bool _enemyTurnDone;
 
-    [HideInInspector] public CardData cardPlayed;
-    [HideInInspector] public Enemy selectedEnemyToAttack;
+    [HideInInspector] public CardData _cardPlayed;
+    [HideInInspector] public Enemy _selectedEnemyToAttack;
 
     [HideInInspector] public VariableScriptObject vso; // Not using for now
 
@@ -115,19 +77,18 @@ public class CombatStateMachine : MonoBehaviour
     #endregion
 
 
-
     public void Start()
     {
-        isPlayedCard = false;
-        isPlayState = false;
-        pressedEndTurnButton = false;
-        enemyTurnDone = false;
+        _isPlayedCard = false;
+        _isPlayState = false;
+        _pressedEndTurnButton = false;
+        _enemyTurnDone = false;
 
-        enemyList = new List<Enemy>();
+        EnemyList = new List<Enemy>();
 
         LoadPlayer();
         LoadEnemy();
-        cardManager.LoadCards();
+        CardManager.LoadCards();
 
 
 
@@ -145,7 +106,7 @@ public class CombatStateMachine : MonoBehaviour
             subState = currentState.currentSubState.ToString();
         }
 
-        if (inputManager.LeftClickInputDown && isPlayState && Time.timeScale == 1)
+        if (InputManager.Instance.LeftClickInputDown && _isPlayState && Time.timeScale == 1)
         {
             SelectEnemy();
         }
@@ -167,8 +128,8 @@ public class CombatStateMachine : MonoBehaviour
 
                 ResetSelectedEnemyUI();
                 
-                selectedEnemyToAttack = hit.transform.GetComponent<Enemy>();
-                selectedEnemyToAttack.EnemySelection(true);
+                _selectedEnemyToAttack = hit.transform.GetComponent<Enemy>();
+                _selectedEnemyToAttack.EnemySelection(true);
             }
         }
     }
@@ -176,28 +137,20 @@ public class CombatStateMachine : MonoBehaviour
     private void LoadPlayer()
     {
         // Spawn Player
-        player = Instantiate(playerPrefab, playerSpawnPos).GetComponent<Player>();
-        player.Init(healthBar, healthValue, staminaBar, staminaValue, blockValue, guardBar, guardValue, statsManager.armourType);
-        player.InitStats(statsManager.CurrentMaxHealth, statsManager.CurrentMaxStamina, statsManager.CurrentMaxGuard);
+        player = Instantiate(PlayerPrefab, PlayerSpawnPos).GetComponent<Player>();
+        CombatUIManager.InitPlayerUI(player);
 
         // Equipment
         _equipmentHolsterScript = player.GetComponent<EquipmentHolster>();
 
-        switchWeaponManager.InitWeaponData();
-
-        List<WeaponData> holsterWeapons = new List<WeaponData>();
-        holsterWeapons.Add(switchWeaponManager.CurrentMainHand);
-
-        if (switchWeaponManager.IsOffhandEquipped())
-            holsterWeapons.Add(switchWeaponManager.CurrentOffHand);
-
-        holsterWeapons.AddRange(switchWeaponManager.CurrentEquippedWeapons);
+        SwitchWeaponManager.InitWeaponData();
+        List<WeaponData> holsterWeapons = SwitchWeaponManager.GetWeaponList();
 
         if (holsterWeapons.Count > 0)
         {
             _equipmentHolsterScript.SetHolsteredWeapons(holsterWeapons);
 
-            GameObject weaponToEquip = _equipmentHolsterScript.EquippedWeaponObjects.First(weapon => weapon.GetComponent<Weapon>().Guid == switchWeaponManager.CurrentMainHand.Guid);
+            GameObject weaponToEquip = _equipmentHolsterScript.EquippedWeaponObjects.First(weapon => weapon.GetComponent<Weapon>().Guid == SwitchWeaponManager.CurrentMainHand.Guid);
             _equipmentHolsterScript.EquipWeapon(weaponToEquip);
         }
 
@@ -206,96 +159,77 @@ public class CombatStateMachine : MonoBehaviour
 
     private void LoadEnemy()
     {
-        //List<EnemyObj> enemyObjList = nodeData.enemies;
-        List<EnemyData> enemyDataList = enemyManager.GetEnemies();
+        List<EnemyData> enemyDataList = EnemyManager.GetEnemies();
 
+        EnemyList = EnemyManager.InitEnemies(enemyDataList);
 
-        // Spawn Enemy
-        for (int i = 0; i < enemyDataList.Count; i++)
-        {
-            // Init Obj
-            Enemy enemy = Instantiate(enemyDataList[i].Prefab, enemySpawnPosList[i]).GetComponent<Enemy>();
-            enemy.Init(enemyDataList[i]);
-            enemyList.Add(enemy);
+        CombatUIManager.detailedUI.Init(this);
 
-            // Init Stats
-
-            if (i == 0)
-                detailedUI.Init(this);
-
-            GameObject statsUI = Instantiate(enemyUIPrefab, enemyUISpawnPosList[i].GetComponent<RectTransform>());
-            enemy.InitStats(statsUI, detailedUI);
-
-            EnemyUI enemyUI = statsUI.GetComponent<EnemyUI>();
-            enemyUI.Init(this, enemy);
-
-            // Set default selection
-            if (i == 0)
-            {
-                selectedEnemyToAttack = enemy;
-                enemy.EnemySelection(true);
-            }
-        }
+        _selectedEnemyToAttack = EnemyList[0];
+        _selectedEnemyToAttack.EnemySelection(true);
     }
 
     public void OnCardPlayed(CardPlayed evt, Card card, string tag)
     {
         if (tag == "Play")
         {
-            
-
             if (player.hasEnoughStamina(card.Cost))
             {
                 player.ConsumeStamina(card.Cost);
 
                 // Get cardData from player hand to move to discard pile
-                CardData cardData = cardManager.PlayerHand.First(data => data.Card.InGameGUID == card.InGameGUID);
-                cardManager.PlayerHand.Remove(cardData);
-                cardManager.DiscardPile.Add(cardData);
+                CardData cardData = CardManager.PlayerHand.First(data => data.Card.InGameGUID == card.InGameGUID);
+                CardManager.PlayerHand.Remove(cardData);
+                CardManager.DiscardPile.Add(cardData);
 
                 // Destory Card
-                CardContainer container = playerHandTransform.GetComponent<CardContainer>();
+                CardContainer container = CardManager.PlayerHandTransform.GetComponent<CardContainer>();
                 container.DestroyCard(evt.card);
-
 
                 GameObject mainHandWeapon = _equipmentHolsterScript.RightHand.GetChild(0).gameObject;
                 Weapon weaponScript = mainHandWeapon.GetComponent<Weapon>();
 
-                
-
                 // Swap Weapon
                 if (weaponScript.Guid != cardData.Weapon.Guid)
                 {
-                    GameObject holsteredWeapon = _equipmentHolsterScript.EquippedWeaponObjects.First(weapon => weapon.gameObject.GetComponent<Weapon>().Guid == cardData.Weapon.Guid);
+                    GameObject holsteredWeapon;
 
-                    WeaponType weaponType = holsteredWeapon.GetComponent<Weapon>().WeaponType;
-
-                    player.Animator.SetInteger("WeaponType", 0);
-                    if (weaponType == WeaponType.Dagger)
+                    foreach (GameObject weaponObj in _equipmentHolsterScript.EquippedWeaponObjects)
                     {
-                        player.Animator.SetInteger("WeaponType", 1);
-                        Debug.Log("test");
-                    }
+                        Weapon equippedWeapon = weaponObj.GetComponent<Weapon>();
 
-                    _equipmentHolsterScript.HolsterWeapon(mainHandWeapon);
-                    _equipmentHolsterScript.EquipWeapon(holsteredWeapon);
+                        if (equippedWeapon.Guid == cardData.Weapon.Guid)
+                        {
+                            holsteredWeapon = weaponObj;
+                            WeaponType weaponType = equippedWeapon.WeaponType;
+
+                            player.Animator.SetInteger("WeaponType", 0);
+                            if (weaponType == WeaponType.Dagger)
+                            {
+                                player.Animator.SetInteger("WeaponType", 1);
+                            }
+
+                            _equipmentHolsterScript.HolsterWeapon(mainHandWeapon);
+                            _equipmentHolsterScript.EquipWeapon(holsteredWeapon);
+                        }
+                    }
                 }
 
 
                 // Allow to switch to attack state
-                isPlayedCard = true;
-                cardPlayed = cardData;
+                _isPlayedCard = true;
+                _cardPlayed = cardData;
             }
         }
         else if (tag == "Recycle")
         {
             // Get cardData from player hand to move to discard pile
-            CardData cardData = cardManager.PlayerHand.First(data => data.Card.InGameGUID == card.InGameGUID);
-            cardManager.PlayerHand.Remove(cardData);
-            cardManager.DiscardPile.Add(cardData);
+            CardData cardData = CardManager.PlayerHand.First(data => data.Card.InGameGUID == card.InGameGUID);
+            CardManager.PlayerHand.Remove(cardData);
+            CardManager.DiscardPile.Add(cardData);
 
             // Destory Card
-            CardContainer container = playerHandTransform.GetComponent<CardContainer>();
+            CardContainer container = CardManager.PlayerHandTransform.GetComponent<CardContainer>();
             container.DestroyCard(evt.card);
 
             player.RecycleCardToStamina(card.RecycleValue);
@@ -304,9 +238,9 @@ public class CombatStateMachine : MonoBehaviour
 
     public void ResetSelectedEnemyUI()
     {
-        for (int i = 0; i < enemyList.Count; i++)
+        for (int i = 0; i < EnemyList.Count; i++)
         {
-            enemyList[i].EnemySelection(false);
+            EnemyList[i].EnemySelection(false);
         }
     }
 
@@ -315,7 +249,7 @@ public class CombatStateMachine : MonoBehaviour
 
     public void CreateCard(CardData cardDrawed, Transform parent)
     {
-        CardDisplay cardDisplay = Instantiate(cardPrefab, parent).GetComponent<CardDisplay>();
+        CardDisplay cardDisplay = Instantiate(CardManager.CardPrefab, parent).GetComponent<CardDisplay>();
         cardDisplay.SetCard(cardDrawed.Card);
     }
 
@@ -331,12 +265,12 @@ public class CombatStateMachine : MonoBehaviour
 
         Debug.Log("END PLAYER'S TURN");
 
-        pressedEndTurnButton = true;
+        _pressedEndTurnButton = true;
 
         // For enemy state
-        enemyTurnQueue.Clear();
-        enemyTurnQueue = Extensions.CloneList(enemyList);
-        enemyTurnDone = false;
+        EnemyTurnQueue.Clear();
+        EnemyTurnQueue = Extensions.CloneList(EnemyList);
+        _enemyTurnDone = false;
     }
 
     public void DestroyEnemy(Enemy enemy)
@@ -344,55 +278,30 @@ public class CombatStateMachine : MonoBehaviour
         Destroy(enemy.gameObject);
     }
 
-
-    /// <summary>
-    /// Not using atm
-    /// </summary>
-    public void ClearCombatScene()
-    {
-        // Destroy card in hand
-        foreach (Transform child in playerHandTransform)
-        {
-            Destroy(child.gameObject);
-        }
-
-        // destroy player
-        Destroy(playerSpawnPos.GetChild(0).gameObject);
-
-        // destroy enemies
-        foreach (Transform pos in enemySpawnPosList)
-        {
-            if (enemyList.Count == 0)
-                break;
-
-            Destroy(pos.GetChild(0).gameObject);
-        }
-    }
-
     public void EnemyDied()
     {
         ResetSelectedEnemyUI();
-        selectedEnemyToAttack.DisableSelection = true;
-        selectedEnemyToAttack.SelectionRing.SetActive(false);
+        _selectedEnemyToAttack.DisableSelection = true;
+        _selectedEnemyToAttack.SelectionRing.SetActive(false);
 
         // Remove enemy
-        enemyList.Remove(selectedEnemyToAttack as Enemy);
-        enemyTurnQueue.Remove(selectedEnemyToAttack as Enemy);
+        EnemyList.Remove(_selectedEnemyToAttack as Enemy);
+        EnemyTurnQueue.Remove(_selectedEnemyToAttack as Enemy);
         //ctx.DestroyEnemy(ctx.selectedEnemyToAttack);
 
         // Are there enemies still alive
-        if (enemyList.Count > 0)
+        if (EnemyList.Count > 0)
         {
             // Select different enemy
-            selectedEnemyToAttack = enemyList[0];
-            selectedEnemyToAttack.EnemySelection(true);
+            _selectedEnemyToAttack = EnemyList[0];
+            _selectedEnemyToAttack.EnemySelection(true);
         }
     }
 
 
     public void SpawnDamagePopupUI(Avatar avatar, float damage, Color color)
     {
-        CombatUIManager UIManager = combatUIManager;
+        CombatUIManager UIManager = CombatUIManager;
 
         GameObject popupObj = Instantiate(UIManager.DamagePopupPrefab, UIManager.WorldSpaceCanvas);
         popupObj.transform.position = new Vector3(avatar.transform.position.x + Random.Range(-UIManager.RandomOffsetHorizontal, UIManager.RandomOffsetHorizontal),

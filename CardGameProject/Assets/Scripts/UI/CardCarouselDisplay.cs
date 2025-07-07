@@ -2,10 +2,10 @@ using config;
 using events;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 
-public class CardCarouselDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerMoveHandler,
+public class CardCarouselDisplay : MonoBehaviour, IPointerDownHandler, IPointerMoveHandler,
     IPointerUpHandler {
-    private const float EPS = 0.01f;
 
     public Card card;
     public float targetRotation;
@@ -20,11 +20,13 @@ public class CardCarouselDisplay : MonoBehaviour, IPointerEnterHandler, IPointer
     public AnimationSpeedConfig animationSpeedConfig;
     public CardCarousel container;
 
-    private bool isCardSelected;
     private Vector2 dragStartPos;
     public EventsConfig eventsConfig;
+    public Vector2 basePosition;
 
     private bool isPointerDown = false;
+    private bool isDragging = false;
+    private float pointDownStartEventX;
     [HideInInspector] public bool IsPreviewActive = false;
 
     public float width
@@ -44,53 +46,35 @@ public class CardCarouselDisplay : MonoBehaviour, IPointerEnterHandler, IPointer
 
     private void Update()
     {
-        if (Time.timeScale == 0) return;
-
         UpdatePosition();
         UpdateScale();
-        UpdateUILayer();
     }
 
-    private void UpdateUILayer()
-    {
-        if (!IsPreviewActive && !isCardSelected)
-        {
-            canvas.sortingOrder = uiLayer;
-        }
-    }
 
     private void UpdatePosition()
     {
-        if (!isCardSelected)
+        var target = new Vector2(targetPosition.x, targetPosition.y + targetVerticalDisplacement);
+        if (IsPreviewActive && zoomConfig.overrideYPosition != -1)
         {
-            var target = new Vector2(targetPosition.x, targetPosition.y + targetVerticalDisplacement);
-            if (IsPreviewActive && zoomConfig.overrideYPosition != -1)
-            {
-                target = new Vector2(target.x, zoomConfig.overrideYPosition);
-            }
-
-            var distance = Vector2.Distance(rectTransform.position, target);
-            var repositionSpeed = distance / animationSpeedConfig.duration;
-
-            if (repositionSpeed == 0)
-                repositionSpeed = 1;
-
-            Vector2 position = Vector2.Lerp(rectTransform.position, target, repositionSpeed / distance * Time.unscaledDeltaTime);
-
-            if (float.IsNaN(position.x) || float.IsNaN(position.y)) return;
-
-            rectTransform.position = position;
+            target = new Vector2(target.x, zoomConfig.overrideYPosition);
         }
-        else
-        {
-            //var delta = ((Vector2)Input.mousePosition + dragStartPos);
-            //rectTransform.position = new Vector2(delta.x, delta.y);
-        }
+
+        var distance = Vector2.Distance(rectTransform.position, target);
+        var repositionSpeed = animationSpeedConfig.duration;
+
+        if (repositionSpeed == 0)
+            repositionSpeed = 1;
+
+        Vector2 position = Vector2.Lerp(rectTransform.position, target, repositionSpeed / distance * Time.unscaledDeltaTime);
+
+        if (float.IsNaN(position.x) || float.IsNaN(position.y)) return;
+
+        rectTransform.position = position;
     }
 
     private void UpdateScale()
     {
-        var targetZoom = (isCardSelected || IsPreviewActive) && zoomConfig.zoomOnClick ? zoomConfig.multiplier : 1;
+        var targetZoom = (IsPreviewActive) && zoomConfig.zoomOnClick ? zoomConfig.multiplier : 1;
         var delta = Mathf.Abs(rectTransform.localScale.x - targetZoom);
         float newZoom = Mathf.Lerp(rectTransform.localScale.x, targetZoom,
             animationSpeedConfig.zoom / delta * Time.unscaledDeltaTime);
@@ -107,53 +91,39 @@ public class CardCarouselDisplay : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnPointerMove(PointerEventData eventData)
     {
-        //if (isPointerDown && !isSelected)
-        //{
-        //    
-        //    dragStartPos = new Vector2(transform.position.x - eventData.position.x,
-        //        transform.position.y - eventData.position.y);
-        //    container.OnCardDragStart(this);
-        //    //eventsConfig?.OnCardDrag?.Invoke(new CardDrag(this));
-        //}
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (isCardSelected)
+        if (isPointerDown && !isDragging)
         {
-            // Avoid hover events while dragging
-            return;
+            float XDis = eventData.position.x - pointDownStartEventX;
+
+            if (Mathf.Abs(XDis) > 0)
+            {
+                Vector2 dragStartPos = eventData.position;
+
+                isDragging = true;
+                container.OnCardDragStart(this, dragStartPos);
+            }
         }
-
-        //eventsConfig?.OnCardHover?.Invoke(new CardHover(this));
-
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (isCardSelected)
-        {
-            // Avoid hover events while dragging
-            return;
-        }
-
-        //eventsConfig?.OnCardUnhover?.Invoke(new CardUnhover(this));
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         isPointerDown = true;
-
-        
-
-        //eventsConfig?.OnCardClick?.Invoke(new CardClick(this));
+        pointDownStartEventX = eventData.position.x;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         isPointerDown = false;
 
-        isCardSelected = true;
-        container.OnClickStart(this);
+        if (!isDragging && !IsPreviewActive)
+        {
+            container.OnClickStart(this);
+        }
+
+        if (isDragging)
+        {
+            isDragging = false;
+            container.OnCardDragEnd();
+        }
     }
 }

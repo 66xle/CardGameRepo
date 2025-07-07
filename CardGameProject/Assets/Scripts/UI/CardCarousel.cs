@@ -6,25 +6,21 @@ using UnityEngine.UI;
 using System.Linq;
 using demo;
 using events;
+using MyBox;
+using TMPro;
 
 public class CardCarousel : MonoBehaviour
 {
-    [Header("Constraints")]
-    [SerializeField] private bool forceFitContainer;
+    [MustBeAssigned] [SerializeField] GameObject InfoBoxObj;
+    private RectTransform InfoBoxRect;
+    [MustBeAssigned] [SerializeField] TMP_Text InfoTitle;
+    [MustBeAssigned] [SerializeField] TMP_Text InfoDescription;
+    [MustBeAssigned] [SerializeField] TMP_Text InfoFlavourText;
 
-    [Header("Push")]
-    [SerializeField] private float pushAmount = 100f;
-    [SerializeField] private float falloff = 0.5f;
-    [SerializeField][Tooltip("Cards adjacent affected by push")] private int affectedCardCount = 2;
-    [SerializeField][Tooltip("Number of cards in hand to be affected by push")] private int pushAffectedCardCount = 2;
-    [SerializeField] private float rightPushMultiplier = 1.25f;
-
-    [Header("Alignment")]
-    [SerializeField]
-    private CardAlignment alignment = CardAlignment.Center;
-
-    [SerializeField]
-    private bool allowCardRepositioning = true;
+    [MustBeAssigned] [SerializeField] GameObject PopupObj;
+    private RectTransform PopupRect;
+    [MustBeAssigned] [SerializeField] TMP_Text PopupTitle;
+    [MustBeAssigned] [SerializeField] TMP_Text PopupDescription;
 
     [SerializeField]
     private ZoomConfig zoomConfig;
@@ -35,23 +31,34 @@ public class CardCarousel : MonoBehaviour
     [SerializeField]
     private CardPlayConfig cardPlayConfig;
 
-    [Header("Events")]
-    [SerializeField]
-    private EventsConfig eventsConfig;
-
     private List<CardCarouselDisplay> cards = new List<CardCarouselDisplay>();
 
-    private RectTransform rectTransform;
-    private CardCarouselDisplay currentDraggedCard;
+    private bool wasCardClickedThisFrame = false;
+
     private CardCarouselDisplay currentSelectedCard;
+    private int lastSiblingIndex;
+    private bool isCardClicked = false;
+    private int selectedCardIndex = -1;
+    private bool snapToSelected = false;
+
+    private CardCarouselDisplay currentDraggedCard;
+    private bool isDragging = false;
+    private Vector2 dragEventData;
+    private float scrollOffsetX = 0f;         // Persistent total offset (includes snapping)
+    private float dragStartPointerX = 0f;     // Pointer x position at drag start
+    private bool wasDraggingLastFrame = false;
+    private float dragOffsetX;
+
 
     private void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
         InitCards();
+
+        InfoBoxRect = InfoBoxObj.GetComponent<RectTransform>();
+        PopupRect = PopupObj.GetComponent<RectTransform>();
     }
 
-    private void InitCards()
+    public void InitCards()
     {
         SetUpCards();
         SetCardsAnchor();
@@ -70,14 +77,15 @@ public class CardCarousel : MonoBehaviour
 
             cards.Add(wrapper);
 
-            AddOtherComponentsIfNeeded(wrapper);
-
             // Pass child card any extra config it should be aware of
             wrapper.zoomConfig = zoomConfig;
             wrapper.animationSpeedConfig = animationSpeedConfig;
-            wrapper.eventsConfig = eventsConfig;
             wrapper.container = this;
-            wrapper.card = card.GetComponent<CardDisplay>().Card;
+
+            CardDisplay display = card.GetComponent<CardDisplay>();
+            display.DisablePopup();
+
+            wrapper.card = display.Card;
         }
     }
 
@@ -89,25 +97,51 @@ public class CardCarousel : MonoBehaviour
         }
     }
 
-    private void AddOtherComponentsIfNeeded(CardCarouselDisplay wrapper)
-    {
-        var canvas = wrapper.GetComponent<Canvas>();
-        if (canvas == null)
-        {
-            canvas = wrapper.gameObject.AddComponent<Canvas>();
-        }
-
-        canvas.overrideSorting = true;
-
-        if (wrapper.GetComponent<GraphicRaycaster>() == null)
-        {
-            wrapper.gameObject.AddComponent<GraphicRaycaster>();
-        }
-    }
 
     void Update()
     {
         UpdateCards();
+        UpdateLink();
+
+        if (InputManager.Instance.LeftClickInputUp)
+        {
+            if (RectTransformUtility.RectangleContainsScreenPoint(InfoBoxRect, Input.mousePosition))
+                return;
+
+            if (RectTransformUtility.RectangleContainsScreenPoint(PopupRect, Input.mousePosition))
+                return;
+
+            if (!isCardClicked && currentSelectedCard != null)
+            {
+                CardPreviewEnd();
+            }
+
+            // Reset click flag every mouse up
+            isCardClicked = false;
+        }
+    }
+
+    private void UpdateLink()
+    {
+        if (InputManager.Instance.LeftClickInputDown)
+        {
+            int linkIndex = TMP_TextUtilities.FindIntersectingLink(InfoDescription, Input.mousePosition, null);
+            if (linkIndex != -1)
+            {
+                TMP_LinkInfo linkInfo = InfoDescription.textInfo.linkInfo[linkIndex];
+                string linkID = linkInfo.GetLinkID();
+
+                PopupObj.SetActive(true);
+
+                for (int i = 0; i < currentSelectedCard.card.PopupKeyPair.Count; i++)
+                {
+                    if (currentSelectedCard.card.PopupKeyPair[i].Key != linkID) continue;
+
+                    PopupTitle.text = currentSelectedCard.card.PopupKeyPair[i].Value.Title;
+                    PopupDescription.text = currentSelectedCard.card.PopupKeyPair[i].Value.DisplayDescription;
+                }
+            }
+        }
     }
 
     private void UpdateCards()
@@ -124,122 +158,127 @@ public class CardCarousel : MonoBehaviour
 
         SetCardsPosition();
         SetCardsUILayers();
-        UpdateCardOrder();
     }
 
     private void SetCardsPosition()
     {
         // Compute the total width of all the cards in global space
         var cardsTotalWidth = cards.Sum(card => card.width);
-        // Compute the width of the container in global space
-        var containerWidth = rectTransform.rect.width * transform.lossyScale.x;
-        if (forceFitContainer && cardsTotalWidth > containerWidth)
-        {
-            DistributeChildrenToFitContainer(cardsTotalWidth);
-        }
-        else
-        {
-            DistributeChildrenWithoutOverlap(cardsTotalWidth);
-        }
+        DistributeChildrenWithoutOverlap(cardsTotalWidth);
     }
 
     private void SetCardsUILayers()
     {
         for (var i = 0; i < cards.Count; i++)
         {
-            cards[i].uiLayer = zoomConfig.defaultSortOrder + i;
-        }
-    }
-
-    private void UpdateCardOrder()
-    {
-        if (!allowCardRepositioning || currentDraggedCard == null) return;
-
-        // Get the index of the dragged card depending on its position
-        var newCardIdx = cards.Count(card => currentDraggedCard.transform.position.x > card.transform.position.x);
-        var originalCardIdx = cards.IndexOf(currentDraggedCard);
-        if (newCardIdx != originalCardIdx)
-        {
-            cards.RemoveAt(originalCardIdx);
-            if (newCardIdx > originalCardIdx && newCardIdx < cards.Count - 1)
-            {
-                newCardIdx--;
-            }
-
-            cards.Insert(newCardIdx, currentDraggedCard);
-        }
-        // Also reorder in the hierarchy
-        currentDraggedCard.transform.SetSiblingIndex(newCardIdx);
-    }
-
-    private void DistributeChildrenToFitContainer(float childrenTotalWidth)
-    {
-        int selectedIndex = currentSelectedCard == null ? -1 : cards.IndexOf(currentSelectedCard);
-
-        // Get the width of the container
-        var width = rectTransform.rect.width * transform.lossyScale.x;
-        // Get the distance between each child
-        var distanceBetweenChildren = (width - childrenTotalWidth) / (cards.Count - 1);
-        // Set all children's positions to be evenly spaced out
-        var currentX = transform.position.x - width / 2;
-
-        for (int i = 0; i < cards.Count; i++)
-        {
-            var child = cards[i];
-            float adjustedChildWidth = child.width;
-
-            // Base X without push
-            float baseX = currentX + adjustedChildWidth / 2;
-
-            child.targetPosition = new Vector2(baseX, transform.position.y);
-            currentX += adjustedChildWidth + distanceBetweenChildren;
+            cards[i].uiLayer = i;
         }
     }
 
     private void DistributeChildrenWithoutOverlap(float childrenTotalWidth)
     {
-        var currentPosition = GetAnchorPositionByAlignment(childrenTotalWidth);
-        foreach (CardCarouselDisplay child in cards)
+        float containerCenterX = transform.position.x;
+        float anchorPosition = transform.position.x - childrenTotalWidth / 2;
+
+        if (isDragging)
         {
-            var adjustedChildWidth = child.width;
-            child.targetPosition = new Vector2(currentPosition + adjustedChildWidth / 2, transform.position.y);
-            currentPosition += adjustedChildWidth;
+            if (!wasDraggingLastFrame)
+            {
+                // Just started dragging — record starting pointer position
+                dragStartPointerX = Input.mousePosition.x;
+
+                scrollOffsetX = dragOffsetX;
+            }
+
+            // Live offset based on current pointer vs start
+            float dragDelta = Input.mousePosition.x - dragStartPointerX;
+            dragOffsetX = scrollOffsetX + dragDelta;
         }
+
+        if (snapToSelected && selectedCardIndex >= 0 && selectedCardIndex < cards.Count)
+        {
+            float offset = 0f;
+            for (int i = 0; i < selectedCardIndex; i++)
+                offset += cards[i].width;
+
+            float selectedCardCenter = anchorPosition + scrollOffsetX + offset + cards[selectedCardIndex].width / 2f;
+
+            float snapOffset = containerCenterX - selectedCardCenter;
+
+            scrollOffsetX += snapOffset;
+            dragOffsetX = scrollOffsetX;
+
+            snapToSelected = false;
+        }
+
+        // Apply layout
+        float currentX = anchorPosition + dragOffsetX;
+        foreach (var child in cards)
+        {
+            float w = child.width;
+            float xPos = currentX + w / 2f;
+            child.targetPosition = new Vector2(xPos, transform.position.y);
+            currentX += w;
+        }
+
+        wasDraggingLastFrame = isDragging;
     }
 
-    private float GetAnchorPositionByAlignment(float childrenWidth)
+    private void CardPreviewEnd()
     {
-        var containerWidthInGlobalSpace = rectTransform.rect.width * transform.lossyScale.x;
-        switch (alignment)
-        {
-            case CardAlignment.Left:
-                return transform.position.x - containerWidthInGlobalSpace / 2;
-            case CardAlignment.Center:
-                return transform.position.x - childrenWidth / 2;
-            case CardAlignment.Right:
-                return transform.position.x + containerWidthInGlobalSpace / 2 - childrenWidth;
-            default:
-                return 0;
-        }
+        currentSelectedCard.IsPreviewActive = false;
+        currentSelectedCard.transform.SetSiblingIndex(lastSiblingIndex);
+        currentSelectedCard = null;
+
+        selectedCardIndex = -1;
+        snapToSelected = false;
+        InfoBoxObj.SetActive(false);
+        PopupObj.SetActive(false);
     }
 
-    public void OnCardDragStart(CardCarouselDisplay card)
+    public void OnCardDragStart(CardCarouselDisplay card, Vector2 dragEventData)
     {
-        currentDraggedCard = card;
+        if (currentSelectedCard != null)
+            CardPreviewEnd();
+
+        isDragging = true;
+        this.dragEventData = dragEventData;
+        Debug.Log("is dragging");
     }
 
     public void OnCardDragEnd()
     {
+        isDragging = false;
+
+        Debug.Log("stop dragging");
+
         if (currentDraggedCard == null)
             return;
-
-        
 
         currentDraggedCard = null;
     }
 
     public void OnClickStart(CardCarouselDisplay card)
     {
+        if (currentSelectedCard != null)
+            CardPreviewEnd();
+
+        PopupObj.SetActive(false);
+
+        isCardClicked = true;
+        InfoBoxObj.SetActive(true);
+        InfoTitle.text = card.card.CardName;
+        InfoDescription.text = card.card.LinkDescription;
+        InfoFlavourText.text = card.card.Flavour;
+
         currentSelectedCard = card;
+        lastSiblingIndex = currentSelectedCard.transform.GetSiblingIndex();
+        currentSelectedCard.transform.SetSiblingIndex(currentSelectedCard.transform.parent.childCount - 1);
+        currentSelectedCard.IsPreviewActive = true;
+
+
+        selectedCardIndex = cards.IndexOf(card);
+        if (selectedCardIndex != -1)
+            snapToSelected = true;
     }
 }

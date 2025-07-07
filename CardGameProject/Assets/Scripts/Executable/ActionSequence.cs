@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using SerializeReferenceEditor;
-
+using Random = UnityEngine.Random;
 
 [SRHidden]
 public class ActionSequence : Executable
@@ -51,13 +51,13 @@ public class ActionSequence : Executable
 
         if (RequiresMovement && !hasMoved)
         {
+            AnimationWrapper animationWrapper = GetAttackAnimation();
+
             // Trigger move animation | After move GA, reaction will trigger attack GA
-            MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, IsAttackingAllEnemies);
+            MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, IsAttackingAllEnemies, animationWrapper.DistanceOffset);
             ActionSystem.Instance.Perform(moveToPosGA);
 
-            Debug.Log(ExecutableParameters.WeaponData.DamageType);
-
-            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, ExecutableParameters.CardData.AnimationList);
+            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, animationWrapper.AnimationName);
             moveToPosGA.PostReactions.Add(triggerAttackAnimGA);
 
             yield return new WaitWhile(() => !avatarPlayingCard.DoDamage);
@@ -77,7 +77,7 @@ public class ActionSequence : Executable
             ActionSystem.Instance.PerformQueue(avatar.QueueGameActions);
         }
 
-        ctx.combatUIManager.ToggleHideUI(false);
+        ctx.CombatUIManager.ToggleHideUI(false);
 
         yield return new WaitWhile(() => !avatarPlayingCard.IsAttackFinished); // TODO - Rename to isAnimationFinished
 
@@ -227,7 +227,7 @@ public class ActionSequence : Executable
         {
             if (ExecutableParameters.AvatarPlayingCard is Player)
             {
-                targets.AddRange(ExecutableParameters.Ctx.enemyList);
+                targets.AddRange(ExecutableParameters.Ctx.EnemyList);
             }
             else
             {
@@ -244,6 +244,13 @@ public class ActionSequence : Executable
         }
 
         return targets;
+    }
+
+    private AnimationWrapper GetAttackAnimation()
+    {
+        int index = Random.Range(0, ExecutableParameters.CardData.AnimationList.Count);
+
+        return ExecutableParameters.CardData.AnimationList[index];
     }
 }
 

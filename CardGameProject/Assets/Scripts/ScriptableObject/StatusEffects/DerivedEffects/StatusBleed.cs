@@ -34,11 +34,16 @@ public class StatusBleed : StatusEffect
 
     public override void ActivateEffect(Avatar avatar)
     {
-        float damage = avatar.MaxHealth * ReduceHealthPercentage * Stacks;
+        float damage = Mathf.Ceil(avatar.MaxHealth * ReduceHealthPercentage * Stacks);
 
         avatar.TakeDamageByStatusEffect(damage);
 
         SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatar, damage, Color.red);
         ActionSystem.Instance.Perform(spawnDamageUIPopupGA);
+    }
+
+    public override float GetDataPopup()
+    {
+        return ReduceHealthPercentage * 100;
     }
 }

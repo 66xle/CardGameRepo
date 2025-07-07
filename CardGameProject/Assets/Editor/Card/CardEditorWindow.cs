@@ -191,6 +191,21 @@ public class CardEditorWindow : BaseEditorWindow
             cards.Add(loadedCard);
         }
     }
+    public void FindAllPopupText(out List<PopupText> popupList)
+    {
+        string[] guids = AssetDatabase.FindAssets("t:PopupText");
+
+        popupList = new List<PopupText>();
+
+        for (int i = 0; i < guids.Length; i++)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guids[i]);
+
+            PopupText loadedPopup = AssetDatabase.LoadAssetAtPath<PopupText>(path);
+
+            popupList.Add(loadedPopup);
+        }
+    }
 
     private void LoadCardImage(Card card)
     {
@@ -224,9 +239,10 @@ public class CardEditorWindow : BaseEditorWindow
         Label flavour = rootVisualElement.Query<Label>("flavour").First();
         Label cost = rootVisualElement.Query<Label>("cost").First();
 
+        CreateClickableText(card);
 
         title.text = card.CardName;
-        description.text = card.DisplayDescription;
+        description.text = card.LinkDescription;
         flavour.text = card.Flavour;
         cost.text = card.Cost.ToString();
     }
@@ -242,4 +258,21 @@ public class CardEditorWindow : BaseEditorWindow
         }
     }
 
+    private void CreateClickableText(Card card)
+    {
+        if (card.PopupKeyPair == null) 
+            card.PopupKeyPair = new();
+
+        card.PopupKeyPair.Clear();
+
+        card.LinkDescription = card.Description;
+
+        FindAllPopupText(out List<PopupText> popupList);
+
+        foreach (PopupText popupText in popupList)
+        {
+            card.LinkDescription = card.LinkDescription.Replace($"#{popupText.Title}", $"<link=\"{popupText.Title}\"><color=#FFBF00><u>{popupText.Title}</u></color></link>");
+            card.PopupKeyPair.Add(new SerializableKeyValuePair<string, PopupText>(popupText.Title, popupText));
+        }
+    }
 }

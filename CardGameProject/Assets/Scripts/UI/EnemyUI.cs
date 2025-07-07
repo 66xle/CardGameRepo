@@ -31,7 +31,7 @@ public class EnemyUI : MonoBehaviour
 
         stateMachine.ResetSelectedEnemyUI();
 
-        stateMachine.selectedEnemyToAttack = enemy;
+        stateMachine._selectedEnemyToAttack = enemy;
         enemy.EnemySelection(true);
     }
 }

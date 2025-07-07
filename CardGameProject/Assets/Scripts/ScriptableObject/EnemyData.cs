@@ -22,6 +22,7 @@ public class EnemyData : ScriptableObject
     public string Name;
     public int Health;
     public int Guard;
+    public int Level = 1;
 
     public EnemyType EnemyType;
     public WeaponType WeaponType;
@@ -45,10 +46,10 @@ public class EnemyData : ScriptableObject
 
 
 
-            List<AnimationClip> animationClips = new();
-            WeaponTypeAnimationSet.ForEach(data => animationClips.AddRange(data.AnimationClipList));
+            List<AnimationClipData> animationClipDataList = new();
+            WeaponTypeAnimationSet.ForEach(data => animationClipDataList.AddRange(data.AnimationClipDataList));
 
-            Cards.ForEach(data => data.AnimationClipList = animationClips);
+            Cards.ForEach(data => data.AnimationClipDataList = animationClipDataList);
         }
 
         if (WeaponTypeAnimationSet == null) return;
