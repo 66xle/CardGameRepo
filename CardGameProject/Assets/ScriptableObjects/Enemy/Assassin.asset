@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Assassin
   m_EditorClassIdentifier: 
   Guid: 15be70bbc9b436444af9e3026ecfce7a
-  Prefab: {fileID: 6075165209856986820, guid: 160d6e0da3c1cdb4ea45ed0942291619, type: 3}
+  Prefab: {fileID: 6075165209856986820, guid: 91c8a09fad817354c8d2624f0366be7e, type: 3}
   Name: Assassin
   Health: 0
   Guard: 3
@@ -21,9 +21,9 @@ MonoBehaviour:
   EnemyType: 1
   WeaponType: 1
   WeaponTypeAnimationSet:
-  - rid: 1089679909708628048
-  - rid: 1089679909708628049
-  - rid: 1089679909708628050
+  - rid: 1089679956138524756
+  - rid: 1089679956138524757
+  - rid: 1089679956138524758
   Cards:
   - rid: 1089679909708628045
   references:
@@ -51,7 +51,7 @@ MonoBehaviour:
         Animation: Strike
         OverrideDistanceOffset: 1
         distanceOffset: 0
-    - rid: 1089679909708628048
+    - rid: 1089679956138524756
       type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -63,7 +63,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: 2680591b97b18a24cabe8e529c6763c4, type: 3}
           DistanceOffset: 0
-    - rid: 1089679909708628049
+    - rid: 1089679956138524757
       type: {class: WeaponTypeAnimationHeavy, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -71,7 +71,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: ba31907f1536e61439b0c4b2b1727f79, type: 3}
           DistanceOffset: 0
-    - rid: 1089679909708628050
+    - rid: 1089679956138524758
       type: {class: WeaponTypeAnimationAOE, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
