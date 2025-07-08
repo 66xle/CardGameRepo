@@ -72,19 +72,19 @@ public class Player : Avatar
 
     public void RecycleCardToStamina(float cost)
     {
-        CurrentStamina += cost;
+        CurrentStamina = CurrentStamina + cost;
         CurrentStamina = Mathf.Clamp(CurrentStamina, 0f, _maxStamina);
     }
 
     public void RecoverStamina()
     {
-        CurrentStamina += RecoverStaminaAmount;
+        CurrentStamina = CurrentStamina + RecoverStaminaAmount;
         CurrentStamina = Mathf.Clamp(CurrentStamina, 0f, _maxStamina);
     }
 
     public void ConsumeStamina(float stamAmount)
     {
-        CurrentStamina -= stamAmount;
+        CurrentStamina = CurrentStamina - stamAmount;
         CurrentStamina = Mathf.Clamp(CurrentStamina, 0f, _maxStamina);
     }
 
@@ -92,7 +92,7 @@ public class Player : Avatar
 
     private void DisplayStats()
     {
-        _currentStamina = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);
+        _currentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);
         _currentStamina = Mathf.Clamp(CurrentStamina, 0f, _maxStamina);
 
         _healthBar.value = CurrentHealth / MaxHealth;
