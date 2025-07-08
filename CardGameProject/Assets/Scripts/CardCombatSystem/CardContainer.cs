@@ -78,18 +78,20 @@ public class CardContainer : MonoBehaviour {
         }
     }
 
-    private float GetCardVerticalDisplacement(int index) {
-        float center = (cards.Count - 1) / 2f;
-        float normalizedDistance = (index - center) / center; // -1 to 1
-        float curve = 1 - Mathf.Pow(normalizedDistance, 2);   // Parabola: 1 at center, 0 at edges
-
-        // Raise the minimum displacement (e.g., 30% of max)
-        float finalRatio = Mathf.Lerp(minRatio, 1f, curve); // Curve goes from minRatio => 1
-
-        float baseHeight = 1080f;   // Your design height
+    private float GetCardVerticalDisplacement(int index)
+    {
+        float baseHeight = 1080f;
         float screenRatio = Screen.height / baseHeight;
         float scaledOffsetY = maxHeightDisplacement * screenRatio;
 
+        if (cards.Count <= 1)
+            return scaledOffsetY; // fully centered, no curve
+
+        float center = (cards.Count - 1) / 2f;
+        float normalizedDistance = (index - center) / center; // -1 to 1
+        float curve = 1 - Mathf.Pow(normalizedDistance, 2);   // parabolic
+
+        float finalRatio = Mathf.Lerp(minRatio, 1f, curve);
         return scaledOffsetY * finalRatio;
     }
 
@@ -185,8 +187,10 @@ public class CardContainer : MonoBehaviour {
         var containerWidth = rectTransform.rect.width * transform.lossyScale.x;
         if (forceFitContainer && cardsTotalWidth > containerWidth) {
             DistributeChildrenToFitContainer(cardsTotalWidth);
+            Debug.Log("Overlap");
         }
         else {
+            Debug.Log("No Overlap");
             DistributeChildrenWithoutOverlap(cardsTotalWidth);
         }
     }
