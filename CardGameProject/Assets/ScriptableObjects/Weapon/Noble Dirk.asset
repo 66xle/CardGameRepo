@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Noble Dirk
   m_EditorClassIdentifier: 
   Guid: e33abf5e93cf1774b88081953d7c7b1a
-  WeaponName: 
+  WeaponName: Noble Dirk
   Description: 
   WeaponAttack: 6
   DamageType: 1
@@ -22,16 +22,16 @@ MonoBehaviour:
   IconTexture: {fileID: 2800000, guid: 826f32fc648175244928849e10eca9c4, type: 3}
   HolsterSlot: {fileID: 0}
   WeaponTypeAnimationSet:
-  - rid: 6937689764880973993
-  - rid: 6937689764880973994
-  - rid: 6937689764880974000
+  - rid: 1089679982310457353
+  - rid: 1089679982310457354
+  - rid: 1089679982310457355
   Cards:
   - rid: 7082259392929464503
   - rid: 7082259572454326405
   references:
     version: 2
     RefIds:
-    - rid: 6937689764880973993
+    - rid: 1089679982310457353
       type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -43,7 +43,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: 2680591b97b18a24cabe8e529c6763c4, type: 3}
           DistanceOffset: 0
-    - rid: 6937689764880973994
+    - rid: 1089679982310457354
       type: {class: WeaponTypeAnimationHeavy, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -51,7 +51,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: ba31907f1536e61439b0c4b2b1727f79, type: 3}
           DistanceOffset: 0
-    - rid: 6937689764880974000
+    - rid: 1089679982310457355
       type: {class: WeaponTypeAnimationAOE, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -60,7 +60,7 @@ MonoBehaviour:
     - rid: 7082259392929464503
       type: {class: WeaponCardData, ns: , asm: Assembly-CSharp}
       data:
-        Card: {fileID: 11400000, guid: 7adfbb88d1838da4bacde094ec37a06c, type: 2}
+        Card: {fileID: 11400000, guid: be0a384b3da5f454785878f76cf65687, type: 2}
         AnimationClipDataList:
         - Clip: {fileID: 1827226128182048838, guid: 3d8051e0b50b9c84e8d5c5e945105220, type: 3}
           DistanceOffset: 0
@@ -76,13 +76,13 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
           DistanceOffset: 0
-        Animation: 0_1H Strike 1
+        Animation: 2_1H Short Strike 1
         OverrideDistanceOffset: 1
         distanceOffset: 0
     - rid: 7082259572454326405
       type: {class: WeaponCardData, ns: , asm: Assembly-CSharp}
       data:
-        Card: {fileID: 11400000, guid: 7adfbb88d1838da4bacde094ec37a06c, type: 2}
+        Card: {fileID: 11400000, guid: ce2c800f1190d4f4ea7e902256bd7aaf, type: 2}
         AnimationClipDataList:
         - Clip: {fileID: 1827226128182048838, guid: 3d8051e0b50b9c84e8d5c5e945105220, type: 3}
           DistanceOffset: 0
@@ -98,6 +98,6 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
           DistanceOffset: 0
-        Animation: Strike
-        OverrideDistanceOffset: 0
+        Animation: 2_1H Short Strike 1
+        OverrideDistanceOffset: 1
         distanceOffset: 0

@@ -187,10 +187,8 @@ public class CardContainer : MonoBehaviour {
         var containerWidth = rectTransform.rect.width * transform.lossyScale.x;
         if (forceFitContainer && cardsTotalWidth > containerWidth) {
             DistributeChildrenToFitContainer(cardsTotalWidth);
-            Debug.Log("Overlap");
         }
         else {
-            Debug.Log("No Overlap");
             DistributeChildrenWithoutOverlap(cardsTotalWidth);
         }
     }

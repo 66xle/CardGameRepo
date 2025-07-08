@@ -10,36 +10,45 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 229174bf3bf62b140ae8b2bba2c89d2d, type: 3}
-  m_Name: Strike
+  m_Name: Opportunist Strike
   m_EditorClassIdentifier: 
-  Guid: be0a384b3da5f454785878f76cf65687
+  Guid: 542933b9c8ef9c54b9d25be462554551
   InGameGUID: 
-  CardName: Strike
-  Description: Deal #0 damage
+  CardName: Opportunist Strike
+  Description: Deal #0 damage. If the enemy is Stunned, deal #1 additional damage
   DisplayDescription: 
-  LinkDescription: Deal #0 damage
-  Flavour: 'Quick and decisive, it keeps enemies on edge.
-
-
-'
+  LinkDescription: Deal #0 damage. If the enemy is Stunned, deal #1 additional damage
+  Flavour: Strike when they falter, and make it count
   PopupKeyPair:
   - Key: Bleed
     Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
   - Key: Poison
     Value: {fileID: 11400000, guid: 7e7a85d9798338743a57caf3f468f8d4, type: 2}
-  Image: {fileID: 21300000, guid: 786c1174a6a9b6f4ea277afe759904c7, type: 3}
+  Image: {fileID: 21300000, guid: 8351e0b6ce722234eaad8dbbe216abbb, type: 3}
   Frame: {fileID: 21300000, guid: a0be78c2424db6a488d2f683021a99a4, type: 3}
-  Cost: 1
-  RecycleValue: 1
+  Cost: 4
+  RecycleValue: 4
   ValuesToReference:
   - 1
+  - 2
   Commands:
-  - rid: 1089679980009619584
+  - rid: 1089679982310457350
+  - rid: 1089679982310457351
   references:
     version: 2
     RefIds:
-    - rid: 1089679980009619584
+    - rid: 1089679982310457350
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 1
         value: 1
+    - rid: 1089679982310457351
+      type: {class: IsStunned, ns: , asm: Assembly-CSharp}
+      data:
+        commands:
+        - rid: 1089679982310457352
+    - rid: 1089679982310457352
+      type: {class: DealDamage, ns: , asm: Assembly-CSharp}
+      data:
+        target: 1
+        value: 2

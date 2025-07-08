@@ -10,36 +10,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 229174bf3bf62b140ae8b2bba2c89d2d, type: 3}
-  m_Name: Strike
+  m_Name: Venomous Strike
   m_EditorClassIdentifier: 
-  Guid: be0a384b3da5f454785878f76cf65687
+  Guid: ce2c800f1190d4f4ea7e902256bd7aaf
   InGameGUID: 
-  CardName: Strike
-  Description: Deal #0 damage
+  CardName: Venomous Strike
+  Description: Deal #0 damage and apply #Poison to an enemy
   DisplayDescription: 
-  LinkDescription: Deal #0 damage
-  Flavour: 'Quick and decisive, it keeps enemies on edge.
-
-
-'
+  LinkDescription: Deal #0 damage and apply <link="Poison"><color=#FFBF00><u>Poison</u></color></link>
+    to an enemy
+  Flavour: Coated in deadly toxins, this strike ensures the enemy suffers slowly
+    and painfully.
   PopupKeyPair:
   - Key: Bleed
     Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
   - Key: Poison
     Value: {fileID: 11400000, guid: 7e7a85d9798338743a57caf3f468f8d4, type: 2}
-  Image: {fileID: 21300000, guid: 786c1174a6a9b6f4ea277afe759904c7, type: 3}
+  Image: {fileID: 21300000, guid: 51795faaed9395b4eba7d10009f3230f, type: 3}
   Frame: {fileID: 21300000, guid: a0be78c2424db6a488d2f683021a99a4, type: 3}
-  Cost: 1
-  RecycleValue: 1
+  Cost: 2
+  RecycleValue: 2
   ValuesToReference:
   - 1
   Commands:
-  - rid: 1089679980009619584
+  - rid: 1089679982310457345
+  - rid: 1089679982310457346
   references:
     version: 2
     RefIds:
-    - rid: 1089679980009619584
+    - rid: 1089679982310457345
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 1
         value: 1
+    - rid: 1089679982310457346
+      type: {class: ApplyStatusEffect, ns: , asm: Assembly-CSharp}
+      data:
+        target: 1
+        effect: {fileID: 11400000, guid: 3a9c7cdf4c1c2d14fa4c9d113a47aee1, type: 2}
