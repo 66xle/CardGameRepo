@@ -12,14 +12,14 @@ public class LevelManager : MonoBehaviour
 
     public void Awake()
     {
-        _currentLevel++;
-        GameManager.Instance.StageLevel = _currentLevel;
+        _currentLevel = GameManager.Instance.StageLevel;
+
         LoadLevel();
     }
 
     void LoadLevel()
     {
-        LevelData data = LevelSettings.Levels.Count >= _currentLevel ? LevelSettings.Levels[LevelSettings.Levels.Count - 1] : LevelSettings.Levels[_currentLevel - 1];
+        LevelData data = LevelSettings.Levels[_currentLevel];
 
         GameObject environment = Instantiate(data.Prefab);
 

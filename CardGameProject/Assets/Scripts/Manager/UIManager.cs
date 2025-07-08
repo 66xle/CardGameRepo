@@ -21,6 +21,8 @@ public class UIManager : MonoBehaviour
         // difficulty manager
         DifficultyManager.OnBattleComplete();
 
+        GameManager.Instance.StageLevel++;
+
         RestartCombat(); // temp
     }
 
