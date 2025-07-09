@@ -69,8 +69,6 @@ public class WeaponData : ScriptableObject
             WeaponTypeAnimationSet = new(data.First(data => data.WeaponType == WeaponType).AnimationClipList);
             _weaponTypeCount = WeaponTypeAnimationSet.Count;
 
-
-
             List<AnimationClipData> animationClipDataList = new();
             WeaponTypeAnimationSet.ForEach(data => animationClipDataList.AddRange(data.AnimationClipDataList));
 
