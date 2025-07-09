@@ -33,18 +33,27 @@ public class CardManager : MonoBehaviour
 
     public void LoadCards()
     {
-        PlayerDeck.AddRange(SwitchWeaponManager.CurrentMainHand.Cards.Select(card => new CardData(SwitchWeaponManager.CurrentMainHand, card, StatsManager.Attack)));
-
+        // Load main hand
+        foreach (WeaponCardData data in SwitchWeaponManager.CurrentMainHand.Cards)
+        {
+            for (int i = 0; i < data.Amount; i++)
+            {
+                CardData cardData = new(SwitchWeaponManager.CurrentMainHand, data, StatsManager.Attack);
+                PlayerDeck.Add(cardData);
+            }
+        }
+    
+        // Load holstered cards
         foreach (WeaponData weaponData in SwitchWeaponManager.CurrentEquippedWeapons)
         {
             foreach (WeaponCardData data in weaponData.Cards)
             {
-                CardData cardData = new(weaponData, data, StatsManager.Attack);
-
-                PlayerDeck.Add(cardData);
+                for (int i = 0; i < data.Amount; i++)
+                {
+                    CardData cardData = new(weaponData, data, StatsManager.Attack);
+                    PlayerDeck.Add(cardData);
+                }
             }
         }
     }
-
-    
 }

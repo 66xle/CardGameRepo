@@ -21,8 +21,6 @@ public class Card : ScriptableObject
     [HideInInspector] public string LinkDescription; 
     [TextArea] public string Flavour;
 
-    [HideInInspector] public List<SerializableKeyValuePair<string, PopupText>> PopupKeyPair;
-
     [Header("Card Image")]
     public Sprite Image;
     public Sprite Frame;
@@ -39,6 +37,7 @@ public class Card : ScriptableObject
 
     [SerializeReference][SR] public List<Executable> Commands = new List<Executable>();
 
+    [HideInInspector] public List<SerializableKeyValuePair<string, PopupText>> PopupKeyPair;
 
     private void OnValidate()
     {
@@ -69,17 +68,4 @@ public class Card : ScriptableObject
         }
     }
 
-    public string GenerateDescriptionWithDamage(Card card, WeaponData weapon)
-    {
-        string linkDescription = card.LinkDescription;
-
-        for (int i = 0; i < card.ValuesToReference.Count; i++)
-        {
-            float value = card.ValuesToReference[i];
-
-            linkDescription = linkDescription.Replace($"#{i}", value.ToString());
-        }
-
-        return linkDescription;
-    }
 }

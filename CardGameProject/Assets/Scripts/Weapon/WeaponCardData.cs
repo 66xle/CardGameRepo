@@ -31,7 +31,8 @@ public class WeaponCardData
     [HideInInspector] public List<AnimationClipData> AnimationClipDataList;
     [DefinedValues(nameof(GetAnimationList))] public string Animation;
     [ConditionalField(nameof(Animation), true, AttackType.None, AttackType.Strike, AttackType.Heavy, AttackType.AOE)] public Boolean OverrideDistanceOffset = Boolean.False;
-    [ConditionalField(false, nameof(OverrideDistance))] public float distanceOffset = 0;
+    [ConditionalField(false, nameof(OverrideDistance))] public float DistanceOffset = 0;
+    public int Amount;
 
     [ReadOnly] public List<AnimationWrapper> AnimationList = new();
 
@@ -73,7 +74,7 @@ public class WeaponCardData
             float distance = AnimationClipDataList[int.Parse(stringSplit[0])].DistanceOffset;
 
             if (OverrideDistanceOffset == Boolean.True)
-                distance = distanceOffset;
+                distance = DistanceOffset;
 
             AnimationList.Add(new AnimationWrapper(stringSplit[1], distance));
             return;
