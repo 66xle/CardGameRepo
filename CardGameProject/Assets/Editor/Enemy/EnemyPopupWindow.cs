@@ -151,7 +151,6 @@ public class EnemyPopupWindow : PopupWindow
     {
         EnemyData enemy = new EnemyData();
         enemy.Name = newEnemyData.Name;
-        enemy.Health = newEnemyData.Health;
         enemy.Guard = newEnemyData.Guard;
         enemy.Prefab = newEnemyData.Prefab;
         enemy.Guid = newEnemyData.Guid;
