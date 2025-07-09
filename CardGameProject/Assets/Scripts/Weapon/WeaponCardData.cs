@@ -32,7 +32,7 @@ public class WeaponCardData
     [DefinedValues(nameof(GetAnimationList))] public string Animation;
     [ConditionalField(nameof(Animation), true, AttackType.None, AttackType.Strike, AttackType.Heavy, AttackType.AOE)] public Boolean OverrideDistanceOffset = Boolean.False;
     [ConditionalField(false, nameof(OverrideDistance))] public float DistanceOffset = 0;
-    public int Amount;
+    public int Amount = 1;
 
     [ReadOnly] public List<AnimationWrapper> AnimationList = new();
 
