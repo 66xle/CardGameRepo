@@ -12,6 +12,7 @@ public class SwitchWeaponManager : MonoBehaviour
     [Header("References")]
     [MustBeAssigned] public EquipmentManager EquipmentManager;
     [MustBeAssigned] public CombatUIManager CombatUIManager;
+    [MustBeAssigned] public WeaponDamageSettings WeaponRaritySettings;
 
     public WeaponData CurrentMainHand { get; set; }
     public WeaponData CurrentOffHand { get; set; }
@@ -89,6 +90,10 @@ public class SwitchWeaponManager : MonoBehaviour
     private WeaponData CopyWeaponData(WeaponData data)
     {
         WeaponData newData = new WeaponData(data);
+
+        // Scale weapon damage to rarity
+        newData.WeaponAttack = WeaponRaritySettings.GetWeaponDamage(newData);
+
         newData.Guid = Guid.NewGuid().ToString();
         return newData;
     }

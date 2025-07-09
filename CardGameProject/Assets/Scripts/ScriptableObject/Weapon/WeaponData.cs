@@ -6,6 +6,13 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
+public enum Rarity
+{
+    Common,
+    Rare,
+    Epic,
+    Legendary
+}
 
 [CreateAssetMenu(menuName = "WeaponData")]
 public class WeaponData : ScriptableObject 
@@ -14,10 +21,11 @@ public class WeaponData : ScriptableObject
 
     public string WeaponName;
     public string Description;
-    public int WeaponAttack;
+    public Rarity Rarity;
     public DamageType DamageType;
     public WeaponType WeaponType;
     public GameObject Prefab;
+    [HideInInspector] public int WeaponAttack;
 
 
     // Reward Manager
@@ -43,9 +51,9 @@ public class WeaponData : ScriptableObject
     {
         WeaponName = data.WeaponName;
         DamageType = data.DamageType;
-        WeaponAttack = data.WeaponAttack;
         WeaponType = data.WeaponType;
         Description = data.Description;
+        Rarity = data.Rarity;
         Cards = data.Cards;
         Prefab = data.Prefab;
     }
