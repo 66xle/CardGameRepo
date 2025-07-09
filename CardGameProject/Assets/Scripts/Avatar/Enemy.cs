@@ -81,7 +81,7 @@ public class Enemy : Avatar
 
         HealthBar.fillAmount = CurrentHealth / MaxHealth;
 
-        GuardBar.fillAmount = (float)CurrentHealth / MaxGuard;
+        GuardBar.fillAmount = (float)CurrentGuard / MaxGuard;
 
         DetailedUI.DisplayStats();
         DetailedUI.UpdateStatusEffectsUI();
