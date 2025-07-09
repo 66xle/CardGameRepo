@@ -15,8 +15,7 @@ MonoBehaviour:
   Guid: 15be70bbc9b436444af9e3026ecfce7a
   Prefab: {fileID: 6075165209856986820, guid: 91c8a09fad817354c8d2624f0366be7e, type: 3}
   Name: Assassin
-  Health: 0
-  Guard: 3
+  Guard: 5
   Level: 1
   EnemyType: 1
   WeaponType: 1
@@ -58,8 +57,9 @@ MonoBehaviour:
     - rid: 1089679982310457441
       type: {class: WeaponCardData, ns: , asm: Assembly-CSharp}
       data:
-        Card: {fileID: 0}
+        Card: {fileID: 11400000, guid: be0a384b3da5f454785878f76cf65687, type: 2}
         AnimationClipDataList: []
         Animation: Strike
         OverrideDistanceOffset: 1
-        distanceOffset: 0
+        DistanceOffset: 0
+        Amount: 0

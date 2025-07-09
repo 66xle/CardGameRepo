@@ -15,8 +15,7 @@ MonoBehaviour:
   Guid: 35289a3758b892e499c304d3a5e1fa90
   Prefab: {fileID: 6075165209856986820, guid: 160d6e0da3c1cdb4ea45ed0942291619, type: 3}
   Name: Thief
-  Health: 1
-  Guard: 5
+  Guard: 1
   Level: 1
   EnemyType: 0
   WeaponType: 0
@@ -73,7 +72,8 @@ MonoBehaviour:
           DistanceOffset: 0
         Animation: 0_1H Strike 1
         OverrideDistanceOffset: 1
-        distanceOffset: 0
+        DistanceOffset: 0
+        Amount: 0
     - rid: 7082259279571320968
       type: {class: WeaponCardData, ns: , asm: Assembly-CSharp}
       data:
@@ -93,4 +93,5 @@ MonoBehaviour:
           DistanceOffset: 0
         Animation: Strike
         OverrideDistanceOffset: 1
-        distanceOffset: 0
+        DistanceOffset: 0
+        Amount: 0

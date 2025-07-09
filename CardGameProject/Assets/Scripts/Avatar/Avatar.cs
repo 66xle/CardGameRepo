@@ -135,9 +135,9 @@ public class Avatar : MonoBehaviour
             return CurrentGuard == 0 ? true : false;
         }
 
-        public void ReduceGuard()
+        public void ReduceGuard(int guardDamage)
         {
-            CurrentGuard--;
+            CurrentGuard = CurrentGuard - guardDamage;
             CurrentGuard = Mathf.Clamp(CurrentGuard, 0, MaxGuard);
         }
 

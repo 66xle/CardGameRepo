@@ -9,12 +9,14 @@ public class DamageSystem : MonoBehaviour
     private void OnEnable()
     {
         ActionSystem.AttachPerformer<TakeDamageFromWeaponGA>(TakeDamageFromWeaponPerformer);
+        ActionSystem.AttachPerformer<TakeGuardDamageGA>(TakeGuardDamagePerformer);
         ActionSystem.AttachPerformer<CounterGA>(CounterPerformer);
     }
 
     private void OnDisable()
     {
         ActionSystem.DetachPerformer<TakeDamageFromWeaponGA>();
+        ActionSystem.DetachPerformer<TakeGuardDamageGA>();
         ActionSystem.DetachPerformer<CounterGA>();
     }
 
@@ -30,7 +32,7 @@ public class DamageSystem : MonoBehaviour
             avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
 
             if (avatarToTakeDamage.IsGuardReducible(takeDamageFromWeaponGA.DamageType))
-                avatarToTakeDamage.ReduceGuard();
+                avatarToTakeDamage.ReduceGuard(1);
         }
 
 
@@ -40,6 +42,36 @@ public class DamageSystem : MonoBehaviour
             avatarToTakeDamage.DictReactiveEffects.Clear();
         }
         else if (avatarToTakeDamage.IsGuardBroken())
+        {
+            // Check if avatar has guard broken effect
+            if (avatarToTakeDamage.hasStatusEffect(Effect.GuardBroken))
+            {
+                ReduceHitToRecover(avatarToTakeDamage);
+            }
+            else
+            {
+                ApplyGuardBroken(avatarToTakeDamage);
+            }
+        }
+
+        avatarToTakeDamage.UpdateStatsUI();
+
+        yield return null;
+    }
+
+    private IEnumerator TakeGuardDamagePerformer(TakeGuardDamageGA takeGuardDamageGA)
+    {
+        Avatar avatarToTakeDamage = takeGuardDamageGA.AvatarToTakeDamage;
+
+        avatarToTakeDamage.ReduceGuard(takeGuardDamageGA.GuardDamage);
+
+        if (takeGuardDamageGA.CardTarget != CardTarget.Self)
+        {
+            avatarToTakeDamage.IsTakeDamage = true;
+            avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
+        }
+
+        if (avatarToTakeDamage.IsGuardBroken())
         {
             // Check if avatar has guard broken effect
             if (avatarToTakeDamage.hasStatusEffect(Effect.GuardBroken))

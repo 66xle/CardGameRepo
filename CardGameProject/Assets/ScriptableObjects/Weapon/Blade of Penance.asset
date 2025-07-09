@@ -15,7 +15,7 @@ MonoBehaviour:
   Guid: 6c8e5e6ed3d79954e87e45ed9908fda2
   WeaponName: Blade of Penance
   Description: A dependable blade favored by soldiers.
-  Rarity: 1
+  Rarity: 0
   DamageType: 0
   WeaponType: 0
   Prefab: {fileID: 573255403107502088, guid: 7b168040743b5c24b8abfdc5b22ff9b7, type: 3}
@@ -29,6 +29,7 @@ MonoBehaviour:
   Cards:
   - rid: 7082259392929464485
   - rid: 1089679982310457359
+  - rid: 1089680001544487080
   references:
     version: 2
     RefIds:
@@ -65,6 +66,15 @@ MonoBehaviour:
         OverrideDistanceOffset: 1
         DistanceOffset: 0
         Amount: 3
+    - rid: 1089680001544487080
+      type: {class: WeaponCardData, ns: , asm: Assembly-CSharp}
+      data:
+        Card: {fileID: 11400000, guid: e307f56fc1b81904aac08b8f24103691, type: 2}
+        AnimationClipDataList: []
+        Animation: Strike
+        OverrideDistanceOffset: 1
+        DistanceOffset: 0
+        Amount: 1
     - rid: 7082259392929464485
       type: {class: WeaponCardData, ns: , asm: Assembly-CSharp}
       data:
