@@ -15,6 +15,9 @@ public class GameManager : Singleton<GameManager>
 
     [HideInInspector] public int DifficultyScore;
 
+    [HideInInspector] public int PlayerLevel;
+    [HideInInspector] public int CurrentEXP;
+
 
     public new void Awake()
     {

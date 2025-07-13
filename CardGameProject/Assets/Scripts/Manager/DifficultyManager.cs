@@ -50,7 +50,7 @@ public class DifficultyManager : MonoBehaviour
 
     public List<EnemyData> GetEnemies()
     {
-        int baseScore = statsManager.Level * 2;
+        int baseScore = GameManager.Instance.PlayerLevel * 2;
         int targetScore = Mathf.Max(currentScore - baseScore, 0);
 
         List<EnemyData> composition;
@@ -66,17 +66,20 @@ public class DifficultyManager : MonoBehaviour
             composition = new List<EnemyData>();
             for (int i = 0; i < minionsToSpawn; i++)
                 composition.Add(minionListData[Random.Range(0, minionListData.Count)]);
+
+            int compositionScore = minionsToSpawn * minionCost;
+            Debug.Log($"Composition Score: {compositionScore}");
         }
         else
         {
             composition = GenerateRandomizedCloseComposition(targetScore);
         }
 
-        Debug.Log($"[Difficulty] Wave Score: {currentScore} | Player Level: {statsManager.Level} | Target Score: {targetScore} | Enemies: {string.Join(", ", composition)}");
+        Debug.Log($"[Difficulty] Wave Score: {currentScore} | Player Level: {GameManager.Instance.PlayerLevel} | Target Score: {targetScore} | Enemies: {string.Join(", ", composition)}");
 
         foreach (EnemyData enemyData in composition)
         {
-            enemyData.Level = statsManager.Level;
+            enemyData.Level = GameManager.Instance.PlayerLevel;
         }
 
         return composition;

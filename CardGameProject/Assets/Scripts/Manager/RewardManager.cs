@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEditor.Compilation;
+using TMPro;
 
 public class RewardManager : MonoBehaviour
 {
@@ -13,10 +14,19 @@ public class RewardManager : MonoBehaviour
 
     [Foldout("Rewards", true)]
     [SerializeField] List<WeaponData> PoolOfGear;
+    [SerializeField] int LowLevel;
+    [SerializeField] int MidLevel;
+    [PositiveValueOnly] [SerializeField] Vector3 BattleMultiplier;
+
+    [Foldout("Exp References", true)]
+    [MustBeAssigned][SerializeField] Slider ExpSlider;
+    [MustBeAssigned][SerializeField] TMP_Text ExpText;
+    [MustBeAssigned][SerializeField] TMP_Text LevelText;
 
     [Foldout("References", true)]
     [MustBeAssigned] [SerializeField] UIManager UIManager;
     [MustBeAssigned] [SerializeField] EquipmentManager EquipmentManager;
+    [MustBeAssigned][SerializeField] PlayerStatSettings PSS;
     [MustBeAssigned] [SerializeField] Camera RenderCamera;
     [MustBeAssigned] [SerializeField] GameObject IconPrefab;
     [MustBeAssigned] [SerializeField] GameObject CardPrefab;
@@ -44,6 +54,8 @@ public class RewardManager : MonoBehaviour
 
     public void DisplayReward()
     {
+        CalculateExp();
+
         int index = Random.Range(0, PoolOfGear.Count);
 
         if (PoolOfGear.Count == 0)
@@ -54,8 +66,6 @@ public class RewardManager : MonoBehaviour
 
         WeaponData weaponData = PoolOfGear[index];
         listOfWeaponReward.Add(weaponData);
-
-        
 
         GameObject icon = Instantiate(IconPrefab, DisplayRewardsUI);
         RawImage image = icon.GetComponent<RawImage>();
@@ -99,5 +109,43 @@ public class RewardManager : MonoBehaviour
         }
 
         GearOverlay.SetActive(false);
+    }
+
+    public void CalculateExp()
+    {
+        int playerLevel = GameManager.Instance.PlayerLevel;
+        float currentExp = GameManager.Instance.CurrentEXP;
+        float expNeeded = PSS.CalculateExperience(playerLevel);
+        float previousExpNeeded = 0;
+        float expDiff = expNeeded;
+
+        if (playerLevel > 1)
+        {
+            previousExpNeeded = PSS.CalculateExperience(playerLevel - 1);
+            expDiff = expNeeded - previousExpNeeded;
+        }
+
+        float battleMultiplier = 0;
+        if (playerLevel <= LowLevel) battleMultiplier = BattleMultiplier.x;
+        if (playerLevel > LowLevel && playerLevel <= MidLevel) battleMultiplier = BattleMultiplier.y;
+        if (playerLevel > MidLevel) battleMultiplier = BattleMultiplier.z;
+
+        float expGained = Mathf.Ceil(expDiff * battleMultiplier);
+
+        currentExp += expGained;
+        if (currentExp >= expNeeded)
+        {
+            playerLevel++;
+            GameManager.Instance.PlayerLevel = playerLevel;
+        }
+
+        GameManager.Instance.CurrentEXP = (int)currentExp;
+
+        float current = currentExp - previousExpNeeded;
+        float maxExp = expDiff;
+
+        ExpSlider.value = current / maxExp;
+        LevelText.text = $"Level {playerLevel}";
+        ExpText.text = $"+ {expGained}";
     }
 }

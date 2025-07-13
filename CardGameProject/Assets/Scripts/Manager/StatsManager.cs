@@ -8,7 +8,7 @@ public class StatsManager : MonoBehaviour
     [Header("Stats")]
     [MustBeAssigned] [SerializeField] PlayerStatSettings PSS;
 
-    public int Level = 1;
+    [SerializeField] int Level = 1;
     public int BaseGuard;
     public ArmourType ArmourType;
 
@@ -26,6 +26,8 @@ public class StatsManager : MonoBehaviour
 
     void Awake() // Initalise variables for now
     {
+        GameManager.Instance.PlayerLevel = Level;
+
         CurrentMaxHealth = PSS.CalculateHealth(Level);
         Defence = PSS.CalculateDefence(Level);
         Attack = PSS.CalculateAttack(Level);
