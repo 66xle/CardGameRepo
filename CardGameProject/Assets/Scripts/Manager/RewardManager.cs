@@ -13,7 +13,7 @@ public class RewardManager : MonoBehaviour
     [MustBeAssigned][SerializeField] Transform PreviewCards;
 
     [Foldout("Rewards", true)]
-    [SerializeField] List<WeaponData> PoolOfGear;
+    [ReadOnly][SerializeField] List<WeaponData> PoolOfGear;
     [SerializeField] int LowLevel;
     [SerializeField] int MidLevel;
     [PositiveValueOnly] [SerializeField] Vector3 BattleMultiplier;
@@ -27,6 +27,7 @@ public class RewardManager : MonoBehaviour
     [MustBeAssigned] [SerializeField] UIManager UIManager;
     [MustBeAssigned] [SerializeField] EquipmentManager EquipmentManager;
     [MustBeAssigned][SerializeField] PlayerStatSettings PSS;
+    [MustBeAssigned][SerializeField] LootTable LootTable;
     [MustBeAssigned] [SerializeField] Camera RenderCamera;
     [MustBeAssigned] [SerializeField] GameObject IconPrefab;
     [MustBeAssigned] [SerializeField] GameObject CardPrefab;
@@ -55,6 +56,17 @@ public class RewardManager : MonoBehaviour
     public void DisplayReward()
     {
         CalculateExp();
+
+        PoolOfGear.Clear();
+
+        float playerLevel = GameManager.Instance.PlayerLevel;
+
+        if (playerLevel <= LowLevel) 
+            PoolOfGear.AddRange(LootTable.CommonGear);
+        if (playerLevel > LowLevel && playerLevel <= MidLevel) 
+            PoolOfGear.AddRange(LootTable.RareGear);
+        if (playerLevel > MidLevel) 
+            PoolOfGear.AddRange(LootTable.EpicGear);
 
         int index = Random.Range(0, PoolOfGear.Count);
 
@@ -137,6 +149,10 @@ public class RewardManager : MonoBehaviour
         {
             playerLevel++;
             GameManager.Instance.PlayerLevel = playerLevel;
+
+            expNeeded = PSS.CalculateExperience(playerLevel);
+            previousExpNeeded = PSS.CalculateExperience(playerLevel - 1);
+            expDiff = expNeeded - previousExpNeeded;
         }
 
         GameManager.Instance.CurrentEXP = (int)currentExp;
