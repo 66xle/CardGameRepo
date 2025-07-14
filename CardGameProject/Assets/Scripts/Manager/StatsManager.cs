@@ -26,7 +26,11 @@ public class StatsManager : MonoBehaviour
 
     void Awake() // Initalise variables for now
     {
-        GameManager.Instance.PlayerLevel = Level;
+        if (GameManager.Instance.PlayerLevel == 0)
+        {
+            GameManager.Instance.PlayerLevel = Level;
+            GameManager.Instance.CurrentEXP = (int)PSS.CalculateExperience(Level);
+        }
 
         CurrentMaxHealth = PSS.CalculateHealth(Level);
         Defence = PSS.CalculateDefence(Level);
