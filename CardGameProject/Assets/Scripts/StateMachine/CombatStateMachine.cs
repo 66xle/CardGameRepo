@@ -90,8 +90,6 @@ public class CombatStateMachine : MonoBehaviour
         LoadEnemy();
         CardManager.LoadCards();
 
-
-
         states = new CombatStateFactory(this, vso);
         currentState = new PlayerState(this, states, vso);
         currentState.EnterState();
@@ -128,8 +126,8 @@ public class CombatStateMachine : MonoBehaviour
 
                 ResetSelectedEnemyUI();
                 
-                _selectedEnemyToAttack = hit.transform.GetComponent<Enemy>();
-                _selectedEnemyToAttack.EnemySelection(true);
+                _selectedEnemyToAttack = enemy;
+                EnemyManager.SelectEnemy(enemy);
             }
         }
     }
@@ -166,7 +164,7 @@ public class CombatStateMachine : MonoBehaviour
         CombatUIManager.detailedUI.Init(this);
 
         _selectedEnemyToAttack = EnemyList[0];
-        _selectedEnemyToAttack.EnemySelection(true);
+        EnemyManager.SelectEnemy(_selectedEnemyToAttack);
     }
 
     public void OnCardPlayed(CardPlayed evt, Card card, string tag)
@@ -246,7 +244,6 @@ public class CombatStateMachine : MonoBehaviour
 
 
     #region Used by StateMachine
-
     public void CreateCard(CardData cardDrawed, Transform parent)
     {
         CardDisplay cardDisplay = Instantiate(CardManager.CardPrefab, parent).GetComponent<CardDisplay>();
@@ -294,7 +291,7 @@ public class CombatStateMachine : MonoBehaviour
         {
             // Select different enemy
             _selectedEnemyToAttack = EnemyList[0];
-            _selectedEnemyToAttack.EnemySelection(true);
+            EnemyManager.SelectEnemy(_selectedEnemyToAttack);
         }
     }
 

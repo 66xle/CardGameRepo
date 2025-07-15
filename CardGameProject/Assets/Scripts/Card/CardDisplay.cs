@@ -61,6 +61,11 @@ public class CardDisplay : MonoBehaviour
         }
     }
 
+    public void UpdateDescription()
+    {
+        
+    }
+
     public void SetCard(Card card)
     {
         Card = card;
