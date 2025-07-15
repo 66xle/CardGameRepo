@@ -2,6 +2,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+
+// Helper class to store composition info
+struct Combination
+{
+    public int minions;
+    public int elites;
+    public int score;
+}
+
 public class DifficultyManager : MonoBehaviour
 {
     [Header("Difficulty Progression")]
@@ -87,30 +96,49 @@ public class DifficultyManager : MonoBehaviour
 
     List<EnemyData> GenerateRandomizedCloseComposition(int targetScore)
     {
-        const int maxAttempts = 20;
-        System.Random rng = new System.Random();
+        // Build all possible combinations (1–3 enemies)
+        List<Combination> allCombinations = new List<Combination>();
 
-        for (int attempt = 0; attempt < maxAttempts; attempt++)
+        for (int enemyCount = 1; enemyCount <= maxEnemiesPerWave; enemyCount++)
         {
-            int enemyCount = rng.Next(1, maxEnemiesPerWave + 1);
-            int eliteCount = rng.Next(0, enemyCount + 1);
-            int minionCount = enemyCount - eliteCount;
-
-            int compositionScore = (eliteCount * eliteCost) + (minionCount * minionCost);
-
-            Debug.Log($"Composition Score: {compositionScore}");
-
-            if (Mathf.Abs(compositionScore - targetScore) <= acceptableRange)
+            for (int eliteCount = 0; eliteCount <= enemyCount; eliteCount++)
             {
-                List<EnemyData> result = new List<EnemyData>();
-                result.AddRange(CreateList(eliteListData[Random.Range(0, eliteListData.Count)], eliteCount));
-                result.AddRange(CreateList(minionListData[Random.Range(0, minionListData.Count)], minionCount));
-                return result;
+                int minionCount = enemyCount - eliteCount;
+                int compositionScore = (eliteCount * eliteCost) + (minionCount * minionCost);
+
+                allCombinations.Add(new Combination
+                {
+                    minions = minionCount,
+                    elites = eliteCount,
+                    score = compositionScore
+                });
             }
         }
 
-        // Fallback: just spawn 1 Minion
-        return new List<EnemyData> { minionListData[Random.Range(0, minionListData.Count)] };
+        int currentRange = acceptableRange;
+        List<Combination> validCombinations = new List<Combination>();
+
+        // Keep expanding range until we find something
+        while (validCombinations.Count == 0)
+        {
+            validCombinations = allCombinations.FindAll(c => Mathf.Abs(c.score - targetScore) <= currentRange);
+
+            if (validCombinations.Count == 0)
+            {
+                currentRange++;
+            }
+        }
+
+        // Pick a random combination
+        Combination selected = validCombinations[Random.Range(0, validCombinations.Count)];
+        Debug.Log($"Combination Score: {selected.score}");
+
+        // Build the enemy list
+        List<EnemyData> result = new List<EnemyData>();
+        result.AddRange(CreateList(eliteListData[Random.Range(0, eliteListData.Count)], selected.elites));
+        result.AddRange(CreateList(minionListData[Random.Range(0, minionListData.Count)], selected.minions));
+
+        return result;
     }
 
     List<EnemyData> CreateList(EnemyData data, int count)
