@@ -19,6 +19,9 @@ public class LevelManager : MonoBehaviour
 
     void LoadLevel()
     {
+        if (_currentLevel == LevelSettings.Levels.Count)
+            _currentLevel--;
+
         LevelData data = LevelSettings.Levels[_currentLevel];
 
         GameObject environment = Instantiate(data.Prefab);

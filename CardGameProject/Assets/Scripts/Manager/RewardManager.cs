@@ -99,8 +99,10 @@ public class RewardManager : MonoBehaviour
         Vector3 spawnPos = RenderCamera.transform.position + weapon.positionOffset;
         currentObjectInOverlay = Instantiate(data.Prefab, spawnPos, Quaternion.Euler(weapon.rotationOffset));
 
-        foreach (WeaponCardData cardData in data.Cards)
+        foreach (WeaponCardData weaponCardData in data.Cards)
         {
+            CardData cardData = new(data, weaponCardData, data.WeaponAttack);
+
             CardDisplay cardDisplay = Instantiate(CardPrefab, PreviewCards).GetComponent<CardDisplay>();
             cardDisplay.SetCard(cardData.Card);
         }
