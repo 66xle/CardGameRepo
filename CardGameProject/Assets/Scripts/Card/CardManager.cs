@@ -57,5 +57,15 @@ public class CardManager : MonoBehaviour
         }
     }
 
+    public void UpdateCardsInHand(Enemy enemy)
+    {
+        for (int i = 0; i < PlayerHandTransform.childCount; i++)
+        {
+            GameObject go = PlayerHandTransform.GetChild(i).gameObject;
+            CardDisplay display = go.GetComponent<CardDisplay>();
+            string description = display.CardData.GenerateDescriptionWithDamage(display.Card, display.CardData.Weapon, StatsManager.Attack, enemy.Defence);
 
+            display.UpdateDescription(description);
+        }
+    }
 }

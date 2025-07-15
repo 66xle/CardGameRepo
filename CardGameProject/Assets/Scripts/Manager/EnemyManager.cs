@@ -15,6 +15,7 @@ public class EnemyManager : MonoBehaviour
     [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
     [MustBeAssigned] [SerializeField] EnemyStatSettings ESS;
     [MustBeAssigned] [SerializeField] DifficultyManager DifficultyManager;
+    [MustBeAssigned] [SerializeField] CardManager CardManager;
 
     private void Awake()
     {
@@ -58,7 +59,7 @@ public class EnemyManager : MonoBehaviour
 
     public void SelectEnemy(Enemy enemy)
     {
-
+        CardManager.UpdateCardsInHand(enemy);
         enemy.EnemySelection(true);
     }
 

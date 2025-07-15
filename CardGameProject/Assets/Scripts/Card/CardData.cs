@@ -19,7 +19,7 @@ public struct CardData
 
         copyCard.CardName = card.CardName;
         copyCard.Description = card.Description;
-        copyCard.DisplayDescription = card.DisplayDescription;
+        copyCard.LinkDescription = card.LinkDescription;
         copyCard.Flavour = card.Flavour;
         copyCard.PopupKeyPair = card.PopupKeyPair;
 
@@ -32,16 +32,17 @@ public struct CardData
         copyCard.ValuesToReference = card.ValuesToReference;
         copyCard.Commands = card.Commands;
 
+
         AnimationList = data.AnimationList;
         Card = copyCard;
         Weapon = weapon;
 
-        copyCard.LinkDescription = GenerateDescriptionWithDamage(card, weapon, avatarAttack);
+        Card.DisplayDescription = GenerateDescriptionWithDamage(card, weapon, avatarAttack);
     }
 
-    public string GenerateDescriptionWithDamage(Card card, WeaponData weapon, float attack)
+    public string GenerateDescriptionWithDamage(Card card, WeaponData weapon, float attack, float defence = 0)
     {
-        string linkDescription = card.LinkDescription;
+        string displayDescription = card.LinkDescription;
 
         for (int i = 0; i < card.ValuesToReference.Count; i++)
         {
@@ -49,10 +50,12 @@ public struct CardData
 
             float damage = Mathf.Ceil((attack + weapon.WeaponAttack) * value);
 
-            linkDescription = linkDescription.Replace($"#{i}", damage.ToString());
+            damage -= Mathf.Ceil(damage * defence);
+
+            displayDescription = displayDescription.Replace($"#{i}", $"<color=#FF0000>{damage.ToString()}</color>");
         }
 
-        return linkDescription;
+        return displayDescription;
     }
 
 }

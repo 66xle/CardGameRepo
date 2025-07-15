@@ -19,11 +19,6 @@ MonoBehaviour:
   DisplayDescription: 
   LinkDescription: Deal #0 damage to all enemies
   Flavour: A broad, sweeping blow that cuts down multiple foes in one motion.
-  PopupKeyPair:
-  - Key: Bleed
-    Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
-  - Key: Poison
-    Value: {fileID: 11400000, guid: 7e7a85d9798338743a57caf3f468f8d4, type: 2}
   Image: {fileID: 21300000, guid: 1e47ebf73f70f0a4db2f83f3bfd30bab, type: 3}
   Frame: {fileID: 21300000, guid: a0be78c2424db6a488d2f683021a99a4, type: 3}
   Cost: 3
@@ -32,6 +27,11 @@ MonoBehaviour:
   - 0.7
   Commands:
   - rid: 1089679982310457344
+  PopupKeyPair:
+  - Key: Bleed
+    Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
+  - Key: Poison
+    Value: {fileID: 11400000, guid: 7e7a85d9798338743a57caf3f468f8d4, type: 2}
   references:
     version: 2
     RefIds:

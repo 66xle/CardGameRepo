@@ -105,7 +105,7 @@ public class RewardManager : MonoBehaviour
             CardData cardData = new(data, weaponCardData, StatsManager.Attack);
 
             CardDisplay cardDisplay = Instantiate(CardPrefab, PreviewCards).GetComponent<CardDisplay>();
-            cardDisplay.SetCard(cardData.Card);
+            cardDisplay.SetCard(cardData, cardData.Card);
         }
 
         GearOverlay.SetActive(true);

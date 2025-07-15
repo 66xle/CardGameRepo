@@ -56,6 +56,8 @@ public class DrawState : CombatBaseState
             cm.PlayerDeck.Remove(cardDrawed);
             cm.PlayerHand.Add(cardDrawed);
         }
+
+        cm.UpdateCardsInHand(ctx._selectedEnemyToAttack);
     }
 
     

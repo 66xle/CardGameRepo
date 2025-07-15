@@ -247,7 +247,7 @@ public class CombatStateMachine : MonoBehaviour
     public void CreateCard(CardData cardDrawed, Transform parent)
     {
         CardDisplay cardDisplay = Instantiate(CardManager.CardPrefab, parent).GetComponent<CardDisplay>();
-        cardDisplay.SetCard(cardDrawed.Card);
+        cardDisplay.SetCard(cardDrawed, cardDrawed.Card);
     }
 
     public void EndTurn()

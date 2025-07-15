@@ -21,11 +21,6 @@ MonoBehaviour:
     to an enemy
   Flavour: Coated in deadly toxins, this strike ensures the enemy suffers slowly
     and painfully.
-  PopupKeyPair:
-  - Key: Bleed
-    Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
-  - Key: Poison
-    Value: {fileID: 11400000, guid: 7e7a85d9798338743a57caf3f468f8d4, type: 2}
   Image: {fileID: 21300000, guid: 51795faaed9395b4eba7d10009f3230f, type: 3}
   Frame: {fileID: 21300000, guid: a0be78c2424db6a488d2f683021a99a4, type: 3}
   Cost: 2
@@ -35,6 +30,11 @@ MonoBehaviour:
   Commands:
   - rid: 1089679982310457345
   - rid: 1089679982310457346
+  PopupKeyPair:
+  - Key: Bleed
+    Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
+  - Key: Poison
+    Value: {fileID: 11400000, guid: 7e7a85d9798338743a57caf3f468f8d4, type: 2}
   references:
     version: 2
     RefIds:
