@@ -9,7 +9,7 @@ public struct CardData
 
     public List<AnimationWrapper> AnimationList { get; private set; }
 
-    public CardData(WeaponData weapon, WeaponCardData data, float attack)
+    public CardData(WeaponData weapon, WeaponCardData data, float avatarAttack)
     {
         Card card = data.Card;
         Card copyCard = new Card();
@@ -36,7 +36,7 @@ public struct CardData
         Card = copyCard;
         Weapon = weapon;
 
-        copyCard.LinkDescription = GenerateDescriptionWithDamage(card, weapon, attack);
+        copyCard.LinkDescription = GenerateDescriptionWithDamage(card, weapon, avatarAttack);
     }
 
     public string GenerateDescriptionWithDamage(Card card, WeaponData weapon, float attack)

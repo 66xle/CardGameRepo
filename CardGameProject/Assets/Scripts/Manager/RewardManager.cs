@@ -26,6 +26,7 @@ public class RewardManager : MonoBehaviour
     [Foldout("References", true)]
     [MustBeAssigned] [SerializeField] UIManager UIManager;
     [MustBeAssigned] [SerializeField] EquipmentManager EquipmentManager;
+    [MustBeAssigned] [SerializeField] StatsManager StatsManager;
     [MustBeAssigned][SerializeField] PlayerStatSettings PSS;
     [MustBeAssigned][SerializeField] LootTable LootTable;
     [MustBeAssigned] [SerializeField] Camera RenderCamera;
@@ -101,7 +102,7 @@ public class RewardManager : MonoBehaviour
 
         foreach (WeaponCardData weaponCardData in data.Cards)
         {
-            CardData cardData = new(data, weaponCardData, data.WeaponAttack);
+            CardData cardData = new(data, weaponCardData, StatsManager.Attack);
 
             CardDisplay cardDisplay = Instantiate(CardPrefab, PreviewCards).GetComponent<CardDisplay>();
             cardDisplay.SetCard(cardData.Card);
