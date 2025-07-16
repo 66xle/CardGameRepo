@@ -9,7 +9,7 @@ public static class CalculateDamage
 
         if (avatarTakeDamage != null)
         {
-            damage = avatarTakeDamage.ApplyAdditionalDmgCheck(damage);
+            damage = Mathf.Ceil(avatarTakeDamage.ApplyAdditionalDmgCheck(damage));
 
             damage -= Mathf.Ceil(damage * avatarTakeDamage.Defence);
         }
