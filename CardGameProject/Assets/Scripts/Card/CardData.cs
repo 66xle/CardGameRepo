@@ -40,7 +40,7 @@ public struct CardData
         Card.DisplayDescription = GenerateDescriptionWithDamage(card, weapon, avatarAttack);
     }
 
-    public string GenerateDescriptionWithDamage(Card card, WeaponData weapon, float attack, float defence = 0)
+    public string GenerateDescriptionWithDamage(Card card, WeaponData weapon, float attack, Avatar enemy = null)
     {
         string displayDescription = card.LinkDescription;
 
@@ -48,9 +48,7 @@ public struct CardData
         {
             float value = card.ValuesToReference[i];
 
-            float damage = Mathf.Ceil((attack + weapon.WeaponAttack) * value);
-
-            damage -= Mathf.Ceil(damage * defence);
+            float damage = CalculateDamage.GetDamage(attack, weapon.WeaponAttack, enemy, value);
 
             displayDescription = displayDescription.Replace($"#{i}", $"<color=#FF0000>{damage.ToString()}</color>");
         }

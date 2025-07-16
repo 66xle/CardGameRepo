@@ -16,8 +16,6 @@ public class CardManager : MonoBehaviour
     [MustBeAssigned] public SwitchWeaponManager SwitchWeaponManager;
     [MustBeAssigned] [SerializeField] StatsManager StatsManager;
 
-
-
     [HideInInspector] public List<CardData> PlayerDeck;
     [HideInInspector] public List<CardData> PlayerHand;
     [HideInInspector] public List<CardData> DiscardPile;
@@ -63,8 +61,7 @@ public class CardManager : MonoBehaviour
         {
             GameObject go = PlayerHandTransform.GetChild(i).gameObject;
             CardDisplay display = go.GetComponent<CardDisplay>();
-            string description = display.CardData.GenerateDescriptionWithDamage(display.Card, display.CardData.Weapon, StatsManager.Attack, enemy.Defence);
-
+            string description = display.CardData.GenerateDescriptionWithDamage(display.Card, display.CardData.Weapon, StatsManager.Attack, enemy);
             display.UpdateDescription(description);
         }
     }

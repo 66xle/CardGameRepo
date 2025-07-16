@@ -26,19 +26,6 @@ public class CardDisplay : MonoBehaviour
     public Card Card { get; private set; }
     public CardData CardData { get; private set; }
 
-    private void Awake()
-    {
-        if (Card == null) return;
-
-        Name.text = Card.CardName;
-        Description.text = Card.DisplayDescription;
-        Flavour.text = Card.Flavour;
-        Cost.text = Card.Cost.ToString();
-
-        Image.sprite = Card.Image;
-        Frame.sprite = Card.Frame;
-    }
-
     private void Update()
     {
         if (InputManager.Instance.LeftClickInputDown && !_isPopupDisabled)
@@ -62,10 +49,22 @@ public class CardDisplay : MonoBehaviour
         }
     }
 
+    public void Init()
+    {
+        Name.text = Card.CardName;
+        Description.text = Card.DisplayDescription;
+        Flavour.text = Card.Flavour;
+        Cost.text = Card.Cost.ToString();
+
+        Image.sprite = Card.Image;
+        Frame.sprite = Card.Frame;
+    }
+
     public void SetCard(CardData cardData, Card card)
     {
         Card = card;
         CardData = cardData;
+        Init();
     }
 
     public void ClosePopup()
