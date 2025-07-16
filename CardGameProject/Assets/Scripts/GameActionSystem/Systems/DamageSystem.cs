@@ -46,7 +46,7 @@ public class DamageSystem : MonoBehaviour
             // Check if avatar has guard broken effect
             if (avatarToTakeDamage.hasStatusEffect(Effect.GuardBroken))
             {
-                ReduceHitToRecover(avatarToTakeDamage);
+                //ReduceHitToRecover(avatarToTakeDamage);
             }
             else
             {
@@ -76,7 +76,7 @@ public class DamageSystem : MonoBehaviour
             // Check if avatar has guard broken effect
             if (avatarToTakeDamage.hasStatusEffect(Effect.GuardBroken))
             {
-                ReduceHitToRecover(avatarToTakeDamage);
+                //ReduceHitToRecover(avatarToTakeDamage);
             }
             else
             {
