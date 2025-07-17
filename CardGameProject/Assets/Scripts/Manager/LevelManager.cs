@@ -19,8 +19,8 @@ public class LevelManager : MonoBehaviour
 
     void LoadLevel()
     {
-        if (_currentLevel == LevelSettings.Levels.Count)
-            _currentLevel--;
+        if (_currentLevel >= LevelSettings.Levels.Count)
+            _currentLevel = LevelSettings.Levels.Count - 1;
 
         LevelData data = LevelSettings.Levels[_currentLevel];
 
