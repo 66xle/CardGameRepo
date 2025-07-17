@@ -47,6 +47,7 @@ public class CombatStateMachine : MonoBehaviour
     [MustBeAssigned] [SerializeField] SwitchWeaponManager SwitchWeaponManager;
     [MustBeAssigned] [SerializeField] EnemyManager EnemyManager;
     [MustBeAssigned] [SerializeField] CameraSystem CameraSystem;
+    [MustBeAssigned] public CameraManager CameraManager;
     [MustBeAssigned] public CombatUIManager CombatUIManager;
     [MustBeAssigned] public CardManager CardManager;
     [MustBeAssigned] public RewardManager RewardManager;
@@ -152,7 +153,11 @@ public class CombatStateMachine : MonoBehaviour
             _equipmentHolsterScript.EquipWeapon(weaponToEquip);
         }
 
-        CameraSystem.SetPlayer(player.transform);
+        CameraReferences cr = PlayerSpawnPos.GetComponent<CameraReferences>();
+        cr.SetReferences(CameraManager, SwitchWeaponManager);
+
+        CameraManager.SetFollowTarget(player.transform);
+        CameraManager.DefaultState();
     }
 
     private void LoadEnemy()

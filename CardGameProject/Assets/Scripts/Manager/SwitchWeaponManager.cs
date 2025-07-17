@@ -25,13 +25,13 @@ public class SwitchWeaponManager : MonoBehaviour
 
     public float TransitionSpeed = 1f;
 
-    [MustBeAssigned] public CinemachineVirtualCamera EquipmentCam;
-    [MustBeAssigned] public CinemachineVirtualCamera RightHipCam;
-    [MustBeAssigned] public CinemachineVirtualCamera LeftHipCam;
-    [MustBeAssigned] public CinemachineVirtualCamera BackCam;
-    [MustBeAssigned] public CinemachineVirtualCamera LowerBackCam;
-    [MustBeAssigned] public CinemachineVirtualCamera RightChestCam;
-    [MustBeAssigned] public CinemachineVirtualCamera LeftChestCam;
+    [ReadOnly] public CinemachineVirtualCamera EquipmentCam;
+    [ReadOnly] public CinemachineVirtualCamera RightHipCam;
+    [ReadOnly] public CinemachineVirtualCamera LeftHipCam;
+    [ReadOnly] public CinemachineVirtualCamera BackCam;
+    [ReadOnly] public CinemachineVirtualCamera LowerBackCam;
+    [ReadOnly] public CinemachineVirtualCamera RightChestCam;
+    [ReadOnly] public CinemachineVirtualCamera LeftChestCam;
 
     private int _cameraIndex;
     private bool _currSwitchCam;
