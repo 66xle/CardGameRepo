@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 8e7d1c3fee91fde45b6155350734e19f, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -3362,8 +3362,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765615821}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.053026184, y: 0.9191854, z: -0.13194053, w: 0.36725774}
-  m_LocalPosition: {x: -2.814106, y: 0.64574337, z: -1.0752238}
+  m_LocalRotation: {x: 0.011308822, y: -0.101027735, z: 0.01959818, w: 0.9946263}
+  m_LocalPosition: {x: -0.5940635, y: 0.7947669, z: -3.0955734}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3392,7 +3392,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -3486,9 +3486,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
+  near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60.000004
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -6066,7 +6066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 919187dc8fcd7b94aa89be9a6584ca9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentScore: 0
+  currentScore: 10
   scoreIncrement: 5
   acceptableRange: 3
   statsManager: {fileID: 1461295039}
