@@ -2,12 +2,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using MyBox;
+using UnityEngine.Playables;
 
 public class CameraManager : MonoBehaviour
 {
     public float ActivePriority = 30;
     [MustBeAssigned] public Transform CameraDummy;
     [MustBeAssigned] public Transform VictimDummy;
+    [MustBeAssigned] public PlayableDirector Director;
+    public PlayableAsset asset;
 
     [Header("Lists")]
     public List<CinemachineVirtualCamera> ListIdleCamera;
@@ -28,7 +31,14 @@ public class CameraManager : MonoBehaviour
     [HideInInspector] public CinemachineVirtualCamera LeftChestCam;
 
     private CinemachineVirtualCamera _activeCamera;
+    private PlayableGraph _graph;
 
+    private void Awake()
+    {
+        _graph = PlayableGraph.Create("Graph");
+
+        Director.playableAsset = asset;
+    }
 
     public void ActivateCamera(CinemachineVirtualCamera chosenCamera)
     {

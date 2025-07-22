@@ -1,6 +1,7 @@
 using Cinemachine;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class CameraSystem : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class CameraSystem : MonoBehaviour
         if (avatarPlayingCard is Player)
         {
             cm.FollowState();
+            cm.Director.Play();
         }
     }
 
@@ -57,6 +59,7 @@ public class CameraSystem : MonoBehaviour
         if (avatarPlayingCard is Player)
         {
             cm.AttackState();
+            cm.Director.Stop();
         }
     }
 }
