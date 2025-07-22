@@ -6,7 +6,7 @@ using MyBox;
 public class CameraManager : MonoBehaviour
 {
     public float ActivePriority = 30;
-
+    [MustBeAssigned] public Transform CameraDummy;
 
     [Header("Lists")]
     public List<CinemachineVirtualCamera> ListIdleCamera;
@@ -44,6 +44,12 @@ public class CameraManager : MonoBehaviour
         {
             cam.Follow = player;
         }
+    }
+
+    public void SetDummy(Transform player)
+    {
+        CameraDummy.position = player.position;
+        CameraDummy.rotation = player.rotation;
     }
 
     public CinemachineVirtualCamera GetCamera(List<CinemachineVirtualCamera> listOfCamera)

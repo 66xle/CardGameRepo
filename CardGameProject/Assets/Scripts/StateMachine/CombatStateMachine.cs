@@ -153,9 +153,7 @@ public class CombatStateMachine : MonoBehaviour
             _equipmentHolsterScript.EquipWeapon(weaponToEquip);
         }
 
-        CameraReferences cr = PlayerSpawnPos.GetComponent<CameraReferences>();
-        cr.SetReferences(CameraManager, SwitchWeaponManager);
-
+        CameraManager.SetDummy(player.transform);
         CameraManager.SetFollowTarget(player.transform);
         CameraManager.DefaultState();
     }
