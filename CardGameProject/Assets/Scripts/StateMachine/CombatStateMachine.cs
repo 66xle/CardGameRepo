@@ -154,7 +154,6 @@ public class CombatStateMachine : MonoBehaviour
         }
 
         CameraManager.SetDummy(player.transform);
-        CameraManager.SetFollowTarget(player.transform);
         CameraManager.DefaultState();
     }
 

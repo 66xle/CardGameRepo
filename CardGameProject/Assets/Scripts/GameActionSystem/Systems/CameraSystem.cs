@@ -31,12 +31,6 @@ public class CameraSystem : MonoBehaviour
         if (avatarPlayingCard is Player)
         {
             cm.FollowState();
-
-            //followCam.LookAt = null;
-            //followCam.transform.rotation = defaultCam.transform.rotation;
-            //followCam.LookAt = avatarOpponent.transform;
-            //panCam.LookAt = avatarOpponent.transform;
-            //followCam.Priority = 30;
         }
     }
 
@@ -44,7 +38,7 @@ public class CameraSystem : MonoBehaviour
     {
         if (returnToPosGA.AvatarPlayingCard is Player)
         {
-            cm.FollowBackState();
+            //cm.FollowBackState();
         }
     }
 
@@ -62,11 +56,7 @@ public class CameraSystem : MonoBehaviour
 
         if (avatarPlayingCard is Player)
         {
-
-
-            //panCam.transform.position = followCam.transform.position;
-            //panCam.transform.rotation = followCam.transform.rotation;
-            //panCam.Priority = 31;
+            cm.AttackState();
         }
     }
 }

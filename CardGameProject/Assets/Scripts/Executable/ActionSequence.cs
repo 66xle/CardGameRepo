@@ -34,6 +34,9 @@ public class ActionSequence : Executable
         bool hasMoved = false;
         IsAttackingAllEnemies = false;
 
+        //ctx.CameraManager.SetDummy(avatarPlayingCard.transform);
+        ctx.CameraManager.SetVictimDummy(avatarOpponent.transform);
+
         #endregion
 
         yield return ReadCommands(_actionCommands);

@@ -7,6 +7,7 @@ public class CameraManager : MonoBehaviour
 {
     public float ActivePriority = 30;
     [MustBeAssigned] public Transform CameraDummy;
+    [MustBeAssigned] public Transform VictimDummy;
 
     [Header("Lists")]
     public List<CinemachineVirtualCamera> ListIdleCamera;
@@ -38,7 +39,7 @@ public class CameraManager : MonoBehaviour
         _activeCamera.Priority = 30;
     }
 
-    public void SetFollowTarget(Transform player)
+    private void SetFollowTarget(Transform player)
     {
         foreach (CinemachineVirtualCamera cam in FollowTarget)
         {
@@ -46,10 +47,18 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    public void SetDummy(Transform player)
+    public void SetDummy(Transform avatarTransform)
     {
-        CameraDummy.position = player.position;
-        CameraDummy.rotation = player.rotation;
+        CameraDummy.position = avatarTransform.position;
+        CameraDummy.rotation = avatarTransform.rotation;
+
+        SetFollowTarget(avatarTransform);
+    }
+
+    public void SetVictimDummy(Transform avatarTransform)
+    {
+        VictimDummy.position = avatarTransform.position;
+        VictimDummy.rotation = avatarTransform.rotation;
     }
 
     public CinemachineVirtualCamera GetCamera(List<CinemachineVirtualCamera> listOfCamera)
