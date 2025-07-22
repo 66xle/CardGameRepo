@@ -29,7 +29,6 @@ public class StatsManager : MonoBehaviour
         if (GameManager.Instance.PlayerLevel == 0)
         {
             GameManager.Instance.PlayerLevel = Level;
-            GameManager.Instance.CurrentEXP = (int)PSS.CalculateExperience(Level);
         }
 
         CurrentMaxHealth = PSS.CalculateHealth(Level);
