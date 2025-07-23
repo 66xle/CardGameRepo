@@ -83,10 +83,14 @@ public class CameraManager : MonoBehaviour
         SetFollowTarget(avatarTransform);
     }
 
-    public void SetVictimDummy(Transform avatarTransform)
+    public void SetVictimDummy(Transform victim, Transform attacker)
     {
-        VictimDummy.position = avatarTransform.position;
-        VictimDummy.rotation = avatarTransform.rotation;
+        VictimDummy.position = victim.position;
+
+        Vector3 direction = attacker.position - victim.position;
+        direction.y = 0;
+
+        VictimDummy.rotation = Quaternion.LookRotation(direction);
     }
 
     #endregion

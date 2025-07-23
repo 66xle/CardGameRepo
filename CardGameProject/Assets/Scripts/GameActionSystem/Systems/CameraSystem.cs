@@ -57,7 +57,7 @@ public class CameraSystem : MonoBehaviour
         if (triggerAttackAnimGA.AttackTimeline != null)
         {
             cm.SetTimeline(triggerAttackAnimGA.AttackTimeline);
-            cm.ToggleDirector(false);
+            cm.ToggleDirector(true);
             return;
         }
 

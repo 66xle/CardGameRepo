@@ -35,7 +35,7 @@ public class ActionSequence : Executable
         IsAttackingAllEnemies = false;
 
         //ctx.CameraManager.SetDummy(avatarPlayingCard.transform);
-        ctx.CameraManager.SetVictimDummy(avatarOpponent.transform);
+        ctx.CameraManager.SetVictimDummy(avatarOpponent.transform, avatarPlayingCard.transform);
 
         #endregion
 
