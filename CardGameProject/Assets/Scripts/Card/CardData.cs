@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public struct CardData
 {
@@ -8,6 +9,9 @@ public struct CardData
     public Card Card { get; private set; }
 
     public List<AnimationWrapper> AnimationList { get; private set; }
+
+    public PlayableAsset FollowTimeline { get; private set; }
+    public PlayableAsset AttackTimeline { get; private set; }
 
     public CardData(WeaponData weapon, WeaponCardData data, float avatarAttack)
     {
@@ -34,6 +38,8 @@ public struct CardData
 
 
         AnimationList = data.AnimationList;
+        FollowTimeline = data.FollowTimeline;
+        AttackTimeline = data.AttackTimeline;
         Card = copyCard;
         Weapon = weapon;
 

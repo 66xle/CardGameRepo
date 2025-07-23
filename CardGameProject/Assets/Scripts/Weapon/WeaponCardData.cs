@@ -6,6 +6,7 @@ using UnityEngine;
 using SerializeReferenceEditor;
 using System.Linq;
 using UnityEngine.Rendering;
+using UnityEngine.Playables;
 
 public enum Boolean
 {
@@ -27,12 +28,15 @@ public enum AttackType
 public class WeaponCardData 
 {
     public Card Card;
+    public int CardAmount = 1;
     
     [HideInInspector] public List<AnimationClipData> AnimationClipDataList;
     [DefinedValues(nameof(GetAnimationList))] public string Animation;
     [ConditionalField(nameof(Animation), true, AttackType.None, AttackType.Strike, AttackType.Heavy, AttackType.AOE)] public Boolean OverrideDistanceOffset = Boolean.False;
     [ConditionalField(false, nameof(OverrideDistance))] public float DistanceOffset = 0;
-    public int Amount = 1;
+    [ConditionalField(nameof(Animation), true, AttackType.None, AttackType.Strike, AttackType.Heavy, AttackType.AOE)] public Boolean OverrideCamera = Boolean.False;
+    [ConditionalField(false, nameof(OverrideVirtualCamera))] public PlayableAsset FollowTimeline;
+    [ConditionalField(false, nameof(OverrideVirtualCamera))] public PlayableAsset AttackTimeline;
 
     [ReadOnly] public List<AnimationWrapper> AnimationList = new();
 
@@ -94,6 +98,15 @@ public class WeaponCardData
         else if (Animation == AttackType.Heavy.ToString())
             return false;
         else if (Animation == AttackType.AOE.ToString())
+            return false;
+
+        return true;
+    }
+
+
+    public bool OverrideVirtualCamera()
+    {
+        if (OverrideCamera == Boolean.False) 
             return false;
 
         return true;

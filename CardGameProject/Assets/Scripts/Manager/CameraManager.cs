@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 
 public class CameraManager : MonoBehaviour
 {
-    public float ActivePriority = 30;
+    public int ActivePriority = 30;
     [MustBeAssigned] public Transform CameraDummy;
     [MustBeAssigned] public Transform VictimDummy;
     [MustBeAssigned] public PlayableDirector Director;
@@ -42,11 +42,14 @@ public class CameraManager : MonoBehaviour
 
     public void ActivateCamera(CinemachineVirtualCamera chosenCamera)
     {
+        if (_activeCamera == chosenCamera)
+            return;
+
         if (_activeCamera != null)
             _activeCamera.Priority = 0;
 
         _activeCamera = chosenCamera;
-        _activeCamera.Priority = 30;
+        _activeCamera.Priority = ActivePriority;
     }
 
     private void SetFollowTarget(Transform player)

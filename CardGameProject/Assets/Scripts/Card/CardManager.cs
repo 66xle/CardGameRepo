@@ -34,7 +34,7 @@ public class CardManager : MonoBehaviour
         // Load main hand
         foreach (WeaponCardData data in SwitchWeaponManager.CurrentMainHand.Cards)
         {
-            for (int i = 0; i < data.Amount; i++)
+            for (int i = 0; i < data.CardAmount; i++)
             {
                 CardData cardData = new(SwitchWeaponManager.CurrentMainHand, data, StatsManager.Attack);
                 PlayerDeck.Add(cardData);
@@ -46,7 +46,7 @@ public class CardManager : MonoBehaviour
         {
             foreach (WeaponCardData data in weaponData.Cards)
             {
-                for (int i = 0; i < data.Amount; i++)
+                for (int i = 0; i < data.CardAmount; i++)
                 {
                     CardData cardData = new(weaponData, data, StatsManager.Attack);
                     PlayerDeck.Add(cardData);
