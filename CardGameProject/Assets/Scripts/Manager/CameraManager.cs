@@ -7,19 +7,18 @@ using UnityEngine.Playables;
 public class CameraManager : MonoBehaviour
 {
     public int ActivePriority = 30;
-    [MustBeAssigned] public Transform CameraDummy;
-    [MustBeAssigned] public Transform VictimDummy;
-    [MustBeAssigned] public PlayableDirector Director;
-    public PlayableAsset asset;
+    [MustBeAssigned] [SerializeField] Transform CameraDummy;
+    [MustBeAssigned] [SerializeField] Transform VictimDummy;
+    [MustBeAssigned] [SerializeField] PlayableDirector TimelineDirector;
 
     [Header("Lists")]
-    public List<CinemachineVirtualCamera> ListIdleCamera;
-    public List<CinemachineVirtualCamera> ListDefaultCamera;
-    public List<CinemachineVirtualCamera> ListFollowCamera;
-    public List<CinemachineVirtualCamera> ListFollowBackCamera;
-    public List<CinemachineVirtualCamera> ListAttackCamera;
+    [SerializeField] List<CinemachineVirtualCamera> ListIdleCamera;
+    [SerializeField] List<CinemachineVirtualCamera> ListDefaultCamera;
+    [SerializeField] List<CinemachineVirtualCamera> ListFollowCamera;
+    [SerializeField] List<CinemachineVirtualCamera> ListFollowBackCamera;
+    [SerializeField] List<CinemachineVirtualCamera> ListAttackCamera;
 
-    public List<CinemachineVirtualCamera> FollowTarget;
+    [SerializeField] List<CinemachineVirtualCamera> FollowTarget;
 
 
     [HideInInspector] public CinemachineVirtualCamera EquipmentCam;
@@ -31,14 +30,6 @@ public class CameraManager : MonoBehaviour
     [HideInInspector] public CinemachineVirtualCamera LeftChestCam;
 
     private CinemachineVirtualCamera _activeCamera;
-    private PlayableGraph _graph;
-
-    private void Awake()
-    {
-        _graph = PlayableGraph.Create("Graph");
-
-        Director.playableAsset = asset;
-    }
 
     public void ActivateCamera(CinemachineVirtualCamera chosenCamera)
     {
@@ -52,6 +43,22 @@ public class CameraManager : MonoBehaviour
         _activeCamera.Priority = ActivePriority;
     }
 
+    public void SetTimeline(PlayableAsset timeline)
+    {
+        TimelineDirector.playableAsset = timeline;
+    }
+
+    public void ToggleDirector(bool toggle)
+    {
+        if (toggle)
+        {
+            TimelineDirector.Play();
+            return;
+        }
+
+        TimelineDirector.Stop();
+    }
+
     private void SetFollowTarget(Transform player)
     {
         foreach (CinemachineVirtualCamera cam in FollowTarget)
@@ -59,6 +66,14 @@ public class CameraManager : MonoBehaviour
             cam.Follow = player;
         }
     }
+
+    public CinemachineVirtualCamera GetCamera(List<CinemachineVirtualCamera> listOfCamera)
+    {
+        int index = Random.Range(0, listOfCamera.Count);
+        return listOfCamera[index];
+    }
+
+    #region Dummy
 
     public void SetDummy(Transform avatarTransform)
     {
@@ -74,11 +89,9 @@ public class CameraManager : MonoBehaviour
         VictimDummy.rotation = avatarTransform.rotation;
     }
 
-    public CinemachineVirtualCamera GetCamera(List<CinemachineVirtualCamera> listOfCamera)
-    {
-        int index = Random.Range(0, listOfCamera.Count);
-        return listOfCamera[index];
-    }
+    #endregion
+
+    #region States
 
     public void DefaultState()
     {
@@ -103,4 +116,6 @@ public class CameraManager : MonoBehaviour
         CinemachineVirtualCamera cam = GetCamera(ListAttackCamera);
         ActivateCamera(cam);
     }
+
+    #endregion
 }

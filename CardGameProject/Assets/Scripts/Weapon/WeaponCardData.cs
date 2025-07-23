@@ -70,20 +70,30 @@ public class WeaponCardData
         else if (Animation == AttackType.AOE.ToString())
             index = 2;
 
-
+        // Single Animation
         if (index == -1)
         {
             char split = '_';
             string[] stringSplit = Animation.Split(split);
             float distance = AnimationClipDataList[int.Parse(stringSplit[0])].DistanceOffset;
 
+            PlayableAsset followTimeline = null;
+            PlayableAsset attackTimeline = null;
+
             if (OverrideDistanceOffset == Boolean.True)
                 distance = DistanceOffset;
 
-            AnimationList.Add(new AnimationWrapper(stringSplit[1], distance));
+            if (OverrideCamera == Boolean.True)
+            {
+                followTimeline = FollowTimeline;
+                attackTimeline = AttackTimeline;
+            }
+
+            AnimationList.Add(new AnimationWrapper(stringSplit[1], distance, followTimeline, attackTimeline));
             return;
         }
 
+        // Weapon Type Category
         WeaponTypeAnimationSet[index].AnimationClipDataList.ForEach(clipData => AnimationList.Add(new AnimationWrapper(clipData)));
     }
 

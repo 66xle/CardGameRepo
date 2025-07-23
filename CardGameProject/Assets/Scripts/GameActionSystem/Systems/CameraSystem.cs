@@ -9,7 +9,7 @@ public class CameraSystem : MonoBehaviour
 
     private void OnEnable()
     {
-        ActionSystem.SubscribeReaction<MoveToPosGA>(MoveToPosReaction, ReactionTiming.PRE);
+        ActionSystem.SubscribeReaction<MoveToPosGA>(MoveToPosReactionPre, ReactionTiming.PRE);
         ActionSystem.SubscribeReaction<ReturnToPosGA>(ReturnToPosReactionPre, ReactionTiming.PRE);
         ActionSystem.SubscribeReaction<ReturnToPosGA>(ReturnToPosReactionPost, ReactionTiming.POST);
         ActionSystem.SubscribeReaction<TriggerAttackAnimGA>(TriggerAttackAnimReaction, ReactionTiming.PRE);
@@ -17,23 +17,23 @@ public class CameraSystem : MonoBehaviour
 
     private void OnDisable()
     {
-        ActionSystem.UnsubscribeReaction<MoveToPosGA>(MoveToPosReaction, ReactionTiming.PRE);
+        ActionSystem.UnsubscribeReaction<MoveToPosGA>(MoveToPosReactionPre, ReactionTiming.PRE);
         ActionSystem.UnsubscribeReaction<ReturnToPosGA>(ReturnToPosReactionPre, ReactionTiming.PRE);
         ActionSystem.UnsubscribeReaction<ReturnToPosGA>(ReturnToPosReactionPost, ReactionTiming.POST);
         ActionSystem.UnsubscribeReaction<TriggerAttackAnimGA>(TriggerAttackAnimReaction, ReactionTiming.PRE);
     }
 
 
-    private void MoveToPosReaction(MoveToPosGA moveToPosGA)
+    private void MoveToPosReactionPre(MoveToPosGA moveToPosGA)
     {
-        Avatar avatarPlayingCard = moveToPosGA.AvatarPlayingCard;
-        Avatar avatarOpponent = moveToPosGA.AvatarOpponent;
-
-        if (avatarPlayingCard is Player)
+        if (moveToPosGA.FollowTimeline != null)
         {
-            cm.FollowState();
-            cm.Director.Play();
+            cm.SetTimeline(moveToPosGA.FollowTimeline);
+            cm.ToggleDirector(true);
+            return;
         }
+
+        cm.FollowState();
     }
 
     private void ReturnToPosReactionPre(ReturnToPosGA returnToPosGA)
@@ -54,12 +54,13 @@ public class CameraSystem : MonoBehaviour
 
     private void TriggerAttackAnimReaction(TriggerAttackAnimGA triggerAttackAnimGA)
     {
-        Avatar avatarPlayingCard = triggerAttackAnimGA.AvatarPlayingCard;
-
-        if (avatarPlayingCard is Player)
+        if (triggerAttackAnimGA.AttackTimeline != null)
         {
-            cm.AttackState();
-            cm.Director.Stop();
+            cm.SetTimeline(triggerAttackAnimGA.AttackTimeline);
+            cm.ToggleDirector(false);
+            return;
         }
+
+        cm.AttackState();
     }
 }
