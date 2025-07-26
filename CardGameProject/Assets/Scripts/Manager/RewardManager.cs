@@ -12,6 +12,10 @@ public class RewardManager : MonoBehaviour
     [MustBeAssigned][SerializeField] Transform DisplayRewardsUI;
     [MustBeAssigned][SerializeField] Transform PreviewCards;
 
+    [Foldout("Gear Select", true)]
+    [MustBeAssigned][SerializeField] GameObject GearPrefab;
+    [MustBeAssigned][SerializeField] Transform GearParent;
+
     [Foldout("Rewards", true)]
     [ReadOnly][SerializeField] List<WeaponData> PoolOfGear;
     [SerializeField] int LowLevel;
@@ -34,11 +38,14 @@ public class RewardManager : MonoBehaviour
     [MustBeAssigned] [SerializeField] GameObject CardPrefab;
     [MustBeAssigned] public GameObject RewardUI;
     [MustBeAssigned] public GameObject GameOverUI;
+    [MustBeAssigned] public GameObject ChooseGearUI;
+    
     
 
     private List<WeaponData> listOfWeaponReward = new();
     private GameObject currentObjectInOverlay;
     private CardCarousel cardCarousel;
+    private GearSelect selectedGear;
 
     private void Awake()
     {
@@ -54,22 +61,23 @@ public class RewardManager : MonoBehaviour
         UIManager.NextScene();
     }
 
-    public void DisplayReward()
+    public void DetermineDrops()
     {
-        CalculateExp();
-
         PoolOfGear.Clear();
 
         float playerLevel = GameManager.Instance.PlayerLevel;
 
-        if (playerLevel <= LowLevel) 
+        if (playerLevel <= LowLevel)
             PoolOfGear.AddRange(LootTable.CommonGear);
-        if (playerLevel > LowLevel && playerLevel <= MidLevel) 
+        if (playerLevel > LowLevel && playerLevel <= MidLevel)
             PoolOfGear.AddRange(LootTable.RareGear);
-        if (playerLevel > MidLevel) 
+        if (playerLevel > MidLevel)
             PoolOfGear.AddRange(LootTable.EpicGear);
+    }
 
-        int index = Random.Range(0, PoolOfGear.Count);
+    public void DisplayReward()
+    {
+        DetermineDrops();
 
         if (PoolOfGear.Count == 0)
         {
@@ -77,18 +85,71 @@ public class RewardManager : MonoBehaviour
             return;
         }
 
-        WeaponData weaponData = PoolOfGear[index];
-        listOfWeaponReward.Add(weaponData);
+        // Determine weapon or armor drop
 
-        GameObject icon = Instantiate(IconPrefab, DisplayRewardsUI);
-        RawImage image = icon.GetComponent<RawImage>();
-        image.texture = weaponData.IconTexture;
+        List<WeaponData> weapons = new();
 
-        Button button = icon.GetComponent<Button>();
-        button.onClick.AddListener(() => OpenGearOverlay(weaponData));
+        for (int i = 0; i < 3; i++)
+        {
+            int index = Random.Range(0, PoolOfGear.Count); // Not the same weapon. And remove weapon from pool if chosen.
+            weapons.Add(PoolOfGear[index]);
+        }
 
-        GearItem item = icon.GetComponent<GearItem>();
-        item.WeaponData = weaponData;
+        ChooseGearUI.SetActive(true);
+        CreateGearItem(weapons);
+
+        CalculateExp();
+    }
+
+
+
+    public void CreateGearItem(List<WeaponData> weapons)
+    {
+        foreach (WeaponData data in weapons)
+        {
+            GameObject gear = Instantiate(GearPrefab, GearParent);
+            GearSelect gearSelect = gear.GetComponent<GearSelect>();
+
+            gearSelect.Init(data);
+
+            Button button = gear.GetComponent<Button>();
+            button.onClick.AddListener(() => SelectGear(gearSelect));
+        }
+    }
+
+    public void SelectGear(GearSelect gear)
+    {
+        if (selectedGear != null)
+            selectedGear.ToggleHighlight(false);
+
+        selectedGear = gear;
+        selectedGear.ToggleHighlight(true);
+    }
+
+    public void ChooseGearButton()
+    {
+        listOfWeaponReward.Add(selectedGear.GetWeaponData());
+
+        ChooseGearUI.SetActive(false);
+
+        RewardUI.SetActive(true);
+        CreateGearIcon();
+    }
+
+    public void CreateGearIcon()
+    {
+        foreach (WeaponData data in listOfWeaponReward)
+        {
+            GameObject icon = Instantiate(IconPrefab, DisplayRewardsUI);
+            RawImage image = icon.GetComponent<RawImage>();
+            image.texture = data.IconTexture;
+
+            Button button = icon.GetComponent<Button>();
+            button.onClick.AddListener(() => OpenGearOverlay(data));
+
+            GearItem item = icon.GetComponent<GearItem>();
+            item.WeaponData = data;
+        }
     }
 
     public void OpenGearOverlay(WeaponData data)
