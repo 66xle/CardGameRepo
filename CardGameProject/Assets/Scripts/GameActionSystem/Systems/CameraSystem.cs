@@ -38,18 +38,12 @@ public class CameraSystem : MonoBehaviour
 
     private void ReturnToPosReactionPre(ReturnToPosGA returnToPosGA)
     {
-        if (returnToPosGA.AvatarPlayingCard is Player)
-        {
-            //cm.FollowBackState();
-        }
+        //cm.FollowBackState();
     }
 
     private void ReturnToPosReactionPost(ReturnToPosGA returnToPosGA)
     {
-        if (returnToPosGA.AvatarPlayingCard is Player)
-        {
-            cm.DefaultState();
-        }
+        cm.DefaultState();
     }
 
     private void TriggerAttackAnimReaction(TriggerAttackAnimGA triggerAttackAnimGA)

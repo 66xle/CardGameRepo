@@ -195,15 +195,11 @@ public class StatusEffectState : CombatBaseState
     public void ActivateStatusCamera()
     {
         CinemachineVirtualCamera vcam = _currentAvatarSelected.transform.parent.GetChild(0).GetComponent<CinemachineVirtualCamera>();
-        vcam.Priority = 40;
+        ctx.CameraManager.ActivateCamera(vcam);
     }
 
     public void DeactivateStatusCamera()
     {
-        CinemachineVirtualCamera vcam = _currentAvatarSelected.transform.parent.GetChild(0).GetComponent<CinemachineVirtualCamera>();
-        vcam.Priority = 0;
+        ctx.CameraManager.DefaultState();
     }
-
-
-
 }
