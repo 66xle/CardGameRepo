@@ -37,8 +37,6 @@ public class CombatEndState : CombatBaseState
         yield return new WaitForSeconds(1f);
 
         ctx.RewardManager.DisplayReward();
-
-        ctx.RewardManager.RewardUI.SetActive(true);
         Time.timeScale = 0;
     }
 

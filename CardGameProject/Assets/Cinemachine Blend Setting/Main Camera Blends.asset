@@ -13,77 +13,22 @@ MonoBehaviour:
   m_Name: Main Camera Blends
   m_EditorClassIdentifier: 
   m_CustomBlends:
-  - m_From: Follow
-    m_To: Pan
+  - m_From: Over The Shoulder
+    m_To: Follow Player
     m_Blend:
-      m_Style: 6
-      m_Time: 0.5
+      m_Style: 2
+      m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: '**ANY CAMERA**'
-    m_To: Enemy 1 Cam
+  - m_From: Follow Player
+    m_To: Overhead
     m_Blend:
-      m_Style: 0
-      m_Time: 2
-      m_CustomCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 0
-  - m_From: '**ANY CAMERA**'
-    m_To: Enemy 2 Cam
-    m_Blend:
-      m_Style: 0
-      m_Time: 2
-      m_CustomCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 0
-  - m_From: '**ANY CAMERA**'
-    m_To: Enemy 3 Cam
-    m_Blend:
-      m_Style: 0
-      m_Time: 2
-      m_CustomCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 0
-  - m_From: Enemy 1 Cam
-    m_To: Default
-    m_Blend:
-      m_Style: 0
-      m_Time: 2
-      m_CustomCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 0
-  - m_From: Enemy 2 Cam
-    m_To: Default
-    m_Blend:
-      m_Style: 0
-      m_Time: 2
-      m_CustomCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 0
-  - m_From: Enemy 3 Cam
-    m_To: Default
-    m_Blend:
-      m_Style: 0
-      m_Time: 2
+      m_Style: 1
+      m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []

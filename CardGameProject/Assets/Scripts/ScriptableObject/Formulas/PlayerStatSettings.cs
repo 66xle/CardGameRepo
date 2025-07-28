@@ -10,6 +10,17 @@ public class PlayerStatSettings : ScriptableObject
     [SerializeField] Vector3 Defence;
     [SerializeField] int DefencePercentage;
 
+    public float CalculateExperience(float level)
+    {
+        Vector3 stat = Experience;
+
+        float a = stat.x * level;
+        float b = stat.y * level;
+        float c = stat.z;
+
+        return Mathf.RoundToInt(Mathf.Pow(a, 2) + b + c);
+    }
+
     public float CalculateHealth(float level)
     {
         Vector3 stat = Health;

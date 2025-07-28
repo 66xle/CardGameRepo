@@ -34,6 +34,9 @@ public class ActionSequence : Executable
         bool hasMoved = false;
         IsAttackingAllEnemies = false;
 
+        //ctx.CameraManager.SetDummy(avatarPlayingCard.transform);
+        ctx.CameraManager.SetVictimDummy(avatarOpponent.transform, avatarPlayingCard.transform);
+
         #endregion
 
         yield return ReadCommands(_actionCommands);
@@ -54,10 +57,10 @@ public class ActionSequence : Executable
             AnimationWrapper animationWrapper = GetAttackAnimation();
 
             // Trigger move animation | After move GA, reaction will trigger attack GA
-            MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, IsAttackingAllEnemies, animationWrapper.DistanceOffset);
+            MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, IsAttackingAllEnemies, animationWrapper.DistanceOffset, animationWrapper.FollowTimeline);
             ActionSystem.Instance.Perform(moveToPosGA);
 
-            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, animationWrapper.AnimationName);
+            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline);
             moveToPosGA.PostReactions.Add(triggerAttackAnimGA);
 
             yield return new WaitWhile(() => !avatarPlayingCard.DoDamage);

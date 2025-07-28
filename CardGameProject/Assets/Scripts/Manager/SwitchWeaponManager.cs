@@ -12,6 +12,7 @@ public class SwitchWeaponManager : MonoBehaviour
     [Header("References")]
     [MustBeAssigned] public EquipmentManager EquipmentManager;
     [MustBeAssigned] public CombatUIManager CombatUIManager;
+    [MustBeAssigned] public WeaponDamageSettings WeaponRaritySettings;
 
     public WeaponData CurrentMainHand { get; set; }
     public WeaponData CurrentOffHand { get; set; }
@@ -24,13 +25,13 @@ public class SwitchWeaponManager : MonoBehaviour
 
     public float TransitionSpeed = 1f;
 
-    [MustBeAssigned] public CinemachineVirtualCamera EquipmentCam;
-    [MustBeAssigned] public CinemachineVirtualCamera RightHipCam;
-    [MustBeAssigned] public CinemachineVirtualCamera LeftHipCam;
-    [MustBeAssigned] public CinemachineVirtualCamera BackCam;
-    [MustBeAssigned] public CinemachineVirtualCamera LowerBackCam;
-    [MustBeAssigned] public CinemachineVirtualCamera RightChestCam;
-    [MustBeAssigned] public CinemachineVirtualCamera LeftChestCam;
+    public CinemachineVirtualCamera EquipmentCam;
+    public CinemachineVirtualCamera RightHipCam;
+    public CinemachineVirtualCamera LeftHipCam;
+    public CinemachineVirtualCamera BackCam;
+    public CinemachineVirtualCamera LowerBackCam;
+    public CinemachineVirtualCamera RightChestCam;
+    public CinemachineVirtualCamera LeftChestCam;
 
     private int _cameraIndex;
     private bool _currSwitchCam;
@@ -89,6 +90,10 @@ public class SwitchWeaponManager : MonoBehaviour
     private WeaponData CopyWeaponData(WeaponData data)
     {
         WeaponData newData = new WeaponData(data);
+
+        // Scale weapon damage to rarity
+        newData.WeaponAttack = WeaponRaritySettings.GetWeaponDamage(newData);
+
         newData.Guid = Guid.NewGuid().ToString();
         return newData;
     }

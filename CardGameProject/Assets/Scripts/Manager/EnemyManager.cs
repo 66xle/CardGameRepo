@@ -15,6 +15,7 @@ public class EnemyManager : MonoBehaviour
     [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
     [MustBeAssigned] [SerializeField] EnemyStatSettings ESS;
     [MustBeAssigned] [SerializeField] DifficultyManager DifficultyManager;
+    [MustBeAssigned] [SerializeField] CardManager CardManager;
 
     private void Awake()
     {
@@ -32,25 +33,6 @@ public class EnemyManager : MonoBehaviour
     public List<EnemyData> GetEnemies()
     {
         return DifficultyManager.GetEnemies();
-
-        List<EnemyData> getEnemies = new();
-        List<EnemyData> enemies = DifficultyManager.GetEnemies();
-
-        int count = Random.Range(AmountOfEnemies.Min, AmountOfEnemies.Max + 1);
-
-        for (int i = 0; i < count; i++)
-        {
-            if (enemies.Count == 0)
-            {
-                Debug.LogAssertion("Enemy Manager: Not enough enemies in List.");
-                return getEnemies;
-            }
-            int index = Random.Range(0, enemies.Count);
-            getEnemies.Add(enemies[index]);
-            enemies.RemoveAt(index);
-        }
-
-        return getEnemies;
     }
 
     public List<Enemy> InitEnemies(List<EnemyData> enemyDataList)
@@ -69,10 +51,16 @@ public class EnemyManager : MonoBehaviour
             enemy.InitUI(statsUI, CombatUIManager.detailedUI);
 
             EnemyUI enemyUI = statsUI.GetComponent<EnemyUI>();
-            enemyUI.Init(Ctx, enemy);
+            enemyUI.Init(Ctx, enemy, this);
         }
 
         return enemies;
+    }
+
+    public void SelectEnemy(Enemy enemy)
+    {
+        CardManager.UpdateCardsInHand(enemy);
+        enemy.EnemySelection(true);
     }
 
 }

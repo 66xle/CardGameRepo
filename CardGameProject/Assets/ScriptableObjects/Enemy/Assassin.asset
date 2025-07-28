@@ -15,24 +15,23 @@ MonoBehaviour:
   Guid: 15be70bbc9b436444af9e3026ecfce7a
   Prefab: {fileID: 6075165209856986820, guid: 91c8a09fad817354c8d2624f0366be7e, type: 3}
   Name: Assassin
-  Health: 0
-  Guard: 3
+  Guard: 5
   Level: 1
   EnemyType: 1
   WeaponType: 1
   WeaponTypeAnimationSet:
-  - rid: 1089679956138524756
-  - rid: 1089679956138524757
-  - rid: 1089679956138524758
+  - rid: 1089680298887086086
+  - rid: 1089680298887086087
+  - rid: 1089680298887086088
   Cards:
-  - rid: 1089679909708628045
+  - rid: 1089679982310457441
   references:
     version: 2
     RefIds:
-    - rid: 1089679909708628045
+    - rid: 1089679982310457441
       type: {class: WeaponCardData, ns: , asm: Assembly-CSharp}
       data:
-        Card: {fileID: 11400000, guid: 7adfbb88d1838da4bacde094ec37a06c, type: 2}
+        Card: {fileID: 11400000, guid: b3836e0b75964a944a2f29565af14db9, type: 2}
         AnimationClipDataList:
         - Clip: {fileID: 1827226128182048838, guid: 3d8051e0b50b9c84e8d5c5e945105220, type: 3}
           DistanceOffset: 0
@@ -50,8 +49,9 @@ MonoBehaviour:
           DistanceOffset: 0
         Animation: Strike
         OverrideDistanceOffset: 1
-        distanceOffset: 0
-    - rid: 1089679956138524756
+        DistanceOffset: 0
+        Amount: 0
+    - rid: 1089680298887086086
       type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -63,7 +63,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: 2680591b97b18a24cabe8e529c6763c4, type: 3}
           DistanceOffset: 0
-    - rid: 1089679956138524757
+    - rid: 1089680298887086087
       type: {class: WeaponTypeAnimationHeavy, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -71,7 +71,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: ba31907f1536e61439b0c4b2b1727f79, type: 3}
           DistanceOffset: 0
-    - rid: 1089679956138524758
+    - rid: 1089680298887086088
       type: {class: WeaponTypeAnimationAOE, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:

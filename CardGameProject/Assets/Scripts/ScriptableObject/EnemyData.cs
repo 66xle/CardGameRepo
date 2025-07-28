@@ -20,7 +20,6 @@ public class EnemyData : ScriptableObject
     [ReadOnly] public string Guid;
     public GameObject Prefab;
     public string Name;
-    public int Health;
     public int Guard;
     public int Level = 1;
 

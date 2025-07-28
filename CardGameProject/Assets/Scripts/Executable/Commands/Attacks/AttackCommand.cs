@@ -30,13 +30,7 @@ public abstract class AttackCommand : Command
         }
         else
         {
-
-            float damage = Mathf.Ceil((avatarPlayingCard.Attack + ExecutableParameters.WeaponData.WeaponAttack) * Value);
-
-            // Additional Damage Check
-            damage = avatarOpponent.ApplyAdditionalDmgCheck(damage);
-
-            damage -= Mathf.Ceil(damage * avatarOpponent.Defence);
+            float damage = CalculateDamage.GetDamage(avatarPlayingCard.Attack, ExecutableParameters.WeaponData.WeaponAttack, avatarOpponent, Value);
 
             for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
             {

@@ -12,7 +12,6 @@ public class AnimationSystem : MonoBehaviour
     public AnimationCurve moveAnimCurve;
     public AnimationCurve jumpAnimCurve;
 
-
     private void OnEnable()
     {
         ActionSystem.AttachPerformer<MoveToPosGA>(MoveToPosPerformer);
@@ -54,8 +53,6 @@ public class AnimationSystem : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(-dir);
         currentTransform.DORotate(targetRotation.eulerAngles, 1f, RotateMode.Fast);
 
-
-
         yield return tween.WaitForCompletion();
     }
 
@@ -87,6 +84,11 @@ public class AnimationSystem : MonoBehaviour
     {
         Avatar avatarPlayingCard = triggerAttackAnimGA.AvatarPlayingCard;
         Animator animator = avatarPlayingCard.GetComponent<Animator>();
+
+        if (triggerAttackAnimGA.AttackTimeline != null)
+        {
+
+        }
 
         string animationName = triggerAttackAnimGA.AnimationName;
 

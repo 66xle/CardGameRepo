@@ -16,8 +16,6 @@ public class CardManager : MonoBehaviour
     [MustBeAssigned] public SwitchWeaponManager SwitchWeaponManager;
     [MustBeAssigned] [SerializeField] StatsManager StatsManager;
 
-
-
     [HideInInspector] public List<CardData> PlayerDeck;
     [HideInInspector] public List<CardData> PlayerHand;
     [HideInInspector] public List<CardData> DiscardPile;
@@ -33,18 +31,38 @@ public class CardManager : MonoBehaviour
 
     public void LoadCards()
     {
-        PlayerDeck.AddRange(SwitchWeaponManager.CurrentMainHand.Cards.Select(card => new CardData(SwitchWeaponManager.CurrentMainHand, card, StatsManager.Attack)));
-
+        // Load main hand
+        foreach (WeaponCardData data in SwitchWeaponManager.CurrentMainHand.Cards)
+        {
+            for (int i = 0; i < data.CardAmount; i++)
+            {
+                CardData cardData = new(SwitchWeaponManager.CurrentMainHand, data, StatsManager.Attack);
+                PlayerDeck.Add(cardData);
+            }
+        }
+    
+        // Load holstered cards
         foreach (WeaponData weaponData in SwitchWeaponManager.CurrentEquippedWeapons)
         {
             foreach (WeaponCardData data in weaponData.Cards)
             {
-                CardData cardData = new(weaponData, data, StatsManager.Attack);
-
-                PlayerDeck.Add(cardData);
+                for (int i = 0; i < data.CardAmount; i++)
+                {
+                    CardData cardData = new(weaponData, data, StatsManager.Attack);
+                    PlayerDeck.Add(cardData);
+                }
             }
         }
     }
 
-    
+    public void UpdateCardsInHand(Enemy enemy)
+    {
+        for (int i = 0; i < PlayerHandTransform.childCount; i++)
+        {
+            GameObject go = PlayerHandTransform.GetChild(i).gameObject;
+            CardDisplay display = go.GetComponent<CardDisplay>();
+            string description = display.CardData.GenerateDescriptionWithDamage(display.Card, display.CardData.Weapon, StatsManager.Attack, enemy);
+            display.UpdateDescription(description);
+        }
+    }
 }

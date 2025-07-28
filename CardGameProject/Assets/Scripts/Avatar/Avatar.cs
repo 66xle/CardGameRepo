@@ -96,21 +96,23 @@ public class Avatar : MonoBehaviour
 
         public void TakeDamage(float damage) 
         {
-            CurrentBlock -= damage;
+            float block = CurrentBlock - damage;
 
             // Block is negative do damage / Block is positive dont do damage
-            damage = CurrentBlock < 0 ? Mathf.Abs(CurrentBlock) : 0;
+            damage = block < 0 ? Mathf.Abs(block) : 0;
 
-            if (CurrentBlock < 0) CurrentBlock = 0;
+            if (block < 0) block = 0;
 
-            CurrentHealth -= damage;
-            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+            CurrentBlock = block;
+
+            float health = CurrentHealth - damage;
+            CurrentHealth = Mathf.Clamp(health, 0, MaxHealth);
         }
 
         public void TakeDamageByStatusEffect(float damage)
         {
-            CurrentHealth -= damage;
-            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+            float health = CurrentHealth - damage;
+            CurrentHealth = Mathf.Clamp(health, 0, MaxHealth);
         }
 
         #endregion
@@ -135,10 +137,10 @@ public class Avatar : MonoBehaviour
             return CurrentGuard == 0 ? true : false;
         }
 
-        public void ReduceGuard()
+        public void ReduceGuard(int guardDamage)
         {
-            CurrentGuard--;
-            CurrentGuard = Mathf.Clamp(CurrentGuard, 0, MaxGuard);
+            int guard = CurrentGuard - guardDamage;
+            CurrentGuard = Mathf.Clamp(guard, 0, MaxGuard);
         }
 
         public virtual void RecoverGuardBreak()

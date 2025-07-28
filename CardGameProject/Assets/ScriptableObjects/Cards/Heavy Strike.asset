@@ -15,29 +15,41 @@ MonoBehaviour:
   Guid: 38fce7d3e7fa4834d88c29a8e87c113d
   InGameGUID: 
   CardName: Heavy Strike
-  Description: Deal #0 Damage #Poison #Bleed
+  Description: Deal #0 damage and 1 extra guard damage
   DisplayDescription: Deal 1.5 Damage #Poison #Bleed
-  LinkDescription: Deal 1.5 Damage <link="Poison"><color=#FFBF00><u>Poison</u></color></link>
-    <link="Bleed"><color=#FFBF00><u>Bleed</u></color></link>
-  Flavour: test
+  LinkDescription: Deal #0 damage and 1 extra guard damage
+  Flavour: A powerful strike that shatters defenses.
+  Image: {fileID: 21300000, guid: 2802e999abef6aa4f92b30fdab726646, type: 3}
+  Frame: {fileID: 21300000, guid: a0be78c2424db6a488d2f683021a99a4, type: 3}
+  Cost: 2
+  RecycleValue: 1
+  ValuesToReference:
+  - 1.2
+  - 1
+  Commands:
+  - rid: 7082259346242928707
+  - rid: 1089680001544487085
+  - rid: 1089680415053840462
   PopupKeyPair:
   - Key: Bleed
     Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
   - Key: Poison
     Value: {fileID: 11400000, guid: 7e7a85d9798338743a57caf3f468f8d4, type: 2}
-  Image: {fileID: 21300000, guid: 2802e999abef6aa4f92b30fdab726646, type: 3}
-  Frame: {fileID: 21300000, guid: a0be78c2424db6a488d2f683021a99a4, type: 3}
-  Cost: 3
-  RecycleValue: 1
-  ValuesToReference:
-  - 1.5
-  Commands:
-  - rid: 7082259346242928707
   references:
     version: 2
     RefIds:
+    - rid: 1089680001544487085
+      type: {class: DealGuardDamage, ns: , asm: Assembly-CSharp}
+      data:
+        target: 1
+        value: 1
+    - rid: 1089680415053840462
+      type: {class: ApplyStatusEffect, ns: , asm: Assembly-CSharp}
+      data:
+        target: 1
+        effect: {fileID: 11400000, guid: 14f185cb4736c07408720f340d3dfb74, type: 2}
     - rid: 7082259346242928707
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 1
-        value: 1.5
+        value: 1.2
