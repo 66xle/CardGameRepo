@@ -56,6 +56,9 @@ public class ActionSequence : Executable
         {
             AnimationWrapper animationWrapper = GetAttackAnimation();
 
+            if (IsAttackingAllEnemies)
+                ctx.CameraManager.SetVictimDummy(avatarOpponent.transform.parent.parent, avatarPlayingCard.transform);
+
             // Trigger move animation | After move GA, reaction will trigger attack GA
             MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, IsAttackingAllEnemies, animationWrapper.DistanceOffset, animationWrapper.FollowTimeline);
             ActionSystem.Instance.Perform(moveToPosGA);
