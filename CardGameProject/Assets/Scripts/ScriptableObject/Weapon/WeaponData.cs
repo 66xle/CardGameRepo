@@ -58,6 +58,8 @@ public class WeaponData : ScriptableObject
         Prefab = data.Prefab;
     }
 
+
+#if UNITY_EDITOR
     public void OnValidate()
     {
         if (WeaponType != _previousWeaponType || WeaponTypeAnimationSet.Count != _weaponTypeCount)
@@ -101,4 +103,6 @@ public class WeaponData : ScriptableObject
             data.Add(loadedData);
         }
     }
+
+#endif
 }

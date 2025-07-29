@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
 
 public class SaveAndLoad : MonoBehaviour
 {
@@ -28,6 +31,7 @@ public class SaveAndLoad : MonoBehaviour
 
     public void SaveMap()
     {
+
         Point[] pointObjArr = FindObjectsByType<Point>(FindObjectsSortMode.None);
         
 
@@ -81,6 +85,7 @@ public class SaveAndLoad : MonoBehaviour
         Debug.Log(mapData.pointDataList.Count);
 
         AssetDatabase.CreateAsset(mapData, $"Assets/ScriptableObjects/Map/test.asset");
+
     }
 
     public void LoadMap()
@@ -183,3 +188,5 @@ public class SaveAndLoad : MonoBehaviour
         return newPoint;
     }
 }
+
+#endif

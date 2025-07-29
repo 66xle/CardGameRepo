@@ -3,7 +3,6 @@ using MyBox;
 using UnityEditor;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.XR;
 
 [SRName("Commands/Deal Damage")]
 public class DealDamage : AttackCommand

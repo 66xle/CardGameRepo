@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using Cinemachine;
 using MyBox;
-using Unity.Android.Gradle.Manifest;
 
 public class StatusEffectState : CombatBaseState
 {

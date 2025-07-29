@@ -13,7 +13,6 @@ using DG.Tweening;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 using UnityEngine.Analytics;
-using Unity.Android.Gradle.Manifest;
 using UnityEngine.EventSystems;
 
 public class CombatStateMachine : MonoBehaviour

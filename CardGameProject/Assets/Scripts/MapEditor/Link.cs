@@ -13,7 +13,9 @@ public class Link : MonoBehaviour
 
     public void Start()
     {
+#if UNITY_EDITOR
         guid = GUID.Generate().ToString();
+#endif
     }
 
     public void DeleteLink()

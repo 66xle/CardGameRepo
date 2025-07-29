@@ -2,7 +2,6 @@ using MyBox;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using UnityEditor.Compilation;
 using TMPro;
 
 public class RewardManager : MonoBehaviour

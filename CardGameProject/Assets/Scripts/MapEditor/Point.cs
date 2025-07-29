@@ -19,7 +19,9 @@ public class Point : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+#if UNITY_EDITOR
         guid = GUID.Generate().ToString();
+#endif
     }
 
     // Update is called once per frame

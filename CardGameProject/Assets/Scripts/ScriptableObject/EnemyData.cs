@@ -30,8 +30,10 @@ public class EnemyData : ScriptableObject
     [SerializeReference][SR] public List<WeaponCardData> Cards;
 
     private WeaponType _previousWeaponType;
-    private int _weaponTypeCount; 
+    private int _weaponTypeCount;
 
+
+#if UNITY_EDITOR
     public void OnValidate()
     {
         if (WeaponType != _previousWeaponType || WeaponTypeAnimationSet.Count != _weaponTypeCount)
@@ -63,6 +65,7 @@ public class EnemyData : ScriptableObject
 
     private void FindAllWeaponTypeAnimationData(out List<WeaponTypeAnimationData> data)
     {
+
         string[] guids = AssetDatabase.FindAssets("t:WeaponTypeAnimationData");
 
         data = new List<WeaponTypeAnimationData>();
@@ -75,5 +78,7 @@ public class EnemyData : ScriptableObject
 
             data.Add(loadedData);
         }
+
     }
+#endif
 }
