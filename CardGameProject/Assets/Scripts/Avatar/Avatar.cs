@@ -17,6 +17,7 @@ public class Avatar : MonoBehaviour
     public int MaxGuard = 10;
     public float Attack;
     public float Defence;
+    public float DefencePercentage;
     public ArmourType ArmourType;
     public DamageType DamageType;
 

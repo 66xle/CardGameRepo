@@ -55,6 +55,7 @@ public class Enemy : Avatar
         MaxHealth = ess.CalculateHealth(data.Level, data.EnemyType);
         Attack = ess.CalculateAttack(data.Level, data.EnemyType);
         Defence = ess.CalculateDefence(data.Level, data.EnemyType);
+        DefencePercentage = ess.GetDefencePercentage();
 
         Deck = new();
         Deck.AddRange(data.Cards.Select(card => new CardData(weapon, card, Attack)));

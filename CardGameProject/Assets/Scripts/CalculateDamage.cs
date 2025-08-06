@@ -11,9 +11,14 @@ public static class CalculateDamage
         {
             damage = Mathf.Ceil(avatarTakeDamage.ApplyAdditionalDmgCheck(damage));
 
-            damage -= Mathf.Ceil(damage * avatarTakeDamage.Defence);
+            damage -= Mathf.Ceil(damage * CalculateDefencePercentage(avatarTakeDamage.Defence, avatarTakeDamage.DefencePercentage));
         }
 
         return damage;
+    }
+
+    private static float CalculateDefencePercentage(float def, float defPer)
+    {
+        return def / (def + defPer);
     }
 }
