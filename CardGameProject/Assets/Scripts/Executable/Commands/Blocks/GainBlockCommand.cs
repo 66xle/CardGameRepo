@@ -18,6 +18,9 @@ public abstract class GainBlockCommand : Command
         Avatar avatarPlayingCard = ExecutableParameters.AvatarPlayingCard;
         Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
 
+        float block = CalculateDamage.GetBlock(avatarPlayingCard.Defence, Value, avatarPlayingCard.BlockScale);
+        Debug.Log(block);
+
         for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
         {
             Avatar avatarGainBlock = ExecutableParameters.Targets[i];
@@ -26,12 +29,12 @@ public abstract class GainBlockCommand : Command
             {
                 // Update damage value
                 GainBlockGA gainBlockGA = avatarGainBlock.GetGameActionFromQueue<GainBlockGA>() as GainBlockGA;
-                gainBlockGA.BlockAmount += (int)Value;
+                gainBlockGA.BlockAmount += (int)block;
             }
             else
             {
                 // Add game action to queue
-                GainBlockGA gainBlockGA = new(avatarGainBlock, Value);
+                GainBlockGA gainBlockGA = new(avatarGainBlock, block);
                 avatarGainBlock.QueueGameActions.Add(gainBlockGA);
 
                 if (avatarGainBlock is Player)

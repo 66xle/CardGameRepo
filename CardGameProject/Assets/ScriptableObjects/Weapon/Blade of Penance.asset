@@ -30,6 +30,7 @@ MonoBehaviour:
   - rid: 7082259392929464485
   - rid: 1089679982310457359
   - rid: 1089680001544487080
+  - rid: 7765747416693211225
   references:
     version: 2
     RefIds:
@@ -144,3 +145,24 @@ MonoBehaviour:
         AnimationClipDataList:
         - Clip: {fileID: 1827226128182048838, guid: b766f3fdd3c320e409afa7076753976b, type: 3}
           DistanceOffset: 0
+    - rid: 7765747416693211225
+      type: {class: WeaponCardData, ns: , asm: Assembly-CSharp}
+      data:
+        Card: {fileID: 11400000, guid: feb203c8a3236344a9761939b29e6d83, type: 2}
+        CardAmount: 1
+        AnimationClipDataList: []
+        Animation: Strike
+        OverrideDistanceOffset: 1
+        DistanceOffset: 0
+        OverrideCamera: 1
+        FollowTimeline: {fileID: 0}
+        AttackTimeline: {fileID: 0}
+        AnimationList:
+        - AnimationName: 1H Strike 1
+          DistanceOffset: 0
+          FollowTimeline: {fileID: 0}
+          AttackTimeline: {fileID: 0}
+        - AnimationName: 1H Strike 2
+          DistanceOffset: 0
+          FollowTimeline: {fileID: 0}
+          AttackTimeline: {fileID: 0}

@@ -18,6 +18,7 @@ public class Avatar : MonoBehaviour
     public float Attack;
     public float Defence;
     public float DefencePercentage;
+    public float BlockScale;
     public ArmourType ArmourType;
     public DamageType DamageType;
 

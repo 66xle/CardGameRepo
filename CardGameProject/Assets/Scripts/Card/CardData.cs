@@ -10,7 +10,7 @@ public struct CardData
 
     public List<AnimationWrapper> AnimationList { get; private set; }
 
-    public CardData(WeaponData weapon, WeaponCardData data, float avatarAttack)
+    public CardData(WeaponData weapon, WeaponCardData data, float attack, float defence, float blockScale)
     {
         Card card = data.Card;
         Card copyCard = new Card();
@@ -38,20 +38,28 @@ public struct CardData
         Card = copyCard;
         Weapon = weapon;
 
-        Card.DisplayDescription = GenerateDescriptionWithDamage(card, weapon, avatarAttack);
+        Card.DisplayDescription = GenerateDescriptionWithDamage(card, weapon, attack, defence, blockScale);
     }
 
-    public string GenerateDescriptionWithDamage(Card card, WeaponData weapon, float attack, Avatar enemy = null)
+    public string GenerateDescriptionWithDamage(Card card, WeaponData weapon, float attack, float defence, float blockScale, Avatar enemy = null)
     {
         string displayDescription = card.LinkDescription;
 
         for (int i = 0; i < card.ValuesToReference.Count; i++)
         {
-            float value = card.ValuesToReference[i];
+            float type = card.ValuesToReference[i].x;
+            float value = card.ValuesToReference[i].y;
 
-            float damage = CalculateDamage.GetDamage(attack, weapon.WeaponAttack, enemy, value);
+            if (type == 1)
+            {
+                value = CalculateDamage.GetBlock(defence, value, blockScale);
+            }
+            else
+            {
+                value = CalculateDamage.GetDamage(attack, weapon.WeaponAttack, enemy, value);
+            }
 
-            displayDescription = displayDescription.Replace($"#{i}", $"<color=#FF0000>{damage.ToString()}</color>");
+            displayDescription = displayDescription.Replace($"#{i}", $"<color=#FF0000>{value.ToString()}</color>");
         }
 
         return displayDescription;

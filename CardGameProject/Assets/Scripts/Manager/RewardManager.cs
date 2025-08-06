@@ -162,7 +162,7 @@ public class RewardManager : MonoBehaviour
 
         foreach (WeaponCardData weaponCardData in data.Cards)
         {
-            CardData cardData = new(data, weaponCardData, StatsManager.Attack);
+            CardData cardData = new(data, weaponCardData, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale);
 
             CardDisplay cardDisplay = Instantiate(CardPrefab, PreviewCards).GetComponent<CardDisplay>();
             cardDisplay.SetCard(cardData, cardData.Card);
