@@ -38,7 +38,7 @@ public class WeaponCardData
     [ConditionalField(false, nameof(OverrideVirtualCamera))] public PlayableAsset FollowTimeline;
     [ConditionalField(false, nameof(OverrideVirtualCamera))] public PlayableAsset AttackTimeline;
 
-    [ReadOnly] public List<AnimationWrapper> AnimationList = new();
+    [HideInInspector] public List<AnimationWrapper> AnimationList = new();
 
     private string[] GetAnimationList()
     {

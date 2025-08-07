@@ -12,7 +12,7 @@ public class GearSelect : MonoBehaviour
 
     public void Init(WeaponData data)
     {
-        GearNameText.text = data.WeaponName;
+        GearNameText.text = data.GearName;
         GearIcon.texture = data.IconTexture;
         WeaponData = data;
     }

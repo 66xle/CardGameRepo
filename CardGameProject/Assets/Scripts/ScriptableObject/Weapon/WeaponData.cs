@@ -15,18 +15,13 @@ public enum Rarity
 }
 
 [CreateAssetMenu(menuName = "WeaponData")]
-public class WeaponData : ScriptableObject 
+public class WeaponData : GearData 
 {
-    [ReadOnly] public string Guid;
-
-    public string WeaponName;
-    public string Description;
-    public Rarity Rarity;
     public DamageType DamageType;
     public WeaponType WeaponType;
-    public GameObject Prefab;
-    [HideInInspector] public int WeaponAttack;
 
+    public override int Value => WeaponAttack;
+    [ReadOnly] public int WeaponAttack;
 
     // Reward Manager
     public Texture IconTexture; 
@@ -43,18 +38,19 @@ public class WeaponData : ScriptableObject
 
     [Separator]
 
-    [SerializeReference][SR] public List<WeaponCardData> Cards;
+    [SerializeReference][SR] public List<WeaponCardData> _cards;
+    public override List<WeaponCardData> Cards => _cards;
 
     public WeaponData() { }
 
     public WeaponData(WeaponData data)
     {
-        WeaponName = data.WeaponName;
+        GearName = data.GearName;
         DamageType = data.DamageType;
         WeaponType = data.WeaponType;
         Description = data.Description;
         Rarity = data.Rarity;
-        Cards = data.Cards;
+        _cards = data._cards;
         Prefab = data.Prefab;
     }
 
@@ -74,13 +70,13 @@ public class WeaponData : ScriptableObject
             List<AnimationClipData> animationClipDataList = new();
             WeaponTypeAnimationSet.ForEach(data => animationClipDataList.AddRange(data.AnimationClipDataList));
 
-            Cards.ForEach(data => data.AnimationClipDataList = animationClipDataList);
+            _cards.ForEach(data => data.AnimationClipDataList = animationClipDataList);
         }
 
 
         if (WeaponTypeAnimationSet == null) return;
 
-        foreach (WeaponCardData data in Cards)
+        foreach (WeaponCardData data in _cards)
         {
             if (data == null) continue;
 
