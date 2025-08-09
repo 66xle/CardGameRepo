@@ -3,8 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
 
+public enum ArmourSlot
+{
+    Head,
+    Chest,
+    Leg,
+    Boot
+}
+
 public class ArmourData : GearData
 {
+    public ArmourSlot ArmourSlot;
+
     public override int Value => ArmourDefence;
     [ReadOnly] public int ArmourDefence;
 

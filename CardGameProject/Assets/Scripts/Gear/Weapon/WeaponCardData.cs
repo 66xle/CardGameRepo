@@ -75,6 +75,9 @@ public class WeaponCardData
         {
             char split = '_';
             string[] stringSplit = Animation.Split(split);
+
+            if (stringSplit[0] == "") return;
+
             float distance = AnimationClipDataList[int.Parse(stringSplit[0])].DistanceOffset;
 
             PlayableAsset followTimeline = null;

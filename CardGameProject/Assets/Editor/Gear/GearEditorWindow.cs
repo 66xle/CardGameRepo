@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework.Constraints;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -33,10 +34,24 @@ public class GearEditorWindow : BaseEditorWindow
         {
             base.Init();
 
-            DropdownField dropdownField = rootVisualElement.Query<DropdownField>("filter");
-            dropdownField.RegisterCallback<ChangeEvent<string>>((evt) =>
+            DropdownField gearField = rootVisualElement.Query<DropdownField>("gear-filter");
+            gearField.RegisterCallback<ChangeEvent<string>>((evt) =>
             {
-                dropdownField.value = evt.newValue;
+                gearField.value = evt.newValue;
+                CreateListView();
+            });
+
+            DropdownField weaponField = rootVisualElement.Query<DropdownField>("weapon-filter");
+            weaponField.RegisterCallback<ChangeEvent<string>>((evt) =>
+            {
+                weaponField.value = evt.newValue;
+                CreateListView();
+            });
+
+            DropdownField armourField = rootVisualElement.Query<DropdownField>("armour-filter");
+            armourField.RegisterCallback<ChangeEvent<string>>((evt) =>
+            {
+                armourField.value = evt.newValue;
                 CreateListView();
             });
         };
@@ -44,14 +59,45 @@ public class GearEditorWindow : BaseEditorWindow
 
     public override void CreateListView()
     {
-        FindAllGears(out List<GearData> gears);
+        DropdownField dropdownField = rootVisualElement.Query<DropdownField>("gear-filter");
+        DropdownField weaponFilter = rootVisualElement.Query<DropdownField>("weapon-filter");
+        DropdownField armourFilter = rootVisualElement.Query<DropdownField>("armour-filter");
 
-        //DropdownField dropdownField = rootVisualElement.Query<DropdownField>("filter");
-        //
-        //if (dropdownField.value != "Any")
-        //{
-        //    gears = gears.Where(data => data.WeaponType.ToString() == dropdownField.value).ToList();
-        //}
+        List<GearData> gears = new List<GearData>();
+        List<WeaponData> weapons = new List<WeaponData>();
+        List<ArmourData> armours = new List<ArmourData>();
+
+        if (dropdownField.value == "All")
+        {
+            weaponFilter.style.display = DisplayStyle.None;
+            armourFilter.style.display = DisplayStyle.None;
+
+            gears = FindAllGears();
+        }
+        else if (dropdownField.value == "Weapon")
+        {
+            weaponFilter.style.display = DisplayStyle.Flex;
+            armourFilter.style.display = DisplayStyle.None;
+
+            weapons = FindAllWeapons();
+
+            if (weaponFilter.value != "All")
+                gears = weapons.Where(data => data.WeaponType.ToString() == weaponFilter.value).Cast<GearData>().ToList();
+            else
+                gears = weapons.Cast<GearData>().ToList();
+        }
+        else if (dropdownField.value == "Armour")
+        {
+            weaponFilter.style.display = DisplayStyle.None;
+            armourFilter.style.display = DisplayStyle.Flex;
+
+            armours = FindAllArmour();
+
+            if (armourFilter.value != "All")
+                gears = armours.Where(data => data.ArmourSlot.ToString() == armourFilter.value).Cast<GearData>().ToList();
+            else
+                gears = armours.Cast<GearData>().ToList();
+        }
 
         List<string> pathList = gears.Select(data => AssetDatabase.GUIDToAssetPath(data.Guid)).ToList();
         SetupListView(gears, pathList, "gear-list");
@@ -163,11 +209,11 @@ public class GearEditorWindow : BaseEditorWindow
         EditorUtility.RequestScriptReload();
     }
 
-    private void FindAllGears(out List<GearData> gears)
+    private List<GearData> FindAllGears()
     {
         string[] guids = AssetDatabase.FindAssets("t:GearData");
 
-        gears = new List<GearData>();
+        List<GearData> gears = new List<GearData>();
 
         for (int i = 0; i < guids.Length; i++)
         {
@@ -178,6 +224,46 @@ public class GearEditorWindow : BaseEditorWindow
 
             gears.Add(loadedData);
         }
+
+        return gears;
+    }
+
+    private List<WeaponData> FindAllWeapons()
+    {
+        string[] guids = AssetDatabase.FindAssets("t:WeaponData");
+
+        List<WeaponData> weapons = new List<WeaponData>();
+
+        for (int i = 0; i < guids.Length; i++)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guids[i]);
+
+            WeaponData loadedData = AssetDatabase.LoadAssetAtPath<WeaponData>(path);
+            loadedData.Guid = guids[i];
+
+            weapons.Add(loadedData);
+        }
+
+        return weapons;
+    }
+
+    private List<ArmourData> FindAllArmour()
+    {
+        string[] guids = AssetDatabase.FindAssets("t:ArmourData");
+
+        List<ArmourData> armours = new List<ArmourData>();
+
+        for (int i = 0; i < guids.Length; i++)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guids[i]);
+
+            ArmourData loadedData = AssetDatabase.LoadAssetAtPath<ArmourData>(path);
+            loadedData.Guid = guids[i];
+
+            armours.Add(loadedData);
+        }
+
+        return armours;
     }
 
     private void LoadPrefab(GearData data)
