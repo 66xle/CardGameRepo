@@ -13,5 +13,5 @@ public class GearData : ScriptableObject
     public GameObject Prefab;
     public Rarity Rarity;
 
-    public virtual List<WeaponCardData> Cards { get; }
+    public virtual List<WeaponCardAnimationData> Cards { get; }
 }

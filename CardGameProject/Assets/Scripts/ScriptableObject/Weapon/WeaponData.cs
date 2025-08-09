@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public enum Rarity
 {
@@ -38,8 +39,8 @@ public class WeaponData : GearData
 
     [Separator]
 
-    [SerializeReference][SR] public List<WeaponCardData> _cards;
-    public override List<WeaponCardData> Cards => _cards;
+    [SerializeReference][SR] public List<WeaponCardAnimationData> _cards;
+    public override List<WeaponCardAnimationData> Cards => _cards;
 
     public WeaponData() { }
 
@@ -70,13 +71,18 @@ public class WeaponData : GearData
             List<AnimationClipData> animationClipDataList = new();
             WeaponTypeAnimationSet.ForEach(data => animationClipDataList.AddRange(data.AnimationClipDataList));
 
-            _cards.ForEach(data => data.AnimationClipDataList = animationClipDataList);
+            _cards.ForEach(data => 
+            {
+                if (data == null) return;
+
+                data.AnimationClipDataList = animationClipDataList;
+            });
         }
 
 
         if (WeaponTypeAnimationSet == null) return;
 
-        foreach (WeaponCardData data in _cards)
+        foreach (WeaponCardAnimationData data in _cards)
         {
             if (data == null) continue;
 

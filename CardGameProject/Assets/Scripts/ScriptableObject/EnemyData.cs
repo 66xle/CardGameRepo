@@ -27,7 +27,7 @@ public class EnemyData : ScriptableObject
     public WeaponType WeaponType;
     [ReadOnly][SerializeReference][SR] public List<WeaponTypeAnimation> WeaponTypeAnimationSet;
 
-    [SerializeReference][SR] public List<WeaponCardData> Cards;
+    [SerializeReference][SR] public List<WeaponCardAnimationData> Cards;
 
     private WeaponType _previousWeaponType;
     private int _weaponTypeCount;
@@ -50,12 +50,17 @@ public class EnemyData : ScriptableObject
             List<AnimationClipData> animationClipDataList = new();
             WeaponTypeAnimationSet.ForEach(data => animationClipDataList.AddRange(data.AnimationClipDataList));
 
-            Cards.ForEach(data => data.AnimationClipDataList = animationClipDataList);
+            Cards.ForEach(data =>
+            {
+                if (data == null) return;
+
+                data.AnimationClipDataList = animationClipDataList;
+            });
         }
 
         if (WeaponTypeAnimationSet == null) return;
 
-        foreach (WeaponCardData data in Cards)
+        foreach (WeaponCardAnimationData data in Cards)
         {
             if (data == null) continue;
 

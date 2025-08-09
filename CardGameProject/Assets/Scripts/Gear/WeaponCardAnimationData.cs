@@ -25,7 +25,7 @@ public enum AttackType
 
 [Serializable]
 [SRName("Card")]
-public class WeaponCardData 
+public class WeaponCardAnimationData 
 {
     public Card Card;
     public int CardAmount = 1;

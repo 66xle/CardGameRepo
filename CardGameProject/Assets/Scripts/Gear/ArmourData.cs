@@ -18,8 +18,8 @@ public class ArmourData : GearData
     public override int Value => ArmourDefence;
     [ReadOnly] public int ArmourDefence;
 
-    public override List<WeaponCardData> Cards => _cards;
-    [SerializeReference][SR] public List<WeaponCardData> _cards;
+    public override List<WeaponCardAnimationData> Cards => _cards;
+    [SerializeReference][SR] public List<WeaponCardAnimationData> _cards;
 
 
     public ArmourData() { }

@@ -32,7 +32,7 @@ public class CardManager : MonoBehaviour
     public void LoadCards()
     {
         // Load main hand
-        foreach (WeaponCardData data in SwitchWeaponManager.CurrentMainHand._cards)
+        foreach (WeaponCardAnimationData data in SwitchWeaponManager.CurrentMainHand._cards)
         {
             for (int i = 0; i < data.CardAmount; i++)
             {
@@ -44,7 +44,7 @@ public class CardManager : MonoBehaviour
         // Load holstered cards
         foreach (WeaponData weaponData in SwitchWeaponManager.CurrentEquippedWeapons)
         {
-            foreach (WeaponCardData data in weaponData._cards)
+            foreach (WeaponCardAnimationData data in weaponData._cards)
             {
                 for (int i = 0; i < data.CardAmount; i++)
                 {

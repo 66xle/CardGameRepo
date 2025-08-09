@@ -10,7 +10,7 @@ public struct CardData
 
     public List<AnimationWrapper> AnimationList { get; private set; }
 
-    public CardData(WeaponData weapon, WeaponCardData data, float attack, float defence, float blockScale)
+    public CardData(WeaponData weapon, WeaponCardAnimationData data, float attack, float defence, float blockScale)
     {
         Card card = data.Card;
         Card copyCard = new Card();
