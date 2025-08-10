@@ -11,7 +11,8 @@ public class GearData : ScriptableObject
     public string Description;
     public virtual int Value { get; }
     public GameObject Prefab;
+    public Texture IconTexture; // Reward Manager
     public Rarity Rarity;
 
-    public virtual List<WeaponCardAnimationData> Cards { get; }
+    public virtual List<CardAnimationData> Cards { get; } 
 }

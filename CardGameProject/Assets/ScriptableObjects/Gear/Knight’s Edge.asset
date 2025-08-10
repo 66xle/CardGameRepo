@@ -26,7 +26,9 @@ MonoBehaviour:
   - rid: 7765747505886134356
   - rid: 7765747505886134357
   - rid: 7765747505886134358
-  _cards: []
+  _cards:
+  - rid: 7765747505886134444
+  - rid: 7765747505886134445
   references:
     version: 2
     RefIds:
@@ -54,3 +56,30 @@ MonoBehaviour:
         AnimationClipDataList:
         - Clip: {fileID: 1827226128182048838, guid: b766f3fdd3c320e409afa7076753976b, type: 3}
           DistanceOffset: 0
+    - rid: 7765747505886134444
+      type: {class: ArmourCardAnimationData, ns: , asm: Assembly-CSharp}
+      data:
+        Card: {fileID: 0}
+        CardAmount: 1
+        AnimationClipDataList: []
+        Animation: 
+        OverrideDistanceOffset: 1
+        DistanceOffset: 0
+        OverrideCamera: 1
+        FollowTimeline: {fileID: 0}
+        AttackTimeline: {fileID: 0}
+        AnimationList: []
+        Animation: {fileID: 0}
+    - rid: 7765747505886134445
+      type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
+      data:
+        Card: {fileID: 0}
+        CardAmount: 1
+        AnimationClipDataList: []
+        Animation: 
+        OverrideDistanceOffset: 1
+        DistanceOffset: 0
+        OverrideCamera: 1
+        FollowTimeline: {fileID: 0}
+        AttackTimeline: {fileID: 0}
+        AnimationList: []

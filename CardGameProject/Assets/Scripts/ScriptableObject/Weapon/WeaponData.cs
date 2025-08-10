@@ -15,7 +15,6 @@ public enum Rarity
     Legendary
 }
 
-[CreateAssetMenu(menuName = "WeaponData")]
 public class WeaponData : GearData 
 {
     public DamageType DamageType;
@@ -24,23 +23,22 @@ public class WeaponData : GearData
     public override int Value => WeaponAttack;
     [ReadOnly] public int WeaponAttack;
 
-    // Reward Manager
-    public Texture IconTexture; 
-
     // Equipment, Switch Weapon
     [HideInInspector] public Transform HolsterSlot; 
 
     [Separator]
 
     // Editor
-    [ReadOnly][SerializeReference][SR] public List<WeaponTypeAnimation> WeaponTypeAnimationSet; 
+    [ReadOnly][SerializeReference][SR] public List<WeaponTypeAnimation> WeaponTypeAnimationSet;
+
+    [ReadOnly] public List<AnimationClipData> AnimationClipDataList;
     private WeaponType _previousWeaponType;
     private int _weaponTypeCount;
 
     [Separator]
 
-    [SerializeReference][SR] public List<WeaponCardAnimationData> _cards;
-    public override List<WeaponCardAnimationData> Cards => _cards;
+    public override List<CardAnimationData> Cards => _cards; 
+    [SerializeReference][SR] public List<CardAnimationData> _cards;
 
     public WeaponData() { }
 
@@ -65,28 +63,28 @@ public class WeaponData : GearData
 
             FindAllWeaponTypeAnimationData(out List<WeaponTypeAnimationData> data);
 
+            // Check weapon type
             WeaponTypeAnimationSet = new(data.First(data => data.WeaponType == WeaponType).AnimationClipList);
             _weaponTypeCount = WeaponTypeAnimationSet.Count;
 
+            // Add to list
             List<AnimationClipData> animationClipDataList = new();
             WeaponTypeAnimationSet.ForEach(data => animationClipDataList.AddRange(data.AnimationClipDataList));
 
-            _cards.ForEach(data => 
-            {
-                if (data == null) return;
+            AnimationClipDataList = animationClipDataList;
 
-                data.AnimationClipDataList = animationClipDataList;
-            });
+            Debug.Log("clip update");
         }
 
 
         if (WeaponTypeAnimationSet == null) return;
 
-        foreach (WeaponCardAnimationData data in _cards)
+        foreach (CardAnimationData data in _cards)
         {
             if (data == null) continue;
 
-            data.UpdateAnimationList(WeaponTypeAnimationSet);
+            data.UpdateAnimationList();
+            data.UpdateClipData(AnimationClipDataList);
         }
     }
 

@@ -2,6 +2,8 @@ using SerializeReferenceEditor;
 using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
+using System.Linq;
+using UnityEditor;
 
 public enum ArmourSlot
 {
@@ -18,8 +20,8 @@ public class ArmourData : GearData
     public override int Value => ArmourDefence;
     [ReadOnly] public int ArmourDefence;
 
-    public override List<WeaponCardAnimationData> Cards => _cards;
-    [SerializeReference][SR] public List<WeaponCardAnimationData> _cards;
+    public override List<CardAnimationData> Cards => _cards;
+    [SerializeReference][SR] public List<CardAnimationData> _cards;
 
 
     public ArmourData() { }
@@ -32,4 +34,16 @@ public class ArmourData : GearData
         _cards = data._cards;
         Prefab = data.Prefab;
     }
+
+#if UNITY_EDITOR
+    public void OnValidate()
+    {
+        foreach (CardAnimationData data in _cards)
+        {
+            if (data == null) continue;
+
+            data.UpdateAnimationList();
+        }
+    }
+#endif
 }
