@@ -21,20 +21,11 @@ public class StatusCommand : Command
         {
             Avatar avatarToApply = ExecutableParameters.Targets[i];
 
-            if (avatarToApply.IsGameActionInQueue<ApplyStatusEffectGA>())
-            {
-                // Update damage value
-                ApplyStatusEffectGA applyStatusEffectGA = avatarToApply.GetGameActionFromQueue<ApplyStatusEffectGA>() as ApplyStatusEffectGA;
-                avatarToApply.QueueGameActions.Add(applyStatusEffectGA);
-            }
-            else
-            {
-                // Add game action to queue
-                ApplyStatusEffectGA applyStatusEffectGA = new(avatarToApply, Effect);
-                avatarToApply.QueueGameActions.Add(applyStatusEffectGA);
+            // Add game action to queue
+            ApplyStatusEffectGA applyStatusEffectGA = new(avatarToApply, Effect);
+            avatarToApply.QueueGameActions.Add(applyStatusEffectGA);
 
-                // ui update here
-            }
+            // ui update here
 
             ExecutableParameters.Targets[i] = avatarToApply;
         }

@@ -166,8 +166,6 @@ public class StatusEffectState : CombatBaseState
 
                     break;
                 }
-
-                yield return new WaitForSeconds(ctx.statusEffectDelay);
             }
 
             if (statusQueue.Count > 0)
