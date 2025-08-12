@@ -72,8 +72,6 @@ public class WeaponData : GearData
             WeaponTypeAnimationSet.ForEach(data => animationClipDataList.AddRange(data.AnimationClipDataList));
 
             AnimationClipDataList = animationClipDataList;
-
-            Debug.Log("clip update");
         }
 
 

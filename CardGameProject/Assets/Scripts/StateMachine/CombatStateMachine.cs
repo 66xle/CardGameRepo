@@ -195,7 +195,7 @@ public class CombatStateMachine : MonoBehaviour
                 Weapon weaponScript = mainHandWeapon.GetComponent<Weapon>();
 
                 // Swap Weapon
-                if (weaponScript.Guid != cardData.Weapon.Guid)
+                if (weaponScript.Guid != cardData.Gear.Guid)
                 {
                     GameObject holsteredWeapon;
 
@@ -203,7 +203,7 @@ public class CombatStateMachine : MonoBehaviour
                     {
                         Weapon equippedWeapon = weaponObj.GetComponent<Weapon>();
 
-                        if (equippedWeapon.Guid == cardData.Weapon.Guid)
+                        if (equippedWeapon.Guid == cardData.Gear.Guid)
                         {
                             holsteredWeapon = weaponObj;
                             WeaponType weaponType = equippedWeapon.WeaponType;

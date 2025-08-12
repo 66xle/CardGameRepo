@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MyBox;
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
 
@@ -14,6 +15,7 @@ public class CardManager : MonoBehaviour
     [MustBeAssigned] public GameObject CardPrefab;
     [MustBeAssigned] public Transform PlayerHandTransform;
     [MustBeAssigned] public SwitchWeaponManager SwitchWeaponManager;
+    [MustBeAssigned] public EquipmentManager EquipmentManager;
     [MustBeAssigned] [SerializeField] StatsManager StatsManager;
 
     [HideInInspector] public List<CardData> PlayerDeck;
@@ -36,7 +38,7 @@ public class CardManager : MonoBehaviour
         {
             for (int i = 0; i < data.CardAmount; i++)
             {
-                CardData cardData = new(SwitchWeaponManager.CurrentMainHand, data, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale);
+                CardData cardData = new(SwitchWeaponManager.CurrentMainHand, data, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale);
                 PlayerDeck.Add(cardData);
             }
         }
@@ -48,11 +50,24 @@ public class CardManager : MonoBehaviour
             {
                 for (int i = 0; i < data.CardAmount; i++)
                 {
-                    CardData cardData = new(weaponData, data, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale);
+                    CardData cardData = new(weaponData, data, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale);
                     PlayerDeck.Add(cardData);
                 }
             }
         }
+
+        foreach (ArmourData armour in EquipmentManager.GetEquippedArmours())
+        {
+            foreach (CardAnimationData card in armour._cards)
+            {
+                for (int i = 0; i < card.CardAmount; i++)
+                {
+                    CardData cardData = new(armour, card, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale);
+                    PlayerDeck.Add(cardData);
+                }
+            }
+        }
+
     }
 
     public void UpdateCardsInHand(Enemy enemy)
@@ -61,7 +76,7 @@ public class CardManager : MonoBehaviour
         {
             GameObject go = PlayerHandTransform.GetChild(i).gameObject;
             CardDisplay display = go.GetComponent<CardDisplay>();
-            string description = display.CardData.GenerateDescriptionWithDamage(display.Card, display.CardData.Weapon, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale, enemy);
+            string description = display.CardData.GenerateDescriptionWithDamage(display.Card, display.CardData.Gear, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale, enemy);
             display.UpdateDescription(description);
         }
     }

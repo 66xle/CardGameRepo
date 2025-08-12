@@ -21,8 +21,6 @@ public class CardAnimationData
 
     public void UpdateClipData(List<AnimationClipData> animationClipDataList)
     {
-        Debug.Log("update");
-
         foreach (AnimationData animationData in Animations)
         {
             if (animationData == null) continue;

@@ -8,6 +8,8 @@ using UnityEditor;
 public enum ArmourSlot
 {
     Head,
+    Shoulders,
+    Arms,
     Chest,
     Leg,
     Boot

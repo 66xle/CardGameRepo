@@ -1,6 +1,7 @@
 using MyBox;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
 public enum ArmourType
@@ -21,6 +22,15 @@ public enum DamageType
 
 public class EquipmentManager : MonoBehaviour
 {
+    [SerializeField] ArmourData Head;
+    [SerializeField] ArmourData Shoulders;
+    [SerializeField] ArmourData Arms;
+    [SerializeField] ArmourData Chest;
+    [SerializeField] ArmourData Legs;
+    [SerializeField] ArmourData Boots;
+
+    [Separator]
+
     [MustBeAssigned] public WeaponData MainHand;
     public WeaponData OffHand;
 
@@ -57,5 +67,37 @@ public class EquipmentManager : MonoBehaviour
     public List<WeaponData> GetEquippedWeapons()
     {
         return _equippedWeapons;
+    }
+
+    public List<ArmourData> GetEquippedArmours()
+    {
+        List<ArmourData> armourDatas = new() { Head, Shoulders, Arms, Chest, Legs, Boots };
+
+        List<ArmourData> equipped = new();
+
+        foreach (ArmourData armourData in armourDatas)
+        {
+            if (armourData == null) continue;
+
+            equipped.Add(armourData);
+        }
+
+        return equipped;
+    }
+
+    public float GetArmoursDefence()
+    {
+        float defence = 0;
+
+        List<ArmourData> armourDatas = new() { Head, Shoulders, Arms, Chest, Legs, Boots };
+
+        foreach (ArmourData data in armourDatas)
+        {
+            if (data == null) continue;
+
+            defence += data.ArmourDefence;
+        }
+
+        return defence;
     }
 }

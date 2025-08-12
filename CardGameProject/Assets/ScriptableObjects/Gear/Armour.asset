@@ -16,25 +16,33 @@ MonoBehaviour:
   GearName: Armour
   Description: 
   Prefab: {fileID: 0}
+  IconTexture: {fileID: 0}
   Rarity: 0
   ArmourSlot: 0
   ArmourDefence: 0
   _cards:
-  - rid: 7765747505886134434
+  - rid: 7765747551190646927
   references:
     version: 2
     RefIds:
-    - rid: 7765747505886134434
-      type: {class: ArmourCardAnimationData, ns: , asm: Assembly-CSharp}
+    - rid: 7765747551190646927
+      type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
-        Card: {fileID: 0}
+        Card: {fileID: 11400000, guid: feb203c8a3236344a9761939b29e6d83, type: 2}
         CardAmount: 1
-        AnimationClipDataList: []
-        Animation: 
-        OverrideDistanceOffset: 1
-        DistanceOffset: 0
-        OverrideCamera: 1
-        FollowTimeline: {fileID: 0}
-        AttackTimeline: {fileID: 0}
-        AnimationList: []
-        Animation: {fileID: 0}
+        Animations:
+        - rid: 7765747551190646928
+        AnimationList:
+        - AnimationName: Counter
+          DistanceOffset: 0
+          FollowTimeline: {fileID: 0}
+          AttackTimeline: {fileID: 0}
+    - rid: 7765747551190646928
+      type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
+      data:
+        _animation: {fileID: 1827226128182048838, guid: 1d9d77f0ba5108d47b56b53956d6761e, type: 3}
+        _overrideDistanceOffset: 1
+        _distanceOffset: 0
+        _overrideCamera: 1
+        _followTimeline: {fileID: 0}
+        _attackTimeline: {fileID: 0}
