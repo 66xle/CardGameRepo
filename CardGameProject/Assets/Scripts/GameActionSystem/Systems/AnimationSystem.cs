@@ -126,18 +126,18 @@ public class AnimationSystem : MonoBehaviour
 
     private string GetAttackType(string name)
     {
-        if (name.Contains(AttackType.Strike.ToString()))
-        {
-            return "Strike";
-        }
-        else if (name.Contains(AttackType.Heavy.ToString()))
-        {
-            return "Heavy";
-        }
-        else if (name.Contains(AttackType.AOE.ToString()))
-        {
-            return "AOE";
-        }
+        //if (name.Contains(AttackType.Strike.ToString()))
+        //{
+        //    return "Strike";
+        //}
+        //else if (name.Contains(AttackType.Heavy.ToString()))
+        //{
+        //    return "Heavy";
+        //}
+        //else if (name.Contains(AttackType.AOE.ToString()))
+        //{
+        //    return "AOE";
+        //}
 
         Debug.LogError("Animation Clip missing attack type! " + name);
         return "Strike";

@@ -9,6 +9,7 @@ public class EnemyStatSettings : ScriptableObject
     [SerializeField] Vector3 Health;
     [SerializeField] Vector3 Defence;
     [SerializeField] int DefencePercentage;
+    [SerializeField] int BlockScale;
 
     [Header("Multiplier")]
     [SerializeField] Vector3 AttackMultiplier;
@@ -52,7 +53,17 @@ public class EnemyStatSettings : ScriptableObject
 
         float value = Mathf.RoundToInt(def * GetMultiplier(AttackMultiplier, type));
 
-        return value / (value + DefencePercentage);
+        return value;
+    }
+
+    public float GetDefencePercentage()
+    {
+        return DefencePercentage;
+    }
+
+    public float GetBlockScale()
+    {
+        return BlockScale;
     }
 
     float GetMultiplier(Vector3 multiplier, EnemyType type)

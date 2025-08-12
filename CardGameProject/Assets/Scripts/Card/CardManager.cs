@@ -32,11 +32,11 @@ public class CardManager : MonoBehaviour
     public void LoadCards()
     {
         // Load main hand
-        foreach (WeaponCardData data in SwitchWeaponManager.CurrentMainHand.Cards)
+        foreach (CardAnimationData data in SwitchWeaponManager.CurrentMainHand._cards)
         {
             for (int i = 0; i < data.CardAmount; i++)
             {
-                CardData cardData = new(SwitchWeaponManager.CurrentMainHand, data, StatsManager.Attack);
+                CardData cardData = new(SwitchWeaponManager.CurrentMainHand, data, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale);
                 PlayerDeck.Add(cardData);
             }
         }
@@ -44,11 +44,11 @@ public class CardManager : MonoBehaviour
         // Load holstered cards
         foreach (WeaponData weaponData in SwitchWeaponManager.CurrentEquippedWeapons)
         {
-            foreach (WeaponCardData data in weaponData.Cards)
+            foreach (CardAnimationData data in weaponData._cards)
             {
                 for (int i = 0; i < data.CardAmount; i++)
                 {
-                    CardData cardData = new(weaponData, data, StatsManager.Attack);
+                    CardData cardData = new(weaponData, data, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale);
                     PlayerDeck.Add(cardData);
                 }
             }
@@ -61,7 +61,7 @@ public class CardManager : MonoBehaviour
         {
             GameObject go = PlayerHandTransform.GetChild(i).gameObject;
             CardDisplay display = go.GetComponent<CardDisplay>();
-            string description = display.CardData.GenerateDescriptionWithDamage(display.Card, display.CardData.Weapon, StatsManager.Attack, enemy);
+            string description = display.CardData.GenerateDescriptionWithDamage(display.Card, display.CardData.Weapon, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale, enemy);
             display.UpdateDescription(description);
         }
     }

@@ -31,7 +31,7 @@ public class Card : ScriptableObject
 
     [Separator]
 
-    public List<float> ValuesToReference = new();
+    [ReadOnly] public List<Vector2> ValuesToReference = new();
 
     [Separator]
 
@@ -54,8 +54,8 @@ public class Card : ScriptableObject
 
             if (command is Condition)
             {
-                if (command.IsUsingValue) 
-                    ValuesToReference.Add(command.Value);
+                if (command.IsUsingValue)
+                    AddValueToReferenceList(command);
 
                 Condition condition = command as Condition;
                 CheckCommandsForValues(condition.Commands);
@@ -64,8 +64,21 @@ public class Card : ScriptableObject
 
             if (!command.IsUsingValue) continue;
 
-            ValuesToReference.Add(command.Value);
+
+            AddValueToReferenceList(command);
         }
+    }
+
+    public void AddValueToReferenceList(Executable command)
+    {
+        if (command is GainBlockCommand)
+        {
+            ValuesToReference.Add(new Vector2(1, command.Value));
+
+            return;
+        }
+
+        ValuesToReference.Add(new Vector2(0, command.Value));
     }
 
 }

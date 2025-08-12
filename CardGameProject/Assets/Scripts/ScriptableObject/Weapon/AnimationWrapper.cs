@@ -1,6 +1,7 @@
-using UnityEngine;
+using MyBox;
 using UnityEngine.Playables;
 
+[System.Serializable]
 public class AnimationWrapper
 {
     public string AnimationName;

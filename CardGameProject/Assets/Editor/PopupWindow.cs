@@ -20,4 +20,10 @@ public class PopupWindow : EditorWindow
     public bool addButtonPressed = false;
     public bool renameButtonPressed = false;
 
+    private void OnDisable()
+    {
+        if (window != null)
+            window.isPopupActive = false;
+    }
+
 }

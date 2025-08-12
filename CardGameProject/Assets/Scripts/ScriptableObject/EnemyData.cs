@@ -27,11 +27,14 @@ public class EnemyData : ScriptableObject
     public WeaponType WeaponType;
     [ReadOnly][SerializeReference][SR] public List<WeaponTypeAnimation> WeaponTypeAnimationSet;
 
-    [SerializeReference][SR] public List<WeaponCardData> Cards;
+    [SerializeReference][SR] public List<CardAnimationData> Cards;
 
+    private List<AnimationClipData> AnimationClipDataList;
     private WeaponType _previousWeaponType;
-    private int _weaponTypeCount; 
+    private int _weaponTypeCount;
 
+
+#if UNITY_EDITOR
     public void OnValidate()
     {
         if (WeaponType != _previousWeaponType || WeaponTypeAnimationSet.Count != _weaponTypeCount)
@@ -43,26 +46,27 @@ public class EnemyData : ScriptableObject
             WeaponTypeAnimationSet = new(data.First(data => data.WeaponType == WeaponType).AnimationClipList);
             _weaponTypeCount = WeaponTypeAnimationSet.Count;
 
-
-
             List<AnimationClipData> animationClipDataList = new();
             WeaponTypeAnimationSet.ForEach(data => animationClipDataList.AddRange(data.AnimationClipDataList));
 
-            Cards.ForEach(data => data.AnimationClipDataList = animationClipDataList);
+            AnimationClipDataList = animationClipDataList;
+
         }
 
         if (WeaponTypeAnimationSet == null) return;
 
-        foreach (WeaponCardData data in Cards)
+        foreach (CardAnimationData data in Cards)
         {
             if (data == null) continue;
 
-            data.UpdateAnimationList(WeaponTypeAnimationSet);
+            data.UpdateAnimationList();
+            data.UpdateClipData(AnimationClipDataList);
         }
     }
 
     private void FindAllWeaponTypeAnimationData(out List<WeaponTypeAnimationData> data)
     {
+
         string[] guids = AssetDatabase.FindAssets("t:WeaponTypeAnimationData");
 
         data = new List<WeaponTypeAnimationData>();
@@ -75,5 +79,7 @@ public class EnemyData : ScriptableObject
 
             data.Add(loadedData);
         }
+
     }
+#endif
 }

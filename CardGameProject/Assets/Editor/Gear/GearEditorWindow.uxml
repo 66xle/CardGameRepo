@@ -1,0 +1,27 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:Box name="toolbar">
+        <engine:Button text="Add Gear" name="add-gear" />
+        <engine:Button text="Delete Gear" name="delete-gear" />
+        <engine:Button text="Rename Gear" name="rename-gear" />
+        <engine:Button text="Refresh Editor" name="refresh" style="right: 0; left: auto; top: auto; bottom: auto; position: absolute;" />
+    </engine:Box>
+    <engine:Box name="container" style="top: auto; bottom: auto; right: auto; position: relative; left: auto;">
+        <engine:VisualElement style="flex-grow: 0; top: 0; left: 0; bottom: 29px; right: 0; background-color: rgba(32, 32, 32, 0); flex-direction: column;">
+            <engine:VisualElement style="flex-grow: 1; flex-direction: row; height: auto; max-height: 30px;">
+                <engine:Label text="Gear Filter" enable-rich-text="true" name="Label" style="align-items: stretch; justify-content: flex-start; -unity-text-align: middle-left;" />
+                <engine:DropdownField choices="All,Weapon,Armour" name="gear-filter" index="0" tabindex="0" focusable="true" style="right: 0; left: 0; border-bottom-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-bottom-color: rgba(0, 0, 0, 0); border-top-width: 0; border-right-width: 0; border-left-width: 0; background-color: rgba(32, 32, 32, 0); -unity-background-image-tint-color: rgb(255, 255, 255); background-repeat: no-repeat no-repeat; margin-bottom: 5px; flex-direction: row; transform-origin: center;" />
+                <engine:VisualElement style="flex-grow: 1;">
+                    <engine:DropdownField choices="All,Sword,Dagger" name="weapon-filter" index="0" style="right: 0; left: 0; border-bottom-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-bottom-color: rgba(0, 0, 0, 0); border-top-width: 0; border-right-width: 0; border-left-width: 0; background-color: rgba(32, 32, 32, 0); -unity-background-image-tint-color: rgb(255, 255, 255); background-repeat: no-repeat no-repeat; margin-bottom: 5px; flex-shrink: 1; opacity: 1; visibility: visible; position: absolute; display: none; max-height: none; height: 25px;" />
+                    <engine:DropdownField choices="All,Head,Chest,Legs,Boots" name="armour-filter" index="0" style="right: 0; left: 0; border-bottom-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-bottom-color: rgba(0, 0, 0, 0); border-top-width: 0; border-right-width: 0; border-left-width: 0; background-color: rgba(32, 32, 32, 0); -unity-background-image-tint-color: rgb(255, 255, 255); background-repeat: no-repeat no-repeat; margin-bottom: 5px; flex-shrink: 0; position: absolute; opacity: 1; display: none; max-height: none; height: 25px;" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+            <engine:ListView name="gear-list" />
+        </engine:VisualElement>
+        <engine:Box name="gear">
+            <engine:Box name="object-preview" />
+        </engine:Box>
+        <engine:ScrollView name="gear-info-scroll" style="position: absolute; left: auto; right: 0; bottom: 0; top: 0;">
+            <engine:Box name="gear-info" />
+        </engine:ScrollView>
+    </engine:Box>
+</engine:UXML>

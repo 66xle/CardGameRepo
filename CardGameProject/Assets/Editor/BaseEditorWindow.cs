@@ -26,8 +26,8 @@ public class BaseEditorWindow : EditorWindow
     {
         if (isPopupActive)
         {
-            window.Focus();
-            EditorUtility.DisplayDialog($"Error", $"Currently creating {type}", "Ok");
+            //window.Focus();
+            //EditorUtility.DisplayDialog($"Error", $"Currently creating {type}", "Ok");
         }
     }
 

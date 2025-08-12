@@ -29,7 +29,6 @@ MonoBehaviour:
   Commands:
   - rid: 7082259346242928707
   - rid: 1089680001544487085
-  - rid: 1089680415053840462
   PopupKeyPair:
   - Key: Bleed
     Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
@@ -43,11 +42,6 @@ MonoBehaviour:
       data:
         target: 1
         value: 1
-    - rid: 1089680415053840462
-      type: {class: ApplyStatusEffect, ns: , asm: Assembly-CSharp}
-      data:
-        target: 1
-        effect: {fileID: 11400000, guid: 14f185cb4736c07408720f340d3dfb74, type: 2}
     - rid: 7082259346242928707
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:

@@ -18,6 +18,8 @@ public class StatsManager : MonoBehaviour
     [Range(0, 2)] public float HeavyMultiplier;
 
     [ReadOnly] public float Defence;
+    [ReadOnly] public float DefencePercentage;
+    [ReadOnly] public float BlockScale;
     [ReadOnly] public float Attack;
 
     public float CurrentMaxHealth { get; private set; }
@@ -33,6 +35,8 @@ public class StatsManager : MonoBehaviour
 
         CurrentMaxHealth = PSS.CalculateHealth(Level);
         Defence = PSS.CalculateDefence(Level);
+        DefencePercentage = PSS.GetDefencePercentage();
+        BlockScale = PSS.GetBlockScale();
         Attack = PSS.CalculateAttack(Level);
         CurrentMaxGuard = BaseGuard;
 

@@ -13,7 +13,7 @@ using DG.Tweening;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 using UnityEngine.Analytics;
-using Unity.Android.Gradle.Manifest;
+using UnityEngine.EventSystems;
 
 public class CombatStateMachine : MonoBehaviour
 {
@@ -107,6 +107,12 @@ public class CombatStateMachine : MonoBehaviour
 
         if (InputManager.Instance.LeftClickInputDown && _isPlayState && Time.timeScale == 1)
         {
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
+
+            if (Input.touchCount > 0 && EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+                return;
+
             SelectEnemy();
         }
     }
@@ -118,7 +124,6 @@ public class CombatStateMachine : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100))
         {
-            Debug.Log("shoot ray");
             if (hit.transform.CompareTag("Enemy"))
             {
                 Enemy enemy = hit.transform.GetComponent<Enemy>();

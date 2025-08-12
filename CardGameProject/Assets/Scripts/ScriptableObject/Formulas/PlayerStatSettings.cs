@@ -9,6 +9,7 @@ public class PlayerStatSettings : ScriptableObject
     [SerializeField] Vector3 Attack;
     [SerializeField] Vector3 Defence;
     [SerializeField] int DefencePercentage;
+    [SerializeField] int BlockScale;
 
     public float CalculateExperience(float level)
     {
@@ -53,7 +54,17 @@ public class PlayerStatSettings : ScriptableObject
 
         float def = Mathf.RoundToInt(Mathf.Pow(a, 2) + b + c);
 
-        return def / (def + DefencePercentage);
+        return def;
+    }
+
+    public float GetDefencePercentage()
+    {
+        return DefencePercentage;
+    }
+
+    public float GetBlockScale()
+    {
+        return BlockScale;
     }
 
     public float CalculateAttack(float level)

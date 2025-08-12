@@ -4,6 +4,8 @@ using SerializeReferenceEditor;
 using UnityEditor;
 using MyBox;
 
+#if UNITY_EDITOR
+
 [CreateAssetMenu(fileName = "New Weapon Type Animation Data", menuName = "Weapon Type Animation")] 
 public class WeaponTypeAnimationData : ScriptableObject
 {
@@ -69,3 +71,5 @@ public class WeaponTypeAnimationData : ScriptableObject
         }
     }
 }
+
+#endif
