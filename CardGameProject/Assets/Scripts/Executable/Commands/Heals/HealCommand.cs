@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public abstract class GainBlockCommand : Command
+public abstract class HealCommand : Command
 {
     public override float Value { get; }
 
@@ -18,37 +18,38 @@ public abstract class GainBlockCommand : Command
         Avatar avatarPlayingCard = ExecutableParameters.AvatarPlayingCard;
         Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
 
-        float block = CalculateDamage.GetBlock(avatarPlayingCard.Defence, Value, avatarPlayingCard.BlockScale);
+        int heal = CalculateDamage.GetHealAmount(avatarPlayingCard.MaxHealth, Value);
+        Debug.Log(heal);
 
         for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
         {
-            Avatar avatarGainBlock = ExecutableParameters.Targets[i];
+            Avatar avatarToHeal = ExecutableParameters.Targets[i];
 
-            if (avatarGainBlock.IsGameActionInQueue<GainBlockGA>())
+            if (avatarToHeal.IsGameActionInQueue<GainHealthGA>())
             {
                 // Update damage value
-                GainBlockGA gainBlockGA = avatarGainBlock.GetGameActionFromQueue<GainBlockGA>() as GainBlockGA;
-                gainBlockGA.BlockAmount += (int)block;
+                GainHealthGA gainHealthGA = avatarToHeal.GetGameActionFromQueue<GainHealthGA>() as GainHealthGA;
+                gainHealthGA.HealAmount += heal;
             }
             else
             {
                 // Add game action to queue
-                GainBlockGA gainBlockGA = new(avatarGainBlock, block);
-                avatarGainBlock.QueueGameActions.Add(gainBlockGA);
+                GainHealthGA gainHealthGA = new(avatarToHeal, heal);
+                avatarToHeal.QueueGameActions.Add(gainHealthGA);
 
-                if (avatarGainBlock is Player)
+                if (avatarToHeal is Player)
                 {
                     TogglePlayerUIGA togglePlayerUIGA = new(true);
-                    gainBlockGA.PreReactions.Add(togglePlayerUIGA);
+                    gainHealthGA.PreReactions.Add(togglePlayerUIGA);
                 }
                 else
                 {
                     ToggleEnemyUIGA toggleEnemyUIGA = new(true);
-                    gainBlockGA.PreReactions.Add(toggleEnemyUIGA); // runs multiple times if there are multiple enemy targets
+                    gainHealthGA.PreReactions.Add(toggleEnemyUIGA); // runs multiple times if there are multiple enemy targets
                 }
             }
 
-            ExecutableParameters.Targets[i] = avatarGainBlock;
+            ExecutableParameters.Targets[i] = avatarToHeal;
         }
 
         UpdateGameActionQueue();

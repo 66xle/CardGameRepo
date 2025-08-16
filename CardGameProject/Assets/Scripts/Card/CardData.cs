@@ -10,7 +10,7 @@ public struct CardData
 
     public List<AnimationWrapper> AnimationList { get; private set; }
 
-    public CardData(GearData gear, CardAnimationData data, float attack, float defence, float blockScale)
+    public CardData(GearData gear, CardAnimationData data, float attack, float defence, float blockScale, float health)
     {
         Card card = data.Card;
         Card copyCard = new Card();
@@ -38,10 +38,10 @@ public struct CardData
         Card = copyCard;
         Gear = gear;
 
-        Card.DisplayDescription = GenerateDescriptionWithDamage(card, gear, attack, defence, blockScale);
+        Card.DisplayDescription = GenerateDescriptionWithDamage(card, gear, attack, defence, blockScale, health);
     }
 
-    public string GenerateDescriptionWithDamage(Card card, GearData gear, float attack, float defence, float blockScale, Avatar enemy = null)
+    public string GenerateDescriptionWithDamage(Card card, GearData gear, float attack, float defence, float blockScale, float health, Avatar enemy = null)
     {
         int weaponAttack = 0;
 
@@ -61,6 +61,10 @@ public struct CardData
             if (type == 1)
             {
                 value = CalculateDamage.GetBlock(defence, value, blockScale);
+            }
+            else if (type == 2)
+            {
+                value = CalculateDamage.GetHealAmount(health, value);
             }
             else
             {

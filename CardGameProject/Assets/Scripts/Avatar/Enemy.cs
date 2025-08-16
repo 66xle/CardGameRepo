@@ -59,7 +59,7 @@ public class Enemy : Avatar
         BlockScale = ess.GetBlockScale();
 
         Deck = new();
-        Deck.AddRange(data.Cards.Select(card => new CardData(weapon, card, Attack, Defence, BlockScale)));
+        Deck.AddRange(data.Cards.Select(card => new CardData(weapon, card, Attack, Defence, BlockScale, MaxHealth)));
 
         SelectionRing = transform.GetChild(0).gameObject;
     }

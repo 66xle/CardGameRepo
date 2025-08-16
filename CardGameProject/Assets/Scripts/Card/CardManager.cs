@@ -38,7 +38,7 @@ public class CardManager : MonoBehaviour
         {
             for (int i = 0; i < data.CardAmount; i++)
             {
-                CardData cardData = new(SwitchWeaponManager.CurrentMainHand, data, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale);
+                CardData cardData = new(SwitchWeaponManager.CurrentMainHand, data, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
                 PlayerDeck.Add(cardData);
             }
         }
@@ -50,7 +50,7 @@ public class CardManager : MonoBehaviour
             {
                 for (int i = 0; i < data.CardAmount; i++)
                 {
-                    CardData cardData = new(weaponData, data, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale);
+                    CardData cardData = new(weaponData, data, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
                     PlayerDeck.Add(cardData);
                 }
             }
@@ -62,7 +62,7 @@ public class CardManager : MonoBehaviour
             {
                 for (int i = 0; i < card.CardAmount; i++)
                 {
-                    CardData cardData = new(armour, card, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale);
+                    CardData cardData = new(armour, card, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
                     PlayerDeck.Add(cardData);
                 }
             }
@@ -76,7 +76,7 @@ public class CardManager : MonoBehaviour
         {
             GameObject go = PlayerHandTransform.GetChild(i).gameObject;
             CardDisplay display = go.GetComponent<CardDisplay>();
-            string description = display.CardData.GenerateDescriptionWithDamage(display.Card, display.CardData.Gear, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale, enemy);
+            string description = display.CardData.GenerateDescriptionWithDamage(display.Card, display.CardData.Gear, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale, StatsManager.CurrentMaxHealth, enemy);
             display.UpdateDescription(description);
         }
     }

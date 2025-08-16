@@ -30,4 +30,11 @@ public static class CalculateDamage
 
         return Mathf.Ceil(block);
     }
+
+    public static int GetHealAmount(float health, float multiplier)
+    {
+        float heal = health * multiplier;
+
+        return (int)Mathf.Ceil(heal);
+    }
 }
