@@ -23,9 +23,9 @@ MonoBehaviour:
   WeaponAttack: 0
   HolsterSlot: {fileID: 0}
   WeaponTypeAnimationSet:
-  - rid: 7765747551190646787
-  - rid: 7765747551190646788
-  - rid: 7765747551190646789
+  - rid: 7765747638602301440
+  - rid: 7765747638602301441
+  - rid: 7765747638602301442
   AnimationClipDataList:
   - Clip: {fileID: 1827226128182048838, guid: 3d8051e0b50b9c84e8d5c5e945105220, type: 3}
     DistanceOffset: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
         Card: {fileID: 11400000, guid: be0a384b3da5f454785878f76cf65687, type: 2}
-        CardAmount: 1
+        CardAmount: 5
         Animations:
         - rid: 7765747505886134697
         AnimationList:
@@ -78,7 +78,7 @@ MonoBehaviour:
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
-    - rid: 7765747551190646787
+    - rid: 7765747638602301440
       type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -86,7 +86,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
           DistanceOffset: 0
-    - rid: 7765747551190646788
+    - rid: 7765747638602301441
       type: {class: WeaponTypeAnimationHeavy, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -96,7 +96,7 @@ MonoBehaviour:
           DistanceOffset: 1
         - Clip: {fileID: 1827226128182048838, guid: 038bd9b32bdfa4747a9476ecb109aea9, type: 3}
           DistanceOffset: 0
-    - rid: 7765747551190646789
+    - rid: 7765747638602301442
       type: {class: WeaponTypeAnimationAOE, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:

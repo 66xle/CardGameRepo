@@ -16,7 +16,7 @@ public class RewardManager : MonoBehaviour
     [MustBeAssigned][SerializeField] Transform GearParent;
 
     [Foldout("Rewards", true)]
-    [ReadOnly][SerializeField] List<WeaponData> PoolOfGear;
+    [ReadOnly][SerializeField] List<GearData> PoolOfGear;
     [SerializeField] int LowLevel;
     [SerializeField] int MidLevel;
     [PositiveValueOnly] [SerializeField] Vector3 BattleMultiplier;
@@ -41,7 +41,7 @@ public class RewardManager : MonoBehaviour
     
     
 
-    private List<WeaponData> listOfWeaponReward = new();
+    private List<GearData> listOfRewards = new();
     private GameObject currentObjectInOverlay;
     private CardCarousel cardCarousel;
     private GearSelect selectedGear;
@@ -53,9 +53,9 @@ public class RewardManager : MonoBehaviour
 
     public void ClaimGear()
     {
-        EquipmentManager.AddWeapon(listOfWeaponReward[0]);
+        EquipmentManager.AddGear(listOfRewards[0]);
 
-        EquipmentManager.SaveWeapons();
+        EquipmentManager.SaveGear();
 
         UIManager.NextScene();
     }
@@ -86,25 +86,25 @@ public class RewardManager : MonoBehaviour
 
         // Determine weapon or armor drop
 
-        List<WeaponData> weapons = new();
+        List<GearData> gears = new();
 
         for (int i = 0; i < 3; i++)
         {
             int index = Random.Range(0, PoolOfGear.Count); // Not the same weapon. And remove weapon from pool if chosen.
-            weapons.Add(PoolOfGear[index]);
+            gears.Add(PoolOfGear[index]);
         }
 
         ChooseGearUI.SetActive(true);
-        CreateGearItem(weapons);
+        CreateGearItem(gears);
 
         CalculateExp();
     }
 
 
 
-    public void CreateGearItem(List<WeaponData> weapons)
+    public void CreateGearItem(List<GearData> gears)
     {
-        foreach (WeaponData data in weapons)
+        foreach (GearData data in gears)
         {
             GameObject gear = Instantiate(GearPrefab, GearParent);
             GearSelect gearSelect = gear.GetComponent<GearSelect>();
@@ -127,7 +127,7 @@ public class RewardManager : MonoBehaviour
 
     public void ChooseGearButton()
     {
-        listOfWeaponReward.Add(selectedGear.GetWeaponData());
+        listOfRewards.Add(selectedGear.GetGearData());
 
         ChooseGearUI.SetActive(false);
 
@@ -137,7 +137,7 @@ public class RewardManager : MonoBehaviour
 
     public void CreateGearIcon()
     {
-        foreach (WeaponData data in listOfWeaponReward)
+        foreach (GearData data in listOfRewards)
         {
             GameObject icon = Instantiate(IconPrefab, DisplayRewardsUI);
             RawImage image = icon.GetComponent<RawImage>();
@@ -147,11 +147,11 @@ public class RewardManager : MonoBehaviour
             button.onClick.AddListener(() => OpenGearOverlay(data));
 
             GearItem item = icon.GetComponent<GearItem>();
-            item.WeaponData = data;
+            item.GearData = data;
         }
     }
 
-    public void OpenGearOverlay(WeaponData data)
+    public void OpenGearOverlay(GearData data)
     {
         RenderCamera.gameObject.SetActive(true);
 
@@ -160,9 +160,9 @@ public class RewardManager : MonoBehaviour
         Vector3 spawnPos = RenderCamera.transform.position + weapon.positionOffset;
         currentObjectInOverlay = Instantiate(data.Prefab, spawnPos, Quaternion.Euler(weapon.rotationOffset));
 
-        foreach (CardAnimationData weaponCardData in data._cards)
+        foreach (CardAnimationData animationData in data.Cards)
         {
-            CardData cardData = new(data, weaponCardData, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale);
+            CardData cardData = new(data, animationData, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale);
 
             CardDisplay cardDisplay = Instantiate(CardPrefab, PreviewCards).GetComponent<CardDisplay>();
             cardDisplay.SetCard(cardData, cardData.Card);

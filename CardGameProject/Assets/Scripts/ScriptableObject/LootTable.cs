@@ -5,8 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Loot Table", menuName = "Loot Table")]
 public class LootTable : ScriptableObject
 {
-    public List<WeaponData> CommonGear;
-    public List<WeaponData> RareGear;
-    public List<WeaponData> EpicGear;
-    public List<WeaponData> LegendaryGear;
+    public List<GearData> CommonGear;
+    public List<GearData> RareGear;
+    public List<GearData> EpicGear;
+    public List<GearData> LegendaryGear;
 }

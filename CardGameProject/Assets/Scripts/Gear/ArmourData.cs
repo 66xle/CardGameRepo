@@ -11,8 +11,8 @@ public enum ArmourSlot
     Shoulders,
     Arms,
     Chest,
-    Leg,
-    Boot
+    Legs,
+    Boots
 }
 
 public class ArmourData : GearData
