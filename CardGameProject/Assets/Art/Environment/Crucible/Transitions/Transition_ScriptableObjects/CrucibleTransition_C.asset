@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee3fee5c31fe84ac7b16d0ebd667c193, type: 3}
+  m_Name: CrucibleTransition_C
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 2460968824713035889, guid: 21901a45d37b54adab56141de49ffc1e, type: 3}
+  baseHeight: 50
+  useCustomHeight: 0
+  customHeight: 10
+  rotationStepDegrees: 40
+  spawnWeight: 1
+  minProgressLevel: 0
+  canApplyHelix: 0
+  helixChance: 0.499
+  helixRadiusRange: {x: 0.5, y: 1.5}
+  helixDegreesPerSectionRange: {x: 180, y: 720}
+  helixPhaseJitterRange: {x: -15, y: 15}
