@@ -5,12 +5,12 @@ using UnityEngine.Playables;
 
 public struct CardData
 {
-    public WeaponData Weapon { get; private set; }
+    public GearData Gear { get; private set; }
     public Card Card { get; private set; }
 
     public List<AnimationWrapper> AnimationList { get; private set; }
 
-    public CardData(WeaponData weapon, CardAnimationData data, float attack, float defence, float blockScale)
+    public CardData(GearData gear, CardAnimationData data, float attack, float defence, float blockScale, float health)
     {
         Card card = data.Card;
         Card copyCard = new Card();
@@ -36,13 +36,21 @@ public struct CardData
 
         AnimationList = data.AnimationList;
         Card = copyCard;
-        Weapon = weapon;
+        Gear = gear;
 
-        Card.DisplayDescription = GenerateDescriptionWithDamage(card, weapon, attack, defence, blockScale);
+        Card.DisplayDescription = GenerateDescriptionWithDamage(card, gear, attack, defence, blockScale, health);
     }
 
-    public string GenerateDescriptionWithDamage(Card card, WeaponData weapon, float attack, float defence, float blockScale, Avatar enemy = null)
+    public string GenerateDescriptionWithDamage(Card card, GearData gear, float attack, float defence, float blockScale, float health, Avatar enemy = null)
     {
+        int weaponAttack = 0;
+
+        if (gear is WeaponData)
+        {
+            WeaponData weaponData = (WeaponData)gear;
+            weaponAttack = weaponData.WeaponAttack;
+        }
+
         string displayDescription = card.LinkDescription;
 
         for (int i = 0; i < card.ValuesToReference.Count; i++)
@@ -54,9 +62,13 @@ public struct CardData
             {
                 value = CalculateDamage.GetBlock(defence, value, blockScale);
             }
+            else if (type == 2)
+            {
+                value = CalculateDamage.GetHealAmount(health, value);
+            }
             else
             {
-                value = CalculateDamage.GetDamage(attack, weapon.WeaponAttack, enemy, value);
+                value = CalculateDamage.GetDamage(attack, weaponAttack, enemy, value);
             }
 
             displayDescription = displayDescription.Replace($"#{i}", $"<color=#FF0000>{value.ToString()}</color>");

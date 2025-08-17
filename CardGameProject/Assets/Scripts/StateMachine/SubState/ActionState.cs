@@ -85,9 +85,11 @@ public class ActionState : CombatBaseState
     {
         ExecutableParameters.Ctx = ctx;
         ExecutableParameters.CardData = cardData;
-        ExecutableParameters.WeaponData = cardData.Weapon;
         ExecutableParameters.AvatarPlayingCard = avatarPlayingCard;
         ExecutableParameters.AvatarOpponent = avatarOpponent;
+
+        if (cardData.Gear is WeaponData)
+            ExecutableParameters.WeaponData = (WeaponData)cardData.Gear;
 
         isInAction = true;
         ctx.CombatUIManager.ToggleHideUI(false);

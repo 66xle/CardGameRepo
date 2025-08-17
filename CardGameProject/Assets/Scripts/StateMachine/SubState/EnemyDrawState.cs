@@ -41,8 +41,6 @@ public class EnemyDrawState : CombatBaseState
 
         foreach (CardData card in cards)
         {
-            card.Weapon.DamageType = ctx.CurrentEnemyTurn.DamageType;
-
             ctx.CardManager.EnemyCardQueue.Add(card);
         }
     }

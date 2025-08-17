@@ -2,6 +2,6 @@ using UnityEngine;
 
 public class GearItem : MonoBehaviour
 {
-    [HideInInspector] public WeaponData WeaponData;
+    [HideInInspector] public GearData GearData;
 
 }

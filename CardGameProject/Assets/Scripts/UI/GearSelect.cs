@@ -8,13 +8,13 @@ public class GearSelect : MonoBehaviour
     [MustBeAssigned] [SerializeField] TMP_Text GearNameText;
     [MustBeAssigned] [SerializeField] RawImage GearIcon;
     [MustBeAssigned] [SerializeField] GameObject Highlight;
-    private WeaponData WeaponData;
+    private GearData GearData;
 
-    public void Init(WeaponData data)
+    public void Init(GearData data)
     {
         GearNameText.text = data.GearName;
         GearIcon.texture = data.IconTexture;
-        WeaponData = data;
+        GearData = data;
     }
 
     public void ToggleHighlight(bool toggle)
@@ -22,9 +22,8 @@ public class GearSelect : MonoBehaviour
         Highlight.SetActive(toggle);
     }
 
-    public WeaponData GetWeaponData()
+    public GearData GetGearData()
     {
-        return WeaponData;
+        return GearData;
     }
-
 }

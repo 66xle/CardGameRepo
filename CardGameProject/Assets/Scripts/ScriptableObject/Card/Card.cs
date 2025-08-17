@@ -77,6 +77,12 @@ public class Card : ScriptableObject
 
             return;
         }
+        else if (command is HealCommand)
+        {
+            ValuesToReference.Add(new Vector2(2, command.Value));
+
+            return;
+        }
 
         ValuesToReference.Add(new Vector2(0, command.Value));
     }
