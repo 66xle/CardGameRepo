@@ -163,6 +163,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f089f7584705cf148b35a8a1c26e2260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &979658367
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 979658368}
+  - component: {fileID: 979658369}
+  m_Layer: 0
+  m_Name: ServiceLocator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &979658368
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979658367}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.118925974, y: 1.3525149, z: 0.89384913}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &979658369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979658367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bfced86aa9a32b418c27872cb097e5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1642472511
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,15 +252,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneGroups:
-  - GroupName: LevelOne
+  - GroupName: MainMenu
     Scenes:
     - Reference:
         asset: {fileID: 102900000, guid: 92ce5573dcba78949aff270159609b79, type: 3}
         guid: 92ce5573dcba78949aff270159609b79
-      SceneType: 1
+      SceneType: 2
+  - GroupName: Combat
+    Scenes:
+    - Reference:
+        asset: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
+        guid: 9fc0d4010bbf28b4594072e72b8655ab
+      SceneType: 3
+    - Reference:
+        asset: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
+        guid: 9fc0d4010bbf28b4594072e72b8655ab
+      SceneType: 5
+  loadingScene:
+    asset: {fileID: 102900000, guid: 8414d81814d60914cbb86e20dbd796e4, type: 3}
+    guid: 8414d81814d60914cbb86e20dbd796e4
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 86894099}
   - {fileID: 1642472512}
+  - {fileID: 979658368}

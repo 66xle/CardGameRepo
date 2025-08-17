@@ -1,12 +1,16 @@
 using UnityEngine;
 using System;
 using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
+using MyBox;
+using SceneReference = Eflatun.SceneReference.SceneReference;
 
 namespace Systems.SceneManagment
 { 
     public class SceneLoader : MonoBehaviour
     {
         [SerializeField] SceneGroup[] sceneGroups;
+        [MustBeAssigned][SerializeField] SceneReference loadingScene;
 
         public readonly SceneGroupManager manager = new SceneGroupManager();
 
@@ -39,7 +43,19 @@ namespace Systems.SceneManagment
 
             
             await manager.LoadScenes(sceneGroups[index], progress);
+            await SceneManager.LoadSceneAsync(loadingScene.Path, LoadSceneMode.Additive);
+        }
 
+        [ButtonMethod]
+        public async void LoadCombat()
+        {
+            await LoadSceneGroup(1);
+        }
+
+        [ButtonMethod]
+        public async void LoadMainMenu()
+        {
+            await LoadSceneGroup(0);
         }
     }
 
