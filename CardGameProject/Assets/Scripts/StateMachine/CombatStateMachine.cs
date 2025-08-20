@@ -302,28 +302,6 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
-
-    public void SpawnDamagePopupUI(Avatar avatar, float damage, Color color)
-    {
-        CombatUIManager UIManager = CombatUIManager;
-
-        GameObject popupObj = Instantiate(UIManager.DamagePopupPrefab, UIManager.WorldSpaceCanvas);
-        popupObj.transform.position = new Vector3(avatar.transform.position.x + Random.Range(-UIManager.RandomOffsetHorizontal, UIManager.RandomOffsetHorizontal),
-                                                  avatar.transform.position.y + UIManager.OffsetVertical,
-                                                  avatar.transform.position.z + Random.Range(-UIManager.RandomOffsetHorizontal, UIManager.RandomOffsetHorizontal));
-        Vector3 moveToPos = popupObj.transform.position;
-        moveToPos.y += 1f;
-
-        TextMeshProUGUI popupText = popupObj.GetComponent<TextMeshProUGUI>();
-        popupText.text = damage.ToString();
-        popupText.color = color;
-
-        popupObj.transform.DOMoveY(popupObj.transform.position.y + UIManager.MoveVertical, UIManager.MoveDuration).SetEase(Ease.OutQuad).OnComplete(() =>
-        {
-            popupText.DOFade(0, UIManager.FadeDuration).OnComplete(() => { Destroy(popupObj); });
-        });
-    }
-
     #endregion
 
 }

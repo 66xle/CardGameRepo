@@ -25,7 +25,7 @@ public class StatusPoison : StatusEffect
 
         avatar.TakeDamageByStatusEffect(damage);
 
-        SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatar, damage, Color.red);
+        SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatar, damage, Color.green);
         ActionSystem.Instance.Perform(spawnDamageUIPopupGA);
     }
 
