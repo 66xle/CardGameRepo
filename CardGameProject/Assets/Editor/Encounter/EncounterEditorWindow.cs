@@ -5,29 +5,29 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class LevelEditorWindow : BaseEditorWindow
+public class EncounterEditorWindow : BaseEditorWindow
 {
     GameObject gameObject;
-    Editor gameObjectEditor;
+    List<Editor> editors;
 
-    [MenuItem("Editor/Level Editor")]
+    [MenuItem("Editor/Encounter Editor")]
     public static void ShowWindow()
     {
-        LevelEditorWindow window = GetWindow<LevelEditorWindow>();
-        ShowWindow(window, "Level Editor");
+        EncounterEditorWindow window = GetWindow<EncounterEditorWindow>();
+        ShowWindow(window, "Encounter Editor");
     }
 
     [InitializeOnLoadMethod]
     private static void OnLoad()
     {
-        listIndex = SessionState.GetInt("levelListIndex", 0);
+        listIndex = SessionState.GetInt("encounterListIndex", 0);
         isInitialized = false;
         editorReadyToInit = true;
     }
 
     public override void Init()
     {
-        Enable("LevelEditorWindow", "LevelEditorStyles", "level", "Level");
+        Enable("EncounterEditorWindow", "EncounterEditorStyles", "encounter", "Encounter");
 
         EditorApplication.delayCall += () => 
         {
@@ -44,34 +44,34 @@ public class LevelEditorWindow : BaseEditorWindow
 
     public override void CreateListView()
     {
-        FindAllLevels(out List<LevelData> levels);
+        FindAllEncounters(out List<EncounterData> encounters);
 
         
-        DropdownField dropdownField = rootVisualElement.Query<DropdownField>("filter");
+        //DropdownField dropdownField = rootVisualElement.Query<DropdownField>("filter");
         
-        if (dropdownField.value != "Any")
-        {
-            levels = levels.Where(data => data.IsFixed == true).ToList();
-        }
+        //if (dropdownField.value != "Any")
+        //{
+        //    levels = levels.Where(data => data.IsFixed == true).ToList();
+        //}
 
-        List<string> pathList = levels.Select(data => AssetDatabase.GUIDToAssetPath(data.Guid)).ToList();
-        SetupListView(levels, pathList, "level-list");
+        List<string> pathList = encounters.Select(data => AssetDatabase.GUIDToAssetPath(data.Guid)).ToList();
+        SetupListView(encounters, pathList, "encounter-list");
 
         list.selectionChanged += (enumerable) =>
         {
             if (isInitialized)
-                SessionState.SetInt("levelListIndex", list.selectedIndex); 
+                SessionState.SetInt("encounterListIndex", list.selectedIndex); 
 
             foreach (UnityEngine.Object it in enumerable)
             {
 
-                Box infoBox = rootVisualElement.Query<Box>("level-info").First();
+                Box infoBox = rootVisualElement.Query<Box>("encounter-info").First();
                 infoBox.Clear();
 
                 Box preview = rootVisualElement.Query<Box>("object-preview").First();
                 preview.Clear();
 
-                LevelData data = it as LevelData;
+                EncounterData data = it as EncounterData;
 
                 if (data == null) return;
 
@@ -88,13 +88,13 @@ public class LevelEditorWindow : BaseEditorWindow
                     infoBox.Add(prop);
 
                     // Update prefab
-                    if (dataProperty.name == "Prefab")
-                    {
-                        prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadLevelPrefab(data));
-                    }
+                    //if (dataProperty.name == "Enemies")
+                    //{
+                    //    prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadEnemies(data));
+                    //}
                 }
 
-                LoadLevelPrefab(data);
+                //LoadEnemies(data);
             }
         };
 
@@ -120,7 +120,7 @@ public class LevelEditorWindow : BaseEditorWindow
         window.window = this;
 
         Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
-        window.position = new Rect(mousePos.x, mousePos.y, 300, 400);
+        window.position = new Rect(mousePos.x, mousePos.y, 300, 200);
         window.ShowPopup();
     }
 
@@ -128,15 +128,15 @@ public class LevelEditorWindow : BaseEditorWindow
     {
         if (list.selectedItem != null)
         {
-            LevelData selectedLevel = list.selectedItem as LevelData;
-            if (!EditorUtility.DisplayDialog($"Delete Level", $"Delete {selectedLevel.name}?", "Delete", "Cancel"))
+            EncounterData selected = list.selectedItem as EncounterData;
+            if (!EditorUtility.DisplayDialog($"Delete Encounter", $"Delete {selected.name}?", "Delete", "Cancel"))
                 return;
 
             list.ClearSelection();
-            rootVisualElement.Query<Box>("level-info").First().Clear();
+            rootVisualElement.Query<Box>("encounter-info").First().Clear();
             list.itemsSource = null;
 
-            AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedLevel.Guid));
+            AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selected.Guid));
 
             CreateListView();
 
@@ -155,7 +155,7 @@ public class LevelEditorWindow : BaseEditorWindow
             window.window = this;
 
             Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
-            window.position = new Rect(mousePos.x, mousePos.y, 300, 100);
+            window.position = new Rect(mousePos.x, mousePos.y, 300, 200);
             window.ShowPopup();
         }
     }
@@ -165,40 +165,59 @@ public class LevelEditorWindow : BaseEditorWindow
         EditorUtility.RequestScriptReload();
     }
 
-    private void FindAllLevels(out List<LevelData> levels)
+    private void FindAllEncounters(out List<EncounterData> encounters)
     {
-        string[] guids = AssetDatabase.FindAssets("t:LevelData");
+        string[] guids = AssetDatabase.FindAssets("t:EncounterData");
 
-        levels = new List<LevelData>();
+        encounters = new List<EncounterData>();
 
         for (int i = 0; i < guids.Length; i++)
         {
             string path = AssetDatabase.GUIDToAssetPath(guids[i]);
 
-            LevelData loadedData = AssetDatabase.LoadAssetAtPath<LevelData>(path);
+            EncounterData loadedData = AssetDatabase.LoadAssetAtPath<EncounterData>(path);
             loadedData.Guid = guids[i];
 
-            levels.Add(loadedData);
+            encounters.Add(loadedData);
         }
     }
 
-    private void LoadLevelPrefab(LevelData levelData)
-    {
-        if (levelData.Prefab == null)
-            return;
+    //private void LoadEnemies(EncounterData encounterData)
+    //{
+    //    if (isInitialized)
+    //        editors.ForEach(e => DestroyImmediate(e));
 
-        Box gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
-        gameObjectPreview.Clear();
+    //    if (encounterData.Enemies.Count == 0)
+    //        return;
 
-        GUIStyle bgColor = new GUIStyle();
-        bgColor.normal.background = EditorGUIUtility.whiteTexture;
+    //    Box gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
+    //    gameObjectPreview.Clear();
 
-        if (isInitialized)
-            DestroyImmediate(gameObjectEditor);
+    //    GUIStyle bgColor = new GUIStyle();
+    //    bgColor.normal.background = EditorGUIUtility.whiteTexture;
 
-        gameObjectEditor = Editor.CreateEditor(levelData.Prefab);
-        IMGUIContainer container = new IMGUIContainer(() => { gameObjectEditor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(1000, 500), bgColor); });
-        gameObjectPreview.Add(container);
-    }
+    //    List<Object> prefabs = new();
+
+    //    foreach (EnemyData data in encounterData.Enemies)
+    //    {
+    //        if (data == null)
+    //            continue;
+
+    //        if (data.Prefab != null)
+    //            prefabs.Add(data.Prefab);
+    //    }
+
+    //    if (prefabs.Count == 0) return;
+
+    //    for (int i = 0; i < prefabs.Count; i++)
+    //    {
+    //        Editor editor = Editor.CreateEditor(prefabs[i]);
+    //        editors.Add(editor);
+
+    //        IMGUIContainer container = new IMGUIContainer(() => { editor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(1000, 500), bgColor); });
+
+    //        gameObjectPreview.Add(container);
+    //    }
+    //}
 
 }
