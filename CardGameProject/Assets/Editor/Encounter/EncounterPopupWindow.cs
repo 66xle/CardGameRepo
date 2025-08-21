@@ -15,6 +15,11 @@ public class EncounterPopupWindow : PopupWindow
             RenameButton();
     }
 
+    private void OnLostFocus()
+    {
+        CloseWindow();
+    }
+
     void AddButton()
     {
         var label = new Label("CREATE ENCOUNTER");
