@@ -1,4 +1,5 @@
 using MyBox;
+using PixelCrushers.DialogueSystem;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -65,4 +66,5 @@ public class CombatUIManager : MonoBehaviour
         player.InitUI(HealthBar, HealthValue, StaminaBar, StaminaValue, BlockValue, GuardBar, GuardValue, StatsManager.ArmourType);
         player.InitStats(StatsManager.CurrentMaxHealth, StatsManager.CurrentMaxStamina, StatsManager.CurrentMaxGuard, StatsManager.Defence, StatsManager.DefencePercentage, StatsManager.Attack, StatsManager.BlockScale);
     }
+
 }
