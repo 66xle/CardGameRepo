@@ -14,6 +14,7 @@ using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 using UnityEngine.Analytics;
 using UnityEngine.EventSystems;
+using PixelCrushers.DialogueSystem;
 
 public class CombatStateMachine : MonoBehaviour
 {
@@ -42,6 +43,10 @@ public class CombatStateMachine : MonoBehaviour
     [MustBeAssigned] public StatusEffectData GuardBreakMediumArmourData;
     [MustBeAssigned] public StatusEffectData GuardBreakHeavyArmourData;
 
+    [Foldout("DialogueDatabase", true)]
+    [MustBeAssigned] [SerializeField] DialogueDatabase DialogueDatabase;
+    [DefinedValues(nameof(Conversations))] public string ConversationTitle = null; 
+
     [Foldout("References", true)]
     [MustBeAssigned] [SerializeField] StatsManager StatsManager;
     [MustBeAssigned] [SerializeField] SwitchWeaponManager SwitchWeaponManager;
@@ -53,7 +58,6 @@ public class CombatStateMachine : MonoBehaviour
     [MustBeAssigned] public RewardManager RewardManager;
 
 
-
     #region Internal Variables
 
     // Variables
@@ -62,6 +66,7 @@ public class CombatStateMachine : MonoBehaviour
     [ReadOnly] public bool _isPlayState;
     [ReadOnly] public bool _pressedEndTurnButton;
     [ReadOnly] public bool _enemyTurnDone;
+    [ReadOnly] public bool _isInPrepState;
 
     [HideInInspector] public CardData _cardPlayed;
     [HideInInspector] public Enemy _selectedEnemyToAttack;
@@ -77,6 +82,20 @@ public class CombatStateMachine : MonoBehaviour
 
     #endregion
 
+    public string[] Conversations()
+    {
+        List<string> conversations = new() { "None" };
+
+        foreach (Conversation conversation in DialogueDatabase.conversations)
+        {
+            conversations.Add(conversation.Title);
+            Debug.Log(conversation.Title);
+        }
+
+        
+        return conversations.ToArray();
+    }
+
 
     public void Start()
     {
@@ -84,16 +103,19 @@ public class CombatStateMachine : MonoBehaviour
         _isPlayState = false;
         _pressedEndTurnButton = false;
         _enemyTurnDone = false;
+        _isInPrepState = false;
 
         EnemyList = new List<Enemy>();
-
         LoadPlayer();
         LoadEnemy();
-        CardManager.LoadCards();
+
+        CombatUIManager.ToggleHideUI(false);
 
         states = new CombatStateFactory(this, vso);
         currentState = new PlayerState(this, states, vso);
         currentState.EnterState();
+
+        DialogueManager.StartConversation(ConversationTitle);
     }
 
     // Update is called once per frame
@@ -113,8 +135,20 @@ public class CombatStateMachine : MonoBehaviour
             if (Input.touchCount > 0 && EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
                 return;
 
+            if (_isInPrepState)
+                return;
+
             SelectEnemy();
         }
+    }
+
+    public void InitBattle()
+    {
+        _isInPrepState = false;
+        CardManager.LoadCards();
+
+        _selectedEnemyToAttack = EnemyList[0];
+        EnemyManager.SelectEnemy(_selectedEnemyToAttack);
     }
 
     private void SelectEnemy()
@@ -169,9 +203,6 @@ public class CombatStateMachine : MonoBehaviour
         EnemyList = EnemyManager.InitEnemies(enemyDataList);
 
         CombatUIManager.detailedUI.Init(this);
-
-        _selectedEnemyToAttack = EnemyList[0];
-        EnemyManager.SelectEnemy(_selectedEnemyToAttack);
     }
 
     public void OnCardPlayed(CardPlayed evt, Card card, string tag)

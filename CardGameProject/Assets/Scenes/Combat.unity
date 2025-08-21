@@ -3126,7 +3126,7 @@ RectTransform:
   m_Father: {fileID: 399324254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0.000061035156, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3817,6 +3817,8 @@ MonoBehaviour:
   GuardBreakLightArmourData: {fileID: 11400000, guid: 7f708d99636aaca458a333d372d8c63e, type: 2}
   GuardBreakMediumArmourData: {fileID: 11400000, guid: f0f40d97d9765da48b9d5f2e6b2c67bd, type: 2}
   GuardBreakHeavyArmourData: {fileID: 11400000, guid: 7f708d99636aaca458a333d372d8c63e, type: 2}
+  DialogueDatabase: {fileID: 11400000, guid: 766d916daee5955439b5e80c9327c638, type: 2}
+  ConversationTitle: Test
   StatsManager: {fileID: 1461295039}
   SwitchWeaponManager: {fileID: 510262701}
   EnemyManager: {fileID: 481923474}
@@ -3829,6 +3831,7 @@ MonoBehaviour:
   _isPlayState: 0
   _pressedEndTurnButton: 0
   _enemyTurnDone: 0
+  _isInPrepState: 0
   _selectedEnemyToAttack: {fileID: 0}
   vso: {fileID: 0}
 --- !u!1 &481923473
@@ -4690,7 +4693,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &562006578
 Transform:
   m_ObjectHideFlags: 0
@@ -12792,7 +12795,7 @@ RectTransform:
   m_Father: {fileID: 2038860506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -13878,7 +13881,7 @@ RectTransform:
   m_Father: {fileID: 1267054026}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0.000061035156, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -15854,6 +15857,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2013744380}
   m_CullTransparentMesh: 1
+--- !u!1 &2018832958
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2018832960}
+  - component: {fileID: 2018832959}
+  m_Layer: 0
+  m_Name: Dialogue System Scene Events
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2018832959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018832958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca55201633b97d3408f439eb84ecb249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueEntrySceneEvents:
+  - guid: 4ca82682-e699-4b50-ba9a-948189257204
+    onExecute:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 467955062}
+          m_TargetAssemblyTypeName: CombatStateMachine, Assembly-CSharp
+          m_MethodName: InitBattle
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!4 &2018832960
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018832958}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2023208423
 GameObject:
   m_ObjectHideFlags: 0
@@ -17046,7 +17110,7 @@ MonoBehaviour:
       cancelConversation:
         key: 27
         buttonName: 
-    dialogueUI: {fileID: 101180, guid: 5ba51781a19f8a843abeb2d304d0d26e, type: 3}
+    dialogueUI: {fileID: 101180, guid: a5b4dc18ac65b8d4aa58af9b95d65f77, type: 3}
     defaultCanvas: {fileID: 511502588630558385}
     localizationSettings:
       language: 
@@ -17178,7 +17242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c593457cd8105e148906690e1707c592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trigger: 16
+  trigger: 32
   delayOneFrame: 0
   condition:
     luaConditions: []
@@ -19596,3 +19660,4 @@ SceneRoots:
   - {fileID: 859960081}
   - {fileID: 822190348}
   - {fileID: 511502588619174289}
+  - {fileID: 2018832960}
