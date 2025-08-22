@@ -49,7 +49,7 @@ namespace Systems.SceneManagment
             while (!operationGroup.IsDone)
             {
                 progress?.Report(operationGroup.Progress);
-                await Task.Delay(100);
+                await Task.Delay(1000);
             }
 
             Scene activeScene = SceneManager.GetSceneByName(ActiveSceneGroup.FindSceneNameByType(SceneType.ActiveScene));
@@ -75,7 +75,7 @@ namespace Systems.SceneManagment
                 if (!sceneAt.isLoaded) continue;
 
                 var sceneName = sceneAt.name;
-                if(/*sceneName.Equals(activeScene) ||*/ sceneName == "Bootstrapper") continue;
+                if(/*sceneName.Equals(activeScene) ||*/ sceneName == "Bootstrapper" || sceneName == "LoadingScene") continue;
                 scenes.Add(sceneName);
             }
 

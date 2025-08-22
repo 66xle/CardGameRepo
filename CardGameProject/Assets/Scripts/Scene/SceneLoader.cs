@@ -4,13 +4,15 @@ using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
 using MyBox;
 using SceneReference = Eflatun.SceneReference.SceneReference;
+using System.Collections.Generic;
 
 namespace Systems.SceneManagment
 { 
     public class SceneLoader : MonoBehaviour
     {
         [SerializeField] SceneGroup[] sceneGroups;
-        [MustBeAssigned][SerializeField] SceneReference loadingScene;
+        [MustBeAssigned] [SerializeField] SceneReference loadingScene;
+        [MustBeAssigned] [SerializeField] LevelSettings LevelSettings;
 
         public readonly SceneGroupManager manager = new SceneGroupManager();
 
@@ -21,41 +23,66 @@ namespace Systems.SceneManagment
             manager.OnSceneLoaded += sceneName => Debug.Log("Loaded: " + sceneName);
             manager.OnSceneUnloaded += sceneName => Debug.Log("Unloaded: " + sceneName);
             manager.OnSceneGroupLoaded += () => Debug.Log("Scene group loaded");
+
+            ServiceLocator.Register(this);
         }
 
         async void Start()
         {
-            await LoadSceneGroup(0);
+            await LoadSceneGroup(sceneGroups[0].GroupName);
         }
 
-        public async Task LoadSceneGroup(int index)
+        public async Task LoadSceneGroup(string groupName)
         {
             targetProgress = 1f;
 
-            if (index < 0 || index >= sceneGroups.Length)
-            { 
-                Debug.LogError("Invalid scene group index: " + index);
+            LoadingProgress progress = new LoadingProgress();
+            progress.Progressed += target => targetProgress = Mathf.Max(target, targetProgress);
+            
+
+            foreach (SceneGroup group in sceneGroups)
+            {
+                if (group.GroupName != groupName) continue;
+
+
+                if (group.GroupName == "Combat")
+                {
+                    List<SceneData> sceneDatas = new(group.Scenes);
+
+                    LevelData data = GetLevelData();
+                    sceneDatas.Insert(0, new SceneData(data.SceneRef, SceneType.Environment));
+
+                    group.Scenes = sceneDatas;
+                }
+
+                if (group.GroupName != "MainMenu")
+                    await SceneManager.LoadSceneAsync(loadingScene.Path, LoadSceneMode.Additive);
+
+                await manager.LoadScenes(group, progress);
+
+                if (group.GroupName != "MainMenu")
+                    await SceneManager.UnloadSceneAsync(loadingScene.Path);
+
                 return;
             }
 
-            LoadingProgress progress = new LoadingProgress();
-            progress.Progressed += target => targetProgress = Mathf.Max(target, targetProgress);
-
-            
-            await manager.LoadScenes(sceneGroups[index], progress);
-            await SceneManager.LoadSceneAsync(loadingScene.Path, LoadSceneMode.Additive);
+            Debug.LogError($"Group Name does not exist: {groupName}");
         }
 
-        [ButtonMethod]
-        public async void LoadCombat()
+        LevelData GetLevelData()
         {
-            await LoadSceneGroup(1);
-        }
+            int _currentLevel = GameManager.Instance.StageLevel;
 
-        [ButtonMethod]
-        public async void LoadMainMenu()
-        {
-            await LoadSceneGroup(0);
+            if (_currentLevel >= LevelSettings.Levels.Count)
+                _currentLevel = LevelSettings.Levels.Count - 1;
+
+            LevelData data = LevelSettings.Levels[_currentLevel];
+
+            return data;
+
+            //AvatarSpawnPosition asp = environment.GetComponent<AvatarSpawnPosition>();
+            //EnemyManager.EnemySpawnPosList = asp.EnemySpawnPositionList;
+            //Ctx.PlayerSpawnPos = asp.PlayerSpawnPosition;
         }
     }
 

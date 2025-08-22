@@ -13,9 +13,8 @@ public class LoadManager : MonoBehaviour
     IEnumerator AsyncLoadScene(string sceneName)
     {
         // temp
-        yield return new WaitForSeconds(1f);
+        yield return null;
 
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
-
     }
 }

@@ -137,6 +137,10 @@ PrefabInstance:
       value: SmokeFlowing (1)
       objectReference: {fileID: 0}
     - target: {fileID: 1323031430069592, guid: 39dd885bbc5d390418174bb2ce105b2f, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1323031430069592, guid: 39dd885bbc5d390418174bb2ce105b2f, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -228,6 +232,10 @@ PrefabInstance:
     - target: {fileID: 1772674374078180, guid: 8b32de223817a59428e51f5a5e3e86b2, type: 3}
       propertyPath: m_Name
       value: SmokeRising (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1772674374078180, guid: 8b32de223817a59428e51f5a5e3e86b2, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1772674374078180, guid: 8b32de223817a59428e51f5a5e3e86b2, type: 3}
       propertyPath: m_IsActive
@@ -339,6 +347,10 @@ PrefabInstance:
       value: SmokeRising (3)
       objectReference: {fileID: 0}
     - target: {fileID: 1772674374078180, guid: 8b32de223817a59428e51f5a5e3e86b2, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1772674374078180, guid: 8b32de223817a59428e51f5a5e3e86b2, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -441,7 +453,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1652907564360384, guid: a7149c5b0d248f34ca8e3059f9d23bec, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1652907564360384, guid: a7149c5b0d248f34ca8e3059f9d23bec, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -453,7 +465,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1949258829071314, guid: a7149c5b0d248f34ca8e3059f9d23bec, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1949258829071314, guid: a7149c5b0d248f34ca8e3059f9d23bec, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -568,7 +580,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &612319135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,7 +621,7 @@ GameObject:
   - component: {fileID: 631028195}
   - component: {fileID: 631028198}
   - component: {fileID: 631028199}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -633,7 +645,7 @@ Camera:
   m_GameObject: {fileID: 631028194}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 4
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -642,7 +654,7 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 20.78461
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
@@ -657,13 +669,13 @@ Camera:
     height: 9
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1024
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -816,11 +828,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6545638277245943478, guid: 260919181f4254856a5d690361381715, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -5545196956918884567, guid: 260919181f4254856a5d690361381715, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 260919181f4254856a5d690361381715, type: 3}
       propertyPath: m_Name
@@ -828,15 +840,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 260919181f4254856a5d690361381715, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4127625524042437655, guid: 260919181f4254856a5d690361381715, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4978444261929990056, guid: 260919181f4254856a5d690361381715, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 260919181f4254856a5d690361381715, type: 3}
       propertyPath: m_Controller
@@ -844,7 +856,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 310c1a3fa795f4bdaad68da818c71968, type: 2}
     - target: {fileID: 6191305596555396823, guid: 260919181f4254856a5d690361381715, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -874,6 +886,10 @@ PrefabInstance:
     - target: {fileID: 1015345286199994, guid: 700652bec8a96614d811aa4288a71d18, type: 3}
       propertyPath: m_Name
       value: YellowFlare
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015345286199994, guid: 700652bec8a96614d811aa4288a71d18, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1015345286199994, guid: 700652bec8a96614d811aa4288a71d18, type: 3}
       propertyPath: m_IsActive
@@ -953,7 +969,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 997574768}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: EyeOfFate_GRP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -987,6 +1003,10 @@ PrefabInstance:
     - target: {fileID: 1845421791234588, guid: 12bc79824943cfa448fab5c0e01d9678, type: 3}
       propertyPath: m_Name
       value: FallingAshes
+      objectReference: {fileID: 0}
+    - target: {fileID: 1845421791234588, guid: 12bc79824943cfa448fab5c0e01d9678, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1845421791234588, guid: 12bc79824943cfa448fab5c0e01d9678, type: 3}
       propertyPath: m_IsActive
@@ -1067,7 +1087,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1171723900}
   - component: {fileID: 1171723899}
-  m_Layer: 5
+  - component: {fileID: 1171723901}
+  m_Layer: 10
   m_Name: Directional Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1154,6 +1175,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1788845613}
   m_LocalEulerAnglesHint: {x: -180, y: 0, z: 0}
+--- !u!114 &1171723901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171723898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &1250928623
 GameObject:
   m_ObjectHideFlags: 0
@@ -1166,7 +1210,7 @@ GameObject:
   - component: {fileID: 1250928626}
   - component: {fileID: 1250928625}
   - component: {fileID: 1250928624}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1267,7 +1311,7 @@ GameObject:
   - component: {fileID: 1365842023}
   - component: {fileID: 1365842022}
   - component: {fileID: 1365842021}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1338,7 +1382,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1015345286199994, guid: 700652bec8a96614d811aa4288a71d18, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1015345286199994, guid: 700652bec8a96614d811aa4288a71d18, type: 3}
       propertyPath: m_IsActive
@@ -1429,7 +1473,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1652907564360384, guid: a7149c5b0d248f34ca8e3059f9d23bec, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1652907564360384, guid: a7149c5b0d248f34ca8e3059f9d23bec, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -1441,7 +1485,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1949258829071314, guid: a7149c5b0d248f34ca8e3059f9d23bec, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1949258829071314, guid: a7149c5b0d248f34ca8e3059f9d23bec, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -1558,6 +1602,10 @@ PrefabInstance:
       value: SmokeRising (2)
       objectReference: {fileID: 0}
     - target: {fileID: 1772674374078180, guid: 8b32de223817a59428e51f5a5e3e86b2, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1772674374078180, guid: 8b32de223817a59428e51f5a5e3e86b2, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -1661,7 +1709,7 @@ GameObject:
   - component: {fileID: 1983714707}
   - component: {fileID: 1983714709}
   - component: {fileID: 1983714708}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}

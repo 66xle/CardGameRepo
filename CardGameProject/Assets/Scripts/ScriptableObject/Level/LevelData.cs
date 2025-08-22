@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
+using SceneReference = Eflatun.SceneReference.SceneReference;
 
 public class LevelData : ScriptableObject
 {
     [ReadOnly] public string Guid;
 
     public string LevelName;
-    public GameObject Prefab;
+    [HideInInspector] public GameObject Prefab;
+    public SceneReference SceneRef;
 
     [Separator]
 
