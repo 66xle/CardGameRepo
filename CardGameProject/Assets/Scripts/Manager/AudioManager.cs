@@ -17,10 +17,11 @@ public class AudioManager : Singleton<AudioManager>
 
     private AudioSource audioSource;
 
-    public void Start()
+    public new void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-
+        base.Awake();
+        transform.SetParent(null);
+        DontDestroyOnLoad(this);
         audioSource = GetComponent<AudioSource>();
     }
 

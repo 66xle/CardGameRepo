@@ -27,6 +27,11 @@ namespace Systems.SceneManagment
             ServiceLocator.Register(this);
         }
 
+        public void OnDestroy()
+        {
+            ServiceLocator.Unregister<SceneLoader>();
+        }
+
         async void Start()
         {
             await LoadSceneGroup(sceneGroups[0].GroupName);

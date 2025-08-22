@@ -10,4 +10,9 @@ public class AvatarSpawnPosition : MonoBehaviour
     {
         ServiceLocator.Register(this);
     }
+
+    public void OnDestroy()
+    {
+        ServiceLocator.Unregister<AvatarSpawnPosition>();
+    }
 }
