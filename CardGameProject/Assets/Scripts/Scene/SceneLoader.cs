@@ -49,23 +49,27 @@ namespace Systems.SceneManagment
             {
                 if (group.GroupName != groupName) continue;
 
+                SceneGroup temp = new SceneGroup();
+                temp.GroupName = group.GroupName;
+                temp.Scenes = new(group.Scenes);
+
 
                 if (group.GroupName == "Combat")
                 {
-                    List<SceneData> sceneDatas = new(group.Scenes);
+                    List<SceneData> sceneDatas = Extensions.CloneList(temp.Scenes);
 
                     LevelData data = GetLevelData();
                     sceneDatas.Insert(0, new SceneData(data.SceneRef, SceneType.Environment));
 
-                    group.Scenes = sceneDatas;
+                    temp.Scenes = sceneDatas;
                 }
 
-                if (group.GroupName != "MainMenu")
+                if (temp.GroupName != "MainMenu")
                     await SceneManager.LoadSceneAsync(loadingScene.Path, LoadSceneMode.Additive);
 
-                await manager.LoadScenes(group, progress);
+                await manager.LoadScenes(temp, progress);
 
-                if (group.GroupName != "MainMenu")
+                if (temp.GroupName != "MainMenu")
                     await SceneManager.UnloadSceneAsync(loadingScene.Path);
 
                 return;
