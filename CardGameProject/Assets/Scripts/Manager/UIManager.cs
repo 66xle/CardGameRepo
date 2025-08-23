@@ -8,14 +8,13 @@ public class UIManager : MonoBehaviour
 {
     [MustBeAssigned] [SerializeField] DifficultyManager DifficultyManager;
 
-
-    public void RestartCombat()
+    public async void RestartCombat()
     {
         Time.timeScale = 1.0f;
 
-        GameManager.Instance.SceneToLoad = SceneManager.GetActiveScene().name;
+        SceneLoader loader = ServiceLocator.Get<SceneLoader>();
 
-        SceneManager.LoadSceneAsync("LoadingScene");
+        await loader.LoadSceneGroup("Combat");
     }
 
     public void NextScene()
