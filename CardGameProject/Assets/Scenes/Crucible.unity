@@ -180,7 +180,6 @@ GameObject:
   m_Component:
   - component: {fileID: 27181961}
   - component: {fileID: 27181960}
-  - component: {fileID: 27181959}
   - component: {fileID: 27181962}
   - component: {fileID: 27181963}
   m_Layer: 0
@@ -190,14 +189,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &27181959
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 27181958}
-  m_Enabled: 1
 --- !u!20 &27181960
 Camera:
   m_ObjectHideFlags: 0
@@ -231,7 +222,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60.000004
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -257,8 +248,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 27181958}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.28915414, z: 0, w: 0.9572826}
-  m_LocalPosition: {x: -0.8805207, y: 6.7112303, z: -0.72090423}
+  m_LocalRotation: {x: -0.06377132, y: 0.18394697, z: -0.030952731, w: -0.98037684}
+  m_LocalPosition: {x: 1.9049797, y: 1.2690926, z: -1.3293076}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

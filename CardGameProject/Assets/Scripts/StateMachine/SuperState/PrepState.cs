@@ -2,7 +2,12 @@ using UnityEngine;
 
 public class PrepState : CombatBaseState
 {
-    public PrepState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso) { }
+    public PrepState(CombatStateMachine context, CombatStateFactory combatStateFactory, VariableScriptObject vso) : base(context, combatStateFactory, vso) 
+    {
+        isRootState = true;
+
+        ctx.currentSuperState = this.ToString(); // temp debugging
+    }
 
     public override void EnterState()
     {
@@ -23,7 +28,7 @@ public class PrepState : CombatBaseState
     {
         if (!ctx._isInPrepState)
         {
-            SwitchState(factory.StatusEffect());
+            SwitchState(factory.Player());
         }
     }
     public override void InitializeSubState() { }

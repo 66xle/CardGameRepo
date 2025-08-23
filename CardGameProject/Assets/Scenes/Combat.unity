@@ -7021,7 +7021,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90cd2c5666c436c47aee676d3cfd0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AudioType: 3
+  AudioType: 2
 --- !u!1 &890503402
 GameObject:
   m_ObjectHideFlags: 0
@@ -11094,6 +11094,7 @@ GameObject:
   - component: {fileID: 1266439823}
   - component: {fileID: 1266439822}
   - component: {fileID: 1266439821}
+  - component: {fileID: 1266439824}
   m_Layer: 5
   m_Name: Close Overlay Button
   m_TagString: Untagged
@@ -11215,6 +11216,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1266439819}
   m_CullTransparentMesh: 1
+--- !u!114 &1266439824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266439819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90cd2c5666c436c47aee676d3cfd0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioType: 3
 --- !u!1 &1267054025
 GameObject:
   m_ObjectHideFlags: 0

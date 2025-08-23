@@ -33,7 +33,7 @@ public class PlayerState : CombatBaseState
     }
     public override void InitializeSubState()
     {
-        SetSubState(factory.Prep());
+        SetSubState(factory.StatusEffect());
         currentSubState.EnterState();
     }
 

@@ -119,7 +119,7 @@ public class CombatStateMachine : MonoBehaviour
         CombatUIManager.ToggleHideUI(false);
 
         states = new CombatStateFactory(this, vso);
-        currentState = new PlayerState(this, states, vso);
+        currentState = new PrepState(this, states, vso);
         currentState.EnterState();
 
         DialogueManager.StartConversation(ConversationTitle);
