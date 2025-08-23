@@ -16,7 +16,8 @@ namespace Systems.SceneManagment
 
         public readonly SceneGroupManager manager = new SceneGroupManager();
 
-        float targetProgress;
+        private float targetProgress;
+        private bool Init = false;
 
         private void Awake()
         {
@@ -34,7 +35,12 @@ namespace Systems.SceneManagment
 
         async void Start()
         {
+            if (sceneGroups[0].GroupName != "MainMenu")
+                Init = true;
+
             await LoadSceneGroup(sceneGroups[0].GroupName);
+
+            Init = true;
         }
 
         public async Task LoadSceneGroup(string groupName)
@@ -64,12 +70,12 @@ namespace Systems.SceneManagment
                     temp.Scenes = sceneDatas;
                 }
 
-                if (temp.GroupName != "MainMenu")
+                if (Init)
                     await SceneManager.LoadSceneAsync(loadingScene.Path, LoadSceneMode.Additive);
 
                 await manager.LoadScenes(temp, progress);
 
-                if (temp.GroupName != "MainMenu")
+                if (Init)
                     await SceneManager.UnloadSceneAsync(loadingScene.Path);
 
                 return;

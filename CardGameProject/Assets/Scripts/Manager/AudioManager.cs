@@ -7,13 +7,22 @@ using UnityEngine.Events;
 public enum AudioType
 {
     None,
-    UIClick
+    UIClick,
+    UIGameOver
 }
+
+[System.Serializable]
+public class AudioWrapper
+{
+    public AudioData AudioData;
+    public AudioType Type;
+}
+
 
 public class AudioManager : Singleton<AudioManager>
 {
     [Foldout("UI", true)]
-    public AudioData UIClick;
+    public List<AudioWrapper> AudioWrappers;
 
     private AudioSource audioSource;
 
@@ -29,9 +38,12 @@ public class AudioManager : Singleton<AudioManager>
     {
         AudioData data = null;
 
-        if (AudioType.UIClick == audioType)
+        foreach (AudioWrapper wrapper in AudioWrappers)
         {
-            data = UIClick;
+            if (wrapper.Type == audioType)
+            {
+                data = wrapper.AudioData;
+            }
         }
 
         if (data == null)
