@@ -155,6 +155,12 @@ public class RewardManager : MonoBehaviour
     {
         RenderCamera.gameObject.SetActive(true);
 
+        if (data.Prefab == null)
+        {
+            Debug.LogError($"[Missing Reference] Prefab not set in gear: {data.GearName}");
+            return;
+        }
+
         Weapon weapon = data.Prefab.GetComponent<Weapon>();
 
         Vector3 spawnPos = RenderCamera.transform.position + weapon.positionOffset;
@@ -164,7 +170,7 @@ public class RewardManager : MonoBehaviour
         {
             if (animationData.Card == null)
             {
-                Debug.LogError($"[Missing Reference] No card set in gear: {data.GearName}");
+                Debug.LogError($"[Missing Reference] Card not set in gear: {data.GearName}");
                 return;
             }
 
