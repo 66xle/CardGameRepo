@@ -162,6 +162,12 @@ public class RewardManager : MonoBehaviour
 
         foreach (CardAnimationData animationData in data.Cards)
         {
+            if (animationData.Card == null)
+            {
+                Debug.LogError($"[Missing Reference] No card set in gear: {data.GearName}");
+                return;
+            }
+
             CardData cardData = new(data, animationData, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
 
             CardDisplay cardDisplay = Instantiate(CardPrefab, PreviewCards).GetComponent<CardDisplay>();
