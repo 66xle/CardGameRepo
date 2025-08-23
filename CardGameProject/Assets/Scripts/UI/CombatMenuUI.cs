@@ -1,4 +1,5 @@
 using System;
+using Systems.SceneManagment;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,13 +19,11 @@ public class CombatMenuUI : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void MainMenu()
+    public async void MainMenu()
     {
-        GameManager.Instance.SceneToLoad = "MainMenu";
         Time.timeScale = 1f;
 
-        SceneManager.LoadSceneAsync("LoadingScene");
+        SceneLoader sceneLoader = ServiceLocator.Get<SceneLoader>();
+        await sceneLoader.LoadSceneGroup("MainMenu");
     }
-
-
 }
