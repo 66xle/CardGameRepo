@@ -52,6 +52,7 @@ public class CombatStateMachine : MonoBehaviour
     [MustBeAssigned] [SerializeField] SwitchWeaponManager SwitchWeaponManager;
     [MustBeAssigned] [SerializeField] EnemyManager EnemyManager;
     [MustBeAssigned] [SerializeField] CameraSystem CameraSystem;
+    [MustBeAssigned] [SerializeField] LevelManager LevelManager; // Editor only
     [MustBeAssigned] public CameraManager CameraManager;
     [MustBeAssigned] public CombatUIManager CombatUIManager;
     [MustBeAssigned] public CardManager CardManager;
@@ -99,6 +100,12 @@ public class CombatStateMachine : MonoBehaviour
 
     public void Start()
     {
+#if UNITY_EDITOR
+        if (!LevelManager.isEnvironmentLoaded) return; // Editor only
+#endif
+
+        Debug.Log("combat start");
+
         _isPlayedCard = false;
         _isPlayState = false;
         _pressedEndTurnButton = false;
@@ -121,6 +128,10 @@ public class CombatStateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+#if UNITY_EDITOR
+        if (!LevelManager.isEnvironmentLoaded) return; // Editor only
+#endif
+
         currentState.UpdateStates();
         if (currentState.currentSubState != null)
         {

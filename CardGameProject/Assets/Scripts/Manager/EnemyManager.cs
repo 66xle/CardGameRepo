@@ -16,9 +16,14 @@ public class EnemyManager : MonoBehaviour
     [MustBeAssigned] [SerializeField] EnemyStatSettings ESS;
     [MustBeAssigned] [SerializeField] DifficultyManager DifficultyManager;
     [MustBeAssigned] [SerializeField] CardManager CardManager;
+    [MustBeAssigned] [SerializeField] LevelManager LevelManager; // Editor only
 
     private void Awake()
     {
+#if UNITY_EDITOR
+        if (!LevelManager.isEnvironmentLoaded) return;
+#endif
+
         if (EnemySpawnPosList.Count == 0)
         {
             Debug.LogAssertion("Enemy Manager: No spawn position in List.");

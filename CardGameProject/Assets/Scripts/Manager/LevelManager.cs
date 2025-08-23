@@ -8,9 +8,20 @@ public class LevelManager : MonoBehaviour
     [MustBeAssigned] [SerializeField] EnemyManager EnemyManager;
     [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
 
+    [HideInInspector] public bool isEnvironmentLoaded = false;
 
     public void Awake()
     {
+#if UNITY_EDITOR
+        Scene scene = SceneManager.GetSceneByName("LoadingScene");
+        if (scene.isLoaded)
+        {
+            isEnvironmentLoaded = true;
+        }
+
+        if (!isEnvironmentLoaded) return;
+#endif
+
         GetAvatarPositions();
     }
 

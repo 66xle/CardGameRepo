@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    [MustBeAssigned] [SerializeField] DifficultyManager DifficultyManager;
+    [SerializeField] DifficultyManager DifficultyManager;
 
     public async void RestartCombat()
     {
