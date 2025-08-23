@@ -65,6 +65,7 @@ namespace Systems.SceneManagment
                     List<SceneData> sceneDatas = Extensions.CloneList(temp.Scenes);
 
                     LevelData data = GetLevelData();
+                    GameManager.Instance.CurrentLevelDataLoaded = data;
                     sceneDatas.Insert(0, new SceneData(data.SceneRef, SceneType.Environment));
 
                     temp.Scenes = sceneDatas;

@@ -19,6 +19,9 @@ public class GameManager : Singleton<GameManager>
     [HideInInspector] public int PlayerLevel;
     [HideInInspector] public int CurrentEXP;
 
+
+    [HideInInspector] public LevelData CurrentLevelDataLoaded;
+
     public new void Awake()
     {
         base.Awake();

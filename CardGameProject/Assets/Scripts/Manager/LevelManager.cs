@@ -23,6 +23,9 @@ public class LevelManager : MonoBehaviour
 #endif
 
         GetAvatarPositions();
+
+        AudioData musicData = GameManager.Instance.CurrentLevelDataLoaded.Music;
+        AudioManager.Instance.PlayMusic(musicData);
     }
 
     void GetAvatarPositions()

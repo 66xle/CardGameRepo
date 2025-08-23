@@ -10,6 +10,7 @@ public class LevelData : ScriptableObject
     public string LevelName;
     [HideInInspector] public GameObject Prefab;
     public SceneReference SceneRef;
+    public AudioData Music;
 
     [Separator]
 

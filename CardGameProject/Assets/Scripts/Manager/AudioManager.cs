@@ -8,7 +8,10 @@ public enum AudioType
 {
     None,
     UIClick,
-    UIGameOver
+    UIGameOver,
+    CardPlay,
+    CardDiscard,
+    CardDraw,
 }
 
 [System.Serializable]
@@ -24,14 +27,15 @@ public class AudioManager : Singleton<AudioManager>
     [Foldout("UI", true)]
     public List<AudioWrapper> AudioWrappers;
 
-    private AudioSource audioSource;
+    [Foldout("Audio Sources", true)]
+    [MustBeAssigned][SerializeField] AudioSource audioSource;
+    [MustBeAssigned][SerializeField] AudioSource musicSource;
 
     public new void Awake()
     {
         base.Awake();
         transform.SetParent(null);
         DontDestroyOnLoad(this);
-        audioSource = GetComponent<AudioSource>();
     }
 
     public void PlaySound(AudioType audioType)
@@ -54,5 +58,11 @@ public class AudioManager : Singleton<AudioManager>
 
         audioSource.resource = data.audios[Random.Range(0, data.audios.Count)];
         audioSource.Play();
+    }
+
+    public void PlayMusic(AudioData data)
+    {
+        musicSource.resource = data.audios[Random.Range(0, data.audios.Count)];
+        musicSource.Play();
     }
 }
