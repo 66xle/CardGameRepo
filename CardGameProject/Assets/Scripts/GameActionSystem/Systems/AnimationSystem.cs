@@ -85,11 +85,6 @@ public class AnimationSystem : MonoBehaviour
         Avatar avatarPlayingCard = triggerAttackAnimGA.AvatarPlayingCard;
         Animator animator = avatarPlayingCard.GetComponent<Animator>();
 
-        if (triggerAttackAnimGA.AttackTimeline != null)
-        {
-
-        }
-
         string animationName = triggerAttackAnimGA.AnimationName;
 
         string category = GetWeaponCategory(animationName);
@@ -126,20 +121,20 @@ public class AnimationSystem : MonoBehaviour
 
     private string GetAttackType(string name)
     {
-        //if (name.Contains(AttackType.Strike.ToString()))
-        //{
-        //    return "Strike";
-        //}
-        //else if (name.Contains(AttackType.Heavy.ToString()))
-        //{
-        //    return "Heavy";
-        //}
-        //else if (name.Contains(AttackType.AOE.ToString()))
-        //{
-        //    return "AOE";
-        //}
+        if (name.Contains("Strike"))
+        {
+            return "Strike";
+        }
+        else if (name.Contains("Heavy"))
+        {
+            return "Heavy";
+        }
+        else if (name.Contains("AOE"))
+        {
+            return "AOE";
+        }
 
-        Debug.LogError("Animation Clip missing attack type! " + name);
+        Debug.LogError($"Animation Clip missing attack type: '{name}'");
         return "Strike";
     }
 
