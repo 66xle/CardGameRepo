@@ -1,9 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using MyBox;
 using Unity.Android.Gradle.Manifest;
 using UnityEngine;
+using System.Collections;
 
 
 public class CardManager : MonoBehaviour
@@ -12,10 +12,10 @@ public class CardManager : MonoBehaviour
     public int CardsToDraw = 2;
 
     [Header("References")]
-    [MustBeAssigned] public GameObject CardPrefab;
+    [MustBeAssigned] [SerializeField] GameObject CardPrefab; 
     [MustBeAssigned] public Transform PlayerHandTransform;
-    [MustBeAssigned] public SwitchWeaponManager SwitchWeaponManager;
-    [MustBeAssigned] public EquipmentManager EquipmentManager;
+    [MustBeAssigned] [SerializeField] SwitchWeaponManager SwitchWeaponManager;
+    [MustBeAssigned] [SerializeField] EquipmentManager EquipmentManager;
     [MustBeAssigned] [SerializeField] StatsManager StatsManager;
 
     [HideInInspector] public List<CardData> PlayerDeck;
@@ -78,6 +78,40 @@ public class CardManager : MonoBehaviour
             CardDisplay display = go.GetComponent<CardDisplay>();
             string description = display.CardData.GenerateDescriptionWithDamage(display.Card, display.CardData.Gear, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale, StatsManager.CurrentMaxHealth, enemy);
             display.UpdateDescription(description);
+        }
+    }
+
+    public void CreateCard(CardData cardDrawed, Transform parent)
+    {
+        CardDisplay cardDisplay = Instantiate(CardPrefab, parent).GetComponent<CardDisplay>();
+        cardDisplay.SetCard(cardDrawed, cardDrawed.Card);
+    }
+
+    public void DrawCards(int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            if (PlayerDeck.Count <= 0)
+            {
+                // Reset deck and clear discard pile
+                PlayerDeck = new List<CardData>(DiscardPile);
+                DiscardPile.Clear();
+
+                // Shuffle deck
+                Extensions.Shuffle(PlayerDeck);
+            }
+
+            // No more cards to draw
+            if (PlayerDeck.Count <= 0)
+                break;
+
+            // Pick random card
+            int index = Random.Range(0, PlayerDeck.Count);
+            CardData cardDrawed = PlayerDeck[index];
+
+            CreateCard(cardDrawed, PlayerHandTransform);
+            PlayerDeck.Remove(cardDrawed);
+            PlayerHand.Add(cardDrawed);
         }
     }
 }

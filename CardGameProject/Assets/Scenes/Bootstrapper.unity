@@ -252,18 +252,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneGroups:
-  - GroupName: MainMenu
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 92ce5573dcba78949aff270159609b79, type: 3}
-        guid: 92ce5573dcba78949aff270159609b79
-      SceneType: 2
   - GroupName: Combat
     Scenes:
     - Reference:
         asset: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
         guid: 9fc0d4010bbf28b4594072e72b8655ab
       SceneType: 0
+  - GroupName: MainMenu
+    Scenes:
+    - Reference:
+        asset: {fileID: 102900000, guid: 92ce5573dcba78949aff270159609b79, type: 3}
+        guid: 92ce5573dcba78949aff270159609b79
+      SceneType: 2
   loadingScene:
     asset: {fileID: 102900000, guid: 8414d81814d60914cbb86e20dbd796e4, type: 3}
     guid: 8414d81814d60914cbb86e20dbd796e4

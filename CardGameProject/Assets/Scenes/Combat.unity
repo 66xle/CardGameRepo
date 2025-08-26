@@ -8039,6 +8039,7 @@ Transform:
   - {fileID: 39342961}
   - {fileID: 1304901116}
   - {fileID: 1996441072}
+  - {fileID: 1998505212}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1058429059
@@ -10032,7 +10033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1cb70d12e1ad34419239db382130c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardsToDraw: 5
+  CardsToDraw: 1
   CardPrefab: {fileID: 7406141934112961317, guid: f40acb07258ef8741bc094a7dcd310cf, type: 3}
   PlayerHandTransform: {fileID: 347342559}
   SwitchWeaponManager: {fileID: 510262701}
@@ -15752,6 +15753,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d3ee17e190e2794495149a497a81939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1998505211
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1998505212}
+  - component: {fileID: 1998505213}
+  m_Layer: 0
+  m_Name: CardSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1998505212
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998505211}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1053628506}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1998505213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998505211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d886c66fb0c7ddb4e9f5524ba0ccbad2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CardManager: {fileID: 1150495170}
 --- !u!1 &2002702044
 GameObject:
   m_ObjectHideFlags: 3

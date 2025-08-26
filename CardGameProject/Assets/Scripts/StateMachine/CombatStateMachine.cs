@@ -293,11 +293,6 @@ public class CombatStateMachine : MonoBehaviour
 
 
     #region Used by StateMachine
-    public void CreateCard(CardData cardDrawed, Transform parent)
-    {
-        CardDisplay cardDisplay = Instantiate(CardManager.CardPrefab, parent).GetComponent<CardDisplay>();
-        cardDisplay.SetCard(cardDrawed, cardDrawed.Card);
-    }
 
     public void EndTurn()
     {

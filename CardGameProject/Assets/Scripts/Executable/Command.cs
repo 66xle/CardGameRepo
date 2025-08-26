@@ -27,9 +27,11 @@ public abstract class Command : Executable
         }
     }
 
-    protected void AddGameActionToQueue(GameAction gameAction, Avatar avatar)
+    protected void AddGameActionToQueue(GameAction gameAction, Avatar avatar, bool hideUI = true)
     {
         avatar.QueueGameActions.Add(gameAction);
+
+        if (!hideUI) return;
 
         if (avatar is Player)
         {
