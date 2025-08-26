@@ -71,7 +71,7 @@ public class Card : ScriptableObject
 
     public void AddValueToReferenceList(Executable command)
     {
-        if (command is GainBlockCommand)
+        if (command is BlockCommand)
         {
             ValuesToReference.Add(new Vector2(1, command.Value));
 

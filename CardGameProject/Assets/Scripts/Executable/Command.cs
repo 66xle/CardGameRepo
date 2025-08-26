@@ -26,4 +26,21 @@ public abstract class Command : Executable
             }
         }
     }
+
+    protected void AddGameActionToQueue(GameAction gameAction, Avatar avatar)
+    {
+        avatar.QueueGameActions.Add(gameAction);
+
+        if (avatar is Player)
+        {
+            TogglePlayerUIGA togglePlayerUIGA = new(true);
+            gameAction.PreReactions.Add(togglePlayerUIGA);
+        }
+        else
+        {
+            ToggleEnemyUIGA toggleEnemyUIGA = new(true);
+            gameAction.PreReactions.Add(toggleEnemyUIGA); // runs multiple times if there are multiple enemy targets
+        }
+    }
+
 }

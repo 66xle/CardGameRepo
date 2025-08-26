@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public abstract class GainBlockCommand : Command
+public abstract class BlockCommand : Command
 {
     public override float Value { get; }
 
@@ -34,18 +34,7 @@ public abstract class GainBlockCommand : Command
             {
                 // Add game action to queue
                 GainBlockGA gainBlockGA = new(avatarGainBlock, block);
-                avatarGainBlock.QueueGameActions.Add(gainBlockGA);
-
-                if (avatarGainBlock is Player)
-                {
-                    TogglePlayerUIGA togglePlayerUIGA = new(true);
-                    gainBlockGA.PreReactions.Add(togglePlayerUIGA);
-                }
-                else
-                {
-                    ToggleEnemyUIGA toggleEnemyUIGA = new(true);
-                    gainBlockGA.PreReactions.Add(toggleEnemyUIGA); // runs multiple times if there are multiple enemy targets
-                }
+                AddGameActionToQueue(gainBlockGA, avatarGainBlock);
             }
 
             ExecutableParameters.Targets[i] = avatarGainBlock;

@@ -49,21 +49,10 @@ public abstract class AttackCommand : Command
                 {
                     // Add game action to queue
                     TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, damage, ExecutableParameters.WeaponData.DamageType, ExecutableParameters.CardTarget);
-                    avatarToTakeDamage.QueueGameActions.Add(takeDamageFromWeaponGA);
+                    AddGameActionToQueue(takeDamageFromWeaponGA, avatarToTakeDamage);
 
                     SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.AvatarToTakeDamage, takeDamageFromWeaponGA.Damage, Color.white);
-                    takeDamageFromWeaponGA.PostReactions.Add(spawnDamageUIPopupGA);
-
-                    if (avatarToTakeDamage is Player)
-                    {
-                        TogglePlayerUIGA togglePlayerUIGA = new(true);
-                        takeDamageFromWeaponGA.PreReactions.Add(togglePlayerUIGA);
-                    }
-                    else
-                    {
-                        ToggleEnemyUIGA toggleEnemyUIGA = new(true);
-                        takeDamageFromWeaponGA.PreReactions.Add(toggleEnemyUIGA); // runs multiple times if there are multiple enemy targets
-                    }
+                    AddGameActionToQueue(spawnDamageUIPopupGA, avatarToTakeDamage);
                 }
 
                 ExecutableParameters.Targets[i] = avatarToTakeDamage;

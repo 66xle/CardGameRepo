@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-public abstract class ReduceGuardCommand : Command
+public abstract class GuardCommand : Command
 {
     public override float Value { get; }
 
@@ -36,18 +36,7 @@ public abstract class ReduceGuardCommand : Command
             {
                 // Add game action to queue
                 TakeGuardDamageGA takeGuardDamageGA = new(avatarToTakeDamage, Value, CardTarget);
-                avatarToTakeDamage.QueueGameActions.Add(takeGuardDamageGA);
-
-                if (avatarToTakeDamage is Player)
-                {
-                    TogglePlayerUIGA togglePlayerUIGA = new(true);
-                    takeGuardDamageGA.PreReactions.Add(togglePlayerUIGA);
-                }
-                else
-                {
-                    ToggleEnemyUIGA toggleEnemyUIGA = new(true);
-                    takeGuardDamageGA.PreReactions.Add(toggleEnemyUIGA); // runs multiple times if there are multiple enemy targets
-                }
+                AddGameActionToQueue(takeGuardDamageGA, avatarToTakeDamage);
             }
 
             ExecutableParameters.Targets[i] = avatarToTakeDamage;
