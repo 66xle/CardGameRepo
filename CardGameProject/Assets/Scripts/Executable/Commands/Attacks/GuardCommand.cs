@@ -19,9 +19,6 @@ public abstract class GuardCommand : Command
         Avatar avatarPlayingCard = ExecutableParameters.AvatarPlayingCard;
         Avatar avatarOpponent = ExecutableParameters.AvatarOpponent;
 
-        Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
-        Animator opponentController = avatarOpponent.GetComponent<Animator>();
-
         for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
         {
             Avatar avatarToTakeDamage = ExecutableParameters.Targets[i];

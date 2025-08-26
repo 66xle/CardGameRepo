@@ -16,7 +16,6 @@ public abstract class BlockCommand : Command
     public override void ExecuteCommand()
     {
         Avatar avatarPlayingCard = ExecutableParameters.AvatarPlayingCard;
-        Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
 
         float block = CalculateDamage.GetBlock(avatarPlayingCard.Defence, Value, avatarPlayingCard.BlockScale);
 

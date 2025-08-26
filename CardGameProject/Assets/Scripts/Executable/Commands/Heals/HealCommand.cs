@@ -17,7 +17,6 @@ public abstract class HealCommand : Command
     public override void ExecuteCommand()
     {
         Avatar avatarPlayingCard = ExecutableParameters.AvatarPlayingCard;
-        Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
 
         int heal = CalculateDamage.GetHealAmount(avatarPlayingCard.MaxHealth, Value);
         Debug.Log(heal);
