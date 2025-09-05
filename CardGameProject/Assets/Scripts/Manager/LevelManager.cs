@@ -10,18 +10,18 @@ public class LevelManager : MonoBehaviour
 
     [HideInInspector] public bool isEnvironmentLoaded = false;
 
-    public void Awake()
+    private void Awake()
     {
-#if UNITY_EDITOR
-        Scene scene = SceneManager.GetSceneByName("LoadingScene");
-        if (scene.isLoaded)
-        {
-            isEnvironmentLoaded = true;
-        }
+        SceneInitialize.Instance.Subscribe(Init, -10);
+    }
 
-        if (!isEnvironmentLoaded) return;
-#endif
+    private void Start()
+    {
+        SceneInitialize.Instance.Invoke();
+    }
 
+    private void Init()
+    {
         GetAvatarPositions();
 
         AudioData musicData = GameManager.Instance.CurrentLevelDataLoaded.Music;

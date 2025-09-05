@@ -9,11 +9,16 @@ public class ButtonAudioType : MonoBehaviour
 
     public void Awake()
     {
+        SceneInitialize.Instance.Subscribe(Init);
+    }
+
+    public void Init()
+    {
         if (AudioType == AudioType.None) Debug.LogError($"Didn't set Audio Type: '{gameObject.name}'");
 
         Button = GetComponent<Button>();
 
-        if (Button == null) Debug.LogError($"Button component doesn't exist: '{gameObject.name}'" );
+        if (Button == null) Debug.LogError($"Button component doesn't exist: '{gameObject.name}'");
 
         Button.onClick.AddListener(() => AudioManager.Instance.PlaySound(AudioType));
     }

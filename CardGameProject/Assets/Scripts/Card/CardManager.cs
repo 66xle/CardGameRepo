@@ -25,6 +25,11 @@ public class CardManager : MonoBehaviour
 
     void Awake()
     {
+        SceneInitialize.Instance.Subscribe(Init);
+    }
+
+    private void Init()
+    {
         PlayerDeck = new List<CardData>();
         PlayerHand = new List<CardData>();
         DiscardPile = new List<CardData>();

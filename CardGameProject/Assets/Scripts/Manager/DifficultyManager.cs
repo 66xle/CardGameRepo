@@ -37,6 +37,11 @@ public class DifficultyManager : MonoBehaviour
 
     private void Awake()
     {
+        SceneInitialize.Instance.Subscribe(Init, -8);
+    }
+
+    private void Init()
+    {
         if (GameManager.Instance.DifficultyScore > 0)
         {
             currentScore = GameManager.Instance.DifficultyScore;

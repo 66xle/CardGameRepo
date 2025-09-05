@@ -6,7 +6,6 @@ using Random = UnityEngine.Random;
 
 public class EnemyManager : MonoBehaviour
 {
-    [MinMaxRange(1, 3)] [SerializeField] RangedInt AmountOfEnemies = new RangedInt(1, 3);
     [ReadOnly] public List<Transform> EnemySpawnPosList;
     public List<GameObject> EnemyUISpawnPosList;
 
@@ -19,6 +18,11 @@ public class EnemyManager : MonoBehaviour
     [MustBeAssigned] [SerializeField] LevelManager LevelManager; // Editor only
 
     private void Awake()
+    {
+        SceneInitialize.Instance.Subscribe(Init);
+    }
+
+    private void Init()
     {
 #if UNITY_EDITOR
         if (!LevelManager.isEnvironmentLoaded) return;

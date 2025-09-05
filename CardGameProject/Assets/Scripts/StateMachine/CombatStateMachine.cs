@@ -97,13 +97,13 @@ public class CombatStateMachine : MonoBehaviour
         return conversations.ToArray();
     }
 
-
-    public void Start()
+    private void Awake()
     {
-#if UNITY_EDITOR
-        if (!LevelManager.isEnvironmentLoaded) return; // Editor only
-#endif
+        SceneInitialize.Instance.Subscribe(Init, 1);
+    }
 
+    private void Init()
+    {
         Debug.Log("combat start");
 
         _isPlayedCard = false;

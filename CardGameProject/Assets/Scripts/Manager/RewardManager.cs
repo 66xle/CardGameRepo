@@ -39,14 +39,17 @@ public class RewardManager : MonoBehaviour
     [MustBeAssigned] public GameObject GameOverUI;
     [MustBeAssigned] public GameObject ChooseGearUI;
     
-    
-
     private List<GearData> listOfRewards = new();
     private GameObject currentObjectInOverlay;
     private CardCarousel cardCarousel;
     private GearSelect selectedGear;
 
     private void Awake()
+    {
+        SceneInitialize.Instance.Subscribe(Init);
+    }
+
+    private void Init()
     {
         cardCarousel = PreviewCards.GetComponent<CardCarousel>();
     }
