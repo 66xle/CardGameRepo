@@ -5,6 +5,7 @@ using UnityEditor.SceneManagement;
 using UnityEditor.SearchService;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.UIElements;
 using SceneReference = Eflatun.SceneReference.SceneReference;
 
@@ -91,13 +92,13 @@ public class LevelEditorWindow : BaseEditorWindow
                     infoBox.Add(prop);
 
                     // Update prefab
-                    //if (dataProperty.name == "SceneRef")
-                    //{
-                    //    prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadLevelPrefab(data));
-                    //}
+                    if (dataProperty.name == "Prefab")
+                    {
+                        prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadLevelPrefab(data));
+                    }
                 }
 
-                //LoadLevelPrefab(data);
+                LoadLevelPrefab(data);
             }
         };
 
@@ -187,16 +188,7 @@ public class LevelEditorWindow : BaseEditorWindow
 
     private void LoadLevelPrefab(LevelData levelData)
     {
-        if (levelData.SceneRef == null)
-            return;
-
-        if (levelData.Prefab == null)
-        {
-            GameObject prefab = CreatePrefabFromSceneReference(levelData.SceneRef);
-            if (prefab == null) return;
-
-            levelData.Prefab = prefab;
-        }
+        if (levelData.Prefab == null) return;
 
         Box gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
         gameObjectPreview.Clear();

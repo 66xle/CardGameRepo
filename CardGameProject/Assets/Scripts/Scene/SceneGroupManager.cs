@@ -49,7 +49,7 @@ namespace Systems.SceneManagment
             while (!operationGroup.IsDone)
             {
                 progress?.Report(operationGroup.Progress);
-                await Task.Delay(1000);
+                await Task.Yield();
             }
 
             Scene activeScene = SceneManager.GetSceneByName(ActiveSceneGroup.FindSceneNameByType(SceneType.ActiveScene));

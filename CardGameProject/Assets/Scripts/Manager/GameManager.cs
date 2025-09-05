@@ -21,6 +21,7 @@ public class GameManager : Singleton<GameManager>
 
 
     [HideInInspector] public LevelData CurrentLevelDataLoaded;
+    [HideInInspector] public GameObject LoadedEnvironment;
 
     public new void Awake()
     {

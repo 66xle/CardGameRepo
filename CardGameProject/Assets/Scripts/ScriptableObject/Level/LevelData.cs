@@ -8,8 +8,8 @@ public class LevelData : ScriptableObject
     [ReadOnly] public string Guid;
 
     public string LevelName;
-    [HideInInspector] public GameObject Prefab;
-    public SceneReference SceneRef;
+    public GameObject Prefab;
+    //public SceneReference SceneRef;
     public AudioData Music;
 
     [Separator]

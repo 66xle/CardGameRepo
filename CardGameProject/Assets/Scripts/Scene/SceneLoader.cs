@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 using MyBox;
 using SceneReference = Eflatun.SceneReference.SceneReference;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using DG.Tweening;
+using PixelCrushers;
 
 namespace Systems.SceneManagment
 { 
@@ -12,6 +15,9 @@ namespace Systems.SceneManagment
     {
         [SerializeField] SceneGroup[] sceneGroups;
         [MustBeAssigned] [SerializeField] SceneReference loadingScene;
+        [MustBeAssigned] [SerializeField] GameObject LoadingScreen;
+        [MustBeAssigned] [SerializeField] Image FadeImage;
+        [MustBeAssigned] [SerializeField] float FadeTime = 1f;
         [MustBeAssigned] [SerializeField] LevelSettings LevelSettings;
 
         public readonly SceneGroupManager manager = new SceneGroupManager();
@@ -59,25 +65,37 @@ namespace Systems.SceneManagment
                 temp.GroupName = group.GroupName;
                 temp.Scenes = new(group.Scenes);
 
+                if (Init)
+                {
+                    await DOVirtual.Float(FadeImage.color.a, 1f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
+
+                    LoadingScreen.SetActive(true);
+                    await manager.UnloadScenes();
+
+                    await DOVirtual.Float(FadeImage.color.a, 0f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
+                }
 
                 if (group.GroupName == "Combat")
                 {
-                    List<SceneData> sceneDatas = Extensions.CloneList(temp.Scenes);
+                    if (GameManager.Instance.LoadedEnvironment != null)
+                        Destroy(GameManager.Instance.LoadedEnvironment);
 
                     LevelData data = GetLevelData();
                     GameManager.Instance.CurrentLevelDataLoaded = data;
-                    sceneDatas.Insert(0, new SceneData(data.SceneRef, SceneType.Environment));
-
-                    temp.Scenes = sceneDatas;
+                    GameObject environment = Instantiate(data.Prefab);
+                    GameManager.Instance.LoadedEnvironment = environment;
                 }
-
-                if (Init)
-                    await SceneManager.LoadSceneAsync(loadingScene.Path, LoadSceneMode.Additive);
 
                 await manager.LoadScenes(temp, progress);
 
                 if (Init)
-                    await SceneManager.UnloadSceneAsync(loadingScene.Path);
+                {
+                    await DOVirtual.Float(FadeImage.color.a, 1f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
+
+                    LoadingScreen.SetActive(false);
+
+                    await DOVirtual.Float(FadeImage.color.a, 0f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
+                }
 
                 return;
             }
@@ -95,10 +113,6 @@ namespace Systems.SceneManagment
             LevelData data = LevelSettings.Levels[_currentLevel];
 
             return data;
-
-            //AvatarSpawnPosition asp = environment.GetComponent<AvatarSpawnPosition>();
-            //EnemyManager.EnemySpawnPosList = asp.EnemySpawnPositionList;
-            //Ctx.PlayerSpawnPos = asp.PlayerSpawnPosition;
         }
     }
 
