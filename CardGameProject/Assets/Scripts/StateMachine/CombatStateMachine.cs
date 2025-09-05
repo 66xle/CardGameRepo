@@ -104,6 +104,10 @@ public class CombatStateMachine : MonoBehaviour
 
     private void Init()
     {
+#if UNITY_EDITOR
+        if (!LevelManager.isEnvironmentLoaded) return; // Editor only
+#endif
+
         Debug.Log("combat start");
 
         _isPlayedCard = false;
@@ -187,6 +191,7 @@ public class CombatStateMachine : MonoBehaviour
     {
         // Spawn Player
         player = Instantiate(PlayerPrefab, PlayerSpawnPos).GetComponent<Player>();
+        Debug.Log("Load Player");
         CombatUIManager.InitPlayerUI(player);
 
         // Equipment
