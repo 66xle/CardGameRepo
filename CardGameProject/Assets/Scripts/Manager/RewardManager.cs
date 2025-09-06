@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class RewardManager : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class RewardManager : MonoBehaviour
     [MustBeAssigned][SerializeField] Slider ExpSlider;
     [MustBeAssigned][SerializeField] TMP_Text ExpText;
     [MustBeAssigned][SerializeField] TMP_Text LevelText;
+    [MustBeAssigned][SerializeField] float AnimationTime = 2f;
 
     [Foldout("References", true)]
     [MustBeAssigned] [SerializeField] UIManager UIManager;
@@ -99,8 +101,6 @@ public class RewardManager : MonoBehaviour
 
         ChooseGearUI.SetActive(true);
         CreateGearItem(gears);
-
-        CalculateExp();
     }
 
 
@@ -136,6 +136,8 @@ public class RewardManager : MonoBehaviour
 
         RewardUI.SetActive(true);
         CreateGearIcon();
+
+        CalculateExp();
     }
 
     public void CreateGearIcon()
@@ -235,11 +237,29 @@ public class RewardManager : MonoBehaviour
 
         GameManager.Instance.CurrentEXP = (int)currentExp;
 
-        float current = currentExp - previousExpNeeded;
-        float maxExp = expDiff;
 
-        ExpSlider.value = current / maxExp;
-        LevelText.text = $"Level {playerLevel}";
-        ExpText.text = $"+ {expGained}";
+        // Tween animations
+        DOVirtual.Float(currentExp, currentExp + expGained, AnimationTime, v =>
+        {
+            if (v >= expNeeded)
+            {
+                playerLevel++;
+                GameManager.Instance.PlayerLevel = playerLevel;
+
+                // Get max exp
+                expNeeded = PSS.CalculateExperience(playerLevel);
+                previousExpNeeded = PSS.CalculateExperience(playerLevel - 1);
+                expDiff = expNeeded - previousExpNeeded;
+
+                LevelText.text = $"Level {playerLevel}";
+            }
+
+            float current = v - previousExpNeeded;
+            float maxExp = expDiff;
+            ExpSlider.value = current / maxExp;
+
+        }).SetDelay(0.5f).SetUpdate(true);
+
+        DOVirtual.Int(0, (int)expGained, AnimationTime, v => ExpText.text = $"+ {v.ToString()}").SetDelay(0.5f).SetUpdate(true);
     }
 }
