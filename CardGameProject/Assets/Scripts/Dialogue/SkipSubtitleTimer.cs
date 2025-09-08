@@ -20,9 +20,19 @@ public class SkipSubtitleTimer : MonoBehaviour
 
     public void InstantShowResponse()
     {
+        Response[] responses = DialogueManager.currentConversationState.pcResponses;
+        Subtitle subtitle = DialogueManager.currentConversationState.subtitle;
+
         if (TypewriterEffect.isPlaying)
         {
-            StandardUI.ShowResponses(DialogueManager.currentConversationState.subtitle, DialogueManager.currentConversationState.pcResponses, 0f);
+            if (responses.Length > 0)
+            {
+                StandardUI.ShowResponses(subtitle, responses, 0f);
+                return;
+            }
+
+            StandardUI.ShowSubtitle(subtitle);
+            StandardUI.ShowContinueButton(subtitle);
         }
     }   
 }
