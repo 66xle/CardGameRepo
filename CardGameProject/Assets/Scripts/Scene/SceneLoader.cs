@@ -25,6 +25,8 @@ namespace Systems.SceneManagment
         private float targetProgress;
         private bool Init = false;
 
+        private bool isLoadingFinished = false;
+
         private void Awake()
         {
             manager.OnSceneLoaded += sceneName => Debug.Log("Loaded: " + sceneName);
@@ -49,9 +51,15 @@ namespace Systems.SceneManagment
             Init = true;
         }
 
+        public void CloseLoadingScreen()
+        {
+            isLoadingFinished = true;
+        }
+
         public async Task LoadSceneGroup(string groupName)
         {
             targetProgress = 1f;
+            isLoadingFinished = false;
 
             LoadingProgress progress = new LoadingProgress();
             progress.Progressed += target => targetProgress = Mathf.Max(target, targetProgress);
@@ -87,6 +95,11 @@ namespace Systems.SceneManagment
                 }
 
                 await manager.LoadScenes(temp, progress);
+
+                while (!isLoadingFinished)
+                {
+                    await Task.Yield();
+                }
 
                 if (Init)
                 {
