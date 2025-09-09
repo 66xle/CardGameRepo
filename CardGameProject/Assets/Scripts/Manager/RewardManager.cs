@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class RewardManager : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class RewardManager : MonoBehaviour
     [MustBeAssigned][SerializeField] Slider ExpSlider;
     [MustBeAssigned][SerializeField] TMP_Text ExpText;
     [MustBeAssigned][SerializeField] TMP_Text LevelText;
+    [MustBeAssigned][SerializeField] float AnimationTime = 2f;
 
     [Foldout("References", true)]
     [MustBeAssigned] [SerializeField] UIManager UIManager;
@@ -39,14 +41,17 @@ public class RewardManager : MonoBehaviour
     [MustBeAssigned] public GameObject GameOverUI;
     [MustBeAssigned] public GameObject ChooseGearUI;
     
-    
-
     private List<GearData> listOfRewards = new();
     private GameObject currentObjectInOverlay;
     private CardCarousel cardCarousel;
     private GearSelect selectedGear;
 
     private void Awake()
+    {
+        SceneInitialize.Instance.Subscribe(Init);
+    }
+
+    private void Init()
     {
         cardCarousel = PreviewCards.GetComponent<CardCarousel>();
     }
@@ -96,8 +101,6 @@ public class RewardManager : MonoBehaviour
 
         ChooseGearUI.SetActive(true);
         CreateGearItem(gears);
-
-        CalculateExp();
     }
 
 
@@ -133,6 +136,8 @@ public class RewardManager : MonoBehaviour
 
         RewardUI.SetActive(true);
         CreateGearIcon();
+
+        CalculateExp();
     }
 
     public void CreateGearIcon()
@@ -155,6 +160,12 @@ public class RewardManager : MonoBehaviour
     {
         RenderCamera.gameObject.SetActive(true);
 
+        if (data.Prefab == null)
+        {
+            Debug.LogError($"[Missing Reference] Prefab not set in gear: {data.GearName}");
+            return;
+        }
+
         Weapon weapon = data.Prefab.GetComponent<Weapon>();
 
         Vector3 spawnPos = RenderCamera.transform.position + weapon.positionOffset;
@@ -162,6 +173,12 @@ public class RewardManager : MonoBehaviour
 
         foreach (CardAnimationData animationData in data.Cards)
         {
+            if (animationData.Card == null)
+            {
+                Debug.LogError($"[Missing Reference] Card not set in gear: {data.GearName}");
+                return;
+            }
+
             CardData cardData = new(data, animationData, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
 
             CardDisplay cardDisplay = Instantiate(CardPrefab, PreviewCards).GetComponent<CardDisplay>();
@@ -220,11 +237,29 @@ public class RewardManager : MonoBehaviour
 
         GameManager.Instance.CurrentEXP = (int)currentExp;
 
-        float current = currentExp - previousExpNeeded;
-        float maxExp = expDiff;
 
-        ExpSlider.value = current / maxExp;
-        LevelText.text = $"Level {playerLevel}";
-        ExpText.text = $"+ {expGained}";
+        // Tween animations
+        DOVirtual.Float(currentExp, currentExp + expGained, AnimationTime, v =>
+        {
+            if (v >= expNeeded)
+            {
+                playerLevel++;
+                GameManager.Instance.PlayerLevel = playerLevel;
+
+                // Get max exp
+                expNeeded = PSS.CalculateExperience(playerLevel);
+                previousExpNeeded = PSS.CalculateExperience(playerLevel - 1);
+                expDiff = expNeeded - previousExpNeeded;
+
+                LevelText.text = $"Level {playerLevel}";
+            }
+
+            float current = v - previousExpNeeded;
+            float maxExp = expDiff;
+            ExpSlider.value = current / maxExp;
+
+        }).SetDelay(0.5f).SetUpdate(true);
+
+        DOVirtual.Int(0, (int)expGained, AnimationTime, v => ExpText.text = $"+ {v.ToString()}").SetDelay(0.5f).SetUpdate(true);
     }
 }

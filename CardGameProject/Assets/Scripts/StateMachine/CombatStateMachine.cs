@@ -14,6 +14,7 @@ using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 using UnityEngine.Analytics;
 using UnityEngine.EventSystems;
+using PixelCrushers.DialogueSystem;
 
 public class CombatStateMachine : MonoBehaviour
 {
@@ -42,16 +43,20 @@ public class CombatStateMachine : MonoBehaviour
     [MustBeAssigned] public StatusEffectData GuardBreakMediumArmourData;
     [MustBeAssigned] public StatusEffectData GuardBreakHeavyArmourData;
 
+    [Foldout("DialogueDatabase", true)]
+    [MustBeAssigned] [SerializeField] DialogueDatabase DialogueDatabase;
+    [DefinedValues(nameof(Conversations))] public string ConversationTitle = null; 
+
     [Foldout("References", true)]
     [MustBeAssigned] [SerializeField] StatsManager StatsManager;
     [MustBeAssigned] [SerializeField] SwitchWeaponManager SwitchWeaponManager;
     [MustBeAssigned] [SerializeField] EnemyManager EnemyManager;
     [MustBeAssigned] [SerializeField] CameraSystem CameraSystem;
+    [MustBeAssigned] [SerializeField] LevelManager LevelManager; // Editor only
     [MustBeAssigned] public CameraManager CameraManager;
     [MustBeAssigned] public CombatUIManager CombatUIManager;
     [MustBeAssigned] public CardManager CardManager;
     [MustBeAssigned] public RewardManager RewardManager;
-
 
 
     #region Internal Variables
@@ -62,6 +67,7 @@ public class CombatStateMachine : MonoBehaviour
     [ReadOnly] public bool _isPlayState;
     [ReadOnly] public bool _pressedEndTurnButton;
     [ReadOnly] public bool _enemyTurnDone;
+    [ReadOnly] public bool _isInPrepState;
 
     [HideInInspector] public CardData _cardPlayed;
     [HideInInspector] public Enemy _selectedEnemyToAttack;
@@ -77,28 +83,59 @@ public class CombatStateMachine : MonoBehaviour
 
     #endregion
 
-
-    public void Start()
+    public string[] Conversations()
     {
+        List<string> conversations = new() { "None" };
+
+        foreach (Conversation conversation in DialogueDatabase.conversations)
+        {
+            conversations.Add(conversation.Title);
+            Debug.Log(conversation.Title);
+        }
+
+        
+        return conversations.ToArray();
+    }
+
+    private void Awake()
+    {
+        SceneInitialize.Instance.Subscribe(Init, 1);
+    }
+
+    private void Init()
+    {
+#if UNITY_EDITOR
+        if (!LevelManager.isEnvironmentLoaded) return; // Editor only
+#endif
+
+        Debug.Log("combat start");
+
         _isPlayedCard = false;
         _isPlayState = false;
         _pressedEndTurnButton = false;
         _enemyTurnDone = false;
+        _isInPrepState = false;
 
         EnemyList = new List<Enemy>();
-
         LoadPlayer();
         LoadEnemy();
-        CardManager.LoadCards();
+
+        CombatUIManager.ToggleHideUI(false);
 
         states = new CombatStateFactory(this, vso);
-        currentState = new PlayerState(this, states, vso);
+        currentState = new PrepState(this, states, vso);
         currentState.EnterState();
+
+        DialogueManager.StartConversation(ConversationTitle);
     }
 
     // Update is called once per frame
     void Update()
     {
+#if UNITY_EDITOR
+        if (!LevelManager.isEnvironmentLoaded) return; // Editor only
+#endif
+
         currentState.UpdateStates();
         if (currentState.currentSubState != null)
         {
@@ -113,8 +150,20 @@ public class CombatStateMachine : MonoBehaviour
             if (Input.touchCount > 0 && EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
                 return;
 
+            if (_isInPrepState)
+                return;
+
             SelectEnemy();
         }
+    }
+
+    public void InitBattle()
+    {
+        _isInPrepState = false;
+        CardManager.LoadCards();
+
+        _selectedEnemyToAttack = EnemyList[0];
+        EnemyManager.SelectEnemy(_selectedEnemyToAttack);
     }
 
     private void SelectEnemy()
@@ -142,6 +191,7 @@ public class CombatStateMachine : MonoBehaviour
     {
         // Spawn Player
         player = Instantiate(PlayerPrefab, PlayerSpawnPos).GetComponent<Player>();
+        Debug.Log("Load Player");
         CombatUIManager.InitPlayerUI(player);
 
         // Equipment
@@ -169,9 +219,6 @@ public class CombatStateMachine : MonoBehaviour
         EnemyList = EnemyManager.InitEnemies(enemyDataList);
 
         CombatUIManager.detailedUI.Init(this);
-
-        _selectedEnemyToAttack = EnemyList[0];
-        EnemyManager.SelectEnemy(_selectedEnemyToAttack);
     }
 
     public void OnCardPlayed(CardPlayed evt, Card card, string tag)
@@ -251,11 +298,6 @@ public class CombatStateMachine : MonoBehaviour
 
 
     #region Used by StateMachine
-    public void CreateCard(CardData cardDrawed, Transform parent)
-    {
-        CardDisplay cardDisplay = Instantiate(CardManager.CardPrefab, parent).GetComponent<CardDisplay>();
-        cardDisplay.SetCard(cardDrawed, cardDrawed.Card);
-    }
 
     public void EndTurn()
     {
@@ -300,28 +342,6 @@ public class CombatStateMachine : MonoBehaviour
             _selectedEnemyToAttack = EnemyList[0];
             EnemyManager.SelectEnemy(_selectedEnemyToAttack);
         }
-    }
-
-
-    public void SpawnDamagePopupUI(Avatar avatar, float damage, Color color)
-    {
-        CombatUIManager UIManager = CombatUIManager;
-
-        GameObject popupObj = Instantiate(UIManager.DamagePopupPrefab, UIManager.WorldSpaceCanvas);
-        popupObj.transform.position = new Vector3(avatar.transform.position.x + Random.Range(-UIManager.RandomOffsetHorizontal, UIManager.RandomOffsetHorizontal),
-                                                  avatar.transform.position.y + UIManager.OffsetVertical,
-                                                  avatar.transform.position.z + Random.Range(-UIManager.RandomOffsetHorizontal, UIManager.RandomOffsetHorizontal));
-        Vector3 moveToPos = popupObj.transform.position;
-        moveToPos.y += 1f;
-
-        TextMeshProUGUI popupText = popupObj.GetComponent<TextMeshProUGUI>();
-        popupText.text = damage.ToString();
-        popupText.color = color;
-
-        popupObj.transform.DOMoveY(popupObj.transform.position.y + UIManager.MoveVertical, UIManager.MoveDuration).SetEase(Ease.OutQuad).OnComplete(() =>
-        {
-            popupText.DOFade(0, UIManager.FadeDuration).OnComplete(() => { Destroy(popupObj); });
-        });
     }
 
     #endregion

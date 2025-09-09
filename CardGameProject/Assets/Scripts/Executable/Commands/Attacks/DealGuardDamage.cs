@@ -2,7 +2,7 @@ using SerializeReferenceEditor;
 using UnityEngine;
 
 [SRName("Commands/Deal Guard Damage")]
-public class DealGuardDamage : ReduceGuardCommand
+public class DealGuardDamage : GuardCommand
 {
     public override bool RequiresMovement => SetMovement();
 

@@ -42,8 +42,9 @@ public class EquipmentManager : MonoBehaviour
 
     private void Awake()
     {
-        LoadGear();
+        SceneInitialize.Instance.Subscribe(LoadGear);
     }
+
 
     public void SaveGear()
     {

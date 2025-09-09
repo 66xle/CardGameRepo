@@ -1,19 +1,20 @@
 using MyBox;
+using Systems.SceneManagment;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    [MustBeAssigned] [SerializeField] DifficultyManager DifficultyManager;
+    [SerializeField] DifficultyManager DifficultyManager;
 
-    public void RestartCombat()
+    public async void RestartCombat()
     {
         Time.timeScale = 1.0f;
 
-        GameManager.Instance.SceneToLoad = SceneManager.GetActiveScene().name;
+        SceneLoader loader = ServiceLocator.Get<SceneLoader>();
 
-        SceneManager.LoadSceneAsync("LoadingScene");
+        await loader.LoadSceneGroup("Combat");
     }
 
     public void NextScene()
@@ -26,11 +27,11 @@ public class UIManager : MonoBehaviour
         RestartCombat(); // temp
     }
 
-    public void Play()
+    public async void Play()
     {
-        GameManager.Instance.SceneToLoad = "Combat";
+        SceneLoader sceneLoader = ServiceLocator.Get<SceneLoader>();
 
-        SceneManager.LoadSceneAsync("LoadingScene");
+        await sceneLoader.LoadSceneGroup("Combat");
     }
 
     public void Quit()

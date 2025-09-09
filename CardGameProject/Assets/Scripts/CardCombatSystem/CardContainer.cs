@@ -152,8 +152,14 @@ public class CardContainer : MonoBehaviour {
 
         SetCardsPosition();
         SetCardsRotation();
+        SortCards();
         SetCardsUILayers();
         UpdateCardOrder();
+    }
+
+    private void SortCards()
+    {
+        cards.Sort((a, b) => string.Compare(a.card.CardName, b.card.CardName));
     }
 
     private void SetCardsUILayers() {

@@ -1,9 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEditor.SearchService;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.UIElements;
+using SceneReference = Eflatun.SceneReference.SceneReference;
 
 public class LevelEditorWindow : BaseEditorWindow
 {
@@ -114,7 +118,7 @@ public class LevelEditorWindow : BaseEditorWindow
 
     public override void AddButton()
     {
-        window = CreateInstance<LevelPopupWindow>();
+        window = CreateInstance<EncounterPopupWindow>();
         window.addButtonPressed = true;
         isPopupActive = true;
         window.window = this;
@@ -149,7 +153,7 @@ public class LevelEditorWindow : BaseEditorWindow
     {
         if (list.selectedItem != null)
         {
-            window = CreateInstance<LevelPopupWindow>();
+            window = CreateInstance<EncounterPopupWindow>();
             window.renameButtonPressed = true;
             isPopupActive = true;
             window.window = this;
@@ -184,8 +188,7 @@ public class LevelEditorWindow : BaseEditorWindow
 
     private void LoadLevelPrefab(LevelData levelData)
     {
-        if (levelData.Prefab == null)
-            return;
+        if (levelData.Prefab == null) return;
 
         Box gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
         gameObjectPreview.Clear();
@@ -199,6 +202,35 @@ public class LevelEditorWindow : BaseEditorWindow
         gameObjectEditor = Editor.CreateEditor(levelData.Prefab);
         IMGUIContainer container = new IMGUIContainer(() => { gameObjectEditor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(1000, 500), bgColor); });
         gameObjectPreview.Add(container);
+    }
+
+    private GameObject CreatePrefabFromSceneReference(SceneReference sceneRef)
+    {
+        string prefabPath = "Assets/EditorPreviews/TempScenePreview.prefab";
+
+        if (sceneRef.Guid == "00000000000000000000000000000000")
+            return null;
+
+        string scenePath = sceneRef.Path;
+
+        // Open scene additively in editor
+        var scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
+
+        // Combine root objects under temporary parent
+        GameObject tempRoot = new GameObject("TempSceneRoot");
+        foreach (var rootObj in scene.GetRootGameObjects())
+        {
+            rootObj.transform.SetParent(tempRoot.transform);
+        }
+
+        // Save temporary prefab for preview
+        GameObject prefab = PrefabUtility.SaveAsPrefabAsset(tempRoot, prefabPath);
+
+        // Clean up
+        DestroyImmediate(tempRoot);
+        EditorSceneManager.CloseScene(scene, true);
+
+        return prefab;
     }
 
 }

@@ -53,4 +53,9 @@ public class CombatStateFactory
     {
         return new CombatEndState(context, this, vso);
     }
+
+    public CombatBaseState Prep()
+    {
+        return new PrepState(context,this, vso);
+    }
 }

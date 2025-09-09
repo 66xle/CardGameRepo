@@ -92,7 +92,7 @@ public class ActionState : CombatBaseState
             ExecutableParameters.WeaponData = (WeaponData)cardData.Gear;
 
         isInAction = true;
-        ctx.CombatUIManager.ToggleHideUI(false);
+        //ctx.CombatUIManager.ToggleHideUI(false);
 
         // Display Card
         //ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
@@ -110,8 +110,8 @@ public class ActionState : CombatBaseState
 
         Debug.Log("Finished Attacking");
 
-        if (avatarPlayingCard is Player)
-            ctx.CombatUIManager.ToggleHideUI(true);
+        //if (avatarPlayingCard is Player)
+        //    ctx.CombatUIManager.ToggleHideUI(true);
 
         if (avatarOpponent is Enemy && avatarOpponent.IsAvatarDead() || avatarPlayingCard is Enemy && avatarPlayingCard.IsAvatarDead())
         {

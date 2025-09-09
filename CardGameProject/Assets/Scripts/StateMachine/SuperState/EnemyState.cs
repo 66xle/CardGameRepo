@@ -46,6 +46,7 @@ public class EnemyState : CombatBaseState
     IEnumerator ShowTurnUI()
     {
         GameObject turnUI = ctx.CombatUIManager.EnemyTurnUI;
+        AudioManager.Instance.PlaySound(AudioType.UIEnemyTurn);
 
         turnUI.SetActive(true);
         yield return new WaitForSeconds(ctx.CombatUIManager.TurnDuration);

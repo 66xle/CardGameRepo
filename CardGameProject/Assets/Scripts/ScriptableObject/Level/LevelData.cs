@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
+using SceneReference = Eflatun.SceneReference.SceneReference;
 
 public class LevelData : ScriptableObject
 {
@@ -8,6 +9,8 @@ public class LevelData : ScriptableObject
 
     public string LevelName;
     public GameObject Prefab;
+    //public SceneReference SceneRef;
+    public AudioData Music;
 
     [Separator]
 

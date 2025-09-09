@@ -44,6 +44,8 @@ public class CombatEndState : CombatBaseState
     {
         yield return new WaitForSeconds(1f);
 
+        AudioManager.Instance.PlaySound(AudioType.UIGameOver);
+
         ctx.RewardManager.GameOverUI.SetActive(true);
         Time.timeScale = 0;
     }

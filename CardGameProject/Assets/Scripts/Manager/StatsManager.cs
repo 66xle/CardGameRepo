@@ -28,6 +28,11 @@ public class StatsManager : MonoBehaviour
 
     void Awake() // Initalise variables for now
     {
+        SceneInitialize.Instance.Subscribe(Init, -9);
+    }
+
+    private void Init()
+    {
         if (GameManager.Instance.PlayerLevel == 0)
         {
             GameManager.Instance.PlayerLevel = Level;
@@ -57,5 +62,4 @@ public class StatsManager : MonoBehaviour
             CurrentMaxStamina = PSS.CalculateStamina(Level);
         }
     }
-
 }

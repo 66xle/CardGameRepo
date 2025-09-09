@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using MyBox;
 using UnityEngine;
 
 
@@ -24,29 +25,31 @@ public class DifficultyManager : MonoBehaviour
     [Header("References")]
     public StatsManager statsManager;
 
-    [Header("Enemy Data")]
-    public List<EnemyData> minionListData;
-    public List<EnemyData> eliteListData;
+    [Separator]
+
+    public List<EncounterData> encounterData;
 
     const int maxEnemiesPerWave = 3;
     const int minionCost = 1;
     const int eliteCost = 6;
 
+    private EncounterData selectedEncounter;
+
     private void Awake()
+    {
+        SceneInitialize.Instance.Subscribe(Init, -8);
+    }
+
+    private void Init()
     {
         if (GameManager.Instance.DifficultyScore > 0)
         {
             currentScore = GameManager.Instance.DifficultyScore;
         }
 
-        if (minionListData.Count == 0)
+        if (encounterData.Count == 0)
         {
-            Debug.LogAssertion("Difficulty Manager: No Minon Data in List.");
-        }
-
-        if (eliteListData.Count == 0)
-        {
-            Debug.LogAssertion("Difficulty Manager: No Elite Data in List.");
+            Debug.LogAssertion("Difficulty Manager: No Encounter Data in List.");
         }
     }
 
@@ -59,6 +62,8 @@ public class DifficultyManager : MonoBehaviour
 
     public List<EnemyData> GetEnemies()
     {
+        selectedEncounter = encounterData[Random.Range(0, encounterData.Count)];
+
         int baseScore = GameManager.Instance.PlayerLevel * 2;
         int targetScore = Mathf.Max(currentScore - baseScore, 0);
 
@@ -74,7 +79,7 @@ public class DifficultyManager : MonoBehaviour
             );
             composition = new List<EnemyData>();
             for (int i = 0; i < minionsToSpawn; i++)
-                composition.Add(minionListData[Random.Range(0, minionListData.Count)]);
+                composition.Add(selectedEncounter.Minions[Random.Range(0, selectedEncounter.Minions.Count)]);
 
             int compositionScore = minionsToSpawn * minionCost;
             Debug.Log($"Composition Score: {compositionScore}");
@@ -135,8 +140,8 @@ public class DifficultyManager : MonoBehaviour
 
         // Build the enemy list
         List<EnemyData> result = new List<EnemyData>();
-        result.AddRange(CreateList(eliteListData[Random.Range(0, eliteListData.Count)], selected.elites));
-        result.AddRange(CreateList(minionListData[Random.Range(0, minionListData.Count)], selected.minions));
+        result.AddRange(CreateList(selectedEncounter.Elites[Random.Range(0, selectedEncounter.Elites.Count)], selected.elites));
+        result.AddRange(CreateList(selectedEncounter.Minions[Random.Range(0, selectedEncounter.Minions.Count)], selected.minions));
 
         return result;
     }

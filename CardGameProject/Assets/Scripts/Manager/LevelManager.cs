@@ -1,6 +1,6 @@
 using MyBox;
 using UnityEngine;
-using static Cinemachine.DocumentationSortingAttribute;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -8,25 +8,42 @@ public class LevelManager : MonoBehaviour
     [MustBeAssigned] [SerializeField] EnemyManager EnemyManager;
     [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
 
-    private int _currentLevel;
+    [MustBeAssigned] [SerializeField] Transform EnvironmentParent;
 
-    public void Awake()
+    [HideInInspector] public bool isEnvironmentLoaded = false;
+
+    private void Awake()
     {
-        _currentLevel = GameManager.Instance.StageLevel;
-
-        LoadLevel();
+        SceneInitialize.Instance.Subscribe(Init, -10);
     }
 
-    void LoadLevel()
+    private void Start()
     {
-        if (_currentLevel >= LevelSettings.Levels.Count)
-            _currentLevel = LevelSettings.Levels.Count - 1;
+        SceneInitialize.Instance.Invoke();
+    }
 
-        LevelData data = LevelSettings.Levels[_currentLevel];
+    private void Init()
+    {
+        if (GameManager.Instance.LoadedEnvironment != null)
+        {
+            GameManager.Instance.LoadedEnvironment.transform.SetParent(EnvironmentParent);
+            isEnvironmentLoaded = true;
+        }
 
-        GameObject environment = Instantiate(data.Prefab);
+#if UNITY_EDITOR
+        if (!isEnvironmentLoaded) return;
+#endif
 
-        AvatarSpawnPosition asp = environment.GetComponent<AvatarSpawnPosition>();
+
+        GetAvatarPositions();
+
+        AudioData musicData = GameManager.Instance.CurrentLevelDataLoaded.Music;
+        AudioManager.Instance.PlayMusic(musicData);
+    }
+
+    void GetAvatarPositions()
+    {
+        AvatarSpawnPosition asp = ServiceLocator.Get<AvatarSpawnPosition>();
         EnemyManager.EnemySpawnPosList = asp.EnemySpawnPositionList;
         Ctx.PlayerSpawnPos = asp.PlayerSpawnPosition;
     }

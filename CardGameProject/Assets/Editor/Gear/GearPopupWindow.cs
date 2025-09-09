@@ -231,8 +231,6 @@ public class GearPopupWindow : PopupWindow
 
     private void CloseWindow()
     {
-        
-
         Close();
     }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public abstract class HealCommand : Command
@@ -16,7 +17,6 @@ public abstract class HealCommand : Command
     public override void ExecuteCommand()
     {
         Avatar avatarPlayingCard = ExecutableParameters.AvatarPlayingCard;
-        Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
 
         int heal = CalculateDamage.GetHealAmount(avatarPlayingCard.MaxHealth, Value);
         Debug.Log(heal);
@@ -30,23 +30,18 @@ public abstract class HealCommand : Command
                 // Update damage value
                 GainHealthGA gainHealthGA = avatarToHeal.GetGameActionFromQueue<GainHealthGA>() as GainHealthGA;
                 gainHealthGA.HealAmount += heal;
+
+                SpawnDamageUIPopupGA spawnDamageUIPopupGA = gainHealthGA.PostReactions.First(gameAction => gameAction is SpawnDamageUIPopupGA) as SpawnDamageUIPopupGA;
+                spawnDamageUIPopupGA.Damage = gainHealthGA.HealAmount;
             }
             else
             {
                 // Add game action to queue
                 GainHealthGA gainHealthGA = new(avatarToHeal, heal);
-                avatarToHeal.QueueGameActions.Add(gainHealthGA);
+                AddGameActionToQueue(gainHealthGA, avatarToHeal);
 
-                if (avatarToHeal is Player)
-                {
-                    TogglePlayerUIGA togglePlayerUIGA = new(true);
-                    gainHealthGA.PreReactions.Add(togglePlayerUIGA);
-                }
-                else
-                {
-                    ToggleEnemyUIGA toggleEnemyUIGA = new(true);
-                    gainHealthGA.PreReactions.Add(toggleEnemyUIGA); // runs multiple times if there are multiple enemy targets
-                }
+                SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatarToHeal, gainHealthGA.HealAmount, Color.red);
+                AddGameActionToQueue(spawnDamageUIPopupGA, avatarToHeal);
             }
 
             ExecutableParameters.Targets[i] = avatarToHeal;

@@ -2,7 +2,7 @@ using MyBox;
 using SerializeReferenceEditor;
 
 [SRName("Commands/Gain Block")]
-public class GainBlock : GainBlockCommand
+public class GainBlock : BlockCommand
 {
     public override bool RequiresMovement => SetMovement();
 
