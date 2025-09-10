@@ -77,7 +77,8 @@ namespace Systems.SceneManagment
                 {
                     await DOVirtual.Float(FadeImage.color.a, 1f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
 
-                    LoadingScreen.SetActive(true);
+                    //LoadingScreen.SetActive(true);
+                    await SceneManager.LoadSceneAsync(loadingScene.Path, LoadSceneMode.Additive);
                     await manager.UnloadScenes();
 
                     await DOVirtual.Float(FadeImage.color.a, 0f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
@@ -96,18 +97,19 @@ namespace Systems.SceneManagment
 
                 await manager.LoadScenes(temp, progress);
 
-                while (!isLoadingFinished)
-                {
-                    await Task.Yield();
-                }
+                //while (!isLoadingFinished)
+                //{
+                //    await Task.Yield();
+                //}
 
                 if (Init)
                 {
-                    await DOVirtual.Float(FadeImage.color.a, 1f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
+                    //await DOVirtual.Float(FadeImage.color.a, 1f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
 
-                    LoadingScreen.SetActive(false);
+                    //LoadingScreen.SetActive(false);
+                    //await SceneManager.UnloadSceneAsync(loadingScene.Path);
 
-                    await DOVirtual.Float(FadeImage.color.a, 0f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
+                    //await DOVirtual.Float(FadeImage.color.a, 0f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
                 }
 
                 return;

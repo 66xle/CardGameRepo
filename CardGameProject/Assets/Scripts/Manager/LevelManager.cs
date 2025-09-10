@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        SceneInitialize.Instance.Invoke();
+        //SceneInitialize.Instance.Invoke();
     }
 
     private void Init()
