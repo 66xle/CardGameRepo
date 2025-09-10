@@ -1,29 +1,9 @@
 fileFormatVersion: 2
-guid: 75e64901489be4ef0b46e7571ce52b61
+guid: 8480f7c90828f485386e67f3ae111131
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: PrisonerBodyMat
-    second: {fileID: 2100000, guid: ddb5495c7ade7438ea18f2e85804c845, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: PrisonerClothMat
-    second: {fileID: 2100000, guid: 5197637df52b14908bea648ca6016520, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: PrisonerMetalMat
-    second: {fileID: 2100000, guid: d331718b8134747ef95c5c6bcbe49cc3, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: phong5
-    second: {fileID: 2100000, guid: 749b9069dc4742c5bfa5c74644049926, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -37,19 +17,55 @@ ModelImporter:
     removeConstantScaleCurves: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'Chest_JNT' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n\t'R_Shoulder_JNT' has
+      translation animation that will be discarded.\n\t'R_Elbow_JNT' has translation
+      animation that will be discarded.\n\t'R_Wrist_JNT' has translation animation
+      that will be discarded.\n\t'L_Shoulder_JNT' has translation animation that
+      will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 3
+    animationCompression: 0
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      internalID: 1827226128182048838
+      firstFrame: 960
+      lastFrame: 1280
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -308,7 +324,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: L_Index1_JNT
+    - boneName: L_Meta_Index_JNT
       humanName: Left Index Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -316,7 +332,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: L_Index2_JNT
+    - boneName: L_Index1_JNT
       humanName: Left Index Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -324,7 +340,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: L_Index3_JNT
+    - boneName: L_Index2_JNT
       humanName: Left Index Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -332,7 +348,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: L_Middle1_JNT
+    - boneName: L_Meta_Middle_JNT
       humanName: Left Middle Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -340,7 +356,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: L_Middle2_JNT
+    - boneName: L_Middle1_JNT
       humanName: Left Middle Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -348,7 +364,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: L_Middle3_JNT
+    - boneName: L_Middle2_JNT
       humanName: Left Middle Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -356,7 +372,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: L_Ring1_JNT
+    - boneName: L_Meta_Ring_JNT
       humanName: Left Ring Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -364,7 +380,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: L_Ring2_JNT
+    - boneName: L_Ring1_JNT
       humanName: Left Ring Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -372,7 +388,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: L_Ring3_JNT
+    - boneName: L_Ring2_JNT
       humanName: Left Ring Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -380,7 +396,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: L_Pinky1_JNT
+    - boneName: L_Meta_Pinky_JNT
       humanName: Left Little Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -388,7 +404,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: L_Pinky2_JNT
+    - boneName: L_Pinky1_JNT
       humanName: Left Little Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -396,7 +412,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: L_Pinky3_JNT
+    - boneName: L_Pinky2_JNT
       humanName: Left Little Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -428,7 +444,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: R_Index1_JNT
+    - boneName: R_Meta_Index_JNT
       humanName: Right Index Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -436,7 +452,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: R_Index2_JNT
+    - boneName: R_Index1_JNT
       humanName: Right Index Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -444,7 +460,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: R_Index3_JNT
+    - boneName: R_Index2_JNT
       humanName: Right Index Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -452,7 +468,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: R_Middle1_JNT
+    - boneName: R_Meta_Middle_JNT
       humanName: Right Middle Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -460,7 +476,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: R_Middle2_JNT
+    - boneName: R_Middle1_JNT
       humanName: Right Middle Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -468,7 +484,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: R_Middle3_JNT
+    - boneName: R_Middle2_JNT
       humanName: Right Middle Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -476,7 +492,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: R_Ring1_JNT
+    - boneName: R_Meta_Ring_JNT
       humanName: Right Ring Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -484,7 +500,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: R_Ring2_JNT
+    - boneName: R_Ring1_JNT
       humanName: Right Ring Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -492,7 +508,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: R_Ring3_JNT
+    - boneName: R_Ring2_JNT
       humanName: Right Ring Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -500,7 +516,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: R_Pinky1_JNT
+    - boneName: R_Meta_Pinky_JNT
       humanName: Right Little Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -508,7 +524,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: R_Pinky2_JNT
+    - boneName: R_Pinky1_JNT
       humanName: Right Little Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -516,7 +532,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: R_Pinky3_JNT
+    - boneName: R_Pinky2_JNT
       humanName: Right Little Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -766,7 +782,7 @@ ModelImporter:
     - name: L_Wrist_JNT
       parentName: L_Elbow_JNT
       position: {x: 0.260792, y: -0.01591872, z: -0.003427229}
-      rotation: {x: -0.007886667, y: 0.065071926, z: -0.24578595, w: 0.9671054}
+      rotation: {x: -0.006536376, y: 0.06811784, z: -0.26147953, w: 0.9627802}
       scale: {x: 1, y: 1, z: 1}
     - name: L_Meta_Index_JNT
       parentName: L_Wrist_JNT
@@ -786,7 +802,7 @@ ModelImporter:
     - name: L_Index3_JNT
       parentName: L_Index2_JNT
       position: {x: 0.02281149, y: 0.0016117117, z: -0.00000026683034}
-      rotation: {x: -0.0037491962, y: -0.008077124, z: 0.017626606, w: 0.999805}
+      rotation: {x: -0.00001627259, y: -0.000007789243, z: -0.0000088722445, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: L_IndexEnd_JNT
       parentName: L_Index3_JNT
@@ -956,7 +972,7 @@ ModelImporter:
     - name: R_Meta_Index_JNT
       parentName: R_Wrist_JNT
       position: {x: -0.0317, y: -0.0038, z: 0.0243}
-      rotation: {x: -0.08117018, y: 0.060985923, z: 0.1820813, w: 0.97802794}
+      rotation: {x: -0.08086415, y: 0.07604188, z: 0.15362415, w: 0.9818749}
       scale: {x: 1, y: 1, z: 1}
     - name: R_Index1_JNT
       parentName: R_Meta_Index_JNT
@@ -966,12 +982,12 @@ ModelImporter:
     - name: R_Index2_JNT
       parentName: R_Index1_JNT
       position: {x: -0.043825395, y: -0.0020336679, z: 0.00096272293}
-      rotation: {x: -0.02951029, y: -0.022797765, z: -0.022824071, w: 0.99904376}
+      rotation: {x: -0.026809594, y: -0.008847551, z: -0.043838996, w: 0.9986397}
       scale: {x: 1, y: 1, z: 1}
     - name: R_Index3_JNT
       parentName: R_Index2_JNT
       position: {x: -0.022811456, y: -0.0016117151, z: 0.0000002460516}
-      rotation: {x: 0.10411451, y: 0.019687047, z: 0.024480188, w: 0.9940691}
+      rotation: {x: -0.00001627259, y: -0.000007789243, z: -0.0000088722445, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: R_IndexEnd_JNT
       parentName: R_Index3_JNT
@@ -981,12 +997,12 @@ ModelImporter:
     - name: R_Meta_Middle_JNT
       parentName: R_Wrist_JNT
       position: {x: -0.031529173, y: -0.012189666, z: 0.0075546936}
-      rotation: {x: -0.023412485, y: 0.05958687, z: 0.12884492, w: 0.989596}
+      rotation: {x: -0.0151432995, y: 0.038261604, z: 0.11930974, w: 0.992004}
       scale: {x: 1, y: 1, z: 1}
     - name: R_Middle1_JNT
       parentName: R_Meta_Middle_JNT
       position: {x: -0.07484415, y: -0.004900596, z: 0.0005994339}
-      rotation: {x: 0.034622177, y: -0.010517926, z: 0.024222521, w: 0.9990515}
+      rotation: {x: 0.03741613, y: 0.0127370935, z: -0.032100685, w: 0.9987029}
       scale: {x: 1, y: 1, z: 1}
     - name: R_Middle2_JNT
       parentName: R_Middle1_JNT
@@ -1105,11 +1121,11 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 75e64901489be4ef0b46e7571ce52b61, type: 3}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
-  avatarSetup: 1
+  avatarSetup: 2
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
