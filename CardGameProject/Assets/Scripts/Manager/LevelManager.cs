@@ -14,13 +14,11 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
+        SceneInitialize.Instance.Clear();
         SceneInitialize.Instance.Subscribe(Init, -10);
+        ServiceLocator.Register(this);
     }
 
-    private void Start()
-    {
-        //SceneInitialize.Instance.Invoke();
-    }
 
     private void Init()
     {

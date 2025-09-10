@@ -129,13 +129,14 @@ GameObject:
   m_Component:
   - component: {fileID: 612319136}
   - component: {fileID: 612319135}
+  - component: {fileID: 612319137}
   m_Layer: 10
   m_Name: LoadManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &612319135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +164,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &612319137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612319134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: ee4534ff322da434faa6ed5650aa3e10, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 612319135}
+          m_TargetAssemblyTypeName: LoadManager, Assembly-CSharp
+          m_MethodName: CloseLoadingScreenSignal
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &631028194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1043,7 +1074,7 @@ PlayableDirector:
   - key: {fileID: -7088004567387404177, guid: f2fe2bff25db64194b9305b108c8ad3f, type: 2}
     value: {fileID: 1966579139}
   - key: {fileID: -1214971397513309580, guid: f2fe2bff25db64194b9305b108c8ad3f, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 612319137}
   m_ExposedReferences:
     m_References:
     - ed1d83da84b4e44209f5cdc168989030: {fileID: 763819715}

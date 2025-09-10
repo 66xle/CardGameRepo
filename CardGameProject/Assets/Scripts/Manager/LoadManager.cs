@@ -1,20 +1,13 @@
 using System.Collections;
+using Systems.SceneManagment;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LoadManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void CloseLoadingScreenSignal()
     {
-        StartCoroutine(AsyncLoadScene(GameManager.Instance.SceneToLoad));
-    }
-
-    IEnumerator AsyncLoadScene(string sceneName)
-    {
-        // temp
-        yield return null;
-
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        SceneLoader loader = ServiceLocator.Get<SceneLoader>();
+        loader.CloseLoadingScreen();
     }
 }
