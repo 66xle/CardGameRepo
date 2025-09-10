@@ -45,7 +45,9 @@ public class CombatStateMachine : MonoBehaviour
 
     [Foldout("DialogueDatabase", true)]
     [MustBeAssigned] [SerializeField] DialogueDatabase DialogueDatabase;
-    [DefinedValues(nameof(Conversations))] public string ConversationTitle = null; 
+    [DefinedValues(nameof(Conversations))] public string ConversationTitle = null;
+    private Transform PlayerActor;
+    private Transform EnemyActor;
 
     [Foldout("References", true)]
     [MustBeAssigned] [SerializeField] StatsManager StatsManager;
@@ -126,7 +128,7 @@ public class CombatStateMachine : MonoBehaviour
         currentState = new PrepState(this, states, vso);
         currentState.EnterState();
 
-        DialogueManager.StartConversation(ConversationTitle);
+        DialogueManager.StartConversation(ConversationTitle, PlayerActor, EnemyActor);
     }
 
     // Update is called once per frame
@@ -191,6 +193,8 @@ public class CombatStateMachine : MonoBehaviour
     {
         // Spawn Player
         player = Instantiate(PlayerPrefab, PlayerSpawnPos).GetComponent<Player>();
+        PlayerActor = player.transform;
+
         Debug.Log("Load Player");
         CombatUIManager.InitPlayerUI(player);
 
@@ -217,6 +221,9 @@ public class CombatStateMachine : MonoBehaviour
         List<EnemyData> enemyDataList = EnemyManager.GetEnemies();
 
         EnemyList = EnemyManager.InitEnemies(enemyDataList);
+
+        // TODO: function to get enemy actor
+        EnemyActor = EnemyList[0].transform;
 
         CombatUIManager.detailedUI.Init(this);
     }
