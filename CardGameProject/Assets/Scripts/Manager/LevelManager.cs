@@ -1,5 +1,8 @@
+using Cinemachine;
 using MyBox;
+using PixelCrushers.DialogueSystem;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
@@ -7,6 +10,8 @@ public class LevelManager : MonoBehaviour
     [MustBeAssigned] [SerializeField] LevelSettings LevelSettings;
     [MustBeAssigned] [SerializeField] EnemyManager EnemyManager;
     [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
+    [MustBeAssigned] [SerializeField] PlayableDirector Director;
+    [MustBeAssigned] [SerializeField] CinemachineVirtualCamera VCam;
 
     [MustBeAssigned] [SerializeField] Transform EnvironmentParent;
 
@@ -32,11 +37,29 @@ public class LevelManager : MonoBehaviour
         if (!isEnvironmentLoaded) return;
 #endif
 
-
         GetAvatarPositions();
+        // Spawn actors
+        Ctx.SpawnPlayer();
+        // Spawn knight
+
+        // Start cutscene
+        VCam.Follow = Ctx.player.transform;
+        Director.Play();
 
         AudioData musicData = GameManager.Instance.CurrentLevelDataLoaded.Music;
         AudioManager.Instance.PlayMusic(musicData);
+    }
+
+    public void StartOpeningDialogue()
+    {
+        DialogueManager.StartConversation("Knight", Ctx.PlayerActor);
+    }
+
+    public void FinishKnightDialogue()
+    {
+        DialogueManager.StopConversation();
+        Ctx.Init();
+        //Debug.Log("Next cutscene");
     }
 
     void GetAvatarPositions()

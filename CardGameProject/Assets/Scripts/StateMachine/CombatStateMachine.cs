@@ -46,8 +46,8 @@ public class CombatStateMachine : MonoBehaviour
     [Foldout("DialogueDatabase", true)]
     [MustBeAssigned] [SerializeField] DialogueDatabase DialogueDatabase;
     [DefinedValues(nameof(Conversations))] public string ConversationTitle = null;
-    private Transform PlayerActor;
-    private Transform EnemyActor;
+    [HideInInspector] public Transform PlayerActor;
+    [HideInInspector] public Transform EnemyActor;
 
     [Foldout("References", true)]
     [MustBeAssigned] [SerializeField] StatsManager StatsManager;
@@ -101,10 +101,10 @@ public class CombatStateMachine : MonoBehaviour
 
     private void Awake()
     {
-        SceneInitialize.Instance.Subscribe(Init, 1);
+        //SceneInitialize.Instance.Subscribe(Init, 1);
     }
 
-    private void Init()
+    public void Init()
     {
 #if UNITY_EDITOR
         if (!LevelManager.isEnvironmentLoaded) return; // Editor only
@@ -189,12 +189,15 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
-    private void LoadPlayer()
+    public void SpawnPlayer()
     {
         // Spawn Player
         player = Instantiate(PlayerPrefab, PlayerSpawnPos).GetComponent<Player>();
         PlayerActor = player.transform;
+    }
 
+    private void LoadPlayer()
+    {
         Debug.Log("Load Player");
         CombatUIManager.InitPlayerUI(player);
 
