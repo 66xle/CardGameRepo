@@ -48,6 +48,7 @@ public class CombatStateMachine : MonoBehaviour
     [DefinedValues(nameof(Conversations))] public string ConversationTitle = null;
     [HideInInspector] public Transform PlayerActor;
     [HideInInspector] public Transform EnemyActor;
+    [HideInInspector] public Transform KnightActor;
 
     [Foldout("References", true)]
     [MustBeAssigned] [SerializeField] StatsManager StatsManager;
@@ -137,6 +138,8 @@ public class CombatStateMachine : MonoBehaviour
 #if UNITY_EDITOR
         if (!LevelManager.isEnvironmentLoaded) return; // Editor only
 #endif
+
+        if (currentState == null) return;
 
         currentState.UpdateStates();
         if (currentState.currentSubState != null)
