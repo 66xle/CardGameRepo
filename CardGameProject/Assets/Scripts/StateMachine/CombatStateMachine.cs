@@ -228,7 +228,7 @@ public class CombatStateMachine : MonoBehaviour
 
         EnemyList = EnemyManager.InitEnemies(enemyDataList);
 
-        // TODO: function to get enemy actor
+        // TODO: function to get enemy actor (elite)
         EnemyActor = EnemyList[0].transform;
 
         CombatUIManager.detailedUI.Init(this);

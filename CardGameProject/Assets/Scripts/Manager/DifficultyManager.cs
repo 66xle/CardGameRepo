@@ -35,6 +35,8 @@ public class DifficultyManager : MonoBehaviour
 
     private EncounterData selectedEncounter;
 
+    private int waveCount = 0;
+
     private void Awake()
     {
         SceneInitialize.Instance.Subscribe(Init, -8);
@@ -56,7 +58,6 @@ public class DifficultyManager : MonoBehaviour
     public void OnBattleComplete()
     {
         currentScore += scoreIncrement;
-
         GameManager.Instance.DifficultyScore = currentScore;
     }
 
@@ -66,8 +67,7 @@ public class DifficultyManager : MonoBehaviour
 
         if (levelData.IsFixed)
         {
-            List<EnemyData> enemies;
-            enemies = levelData.ListOfEnemies.Value.ToList();
+            List<EnemyData> enemies = levelData.GetEnemyList(waveCount);
 
             foreach (EnemyData enemy in enemies)
             {

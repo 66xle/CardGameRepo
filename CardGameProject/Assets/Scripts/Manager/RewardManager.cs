@@ -58,11 +58,23 @@ public class RewardManager : MonoBehaviour
 
     public void ClaimGear()
     {
-        EquipmentManager.AddGear(listOfRewards[0]);
+        if (listOfRewards.Count > 0)
+        {
+            EquipmentManager.AddGear(listOfRewards[0]);
+            EquipmentManager.SaveGear();
+        }
+        listOfRewards.Clear();
 
-        EquipmentManager.SaveGear();
+        LevelData levelData = GameManager.Instance.CurrentLevelDataLoaded;
 
-        UIManager.NextScene();
+        if (levelData.IsFixed)
+        {
+            
+        }
+
+        
+
+        //UIManager.NextScene();
     }
 
     public void DetermineDrops()
