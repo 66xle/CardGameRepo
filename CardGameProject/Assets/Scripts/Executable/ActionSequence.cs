@@ -14,6 +14,8 @@ public class ActionSequence : Executable
 
     private List<Executable> _actionCommands;
 
+    private bool IsDrawingCard;
+
     public ActionSequence(List<Executable> actionCommands)
     {
         _actionCommands = actionCommands;
@@ -33,6 +35,7 @@ public class ActionSequence : Executable
         avatarPlayingCard.IsAttackFinished = false;
         bool hasMoved = false;
         IsAttackingAllEnemies = false;
+        IsDrawingCard = false;
 
         //ctx.CameraManager.SetDummy(avatarPlayingCard.transform);
         ctx.CameraManager.SetVictimDummy(avatarOpponent.transform, avatarPlayingCard.transform);
@@ -49,6 +52,9 @@ public class ActionSequence : Executable
             ExecutableParameters.Queue.ForEach(avatar => avatar.QueueGameActions.Clear());
             yield break;
         }
+
+        if (!IsDrawingCard)
+            ctx.CombatUIManager.HideGameplayUI(true);
 
         #region Movement
 
@@ -83,7 +89,6 @@ public class ActionSequence : Executable
             ActionSystem.Instance.PerformQueue(avatar.QueueGameActions);
         }
 
-        ctx.CombatUIManager.ToggleHideUI(false);
 
         yield return new WaitWhile(() => !avatarPlayingCard.IsAttackFinished); // TODO - Rename to isAnimationFinished
 
@@ -130,6 +135,9 @@ public class ActionSequence : Executable
 
             bool isConditionTrue = false;
             yield return command.Execute(result => isConditionTrue = result);
+
+            if (command is DrawCommand)
+                IsDrawingCard = true;
 
             if (isConditionTrue)
             {

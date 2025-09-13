@@ -30,6 +30,10 @@ public class CutsceneManager : MonoBehaviour
     {
         // Spawn actors
         Ctx.SpawnPlayer();
+        Ctx.Init();
+        return;
+
+
         KnightActor = Instantiate(KnightPrefab, KnightSpawnPosition).transform;
 
         // Start opening cutscene
@@ -56,7 +60,5 @@ public class CutsceneManager : MonoBehaviour
         DialogueManager.StopConversation();
         Destroy(KnightActor.gameObject);
         Ctx.Init();
-
-        //Debug.Log("Next cutscene");
     }
 }

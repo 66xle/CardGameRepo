@@ -123,7 +123,7 @@ public class CombatStateMachine : MonoBehaviour
         LoadPlayer();
         LoadEnemy();
 
-        CombatUIManager.ToggleHideUI(false);
+        CombatUIManager.HideGameplayUI(true);
 
         states = new CombatStateFactory(this, vso);
         currentState = new PrepState(this, states, vso);

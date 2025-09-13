@@ -14,7 +14,7 @@ public class PlayState : CombatBaseState
 
         ctx.CardManager.UpdateCardsInHand(ctx._selectedEnemyToAttack);
 
-        ctx.CombatUIManager.ToggleHideUI(true);
+        ctx.CombatUIManager.HideGameplayUI(false);
 
         ctx._isPlayedCard = false;
         ctx._isPlayState = true;
