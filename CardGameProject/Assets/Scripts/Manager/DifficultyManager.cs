@@ -62,6 +62,23 @@ public class DifficultyManager : MonoBehaviour
 
     public List<EnemyData> GetEnemies()
     {
+        LevelData levelData = GameManager.Instance.CurrentLevelDataLoaded;
+
+        if (levelData.IsFixed)
+        {
+            List<EnemyData> enemies;
+            enemies = levelData.ListOfEnemies.Value.ToList();
+
+            foreach (EnemyData enemy in enemies)
+            {
+                enemy.Level = GameManager.Instance.PlayerLevel;
+            }
+
+            return enemies;
+        }
+            
+        #region Random Enemies
+
         selectedEncounter = encounterData[Random.Range(0, encounterData.Count)];
 
         int baseScore = GameManager.Instance.PlayerLevel * 2;
@@ -97,6 +114,8 @@ public class DifficultyManager : MonoBehaviour
         }
 
         return composition;
+
+        #endregion
     }
 
     List<EnemyData> GenerateRandomizedCloseComposition(int targetScore)

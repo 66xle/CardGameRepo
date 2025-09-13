@@ -1365,7 +1365,7 @@ PlayableDirector:
   m_GameObject: {fileID: 238009591}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: d6aad20fdb1532443ae2e9c2a6c6ff03, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: 320075426f6095042a573f954a718f1d, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -1376,6 +1376,12 @@ PlayableDirector:
   - key: {fileID: 4375762508213617715, guid: d6aad20fdb1532443ae2e9c2a6c6ff03, type: 2}
     value: {fileID: 1130845511}
   - key: {fileID: -4861318549325683298, guid: d6aad20fdb1532443ae2e9c2a6c6ff03, type: 2}
+    value: {fileID: 1960274875}
+  - key: {fileID: 4298955909011154116, guid: 320075426f6095042a573f954a718f1d, type: 2}
+    value: {fileID: 765615824}
+  - key: {fileID: 4375762508213617715, guid: 320075426f6095042a573f954a718f1d, type: 2}
+    value: {fileID: 1130845511}
+  - key: {fileID: -4861318549325683298, guid: 320075426f6095042a573f954a718f1d, type: 2}
     value: {fileID: 1960274875}
   m_ExposedReferences:
     m_References: []
@@ -18388,6 +18394,7 @@ MonoBehaviour:
   KnightSpawnPosition: {fileID: 0}
   Cutscenes:
   - {fileID: 11400000, guid: d6aad20fdb1532443ae2e9c2a6c6ff03, type: 2}
+  - {fileID: 11400000, guid: 320075426f6095042a573f954a718f1d, type: 2}
 --- !u!114 &1960274875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18403,12 +18410,27 @@ MonoBehaviour:
   m_Events:
     m_Signals:
     - {fileID: 11400000, guid: ee4534ff322da434faa6ed5650aa3e10, type: 2}
+    - {fileID: 11400000, guid: 848a09acb5ae26d44b951cb66c0c9c38, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1960274874}
           m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
           m_MethodName: StartOpeningDialogue
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1960274874}
+          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
+          m_MethodName: StartBattle
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
