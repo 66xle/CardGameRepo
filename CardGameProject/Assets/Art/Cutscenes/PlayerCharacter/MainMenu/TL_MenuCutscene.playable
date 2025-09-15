@@ -138,6 +138,22 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events: []
+--- !u!114 &-8334383589139622893
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
+  m_Name: Signal Emitter
+  m_EditorClassIdentifier: 
+  m_Time: 1.5166666666666666
+  m_Retroactive: 0
+  m_EmitOnce: 0
+  m_Asset: {fileID: 11400000, guid: ee4534ff322da434faa6ed5650aa3e10, type: 2}
 --- !u!74 &-7806360039218280891
 AnimationClip:
   m_ObjectHideFlags: 0
@@ -345,7 +361,7 @@ MonoBehaviour:
   m_Muted: 0
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
-  m_Parent: {fileID: -3943438865213884296}
+  m_Parent: {fileID: 6976799657785947882}
   m_Children: []
   m_Clips:
   - m_Version: 1
@@ -356,7 +372,7 @@ MonoBehaviour:
     m_TimeScale: 1
     m_ParentTrack: {fileID: -7694053188874328184}
     m_EaseInDuration: 0
-    m_EaseOutDuration: 0
+    m_EaseOutDuration: 3
     m_BlendInDuration: -1
     m_BlendOutDuration: -1
     m_MixInCurve:
@@ -679,8 +695,6 @@ MonoBehaviour:
   m_Curves: {fileID: 0}
   m_Parent: {fileID: 11400000}
   m_Children:
-  - {fileID: 5421898324520159397}
-  - {fileID: -7694053188874328184}
   - {fileID: -2660528427187632807}
   - {fileID: 6141374101560870387}
   - {fileID: 3994966612645020537}
@@ -943,7 +957,7 @@ MonoBehaviour:
   - {fileID: 5009817827975286236}
   - {fileID: -3943438865213884296}
   - {fileID: -5859766183906463829}
-  - {fileID: 8726040750011101392}
+  - {fileID: 6976799657785947882}
   m_FixedDuration: 0
   m_EditorSettings:
     m_Framerate: 60
@@ -1176,6 +1190,30 @@ MonoBehaviour:
   m_Clips: []
   m_Markers:
     m_Objects: []
+--- !u!114 &4435516972651656264
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b46e36075dd1c124a8422c228e75e1fb, type: 3}
+  m_Name: Signal Track
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 6976799657785947882}
+  m_Children: []
+  m_Clips: []
+  m_Markers:
+    m_Objects:
+    - {fileID: -8334383589139622893}
 --- !u!74 &4664767233854995340
 AnimationClip:
   m_ObjectHideFlags: 0
@@ -1341,7 +1379,7 @@ MonoBehaviour:
   m_Muted: 0
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
-  m_Parent: {fileID: -3943438865213884296}
+  m_Parent: {fileID: 6976799657785947882}
   m_Children: []
   m_Clips:
   - m_Version: 1
@@ -1552,6 +1590,33 @@ MonoBehaviour:
   m_OpenClipOffsetRotation: {x: 0, y: 0, z: 0, w: 1}
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
   m_ApplyOffsets: 0
+--- !u!114 &6976799657785947882
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0fc6f5187a81dc47999eefade6f0935, type: 3}
+  m_Name: Audio
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children:
+  - {fileID: 5421898324520159397}
+  - {fileID: -7694053188874328184}
+  - {fileID: 8726040750011101392}
+  - {fileID: 4435516972651656264}
+  m_Clips: []
+  m_Markers:
+    m_Objects: []
 --- !u!114 &7008096087724981219
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1692,7 +1757,7 @@ MonoBehaviour:
   m_Muted: 0
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
-  m_Parent: {fileID: 11400000}
+  m_Parent: {fileID: 6976799657785947882}
   m_Children: []
   m_Clips:
   - m_Version: 1
