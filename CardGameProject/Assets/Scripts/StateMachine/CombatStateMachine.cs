@@ -43,9 +43,8 @@ public class CombatStateMachine : MonoBehaviour
     [MustBeAssigned] public StatusEffectData GuardBreakMediumArmourData;
     [MustBeAssigned] public StatusEffectData GuardBreakHeavyArmourData;
 
-    [Foldout("DialogueDatabase", true)]
-    [MustBeAssigned] [SerializeField] DialogueDatabase DialogueDatabase;
-    [DefinedValues(nameof(Conversations))] public string ConversationTitle = null;
+    // DialogueDatabase
+    private string ConversationTitle;
     [HideInInspector] public Transform PlayerActor;
     [HideInInspector] public Transform EnemyActor;
     [HideInInspector] public Transform KnightActor;
@@ -87,20 +86,6 @@ public class CombatStateMachine : MonoBehaviour
 
     #endregion
 
-    public string[] Conversations()
-    {
-        List<string> conversations = new() { "None" };
-
-        foreach (Conversation conversation in DialogueDatabase.conversations)
-        {
-            conversations.Add(conversation.Title);
-            Debug.Log(conversation.Title);
-        }
-
-        
-        return conversations.ToArray();
-    }
-
     private void Awake()
     {
         //SceneInitialize.Instance.Subscribe(Init, 1);
@@ -114,6 +99,7 @@ public class CombatStateMachine : MonoBehaviour
 
         Debug.Log("combat start");
 
+        ConversationTitle = null;
         _isPlayedCard = false;
         _isPlayState = false;
         _pressedEndTurnButton = false;
@@ -123,6 +109,7 @@ public class CombatStateMachine : MonoBehaviour
         EnemyList = new List<Enemy>();
         LoadPlayer();
         LoadEnemy();
+        CheckForEnemyDialogue();
 
         CombatUIManager.HideGameplayUI(true);
 
@@ -130,7 +117,13 @@ public class CombatStateMachine : MonoBehaviour
         currentState = new PrepState(this, states, vso);
         currentState.EnterState();
 
-        DialogueManager.StartConversation(ConversationTitle, PlayerActor, EnemyActor);
+        if (ConversationTitle != null)
+        {
+            DialogueManager.StartConversation(ConversationTitle, PlayerActor, EnemyActor);
+            return;
+        }
+
+        InitBattle();
     }
 
     // Update is called once per frame
@@ -234,10 +227,21 @@ public class CombatStateMachine : MonoBehaviour
 
         EnemyList = EnemyManager.InitEnemies(enemyDataList);
 
-        // TODO: function to get enemy actor (elite)
-        EnemyActor = EnemyList[0].transform;
-
         CombatUIManager.detailedUI.Init(this);
+    }
+
+    private void CheckForEnemyDialogue()
+    {
+        foreach (Enemy enemy in EnemyList)
+        {
+            if (!enemy.HasDialogue)
+                continue;
+
+            ConversationTitle = enemy.EnemyData.ConversationTitle;
+            EnemyActor = enemy.transform;
+
+            return;
+        }
     }
 
     public void OnCardPlayed(CardPlayed evt, Card card, string tag)

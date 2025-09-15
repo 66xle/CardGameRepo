@@ -6,6 +6,7 @@ using System;
 using MyBox;
 
 
+
 [SRName("Weapon")]
 public class WeaponAnimationData : AnimationData
 {

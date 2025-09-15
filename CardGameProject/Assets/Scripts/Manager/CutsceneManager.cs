@@ -11,6 +11,7 @@ public class CutsceneManager : MonoBehaviour
     [MustBeAssigned][SerializeField] CombatStateMachine Ctx;
     [MustBeAssigned][SerializeField] CinemachineVirtualCamera VCam;
     [MustBeAssigned][SerializeField] PlayableDirector Director;
+    [MustBeAssigned][SerializeField] GameObject Canvas;
 
     [Foldout("Knight References", true)]
     [MustBeAssigned][SerializeField] GameObject KnightPrefab;
@@ -65,6 +66,7 @@ public class CutsceneManager : MonoBehaviour
     {
         DialogueManager.StopConversation();
         Destroy(KnightActor.gameObject);
+        Canvas.SetActive(true);
         Ctx.Init();
     }
 }

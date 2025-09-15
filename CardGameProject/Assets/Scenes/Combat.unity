@@ -4472,8 +4472,6 @@ MonoBehaviour:
   GuardBreakLightArmourData: {fileID: 11400000, guid: 7f708d99636aaca458a333d372d8c63e, type: 2}
   GuardBreakMediumArmourData: {fileID: 11400000, guid: f0f40d97d9765da48b9d5f2e6b2c67bd, type: 2}
   GuardBreakHeavyArmourData: {fileID: 11400000, guid: 7f708d99636aaca458a333d372d8c63e, type: 2}
-  DialogueDatabase: {fileID: 11400000, guid: 766d916daee5955439b5e80c9327c638, type: 2}
-  ConversationTitle: Test
   PlayerActor: {fileID: 0}
   EnemyActor: {fileID: 0}
   KnightActor: {fileID: 0}
@@ -6168,7 +6166,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1749312353}
         m_TargetAssemblyTypeName: RewardManager, Assembly-CSharp
-        m_MethodName: ClaimGear
+        m_MethodName: RewardConfirmButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7518,8 +7516,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765615821}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.10846084, y: 0.3623007, z: -0.022031106, w: 0.92546695}
-  m_LocalPosition: {x: -1.4500197, y: 1.5008605, z: -0.036250114}
+  m_LocalRotation: {x: -0.06377132, y: 0.18394697, z: -0.030952731, w: -0.98037684}
+  m_LocalPosition: {x: 1.9049797, y: 1.2690926, z: -1.3293076}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18395,6 +18393,7 @@ MonoBehaviour:
   Ctx: {fileID: 467955062}
   VCam: {fileID: 1130845510}
   Director: {fileID: 238009593}
+  Canvas: {fileID: 562006577}
   KnightPrefab: {fileID: 8020402571215977629, guid: e1460fd38c5d8074fb6702fba4d830a8, type: 3}
   KnightSpawnPosition: {fileID: 0}
   Cutscenes:
@@ -19144,6 +19143,22 @@ MonoBehaviour:
         - m_Target: {fileID: 1960274874}
           m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
           m_MethodName: FinishKnightDialogue
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - guid: 76f8538a-20a1-4c7d-a3a6-2a2e549041e1
+    onExecute:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 467955062}
+          m_TargetAssemblyTypeName: CombatStateMachine, Assembly-CSharp
+          m_MethodName: InitBattle
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
