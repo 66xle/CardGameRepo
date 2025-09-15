@@ -58,7 +58,7 @@ public class RewardManager : MonoBehaviour
         cardCarousel = PreviewCards.GetComponent<CardCarousel>();
     }
 
-    public void ClaimGear()
+    public void RewardConfirmButton()
     {
         if (ListOfRewards.Count > 0)
         {
@@ -86,20 +86,6 @@ public class RewardManager : MonoBehaviour
         //UIManager.NextScene();
     }
 
-    public void DetermineDrops()
-    {
-        PoolOfGear.Clear();
-
-        float playerLevel = GameManager.Instance.PlayerLevel;
-
-        if (playerLevel <= LowLevel)
-            PoolOfGear.AddRange(LootTable.CommonGear);
-        if (playerLevel > LowLevel && playerLevel <= MidLevel)
-            PoolOfGear.AddRange(LootTable.RareGear);
-        if (playerLevel > MidLevel)
-            PoolOfGear.AddRange(LootTable.EpicGear);
-    }
-
     public void DisplayReward()
     {
         DetermineDrops();
@@ -123,6 +109,22 @@ public class RewardManager : MonoBehaviour
         ChooseGearUI.SetActive(true);
         CreateGearItem(gears);
     }
+
+    public void DetermineDrops()
+    {
+        PoolOfGear.Clear();
+
+        float playerLevel = GameManager.Instance.PlayerLevel;
+
+        if (playerLevel <= LowLevel)
+            PoolOfGear.AddRange(LootTable.CommonGear);
+        if (playerLevel > LowLevel && playerLevel <= MidLevel)
+            PoolOfGear.AddRange(LootTable.RareGear);
+        if (playerLevel > MidLevel)
+            PoolOfGear.AddRange(LootTable.EpicGear);
+    }
+
+    
 
 
 
@@ -149,7 +151,7 @@ public class RewardManager : MonoBehaviour
         selectedGear.ToggleHighlight(true);
     }
 
-    public void ChooseGearButton()
+    public void ConfirmGearButton()
     {
         ListOfRewards.Add(selectedGear.GetGearData());
 
@@ -176,6 +178,7 @@ public class RewardManager : MonoBehaviour
             item.GearData = data;
         }
     }
+
 
     public void OpenGearOverlay(GearData data)
     {
