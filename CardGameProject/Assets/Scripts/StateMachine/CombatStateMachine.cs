@@ -71,6 +71,7 @@ public class CombatStateMachine : MonoBehaviour
     [ReadOnly] public bool _pressedEndTurnButton;
     [ReadOnly] public bool _enemyTurnDone;
     [ReadOnly] public bool _isInPrepState;
+    [ReadOnly] public bool _isPlayerLoaded = false;
 
     [HideInInspector] public CardData _cardPlayed;
     [HideInInspector] public Enemy _selectedEnemyToAttack;
@@ -201,21 +202,26 @@ public class CombatStateMachine : MonoBehaviour
 
     private void LoadPlayer()
     {
-        Debug.Log("Load Player");
-        CombatUIManager.InitPlayerUI(player);
-
-        // Equipment
-        _equipmentHolsterScript = player.GetComponent<EquipmentHolster>();
-
-        SwitchWeaponManager.InitWeaponData();
-        List<WeaponData> holsterWeapons = SwitchWeaponManager.GetWeaponList();
-
-        if (holsterWeapons.Count > 0)
+        if (!_isPlayerLoaded)
         {
-            _equipmentHolsterScript.SetHolsteredWeapons(holsterWeapons);
+            Debug.Log("Load Player");
+            _isPlayerLoaded = true;
 
-            GameObject weaponToEquip = _equipmentHolsterScript.EquippedWeaponObjects.First(weapon => weapon.GetComponent<Weapon>().Guid == SwitchWeaponManager.CurrentMainHand.Guid);
-            _equipmentHolsterScript.EquipWeapon(weaponToEquip);
+            CombatUIManager.InitPlayerUI(player);
+
+            // Equipment
+            _equipmentHolsterScript = player.GetComponent<EquipmentHolster>();
+
+            SwitchWeaponManager.InitWeaponData();
+            List<WeaponData> holsterWeapons = SwitchWeaponManager.GetWeaponList();
+
+            if (holsterWeapons.Count > 0)
+            {
+                _equipmentHolsterScript.SetHolsteredWeapons(holsterWeapons);
+
+                GameObject weaponToEquip = _equipmentHolsterScript.EquippedWeaponObjects.First(weapon => weapon.GetComponent<Weapon>().Guid == SwitchWeaponManager.CurrentMainHand.Guid);
+                _equipmentHolsterScript.EquipWeapon(weaponToEquip);
+            }
         }
 
         CameraManager.SetDummy(player.transform);
@@ -309,6 +315,25 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
+    public void EndGameplay()
+    {
+        EnemyManager.ClearEnemiesAndUI();
+        CardManager.ResetCards();
+        
+        // Add reward to deck and holster
+        if (RewardManager.ListOfRewards.Count > 0)
+        {
+            GearData gearData = RewardManager.ListOfRewards[0];
+
+            if (gearData is WeaponData)
+            {
+                SwitchWeaponManager.CreateWeaponData(gearData as WeaponData);
+                _equipmentHolsterScript.SetHolsteredWeapons(new List<WeaponData> { gearData as WeaponData });
+            }
+
+            CardManager.AddEquipmentCardsToDeck(gearData);
+        }
+    }
 
     #region Used by StateMachine
 

@@ -33,43 +33,44 @@ public class CardManager : MonoBehaviour
         EnemyCardQueue = new List<CardData>();
     }
 
-    public void LoadCards()
+    public void ResetCards()
     {
-        // Load main hand
-        foreach (CardAnimationData data in SwitchWeaponManager.CurrentMainHand._cards)
+        PlayerDeck.AddRange(PlayerHand);
+        PlayerDeck.AddRange(DiscardPile);
+
+        PlayerHand.Clear();
+        DiscardPile.Clear();
+
+        CardContainer container = PlayerHandTransform.GetComponent<CardContainer>();
+        container.DestroyAllCards();
+    }
+
+    public void AddEquipmentCardsToDeck(GearData gearData)
+    {
+        foreach (CardAnimationData data in gearData.Cards)
         {
             for (int i = 0; i < data.CardAmount; i++)
             {
-                CardData cardData = new(SwitchWeaponManager.CurrentMainHand, data, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
+                CardData cardData = new(gearData, data, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
                 PlayerDeck.Add(cardData);
             }
         }
-    
-        // Load holstered cards
+    }
+
+    public void LoadCards()
+    {
+        // Load main hand
+        AddEquipmentCardsToDeck(SwitchWeaponManager.CurrentMainHand);
+
         foreach (WeaponData weaponData in SwitchWeaponManager.CurrentEquippedWeapons)
         {
-            foreach (CardAnimationData data in weaponData._cards)
-            {
-                for (int i = 0; i < data.CardAmount; i++)
-                {
-                    CardData cardData = new(weaponData, data, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
-                    PlayerDeck.Add(cardData);
-                }
-            }
+            AddEquipmentCardsToDeck(weaponData);
         }
 
         foreach (ArmourData armour in EquipmentManager.GetEquippedArmours())
         {
-            foreach (CardAnimationData card in armour._cards)
-            {
-                for (int i = 0; i < card.CardAmount; i++)
-                {
-                    CardData cardData = new(armour, card, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
-                    PlayerDeck.Add(cardData);
-                }
-            }
+            AddEquipmentCardsToDeck(armour);
         }
-
     }
 
     public void UpdateCardsInHand(Enemy enemy)

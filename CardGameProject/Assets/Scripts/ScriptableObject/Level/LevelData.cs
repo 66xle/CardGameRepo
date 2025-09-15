@@ -31,7 +31,7 @@ public class LevelData : ScriptableObject
 
     public bool IsWaveLimitReached(int currentWave)
     {
-        if (CollectionEnemies.Value.Length == currentWave) return true;
+        if (CollectionEnemies.Value.Length - 1 == currentWave) return true;
 
         return false;
     }

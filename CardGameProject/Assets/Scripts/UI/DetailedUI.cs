@@ -25,6 +25,8 @@ public class DetailedUI : MonoBehaviour
 
     public void Init(CombatStateMachine ctx)
     {
+        if (_ctx != null) return;
+
         _healthBar = GetComponentsInChildren<Image>()[1];
         _guardBar = GetComponentsInChildren<Image>()[2];
         //healthValue = GetComponentsInChildren<TMP_Text>()[0];

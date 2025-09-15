@@ -4491,6 +4491,7 @@ MonoBehaviour:
   _pressedEndTurnButton: 0
   _enemyTurnDone: 0
   _isInPrepState: 0
+  _isPlayerLoaded: 0
   _selectedEnemyToAttack: {fileID: 0}
   vso: {fileID: 0}
 --- !u!1 &474076263
@@ -13142,6 +13143,7 @@ MonoBehaviour:
   statsManager: {fileID: 1461295039}
   encounterData:
   - {fileID: 11400000, guid: 542547131e842fa43b54533833426651, type: 2}
+  WaveCount: 0
 --- !u!1 &1266439819
 GameObject:
   m_ObjectHideFlags: 0
@@ -17532,9 +17534,11 @@ MonoBehaviour:
   ExpText: {fileID: 894434205}
   LevelText: {fileID: 594962367}
   AnimationTime: 3
+  Ctx: {fileID: 467955062}
   UIManager: {fileID: 602362924}
   EquipmentManager: {fileID: 393357797}
   StatsManager: {fileID: 1461295039}
+  DifficultyManager: {fileID: 1266213100}
   PSS: {fileID: 11400000, guid: a0448ceceb179ec4eb5912d845d90fc8, type: 2}
   LootTable: {fileID: 11400000, guid: a8fc3d6470d8fd943a6b5bc1f7a3cf75, type: 2}
   RenderCamera: {fileID: 1564564016}
@@ -17543,6 +17547,7 @@ MonoBehaviour:
   RewardUI: {fileID: 257046058}
   GameOverUI: {fileID: 105679948}
   ChooseGearUI: {fileID: 2140653293}
+  ListOfRewards: []
 --- !u!1 &1766993400
 GameObject:
   m_ObjectHideFlags: 0

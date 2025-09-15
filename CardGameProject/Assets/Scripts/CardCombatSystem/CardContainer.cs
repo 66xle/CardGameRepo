@@ -307,6 +307,14 @@ public class CardContainer : MonoBehaviour {
         Destroy(card.gameObject);
     }
 
+    public void DestroyAllCards()
+    {
+        for (int i = cards.Count - 1; i >= 0; i--)
+        {
+            DestroyCard(cards[i]);
+        }
+    }
+
     private bool IsCursorInPlayArea(RectTransform playArea) {
         if (cardPlayConfig.playArea == null) return false;
         

@@ -29,9 +29,11 @@ public class RewardManager : MonoBehaviour
     [MustBeAssigned][SerializeField] float AnimationTime = 2f;
 
     [Foldout("References", true)]
+    [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
     [MustBeAssigned] [SerializeField] UIManager UIManager;
     [MustBeAssigned] [SerializeField] EquipmentManager EquipmentManager;
     [MustBeAssigned] [SerializeField] StatsManager StatsManager;
+    [MustBeAssigned] [SerializeField] DifficultyManager DifficultyManager;
     [MustBeAssigned][SerializeField] PlayerStatSettings PSS;
     [MustBeAssigned][SerializeField] LootTable LootTable;
     [MustBeAssigned] [SerializeField] Camera RenderCamera;
@@ -41,7 +43,7 @@ public class RewardManager : MonoBehaviour
     [MustBeAssigned] public GameObject GameOverUI;
     [MustBeAssigned] public GameObject ChooseGearUI;
     
-    private List<GearData> listOfRewards = new();
+    public List<GearData> ListOfRewards = new();
     private GameObject currentObjectInOverlay;
     private CardCarousel cardCarousel;
     private GearSelect selectedGear;
@@ -58,21 +60,28 @@ public class RewardManager : MonoBehaviour
 
     public void ClaimGear()
     {
-        if (listOfRewards.Count > 0)
+        if (ListOfRewards.Count > 0)
         {
-            EquipmentManager.AddGear(listOfRewards[0]);
+            EquipmentManager.AddGear(ListOfRewards[0]);
             EquipmentManager.SaveGear();
         }
-        listOfRewards.Clear();
+
+        Ctx.EndGameplay();
+        ListOfRewards.Clear();
 
         LevelData levelData = GameManager.Instance.CurrentLevelDataLoaded;
 
         if (levelData.IsFixed)
         {
-            
-        }
+            if (!levelData.IsWaveLimitReached(DifficultyManager.WaveCount))
+            {
+                Time.timeScale = 1;
 
-        
+                DifficultyManager.WaveCount++;
+                RewardUI.SetActive(false);
+                Ctx.Init();
+            }
+        }
 
         //UIManager.NextScene();
     }
@@ -142,7 +151,7 @@ public class RewardManager : MonoBehaviour
 
     public void ChooseGearButton()
     {
-        listOfRewards.Add(selectedGear.GetGearData());
+        ListOfRewards.Add(selectedGear.GetGearData());
 
         ChooseGearUI.SetActive(false);
 
@@ -154,7 +163,7 @@ public class RewardManager : MonoBehaviour
 
     public void CreateGearIcon()
     {
-        foreach (GearData data in listOfRewards)
+        foreach (GearData data in ListOfRewards)
         {
             GameObject icon = Instantiate(IconPrefab, DisplayRewardsUI);
             RawImage image = icon.GetComponent<RawImage>();

@@ -35,7 +35,7 @@ public class DifficultyManager : MonoBehaviour
 
     private EncounterData selectedEncounter;
 
-    private int waveCount = 0;
+    public int WaveCount = 0;
 
     private void Awake()
     {
@@ -67,7 +67,10 @@ public class DifficultyManager : MonoBehaviour
 
         if (levelData.IsFixed)
         {
-            List<EnemyData> enemies = levelData.GetEnemyList(waveCount);
+            List<EnemyData> enemies = levelData.GetEnemyList(WaveCount);
+
+            if (enemies.Count == 0)
+                Debug.LogError("No enemies in level data: " + levelData.LevelName);
 
             foreach (EnemyData enemy in enemies)
             {
