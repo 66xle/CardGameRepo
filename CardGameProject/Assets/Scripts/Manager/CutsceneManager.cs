@@ -53,7 +53,7 @@ public class CutsceneManager : MonoBehaviour
 
     public void StartOpeningDialogue()
     {
-        DialogueManager.StartConversation("Knight", Ctx.PlayerActor, KnightActor);
+        DialogueManager.StartConversation("Test", Ctx.PlayerActor, KnightActor);
     }
 
     public void FinishKnightDialogue()

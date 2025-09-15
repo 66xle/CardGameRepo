@@ -17,7 +17,7 @@ public class SkipSubtitleTimer : MonoBehaviour
             {
                 if (responses[0].destinationEntry.Title == "END") return;
 
-                StandardUI.OnContinueConversation();
+                //StandardUI.OnContinue();
             }
         }
     }   
