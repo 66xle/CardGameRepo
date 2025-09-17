@@ -40,7 +40,7 @@ public class AudioManager : Singleton<AudioManager>
     [MustBeAssigned][SerializeField] AudioSource audioSource;
     [MustBeAssigned][SerializeField] AudioSource musicSource;
 
-    private List<AudioWrapper> wrappers;
+    private List<AudioWrapper> wrappers = new();
 
     public new void Awake()
     {
