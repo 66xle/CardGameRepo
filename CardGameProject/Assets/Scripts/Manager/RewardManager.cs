@@ -34,6 +34,7 @@ public class RewardManager : MonoBehaviour
     [MustBeAssigned] [SerializeField] EquipmentManager EquipmentManager;
     [MustBeAssigned] [SerializeField] StatsManager StatsManager;
     [MustBeAssigned] [SerializeField] DifficultyManager DifficultyManager;
+    [MustBeAssigned] [SerializeField] CutsceneManager CutsceneManager;
     [MustBeAssigned][SerializeField] PlayerStatSettings PSS;
     [MustBeAssigned][SerializeField] LootTable LootTable;
     [MustBeAssigned] [SerializeField] Camera RenderCamera;
@@ -79,7 +80,8 @@ public class RewardManager : MonoBehaviour
 
                 DifficultyManager.WaveCount++;
                 RewardUI.SetActive(false);
-                Ctx.Init();
+
+                CutsceneManager.NextCutscene();
             }
         }
 

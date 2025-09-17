@@ -24,7 +24,7 @@ public class CombatStateMachine : MonoBehaviour
     [SerializeField] string subState;
 
     [Foldout("Player", true)]
-    [MustBeAssigned] [SerializeField] GameObject PlayerPrefab;
+    [MustBeAssigned] public GameObject PlayerPrefab;
     [ReadOnly] public Transform PlayerSpawnPos;
     [HideInInspector] public Player player;
 
@@ -107,6 +107,7 @@ public class CombatStateMachine : MonoBehaviour
         _isInPrepState = false;
 
         EnemyList = new List<Enemy>();
+        SpawnPlayer();
         LoadPlayer();
         LoadEnemy();
         CheckForEnemyDialogue();
@@ -189,6 +190,8 @@ public class CombatStateMachine : MonoBehaviour
     public void SpawnPlayer()
     {
         // Spawn Player
+        if (_isPlayerLoaded) return;
+
         player = Instantiate(PlayerPrefab, PlayerSpawnPos).GetComponent<Player>();
         PlayerActor = player.transform;
     }
