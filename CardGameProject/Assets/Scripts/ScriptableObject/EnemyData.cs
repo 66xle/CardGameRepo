@@ -43,9 +43,10 @@ public class EnemyData : ScriptableObject
 
     public bool HasDialogueDatabase()
     {
-        if (DialogueDatabase != null) return true;
+        if (DialogueDatabase == null || !HasDialogue)
+            return false;
 
-        return false;
+        return true;
     }
 
 #if UNITY_EDITOR
