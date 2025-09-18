@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour
     [MustBeAssigned] [SerializeField] CardManager CardManager;
     [MustBeAssigned] [SerializeField] LevelManager LevelManager; // Editor only
 
-    private Action DestroyEnemies;
+    private List<GameObject> spawnedObjects = new();
 
     private void Awake()
     {
@@ -64,8 +64,8 @@ public class EnemyManager : MonoBehaviour
             EnemyUI enemyUI = statsUI.GetComponent<EnemyUI>();
             enemyUI.Init(Ctx, enemy, this);
 
-            DestroyEnemies += () => Destroy(enemy);
-            DestroyEnemies += () => Destroy(statsUI);
+            spawnedObjects.Add(enemy.gameObject);
+            spawnedObjects.Add(statsUI);
         }
 
         return enemies;
@@ -79,7 +79,11 @@ public class EnemyManager : MonoBehaviour
 
     public void ClearEnemiesAndUI()
     {
-        DestroyEnemies?.Invoke();
-        DestroyEnemies = null;
+        foreach (GameObject spawnedObject in spawnedObjects)
+        {
+            Destroy(spawnedObject);
+        }
+
+        spawnedObjects.Clear();
     }
 }
