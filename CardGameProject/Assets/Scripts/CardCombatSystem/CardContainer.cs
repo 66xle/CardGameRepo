@@ -150,9 +150,9 @@ public class CardContainer : MonoBehaviour {
             return;
         }
 
+        SortCards();
         SetCardsPosition();
         SetCardsRotation();
-        SortCards();
         SetCardsUILayers();
         UpdateCardOrder();
     }
