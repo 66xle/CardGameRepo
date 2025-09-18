@@ -2,6 +2,7 @@ using Cinemachine;
 using MyBox;
 using PixelCrushers.DialogueSystem;
 using System.Collections.Generic;
+using Systems.SceneManagment;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -72,6 +73,13 @@ public class CutsceneManager : MonoBehaviour
         CutsceneCamera.GetComponent<AudioListener>().enabled = false;
         MainCamera.GetComponent<AudioListener>().enabled = true;
         CutsceneCamera.depth = 3;
+    }
+
+    public async void LoadMainMenu()
+    {
+        SceneLoader loader = ServiceLocator.Get<SceneLoader>();
+        Debug.Log("test");
+        await loader.LoadSceneGroup("MainMenu");
     }
 
     public void StartKnightConversation()

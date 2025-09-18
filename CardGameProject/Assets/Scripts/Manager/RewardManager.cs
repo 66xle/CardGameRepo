@@ -82,10 +82,15 @@ public class RewardManager : MonoBehaviour
                 RewardUI.SetActive(false);
 
                 CutsceneManager.NextCutscene();
+
+
+                return;
             }
         }
 
-        //UIManager.NextScene();
+        Time.timeScale = 1;
+        RewardUI.SetActive(false);
+        CutsceneManager.NextCutscene();
     }
 
     public void DisplayReward()
