@@ -68,28 +68,32 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
     }
 
-    private void UpdatePosition() {
-        if (!isDragged) {
+    private void UpdatePosition()
+    {
+        if (!isDragged)
+        {
             var target = new Vector2(targetPosition.x, targetPosition.y + targetVerticalDisplacement);
-            if (IsPreviewActive && zoomConfig.overrideYPosition != -1) {
+            if (IsPreviewActive && zoomConfig.overrideYPosition != -1)
+            {
                 target = new Vector2(target.x, zoomConfig.overrideYPosition);
             }
 
-            var distance = Vector2.Distance(rectTransform.position, target);
+            var distance = Vector2.Distance(rectTransform.localPosition, target);
             var repositionSpeed = distance / animationSpeedConfig.duration;
 
-            if (repositionSpeed == 0) 
+            if (repositionSpeed == 0)
                 repositionSpeed = 1;
 
-            Vector2 position = Vector2.Lerp(rectTransform.position, target, repositionSpeed / distance * Time.deltaTime);
+            Vector2 position = Vector2.Lerp(rectTransform.localPosition, target, repositionSpeed / distance * Time.deltaTime);
 
             if (float.IsNaN(position.x) || float.IsNaN(position.y)) return;
 
-            rectTransform.position = position;
+            rectTransform.localPosition = position;
         }
-        else {
+        else
+        {
             var delta = ((Vector2)Input.mousePosition + dragStartPos);
-            rectTransform.position = new Vector2(delta.x, delta.y);
+            rectTransform.localPosition = new Vector2(delta.x, delta.y);
         }
     }
 
@@ -105,26 +109,29 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
 
     private void UpdateRotation() {
-        var crtAngle = rectTransform.rotation.eulerAngles.z;
-        // If the angle is negative, add 360 to it to get the positive equivalent
-        crtAngle = crtAngle < 0 ? crtAngle + 360 : crtAngle;
         // If the card is hovered and the rotation should be reset, set the target rotation to 0
         var tempTargetRotation = (IsPreviewActive || isDragged) && zoomConfig.resetRotationOnZoom
             ? 0
             : targetRotation;
+
+        var crtAngle = rectTransform.rotation.eulerAngles.z;
+        // If the angle is negative, add 360 to it to get the positive equivalent
+        crtAngle = crtAngle < 0 ? crtAngle + 360 : crtAngle;
         tempTargetRotation = tempTargetRotation < 0 ? tempTargetRotation + 360 : tempTargetRotation;
+        
         var deltaAngle = Mathf.Abs(crtAngle - tempTargetRotation);
         if (!(deltaAngle > EPS)) return;
 
         // Adjust the current angle and target angle so that the rotation is done in the shortest direction
         var adjustedCurrent = deltaAngle > 180 && crtAngle < tempTargetRotation ? crtAngle + 360 : crtAngle;
-        var adjustedTarget = deltaAngle > 180 && crtAngle > tempTargetRotation
-            ? tempTargetRotation + 360
-            : tempTargetRotation;
-        var newDelta = Mathf.Abs(adjustedCurrent - adjustedTarget);
+        var adjustedTarget = deltaAngle > 180 && crtAngle > tempTargetRotation ? tempTargetRotation + 360 : tempTargetRotation;
 
+        var newDelta = Mathf.Abs(adjustedCurrent - adjustedTarget);
         var nextRotation = Mathf.Lerp(adjustedCurrent, adjustedTarget, animationSpeedConfig.rotation / newDelta * Time.deltaTime);
-        rectTransform.rotation = Quaternion.Euler(0, 0, nextRotation);
+
+        Quaternion parentRot = transform.root.rotation;
+        Vector3 parentEuler = Quaternion.Inverse(parentRot).eulerAngles;
+        rectTransform.localRotation = Quaternion.Euler(parentEuler.x, parentEuler.y, nextRotation);
     }
 
 
@@ -142,8 +149,8 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             if (Ydis < 50f) return;
 
             isDragged = true;
-            dragStartPos = new Vector2(transform.position.x - eventData.position.x,
-                transform.position.y - eventData.position.y);
+            dragStartPos = new Vector2(transform.localPosition.x - eventData.position.x,
+                transform.localPosition.y - eventData.position.y);
 
             dragStartEventY = Input.mousePosition.y;
 
@@ -154,6 +161,8 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData) {
         if (isDragged) return;
+
+        Debug.Log("enter");
 
         if (InputManager.Instance.HoldLeftClickInput && !isPointerDown && container.currentDraggedCard == null)
         {
