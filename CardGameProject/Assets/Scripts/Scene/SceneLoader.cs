@@ -23,6 +23,7 @@ namespace Systems.SceneManagment
 
         private float targetProgress;
         private bool Init = false;
+        [HideInInspector] public bool IsLoading = false;
 
         private void Awake()
         {
@@ -50,7 +51,6 @@ namespace Systems.SceneManagment
 
         public async void CloseLoadingScreen()
         {
-            //LoadingScreen.SetActive(false);
             await SceneManager.UnloadSceneAsync(loadingScene.Path);
 
             SceneInitialize.Instance.Invoke();
@@ -58,6 +58,7 @@ namespace Systems.SceneManagment
 
         public async Task LoadSceneGroup(string groupName)
         {
+            SceneInitialize.Instance.Clear();
             targetProgress = 1f;
 
             LoadingProgress progress = new LoadingProgress();

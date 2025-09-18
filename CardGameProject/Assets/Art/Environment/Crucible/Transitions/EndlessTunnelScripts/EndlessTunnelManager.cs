@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Systems.SceneManagment;
 using UnityEngine;
 
 public class EndlessTunnelManager : MonoBehaviour
@@ -20,9 +21,9 @@ public class EndlessTunnelManager : MonoBehaviour
     [Tooltip("Despawns sections once their TOP edge passes below this world Y.")]
     public float despawnBelow = -80f;
 
-    [Header("Runtime Control")]
-    [Tooltip("Run immediately on Start.")]
-    public bool runAtStart = true;
+    //[Header("Runtime Control")]
+    //[Tooltip("Run immediately on Start.")]
+    //public bool runAtStart = true;
 
     [Tooltip("Gates which sections are eligible (minProgressLevel <= currentProgressLevel).")]
     public int currentProgressLevel = 0;
@@ -63,11 +64,14 @@ public class EndlessTunnelManager : MonoBehaviour
     // cache to avoid allocs
     private static readonly List<TunnelSectionSO> _cacheEligible = new List<TunnelSectionSO>();
 
+    private SceneLoader SceneLoader;
+
     void Start()
     {
         if (tunnelParent == null) tunnelParent = transform;
 
-        _running = runAtStart;
+        //_running = runAtStart;
+        SceneInitialize.Instance.Subscribe(Init);
 
         // Initialize drift
         float mid = (speedRange.x + speedRange.y) * 0.5f;
@@ -77,6 +81,11 @@ public class EndlessTunnelManager : MonoBehaviour
 
         ResetAndPrewarm();
         MaintainSpawnWindow();
+    }
+
+    public void Init()
+    {
+        _running = true;
     }
 
     void Update()

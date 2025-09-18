@@ -14,7 +14,6 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
-        SceneInitialize.Instance.Clear();
         SceneInitialize.Instance.Subscribe(Init, -10);
     }
 
