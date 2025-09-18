@@ -24,6 +24,7 @@ public class CutsceneManager : MonoBehaviour
     [Foldout("Cutscenes", true)]
     public List<PlayableAsset> Cutscenes;
     private int _cutsceneIndex;
+    private AvatarSpawnPosition asp;
 
     private List<GameObject> cutsceneObjects = new();
 
@@ -34,6 +35,8 @@ public class CutsceneManager : MonoBehaviour
 
     private void Init()
     {
+        asp = ServiceLocator.Get<AvatarSpawnPosition>();
+
         // Spawn actors
         PlayerActor = SpawnGameObject(Ctx.PlayerPrefab, Ctx.PlayerSpawnPos).transform;
         KnightActor = SpawnGameObject(KnightPrefab, KnightSpawnPosition).transform;
@@ -76,16 +79,6 @@ public class CutsceneManager : MonoBehaviour
         DialogueManager.StartConversation("Knight", PlayerActor, KnightActor);
     }
 
-    public void StopConversation()
-    {
-        DialogueManager.StopConversation();
-    }
-
-    public void EnableGameObject(GameObject gameObject)
-    {
-        gameObject.SetActive(true);
-    }
-
     private void RemoveCutsceneObjects()
     {
         foreach (GameObject gameObject in cutsceneObjects)
@@ -96,16 +89,19 @@ public class CutsceneManager : MonoBehaviour
         cutsceneObjects.Clear();
     }
 
-    public void StartBattle()
-    {
-        DialogueManager.StopConversation();
-        Destroy(KnightActor.gameObject);
-        StartCombatStateMachine();
-    }
-
     public void StartCombatStateMachine()
     {
         Ctx.Init();
+    }
+
+    public void SpawnActor(string actorName)
+    {
+        foreach (SpawnPosition data in asp.CutsceneSpawnPositions)
+        {
+            if (data.Name != actorName) continue;
+
+            SpawnGameObject(data.Prefab, data.Transform);
+        }
     }
 
     public GameObject SpawnGameObject(GameObject gameObject, Transform parent)

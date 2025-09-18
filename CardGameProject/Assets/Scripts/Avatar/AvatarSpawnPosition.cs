@@ -1,11 +1,26 @@
+using System;
 using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
+
+[Serializable]
+public struct SpawnPosition
+{
+    public string Name;
+    public Transform Transform;
+    public GameObject Prefab;
+}
 
 public class AvatarSpawnPosition : MonoBehaviour
 {
     public List<Transform> EnemySpawnPositionList;
     public Transform PlayerSpawnPosition;
     public Transform KnightSpawnPosition;
+
+    [Separator]
+
+    public List<SpawnPosition> CutsceneSpawnPositions;
+    
 
     public void Awake()
     {

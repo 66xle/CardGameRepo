@@ -18802,7 +18802,8 @@ MonoBehaviour:
     m_Signals:
     - {fileID: 11400000, guid: ee4534ff322da434faa6ed5650aa3e10, type: 2}
     - {fileID: 11400000, guid: 848a09acb5ae26d44b951cb66c0c9c38, type: 2}
-    - {fileID: 11400000, guid: 5a21b3d97aabaa54a95391f2599765d7, type: 2}
+    - {fileID: 11400000, guid: f07ea1779b5ba454aa2fe0728ebb1498, type: 2}
+    - {fileID: 11400000, guid: 3fd79aefe5988c8438f9eaf956303258, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -18848,38 +18849,76 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1960274874}
           m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
-          m_MethodName: RemoveCutsceneObjects
-          m_Mode: 1
+          m_MethodName: SpawnActor
+          m_Mode: 5
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: 
+            m_StringArgument: Minion 1
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1960274874}
           m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
-          m_MethodName: EnableGameObject
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 562006577}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 1960274874}
-          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
-          m_MethodName: StartCombatStateMachine
-          m_Mode: 1
+          m_MethodName: SpawnActor
+          m_Mode: 5
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: 
+            m_StringArgument: Minion 2
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1960274874}
+          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
+          m_MethodName: SpawnActor
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Elite
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1960274874}
+          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
+          m_MethodName: SpawnActor
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Player
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1960274874}
+          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
+          m_MethodName: SpawnActor
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Knight
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1960274874}
+          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
+          m_MethodName: SpawnActor
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Minotaur
             m_BoolArgument: 0
           m_CallState: 2
 --- !u!1 &1970599118
