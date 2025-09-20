@@ -16,9 +16,17 @@ MonoBehaviour:
   LevelName: Crucible
   Prefab: {fileID: 6774152191852358800, guid: 4bc97ba8cc97bf14ba6934d2af749fa3, type: 3}
   Music: {fileID: 11400000, guid: 9aa63c18d86d06b4a9e0570ba342f19b, type: 2}
-  IsFixed: 0
+  IsFixed: 1
   RecommendLevel: 1
-  ListOfEnemies:
-    Value: []
-  ListOfGear:
-    Value: []
+  CollectionEnemies:
+    Value:
+    - Value:
+      - {fileID: 11400000, guid: 15be70bbc9b436444af9e3026ecfce7a, type: 2}
+      - {fileID: 11400000, guid: 35289a3758b892e499c304d3a5e1fa90, type: 2}
+      - {fileID: 11400000, guid: 35289a3758b892e499c304d3a5e1fa90, type: 2}
+    - Value:
+      - {fileID: 11400000, guid: 15be70bbc9b436444af9e3026ecfce7a, type: 2}
+  CollectionGear:
+    Value:
+    - Value:
+      - {fileID: 11400000, guid: d9bfb8cf74d55844bbc837e956e8c878, type: 2}

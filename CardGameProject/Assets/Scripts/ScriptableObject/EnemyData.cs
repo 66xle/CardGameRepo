@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using SerializeReferenceEditor;
 using UnityEngine;
 using MyBox;
-using static UnityEngine.Rendering.GPUSort;
 using System.Linq;
 using UnityEditor;
-
+using PixelCrushers.DialogueSystem;
+using UnityEngine.Rendering.Universal;
 
 public enum EnemyType
 {
@@ -23,7 +23,15 @@ public class EnemyData : ScriptableObject
     public int Guard;
     public int Level = 1;
 
+    [Separator]
+
     public EnemyType EnemyType;
+    [ConditionalField(nameof(EnemyType), false, EnemyType.Elite)] public bool HasDialogue;
+    [ConditionalField(nameof(HasDialogue), false, true)] public DialogueDatabase DialogueDatabase;
+    [ConditionalField(false, nameof(HasDialogueDatabase))] public string ConversationTitle;
+
+    [Separator]
+
     public WeaponType WeaponType;
     [ReadOnly][SerializeReference][SR] public List<WeaponTypeAnimation> WeaponTypeAnimationSet;
 
@@ -33,6 +41,13 @@ public class EnemyData : ScriptableObject
     private WeaponType _previousWeaponType;
     private int _weaponTypeCount;
 
+    public bool HasDialogueDatabase()
+    {
+        if (DialogueDatabase == null || !HasDialogue)
+            return false;
+
+        return true;
+    }
 
 #if UNITY_EDITOR
     public void OnValidate()
@@ -81,5 +96,7 @@ public class EnemyData : ScriptableObject
         }
 
     }
+
+    
 #endif
 }

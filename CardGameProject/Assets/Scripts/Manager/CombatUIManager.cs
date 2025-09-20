@@ -54,8 +54,10 @@ public class CombatUIManager : MonoBehaviour
     [MustBeAssigned] public StatsManager StatsManager;
 
 
-    public void ToggleHideUI(bool toggle)
+    public void HideGameplayUI(bool toggle)
     {
+        toggle = !toggle;
+
         HideUI.SetActive(toggle);
         DetailedUI.SetActive(toggle);
         PlayerUI.SetActive(toggle);

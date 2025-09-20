@@ -686,6 +686,37 @@ Transform:
   - {fileID: 7635698946609430111}
   m_Father: {fileID: 2711845999063499283}
   m_LocalEulerAnglesHint: {x: 0, y: 330, z: 0}
+--- !u!1 &1451539036576515963
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3640625045709739362}
+  m_Layer: 0
+  m_Name: Minon 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3640625045709739362
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1451539036576515963}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.97087693, z: -0, w: -0.23957884}
+  m_LocalPosition: {x: 0.19, y: 16.545, z: 8.69}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3249727066397107881}
+  m_LocalEulerAnglesHint: {x: 0, y: -207.723, z: 0}
 --- !u!1 &1467106264981184272
 GameObject:
   m_ObjectHideFlags: 0
@@ -1279,6 +1310,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: -5
   rotationAxis: {x: 0, y: 1, z: 0}
+--- !u!1 &2388067078661825627
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3249727066397107881}
+  m_Layer: 0
+  m_Name: CutsceneTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3249727066397107881
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2388067078661825627}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3640625045709739362}
+  - {fileID: 4061819925919538344}
+  - {fileID: 8669564350802719913}
+  m_Father: {fileID: 2122694268968905883}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2390112933719868145
 GameObject:
   m_ObjectHideFlags: 0
@@ -3130,6 +3195,37 @@ Transform:
   - {fileID: 7275667300266497987}
   m_Father: {fileID: 2711845999063499283}
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+--- !u!1 &6038626811160740434
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8669564350802719913}
+  m_Layer: 0
+  m_Name: Elite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8669564350802719913
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6038626811160740434}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.98654544, z: -0, w: -0.1634875}
+  m_LocalPosition: {x: 1.54, y: 16.545, z: 9.31}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3249727066397107881}
+  m_LocalEulerAnglesHint: {x: 0, y: -198.819, z: 0}
 --- !u!1 &6062128428439203662
 GameObject:
   m_ObjectHideFlags: 0
@@ -3162,6 +3258,37 @@ Transform:
   - {fileID: 7635167438559570904}
   m_Father: {fileID: 3975797819873137948}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6134827212512210577
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4061819925919538344}
+  m_Layer: 0
+  m_Name: Minon 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4061819925919538344
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6134827212512210577}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.99064714, z: -0, w: -0.13644859}
+  m_LocalPosition: {x: 2.88, y: 16.545, z: 9.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3249727066397107881}
+  m_LocalEulerAnglesHint: {x: 0, y: -195.685, z: 0}
 --- !u!1 &6422574035944488345
 GameObject:
   m_ObjectHideFlags: 0
@@ -3304,6 +3431,7 @@ Transform:
   m_Children:
   - {fileID: 759663647700280647}
   - {fileID: 7897188834413571478}
+  - {fileID: 3249727066397107881}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &100790002375245397
@@ -3319,10 +3447,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemySpawnPositionList:
-  - {fileID: 580710009427265482}
   - {fileID: 4109492932375734356}
+  - {fileID: 580710009427265482}
   - {fileID: 7049369495548411307}
   PlayerSpawnPosition: {fileID: 5521611512699574613}
+  KnightSpawnPosition: {fileID: 4109492932375734356}
+  CutsceneSpawnPositions:
+  - Name: Player
+    Transform: {fileID: 5521611512699574613}
+    Prefab: {fileID: 4658104607824738427, guid: b57e0201ad3d41b468d63c53d10d003c, type: 3}
+  - Name: Knight
+    Transform: {fileID: 4109492932375734356}
+    Prefab: {fileID: 8020402571215977629, guid: e1460fd38c5d8074fb6702fba4d830a8, type: 3}
+  - Name: Minion 1
+    Transform: {fileID: 3640625045709739362}
+    Prefab: {fileID: 6075165209856986820, guid: 160d6e0da3c1cdb4ea45ed0942291619, type: 3}
+  - Name: Minion 2
+    Transform: {fileID: 4061819925919538344}
+    Prefab: {fileID: 6075165209856986820, guid: 160d6e0da3c1cdb4ea45ed0942291619, type: 3}
+  - Name: Elite
+    Transform: {fileID: 8669564350802719913}
+    Prefab: {fileID: 6075165209856986820, guid: 91c8a09fad817354c8d2624f0366be7e, type: 3}
+  - Name: Minotaur
+    Transform: {fileID: 4109492932375734356}
+    Prefab: {fileID: 4658104607824738427, guid: b57e0201ad3d41b468d63c53d10d003c, type: 3}
 --- !u!1 &6858931396549766354
 GameObject:
   m_ObjectHideFlags: 0

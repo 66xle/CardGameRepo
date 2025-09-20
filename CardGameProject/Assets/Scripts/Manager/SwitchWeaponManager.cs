@@ -74,6 +74,11 @@ public class SwitchWeaponManager : MonoBehaviour
         }
     }
 
+    public void CreateWeaponData(WeaponData weaponData)
+    {
+        CurrentEquippedWeapons.Add(CopyWeaponData(weaponData));
+    }
+
     public List<WeaponData> GetWeaponList()
     {
         List<WeaponData> holsterWeapons = new List<WeaponData>();

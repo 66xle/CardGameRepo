@@ -15,7 +15,6 @@ namespace Systems.SceneManagment
     {
         [SerializeField] SceneGroup[] sceneGroups;
         [MustBeAssigned] [SerializeField] SceneReference loadingScene;
-        [MustBeAssigned] [SerializeField] GameObject LoadingScreen;
         [MustBeAssigned] [SerializeField] Image FadeImage;
         [MustBeAssigned] [SerializeField] float FadeTime = 1f;
         [MustBeAssigned] [SerializeField] LevelSettings LevelSettings;
@@ -24,6 +23,7 @@ namespace Systems.SceneManagment
 
         private float targetProgress;
         private bool Init = false;
+        [HideInInspector] public bool IsLoading = false;
 
         private void Awake()
         {
@@ -47,10 +47,23 @@ namespace Systems.SceneManagment
             await LoadSceneGroup(sceneGroups[0].GroupName);
 
             Init = true;
+
+            if (sceneGroups[0].GroupName == "MainMenu")
+            {
+                SceneInitialize.Instance.Invoke();
+            }
+        }
+
+        public async void CloseLoadingScreen()
+        {
+            await SceneManager.UnloadSceneAsync(loadingScene.Path);
+
+            SceneInitialize.Instance.Invoke();
         }
 
         public async Task LoadSceneGroup(string groupName)
         {
+            SceneInitialize.Instance.Clear();
             targetProgress = 1f;
 
             LoadingProgress progress = new LoadingProgress();
@@ -67,12 +80,13 @@ namespace Systems.SceneManagment
 
                 if (Init)
                 {
-                    await DOVirtual.Float(FadeImage.color.a, 1f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
+                    //await DOVirtual.Float(FadeImage.color.a, 1f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
 
-                    LoadingScreen.SetActive(true);
+                    //LoadingScreen.SetActive(true);
+                    await SceneManager.LoadSceneAsync(loadingScene.Path, LoadSceneMode.Additive);
                     await manager.UnloadScenes();
 
-                    await DOVirtual.Float(FadeImage.color.a, 0f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
+                    //await DOVirtual.Float(FadeImage.color.a, 0f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
                 }
 
                 if (group.GroupName == "Combat")
@@ -90,11 +104,12 @@ namespace Systems.SceneManagment
 
                 if (Init)
                 {
-                    await DOVirtual.Float(FadeImage.color.a, 1f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
+                    //await DOVirtual.Float(FadeImage.color.a, 1f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
 
-                    LoadingScreen.SetActive(false);
+                    //LoadingScreen.SetActive(false);
+                    //await SceneManager.UnloadSceneAsync(loadingScene.Path);
 
-                    await DOVirtual.Float(FadeImage.color.a, 0f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
+                    //await DOVirtual.Float(FadeImage.color.a, 0f, FadeTime, a => FadeImage.SetAlpha(a)).AsyncWaitForCompletion();
                 }
 
                 return;

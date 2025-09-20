@@ -24,7 +24,7 @@ public class CombatStateMachine : MonoBehaviour
     [SerializeField] string subState;
 
     [Foldout("Player", true)]
-    [MustBeAssigned] [SerializeField] GameObject PlayerPrefab;
+    [MustBeAssigned] public GameObject PlayerPrefab;
     [ReadOnly] public Transform PlayerSpawnPos;
     [HideInInspector] public Player player;
 
@@ -43,9 +43,11 @@ public class CombatStateMachine : MonoBehaviour
     [MustBeAssigned] public StatusEffectData GuardBreakMediumArmourData;
     [MustBeAssigned] public StatusEffectData GuardBreakHeavyArmourData;
 
-    [Foldout("DialogueDatabase", true)]
-    [MustBeAssigned] [SerializeField] DialogueDatabase DialogueDatabase;
-    [DefinedValues(nameof(Conversations))] public string ConversationTitle = null; 
+    // DialogueDatabase
+    private string ConversationTitle;
+    [HideInInspector] public Transform PlayerActor;
+    [HideInInspector] public Transform EnemyActor;
+    [HideInInspector] public Transform KnightActor;
 
     [Foldout("References", true)]
     [MustBeAssigned] [SerializeField] StatsManager StatsManager;
@@ -68,6 +70,7 @@ public class CombatStateMachine : MonoBehaviour
     [ReadOnly] public bool _pressedEndTurnButton;
     [ReadOnly] public bool _enemyTurnDone;
     [ReadOnly] public bool _isInPrepState;
+    [ReadOnly] public bool _isPlayerLoaded = false;
 
     [HideInInspector] public CardData _cardPlayed;
     [HideInInspector] public Enemy _selectedEnemyToAttack;
@@ -83,26 +86,12 @@ public class CombatStateMachine : MonoBehaviour
 
     #endregion
 
-    public string[] Conversations()
-    {
-        List<string> conversations = new() { "None" };
-
-        foreach (Conversation conversation in DialogueDatabase.conversations)
-        {
-            conversations.Add(conversation.Title);
-            Debug.Log(conversation.Title);
-        }
-
-        
-        return conversations.ToArray();
-    }
-
     private void Awake()
     {
-        SceneInitialize.Instance.Subscribe(Init, 1);
+        //SceneInitialize.Instance.Subscribe(Init, 1);
     }
 
-    private void Init()
+    public void Init()
     {
 #if UNITY_EDITOR
         if (!LevelManager.isEnvironmentLoaded) return; // Editor only
@@ -110,6 +99,7 @@ public class CombatStateMachine : MonoBehaviour
 
         Debug.Log("combat start");
 
+        ConversationTitle = null;
         _isPlayedCard = false;
         _isPlayState = false;
         _pressedEndTurnButton = false;
@@ -117,16 +107,24 @@ public class CombatStateMachine : MonoBehaviour
         _isInPrepState = false;
 
         EnemyList = new List<Enemy>();
+        SpawnPlayer();
         LoadPlayer();
         LoadEnemy();
+        CheckForEnemyDialogue();
 
-        CombatUIManager.ToggleHideUI(false);
+        CombatUIManager.HideGameplayUI(true);
 
         states = new CombatStateFactory(this, vso);
         currentState = new PrepState(this, states, vso);
         currentState.EnterState();
 
-        DialogueManager.StartConversation(ConversationTitle);
+        if (ConversationTitle != null)
+        {
+            DialogueManager.StartConversation(ConversationTitle, PlayerActor, EnemyActor);
+            return;
+        }
+
+        InitBattle();
     }
 
     // Update is called once per frame
@@ -135,6 +133,8 @@ public class CombatStateMachine : MonoBehaviour
 #if UNITY_EDITOR
         if (!LevelManager.isEnvironmentLoaded) return; // Editor only
 #endif
+
+        if (currentState == null) return;
 
         currentState.UpdateStates();
         if (currentState.currentSubState != null)
@@ -187,25 +187,37 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
-    private void LoadPlayer()
+    public void SpawnPlayer()
     {
         // Spawn Player
+        if (_isPlayerLoaded) return;
+
         player = Instantiate(PlayerPrefab, PlayerSpawnPos).GetComponent<Player>();
-        Debug.Log("Load Player");
-        CombatUIManager.InitPlayerUI(player);
+        PlayerActor = player.transform;
+    }
 
-        // Equipment
-        _equipmentHolsterScript = player.GetComponent<EquipmentHolster>();
-
-        SwitchWeaponManager.InitWeaponData();
-        List<WeaponData> holsterWeapons = SwitchWeaponManager.GetWeaponList();
-
-        if (holsterWeapons.Count > 0)
+    private void LoadPlayer()
+    {
+        if (!_isPlayerLoaded)
         {
-            _equipmentHolsterScript.SetHolsteredWeapons(holsterWeapons);
+            Debug.Log("Load Player");
+            _isPlayerLoaded = true;
 
-            GameObject weaponToEquip = _equipmentHolsterScript.EquippedWeaponObjects.First(weapon => weapon.GetComponent<Weapon>().Guid == SwitchWeaponManager.CurrentMainHand.Guid);
-            _equipmentHolsterScript.EquipWeapon(weaponToEquip);
+            CombatUIManager.InitPlayerUI(player);
+
+            // Equipment
+            _equipmentHolsterScript = player.GetComponent<EquipmentHolster>();
+
+            SwitchWeaponManager.InitWeaponData();
+            List<WeaponData> holsterWeapons = SwitchWeaponManager.GetWeaponList();
+
+            if (holsterWeapons.Count > 0)
+            {
+                _equipmentHolsterScript.SetHolsteredWeapons(holsterWeapons);
+
+                GameObject weaponToEquip = _equipmentHolsterScript.EquippedWeaponObjects.First(weapon => weapon.GetComponent<Weapon>().Guid == SwitchWeaponManager.CurrentMainHand.Guid);
+                _equipmentHolsterScript.EquipWeapon(weaponToEquip);
+            }
         }
 
         CameraManager.SetDummy(player.transform);
@@ -219,6 +231,20 @@ public class CombatStateMachine : MonoBehaviour
         EnemyList = EnemyManager.InitEnemies(enemyDataList);
 
         CombatUIManager.detailedUI.Init(this);
+    }
+
+    private void CheckForEnemyDialogue()
+    {
+        foreach (Enemy enemy in EnemyList)
+        {
+            if (!enemy.HasDialogue)
+                continue;
+
+            ConversationTitle = enemy.EnemyData.ConversationTitle;
+            EnemyActor = enemy.transform;
+
+            return;
+        }
     }
 
     public void OnCardPlayed(CardPlayed evt, Card card, string tag)
@@ -296,6 +322,25 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
+    public void EndGameplay()
+    {
+        EnemyManager.ClearEnemiesAndUI();
+        CardManager.ResetCards();
+        
+        // Add reward to deck and holster
+        if (RewardManager.ListOfRewards.Count > 0)
+        {
+            GearData gearData = RewardManager.ListOfRewards[0];
+
+            if (gearData is WeaponData)
+            {
+                SwitchWeaponManager.CreateWeaponData(gearData as WeaponData);
+                _equipmentHolsterScript.SetHolsteredWeapons(new List<WeaponData> { gearData as WeaponData });
+            }
+
+            CardManager.AddEquipmentCardsToDeck(gearData);
+        }
+    }
 
     #region Used by StateMachine
 

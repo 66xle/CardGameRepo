@@ -9,7 +9,7 @@ public class ButtonAudioType : MonoBehaviour
 
     public void Awake()
     {
-        SceneInitialize.Instance.Subscribe(Init);
+        Init();
     }
 
     public void Init()

@@ -17,6 +17,8 @@ public class EnemyManager : MonoBehaviour
     [MustBeAssigned] [SerializeField] CardManager CardManager;
     [MustBeAssigned] [SerializeField] LevelManager LevelManager; // Editor only
 
+    private List<GameObject> spawnedObjects = new();
+
     private void Awake()
     {
         SceneInitialize.Instance.Subscribe(Init);
@@ -61,6 +63,9 @@ public class EnemyManager : MonoBehaviour
 
             EnemyUI enemyUI = statsUI.GetComponent<EnemyUI>();
             enemyUI.Init(Ctx, enemy, this);
+
+            spawnedObjects.Add(enemy.gameObject);
+            spawnedObjects.Add(statsUI);
         }
 
         return enemies;
@@ -72,4 +77,13 @@ public class EnemyManager : MonoBehaviour
         enemy.EnemySelection(true);
     }
 
+    public void ClearEnemiesAndUI()
+    {
+        foreach (GameObject spawnedObject in spawnedObjects)
+        {
+            Destroy(spawnedObject);
+        }
+
+        spawnedObjects.Clear();
+    }
 }

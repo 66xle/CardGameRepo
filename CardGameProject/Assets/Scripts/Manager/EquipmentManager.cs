@@ -1,7 +1,5 @@
 using MyBox;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
 public enum ArmourType

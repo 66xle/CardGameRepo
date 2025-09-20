@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
 using SceneReference = Eflatun.SceneReference.SceneReference;
+using SerializeReferenceEditor;
+using System.Linq;
 
 public class LevelData : ScriptableObject
 {
@@ -16,8 +18,21 @@ public class LevelData : ScriptableObject
 
     public bool IsFixed;
 
-
     [ConditionalField(nameof(IsFixed), false, true)] public int RecommendLevel = 1;
-    [ConditionalField(nameof(IsFixed), false, true)] public CollectionWrapper<EnemyData> ListOfEnemies;
-    [ConditionalField(nameof(IsFixed), false, true)] [OverrideLabel("Gear Reward")] public CollectionWrapper<WeaponData> ListOfGear;
+    [ConditionalField(nameof(IsFixed), false, true)] public CollectionWrapper<CollectionWrapper<EnemyData>> CollectionEnemies;
+    [ConditionalField(nameof(IsFixed), false, true)] public CollectionWrapper<CollectionWrapper<GearData>> CollectionGear;
+
+
+    public List<EnemyData> GetEnemyList(int waveIndex)
+    {
+        CollectionWrapper<EnemyData> collectionEnemy = CollectionEnemies.Value[waveIndex];
+        return collectionEnemy.Value.ToList();
+    }
+
+    public bool IsWaveLimitReached(int currentWave)
+    {
+        if (CollectionEnemies.Value.Length - 1 == currentWave) return true;
+
+        return false;
+    }
 }

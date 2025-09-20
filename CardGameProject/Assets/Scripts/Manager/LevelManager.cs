@@ -1,11 +1,11 @@
 using MyBox;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
     [MustBeAssigned] [SerializeField] LevelSettings LevelSettings;
     [MustBeAssigned] [SerializeField] EnemyManager EnemyManager;
+    [MustBeAssigned] [SerializeField] CutsceneManager CutsceneManager;
     [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
 
     [MustBeAssigned] [SerializeField] Transform EnvironmentParent;
@@ -15,11 +15,6 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         SceneInitialize.Instance.Subscribe(Init, -10);
-    }
-
-    private void Start()
-    {
-        SceneInitialize.Instance.Invoke();
     }
 
     private void Init()
@@ -34,7 +29,6 @@ public class LevelManager : MonoBehaviour
         if (!isEnvironmentLoaded) return;
 #endif
 
-
         GetAvatarPositions();
 
         AudioData musicData = GameManager.Instance.CurrentLevelDataLoaded.Music;
@@ -46,5 +40,6 @@ public class LevelManager : MonoBehaviour
         AvatarSpawnPosition asp = ServiceLocator.Get<AvatarSpawnPosition>();
         EnemyManager.EnemySpawnPosList = asp.EnemySpawnPositionList;
         Ctx.PlayerSpawnPos = asp.PlayerSpawnPosition;
+        CutsceneManager.KnightSpawnPosition = asp.KnightSpawnPosition;
     }
 }

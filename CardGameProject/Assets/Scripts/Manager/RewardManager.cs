@@ -29,9 +29,12 @@ public class RewardManager : MonoBehaviour
     [MustBeAssigned][SerializeField] float AnimationTime = 2f;
 
     [Foldout("References", true)]
+    [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
     [MustBeAssigned] [SerializeField] UIManager UIManager;
     [MustBeAssigned] [SerializeField] EquipmentManager EquipmentManager;
     [MustBeAssigned] [SerializeField] StatsManager StatsManager;
+    [MustBeAssigned] [SerializeField] DifficultyManager DifficultyManager;
+    [MustBeAssigned] [SerializeField] CutsceneManager CutsceneManager;
     [MustBeAssigned][SerializeField] PlayerStatSettings PSS;
     [MustBeAssigned][SerializeField] LootTable LootTable;
     [MustBeAssigned] [SerializeField] Camera RenderCamera;
@@ -41,7 +44,7 @@ public class RewardManager : MonoBehaviour
     [MustBeAssigned] public GameObject GameOverUI;
     [MustBeAssigned] public GameObject ChooseGearUI;
     
-    private List<GearData> listOfRewards = new();
+    public List<GearData> ListOfRewards = new();
     private GameObject currentObjectInOverlay;
     private CardCarousel cardCarousel;
     private GearSelect selectedGear;
@@ -56,27 +59,38 @@ public class RewardManager : MonoBehaviour
         cardCarousel = PreviewCards.GetComponent<CardCarousel>();
     }
 
-    public void ClaimGear()
+    public void RewardConfirmButton()
     {
-        EquipmentManager.AddGear(listOfRewards[0]);
+        if (ListOfRewards.Count > 0)
+        {
+            EquipmentManager.AddGear(ListOfRewards[0]);
+            EquipmentManager.SaveGear();
+        }
 
-        EquipmentManager.SaveGear();
+        Ctx.EndGameplay();
+        ListOfRewards.Clear();
 
-        UIManager.NextScene();
-    }
+        LevelData levelData = GameManager.Instance.CurrentLevelDataLoaded;
 
-    public void DetermineDrops()
-    {
-        PoolOfGear.Clear();
+        if (levelData.IsFixed)
+        {
+            if (!levelData.IsWaveLimitReached(DifficultyManager.WaveCount))
+            {
+                Time.timeScale = 1;
 
-        float playerLevel = GameManager.Instance.PlayerLevel;
+                DifficultyManager.WaveCount++;
+                RewardUI.SetActive(false);
 
-        if (playerLevel <= LowLevel)
-            PoolOfGear.AddRange(LootTable.CommonGear);
-        if (playerLevel > LowLevel && playerLevel <= MidLevel)
-            PoolOfGear.AddRange(LootTable.RareGear);
-        if (playerLevel > MidLevel)
-            PoolOfGear.AddRange(LootTable.EpicGear);
+                CutsceneManager.NextCutscene();
+
+
+                return;
+            }
+        }
+
+        Time.timeScale = 1;
+        RewardUI.SetActive(false);
+        CutsceneManager.NextCutscene();
     }
 
     public void DisplayReward()
@@ -103,6 +117,22 @@ public class RewardManager : MonoBehaviour
         CreateGearItem(gears);
     }
 
+    public void DetermineDrops()
+    {
+        PoolOfGear.Clear();
+
+        float playerLevel = GameManager.Instance.PlayerLevel;
+
+        if (playerLevel <= LowLevel)
+            PoolOfGear.AddRange(LootTable.CommonGear);
+        if (playerLevel > LowLevel && playerLevel <= MidLevel)
+            PoolOfGear.AddRange(LootTable.RareGear);
+        if (playerLevel > MidLevel)
+            PoolOfGear.AddRange(LootTable.EpicGear);
+    }
+
+    
+
 
 
     public void CreateGearItem(List<GearData> gears)
@@ -128,9 +158,9 @@ public class RewardManager : MonoBehaviour
         selectedGear.ToggleHighlight(true);
     }
 
-    public void ChooseGearButton()
+    public void ConfirmGearButton()
     {
-        listOfRewards.Add(selectedGear.GetGearData());
+        ListOfRewards.Add(selectedGear.GetGearData());
 
         ChooseGearUI.SetActive(false);
 
@@ -142,7 +172,7 @@ public class RewardManager : MonoBehaviour
 
     public void CreateGearIcon()
     {
-        foreach (GearData data in listOfRewards)
+        foreach (GearData data in ListOfRewards)
         {
             GameObject icon = Instantiate(IconPrefab, DisplayRewardsUI);
             RawImage image = icon.GetComponent<RawImage>();
@@ -155,6 +185,7 @@ public class RewardManager : MonoBehaviour
             item.GearData = data;
         }
     }
+
 
     public void OpenGearOverlay(GearData data)
     {

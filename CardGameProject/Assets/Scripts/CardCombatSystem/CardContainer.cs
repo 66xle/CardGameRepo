@@ -125,6 +125,7 @@ public class CardContainer : MonoBehaviour {
             wrapper.container = this;
             wrapper.card = card.GetComponent<CardDisplay>().Card;
             wrapper.combatStateMachine = combatStateMachine;
+
         }
     }
 
@@ -150,9 +151,9 @@ public class CardContainer : MonoBehaviour {
             return;
         }
 
+        SortCards();
         SetCardsPosition();
         SetCardsRotation();
-        SortCards();
         SetCardsUILayers();
         UpdateCardOrder();
     }
@@ -188,84 +189,166 @@ public class CardContainer : MonoBehaviour {
 
     private void SetCardsPosition() {
         // Compute the total width of all the cards in global space
-        var cardsTotalWidth = cards.Sum(card => card.width * card.transform.lossyScale.x);
+        var cardsTotalWidth = cards.Sum(card => card.width);
         // Compute the width of the container in global space
-        var containerWidth = rectTransform.rect.width * transform.lossyScale.x;
+        var containerWidth = rectTransform.rect.width ;
         if (forceFitContainer && cardsTotalWidth > containerWidth) {
             DistributeChildrenToFitContainer(cardsTotalWidth);
+            Debug.Log("push");
         }
         else {
+            Debug.Log("no push");
             DistributeChildrenWithoutOverlap(cardsTotalWidth);
         }
     }
 
-    private void DistributeChildrenToFitContainer(float childrenTotalWidth) {
+    //private void DistributeChildrenToFitContainer(float childrenTotalWidth)
+    //{
 
+    //    int selectedIndex = clonePreviewManager.currentCard == null ? -1 : cards.IndexOf(clonePreviewManager.currentCard);
+
+    //    // Get the width of the container
+    //    var width = rectTransform.rect.width * transform.lossyScale.x;
+    //    // Get the distance between each child
+    //    var distanceBetweenChildren = (width - childrenTotalWidth) / (cards.Count - 1);
+    //    // Set all children's positions to be evenly spaced out
+    //    var currentX = transform.localPosition.x - width / 2;
+
+    //    for (int i = 0; i < cards.Count; i++)
+    //    {
+    //        var child = cards[i];
+    //        float adjustedChildWidth = child.width * child.transform.lossyScale.x;
+
+    //        // Base X without push
+    //        float baseX = currentX + adjustedChildWidth / 2;
+
+    //        // Apply push if any card is selected
+    //        float pushOffset = 0f;
+    //        if (selectedIndex >= 0 && cards.Count >= pushAffectedCardCount)
+    //        {
+    //            int distanceFromSelected = Mathf.Abs(i - selectedIndex);
+
+    //            if (distanceFromSelected <= affectedCardCount && i != selectedIndex)
+    //            {
+    //                // Normalized falloff: closer cards are pushed more
+    //                float t = 1f - (distanceFromSelected / (float)(affectedCardCount + 1));
+    //                t = Mathf.Pow(t, falloff);
+
+    //                // Right side bias: push cards on the right harder
+    //                if (i > selectedIndex)
+    //                {
+    //                    t *= rightPushMultiplier; // e.g., 1.25f
+    //                }
+
+    //                float direction = Mathf.Sign(i - selectedIndex); // -1 = left, +1 = right
+    //                pushOffset = direction * pushAmount * t;
+    //            }
+    //        }
+
+    //        child.targetPosition = new Vector2(baseX + pushOffset, transform.localPosition.y);
+    //        currentX += adjustedChildWidth + distanceBetweenChildren;
+    //    }
+    //}
+
+
+    private void DistributeChildrenToFitContainer(float childrenTotalWidth)
+    {
         int selectedIndex = clonePreviewManager.currentCard == null ? -1 : cards.IndexOf(clonePreviewManager.currentCard);
 
-        // Get the width of the container
-        var width = rectTransform.rect.width * transform.lossyScale.x;
-        // Get the distance between each child
-        var distanceBetweenChildren = (width - childrenTotalWidth) / (cards.Count - 1);
-        // Set all children's positions to be evenly spaced out
-        var currentX = transform.position.x - width / 2;
+        // Container width in local space
+        float width = rectTransform.rect.width;
+        // Distance between children in local space
+        float distanceBetweenChildren = (width - childrenTotalWidth) / (cards.Count - 1);
+        // Start at left edge in local space
+        float currentX = -width / 2f;
 
         for (int i = 0; i < cards.Count; i++)
         {
             var child = cards[i];
-            float adjustedChildWidth = child.width * child.transform.lossyScale.x;
+            float adjustedChildWidth = child.width; // Already in local space (no lossyScale needed here)
 
-            // Base X without push
-            float baseX = currentX + adjustedChildWidth / 2;
+            // Base X (relative to container)
+            float baseX = currentX + adjustedChildWidth / 2f;
 
-            // Apply push if any card is selected
+            // Push offset in local space
             float pushOffset = 0f;
             if (selectedIndex >= 0 && cards.Count >= pushAffectedCardCount)
             {
                 int distanceFromSelected = Mathf.Abs(i - selectedIndex);
-
                 if (distanceFromSelected <= affectedCardCount && i != selectedIndex)
                 {
-                    // Normalized falloff: closer cards are pushed more
                     float t = 1f - (distanceFromSelected / (float)(affectedCardCount + 1));
                     t = Mathf.Pow(t, falloff);
 
-                    // Right side bias: push cards on the right harder
                     if (i > selectedIndex)
-                    {
-                        t *= rightPushMultiplier; // e.g., 1.25f
-                    }
+                        t *= rightPushMultiplier;
 
-                    float direction = Mathf.Sign(i - selectedIndex); // -1 = left, +1 = right
+                    float direction = Mathf.Sign(i - selectedIndex);
                     pushOffset = direction * pushAmount * t;
                 }
             }
 
-            child.targetPosition = new Vector2(baseX + pushOffset, transform.position.y);
+            // Apply local position relative to container
+            child.targetPosition = new Vector2(baseX + pushOffset, 0f);
             currentX += adjustedChildWidth + distanceBetweenChildren;
         }
     }
 
-    private void DistributeChildrenWithoutOverlap(float childrenTotalWidth) {
-        var currentPosition = GetAnchorPositionByAlignment(childrenTotalWidth);
-        foreach (CardWrapper child in cards) {
-            var adjustedChildWidth = child.width * child.transform.lossyScale.x;
-            child.targetPosition = new Vector2(currentPosition + adjustedChildWidth / 2, transform.position.y);
-            currentPosition += adjustedChildWidth;
+
+    //private void DistributeChildrenWithoutOverlap(float childrenTotalWidth) {
+    //    var currentPosition = GetAnchorPositionByAlignment(childrenTotalWidth);
+    //    foreach (CardWrapper child in cards) {
+    //        var adjustedChildWidth = child.width * child.transform.lossyScale.x;
+    //        child.targetPosition = new Vector2(currentPosition + adjustedChildWidth / 2, transform.localPosition.y);
+    //        currentPosition += adjustedChildWidth;
+    //    }
+    //}
+
+    private void DistributeChildrenWithoutOverlap(float childrenTotalWidth)
+    {
+        float startX = GetAnchorPositionByAlignment(childrenTotalWidth);
+
+        foreach (CardWrapper child in cards)
+        {
+            float adjustedChildWidth = child.width; // width is local
+            float baseX = startX + adjustedChildWidth / 2f;
+
+            // Position relative to container
+            child.targetPosition = new Vector2(baseX, 0f);
+
+            startX += adjustedChildWidth;
         }
     }
 
-    private float GetAnchorPositionByAlignment(float childrenWidth) {
-        var containerWidthInGlobalSpace = rectTransform.rect.width * transform.lossyScale.x;
-        switch (alignment) {
+    //private float GetAnchorPositionByAlignment(float childrenWidth)
+    //{
+    //    var containerWidthInGlobalSpace = rectTransform.rect.width * transform.lossyScale.x;
+    //    switch (alignment)
+    //    {
+    //        case CardAlignment.Left:
+    //            return transform.localPosition.x - containerWidthInGlobalSpace / 2;
+    //        case CardAlignment.Center:
+    //            return transform.localPosition.x - childrenWidth / 2;
+    //        case CardAlignment.Right:
+    //            return transform.localPosition.x + containerWidthInGlobalSpace / 2 - childrenWidth;
+    //        default:
+    //            return 0;
+    //    }
+    //}
+
+    private float GetAnchorPositionByAlignment(float childrenWidth)
+    {
+        float containerWidth = rectTransform.rect.width;
+        switch (alignment)
+        {
             case CardAlignment.Left:
-                return transform.position.x - containerWidthInGlobalSpace / 2;
+                return -containerWidth / 2f;
             case CardAlignment.Center:
-                return transform.position.x - childrenWidth / 2;
+                return -childrenWidth / 2f;
             case CardAlignment.Right:
-                return transform.position.x + containerWidthInGlobalSpace / 2 - childrenWidth;
+                return containerWidth / 2f - childrenWidth;
             default:
-                return 0;
+                return 0f;
         }
     }
 
@@ -307,15 +390,28 @@ public class CardContainer : MonoBehaviour {
         Destroy(card.gameObject);
     }
 
+    public void DestroyAllCards()
+    {
+        for (int i = cards.Count - 1; i >= 0; i--)
+        {
+            DestroyCard(cards[i]);
+        }
+    }
+
     private bool IsCursorInPlayArea(RectTransform playArea) {
         if (cardPlayConfig.playArea == null) return false;
         
         var cursorPosition = Input.mousePosition;
         var playAreaCorners = new Vector3[4];
         playArea.GetWorldCorners(playAreaCorners);
-        return (cursorPosition.x > playAreaCorners[0].x &&
-               cursorPosition.x < playAreaCorners[2].x &&
-               cursorPosition.y > playAreaCorners[0].y &&
-               cursorPosition.y < playAreaCorners[2].y);
+
+        // Convert world corners to screen space using the camera
+        Vector3 bottomLeft = Camera.main.WorldToScreenPoint(playAreaCorners[0]);
+        Vector3 topRight = Camera.main.WorldToScreenPoint(playAreaCorners[2]);
+
+        return (cursorPosition.x > bottomLeft.x &&
+               cursorPosition.x < topRight.x &&
+               cursorPosition.y > bottomLeft.y &&
+               cursorPosition.y < topRight.y);
     }
 }

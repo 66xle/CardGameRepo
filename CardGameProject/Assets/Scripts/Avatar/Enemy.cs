@@ -20,7 +20,7 @@ public class Enemy : Avatar
     public EnemyUI EnemyUI { get; private set; }
     public DetailedUI DetailedUI { get; private set; }
     public GameObject SelectionRing { get; private set; }
-
+    public bool HasDialogue { get; private set; }
 
     private void OnEnable()
     {
@@ -46,6 +46,7 @@ public class Enemy : Avatar
     public void InitStats(EnemyData data, EnemyStatSettings ess)
     {
         DisableSelection = false;
+        
 
         WeaponData weapon = new();
         weapon.DamageType = DamageType;
@@ -57,6 +58,12 @@ public class Enemy : Avatar
         Defence = ess.CalculateDefence(data.Level, data.EnemyType);
         DefencePercentage = ess.GetDefencePercentage();
         BlockScale = ess.GetBlockScale();
+
+        HasDialogue = false;
+
+        if (data.EnemyType == EnemyType.Elite && data.HasDialogue)
+            HasDialogue = true;
+
 
         Deck = new();
         Deck.AddRange(data.Cards.Select(card => new CardData(weapon, card, Attack, Defence, BlockScale, MaxHealth)));

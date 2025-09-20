@@ -35,6 +35,8 @@ public class DifficultyManager : MonoBehaviour
 
     private EncounterData selectedEncounter;
 
+    public int WaveCount = 0;
+
     private void Awake()
     {
         SceneInitialize.Instance.Subscribe(Init, -8);
@@ -56,12 +58,30 @@ public class DifficultyManager : MonoBehaviour
     public void OnBattleComplete()
     {
         currentScore += scoreIncrement;
-
         GameManager.Instance.DifficultyScore = currentScore;
     }
 
     public List<EnemyData> GetEnemies()
     {
+        LevelData levelData = GameManager.Instance.CurrentLevelDataLoaded;
+
+        if (levelData.IsFixed)
+        {
+            List<EnemyData> enemies = levelData.GetEnemyList(WaveCount);
+
+            if (enemies.Count == 0)
+                Debug.LogError("No enemies in level data: " + levelData.LevelName);
+
+            foreach (EnemyData enemy in enemies)
+            {
+                enemy.Level = GameManager.Instance.PlayerLevel;
+            }
+
+            return enemies;
+        }
+            
+        #region Random Enemies
+
         selectedEncounter = encounterData[Random.Range(0, encounterData.Count)];
 
         int baseScore = GameManager.Instance.PlayerLevel * 2;
@@ -97,6 +117,8 @@ public class DifficultyManager : MonoBehaviour
         }
 
         return composition;
+
+        #endregion
     }
 
     List<EnemyData> GenerateRandomizedCloseComposition(int targetScore)

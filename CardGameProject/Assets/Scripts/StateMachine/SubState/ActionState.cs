@@ -92,7 +92,7 @@ public class ActionState : CombatBaseState
             ExecutableParameters.WeaponData = (WeaponData)cardData.Gear;
 
         isInAction = true;
-        //ctx.CombatUIManager.ToggleHideUI(false);
+        //ctx.CombatUIManager.HideGameplayUI(true);
 
         // Display Card
         //ctx.displayCard.GetComponent<CardDisplay>().card = cardPlayed;
