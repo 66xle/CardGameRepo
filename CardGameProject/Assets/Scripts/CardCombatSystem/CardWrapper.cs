@@ -129,9 +129,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         var newDelta = Mathf.Abs(adjustedCurrent - adjustedTarget);
         var nextRotation = Mathf.Lerp(adjustedCurrent, adjustedTarget, animationSpeedConfig.rotation / newDelta * Time.deltaTime);
 
-        Quaternion parentRot = transform.root.rotation;
-        Vector3 parentEuler = Quaternion.Inverse(parentRot).eulerAngles;
-        rectTransform.localRotation = Quaternion.Euler(parentEuler.x, parentEuler.y, nextRotation);
+        rectTransform.localRotation = Quaternion.Euler(0, 0, nextRotation);
     }
 
 

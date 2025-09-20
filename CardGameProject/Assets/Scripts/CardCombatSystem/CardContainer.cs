@@ -125,6 +125,7 @@ public class CardContainer : MonoBehaviour {
             wrapper.container = this;
             wrapper.card = card.GetComponent<CardDisplay>().Card;
             wrapper.combatStateMachine = combatStateMachine;
+
         }
     }
 
