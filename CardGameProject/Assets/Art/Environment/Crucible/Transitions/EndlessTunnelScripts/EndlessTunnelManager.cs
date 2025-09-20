@@ -21,9 +21,9 @@ public class EndlessTunnelManager : MonoBehaviour
     [Tooltip("Despawns sections once their TOP edge passes below this world Y.")]
     public float despawnBelow = -80f;
 
-    //[Header("Runtime Control")]
-    //[Tooltip("Run immediately on Start.")]
-    //public bool runAtStart = true;
+    [Header("Runtime Control")]
+    [Tooltip("Run immediately on Start.")]
+    public bool runAtStart = true;
 
     [Tooltip("Gates which sections are eligible (minProgressLevel <= currentProgressLevel).")]
     public int currentProgressLevel = 0;
@@ -68,14 +68,15 @@ public class EndlessTunnelManager : MonoBehaviour
 
     private void Awake()
     {
-        SceneInitialize.Instance.Subscribe(Init);
+        if (!runAtStart)
+            SceneInitialize.Instance.Subscribe(Init);
     }
 
     void Start()
     {
         if (tunnelParent == null) tunnelParent = transform;
 
-        //_running = runAtStart;
+        _running = runAtStart;
 
         // Initialize drift
         float mid = (speedRange.x + speedRange.y) * 0.5f;
