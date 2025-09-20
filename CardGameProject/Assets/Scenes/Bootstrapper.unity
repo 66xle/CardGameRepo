@@ -697,18 +697,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneGroups:
-  - GroupName: Combat
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
-        guid: 9fc0d4010bbf28b4594072e72b8655ab
-      SceneType: 0
   - GroupName: MainMenu
     Scenes:
     - Reference:
         asset: {fileID: 102900000, guid: 92ce5573dcba78949aff270159609b79, type: 3}
         guid: 92ce5573dcba78949aff270159609b79
       SceneType: 2
+  - GroupName: Combat
+    Scenes:
+    - Reference:
+        asset: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
+        guid: 9fc0d4010bbf28b4594072e72b8655ab
+      SceneType: 0
   - GroupName: Environment
     Scenes:
     - Reference:
@@ -721,6 +721,7 @@ MonoBehaviour:
   FadeImage: {fileID: 507441031}
   FadeTime: 0.5
   LevelSettings: {fileID: 11400000, guid: 4837fa15896c2e3418177c6281be850f, type: 2}
+  IsLoading: 0
 --- !u!82 &19882687639364896
 AudioSource:
   m_ObjectHideFlags: 0

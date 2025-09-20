@@ -4433,7 +4433,6 @@ MonoBehaviour:
   initialSections: 3
   spawnWindowAhead: 100
   despawnBelow: -50
-  runAtStart: 1
   currentProgressLevel: 0
   speedRange: {x: 4, y: 18}
   driftIdleIntervalRange: {x: 10, y: 30}
@@ -14507,7 +14506,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1735287776}
   - component: {fileID: 1735287779}
-  - component: {fileID: 1735287778}
   - component: {fileID: 1735287777}
   m_Layer: 0
   m_Name: UI Camera
@@ -14575,14 +14573,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!81 &1735287778
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735287775}
-  m_Enabled: 1
 --- !u!20 &1735287779
 Camera:
   m_ObjectHideFlags: 0

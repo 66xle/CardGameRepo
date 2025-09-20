@@ -66,12 +66,16 @@ public class EndlessTunnelManager : MonoBehaviour
 
     private SceneLoader SceneLoader;
 
+    private void Awake()
+    {
+        SceneInitialize.Instance.Subscribe(Init);
+    }
+
     void Start()
     {
         if (tunnelParent == null) tunnelParent = transform;
 
         //_running = runAtStart;
-        SceneInitialize.Instance.Subscribe(Init);
 
         // Initialize drift
         float mid = (speedRange.x + speedRange.y) * 0.5f;

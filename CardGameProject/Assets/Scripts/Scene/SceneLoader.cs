@@ -47,6 +47,11 @@ namespace Systems.SceneManagment
             await LoadSceneGroup(sceneGroups[0].GroupName);
 
             Init = true;
+
+            if (sceneGroups[0].GroupName == "MainMenu")
+            {
+                SceneInitialize.Instance.Invoke();
+            }
         }
 
         public async void CloseLoadingScreen()
