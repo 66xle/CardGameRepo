@@ -1365,7 +1365,7 @@ PlayableDirector:
   m_GameObject: {fileID: 238009591}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: d6aad20fdb1532443ae2e9c2a6c6ff03, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: f2fe2bff25db64194b9305b108c8ad3f, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -18782,17 +18782,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Ctx: {fileID: 467955062}
   VCam: {fileID: 1130845510}
-  Director: {fileID: 238009593}
   Canvas: {fileID: 562006577}
   MainCamera: {fileID: 765615826}
-  CutsceneCamera: {fileID: 1765536823}
   KnightPrefab: {fileID: 8020402571215977629, guid: e1460fd38c5d8074fb6702fba4d830a8, type: 3}
   KnightSpawnPosition: {fileID: 0}
   Cutscenes:
-  - {fileID: 11400000, guid: d6aad20fdb1532443ae2e9c2a6c6ff03, type: 2}
-  - {fileID: 11400000, guid: 320075426f6095042a573f954a718f1d, type: 2}
-  - {fileID: 11400000, guid: f4bd0e3f68f2a2e4893bd4a7eb3c5fde, type: 2}
-  - {fileID: 11400000, guid: c46aa176f547c644b91f5479d09f853e, type: 2}
+  - {fileID: 5308107989193443835, guid: 79cd3cf44c21fea4ba673df5651626fc, type: 3}
+  - {fileID: 5308107989193443835, guid: 79cd3cf44c21fea4ba673df5651626fc, type: 3}
+  - {fileID: 5308107989193443835, guid: 79cd3cf44c21fea4ba673df5651626fc, type: 3}
+  - {fileID: 5308107989193443835, guid: 79cd3cf44c21fea4ba673df5651626fc, type: 3}
 --- !u!114 &1960274875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18809,12 +18807,46 @@ MonoBehaviour:
     m_Signals:
     - {fileID: 11400000, guid: ee4534ff322da434faa6ed5650aa3e10, type: 2}
     - {fileID: 11400000, guid: 848a09acb5ae26d44b951cb66c0c9c38, type: 2}
-    - {fileID: 11400000, guid: f07ea1779b5ba454aa2fe0728ebb1498, type: 2}
-    - {fileID: 11400000, guid: 3fd79aefe5988c8438f9eaf956303258, type: 2}
     - {fileID: 11400000, guid: 678c720b7a94b9f45b13bb246940386a, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
+        - m_Target: {fileID: 1960274874}
+          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
+          m_MethodName: EndCutscene
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1960274874}
+          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
+          m_MethodName: SpawnActor
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Player
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1960274874}
+          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
+          m_MethodName: SpawnActor
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Knight
+            m_BoolArgument: 0
+          m_CallState: 2
         - m_Target: {fileID: 1960274874}
           m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
           m_MethodName: StartKnightConversation
@@ -18851,82 +18883,6 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1960274874}
-          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
-          m_MethodName: SpawnActor
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: Minion 1
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 1960274874}
-          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
-          m_MethodName: SpawnActor
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: Minion 2
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 1960274874}
-          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
-          m_MethodName: SpawnActor
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: Elite
-            m_BoolArgument: 0
-          m_CallState: 2
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1960274874}
-          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
-          m_MethodName: SpawnActor
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: Player
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 1960274874}
-          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
-          m_MethodName: SpawnActor
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: Knight
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 1960274874}
-          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
-          m_MethodName: SpawnActor
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: Minotaur
             m_BoolArgument: 0
           m_CallState: 2
     - m_PersistentCalls:
@@ -19642,6 +19598,18 @@ MonoBehaviour:
         - m_Target: {fileID: 1960274874}
           m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
           m_MethodName: NextCutscene
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1960274874}
+          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
+          m_MethodName: DestroyActors
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
