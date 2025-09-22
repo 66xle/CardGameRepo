@@ -101,7 +101,10 @@ public class CardManager : MonoBehaviour
                 DiscardPile.Clear();
 
                 // Shuffle deck
-                Extensions.Shuffle(PlayerDeck);
+                if (!GameManager.Instance.IsInTutorial)
+                {
+                    Extensions.Shuffle(PlayerDeck);
+                }
             }
 
             // No more cards to draw
@@ -109,8 +112,20 @@ public class CardManager : MonoBehaviour
                 break;
 
             // Pick random card
-            int index = Random.Range(0, PlayerDeck.Count);
-            CardData cardDrawed = PlayerDeck[index];
+            CardData cardDrawed;
+
+            // Shuffle deck
+            if (GameManager.Instance.IsInTutorial)
+            {
+                cardDrawed = PlayerDeck[0];
+            }
+            else
+            {
+                int index = Random.Range(0, PlayerDeck.Count);
+                cardDrawed = PlayerDeck[index];
+            }
+
+            
 
             CreateCard(cardDrawed, PlayerHandTransform);
             PlayerDeck.Remove(cardDrawed);

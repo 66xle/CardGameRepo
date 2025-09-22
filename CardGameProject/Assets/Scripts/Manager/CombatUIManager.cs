@@ -89,15 +89,15 @@ public class CombatUIManager : MonoBehaviour
     {
         if (GameManager.Instance.IsInTutorial)
         {
-            _tutorialIndex = 0;
+            _tutorialIndex = -1;
 
-            StartTutorialConversation(TutorialDatas[_tutorialIndex].ConversationTitle);
+            StartTutorialConversation(0);
         }
     }
 
-    public void StartTutorialConversation(string conversationTitle)
+    public void StartTutorialConversation(int index)
     {
-        _currentConversation = DialogueDatabase.GetConversation(conversationTitle);
+        _currentConversation = DialogueDatabase.GetConversation(TutorialDatas[index].ConversationTitle);
         _currentEntry = _currentConversation.GetFirstDialogueEntry();
 
         DisplayNextTutorial();

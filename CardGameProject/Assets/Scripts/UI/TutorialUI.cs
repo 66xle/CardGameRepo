@@ -14,7 +14,10 @@ public class TutorialUI : MonoBehaviour
     public void DisplayTutorial(Sprite sprite, string title, string description, string buttonText = "Next")
     {
         if (!gameObject.activeSelf)
+        {
+            Time.timeScale = 0;
             gameObject.SetActive(true);
+        }
 
         Image.sprite = sprite;
         Title.text = title;
@@ -24,6 +27,7 @@ public class TutorialUI : MonoBehaviour
 
     public void CloseTutorial()
     {
+        Time.timeScale = 1;
         gameObject.SetActive(false);
     }
 

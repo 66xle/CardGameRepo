@@ -165,8 +165,18 @@ public class CombatStateMachine : MonoBehaviour
         _selectedEnemyToAttack = EnemyList[0];
         EnemyManager.SelectEnemy(_selectedEnemyToAttack);
 
-        if (GameManager.Instance.IsInTutorial)
+        if (!GameManager.Instance.IsInTutorial)
+            return;
+
+        if (GameManager.Instance.TutorialStage == 1)
+        {
             CombatUIManager.InitTutorial();
+            CombatUIManager.EndTurnButton.interactable = false;
+        }
+        else if (GameManager.Instance.TutorialStage == 2)
+        {
+
+        }
     }
 
     private void SelectEnemy()
@@ -256,6 +266,12 @@ public class CombatStateMachine : MonoBehaviour
         {
             if (player.hasEnoughStamina(card.Cost))
             {
+                if (GameManager.Instance.TutorialStage == 1)
+                {
+                    GameManager.Instance.TutorialStage = 2;
+                }
+
+
                 player.ConsumeStamina(card.Cost);
 
                 // Get cardData from player hand to move to discard pile
@@ -304,6 +320,8 @@ public class CombatStateMachine : MonoBehaviour
         }
         else if (tag == "Recycle")
         {
+            if (GameManager.Instance.TutorialStage == 1) return;
+
             // Get cardData from player hand to move to discard pile
             CardData cardData = CardManager.PlayerHand.First(data => data.Card.InGameGUID == card.InGameGUID);
             CardManager.PlayerHand.Remove(cardData);
@@ -349,6 +367,9 @@ public class CombatStateMachine : MonoBehaviour
 
     public void EndTurn()
     {
+        if (GameManager.Instance.TutorialStage == 3)
+            GameManager.Instance.TutorialStage = 4;
+
         StartCoroutine(EndTurnReactiveEffect());
     }
 

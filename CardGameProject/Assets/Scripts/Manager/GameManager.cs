@@ -24,6 +24,7 @@ public class GameManager : Singleton<GameManager>
     [HideInInspector] public GameObject LoadedEnvironment;
 
     [HideInInspector] public bool IsInTutorial = true;
+    [HideInInspector] public int TutorialStage = 1;
 
     public new void Awake()
     {

@@ -4347,8 +4347,7 @@ MonoBehaviour:
   Boots: {fileID: 0}
   MainHand: {fileID: 11400000, guid: 6c8e5e6ed3d79954e87e45ed9908fda2, type: 2}
   OffHand: {fileID: 0}
-  EquippedWeapons:
-  - {fileID: 11400000, guid: 6c8e5e6ed3d79954e87e45ed9908fda2, type: 2}
+  EquippedWeapons: []
 --- !u!4 &393357798
 Transform:
   m_ObjectHideFlags: 0
@@ -6099,6 +6098,8 @@ MonoBehaviour:
   DialogueDatabase: {fileID: 11400000, guid: df57d7dbd3c08e64085c02892ee07307, type: 2}
   TutorialDatas:
   - ConversationTitle: Welcome
+  - ConversationTitle: Stamina
+  - ConversationTitle: Start Of Turn
   DamagePopupPrefab: {fileID: 1751356153391490187, guid: d4558f44bed57f8408c5689783a1f8fd, type: 3}
   WorldSpaceCanvas: {fileID: 5839485938255906829}
   RandomOffsetHorizontal: 0.5
@@ -12816,7 +12817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1cb70d12e1ad34419239db382130c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardsToDraw: 3
+  CardsToDraw: 2
   CardPrefab: {fileID: 7406141934112961317, guid: f40acb07258ef8741bc094a7dcd310cf, type: 3}
   PlayerHandTransform: {fileID: 347342559}
   SwitchWeaponManager: {fileID: 510262701}
@@ -20160,6 +20161,18 @@ MonoBehaviour:
         - m_Target: {fileID: 1960274874}
           m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
           m_MethodName: StartCombatStateMachine
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1960274874}
+          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
+          m_MethodName: DestroyActors
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
