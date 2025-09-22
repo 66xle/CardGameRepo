@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Systems.SceneManagment;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 
 public class CutsceneManager : MonoBehaviour
@@ -15,6 +16,7 @@ public class CutsceneManager : MonoBehaviour
     [MustBeAssigned][SerializeField] GameObject Canvas;
     [MustBeAssigned][SerializeField] Camera MainCamera;
 
+
     [Foldout("Knight References", true)]
     [MustBeAssigned][SerializeField] GameObject KnightPrefab;
     [HideInInspector] public Transform KnightSpawnPosition;
@@ -22,6 +24,8 @@ public class CutsceneManager : MonoBehaviour
     private Transform KnightActor;
 
     [Foldout("Cutscenes", true)]
+    public bool RunSignal;
+    public SignalAsset SignalAsset;
     public List<GameObject> Cutscenes;
     private int _cutsceneIndex;
     private AvatarSpawnPosition asp;
@@ -43,6 +47,14 @@ public class CutsceneManager : MonoBehaviour
         KnightActor = SpawnGameObject(KnightPrefab, KnightSpawnPosition).transform;
 
         _cutsceneIndex = -1;
+
+        if (RunSignal)
+        {
+            SignalReceiver signalReciver = GetComponent<SignalReceiver>();
+            signalReciver.GetReaction(SignalAsset)?.Invoke();
+            return;
+        }
+
         NextCutscene();
     }
 

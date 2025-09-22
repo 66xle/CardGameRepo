@@ -1,13 +1,30 @@
+using System;
+using System.Collections.Generic;
 using MyBox;
 using PixelCrushers.DialogueSystem;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+
+[Serializable]
+public struct TutorialData
+{
+    [ConversationPopup(true)] public string ConversationTitle;
+}
+
 
 public class CombatUIManager : MonoBehaviour
 {
+    [Foldout("Tutorial", true)]
+    [MustBeAssigned] [SerializeField] TutorialUI TutorialUI;
+    [MustBeAssigned][SerializeField] DialogueSystemSceneEvents events;
+    [MustBeAssigned][SerializeField] DialogueDatabase DialogueDatabase;
+    [SerializeField] List<TutorialData> TutorialDatas;
+    private int _tutorialIndex;
+    private DialogueEntry _currentEntry;
+    private Conversation _currentConversation;
+
     [Foldout("Popup", true)]
     [MustBeAssigned] public GameObject DamagePopupPrefab;
     [MustBeAssigned] public Transform WorldSpaceCanvas;
@@ -53,7 +70,6 @@ public class CombatUIManager : MonoBehaviour
     [Foldout("Managers", true)]
     [MustBeAssigned] public StatsManager StatsManager;
 
-
     public void HideGameplayUI(bool toggle)
     {
         toggle = !toggle;
@@ -67,6 +83,50 @@ public class CombatUIManager : MonoBehaviour
     {
         player.InitUI(HealthBar, HealthValue, StaminaBar, StaminaValue, BlockValue, GuardBar, GuardValue, StatsManager.ArmourType);
         player.InitStats(StatsManager.CurrentMaxHealth, StatsManager.CurrentMaxStamina, StatsManager.CurrentMaxGuard, StatsManager.Defence, StatsManager.DefencePercentage, StatsManager.Attack, StatsManager.BlockScale);
+
+        if (GameManager.Instance.IsInTutorial)
+        {
+            _tutorialIndex = 0;
+
+            StartTutorialConversation(TutorialDatas[_tutorialIndex].ConversationTitle);
+        }
     }
 
+    public void StartTutorialConversation(string conversationTitle)
+    {
+        _currentConversation = DialogueDatabase.GetConversation(conversationTitle);
+        _currentEntry = _currentConversation.GetFirstDialogueEntry();
+
+        DisplayNextTutorial();
+    }
+
+    public void DisplayNextTutorial()
+    {
+        Debug.Log("test");
+
+        // Confirm button
+        if (_currentEntry.outgoingLinks.Count == 0)
+        {
+            TutorialUI.CloseTutorial();
+            return;
+        }
+
+        // Grab next entry
+        int destinationID = _currentEntry.outgoingLinks[0].destinationDialogueID;
+        _currentEntry = _currentConversation.GetDialogueEntry(destinationID);
+
+        // Grab image
+        string imagePath = _currentEntry.fields[1].value;
+        Sprite sprite = Resources.Load<Sprite>(imagePath);
+
+        // Last node
+        if (_currentEntry.outgoingLinks.Count == 0)
+        {
+            TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText, "Confirm");
+            return;
+        }
+            
+
+        TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText);
+    }
 }

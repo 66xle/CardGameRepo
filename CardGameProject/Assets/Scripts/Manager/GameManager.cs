@@ -23,6 +23,8 @@ public class GameManager : Singleton<GameManager>
     [HideInInspector] public LevelData CurrentLevelDataLoaded;
     [HideInInspector] public GameObject LoadedEnvironment;
 
+    [HideInInspector] public bool IsInTutorial = true;
+
     public new void Awake()
     {
         base.Awake();
