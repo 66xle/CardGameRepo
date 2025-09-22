@@ -83,7 +83,10 @@ public class CombatUIManager : MonoBehaviour
     {
         player.InitUI(HealthBar, HealthValue, StaminaBar, StaminaValue, BlockValue, GuardBar, GuardValue, StatsManager.ArmourType);
         player.InitStats(StatsManager.CurrentMaxHealth, StatsManager.CurrentMaxStamina, StatsManager.CurrentMaxGuard, StatsManager.Defence, StatsManager.DefencePercentage, StatsManager.Attack, StatsManager.BlockScale);
+    }
 
+    public void InitTutorial()
+    {
         if (GameManager.Instance.IsInTutorial)
         {
             _tutorialIndex = 0;
@@ -102,8 +105,6 @@ public class CombatUIManager : MonoBehaviour
 
     public void DisplayNextTutorial()
     {
-        Debug.Log("test");
-
         // Confirm button
         if (_currentEntry.outgoingLinks.Count == 0)
         {

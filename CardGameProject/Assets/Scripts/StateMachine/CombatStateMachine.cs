@@ -164,6 +164,9 @@ public class CombatStateMachine : MonoBehaviour
 
         _selectedEnemyToAttack = EnemyList[0];
         EnemyManager.SelectEnemy(_selectedEnemyToAttack);
+
+        if (GameManager.Instance.IsInTutorial)
+            CombatUIManager.InitTutorial();
     }
 
     private void SelectEnemy()

@@ -33,6 +33,13 @@ public class CutsceneManager : MonoBehaviour
     private List<GameObject> cutsceneObjects = new();
     private GameObject _loadedPrefab;
 
+    [ButtonMethod]
+    public void RunSignalMethod()
+    {
+        SignalReceiver signalReciver = GetComponent<SignalReceiver>();
+        signalReciver.GetReaction(SignalAsset)?.Invoke();
+    }
+
     public void Awake()
     {
         SceneInitialize.Instance.Subscribe(Init);
@@ -59,7 +66,7 @@ public class CutsceneManager : MonoBehaviour
     }
 
     public void NextCutscene()
-    {
+    { 
         DisableAudioListener();
 
         _cutsceneIndex++;
@@ -91,7 +98,7 @@ public class CutsceneManager : MonoBehaviour
 
     public void StartKnightConversation()
     {
-        DialogueManager.StartConversation("Knight", PlayerActor, KnightActor);
+        DialogueManager.StartConversation("Knight");
     }
 
     private void DestroyPrefab()
@@ -127,7 +134,7 @@ public class CutsceneManager : MonoBehaviour
     public GameObject SpawnGameObject(GameObject gameObject, Transform parent)
     {
         GameObject spawnedObject = Instantiate(gameObject, parent);
-        spawnedObject.SetLayerRecursively(LayerMask.NameToLayer("Cutscene"));
+        //spawnedObject.SetLayerRecursively(LayerMask.NameToLayer("Cutscene"));
 
         cutsceneObjects.Add(spawnedObject);
 
