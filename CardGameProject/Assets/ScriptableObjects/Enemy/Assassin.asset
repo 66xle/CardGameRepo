@@ -15,7 +15,7 @@ MonoBehaviour:
   Guid: 15be70bbc9b436444af9e3026ecfce7a
   Prefab: {fileID: 6075165209856986820, guid: 91c8a09fad817354c8d2624f0366be7e, type: 3}
   Name: Assassin
-  Guard: 5
+  Guard: 3
   Level: 1
   EnemyType: 1
   HasDialogue: 1
@@ -23,9 +23,9 @@ MonoBehaviour:
   ConversationTitle: Assassin
   WeaponType: 1
   WeaponTypeAnimationSet:
-  - rid: 7800494424729059331
-  - rid: 7800494424729059332
-  - rid: 7800494424729059333
+  - rid: 7800494560734347276
+  - rid: 7800494560734347277
+  - rid: 7800494560734347278
   Cards:
   - rid: 7765747551190646924
   references:
@@ -34,7 +34,7 @@ MonoBehaviour:
     - rid: 7765747551190646924
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
-        Card: {fileID: 11400000, guid: 38fce7d3e7fa4834d88c29a8e87c113d, type: 2}
+        Card: {fileID: 11400000, guid: be0a384b3da5f454785878f76cf65687, type: 2}
         CardAmount: 1
         Animations:
         - rid: 7765747551190646925
@@ -67,7 +67,7 @@ MonoBehaviour:
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
-    - rid: 7800494424729059331
+    - rid: 7800494560734347276
       type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -79,7 +79,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: 2680591b97b18a24cabe8e529c6763c4, type: 3}
           DistanceOffset: 0
-    - rid: 7800494424729059332
+    - rid: 7800494560734347277
       type: {class: WeaponTypeAnimationHeavy, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -87,7 +87,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: ba31907f1536e61439b0c4b2b1727f79, type: 3}
           DistanceOffset: 0
-    - rid: 7800494424729059333
+    - rid: 7800494560734347278
       type: {class: WeaponTypeAnimationAOE, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:

@@ -14,6 +14,7 @@ public class EnemyTurnState : CombatBaseState
         Debug.Log("Enemy Turn State");
 
         DecideEnemyTurn();
+        
     }
     public override void UpdateState()
     {

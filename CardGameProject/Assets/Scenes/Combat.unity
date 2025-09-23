@@ -6099,7 +6099,8 @@ MonoBehaviour:
   TutorialDatas:
   - ConversationTitle: Welcome
   - ConversationTitle: Stamina
-  - ConversationTitle: Start Of Turn
+  - ConversationTitle: Card Types
+  - ConversationTitle: Guard
   DelayTutorial: 1.2
   DamagePopupPrefab: {fileID: 1751356153391490187, guid: d4558f44bed57f8408c5689783a1f8fd, type: 3}
   WorldSpaceCanvas: {fileID: 5839485938255906829}
@@ -15885,10 +15886,11 @@ MonoBehaviour:
   PSS: {fileID: 11400000, guid: a0448ceceb179ec4eb5912d845d90fc8, type: 2}
   Level: 1
   BaseGuard: 5
-  ArmourType: 0
-  LightMultiplier: 0.7
-  MediumMultiplier: 1.3
-  HeavyMultiplier: 1.5
+  RecoverStaminaPercentage: 0.4
+  ArmourType: 1
+  LightMultiplier: 1.3
+  MediumMultiplier: 1
+  HeavyMultiplier: 0.5
   Defence: 0
   DefencePercentage: 0
   BlockScale: 0

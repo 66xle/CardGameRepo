@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Player : Avatar
 {
-    [SerializeField] float RecoverStaminaAmount = 2f;
+    [SerializeField] float RecoverStaminaPercentage = 2f;
     private float _maxStamina = 5f;
     private float _currentStamina;
 
@@ -43,7 +43,7 @@ public class Player : Avatar
         ArmourType = armourType;
     }
 
-    public void InitStats(float maxHealth, float maxStamina, int maxGuard, float defence, float defencePercentage, float attack, float blockScale)
+    public void InitStats(float maxHealth, float maxStamina, int maxGuard, float defence, float defencePercentage, float attack, float blockScale, float recoverStamPercentage)
     {
         base.MaxHealth = maxHealth;
         base.MaxGuard = maxGuard;
@@ -57,6 +57,7 @@ public class Player : Avatar
         DefencePercentage = defencePercentage;
         Attack = attack;
         BlockScale = blockScale;
+        RecoverStaminaPercentage = recoverStamPercentage; 
     }
 
     public bool hasEnoughStamina(float cost)
@@ -80,7 +81,7 @@ public class Player : Avatar
 
     public void RecoverStamina()
     {
-        CurrentStamina = CurrentStamina + RecoverStaminaAmount;
+        CurrentStamina = CurrentStamina + Mathf.Floor(RecoverStaminaPercentage * _maxStamina);
         CurrentStamina = Mathf.Clamp(CurrentStamina, 0f, _maxStamina);
     }
 

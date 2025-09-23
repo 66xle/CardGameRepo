@@ -15,16 +15,16 @@ MonoBehaviour:
   Guid: d4621c538828ebe4da8cfe859170b811
   InGameGUID: 
   CardName: Draw Card
-  Description: Draw 3 Cards
+  Description: Draw 2 Cards
   DisplayDescription: 
-  LinkDescription: Draw 3 Cards
+  LinkDescription: Draw 2 Cards
   Flavour: 
   Image: {fileID: 21300000, guid: 9cc92bb464ef8fc499ed3d5a328abc76, type: 3}
   Frame: {fileID: 21300000, guid: a0be78c2424db6a488d2f683021a99a4, type: 3}
   Cost: 1
   RecycleValue: 0
   ValuesToReference:
-  - {x: 0, y: 3}
+  - {x: 0, y: 2}
   Commands:
   - rid: 7765747868154462309
   PopupKeyPair:
@@ -39,4 +39,4 @@ MonoBehaviour:
       type: {class: DrawCard, ns: , asm: Assembly-CSharp}
       data:
         target: 3
-        value: 3
+        value: 2

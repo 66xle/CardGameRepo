@@ -21,17 +21,24 @@ public class PlayState : CombatBaseState
         
         if (!GameManager.Instance.IsInTutorial)
             ctx.CombatUIManager.EndTurnButton.interactable = true;
-
-        if (GameManager.Instance.TutorialStage == 2)
+        else
         {
-            GameManager.Instance.TutorialStage = 3;
+            if (GameManager.Instance.TutorialStage >= 2)
+                ctx.CombatUIManager.EndTurnButton.interactable = true;
 
-            ctx.CombatUIManager.EndTurnButton.interactable = true;
-            ctx.CombatUIManager.StartTutorialConversation(1);
-        }
-        else if (GameManager.Instance.TutorialStage == 4)
-        {
-            ctx.CombatUIManager.StartTutorialConversation(2);
+            
+            if (GameManager.Instance.TutorialStage == 2)
+            { // Play a card
+                GameManager.Instance.TutorialStage = 3;
+
+                ctx.CombatUIManager.StartTutorialConversation(1);
+            }
+            else if (GameManager.Instance.TutorialStage == 4)
+            {
+                GameManager.Instance.TutorialStage = 5;
+
+                ctx.CombatUIManager.StartTutorialConversation(2);
+            }
         }
     }
     public override void UpdateState()

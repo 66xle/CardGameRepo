@@ -173,10 +173,6 @@ public class CombatStateMachine : MonoBehaviour
             CombatUIManager.InitTutorial();
             CombatUIManager.EndTurnButton.interactable = false;
         }
-        else if (GameManager.Instance.TutorialStage == 2)
-        {
-
-        }
     }
 
     private void SelectEnemy()
