@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using MyBox;
 using PixelCrushers.DialogueSystem;
 using TMPro;
@@ -21,6 +22,7 @@ public class CombatUIManager : MonoBehaviour
     [MustBeAssigned][SerializeField] DialogueSystemSceneEvents events;
     [MustBeAssigned][SerializeField] DialogueDatabase DialogueDatabase;
     [SerializeField] List<TutorialData> TutorialDatas;
+    [SerializeField] float DelayTutorial = 1f;
     private int _tutorialIndex;
     private DialogueEntry _currentEntry;
     private Conversation _currentConversation;
@@ -123,11 +125,11 @@ public class CombatUIManager : MonoBehaviour
         // Last node
         if (_currentEntry.outgoingLinks.Count == 0)
         {
-            TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText, "Confirm");
+            TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText, DelayTutorial, "Confirm");
             return;
         }
-            
 
-        TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText);
+
+        TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText, DelayTutorial);
     }
 }

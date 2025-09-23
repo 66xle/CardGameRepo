@@ -428,7 +428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &87634598
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6100,6 +6100,7 @@ MonoBehaviour:
   - ConversationTitle: Welcome
   - ConversationTitle: Stamina
   - ConversationTitle: Start Of Turn
+  DelayTutorial: 1.2
   DamagePopupPrefab: {fileID: 1751356153391490187, guid: d4558f44bed57f8408c5689783a1f8fd, type: 3}
   WorldSpaceCanvas: {fileID: 5839485938255906829}
   RandomOffsetHorizontal: 0.5
@@ -8204,8 +8205,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765615821}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.10846084, y: 0.3623007, z: -0.022031106, w: 0.92546695}
-  m_LocalPosition: {x: -1.4500197, y: 1.5008605, z: -0.036250114}
+  m_LocalRotation: {x: -0.06377132, y: 0.18394697, z: -0.030952731, w: -0.98037684}
+  m_LocalPosition: {x: 1.9049797, y: 1.2690926, z: -1.3293076}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9955,6 +9956,7 @@ MonoBehaviour:
   Title: {fileID: 281005847}
   Description: {fileID: 1452128655}
   ButtonText: {fileID: 2019502525}
+  Panel: {fileID: 87634597}
 --- !u!114 &947659817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18947,8 +18949,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1765536818}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.10846084, y: 0.3623007, z: -0.022031106, w: 0.92546695}
-  m_LocalPosition: {x: -1.4500197, y: 1.5008605, z: -0.036250114}
+  m_LocalRotation: {x: -0.06377132, y: 0.18394697, z: -0.030952731, w: -0.98037684}
+  m_LocalPosition: {x: 1.9049797, y: 1.2690926, z: -1.3293076}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using MyBox;
 using TMPro;
 using UnityEditor;
@@ -10,25 +11,34 @@ public class TutorialUI : MonoBehaviour
     [MustBeAssigned] [SerializeField] TMP_Text Title;
     [MustBeAssigned] [SerializeField] TMP_Text Description;
     [MustBeAssigned] [SerializeField] TMP_Text ButtonText;
+    [MustBeAssigned] [SerializeField] GameObject Panel;
 
-    public void DisplayTutorial(Sprite sprite, string title, string description, string buttonText = "Next")
+    public void DisplayTutorial(Sprite sprite, string title, string description, float delay, string buttonText = "Next")
     {
-        if (!gameObject.activeSelf)
-        {
-            Time.timeScale = 0;
-            gameObject.SetActive(true);
-        }
-
         Image.sprite = sprite;
         Title.text = title;
         Description.text = description;
         ButtonText.text = buttonText;
+        
+
+        if (!gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+            DOVirtual.DelayedCall(delay, () => OpenTutorial());
+        }
+    }
+
+    public void OpenTutorial()
+    {
+        Time.timeScale = 0;
+        Panel.SetActive(true);
     }
 
     public void CloseTutorial()
     {
         Time.timeScale = 1;
         gameObject.SetActive(false);
+        Panel.SetActive(false);
     }
 
     

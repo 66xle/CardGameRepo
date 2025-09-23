@@ -20,8 +20,6 @@ public class CutsceneManager : MonoBehaviour
     [Foldout("Knight References", true)]
     [MustBeAssigned][SerializeField] GameObject KnightPrefab;
     [HideInInspector] public Transform KnightSpawnPosition;
-    private Transform PlayerActor;
-    private Transform KnightActor;
 
     [Foldout("Cutscenes", true)]
     public bool RunSignal;
@@ -47,12 +45,6 @@ public class CutsceneManager : MonoBehaviour
 
     private void Init()
     {
-        asp = ServiceLocator.Get<AvatarSpawnPosition>();
-
-        // Spawn actors
-        PlayerActor = SpawnGameObject(Ctx.PlayerPrefab, Ctx.PlayerSpawnPos).transform;
-        KnightActor = SpawnGameObject(KnightPrefab, KnightSpawnPosition).transform;
-
         _cutsceneIndex = -1;
 
         if (RunSignal)
