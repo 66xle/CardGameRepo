@@ -32,28 +32,27 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
     public UnityEvent OnResumed;
 
     [Header("Resume Settings")]
-    public float resumeDuration = 3f; // seconds to ramp back up
+    public float resumeDuration = 3f;
 
     // --- Internal ---
     private TunnelMode _mode = TunnelMode.Organic;
     private float _currentSpeed;
     private float _targetSpeed;
 
-    // Organic drift state
+    // Organic drift
     private bool _drifting;
     private float _driftT;
     private float _driftDuration;
     private float _driftIdleTimer;
 
-    // Arena arrival state
+    // Arena arrival
     private bool _arriving;
     private TunnelSectionSO _arrivalDef;
     private float _arrivalStartSpeed;
     private float _arrivalTimer;
-    private float _anchorPlaneY = 0f; // world Y plane to stop at
+    private float _anchorPlaneY = 0f;
 
-    // Cutscene state (QUEUED/SEQUENTIAL)
-    private Queue<TunnelSectionSO> _cutsceneQueue;
+    // Cutscene state
     private TunnelSectionSO _cutsceneTarget;
     private float _cutsceneStopTime;
     private float _cutsceneDecelDuration;
@@ -74,7 +73,6 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
     }
     private readonly List<Spawned> _active = new List<Spawned>();
     private float _nextStackY;
-    private float _helixPhaseAccum;
 
     void Start()
     {
@@ -94,25 +92,14 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
             case TunnelMode.Paused:   _currentSpeed = 0f; break;
         }
 
-        // Move the whole stack downward
         tunnelParent.position += Vector3.down * (_currentSpeed * Time.deltaTime);
 
-        // Spawn logic
-        if (_mode == TunnelMode.Cutscene)
-        {
-            if (_cutsceneQueue != null && _cutsceneQueue.Count > 0)
-                MaintainSpawnWindowCutscene(); // spawn from queue
-            else
-                MaintainSpawnWindow();         // fall back to organic
-        }
-        else
-        {
-            MaintainSpawnWindow();             // organic random spawn
-        }
-
-        // Despawn only when NOT in cutscene
         if (_mode != TunnelMode.Cutscene)
+        {
+            MaintainSpawnWindow();
             DespawnPassed();
+        }
+        // In cutscene: we pre-spawned the full sequence; no maintain/ despawn to keep geometry stable
     }
 
     // ---------------- Public API ----------------
@@ -121,8 +108,6 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
         if (arenaIndex < 0 || arenaIndex >= arenaLibrary.Count) return;
 
         _arrivalDef = arenaLibrary[arenaIndex];
-
-        // Spawn arena immediately as next section
         SpawnNext(_arrivalDef);
 
         _arriving = true;
@@ -134,18 +119,20 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
     public void ResumeTunnel()
     {
         if (_mode != TunnelMode.Paused) return;
-
         _resumeTimer = 0f;
         _resumeTargetSpeed = Random.Range(speedRange.x, speedRange.y);
         _mode = TunnelMode.Resuming;
     }
 
+    /// <summary>
+    /// Plan a cutscene arrival: spawns full sequence immediately, computes exact base speed
+    /// so the target's stopOffset reaches the anchor plane at stopTime.
+    /// </summary>
     public void PlanCutsceneArrival(List<TunnelSectionSO> sequence, float stopTime, float decelDuration, bool append = false)
     {
         if (sequence == null || sequence.Count == 0) return;
 
         _mode = TunnelMode.Cutscene;
-        _cutsceneQueue = new Queue<TunnelSectionSO>(sequence);
         _cutsceneTarget = sequence[sequence.Count - 1];
         _cutsceneStopTime = Mathf.Max(0.01f, stopTime);
         _cutsceneDecelDuration = Mathf.Clamp(decelDuration, 0.01f, _cutsceneStopTime - 0.001f);
@@ -154,16 +141,23 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
         if (!append)
             ResetForCutscene();
 
-        // Precompute distance for base speed
-        float projectedLocalY = _nextStackY;
-        for (int i = 0; i < sequence.Count - 1; i++)
-            projectedLocalY += Mathf.Max(0.01f, sequence[i].EffectiveHeight);
+        // Spawn all sections immediately for exact geometry
+        List<Spawned> spawnedSequence = new List<Spawned>();
+        foreach (var def in sequence)
+            spawnedSequence.Add(SpawnNextCutscene(def));
 
-        Vector3 projectedStopPoint = tunnelParent.TransformPoint(new Vector3(0f, projectedLocalY + _cutsceneTarget.stopOffset, 0f));
-        float distance = projectedStopPoint.y - _anchorPlaneY;
+        // Measure distance from target stop point to anchor
+        Spawned target = spawnedSequence[spawnedSequence.Count - 1];
+        Vector3 stopPoint = tunnelParent.TransformPoint(new Vector3(0f, target.localY + target.def.stopOffset, 0f));
+        float distance = stopPoint.y - _anchorPlaneY;
 
-        float travelTime = Mathf.Max(0.01f, _cutsceneStopTime - _cutsceneDecelDuration);
-        _cutsceneBaseSpeed = distance / travelTime;
+        // Correct base speed:
+        // During decel, speed(t) = Lerp(baseSpeed, 0, ease(t)) = baseSpeed * (1 - ease(t)).
+        // For cubic ease-out, ∫_0^1 (1 - ease(t)) dt = 0.25  (NOT 0.75).
+        float cruiseTime = _cutsceneStopTime - _cutsceneDecelDuration;
+        float effectiveTime = Mathf.Max(0.01f, cruiseTime + _cutsceneDecelDuration * 0.25f);
+
+        _cutsceneBaseSpeed = distance / effectiveTime;
         _currentSpeed = _cutsceneBaseSpeed;
 
         OnCutsceneStarted?.Invoke();
@@ -175,9 +169,8 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
         if (_drifting)
         {
             _driftT += Time.deltaTime / Mathf.Max(0.001f, _driftDuration);
-            float s = _driftT * _driftT * (3f - 2f * _driftT);
-            float newSpeed = Mathf.Lerp(_currentSpeed, _targetSpeed, s);
-            _currentSpeed = Mathf.Clamp(newSpeed, speedRange.x, speedRange.y);
+            float s = _driftT * _driftT * (3f - 2f * _driftT); // smoothstep
+            _currentSpeed = Mathf.Lerp(_currentSpeed, _targetSpeed, s);
 
             if (_driftT >= 1f)
             {
@@ -196,11 +189,8 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
 
                 float newTarget;
                 int safety = 0;
-                do
-                {
-                    newTarget = Random.Range(speedRange.x, speedRange.y);
-                    safety++;
-                } while (Mathf.Abs(newTarget - _currentSpeed) < 0.15f && safety < 8);
+                do { newTarget = Random.Range(speedRange.x, speedRange.y); safety++; }
+                while (Mathf.Abs(newTarget - _currentSpeed) < 0.15f && safety < 8);
 
                 _targetSpeed = newTarget;
             }
@@ -243,7 +233,7 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
         else
         {
             float t = Mathf.Clamp01((_cutsceneElapsed - (_cutsceneStopTime - _cutsceneDecelDuration)) / _cutsceneDecelDuration);
-            float ease = 1f - Mathf.Pow(1f - t, 3f);
+            float ease = 1f - Mathf.Pow(1f - t, 3f); // cubic ease-out
             _currentSpeed = Mathf.Lerp(_cutsceneBaseSpeed, 0f, ease);
 
             if (_cutsceneElapsed >= _cutsceneStopTime)
@@ -277,7 +267,6 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
             if (_active[i].go) Destroy(_active[i].go);
         _active.Clear();
         _nextStackY = 0f;
-        _helixPhaseAccum = 0f;
 
         for (int i = 0; i < initialSections; i++)
             SpawnNext(null);
@@ -289,7 +278,6 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
             if (_active[i].go) Destroy(_active[i].go);
         _active.Clear();
         _nextStackY = 0f;
-        _helixPhaseAccum = 0f;
     }
 
     private void MaintainSpawnWindow()
@@ -300,28 +288,6 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
         {
             SpawnNext(null);
             topWorldY = GetNextBaseWorldY();
-        }
-    }
-
-    private void MaintainSpawnWindowCutscene()
-    {
-        if (_cutsceneQueue == null) return;
-
-        float cutsceneSpawnAhead = Mathf.Max(spawnWindowAhead * 4f, 200f);
-
-        float topWorldY = GetNextBaseWorldY();
-        int safety = 0;
-        while (topWorldY < cutsceneSpawnAhead && _cutsceneQueue.Count > 0 && safety++ < 200)
-        {
-            var next = _cutsceneQueue.Dequeue();
-            SpawnNextCutscene(next);
-            topWorldY = GetNextBaseWorldY();
-        }
-
-        // 👇 NEW: If queue is empty, keep extending organically
-        if (_cutsceneQueue.Count == 0)
-        {
-            MaintainSpawnWindow();
         }
     }
 
@@ -403,11 +369,31 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
         return tunnelParent.TransformPoint(new Vector3(0f, _nextStackY, 0f)).y;
     }
 
+    // ---------------- Debug Gizmos ----------------
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
         Vector3 left = new Vector3(-10f, _anchorPlaneY, 0f);
         Vector3 right = new Vector3(10f, _anchorPlaneY, 0f);
         Gizmos.DrawLine(left, right);
+
+#if UNITY_EDITOR
+        if (Application.isPlaying && _active != null)
+        {
+            foreach (var s in _active)
+            {
+                if (arenaLibrary.Contains(s.def))
+                {
+                    Vector3 stopPoint = tunnelParent.TransformPoint(
+                        new Vector3(0, s.localY + s.def.stopOffset, 0));
+
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawSphere(stopPoint, 0.3f);
+                    UnityEditor.Handles.color = Color.red;
+                    UnityEditor.Handles.Label(stopPoint + Vector3.up * 0.5f, "Arena StopOffset");
+                }
+            }
+        }
+#endif
     }
 }
