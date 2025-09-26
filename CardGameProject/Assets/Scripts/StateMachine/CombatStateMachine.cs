@@ -15,6 +15,7 @@ using Random = UnityEngine.Random;
 using UnityEngine.Analytics;
 using UnityEngine.EventSystems;
 using PixelCrushers.DialogueSystem;
+using UnityEngine.VFX;
 
 public class CombatStateMachine : MonoBehaviour
 {
@@ -357,6 +358,17 @@ public class CombatStateMachine : MonoBehaviour
 
             CardManager.AddEquipmentCardsToDeck(gearData);
         }
+    }
+
+    public void EnableWeaponTrail()
+    {
+        VisualEffect weaponTrail = _equipmentHolsterScript.RightHand.GetChild(0).GetComponent<VisualEffect>();
+        Debug.Log("WEAPON TRAIL");
+    }
+
+    public void DisableWeaponTrail()
+    {
+
     }
 
     #region Used by StateMachine

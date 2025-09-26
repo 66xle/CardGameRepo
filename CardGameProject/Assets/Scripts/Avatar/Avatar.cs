@@ -5,6 +5,7 @@ using UnityEngine;
 using System;
 using Action = System.Action;
 using MyBox;
+using UnityEngine.VFX;
 
 
 
@@ -409,6 +410,20 @@ public class Avatar : MonoBehaviour
     {
         IsAttackFinished = true;
         Animator.SetBool("IsAttacking", false);
+    }
+
+    public void EnableWeaponTrail()
+    {
+        VisualEffect weaponTrail = RightHolder.GetComponentInChildren<VisualEffect>();
+        weaponTrail.Play();
+
+        Debug.Log("WEAPON TRAIL");
+    }
+
+    public void DisableWeaponTrail()
+    {
+        VisualEffect weaponTrail = RightHolder.GetComponentInChildren<VisualEffect>();
+        weaponTrail.enabled = false;
     }
 
     #endregion
