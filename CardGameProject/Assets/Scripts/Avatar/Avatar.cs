@@ -412,6 +412,11 @@ public class Avatar : MonoBehaviour
         Animator.SetBool("IsAttacking", false);
     }
 
+    public void AnimationEventPlaySound()
+    {
+        AudioManager.Instance.PlayAudioType();
+    }
+
     public void EnableWeaponTrail()
     {
         VisualEffect weaponTrail = RightHolder.GetComponentInChildren<VisualEffect>();

@@ -100,6 +100,8 @@ public class AnimationSystem : MonoBehaviour
 
         animator.SetBool("IsAttacking", true);
 
+        AudioManager.Instance.SetAudioType(triggerAttackAnimGA.AudioType);
+
         yield return null;
     }
 
