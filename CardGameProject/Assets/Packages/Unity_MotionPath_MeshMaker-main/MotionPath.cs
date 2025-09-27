@@ -122,12 +122,12 @@ public class MotionPath : MonoBehaviour
     //씬 GUI 그리기 위한 델리게이트 추가
     void OnEnable()
     {
-        SceneView.onSceneGUIDelegate += DrawSceneGUI;
+        SceneView.duringSceneGui += DrawSceneGUI;
         Undo.undoRedoPerformed += MyUndoCallback;
     }
     void OnDisable()
     {
-        SceneView.onSceneGUIDelegate -= DrawSceneGUI;
+        SceneView.duringSceneGui -= DrawSceneGUI;
         Undo.undoRedoPerformed -= MyUndoCallback;
     }
 
@@ -165,7 +165,7 @@ public class MotionPath : MonoBehaviour
         for (int i = 0; i < PathInfo.Count; i++)
         {
             //선 그리기
-            Handles.color = (SelectPath == i && Ge.SelectToolbar == 1 ? new Color(5, 5, 5, 1) : PathInfo[i].PathColor);
+            Handles.color = (SelectPath == i && Ge.SelectToolbar == 1 ? Color.gray : PathInfo[i].PathColor);
 
             Handles.DrawAAPolyLine(PathInfo[i].PathWidth * (SelectPath == i && Ge.SelectToolbar == 1 ? 3 : 1), Ge.PathInfo[i].PathPos.Length, Ge.PathInfo[i].PathPos);
             Handles.color = GUI.color;
@@ -181,7 +181,8 @@ public class MotionPath : MonoBehaviour
             {
                 for (int j = 0; j < PathInfo[i].VertexPos.Length; j++)
                 {
-                    Handles.Label(PathInfo[i].VertexPos[j], EditorGUIUtility.IconContent("winbtn_mac_close"), Style_Vert); //버텍스 위치들
+                    Vector3 worldPos = transform.TransformPoint(PathInfo[i].VertexPos[j]);
+                    Handles.Label(worldPos, EditorGUIUtility.IconContent("sv_icon_dot3_sml"), Style_Vert); //버텍스 위치들
                 }
             }
 
@@ -891,23 +892,28 @@ public class MotionPath_Editor : Editor
         return OutString;
     }
 
+    void CollectStates(AnimatorStateMachine sm, List<AnimatorState> ret)
+    {
+        // Collect direct states
+        foreach (var state in sm.states)
+        {
+            ret.Add(state.state);
+        }
+
+        // Recurse into nested state machines
+        foreach (var subSM in sm.stateMachines)
+        {
+            CollectStates(subSM.stateMachine, ret);
+        }
+    }
+
     //모든 애니메이터 스테이트 가져오기
     AnimatorState[] GetAnimatorStates(UnityEditor.Animations.AnimatorController anicon)
     {
         List<AnimatorState> ret = new List<AnimatorState>();
         foreach (var layer in anicon.layers)
         {
-            foreach (var subsm in layer.stateMachine.stateMachines)
-            {
-                foreach (var state in subsm.stateMachine.states)
-                {
-                    ret.Add(state.state);
-                }
-            }
-            foreach (var s in layer.stateMachine.states)
-            {
-                ret.Add(s.state);
-            }
+            CollectStates(layer.stateMachine, ret);
         }
         return ret.ToArray();
     }
