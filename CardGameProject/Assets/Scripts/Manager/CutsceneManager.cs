@@ -47,6 +47,8 @@ public class CutsceneManager : MonoBehaviour
     {
         _cutsceneIndex = -1;
 
+        asp = ServiceLocator.Get<AvatarSpawnPosition>();
+
         if (RunSignal)
         {
             SignalReceiver signalReciver = GetComponent<SignalReceiver>();
@@ -115,6 +117,7 @@ public class CutsceneManager : MonoBehaviour
 
     public void SpawnActor(string actorName)
     {
+        Debug.Log("test");
         foreach (SpawnPosition data in asp.CutsceneSpawnPositions)
         {
             if (data.Name != actorName) continue;
