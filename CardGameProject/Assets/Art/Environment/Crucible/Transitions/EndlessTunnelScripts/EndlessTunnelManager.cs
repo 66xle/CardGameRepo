@@ -58,6 +58,7 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
     private float _cutsceneDecelDuration;
     private float _cutsceneElapsed;
     private float _cutsceneBaseSpeed;
+    private bool _organicSpawningAfterCutscene;
 
     // Resume state
     private float _resumeTimer;
@@ -94,12 +95,17 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
 
         tunnelParent.position += Vector3.down * (_currentSpeed * Time.deltaTime);
 
-        if (_mode != TunnelMode.Cutscene)
+        // Spawning rules
+        if (_mode == TunnelMode.Cutscene)
+        {
+            if (_organicSpawningAfterCutscene)
+                MaintainSpawnWindow(); // keep spawning organically after arena
+        }
+        else
         {
             MaintainSpawnWindow();
             DespawnPassed();
         }
-        // In cutscene: we pre-spawned the full sequence; no maintain/ despawn to keep geometry stable
     }
 
     // ---------------- Public API ----------------
@@ -124,10 +130,6 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
         _mode = TunnelMode.Resuming;
     }
 
-    /// <summary>
-    /// Plan a cutscene arrival: spawns full sequence immediately, computes exact base speed
-    /// so the target's stopOffset reaches the anchor plane at stopTime.
-    /// </summary>
     public void PlanCutsceneArrival(List<TunnelSectionSO> sequence, float stopTime, float decelDuration, bool append = false)
     {
         if (sequence == null || sequence.Count == 0) return;
@@ -137,23 +139,25 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
         _cutsceneStopTime = Mathf.Max(0.01f, stopTime);
         _cutsceneDecelDuration = Mathf.Clamp(decelDuration, 0.01f, _cutsceneStopTime - 0.001f);
         _cutsceneElapsed = 0f;
+        _organicSpawningAfterCutscene = false;
 
         if (!append)
             ResetForCutscene();
 
-        // Spawn all sections immediately for exact geometry
+        // Spawn all cutscene sections
         List<Spawned> spawnedSequence = new List<Spawned>();
         foreach (var def in sequence)
             spawnedSequence.Add(SpawnNextCutscene(def));
 
-        // Measure distance from target stop point to anchor
+        // Mark that organic should continue spawning beyond the cutscene stack
+        _organicSpawningAfterCutscene = true;
+
+        // Measure distance
         Spawned target = spawnedSequence[spawnedSequence.Count - 1];
         Vector3 stopPoint = tunnelParent.TransformPoint(new Vector3(0f, target.localY + target.def.stopOffset, 0f));
         float distance = stopPoint.y - _anchorPlaneY;
 
-        // Correct base speed:
-        // During decel, speed(t) = Lerp(baseSpeed, 0, ease(t)) = baseSpeed * (1 - ease(t)).
-        // For cubic ease-out, ∫_0^1 (1 - ease(t)) dt = 0.25  (NOT 0.75).
+        // Base speed formula (integral of decel = 0.25)
         float cruiseTime = _cutsceneStopTime - _cutsceneDecelDuration;
         float effectiveTime = Mathf.Max(0.01f, cruiseTime + _cutsceneDecelDuration * 0.25f);
 
@@ -169,7 +173,7 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
         if (_drifting)
         {
             _driftT += Time.deltaTime / Mathf.Max(0.001f, _driftDuration);
-            float s = _driftT * _driftT * (3f - 2f * _driftT); // smoothstep
+            float s = _driftT * _driftT * (3f - 2f * _driftT);
             _currentSpeed = Mathf.Lerp(_currentSpeed, _targetSpeed, s);
 
             if (_driftT >= 1f)
@@ -233,7 +237,7 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
         else
         {
             float t = Mathf.Clamp01((_cutsceneElapsed - (_cutsceneStopTime - _cutsceneDecelDuration)) / _cutsceneDecelDuration);
-            float ease = 1f - Mathf.Pow(1f - t, 3f); // cubic ease-out
+            float ease = 1f - Mathf.Pow(1f - t, 3f);
             _currentSpeed = Mathf.Lerp(_cutsceneBaseSpeed, 0f, ease);
 
             if (_cutsceneElapsed >= _cutsceneStopTime)
@@ -369,31 +373,11 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
         return tunnelParent.TransformPoint(new Vector3(0f, _nextStackY, 0f)).y;
     }
 
-    // ---------------- Debug Gizmos ----------------
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
         Vector3 left = new Vector3(-10f, _anchorPlaneY, 0f);
         Vector3 right = new Vector3(10f, _anchorPlaneY, 0f);
         Gizmos.DrawLine(left, right);
-
-#if UNITY_EDITOR
-        if (Application.isPlaying && _active != null)
-        {
-            foreach (var s in _active)
-            {
-                if (arenaLibrary.Contains(s.def))
-                {
-                    Vector3 stopPoint = tunnelParent.TransformPoint(
-                        new Vector3(0, s.localY + s.def.stopOffset, 0));
-
-                    Gizmos.color = Color.red;
-                    Gizmos.DrawSphere(stopPoint, 0.3f);
-                    UnityEditor.Handles.color = Color.red;
-                    UnityEditor.Handles.Label(stopPoint + Vector3.up * 0.5f, "Arena StopOffset");
-                }
-            }
-        }
-#endif
     }
 }
