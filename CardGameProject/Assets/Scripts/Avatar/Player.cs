@@ -29,16 +29,25 @@ public class Player : Avatar
         OnStatChanged -= DisplayStats;
     }
 
-    public void InitUI(Slider healthBar, TMP_Text healthValue, Slider staminaBar, TMP_Text staminaValue, TMP_Text blockValue, 
-                     Slider guardBar, TMP_Text guardValue,
-                     ArmourType armourType)
+    //public void InitUI(Slider healthBar, TMP_Text healthValue, Slider staminaBar, TMP_Text staminaValue, TMP_Text blockValue, 
+    //                 Slider guardBar, TMP_Text guardValue,
+    //                 ArmourType armourType)
+    //{
+    //    _healthBar = healthBar;
+    //    _healthValue = healthValue;
+    //    _staminaBar = staminaBar;
+    //    _staminaValue = staminaValue;
+    //    _guardBar = guardBar;
+    //    _guardValue = guardValue;
+    //    _blockValue = blockValue;
+    //    ArmourType = armourType;
+    //}
+
+    public void InitUI(TMP_Text healthValue, TMP_Text staminaValue, TMP_Text blockValue, Slider guardBar, ArmourType armourType)
     {
-        _healthBar = healthBar;
         _healthValue = healthValue;
-        _staminaBar = staminaBar;
         _staminaValue = staminaValue;
         _guardBar = guardBar;
-        _guardValue = guardValue;
         _blockValue = blockValue;
         ArmourType = armourType;
     }
@@ -98,14 +107,14 @@ public class Player : Avatar
         _currentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);
         _currentStamina = Mathf.Clamp(CurrentStamina, 0f, _maxStamina);
 
-        _healthBar.value = CurrentHealth / MaxHealth;
+        //_healthBar.value = CurrentHealth / MaxHealth;
         _healthValue.text = CurrentHealth.ToString();
 
-        _staminaBar.value = CurrentStamina / _maxStamina;
+        //_staminaBar.value = CurrentStamina / _maxStamina;
         _staminaValue.text = CurrentStamina.ToString();
 
         _guardBar.value = (float)CurrentGuard / MaxGuard;
-        _guardValue.text = CurrentGuard.ToString();
+        //_guardValue.text = CurrentGuard.ToString();
 
         _blockValue.text = CurrentBlock.ToString();
     }
