@@ -119,11 +119,11 @@ public class CombatStateMachine : MonoBehaviour
         currentState = new PrepState(this, states, vso);
         currentState.EnterState();
 
-        if (ConversationTitle != null)
-        {
-            DialogueManager.StartConversation(ConversationTitle, PlayerActor, EnemyActor);
-            return;
-        }
+        //if (ConversationTitle != null)
+        //{
+        //    DialogueManager.StartConversation(ConversationTitle, PlayerActor, EnemyActor);
+        //    return;
+        //}
 
         InitBattle();
     }

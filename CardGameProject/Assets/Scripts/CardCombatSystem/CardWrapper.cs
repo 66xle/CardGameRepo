@@ -108,28 +108,57 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         rectTransform.localScale = new Vector3(newZoom, newZoom, 1);
     }
 
-    private void UpdateRotation() {
-        // If the card is hovered and the rotation should be reset, set the target rotation to 0
-        var tempTargetRotation = (IsPreviewActive || isDragged) && zoomConfig.resetRotationOnZoom
+    //private void UpdateRotation() {
+    //    // If the card is hovered and the rotation should be reset, set the target rotation to 0
+    //    var tempTargetRotation = (IsPreviewActive || isDragged) && zoomConfig.resetRotationOnZoom
+    //        ? 0
+    //        : targetRotation;
+
+    //    var crtAngle = rectTransform.rotation.eulerAngles.z;
+    //    // If the angle is negative, add 360 to it to get the positive equivalent
+    //    crtAngle = crtAngle < 0 ? crtAngle + 360 : crtAngle;
+    //    tempTargetRotation = tempTargetRotation < 0 ? tempTargetRotation + 360 : tempTargetRotation;
+        
+    //    var deltaAngle = Mathf.Abs(crtAngle - tempTargetRotation);
+    //    Debug.Log(targetRotation + " | " + deltaAngle);
+    //    if (!(deltaAngle > EPS)) return;
+
+
+
+    //    // Adjust the current angle and target angle so that the rotation is done in the shortest direction
+    //    var adjustedCurrent = deltaAngle > 180 && crtAngle < tempTargetRotation ? crtAngle + 360 : crtAngle;
+    //    var adjustedTarget = deltaAngle > 180 && crtAngle > tempTargetRotation ? tempTargetRotation + 360 : tempTargetRotation;
+
+    //    var newDelta = Mathf.Abs(adjustedCurrent - adjustedTarget);
+    //    var nextRotation = Mathf.Lerp(adjustedCurrent, adjustedTarget, animationSpeedConfig.rotation / newDelta * Time.deltaTime);
+
+    //    rectTransform.localRotation = Quaternion.Euler(0, 0, nextRotation);
+    //}
+
+    private void UpdateRotation()
+    {
+        // Determine target rotation (0 if zoom reset)
+        float tempTargetRotation = (IsPreviewActive || isDragged) && zoomConfig.resetRotationOnZoom
             ? 0
             : targetRotation;
 
-        var crtAngle = rectTransform.rotation.eulerAngles.z;
-        // If the angle is negative, add 360 to it to get the positive equivalent
-        crtAngle = crtAngle < 0 ? crtAngle + 360 : crtAngle;
-        tempTargetRotation = tempTargetRotation < 0 ? tempTargetRotation + 360 : tempTargetRotation;
-        
-        var deltaAngle = Mathf.Abs(crtAngle - tempTargetRotation);
-        if (!(deltaAngle > EPS)) return;
+        float currentAngle = rectTransform.localEulerAngles.z;
 
-        // Adjust the current angle and target angle so that the rotation is done in the shortest direction
-        var adjustedCurrent = deltaAngle > 180 && crtAngle < tempTargetRotation ? crtAngle + 360 : crtAngle;
-        var adjustedTarget = deltaAngle > 180 && crtAngle > tempTargetRotation ? tempTargetRotation + 360 : tempTargetRotation;
+        // Calculate the shortest signed difference (-180, 180)
+        float delta = Mathf.DeltaAngle(currentAngle, tempTargetRotation);
 
-        var newDelta = Mathf.Abs(adjustedCurrent - adjustedTarget);
-        var nextRotation = Mathf.Lerp(adjustedCurrent, adjustedTarget, animationSpeedConfig.rotation / newDelta * Time.deltaTime);
+        // If we're close enough, snap to final rotation
+        if (Mathf.Abs(delta) <= EPS)
+        {
+            rectTransform.localRotation = Quaternion.Euler(0, 0, tempTargetRotation);
+            return;
+        }
 
-        rectTransform.localRotation = Quaternion.Euler(0, 0, nextRotation);
+        // Smoothly rotate towards target
+        float nextAngle = Mathf.MoveTowardsAngle(currentAngle, tempTargetRotation,
+            animationSpeedConfig.rotation * Time.deltaTime);
+
+        rectTransform.localRotation = Quaternion.Euler(0, 0, nextAngle);
     }
 
 
