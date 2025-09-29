@@ -97,7 +97,7 @@ public class Avatar : MonoBehaviour
 
     #region Take Damage
 
-        public void TakeDamage(float damage) 
+        public virtual void TakeDamage(float damage) 
         {
             float block = CurrentBlock - damage;
 
@@ -432,4 +432,8 @@ public class Avatar : MonoBehaviour
     }
 
     #endregion
+
+    public virtual void PlayHurtSound() { }
+
+    public virtual void PlayDeathSound() { }
 }

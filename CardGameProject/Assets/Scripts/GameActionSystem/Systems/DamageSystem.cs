@@ -41,6 +41,7 @@ public class DamageSystem : MonoBehaviour
         {
             avatarToTakeDamage.GetComponent<Animator>().SetTrigger("Death");
             avatarToTakeDamage.DictReactiveEffects.Clear();
+            avatarToTakeDamage.PlayDeathSound();
         }
         else if (avatarToTakeDamage.IsGuardBroken())
         {
@@ -55,6 +56,7 @@ public class DamageSystem : MonoBehaviour
             }
         }
 
+        avatarToTakeDamage.PlayHurtSound();
         avatarToTakeDamage.UpdateStatsUI();
 
         yield return null;

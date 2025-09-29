@@ -108,4 +108,14 @@ public class Enemy : Avatar
             DetailedUI.ChangeTarget(this);
         }
     }
+
+    public override void PlayHurtSound()
+    {
+        AudioManager.Instance.PlaySound(EnemyData.HurtSounds);
+    }
+
+    public override void PlayDeathSound()
+    {
+        AudioManager.Instance.PlaySound(EnemyData.DeathSounds);
+    }
 }

@@ -22,6 +22,9 @@ public class EnemyData : ScriptableObject
     public string Name;
     public int Guard;
     public int Level = 1;
+    public AudioData HurtSounds;
+    public AudioData DeathSounds;
+
 
     [Separator]
 

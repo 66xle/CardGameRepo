@@ -88,6 +88,12 @@ public class AudioManager : Singleton<AudioManager>
         audioSource.resource = data.audios[Random.Range(0, data.audios.Count)];
         audioSource.Play();
     }
+    
+    public void PlaySound(AudioData data)
+    {
+        audioSource.resource = data.audios[Random.Range(0, data.audios.Count)];
+        audioSource.Play();
+    }
 
     public void PlayMusic(AudioData data)
     {
