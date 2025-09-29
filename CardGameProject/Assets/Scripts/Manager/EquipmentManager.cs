@@ -37,6 +37,8 @@ public class EquipmentManager : MonoBehaviour
     [SerializeField] List<WeaponData> EquippedWeapons;
     private List<WeaponData> _equippedWeapons;
 
+    public WeaponData FixedWeapon1stBattle;
+    public WeaponData FixedWeapon2ndBattle;
 
     private void Awake()
     {
