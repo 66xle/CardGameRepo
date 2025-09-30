@@ -368,8 +368,11 @@ public class CardContainer : MonoBehaviour {
 
         foreach (GameObject playAreaObject in cardPlayConfig.playArea)
         {
+            if (playAreaObject == null) continue;
+
             // If card is in play area, play it!
-            if (IsCursorInPlayArea(playAreaObject.GetComponent<RectTransform>()))
+            RectTransform rectTransform = playAreaObject.GetComponent<RectTransform>();
+            if (IsCursorInPlayArea(rectTransform))
             {
                 if (Ydis < YAmount) return;
 

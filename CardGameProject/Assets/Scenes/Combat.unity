@@ -4200,7 +4200,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 347342558}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.000013937168}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -4208,7 +4208,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 93, y: 0}
+  m_AnchoredPosition: {x: 0.000011458704, y: 0}
   m_SizeDelta: {x: 700.4461, y: 312.943}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &347342560
@@ -4227,10 +4227,10 @@ MonoBehaviour:
   clonePreviewManager: {fileID: 230720528}
   forceFitContainer: 1
   pushAmount: 100
-  falloff: 0.5
-  affectedCardCount: 6
+  falloff: 0
+  affectedCardCount: 10
   pushAffectedCardCount: 5
-  rightPushMultiplier: 1.3
+  rightPushMultiplier: 1.7
   alignment: 1
   allowCardRepositioning: 0
   maxCardRotation: 5
@@ -4239,7 +4239,7 @@ MonoBehaviour:
   YAmount: 100
   zoomConfig:
     zoomOnClick: 1
-    multiplier: 1.5
+    multiplier: 2
     overrideYPosition: 250
     defaultSortOrder: 0
     bringToFrontOnHover: 1
@@ -4248,7 +4248,7 @@ MonoBehaviour:
   animationSpeedConfig:
     rotation: 100
     duration: 0.1
-    zoom: 3
+    zoom: 5
   cardPlayConfig:
     playArea:
     - {fileID: 254873617}
@@ -14363,7 +14363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1cb70d12e1ad34419239db382130c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardsToDraw: 10
+  CardsToDraw: 5
   CardPrefab: {fileID: 7406141934112961317, guid: f40acb07258ef8741bc094a7dcd310cf, type: 3}
   PlayerHandTransform: {fileID: 347342559}
   SwitchWeaponManager: {fileID: 510262701}
