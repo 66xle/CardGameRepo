@@ -98,6 +98,7 @@ public class DetailedUI : MonoBehaviour
             // Instanitate object in active
             GameObject newEffectObj = Instantiate(UiPrefab, ActiveParent.transform);
             newEffectObj.tag = data.EffectName;
+            newEffectObj.GetComponent<Image>().sprite = data.Sprite;
             UpdateStatusUI(i, newEffectObj, data);
         }
     }

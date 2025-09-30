@@ -21,6 +21,7 @@ public abstract class StatusEffect
     [ReadOnly] public Effect Effect;
     public string EffectName;
     public int MaxTurnsRemaining = 1;
+    public Sprite Sprite;
     [ReadOnly] public int CurrentTurnsRemaning;
     [ReadOnly] public bool IsActiveEffect = false;
 
