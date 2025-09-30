@@ -1,22 +1,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using MyBox;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.GPUSort;
 
 public class Enemy : Avatar
 {
     [Header("Cards")]
     [SerializeField] int DrawAmount = 1;
     [ReadOnly] public List<CardData> Deck;
+
     public List<Card> CardsToPlay { get; set; }
     public bool DisableSelection { get; set; }
 
     [Header("References")]
     public EnemyData EnemyData { get; private set; }
-    public Image HealthBar { get; private set; }
-    public Image GuardBar { get; private set; }
+    public TMP_Text HealthText { get; private set; }
+    public TMP_Text BlockText { get; private set; }
+    public Slider GuardBar { get; private set; }
     public EnemyUI EnemyUI { get; private set; }
     public DetailedUI DetailedUI { get; private set; }
     public GameObject SelectionRing { get; private set; }
@@ -34,9 +36,11 @@ public class Enemy : Avatar
 
     public void InitUI(GameObject statsUI, DetailedUI detailedUI)
     {
-        HealthBar = statsUI.GetComponentsInChildren<Image>()[1];
-        GuardBar = statsUI.GetComponentsInChildren<Image>()[2];
         EnemyUI = statsUI.GetComponent<EnemyUI>();
+        HealthText = EnemyUI.HealthText;
+        GuardBar = EnemyUI.GuardBar;
+        BlockText = EnemyUI.BlockText;
+
         DetailedUI = detailedUI;
 
         CurrentHealth = MaxHealth;
@@ -88,9 +92,9 @@ public class Enemy : Avatar
     {
         _currentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);
 
-        HealthBar.fillAmount = CurrentHealth / MaxHealth;
-
-        GuardBar.fillAmount = (float)CurrentGuard / MaxGuard;
+        HealthText.text = CurrentHealth.ToString();
+        GuardBar.value = (float)CurrentGuard / MaxGuard;
+        BlockText.text = CurrentBlock.ToString();
 
         DetailedUI.DisplayStats();
         DetailedUI.UpdateStatusEffectsUI();

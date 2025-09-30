@@ -53,10 +53,10 @@ public class DetailedUI : MonoBehaviour
         if (_enemy == null)
             return;
 
-        _healthBar.fillAmount = _enemy.HealthBar.fillAmount;
+        _healthBar.fillAmount = int.Parse(_enemy.HealthText.text) / _enemy.MaxHealth;
         //healthValue.text = enemy.healthValue.text;
 
-        _guardBar.fillAmount = _enemy.GuardBar.fillAmount;
+        _guardBar.fillAmount = _enemy.GuardBar.value;
         //guardValue.text = enemy.guardValue.text;
 
         //blockValue.text = enemy.blockValue.text;

@@ -61,6 +61,7 @@ public class CombatUIManager : MonoBehaviour
 
     [Foldout("Enemy", true)]
     [MustBeAssigned] public GameObject enemyUIPrefab;
+    [MustBeAssigned] public EnemyUI eliteUI;
     [MustBeAssigned] public DetailedUI detailedUI;
 
     [Foldout("UI", true)]
