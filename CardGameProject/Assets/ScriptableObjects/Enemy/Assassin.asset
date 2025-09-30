@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Guid: 15be70bbc9b436444af9e3026ecfce7a
   Prefab: {fileID: 6075165209856986820, guid: 91c8a09fad817354c8d2624f0366be7e, type: 3}
-  Name: Assassin
+  Name: Elite
   Guard: 3
   Level: 1
   HurtSounds: {fileID: 11400000, guid: 188d611b10adfda488851286ff95d668, type: 2}
@@ -25,9 +25,9 @@ MonoBehaviour:
   ConversationTitle: Assassin
   WeaponType: 1
   WeaponTypeAnimationSet:
-  - rid: 7800494560734347276
-  - rid: 7800494560734347277
-  - rid: 7800494560734347278
+  - rid: 7800494722459107328
+  - rid: 7800494722459107329
+  - rid: 7800494722459107330
   Cards:
   - rid: 7765747551190646924
   references:
@@ -71,7 +71,7 @@ MonoBehaviour:
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
-    - rid: 7800494560734347276
+    - rid: 7800494722459107328
       type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -83,7 +83,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: 2680591b97b18a24cabe8e529c6763c4, type: 3}
           DistanceOffset: 0
-    - rid: 7800494560734347277
+    - rid: 7800494722459107329
       type: {class: WeaponTypeAnimationHeavy, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -91,7 +91,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: ba31907f1536e61439b0c4b2b1727f79, type: 3}
           DistanceOffset: 0
-    - rid: 7800494560734347278
+    - rid: 7800494722459107330
       type: {class: WeaponTypeAnimationAOE, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:

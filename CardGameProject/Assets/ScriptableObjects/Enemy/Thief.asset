@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Guid: 35289a3758b892e499c304d3a5e1fa90
   Prefab: {fileID: 6075165209856986820, guid: 160d6e0da3c1cdb4ea45ed0942291619, type: 3}
-  Name: Thief
+  Name: Cultist
   Guard: 1
   Level: 1
   HurtSounds: {fileID: 11400000, guid: 188d611b10adfda488851286ff95d668, type: 2}
@@ -25,9 +25,9 @@ MonoBehaviour:
   ConversationTitle: 
   WeaponType: 0
   WeaponTypeAnimationSet:
-  - rid: 7800494560734347264
-  - rid: 7800494560734347265
-  - rid: 7800494560734347266
+  - rid: 7800494722459107331
+  - rid: 7800494722459107332
+  - rid: 7800494722459107333
   Cards:
   - rid: 7765747551190646922
   references:
@@ -69,7 +69,7 @@ MonoBehaviour:
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
-    - rid: 7800494560734347264
+    - rid: 7800494722459107331
       type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -77,7 +77,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
           DistanceOffset: 0
-    - rid: 7800494560734347265
+    - rid: 7800494722459107332
       type: {class: WeaponTypeAnimationHeavy, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -87,7 +87,7 @@ MonoBehaviour:
           DistanceOffset: 1
         - Clip: {fileID: 1827226128182048838, guid: 038bd9b32bdfa4747a9476ecb109aea9, type: 3}
           DistanceOffset: 0
-    - rid: 7800494560734347266
+    - rid: 7800494722459107333
       type: {class: WeaponTypeAnimationAOE, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:

@@ -21,6 +21,7 @@ public class DetailedUI : MonoBehaviour
     [MustBeAssigned] [SerializeField] GameObject DeactiveParent;
     [MustBeAssigned] [SerializeField] GameObject UiPrefab;
     public float EffectUIOffset = 50f;
+    [MustBeAssigned][SerializeField] TMP_Text EnemyName;
 
 
     public void Init(CombatStateMachine ctx)
@@ -40,6 +41,8 @@ public class DetailedUI : MonoBehaviour
     public void ChangeTarget(Enemy enemy)
     {
         _enemy = enemy;
+        EnemyName.text = enemy.EnemyData.Name;
+
         DisplayStats();
         ClearStatusUI();
         UpdateStatusEffectsUI();
