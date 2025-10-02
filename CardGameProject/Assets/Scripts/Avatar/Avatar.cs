@@ -6,6 +6,7 @@ using System;
 using Action = System.Action;
 using MyBox;
 using UnityEngine.VFX;
+using DG.Tweening;
 
 
 
@@ -46,6 +47,7 @@ public class Avatar : MonoBehaviour
     [HideInInspector] public Dictionary<ReactiveTrigger, List<ExecutableWrapper>> DictReactiveEffects = new();
     [HideInInspector] public List<StatusEffect> ListOfEffects = new();
     [HideInInspector] public List<GameAction> QueueGameActions = new();
+    [HideInInspector] public List<Tween> CurrentActiveStatusEffectTween = new();
 
     #endregion
 

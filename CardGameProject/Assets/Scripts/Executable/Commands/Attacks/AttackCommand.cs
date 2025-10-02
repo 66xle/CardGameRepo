@@ -43,7 +43,7 @@ public abstract class AttackCommand : Command
                     takeDamageFromWeaponGA.Damage += damage;
 
                     SpawnDamageUIPopupGA spawnDamageUIPopupGA = takeDamageFromWeaponGA.PostReactions.First(gameAction => gameAction is SpawnDamageUIPopupGA) as SpawnDamageUIPopupGA;
-                    spawnDamageUIPopupGA.Damage = takeDamageFromWeaponGA.Damage;
+                    spawnDamageUIPopupGA.Text = takeDamageFromWeaponGA.Damage.ToString();
                 }
                 else
                 {
@@ -51,7 +51,7 @@ public abstract class AttackCommand : Command
                     TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, damage, ExecutableParameters.WeaponData.DamageType, ExecutableParameters.CardTarget);
                     AddGameActionToQueue(takeDamageFromWeaponGA, avatarToTakeDamage);
 
-                    SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.AvatarToTakeDamage, takeDamageFromWeaponGA.Damage, Color.white);
+                    SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.AvatarToTakeDamage, takeDamageFromWeaponGA.Damage.ToString(), Color.white);
                     AddGameActionToQueue(spawnDamageUIPopupGA, avatarToTakeDamage);
                 }
 

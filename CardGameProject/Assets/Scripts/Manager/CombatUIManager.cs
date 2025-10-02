@@ -33,6 +33,7 @@ public class CombatUIManager : MonoBehaviour
     [Range(0, 1)] public float RandomOffsetHorizontal = 0.5f;
     public float OffsetVertical = 1f;
     public float baseScale = 1f;
+    public float StatusEffectTweenProgress = 0.3f;
 
     [Separator("Animate")]
     public float MoveDuration;
