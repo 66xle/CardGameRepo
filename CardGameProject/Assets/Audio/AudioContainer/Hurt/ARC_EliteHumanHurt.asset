@@ -9,7 +9,7 @@ AudioContainerElement:
   m_Name: Dialogue_Cultist_PainB-1_{-5971597549498047088}
   m_AudioClip: {fileID: 8300000, guid: ad22fd0f15d51cc4a922cebe9885bf7c, type: 3}
   m_Volume: 0
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!1233149941 &-2479655219424157980
 AudioContainerElement:
   m_ObjectHideFlags: 1
@@ -32,13 +32,13 @@ AudioRandomContainer:
   m_AutomaticTriggerTime: 0
   m_LoopCount: 1
   m_VolumeRandomizationRange: {x: 0, y: 0}
-  m_PitchRandomizationRange: {x: -100, y: 100}
+  m_PitchRandomizationRange: {x: -100, y: 0}
   m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
   m_LoopCountRandomizationRange: {x: 0, y: 0}
   m_Elements:
   - {fileID: -5971597549498047088}
   - {fileID: -2479655219424157980}
-  m_AvoidRepeatingLast: 1
+  m_AvoidRepeatingLast: 0
   m_PlaybackMode: 1
   m_TriggerMode: 0
   m_AutomaticTriggerMode: 1
