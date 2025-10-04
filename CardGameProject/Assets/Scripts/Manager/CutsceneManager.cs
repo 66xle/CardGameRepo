@@ -65,7 +65,7 @@ public class CutsceneManager : MonoBehaviour
 
         _cutsceneIndex++;
         GameObject prefab = Cutscenes[_cutsceneIndex];
-        _loadedPrefab = Instantiate(prefab);
+        _loadedPrefab = Instantiate(prefab, asp.CutsceneParent);
     }
 
     public void EndCutscene()
