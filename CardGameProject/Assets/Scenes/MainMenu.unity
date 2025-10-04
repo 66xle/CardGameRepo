@@ -4430,6 +4430,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4834742675e0b4b77ab44d17531cb493, type: 2}
   - {fileID: 11400000, guid: 77c4d145f3eb5493b85c1c5f9738d573, type: 2}
   - {fileID: 11400000, guid: 148fe1c3ac4b0408ba26167d756ac7c5, type: 2}
+  arenaLibrary: []
   initialSections: 3
   spawnWindowAhead: 100
   despawnBelow: -50
@@ -4438,6 +4439,17 @@ MonoBehaviour:
   speedRange: {x: 4, y: 18}
   driftIdleIntervalRange: {x: 10, y: 30}
   driftRampDurationRange: {x: 15, y: 30}
+  arenaDecelDuration: 4
+  OnArenaArrived:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCutsceneStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnResumed:
+    m_PersistentCalls:
+      m_Calls: []
+  resumeDuration: 3
 --- !u!4 &900490349
 Transform:
   m_ObjectHideFlags: 0
@@ -4546,7 +4558,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 370.80005, y: -412.54843}
+  m_AnchoredPosition: {x: 370.80005, y: -412.54846}
   m_SizeDelta: {x: -824, y: -859.2968}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &941356132
