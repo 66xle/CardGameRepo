@@ -32,22 +32,8 @@ MonoBehaviour:
       data:
         Card: {fileID: 11400000, guid: feb203c8a3236344a9761939b29e6d83, type: 2}
         CardAmount: 2
-        Animations:
-        - rid: 7765747551190646928
-        AnimationList:
-        - AnimationName: Counter
-          DistanceOffset: 0
-          FollowTimeline: {fileID: 0}
-          AttackTimeline: {fileID: 0}
-    - rid: 7765747551190646928
-      type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
-      data:
-        _animation: {fileID: 1827226128182048838, guid: 1d9d77f0ba5108d47b56b53956d6761e, type: 3}
-        _overrideDistanceOffset: 1
-        _distanceOffset: 0
-        _overrideCamera: 1
-        _followTimeline: {fileID: 0}
-        _attackTimeline: {fileID: 0}
+        Animations: []
+        AnimationList: []
     - rid: 7765747868154462313
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -55,11 +41,17 @@ MonoBehaviour:
         CardAmount: 1
         Animations:
         - rid: 7765747868154462314
-        AnimationList: []
+        AnimationList:
+        - AnimationName: 1H Strike 1
+          DistanceOffset: 0
+          FollowTimeline: {fileID: 0}
+          AttackTimeline: {fileID: 0}
+          AudioType: 200
     - rid: 7765747868154462314
       type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
       data:
-        _animation: {fileID: 0}
+        _animation: {fileID: 1827226128182048838, guid: 3d8051e0b50b9c84e8d5c5e945105220, type: 3}
+        AudioType: 200
         _overrideDistanceOffset: 1
         _distanceOffset: 0
         _overrideCamera: 1
@@ -70,19 +62,5 @@ MonoBehaviour:
       data:
         Card: {fileID: 11400000, guid: c0a4b73227f56c64a9723c442f16b44d, type: 2}
         CardAmount: 1
-        Animations:
-        - rid: 7800494560734347405
-        AnimationList:
-        - AnimationName: Counter
-          DistanceOffset: 0
-          FollowTimeline: {fileID: 0}
-          AttackTimeline: {fileID: 0}
-    - rid: 7800494560734347405
-      type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
-      data:
-        _animation: {fileID: 1827226128182048838, guid: 1d9d77f0ba5108d47b56b53956d6761e, type: 3}
-        _overrideDistanceOffset: 1
-        _distanceOffset: 0
-        _overrideCamera: 1
-        _followTimeline: {fileID: 0}
-        _attackTimeline: {fileID: 0}
+        Animations: []
+        AnimationList: []

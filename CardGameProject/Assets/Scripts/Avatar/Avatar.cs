@@ -33,12 +33,14 @@ public class Avatar : MonoBehaviour
     #region Bools
     public bool DoDamage { get; set; }
     public bool IsAttackFinished { get; set; }
-    public bool IsTakeDamage { get; set; } = false;
+    public bool IsHit { get; set; } = false;
     public bool IsRunningReactiveEffect { get; set; } = false;
 
     public bool IsInCounterState { get; set; } = false;
+    public bool IsCountered { get; set; }
     public bool IsInStatusActivation { get; set; }
     public bool DoStatusDmg { get; set; }
+    public bool IsRecoilDone { get; set; }
 
     #endregion
 
@@ -275,7 +277,7 @@ public class Avatar : MonoBehaviour
 
             if (wrapper.EffectTiming == EffectTiming.Immediate && trigger == wrapper.ReactiveTrigger)
             {
-                // put in a queue
+                // put in a queue to run effect later
                 if (wrapper.DuplicateEffect == DuplicateEffect.Overwrite)
                 {
                     overwriteQueue.Add(wrapper);
@@ -287,6 +289,7 @@ public class Avatar : MonoBehaviour
             }
             else if (wrapper.EffectTiming == EffectTiming.NextTurn)
             {
+                // If trigger is not Start of turn, skip
                 if (trigger != ReactiveTrigger.StartOfTurn) continue;
 
                 wrapper.EffectTiming = EffectTiming.Immediate;
@@ -345,11 +348,11 @@ public class Avatar : MonoBehaviour
 
                 if (trigger == ReactiveTrigger.StartOfTurn)
                 {
-                    if (wrapper.Turns > 1)
+                    if (wrapper.Turns > 1) // Reduce turn count
                     {
                         DictReactiveEffects[pair.Key][i].Turns--;
                     }
-                    else if (wrapper.Turns == 1)
+                    else if (wrapper.Turns == 1) // Remove reactive effect
                     {
                         DictReactiveEffects[pair.Key].RemoveAt(i);
                         Debug.Log("Removed");
@@ -367,6 +370,7 @@ public class Avatar : MonoBehaviour
     {
         List<List<Executable>> sortedCommands = new();
 
+        // Gets all enums of overwrite type in order (Counterattack being last)
         foreach (OverwriteType type in Enum.GetValues(typeof(OverwriteType)))
         {
             ExecutableWrapper wrapper = overwriteQueue.FirstOrDefault(w => w.OverwriteType == type);
@@ -382,7 +386,7 @@ public class Avatar : MonoBehaviour
 
             if (list.Count == 0) continue;
 
-            // Check to put any damage commands together with counterattack
+            // Create new list if stack type is not damage, Skip this if do damage then add damage commands together with counterattack
             if (type == StackType.DoDamage && !overwriteQueue.Exists(w => w.OverwriteType == OverwriteType.Counterattack))
             {
                 sortedCommands.Add(new List<Executable>());
@@ -417,6 +421,12 @@ public class Avatar : MonoBehaviour
     public void AnimationEventPlaySound()
     {
         AudioManager.Instance.PlayAudioType();
+    }
+
+    public void AnimationEventDisableRecoil()
+    {
+        IsRecoilDone = true;
+        Animator.SetBool("IsRecoiled", false);
     }
 
     public void EnableWeaponTrail()

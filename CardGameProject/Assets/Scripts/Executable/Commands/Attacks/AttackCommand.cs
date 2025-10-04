@@ -25,8 +25,10 @@ public abstract class AttackCommand : Command
 
         if (avatarOpponent.IsInCounterState)
         {
-            CounterGA counterGA = new(avatarOpponent, avatarPlayingCardController, opponentController);
+            CounterGA counterGA = new(avatarOpponent, avatarPlayingCard);
             avatarOpponent.QueueGameActions.Add(counterGA);
+
+            AddGameActionToQueue(counterGA, avatarOpponent);
         }
         else
         {
@@ -57,8 +59,8 @@ public abstract class AttackCommand : Command
 
                 ExecutableParameters.Targets[i] = avatarToTakeDamage;
             }
-
-            UpdateGameActionQueue();
         }
+
+        UpdateGameActionQueue();
     }
 }

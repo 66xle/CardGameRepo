@@ -18,8 +18,8 @@ public class ArmourAnimationData : AnimationData
 
 
     public AnimationClip _animation;
-    [ConditionalField(false, nameof(AnimationClip))] public Boolean _overrideDistanceOffset = Boolean.False;
     [ConditionalField(false, nameof(AnimationClip))] public AudioType AudioType;
+    [ConditionalField(false, nameof(AnimationClip))] public Boolean _overrideDistanceOffset = Boolean.False;
     [ConditionalField(false, nameof(OverrideDistance))] public float _distanceOffset = 0;
     [ConditionalField(false, nameof(AnimationClip))] public Boolean _overrideCamera = Boolean.False;
     [ConditionalField(false, nameof(OverrideVirtualCamera))] public PlayableAsset _followTimeline;

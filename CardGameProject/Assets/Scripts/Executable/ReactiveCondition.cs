@@ -32,4 +32,6 @@ public abstract class ReactiveCondition : Condition
 
     public abstract void SetCommands();
 
+    public virtual void OnApply() { }
+
 }

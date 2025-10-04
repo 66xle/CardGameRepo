@@ -105,8 +105,8 @@ public class ActionState : CombatBaseState
 
         isInAction = false;
 
-        ctx.EnemyList.ForEach(enemy => enemy.IsTakeDamage = false);
-        ctx.player.IsTakeDamage = false;
+        ctx.EnemyList.ForEach(enemy => enemy.IsHit = false);
+        ctx.player.IsHit = false;
 
         Debug.Log("Finished Attacking");
 

@@ -14,7 +14,7 @@ public class ActionSequence : Executable
 
     private List<Executable> _actionCommands;
 
-    private bool IsDrawingCard;
+    private bool SkipAnimation;
 
     public ActionSequence(List<Executable> actionCommands)
     {
@@ -33,9 +33,11 @@ public class ActionSequence : Executable
 
         avatarPlayingCard.DoDamage = false;
         avatarPlayingCard.IsAttackFinished = false;
+        avatarPlayingCard.IsCountered = false;
+        avatarPlayingCard.IsRecoilDone = false;
         bool hasMoved = false;
         IsAttackingAllEnemies = false;
-        IsDrawingCard = false;
+        SkipAnimation = false;
 
         //ctx.CameraManager.SetDummy(avatarPlayingCard.transform);
         ctx.CameraManager.SetVictimDummy(avatarOpponent.transform, avatarPlayingCard.transform);
@@ -53,7 +55,7 @@ public class ActionSequence : Executable
             yield break;
         }
 
-        if (!IsDrawingCard)
+        if (!SkipAnimation)
             ctx.CombatUIManager.HideGameplayUI(true);
 
         #region Movement
@@ -78,7 +80,19 @@ public class ActionSequence : Executable
         }
         else
         {
-            avatarPlayingCard.IsAttackFinished = true; // temp fix
+            if (!SkipAnimation)
+            {
+                AnimationWrapper animationWrapper = GetAttackAnimation();
+
+                TriggerAttackAnimGA triggerAttackAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioType);
+                ActionSystem.Instance.Perform(triggerAttackAnimGA);
+
+                yield return new WaitWhile(() => !avatarPlayingCard.DoDamage);
+            }
+            else
+            {
+                avatarPlayingCard.IsAttackFinished = true; // temp fix
+            }
         }
 
         #endregion
@@ -90,7 +104,14 @@ public class ActionSequence : Executable
         }
 
 
-        yield return new WaitWhile(() => !avatarPlayingCard.IsAttackFinished); // TODO - Rename to isAnimationFinished
+        yield return new WaitWhile(() => !avatarPlayingCard.IsAttackFinished);
+
+        if (!hasMoved) // Hard coded fix
+            avatarPlayingCard.IsAttackFinished = false;
+
+        // Wait until opponent has finished attacking
+        if (avatarPlayingCard.IsCountered) // Hard coded (Counter with attack, not counter only)
+            yield return new WaitWhile(() => !avatarPlayingCard.IsRecoilDone);
 
         #region Return
 
@@ -110,7 +131,6 @@ public class ActionSequence : Executable
             yield return TriggerReactiveEffect(avatarPlayingCard, avatarOpponent, ReactiveTrigger.AfterTakeDamageByWeapon);
 
 
-
         yield return new WaitWhile(() => ActionSystem.Instance.IsPerforming);
     }
 
@@ -123,9 +143,13 @@ public class ActionSequence : Executable
                 ReactiveCondition currentReactiveCondition = command as ReactiveCondition;
 
                 TriggerDuplicateReactiveCondition(ExecutableParameters.AvatarPlayingCard, currentReactiveCondition);
-                
+
+                SkipAnimation = true;
+
                 continue;
             }
+
+            SkipAnimation = false;
 
             ExecutableParameters.Targets = GetTargets(command.CardTarget);
             ExecutableParameters.CardTarget = command.CardTarget;
@@ -137,7 +161,7 @@ public class ActionSequence : Executable
             yield return command.Execute(result => isConditionTrue = result);
 
             if (command is DrawCommand)
-                IsDrawingCard = true;
+                SkipAnimation = true;
 
             if (isConditionTrue)
             {
@@ -174,16 +198,17 @@ public class ActionSequence : Executable
 
         currentReactiveCondition.AddReactiveEffect();
         currentReactiveCondition.SetCommands();
+        currentReactiveCondition.OnApply();
     }
 
     private IEnumerator TriggerReactiveEffect(Avatar avatarPlayingCard, Avatar avatarOpponent, ReactiveTrigger trigger)
     {
         foreach (Avatar avatarTarget in ExecutableParameters.Queue)
         {
-            if (!avatarTarget.IsTakeDamage) continue;
+            if (!avatarTarget.IsHit) continue;
 
             if (trigger == ReactiveTrigger.AfterTakeDamageByWeapon) 
-                avatarTarget.IsTakeDamage = false;
+                avatarTarget.IsHit = false;
 
             Debug.Log(trigger);
 

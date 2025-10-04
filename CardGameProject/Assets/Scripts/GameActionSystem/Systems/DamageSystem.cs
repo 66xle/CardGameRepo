@@ -29,7 +29,7 @@ public class DamageSystem : MonoBehaviour
 
         if (takeDamageFromWeaponGA.CardTarget != CardTarget.Self)
         {
-            avatarToTakeDamage.IsTakeDamage = true;
+            avatarToTakeDamage.IsHit = true;
             avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
 
             if (avatarToTakeDamage.IsGuardReducible(takeDamageFromWeaponGA.DamageType))
@@ -70,7 +70,7 @@ public class DamageSystem : MonoBehaviour
 
         if (takeGuardDamageGA.CardTarget != CardTarget.Self)
         {
-            avatarToTakeDamage.IsTakeDamage = true;
+            avatarToTakeDamage.IsHit = true;
             avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
         }
 
@@ -94,14 +94,14 @@ public class DamageSystem : MonoBehaviour
 
     private IEnumerator CounterPerformer(CounterGA counterGA)
     {
-        counterGA.OpponentController.SetBool("isReady", false);
+        //counterGA.OpponentController.SetBool("isReady", false);
+        //counterGA.AvatarOpponent.IsInCounterState = false;
         counterGA.OpponentController.SetTrigger("Counter");
+        counterGA.AvatarOpponent.IsHit = true;
 
+        counterGA.AvatarPlayingCard.IsCountered = true;
+        counterGA.AvatarPlayingCardController.SetBool("IsRecoiled", true);
         counterGA.AvatarPlayingCardController.SetTrigger("Recoil");
-
-        counterGA.AvatarOpponent.IsInCounterState = false;
-
-
 
         yield return null;
     }

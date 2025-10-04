@@ -15,13 +15,22 @@ public class DealDamage : AttackCommand
     public override CardTarget CardTarget => target;
 
     public CardTarget target = CardTarget.Enemy;
+    [ConditionalField(false, nameof(CheckCardTarget))] public bool ShouldMove = true;
     public float value;
+
+    bool CheckCardTarget()
+    {
+        if (CardTarget == CardTarget.Self)
+            return false;
+
+        return true;
+    }
 
     bool SetMovement()
     {
         if (CardTarget == CardTarget.Self)
             return false;
 
-        return true;
+        return ShouldMove;
     }
 }

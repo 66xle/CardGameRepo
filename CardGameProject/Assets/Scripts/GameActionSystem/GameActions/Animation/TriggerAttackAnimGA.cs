@@ -9,12 +9,14 @@ public class TriggerAttackAnimGA : GameAction
     public string AnimationName;
     public PlayableAsset AttackTimeline;
     public AudioType AudioType;
+    public bool EnableAttackCamera;
 
-    public TriggerAttackAnimGA(Avatar avatarPlayingCard, string animationName, PlayableAsset attackTimeline, AudioType audioType)
+    public TriggerAttackAnimGA(Avatar avatarPlayingCard, string animationName, PlayableAsset attackTimeline, AudioType audioType, bool enableAttackCamera = true)
     {
         AvatarPlayingCard = avatarPlayingCard;
         AnimationName = animationName;
         AttackTimeline = attackTimeline;
         AudioType = audioType;
+        EnableAttackCamera = enableAttackCamera;
     }
 }
