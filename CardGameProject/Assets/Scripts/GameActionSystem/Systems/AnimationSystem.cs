@@ -51,7 +51,7 @@ public class AnimationSystem : MonoBehaviour
         Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), moveDuration * distanceOffset).SetEase(moveAnimCurve);
 
         Quaternion targetRotation = Quaternion.LookRotation(-dir);
-        currentTransform.DORotate(targetRotation.eulerAngles, 1f, RotateMode.Fast);
+        currentTransform.DORotate(targetRotation.eulerAngles, 1f, RotateMode.Fast); 
 
         yield return tween.WaitForCompletion();
     }
