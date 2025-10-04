@@ -15,11 +15,11 @@ public class IfWeakness : Condition
 
         for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
         {
-            Avatar avatar = ExecutableParameters.Targets[i];
+            Avatar avatarOpponent = ExecutableParameters.Targets[i];
 
-            if (!avatar.IsGuardReducible(ExecutableParameters.WeaponData.DamageType))
+            if (!avatarOpponent.IsGuardReducible(ExecutableParameters.AvatarPlayingCard.CurrentWeaponData.DamageType))
             {
-                currentTargets.Remove(avatar);
+                currentTargets.Remove(avatarOpponent);
             }
         }
 

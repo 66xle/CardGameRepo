@@ -89,7 +89,7 @@ public class ActionState : CombatBaseState
         ExecutableParameters.AvatarOpponent = avatarOpponent;
 
         if (cardData.Gear is WeaponData)
-            ExecutableParameters.WeaponData = (WeaponData)cardData.Gear;
+            avatarPlayingCard.CurrentWeaponData = (WeaponData)cardData.Gear;
 
         isInAction = true;
         //ctx.CombatUIManager.HideGameplayUI(true);

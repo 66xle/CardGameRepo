@@ -15,9 +15,10 @@ MonoBehaviour:
   Guid: 614757c7207c7e642bd6d2044bac82f7
   InGameGUID: 
   CardName: Counter
-  Description: When attacked, deal #0 damage until next turn
+  Description: Reduce damage by 50%. When attacked, deal #0 damage until next turn
   DisplayDescription: 
-  LinkDescription: When attacked, deal #0 damage until next turn
+  LinkDescription: Reduce damage by 50%. When attacked, deal #0 damage until next
+    turn
   Flavour: 
   Image: {fileID: 21300000, guid: c30db6b8cbc462e4185fb1e25d3e4ddc, type: 3}
   Frame: {fileID: 21300000, guid: 61329542160dc15418ac2da74fe16cf1, type: 3}
@@ -26,7 +27,7 @@ MonoBehaviour:
   ValuesToReference:
   - {x: 0, y: 1}
   Commands:
-  - rid: 5090185875588907097
+  - rid: 5090185875588907209
   PopupKeyPair:
   - Key: Bleed
     Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
@@ -35,14 +36,14 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5090185875588907097
+    - rid: 5090185875588907209
       type: {class: IfAttacked, ns: , asm: Assembly-CSharp}
       data:
         reactiveOptions:
-          rid: 5090185875588907098
+          rid: 5090185875588907210
         commands:
-        - rid: 5090185875588907099
-    - rid: 5090185875588907098
+        - rid: 5090185875588907211
+    - rid: 5090185875588907210
       type: {class: ReactiveOptions, ns: , asm: Assembly-CSharp}
       data:
         DuplicateEffect: 1
@@ -52,7 +53,7 @@ MonoBehaviour:
         ReactiveTrigger: 5
         EffectDuration: 1
         Turns: 0
-    - rid: 5090185875588907099
+    - rid: 5090185875588907211
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 1

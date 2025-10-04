@@ -59,7 +59,7 @@ public class CardManager : MonoBehaviour
 
     public void LoadCards()
     {
-        AddEquipmentCardsToDeck(EquipmentManager.FixedWeapon1stBattle);
+        AddEquipmentCardsToDeck(SwitchWeaponManager.CurrentMainHand);
 
         return;
 

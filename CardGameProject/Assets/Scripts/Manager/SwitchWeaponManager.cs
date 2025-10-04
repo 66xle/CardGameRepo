@@ -58,6 +58,11 @@ public class SwitchWeaponManager : MonoBehaviour
         }
     }
 
+    public void InitTutorialWeapon()
+    {
+        CurrentMainHand = CopyWeaponData(EquipmentManager.FixedWeapon1stBattle);
+    }
+
     public void InitCameraList()
     {
         _cameraList.Clear();

@@ -218,7 +218,15 @@ public class CombatStateMachine : MonoBehaviour
             // Equipment
             _equipmentHolsterScript = player.GetComponent<EquipmentHolster>();
 
-            SwitchWeaponManager.InitWeaponData();
+            if (GameManager.Instance.IsInTutorial)
+            {
+                SwitchWeaponManager.InitTutorialWeapon();
+            }
+            else
+            {
+                SwitchWeaponManager.InitWeaponData();
+            }
+                
             List<WeaponData> holsterWeapons = SwitchWeaponManager.GetWeaponList();
 
             if (holsterWeapons.Count > 0)

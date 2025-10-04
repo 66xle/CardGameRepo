@@ -58,6 +58,8 @@ public class Avatar : MonoBehaviour
     public string Guid { get; private set; }
     public Animator Animator { get; private set; }
 
+    public WeaponData CurrentWeaponData { get; set; }
+
     #endregion
 
     #region Internal Variables
