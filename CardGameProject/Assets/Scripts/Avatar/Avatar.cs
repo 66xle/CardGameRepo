@@ -271,7 +271,8 @@ public class Avatar : MonoBehaviour
         {
             ExecutableWrapper wrapper = listWrapper[i];
 
-            if (IsGuardBroken() && wrapper.Commands.Any(command => command is AttackCommand)) continue;
+            if (IsGuardBroken() && wrapper.Commands.Any(command => command is AttackCommand)) continue; // NOTE: If we are guard broken & command is an attack command, ignore
+                                                                                                        // (Maybe ignore every command if guard broken)
 
             #region Check Timing 
 
@@ -336,6 +337,8 @@ public class Avatar : MonoBehaviour
 
     public void CheckTurnsReactiveEffects(ReactiveTrigger trigger)
     {
+        bool isCounterActive = false;
+
         Dictionary<ReactiveTrigger, List<ExecutableWrapper>> tempDict = DictReactiveEffects.ToDictionary(pair => pair.Key, pair => new List<ExecutableWrapper>(pair.Value));
 
         foreach (KeyValuePair<ReactiveTrigger, List<ExecutableWrapper>> pair in tempDict)
@@ -344,7 +347,11 @@ public class Avatar : MonoBehaviour
 
             for (int i = listWrapper.Count - 1; i >= 0; i--)
             {
+                bool isWrapperRemoved = false;
+
                 ExecutableWrapper wrapper = listWrapper[i];
+                if (wrapper.OverwriteType == OverwriteType.Counter || wrapper.OverwriteType == OverwriteType.Counterattack)
+                    isCounterActive = true;
 
                 if (trigger == ReactiveTrigger.StartOfTurn)
                 {
@@ -355,15 +362,22 @@ public class Avatar : MonoBehaviour
                     else if (wrapper.Turns == 1) // Remove reactive effect
                     {
                         DictReactiveEffects[pair.Key].RemoveAt(i);
-                        Debug.Log("Removed");
+                        isWrapperRemoved = true;
                     }
                 }
                 else if (wrapper.Turns == 0 && trigger == ReactiveTrigger.EndOfTurn)
                 {
                     DictReactiveEffects[pair.Key].RemoveAt(i);
+                    isWrapperRemoved = true;
                 }
+
+                if (isWrapperRemoved) 
+                    isCounterActive = false;
             }
         }
+
+        if (!isCounterActive)
+            GetComponent<Animator>().SetBool("isReady", false);
     }
 
     public List<List<Executable>> SortQueue(List<ExecutableWrapper> overwriteQueue, List<ExecutableWrapper> stackQueue)
