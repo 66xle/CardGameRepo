@@ -48,7 +48,7 @@ public class AnimationSystem : MonoBehaviour
 
         Vector3 posToMove = opponentPos + dir * (1.5f + distanceOffset);
 
-        Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), moveDuration).SetEase(moveAnimCurve);
+        Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), moveDuration * distanceOffset).SetEase(moveAnimCurve);
 
         Quaternion targetRotation = Quaternion.LookRotation(-dir);
         currentTransform.DORotate(targetRotation.eulerAngles, 1f, RotateMode.Fast);

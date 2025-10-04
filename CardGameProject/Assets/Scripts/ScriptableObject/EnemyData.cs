@@ -20,7 +20,7 @@ public class EnemyData : ScriptableObject
     [ReadOnly] public string Guid;
     public GameObject Prefab;
     public string Name;
-    public int Guard;
+    public int Guard = 3;
     public int Level = 1;
     public AudioData HurtSounds;
     public AudioData DeathSounds;
