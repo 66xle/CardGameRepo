@@ -71,7 +71,7 @@ public class RewardManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            DisplayReward();
+            DisplayVictoryUI();
         }
     }
 
@@ -109,7 +109,7 @@ public class RewardManager : MonoBehaviour
         CutsceneManager.NextCutscene();
     }
 
-    public void DisplayReward()
+    public void DisplayVictoryUI()
     {
         DetermineDrops();
 
@@ -153,10 +153,13 @@ public class RewardManager : MonoBehaviour
             PoolOfGear.AddRange(LootTable.EpicGear);
     }
 
-    
+    public void DisplayRewardUI()
+    {
+        RewardUI.SetActive(true);
+    }
 
 
-
+    // Choose Gear UI
     public void CreateGearItem(List<GearData> gears)
     {
         foreach (GearData data in gears)
@@ -209,6 +212,7 @@ public class RewardManager : MonoBehaviour
     }
 
 
+    // Gear Overlay UI
     public void OpenGearOverlay(GearData data)
     {
         RenderCamera.gameObject.SetActive(true);
@@ -255,6 +259,8 @@ public class RewardManager : MonoBehaviour
 
         GearOverlay.SetActive(false);
     }
+
+
 
     public void CalculateExp(Tween victoryTween)
     {
@@ -313,13 +319,12 @@ public class RewardManager : MonoBehaviour
 
             }).SetUpdate(true);
 
-            DOVirtual.Int(0, (int)expGained, AnimationTime, v => ExpText.text = $"+ {v.ToString()}").SetUpdate(true);
+            DOVirtual.Int(0, (int)expGained, AnimationTime, v => ExpText.text = $"+ {v.ToString()}").SetUpdate(true).OnComplete(() =>
+            {
+                VictoryObject.SetActive(false);
+                DisplayRewardUI();
+            });
         });
-
-
-        
-
-        
     }
 
     public void CheckLevelUp()
