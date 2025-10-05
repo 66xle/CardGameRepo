@@ -22,6 +22,12 @@ public class RewardManager : MonoBehaviour
     [SerializeField] int MidLevel;
     [PositiveValueOnly] [SerializeField] Vector3 BattleMultiplier;
 
+    [Foldout("Victory UI", true)]
+    [MustBeAssigned][SerializeField] GameObject VictoryObject;
+    [MustBeAssigned][SerializeField] CanvasGroup CanvasGroup;
+    [MustBeAssigned][SerializeField] float AlphaDuration;
+    [MustBeAssigned][SerializeField] Image ExpFill;
+
     [Foldout("Exp References", true)]
     [MustBeAssigned][SerializeField] Slider ExpSlider;
     [MustBeAssigned][SerializeField] TMP_Text ExpText;
@@ -57,6 +63,14 @@ public class RewardManager : MonoBehaviour
     private void Init()
     {
         cardCarousel = PreviewCards.GetComponent<CardCarousel>();
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            DisplayReward();
+        }
     }
 
     public void RewardConfirmButton()
@@ -113,8 +127,14 @@ public class RewardManager : MonoBehaviour
             gears.Add(PoolOfGear[index]);
         }
 
-        ChooseGearUI.SetActive(true);
-        CreateGearItem(gears);
+        //ChooseGearUI.SetActive(true);
+        //CreateGearItem(gears);
+
+        // Play animations
+        VictoryObject.SetActive(true);
+        Tween victoryTween = DOVirtual.Float(0, 1, AlphaDuration, a => CanvasGroup.alpha = a);
+
+        CalculateExp(victoryTween);
     }
 
     public void DetermineDrops()
@@ -167,7 +187,7 @@ public class RewardManager : MonoBehaviour
         RewardUI.SetActive(true);
         CreateGearIcon();
 
-        CalculateExp();
+        //CalculateExp();
     }
 
     public void CreateGearIcon()
@@ -234,18 +254,18 @@ public class RewardManager : MonoBehaviour
         GearOverlay.SetActive(false);
     }
 
-    public void CalculateExp()
+    public void CalculateExp(Tween victoryTween)
     {
         int playerLevel = GameManager.Instance.PlayerLevel;
         float currentExp = GameManager.Instance.CurrentEXP;
         float expNeeded = PSS.CalculateExperience(playerLevel);
         float previousExpNeeded = 0;
-        float expDiff = expNeeded;
+        float expNeededToLvlUp = expNeeded;
 
         if (playerLevel > 1)
         {
             previousExpNeeded = PSS.CalculateExperience(playerLevel - 1);
-            expDiff = expNeeded - previousExpNeeded;
+            expNeededToLvlUp = expNeeded - previousExpNeeded;
         }
 
         float battleMultiplier = 0;
@@ -253,44 +273,61 @@ public class RewardManager : MonoBehaviour
         if (playerLevel > LowLevel && playerLevel <= MidLevel) battleMultiplier = BattleMultiplier.y;
         if (playerLevel > MidLevel) battleMultiplier = BattleMultiplier.z;
 
-        float expGained = Mathf.Ceil(expDiff * battleMultiplier);
+        float expGained = Mathf.Ceil(expNeededToLvlUp * battleMultiplier);
 
-        currentExp += expGained;
+        GameManager.Instance.CurrentEXP = (int)(currentExp + expGained);
+        CheckLevelUp();
+
+
+        // Display current exp
+        float current = currentExp - previousExpNeeded;
+        float maxExp = expNeededToLvlUp;
+        ExpFill.fillAmount = current / expNeededToLvlUp;
+
+        // Increase current exp
+        victoryTween.OnComplete(() =>
+        {
+            // Tween animations
+            DOVirtual.Float(currentExp, currentExp + expGained, AnimationTime, v =>
+            {
+                if (v >= expNeeded)
+                {
+                    playerLevel++;
+                    LevelText.text = $"Level {playerLevel}";
+
+                    // Get max exp
+                    expNeeded = PSS.CalculateExperience(playerLevel);
+                    previousExpNeeded = PSS.CalculateExperience(playerLevel - 1);
+                    expNeededToLvlUp = expNeeded - previousExpNeeded;
+                }
+
+                float current = v - previousExpNeeded;
+                float maxExp = expNeededToLvlUp;
+                ExpFill.fillAmount = current / maxExp;
+                //ExpSlider.value = current / maxExp;
+
+            }).SetDelay(0.5f).SetUpdate(true);
+
+            DOVirtual.Int(0, (int)expGained, AnimationTime, v => ExpText.text = $"+ {v.ToString()}").SetDelay(0.5f).SetUpdate(true);
+        });
+
+
+        
+
+        
+    }
+
+    public void CheckLevelUp()
+    {
+        int playerLevel = GameManager.Instance.PlayerLevel;
+        float currentExp = GameManager.Instance.CurrentEXP;
+        float expNeeded = PSS.CalculateExperience(playerLevel);
+
         if (currentExp >= expNeeded)
         {
-            playerLevel++;
-            GameManager.Instance.PlayerLevel = playerLevel;
+            GameManager.Instance.PlayerLevel = playerLevel + 1;
 
-            expNeeded = PSS.CalculateExperience(playerLevel);
-            previousExpNeeded = PSS.CalculateExperience(playerLevel - 1);
-            expDiff = expNeeded - previousExpNeeded;
+            CheckLevelUp();
         }
-
-        GameManager.Instance.CurrentEXP = (int)currentExp;
-
-
-        // Tween animations
-        DOVirtual.Float(currentExp, currentExp + expGained, AnimationTime, v =>
-        {
-            if (v >= expNeeded)
-            {
-                playerLevel++;
-                GameManager.Instance.PlayerLevel = playerLevel;
-
-                // Get max exp
-                expNeeded = PSS.CalculateExperience(playerLevel);
-                previousExpNeeded = PSS.CalculateExperience(playerLevel - 1);
-                expDiff = expNeeded - previousExpNeeded;
-
-                LevelText.text = $"Level {playerLevel}";
-            }
-
-            float current = v - previousExpNeeded;
-            float maxExp = expDiff;
-            ExpSlider.value = current / maxExp;
-
-        }).SetDelay(0.5f).SetUpdate(true);
-
-        DOVirtual.Int(0, (int)expGained, AnimationTime, v => ExpText.text = $"+ {v.ToString()}").SetDelay(0.5f).SetUpdate(true);
     }
 }

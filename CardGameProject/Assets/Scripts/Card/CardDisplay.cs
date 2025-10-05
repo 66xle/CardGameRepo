@@ -31,7 +31,6 @@ public class CardDisplay : MonoBehaviour
         if (InputManager.Instance.LeftClickInputDown && !_isPopupDisabled)
         {
             int linkIndex = TMP_TextUtilities.FindIntersectingLink(Description, Input.mousePosition, Camera.main);
-            Debug.Log("Link: " + Description.textInfo.linkInfo.Length);
             if (linkIndex != -1)
             {
                 TMP_LinkInfo linkInfo = Description.textInfo.linkInfo[linkIndex];

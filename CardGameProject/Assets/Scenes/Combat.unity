@@ -5553,12 +5553,12 @@ RectTransform:
   - {fileID: 1192472481}
   - {fileID: 105679949}
   - {fileID: 2140653294}
-  - {fileID: 866218573}
   - {fileID: 257046059}
   - {fileID: 869826083}
   - {fileID: 990480738}
   - {fileID: 1596904554}
   - {fileID: 947659814}
+  - {fileID: 866218573}
   m_Father: {fileID: 1382486998}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -9309,6 +9309,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 866218573}
+  - component: {fileID: 866218575}
   - component: {fileID: 866218574}
   m_Layer: 5
   m_Name: VictoryUI
@@ -9316,7 +9317,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &866218573
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9351,6 +9352,29 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!223 &866218575
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866218572}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 1000
+  m_TargetDisplay: 0
 --- !u!1 &869826082
 GameObject:
   m_ObjectHideFlags: 0
@@ -12956,7 +12980,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0, y: -362}
+  m_AnchoredPosition: {x: 0, y: -362}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1124093450
@@ -15097,6 +15121,9 @@ GameObject:
   - component: {fileID: 1349245162}
   - component: {fileID: 1349245164}
   - component: {fileID: 1349245163}
+  - component: {fileID: 1349245165}
+  - component: {fileID: 1349245167}
+  - component: {fileID: 1349245166}
   m_Layer: 5
   m_Name: UI_Victory_Backing
   m_TagString: Untagged
@@ -15161,6 +15188,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1349245161}
   m_CullTransparentMesh: 1
+--- !u!225 &1349245165
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349245161}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &1349245166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349245161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 32
+--- !u!223 &1349245167
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349245161}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &1377770971
 GameObject:
   m_ObjectHideFlags: 0
@@ -19091,6 +19170,10 @@ MonoBehaviour:
   LowLevel: 3
   MidLevel: 6
   BattleMultiplier: {x: 0.6, y: 0.4, z: 0.33}
+  VictoryObject: {fileID: 866218572}
+  CanvasGroup: {fileID: 866218574}
+  AlphaDuration: 1
+  ExpFill: {fileID: 1640974521}
   ExpSlider: {fileID: 387280138}
   ExpText: {fileID: 894434205}
   LevelText: {fileID: 594962367}
