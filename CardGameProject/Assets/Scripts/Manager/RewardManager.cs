@@ -33,6 +33,8 @@ public class RewardManager : MonoBehaviour
     [MustBeAssigned][SerializeField] TMP_Text ExpText;
     [MustBeAssigned][SerializeField] TMP_Text LevelText;
     [MustBeAssigned][SerializeField] float AnimationTime = 2f;
+    [MustBeAssigned][SerializeField] AudioData ExpGainSound;
+    [MustBeAssigned][SerializeField] AudioData LeveUpSound;
 
     [Foldout("References", true)]
     [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
@@ -287,6 +289,8 @@ public class RewardManager : MonoBehaviour
         // Increase current exp
         victoryTween.OnComplete(() =>
         {
+            AudioManager.Instance.PlaySound(ExpGainSound);
+
             // Tween animations
             DOVirtual.Float(currentExp, currentExp + expGained, AnimationTime, v =>
             {
@@ -294,6 +298,7 @@ public class RewardManager : MonoBehaviour
                 {
                     playerLevel++;
                     LevelText.text = $"Level {playerLevel}";
+                    AudioManager.Instance.PlaySound(LeveUpSound);
 
                     // Get max exp
                     expNeeded = PSS.CalculateExperience(playerLevel);
@@ -306,9 +311,9 @@ public class RewardManager : MonoBehaviour
                 ExpFill.fillAmount = current / maxExp;
                 //ExpSlider.value = current / maxExp;
 
-            }).SetDelay(0.5f).SetUpdate(true);
+            }).SetUpdate(true);
 
-            DOVirtual.Int(0, (int)expGained, AnimationTime, v => ExpText.text = $"+ {v.ToString()}").SetDelay(0.5f).SetUpdate(true);
+            DOVirtual.Int(0, (int)expGained, AnimationTime, v => ExpText.text = $"+ {v.ToString()}").SetUpdate(true);
         });
 
 
