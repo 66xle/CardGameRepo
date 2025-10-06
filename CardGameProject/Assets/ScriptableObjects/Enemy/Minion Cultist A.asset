@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Minion Cultist A
   m_EditorClassIdentifier: 
   Guid: d803cbf9e65089d4da7841f4be2c7f41
-  Prefab: {fileID: 6075165209856986820, guid: 160d6e0da3c1cdb4ea45ed0942291619, type: 3}
+  Prefab: {fileID: 6075165209856986820, guid: 566a500ff61f5a244a2bbeefd210576f, type: 3}
   Name: Cultist
   Guard: 1
   Level: 1
@@ -47,6 +47,7 @@ MonoBehaviour:
           FollowTimeline: {fileID: 0}
           AttackTimeline: {fileID: 0}
           AudioType: 200
+          SkipAnimation: 0
     - rid: 5090185919954944100
       type: {class: WeaponAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -69,7 +70,7 @@ MonoBehaviour:
         AudioType: 200
         _overrideDistanceOffset: 1
         _distanceOffset: 0
-        _overrideCamera: 0
+        _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
     - rid: 5090185919954944107
@@ -111,6 +112,7 @@ MonoBehaviour:
           FollowTimeline: {fileID: 0}
           AttackTimeline: {fileID: 0}
           AudioType: 0
+          SkipAnimation: 0
     - rid: 5090185919954944118
       type: {class: WeaponAnimationData, ns: , asm: Assembly-CSharp}
       data:
