@@ -74,7 +74,7 @@ public class DifficultyManager : MonoBehaviour
 
             foreach (EnemyData enemy in enemies)
             {
-                enemy.Level = GameManager.Instance.PlayerLevel;
+                enemy.Level = levelData.RecommendLevel;
             }
 
             return enemies;
