@@ -30,6 +30,7 @@ MonoBehaviour:
   - rid: 5090185875588907252
   - rid: 5090185875588907257
   - rid: 5090185875588907258
+  - rid: 5090185919954944180
   references:
     version: 2
     RefIds:
@@ -46,7 +47,7 @@ MonoBehaviour:
     - rid: 5090185875588907252
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
-        Card: {fileID: 11400000, guid: 359fd0437e96cef4e95523f1053c25cc, type: 2}
+        Card: {fileID: 11400000, guid: 38fce7d3e7fa4834d88c29a8e87c113d, type: 2}
         CardAmount: 1
         Animations:
         - rid: 5090185875588907254
@@ -56,6 +57,7 @@ MonoBehaviour:
           FollowTimeline: {fileID: 0}
           AttackTimeline: {fileID: 0}
           AudioType: 200
+          SkipAnimation: 0
     - rid: 5090185875588907254
       type: {class: WeaponAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -86,10 +88,11 @@ MonoBehaviour:
           FollowTimeline: {fileID: 0}
           AttackTimeline: {fileID: 0}
           AudioType: 200
+          SkipAnimation: 0
     - rid: 5090185875588907258
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
-        Card: {fileID: 11400000, guid: 359fd0437e96cef4e95523f1053c25cc, type: 2}
+        Card: {fileID: 11400000, guid: be0a384b3da5f454785878f76cf65687, type: 2}
         CardAmount: 1
         Animations:
         - rid: 5090185875588907261
@@ -99,6 +102,7 @@ MonoBehaviour:
           FollowTimeline: {fileID: 0}
           AttackTimeline: {fileID: 0}
           AudioType: 200
+          SkipAnimation: 0
     - rid: 5090185875588907260
       type: {class: WeaponAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -130,6 +134,31 @@ MonoBehaviour:
         AudioType: 200
         _overrideDistanceOffset: 0
         _distanceOffset: 2
+        _overrideCamera: 1
+        _followTimeline: {fileID: 0}
+        _attackTimeline: {fileID: 0}
+    - rid: 5090185919954944180
+      type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
+      data:
+        Card: {fileID: 11400000, guid: d9e750402501226458b3af283cd66b87, type: 2}
+        CardAmount: 1
+        Animations:
+        - rid: 5090185919954944181
+        AnimationList:
+        - AnimationName: 
+          DistanceOffset: 0
+          FollowTimeline: {fileID: 0}
+          AttackTimeline: {fileID: 0}
+          AudioType: 0
+          SkipAnimation: 1
+    - rid: 5090185919954944181
+      type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
+      data:
+        _skipAnimation: 1
+        _animation: {fileID: 0}
+        AudioType: 0
+        _overrideDistanceOffset: 1
+        _distanceOffset: 0
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}

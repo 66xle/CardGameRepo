@@ -154,7 +154,7 @@ public class ActionSequence : Executable
             ExecutableParameters.CardTarget = command.CardTarget;
 
             if (command.CardTarget == CardTarget.AllEnemies) 
-                IsAttackingAllEnemies = true;
+                IsAttackingAllEnemies = true; // Move to middle position
 
             bool isConditionTrue = false;
             yield return command.Execute(result => isConditionTrue = result);
@@ -274,6 +274,17 @@ public class ActionSequence : Executable
         else if (target == CardTarget.Self)
         {
             targets.Add(ExecutableParameters.AvatarPlayingCard);
+        }
+        else if (target == CardTarget.AllAllies)
+        {
+            if (ExecutableParameters.AvatarPlayingCard is Player)
+            {
+                targets.Add(ExecutableParameters.AvatarPlayingCard);
+            }
+            else
+            {
+                targets.AddRange(ExecutableParameters.Ctx.EnemyList);
+            }
         }
         else if (target == CardTarget.PreviousTarget)
         {

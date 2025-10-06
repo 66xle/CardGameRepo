@@ -8,7 +8,8 @@ public enum CardTarget
     PreviousTarget,
     Enemy,
     AllEnemies,
-    Self
+    Self,
+    AllAllies
 }
 
 

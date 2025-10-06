@@ -10,23 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 229174bf3bf62b140ae8b2bba2c89d2d, type: 3}
-  m_Name: Buff
+  m_Name: Amplify All
   m_EditorClassIdentifier: 
-  Guid: d9e750402501226458b3af283cd66b87
+  Guid: 584f51c1c4933dc4194707aca270787a
   InGameGUID: 
-  CardName: Buff
-  Description: Gain #Amplify for 2 turns
+  CardName: Amplify All
+  Description: 
   DisplayDescription: 
-  LinkDescription: Gain <link="Amplify"><color=#FFBF00><u>Amplify</u></color></link>
-    for 2 turns
+  LinkDescription: 
   Flavour: 
   Image: {fileID: 21300000, guid: eccf85b565b1fdd4582975829f6c189a, type: 3}
   Frame: {fileID: 21300000, guid: 61329542160dc15418ac2da74fe16cf1, type: 3}
-  Cost: 2
-  RecycleValue: 1
+  Cost: 0
+  RecycleValue: 0
   ValuesToReference: []
   Commands:
-  - rid: 5090185919954944131
+  - rid: 5090185919954944182
   PopupKeyPair:
   - Key: Amplify
     Value: {fileID: 11400000, guid: 9ead0859091a0574ba55a2cc00ba81b3, type: 2}
@@ -37,8 +36,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5090185919954944131
+    - rid: 5090185919954944182
       type: {class: ApplyStatusEffect, ns: , asm: Assembly-CSharp}
       data:
-        target: 3
+        target: 4
         effect: {fileID: 11400000, guid: 3ada98233dcf12241bb4289fbc2a5319, type: 2}
