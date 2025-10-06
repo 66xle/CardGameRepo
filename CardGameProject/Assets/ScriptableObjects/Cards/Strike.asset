@@ -24,13 +24,15 @@ MonoBehaviour:
 '
   Image: {fileID: 21300000, guid: 786c1174a6a9b6f4ea277afe759904c7, type: 3}
   Frame: {fileID: 21300000, guid: a0be78c2424db6a488d2f683021a99a4, type: 3}
-  Cost: 1
+  Cost: 2
   RecycleValue: 2
   ValuesToReference:
   - {x: 0, y: 1}
   Commands:
   - rid: 1089679982310457446
   PopupKeyPair:
+  - Key: Amplify
+    Value: {fileID: 11400000, guid: 9ead0859091a0574ba55a2cc00ba81b3, type: 2}
   - Key: Bleed
     Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
   - Key: Poison
@@ -42,4 +44,5 @@ MonoBehaviour:
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 1
+        ShouldMove: 1
         value: 1

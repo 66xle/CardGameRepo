@@ -23,21 +23,24 @@ public class PlayState : CombatBaseState
             ctx.CombatUIManager.EndTurnButton.interactable = true;
         else
         {
-            if (GameManager.Instance.TutorialStage >= 2)
+            if (GameManager.Instance.TutorialStage >= 1.2f)
                 ctx.CombatUIManager.EndTurnButton.interactable = true;
 
-            
+
             if (GameManager.Instance.TutorialStage == 2)
             { // Play a card
-                GameManager.Instance.TutorialStage = 3;
-
-                ctx.CombatUIManager.StartTutorialConversation(1);
+                ctx.CombatUIManager.StartTutorialConversation(2);
+                GameManager.Instance.TutorialStage = 2.1f;
+            }
+            else if (GameManager.Instance.TutorialStage == 3)
+            {
+                ctx.CombatUIManager.StartTutorialConversation(3);
+                GameManager.Instance.TutorialStage = 3.1f;
             }
             else if (GameManager.Instance.TutorialStage == 4)
             {
-                GameManager.Instance.TutorialStage = 5;
-
-                ctx.CombatUIManager.StartTutorialConversation(2);
+                ctx.CombatUIManager.StartTutorialConversation(4);
+                GameManager.Instance.TutorialStage = 4.1f;
             }
         }
     }

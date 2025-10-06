@@ -24,7 +24,7 @@ public class GameManager : Singleton<GameManager>
     [HideInInspector] public GameObject LoadedEnvironment;
 
     public bool IsInTutorial = true;
-    [HideInInspector] public int TutorialStage = 1;
+    [HideInInspector] public float TutorialStage = 1;
 
     public bool SkipCutscene = true;
 

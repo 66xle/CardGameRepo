@@ -128,6 +128,8 @@ public class CombatUIManager : MonoBehaviour
         string imagePath = _currentEntry.fields[1].value;
         Sprite sprite = Resources.Load<Sprite>(imagePath);
 
+        
+
         // Last node
         if (_currentEntry.outgoingLinks.Count == 0)
         {

@@ -274,11 +274,19 @@ public class CombatStateMachine : MonoBehaviour
         {
             if (player.hasEnoughStamina(card.Cost))
             {
-                if (GameManager.Instance.TutorialStage == 1)
+                if (GameManager.Instance.IsInTutorial)
                 {
-                    GameManager.Instance.TutorialStage = 2;
-                }
+                    if (GameManager.Instance.TutorialStage >= 1 && GameManager.Instance.TutorialStage < 1.2f)
+                    {
+                        GameManager.Instance.TutorialStage += 0.1f;
+                    }
 
+                    if (GameManager.Instance.TutorialStage >= 1.2f && GameManager.Instance.TutorialStage < 2)
+                    {
+                        CombatUIManager.StartTutorialConversation(1);
+                    }
+                }
+                
 
                 player.ConsumeStamina(card.Cost);
 
@@ -386,7 +394,11 @@ public class CombatStateMachine : MonoBehaviour
 
     public void EndTurn()
     {
-        if (GameManager.Instance.TutorialStage == 3)
+        if (GameManager.Instance.TutorialStage == 1.2f)
+            GameManager.Instance.TutorialStage = 2;
+        else if (GameManager.Instance.TutorialStage == 2.1f)
+            GameManager.Instance.TutorialStage = 3;
+        else if (GameManager.Instance.TutorialStage == 3.1f)
             GameManager.Instance.TutorialStage = 4;
 
         StartCoroutine(EndTurnReactiveEffect());
