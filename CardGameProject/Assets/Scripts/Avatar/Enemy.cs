@@ -18,6 +18,7 @@ public class Enemy : Avatar
     public EnemyData EnemyData { get; private set; }
     public TMP_Text HealthText { get; private set; }
     public TMP_Text BlockText { get; private set; }
+    public TMP_Text NameText { get; private set; }
     public Slider GuardBar { get; private set; }
     public EnemyUI EnemyUI { get; private set; }
     public DetailedUI DetailedUI { get; private set; }
@@ -40,6 +41,10 @@ public class Enemy : Avatar
         HealthText = EnemyUI.HealthText;
         GuardBar = EnemyUI.GuardBar;
         BlockText = EnemyUI.BlockText;
+
+        if (EnemyUI.Name != null)
+            EnemyUI.Name.text = EnemyData.Name;
+
 
         DetailedUI = detailedUI;
 

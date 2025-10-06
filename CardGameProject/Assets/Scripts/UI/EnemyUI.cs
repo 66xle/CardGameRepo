@@ -11,6 +11,7 @@ public class EnemyUI : MonoBehaviour
     [MustBeAssigned] public TMP_Text HealthText;
     [MustBeAssigned] public TMP_Text BlockText;
     [MustBeAssigned] public Slider GuardBar;
+    public TMP_Text Name;
 
     private CombatStateMachine stateMachine;
     private Enemy enemy;
