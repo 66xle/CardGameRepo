@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 229174bf3bf62b140ae8b2bba2c89d2d, type: 3}
-  m_Name: Draw Card
+  m_Name: Inspiration
   m_EditorClassIdentifier: 
-  Guid: d4621c538828ebe4da8cfe859170b811
+  Guid: 3bdad1e7bdb2b4a4d9b87af05452c559
   InGameGUID: 
-  CardName: Draw Card
+  CardName: Inspiration
   Description: Draw 2 Cards
   DisplayDescription: 
   LinkDescription: Draw 2 Cards
@@ -26,7 +26,7 @@ MonoBehaviour:
   ValuesToReference:
   - {x: 0, y: 2}
   Commands:
-  - rid: 7765747868154462309
+  - rid: 5090185919954944126
   PopupKeyPair:
   - Key: Bleed
     Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
@@ -35,7 +35,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 7765747868154462309
+    - rid: 5090185919954944126
       type: {class: DrawCard, ns: , asm: Assembly-CSharp}
       data:
         target: 3
