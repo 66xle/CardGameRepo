@@ -2460,6 +2460,7 @@ Transform:
   m_Children:
   - {fileID: 8689119598690714170}
   - {fileID: 2268578222782697507}
+  - {fileID: 8822302826072755735}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &6075165209856986818
@@ -2471,7 +2472,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6075165209856986820}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: a04aa3b369988e6449cd24e55a949aea, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 36658ea76b991444f9095cbf66e014dc, type: 3}
   m_Controller: {fileID: 9100000, guid: af1abb2eaab773447bb2b1a135452a53, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -2504,9 +2505,9 @@ MonoBehaviour:
   BlockScale: 0
   ArmourType: 2
   DamageType: 1
-  WeaponJoint: {fileID: 0}
-  FollowJoint: {fileID: 0}
-  RightHolder: {fileID: 0}
+  WeaponJoint: {fileID: 8822302826072755735}
+  FollowJoint: {fileID: 8822302826072755735}
+  RightHolder: {fileID: 8822302826072755735}
   DrawAmount: 1
 --- !u!65 &6572343549738278678
 BoxCollider:
@@ -3136,6 +3137,37 @@ Transform:
   - {fileID: 1724831425976317921}
   - {fileID: 7375131945919829676}
   m_Father: {fileID: 2268578222782697507}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7755737085497662770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8822302826072755735}
+  m_Layer: 0
+  m_Name: null
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8822302826072755735
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7755737085497662770}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.00000035762784, z: 0, w: 1}
+  m_LocalPosition: {x: 0.7839125, y: 1.2937948, z: 0.7946965}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6075165209856986819}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7859947741332253693
 GameObject:

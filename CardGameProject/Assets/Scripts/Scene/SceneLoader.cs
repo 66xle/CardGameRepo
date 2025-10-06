@@ -59,6 +59,7 @@ namespace Systems.SceneManagment
             await SceneManager.UnloadSceneAsync(loadingScene.Path);
 
             SceneInitialize.Instance.Invoke();
+            Camera.main.GetComponent<AudioListener>().enabled = true;
         }
 
         public async Task LoadSceneGroup(string groupName)

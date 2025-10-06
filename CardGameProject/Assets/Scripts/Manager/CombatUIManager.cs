@@ -131,11 +131,13 @@ public class CombatUIManager : MonoBehaviour
         // Last node
         if (_currentEntry.outgoingLinks.Count == 0)
         {
-            TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText, DelayTutorial, "Confirm");
+            //TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText, DelayTutorial, "Confirm");
+            TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText, DelayTutorial, "");
             return;
         }
 
 
-        TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText, DelayTutorial);
+        //TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText, DelayTutorial);
+        TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText, DelayTutorial, "");
     }
 }
