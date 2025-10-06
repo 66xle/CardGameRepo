@@ -108,8 +108,8 @@ public class ActionSequence : Executable
         if (!hasMoved) // Hard coded fix
             avatarPlayingCard.IsAttackFinished = false;
 
-        // Wait until opponent has finished attacking
-        if (avatarPlayingCard.IsCountered) // Hard coded (Counter with attack, not counter only)
+        // Wait until opponent has finished recoil animation
+        if (avatarPlayingCard.IsCountered) // Hard coded
             yield return new WaitWhile(() => !avatarPlayingCard.IsRecoilDone);
 
         #region Return

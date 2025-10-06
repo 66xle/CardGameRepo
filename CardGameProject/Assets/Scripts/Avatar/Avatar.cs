@@ -451,6 +451,7 @@ public class Avatar : MonoBehaviour
 
     public void AnimationEventDisableRecoil()
     {
+        AnimationEventAttackFinish();
         IsRecoilDone = true;
         Animator.SetBool("IsRecoiled", false);
     }
