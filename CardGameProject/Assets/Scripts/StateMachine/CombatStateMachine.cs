@@ -160,6 +160,9 @@ public class CombatStateMachine : MonoBehaviour
 
     public void InitBattle()
     {
+        AudioData musicData = GameManager.Instance.CurrentLevelDataLoaded.Music;
+        AudioManager.Instance.PlayMusic(musicData);
+
         _isInPrepState = false;
         CardManager.LoadCards();
 

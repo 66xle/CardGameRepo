@@ -40,8 +40,16 @@ public class CutsceneManager : MonoBehaviour
 
     public void Awake()
     {
+        ServiceLocator.Register(this);
+
         SceneInitialize.Instance.Subscribe(Init);
     }
+
+    public void OnDestroy()
+    {
+        ServiceLocator.Unregister<CutsceneManager>();
+    }
+
 
     private void Init()
     {
@@ -57,6 +65,12 @@ public class CutsceneManager : MonoBehaviour
         }
 
         NextCutscene();
+    }
+
+    public void PlaySignal(SignalAsset signal)
+    {
+        SignalReceiver signalReciver = GetComponent<SignalReceiver>();
+        signalReciver.GetReaction(signal)?.Invoke();
     }
 
     public void NextCutscene()

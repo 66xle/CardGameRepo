@@ -67,14 +67,6 @@ public class RewardManager : MonoBehaviour
         cardCarousel = PreviewCards.GetComponent<CardCarousel>();
     }
 
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            DisplayVictoryUI();
-        }
-    }
-
     public void RewardConfirmButton()
     {
         if (ListOfRewards.Count > 0)
