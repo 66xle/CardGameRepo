@@ -62,6 +62,8 @@ public class ActionSequence : Executable
 
         if (RequiresMovement && !hasMoved)
         {
+            Debug.Log("movement");
+
             AnimationWrapper animationWrapper = GetAttackAnimation();
 
             if (IsAttackingAllEnemies)
