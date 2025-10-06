@@ -230,12 +230,22 @@ public class Avatar : MonoBehaviour
         // Don't need to check
         if (ListOfEffects.Count == 0) return damage;
 
+        float extraDamage = 0;
+
         foreach (StatusEffect statusEffect in ListOfEffects)
         {
             if (statusEffect.Effect == Effect.GuardBroken)
             {
                 StatusGuardBroken statusGuardBroken = statusEffect as StatusGuardBroken;
-                return damage * statusGuardBroken.ExtraDamagePercentage + damage;
+                extraDamage += damage * statusGuardBroken.ExtraDamagePercentage + damage;
+                continue;
+            }
+
+            if (statusEffect.Effect == Effect.Amplify)
+            {
+                StatusAmplify status = statusEffect as StatusAmplify;
+                extraDamage += damage * status.AttackIncreasePercentage + damage;
+                continue;
             }
         }
 

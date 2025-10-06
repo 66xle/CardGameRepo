@@ -9,6 +9,7 @@ public class AnimationWrapper
     public PlayableAsset FollowTimeline;
     public PlayableAsset AttackTimeline;
     public AudioType AudioType;
+    public bool SkipAnimation;
 
     public AnimationWrapper(string animation, float distance, PlayableAsset followTimeline, PlayableAsset attackTimeline, AudioType audioType)
     {
@@ -17,6 +18,12 @@ public class AnimationWrapper
         FollowTimeline = followTimeline;
         AttackTimeline = attackTimeline;
         AudioType = audioType;
+        SkipAnimation = false;
+    }
+
+    public AnimationWrapper(bool skipAnimation)
+    {
+        SkipAnimation = skipAnimation;
     }
 
     public AnimationWrapper(AnimationClipData data)

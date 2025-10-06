@@ -37,20 +37,16 @@ MonoBehaviour:
     - rid: 7765747868154462313
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
-        Card: {fileID: 11400000, guid: d4621c538828ebe4da8cfe859170b811, type: 2}
+        Card: {fileID: 11400000, guid: be0a384b3da5f454785878f76cf65687, type: 2}
         CardAmount: 1
         Animations:
         - rid: 7765747868154462314
-        AnimationList:
-        - AnimationName: 1H Strike 1
-          DistanceOffset: 0
-          FollowTimeline: {fileID: 0}
-          AttackTimeline: {fileID: 0}
-          AudioType: 200
+        AnimationList: []
     - rid: 7765747868154462314
       type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
       data:
-        _animation: {fileID: 1827226128182048838, guid: 3d8051e0b50b9c84e8d5c5e945105220, type: 3}
+        _enableAnimation: 1
+        _animation: {fileID: 0}
         AudioType: 200
         _overrideDistanceOffset: 1
         _distanceOffset: 0

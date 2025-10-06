@@ -20,6 +20,7 @@ public enum Boolean
 [SRHidden]
 public class AnimationData
 {
+    public virtual bool EnableAnimation { get; set; }
     public virtual string Animation { get; set; }
     public virtual Boolean OverrideDistanceOffset { get; set; }
     public virtual float DistanceOffset { get; set; }
@@ -27,10 +28,7 @@ public class AnimationData
     public virtual PlayableAsset FollowTimeline { get; set; }
     public virtual PlayableAsset AttackTimeline { get; set; }
 
-    public virtual void SetDataClipList(List<AnimationClipData> dataClipList)
-    {
-
-    }
+    public virtual void SetDataClipList(List<AnimationClipData> dataClipList) { }
 
     public virtual string[] GetAnimationNames()
     {

@@ -14,7 +14,7 @@ public class ActionSequence : Executable
 
     private List<Executable> _actionCommands;
 
-    private bool SkipAnimation;
+    private bool ReactiveSkipAnimation;
 
     public ActionSequence(List<Executable> actionCommands)
     {
@@ -30,6 +30,7 @@ public class ActionSequence : Executable
         Avatar avatarOpponent = ExecutableParameters.AvatarOpponent;
         ExecutableParameters.Targets = new List<Avatar>();
         ExecutableParameters.Queue = new List<Avatar>();
+        AnimationWrapper animationWrapper = GetAttackAnimation();
 
         avatarPlayingCard.DoDamage = false;
         avatarPlayingCard.IsAttackFinished = false;
@@ -37,7 +38,7 @@ public class ActionSequence : Executable
         avatarPlayingCard.IsRecoilDone = false;
         bool hasMoved = false;
         IsAttackingAllEnemies = false;
-        SkipAnimation = false;
+        ReactiveSkipAnimation = false;
 
         //ctx.CameraManager.SetDummy(avatarPlayingCard.transform);
         ctx.CameraManager.SetVictimDummy(avatarOpponent.transform, avatarPlayingCard.transform);
@@ -55,7 +56,7 @@ public class ActionSequence : Executable
             yield break;
         }
 
-        if (!SkipAnimation)
+        if (!animationWrapper.SkipAnimation && !ReactiveSkipAnimation)
             ctx.CombatUIManager.HideGameplayUI(true);
 
         #region Movement
@@ -63,8 +64,6 @@ public class ActionSequence : Executable
         if (RequiresMovement && !hasMoved)
         {
             Debug.Log("movement");
-
-            AnimationWrapper animationWrapper = GetAttackAnimation();
 
             if (IsAttackingAllEnemies)
                 ctx.CameraManager.SetVictimDummy(avatarOpponent.transform.parent.parent, avatarPlayingCard.transform);
@@ -82,10 +81,8 @@ public class ActionSequence : Executable
         }
         else
         {
-            if (!SkipAnimation)
+            if (!animationWrapper.SkipAnimation && !ReactiveSkipAnimation)
             {
-                AnimationWrapper animationWrapper = GetAttackAnimation();
-
                 TriggerAttackAnimGA triggerAttackAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioType);
                 ActionSystem.Instance.Perform(triggerAttackAnimGA);
 
@@ -146,12 +143,12 @@ public class ActionSequence : Executable
 
                 TriggerDuplicateReactiveCondition(ExecutableParameters.AvatarPlayingCard, currentReactiveCondition);
 
-                SkipAnimation = true;
+                ReactiveSkipAnimation = true;
 
                 continue;
             }
 
-            SkipAnimation = false;
+            ReactiveSkipAnimation = false;
 
             ExecutableParameters.Targets = GetTargets(command.CardTarget);
             ExecutableParameters.CardTarget = command.CardTarget;
@@ -161,9 +158,6 @@ public class ActionSequence : Executable
 
             bool isConditionTrue = false;
             yield return command.Execute(result => isConditionTrue = result);
-
-            if (command is DrawCommand)
-                SkipAnimation = true;
 
             if (isConditionTrue)
             {
@@ -218,6 +212,7 @@ public class ActionSequence : Executable
 
             ExecutableParameters.AvatarPlayingCard = avatarTarget;
             ExecutableParameters.AvatarOpponent = avatarPlayingCard;
+            CardData tempData = ExecutableParameters.CardData;
             List<Avatar> tempQueue = Extensions.CloneList(ExecutableParameters.Queue);
             List<Avatar> tempTargets = Extensions.CloneList(ExecutableParameters.Targets);
             List<GameAction> tempGA = Extensions.CloneList(avatarTarget.QueueGameActions);
@@ -233,6 +228,7 @@ public class ActionSequence : Executable
             ExecutableParameters.AvatarOpponent = avatarOpponent;
             ExecutableParameters.Queue = tempQueue;
             ExecutableParameters.Targets = tempTargets;
+            ExecutableParameters.CardData = tempData;
             avatarTarget.QueueGameActions = tempGA;
 
             avatarPlayingCard.DoDamage = false;

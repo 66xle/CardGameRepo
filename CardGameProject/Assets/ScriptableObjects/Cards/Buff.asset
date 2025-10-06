@@ -15,21 +15,30 @@ MonoBehaviour:
   Guid: d9e750402501226458b3af283cd66b87
   InGameGUID: 
   CardName: Buff
-  Description: 
+  Description: Gain #Amplify for 1 turn
   DisplayDescription: 
-  LinkDescription: 
+  LinkDescription: Gain <link="Amplify"><color=#FFBF00><u>Amplify</u></color></link>
+    for 1 turn
   Flavour: 
   Image: {fileID: 21300000, guid: eccf85b565b1fdd4582975829f6c189a, type: 3}
   Frame: {fileID: 21300000, guid: 61329542160dc15418ac2da74fe16cf1, type: 3}
   Cost: 2
   RecycleValue: 1
   ValuesToReference: []
-  Commands: []
+  Commands:
+  - rid: 5090185919954944131
   PopupKeyPair:
+  - Key: Amplify
+    Value: {fileID: 11400000, guid: 9ead0859091a0574ba55a2cc00ba81b3, type: 2}
   - Key: Bleed
     Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
   - Key: Poison
     Value: {fileID: 11400000, guid: 7e7a85d9798338743a57caf3f468f8d4, type: 2}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 5090185919954944131
+      type: {class: ApplyStatusEffect, ns: , asm: Assembly-CSharp}
+      data:
+        target: 3
+        effect: {fileID: 11400000, guid: 3ada98233dcf12241bb4289fbc2a5319, type: 2}

@@ -12,7 +12,8 @@ public enum Effect
     Stunned,
     GuardBroken,
     Bleed,
-    Poison
+    Poison,
+    Amplify
 }
 
 [Serializable]
