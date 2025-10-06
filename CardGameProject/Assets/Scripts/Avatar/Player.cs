@@ -1,3 +1,4 @@
+using PixelCrushers.Wrappers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +19,10 @@ public class Player : Avatar
     private TMP_Text _blockValue;
     private Slider _guardBar;
     private TMP_Text _guardValue;
+
+    private GameObject StatusEffectPrefab;
+    private GameObject StatusActive;
+    private GameObject StatusDeactive;
 
     private void OnEnable()
     {
@@ -43,13 +48,17 @@ public class Player : Avatar
     //    ArmourType = armourType;
     //}
 
-    public void InitUI(TMP_Text healthValue, TMP_Text staminaValue, TMP_Text blockValue, Slider guardBar, ArmourType armourType)
+    public void InitUI(TMP_Text healthValue, TMP_Text staminaValue, TMP_Text blockValue, Slider guardBar, ArmourType armourType, GameObject statusPrefab, GameObject active, GameObject deactive)
     {
         _healthValue = healthValue;
         _staminaValue = staminaValue;
         _guardBar = guardBar;
         _blockValue = blockValue;
         ArmourType = armourType;
+
+        StatusEffectPrefab = statusPrefab;
+        StatusActive = active;
+        StatusDeactive = deactive;
     }
 
     public void InitStats(float maxHealth, float maxStamina, int maxGuard, float defence, float defencePercentage, float attack, float blockScale, float recoverStamPercentage)
@@ -117,6 +126,50 @@ public class Player : Avatar
         //_guardValue.text = CurrentGuard.ToString();
 
         _blockValue.text = CurrentBlock.ToString();
+
+        UpdateStatusEffectsUI();
     }
 
+    public void UpdateStatusEffectsUI()
+    {
+        for (int i = 0; i < ListOfEffects.Count; i++)
+        {
+            StatusEffect data = ListOfEffects[i];
+
+            // Check activeParent childs
+            GameObject activeObj = GetEffectObject(StatusActive, data.EffectName);
+            if (activeObj != null)
+            {
+                continue;
+            }
+
+            // Check deactiveParent childs
+            GameObject deactiveObj = GetEffectObject(StatusDeactive, data.EffectName);
+            if (deactiveObj != null)
+            {
+                // Set to active and update effect
+                deactiveObj.transform.parent = StatusActive.transform;
+                deactiveObj.SetActive(true);
+                continue;
+            }
+
+            // Instanitate object in active
+            GameObject newEffectObj = Instantiate(StatusEffectPrefab, StatusActive.transform);
+            newEffectObj.tag = data.EffectName;
+            newEffectObj.GetComponent<Image>().sprite = data.Sprite;
+        }
+    }
+
+    GameObject GetEffectObject(GameObject parentToCheck, string effectName)
+    {
+        for (int i = 0; i < parentToCheck.transform.childCount; i++)
+        {
+            if (effectName == parentToCheck.transform.GetChild(i).tag)
+            {
+                return parentToCheck.transform.GetChild(i).gameObject;
+            }
+        }
+
+        return null;
+    }
 }

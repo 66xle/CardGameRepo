@@ -70,6 +70,9 @@ public class CombatUIManager : MonoBehaviour
     [MustBeAssigned] public GameObject SwitchWeaponUI;
     [MustBeAssigned] public GameObject HideUI;
     [MustBeAssigned] public GameObject DetailedUI;
+    [MustBeAssigned] [SerializeField] GameObject StatusPrefab;
+    [MustBeAssigned] [SerializeField] GameObject StatusActive;
+    [MustBeAssigned] [SerializeField] GameObject StatusDeactive;
 
     [Foldout("Managers", true)]
     [MustBeAssigned] public StatsManager StatsManager;
@@ -86,7 +89,7 @@ public class CombatUIManager : MonoBehaviour
     public void InitPlayerUI(Player player)
     {
         //player.InitUI(HealthBar, HealthValue, StaminaBar, StaminaValue, BlockValue, GuardBar, GuardValue, StatsManager.ArmourType);
-        player.InitUI(HealthValue, StaminaValue, BlockValue, GuardBar, StatsManager.ArmourType);
+        player.InitUI(HealthValue, StaminaValue, BlockValue, GuardBar, StatsManager.ArmourType, StatusPrefab, StatusActive, StatusDeactive);
         player.InitStats(StatsManager.CurrentMaxHealth, StatsManager.CurrentMaxStamina, StatsManager.CurrentMaxGuard, StatsManager.Defence, StatsManager.DefencePercentage, StatsManager.Attack, StatsManager.BlockScale, StatsManager.RecoverStaminaPercentage);
     }
 
