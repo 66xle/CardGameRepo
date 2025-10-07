@@ -126,6 +126,13 @@ public class CombatUIManager : MonoBehaviour
 
         // Grab image
         string imagePath = _currentEntry.fields[1].value;
+
+        if (imagePath == "null")
+        {
+            TutorialUI.DisplayLogo(_currentEntry.MenuText, _currentEntry.DialogueText, DelayTutorial);
+            return;
+        }
+
         Sprite sprite = Resources.Load<Sprite>(imagePath);
 
         
