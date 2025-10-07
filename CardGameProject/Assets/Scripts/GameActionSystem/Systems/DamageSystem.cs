@@ -25,12 +25,17 @@ public class DamageSystem : MonoBehaviour
     {
         Avatar avatarToTakeDamage = takeDamageFromWeaponGA.AvatarToTakeDamage;
 
+        if (avatarToTakeDamage.IsInCounterState)
+            takeDamageFromWeaponGA.Damage = Mathf.Ceil(takeDamageFromWeaponGA.Damage / 2);
+
         avatarToTakeDamage.TakeDamage(takeDamageFromWeaponGA.Damage);
 
-        if (takeDamageFromWeaponGA.CardTarget != CardTarget.Self)
+        if (takeDamageFromWeaponGA.CardTarget != CardTarget.Self && !avatarToTakeDamage.IsInCounterState)
         {
-            avatarToTakeDamage.IsTakeDamage = true;
-            avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
+            avatarToTakeDamage.IsHit = true;
+
+            if (!avatarToTakeDamage.IsInCounterState)
+                avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
 
             if (avatarToTakeDamage.IsGuardReducible(takeDamageFromWeaponGA.DamageType))
                 avatarToTakeDamage.ReduceGuard(1);
@@ -41,6 +46,7 @@ public class DamageSystem : MonoBehaviour
         {
             avatarToTakeDamage.GetComponent<Animator>().SetTrigger("Death");
             avatarToTakeDamage.DictReactiveEffects.Clear();
+            avatarToTakeDamage.PlayDeathSound();
         }
         else if (avatarToTakeDamage.IsGuardBroken())
         {
@@ -55,6 +61,7 @@ public class DamageSystem : MonoBehaviour
             }
         }
 
+        avatarToTakeDamage.PlayHurtSound();
         avatarToTakeDamage.UpdateStatsUI();
 
         yield return null;
@@ -68,8 +75,10 @@ public class DamageSystem : MonoBehaviour
 
         if (takeGuardDamageGA.CardTarget != CardTarget.Self)
         {
-            avatarToTakeDamage.IsTakeDamage = true;
-            avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
+            avatarToTakeDamage.IsHit = true;
+
+            if (!avatarToTakeDamage.IsInCounterState)
+                avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
         }
 
         if (avatarToTakeDamage.IsGuardBroken())
@@ -92,14 +101,14 @@ public class DamageSystem : MonoBehaviour
 
     private IEnumerator CounterPerformer(CounterGA counterGA)
     {
-        counterGA.OpponentController.SetBool("isReady", false);
+        //counterGA.OpponentController.SetBool("isReady", false);
+        //counterGA.AvatarOpponent.IsInCounterState = false;
         counterGA.OpponentController.SetTrigger("Counter");
+        counterGA.AvatarOpponent.IsHit = true;
 
+        counterGA.AvatarPlayingCard.IsCountered = true;
+        counterGA.AvatarPlayingCardController.SetBool("IsRecoiled", true);
         counterGA.AvatarPlayingCardController.SetTrigger("Recoil");
-
-        counterGA.AvatarOpponent.IsInCounterState = false;
-
-
 
         yield return null;
     }

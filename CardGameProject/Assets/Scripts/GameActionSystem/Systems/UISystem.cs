@@ -1,8 +1,10 @@
 using DG.Tweening;
 using MyBox;
+using System.Collections.Generic;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class UISystem : MonoBehaviour
 {
@@ -28,18 +30,32 @@ public class UISystem : MonoBehaviour
     {
         Avatar avatar = spawnDamageUIPopupGA.AvatarTakingDamage;
 
+     
+        foreach (Tween activeTween in avatar.CurrentActiveStatusEffectTween)
+        {
+            yield return new WaitUntil(() => activeTween.ElapsedPercentage() >= CombatUIManager.StatusEffectTweenProgress);
+        }
+
 
         GameObject popupObj = Instantiate(CombatUIManager.DamagePopupPrefab, CombatUIManager.WorldSpaceCanvas);
 
-        Vector3 spawnPos = new Vector3(avatar.transform.position.x + Random.Range(-CombatUIManager.RandomOffsetHorizontal, CombatUIManager.RandomOffsetHorizontal),
+        Vector3 spawnPos;
+        if (spawnDamageUIPopupGA.IsStatusEffect)
+        {
+            spawnPos = avatar.transform.position;
+            spawnPos.y += CombatUIManager.OffsetVertical;
+        }
+        else
+        {
+            spawnPos = new Vector3(avatar.transform.position.x + Random.Range(-CombatUIManager.RandomOffsetHorizontal, CombatUIManager.RandomOffsetHorizontal),
                                                   avatar.transform.position.y + CombatUIManager.OffsetVertical,
                                                   avatar.transform.position.z + Random.Range(-CombatUIManager.RandomOffsetHorizontal, CombatUIManager.RandomOffsetHorizontal));
-
+        }
         popupObj.transform.position = spawnPos;
 
-
+        
         TextMeshProUGUI popupText = popupObj.GetComponent<TextMeshProUGUI>();
-        popupText.text = spawnDamageUIPopupGA.Damage.ToString();
+        popupText.text = spawnDamageUIPopupGA.Text;
         popupText.color = spawnDamageUIPopupGA.Color;
 
 
@@ -52,8 +68,14 @@ public class UISystem : MonoBehaviour
             popupText.transform.localScale = Vector3.one * scaleFactor;
             popupText.transform.position = Vector3.Lerp(spawnPos, targetPos, t / CombatUIManager.MoveDuration);
         }, CombatUIManager.MoveDuration, CombatUIManager.MoveDuration).SetEase(Ease.OutQuad);
+        
+        if (spawnDamageUIPopupGA.IsStatusEffect)
+            avatar.CurrentActiveStatusEffectTween.Add(tween);
 
         yield return tween.WaitForCompletion();
+
+        if (spawnDamageUIPopupGA.IsStatusEffect)
+            avatar.CurrentActiveStatusEffectTween.Remove(tween);
 
         popupText.DOFade(0, CombatUIManager.FadeDuration).OnComplete(() => { Destroy(popupObj); });
     }

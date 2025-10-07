@@ -19,13 +19,21 @@ public class StatusPoison : StatusEffect
         return (StatusEffect)this.MemberwiseClone();
     }
 
+    public override void OnApply(Avatar avatar)
+    {
+        SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatar, "Poison", Color.green, true);
+        ActionSystem.Instance.Perform(spawnDamageUIPopupGA);
+
+        base.OnApply(avatar);
+    }
+
     public override void ActivateEffect(Avatar avatar)
     {
         float damage = Mathf.Ceil(avatar.MaxHealth * ReduceHealthPercentage);
 
         avatar.TakeDamageByStatusEffect(damage);
 
-        SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatar, damage, Color.green);
+        SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatar, damage.ToString(), Color.green);
         ActionSystem.Instance.Perform(spawnDamageUIPopupGA);
     }
 

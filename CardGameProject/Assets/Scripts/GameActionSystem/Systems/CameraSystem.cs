@@ -48,6 +48,8 @@ public class CameraSystem : MonoBehaviour
 
     private void TriggerAttackAnimReaction(TriggerAttackAnimGA triggerAttackAnimGA)
     {
+        if (!triggerAttackAnimGA.EnableAttackCamera) return;
+
         if (triggerAttackAnimGA.AttackTimeline != null)
         {
             cm.SetTimeline(triggerAttackAnimGA.AttackTimeline);

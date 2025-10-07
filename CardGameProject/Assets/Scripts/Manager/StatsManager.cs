@@ -10,6 +10,7 @@ public class StatsManager : MonoBehaviour
 
     [SerializeField] int Level = 1;
     public int BaseGuard;
+    [Range(0, 1)] public float RecoverStaminaPercentage = 0.4f;
     public ArmourType ArmourType;
 
     [Header("Armour Stamina")]

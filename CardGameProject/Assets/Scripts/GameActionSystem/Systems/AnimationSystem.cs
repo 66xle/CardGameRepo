@@ -48,10 +48,11 @@ public class AnimationSystem : MonoBehaviour
 
         Vector3 posToMove = opponentPos + dir * (1.5f + distanceOffset);
 
-        Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), moveDuration).SetEase(moveAnimCurve);
+        float tweenDuration = distanceOffset > 0 ? moveDuration * distanceOffset : moveDuration;
+        Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), tweenDuration).SetEase(moveAnimCurve);
 
         Quaternion targetRotation = Quaternion.LookRotation(-dir);
-        currentTransform.DORotate(targetRotation.eulerAngles, 1f, RotateMode.Fast);
+        currentTransform.DORotate(targetRotation.eulerAngles, 1f, RotateMode.Fast); 
 
         yield return tween.WaitForCompletion();
     }
@@ -59,6 +60,9 @@ public class AnimationSystem : MonoBehaviour
     private IEnumerator ReturnToPosPerformer(ReturnToPosGA returnToPosGA)
     {
         Avatar avatarPlayingCard = returnToPosGA.AvatarPlayingCard;
+
+        Animator animator = avatarPlayingCard.GetComponent<Animator>();
+        animator.applyRootMotion = false;
 
         // Determine position to move to
         Transform currentTransform = avatarPlayingCard.transform;
@@ -72,6 +76,8 @@ public class AnimationSystem : MonoBehaviour
         Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), jumpDuration).SetEase(jumpAnimCurve);
 
         yield return tween.WaitForCompletion();
+
+        animator.applyRootMotion = false;
 
         Quaternion targetRotation = Quaternion.LookRotation(Vector3.zero);
         currentTransform.DOLocalRotate(targetRotation.eulerAngles, 1f, RotateMode.Fast);
@@ -99,6 +105,8 @@ public class AnimationSystem : MonoBehaviour
         Debug.Log($"{animationName} - {category} - {attackType} - {index}");
 
         animator.SetBool("IsAttacking", true);
+
+        AudioManager.Instance.SetAudioType(triggerAttackAnimGA.AudioType);
 
         yield return null;
     }

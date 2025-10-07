@@ -26,10 +26,12 @@ public abstract class ReactiveCondition : Condition
         if (ReactiveOptions.EffectDuration == EffectDuration.ThisTurn) turns = 0;
         else if (ReactiveOptions.EffectDuration == EffectDuration.UntilNextTurn) turns = 1;
 
-        ExecutableWrapper wrapper = new ExecutableWrapper(ExecutableParameters.CardData.Card, turns, ReactiveOptions);
+        ExecutableWrapper wrapper = new ExecutableWrapper(ExecutableParameters.CardData, turns, ReactiveOptions);
         ExecutableParameters.AvatarPlayingCard.DictReactiveEffects[triggerTemp].Add(wrapper);
     }
 
     public abstract void SetCommands();
+
+    public virtual void OnApply() { }
 
 }

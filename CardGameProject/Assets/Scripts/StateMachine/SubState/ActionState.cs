@@ -89,7 +89,7 @@ public class ActionState : CombatBaseState
         ExecutableParameters.AvatarOpponent = avatarOpponent;
 
         if (cardData.Gear is WeaponData)
-            ExecutableParameters.WeaponData = (WeaponData)cardData.Gear;
+            avatarPlayingCard.CurrentWeaponData = (WeaponData)cardData.Gear;
 
         isInAction = true;
         //ctx.CombatUIManager.HideGameplayUI(true);
@@ -105,8 +105,8 @@ public class ActionState : CombatBaseState
 
         isInAction = false;
 
-        ctx.EnemyList.ForEach(enemy => enemy.IsTakeDamage = false);
-        ctx.player.IsTakeDamage = false;
+        ctx.EnemyList.ForEach(enemy => enemy.IsHit = false);
+        ctx.player.IsHit = false;
 
         Debug.Log("Finished Attacking");
 

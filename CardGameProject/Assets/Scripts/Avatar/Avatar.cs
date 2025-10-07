@@ -5,6 +5,8 @@ using UnityEngine;
 using System;
 using Action = System.Action;
 using MyBox;
+using UnityEngine.VFX;
+using DG.Tweening;
 
 
 
@@ -31,12 +33,14 @@ public class Avatar : MonoBehaviour
     #region Bools
     public bool DoDamage { get; set; }
     public bool IsAttackFinished { get; set; }
-    public bool IsTakeDamage { get; set; } = false;
+    public bool IsHit { get; set; } = false;
     public bool IsRunningReactiveEffect { get; set; } = false;
 
     public bool IsInCounterState { get; set; } = false;
+    public bool IsCountered { get; set; }
     public bool IsInStatusActivation { get; set; }
     public bool DoStatusDmg { get; set; }
+    public bool IsRecoilDone { get; set; }
 
     #endregion
 
@@ -45,6 +49,7 @@ public class Avatar : MonoBehaviour
     [HideInInspector] public Dictionary<ReactiveTrigger, List<ExecutableWrapper>> DictReactiveEffects = new();
     [HideInInspector] public List<StatusEffect> ListOfEffects = new();
     [HideInInspector] public List<GameAction> QueueGameActions = new();
+    [HideInInspector] public List<Tween> CurrentActiveStatusEffectTween = new();
 
     #endregion
 
@@ -52,6 +57,8 @@ public class Avatar : MonoBehaviour
 
     public string Guid { get; private set; }
     public Animator Animator { get; private set; }
+
+    public WeaponData CurrentWeaponData { get; set; }
 
     #endregion
 
@@ -96,7 +103,7 @@ public class Avatar : MonoBehaviour
 
     #region Take Damage
 
-        public void TakeDamage(float damage) 
+        public virtual void TakeDamage(float damage) 
         {
             float block = CurrentBlock - damage;
 
@@ -169,6 +176,11 @@ public class Avatar : MonoBehaviour
             CurrentBlock += block;
         }
 
+        public void ResetBlock()
+        {
+            CurrentBlock = 0;
+        }
+
         public void Heal(float healAmount)
         {
             CurrentHealth += healAmount;
@@ -223,12 +235,22 @@ public class Avatar : MonoBehaviour
         // Don't need to check
         if (ListOfEffects.Count == 0) return damage;
 
+        float extraDamage = 0;
+
         foreach (StatusEffect statusEffect in ListOfEffects)
         {
             if (statusEffect.Effect == Effect.GuardBroken)
             {
                 StatusGuardBroken statusGuardBroken = statusEffect as StatusGuardBroken;
-                return damage * statusGuardBroken.ExtraDamagePercentage + damage;
+                extraDamage += damage * statusGuardBroken.ExtraDamagePercentage + damage;
+                continue;
+            }
+
+            if (statusEffect.Effect == Effect.Amplify)
+            {
+                StatusAmplify status = statusEffect as StatusAmplify;
+                extraDamage += damage * status.AttackIncreasePercentage + damage;
+                continue;
             }
         }
 
@@ -266,13 +288,14 @@ public class Avatar : MonoBehaviour
         {
             ExecutableWrapper wrapper = listWrapper[i];
 
-            if (IsGuardBroken() && wrapper.Commands.Any(command => command is AttackCommand)) continue;
+            if (IsGuardBroken() && wrapper.Commands.Any(command => command is AttackCommand)) continue; // NOTE: If we are guard broken & command is an attack command, ignore
+                                                                                                        // (Maybe ignore every command if guard broken)
 
             #region Check Timing 
 
             if (wrapper.EffectTiming == EffectTiming.Immediate && trigger == wrapper.ReactiveTrigger)
             {
-                // put in a queue
+                // put in a queue to run effect later
                 if (wrapper.DuplicateEffect == DuplicateEffect.Overwrite)
                 {
                     overwriteQueue.Add(wrapper);
@@ -284,6 +307,7 @@ public class Avatar : MonoBehaviour
             }
             else if (wrapper.EffectTiming == EffectTiming.NextTurn)
             {
+                // If trigger is not Start of turn, skip
                 if (trigger != ReactiveTrigger.StartOfTurn) continue;
 
                 wrapper.EffectTiming = EffectTiming.Immediate;
@@ -313,13 +337,15 @@ public class Avatar : MonoBehaviour
 
         #region Sort and Run
         
-        List<List<Executable>> sortedCommands = SortQueue(overwriteQueue, stackQueue);
+        List<ExecutableWrapper> sortedWrappers = SortQueue(overwriteQueue, stackQueue);
 
-        foreach (List<Executable> commands in sortedCommands)
+        foreach (ExecutableWrapper wrapper in sortedWrappers)
         {
             IsRunningReactiveEffect = true;
 
-            ActionSequence actionSequence = new(commands);
+            ExecutableParameters.CardData = wrapper.CardData;
+
+            ActionSequence actionSequence = new(wrapper.Commands);
             yield return actionSequence.Execute(null);
 
             IsRunningReactiveEffect = false;
@@ -330,6 +356,8 @@ public class Avatar : MonoBehaviour
 
     public void CheckTurnsReactiveEffects(ReactiveTrigger trigger)
     {
+        bool isCounterActive = false;
+
         Dictionary<ReactiveTrigger, List<ExecutableWrapper>> tempDict = DictReactiveEffects.ToDictionary(pair => pair.Key, pair => new List<ExecutableWrapper>(pair.Value));
 
         foreach (KeyValuePair<ReactiveTrigger, List<ExecutableWrapper>> pair in tempDict)
@@ -338,56 +366,68 @@ public class Avatar : MonoBehaviour
 
             for (int i = listWrapper.Count - 1; i >= 0; i--)
             {
+                bool isWrapperRemoved = false;
+
                 ExecutableWrapper wrapper = listWrapper[i];
+                if (wrapper.OverwriteType == OverwriteType.Counter || wrapper.OverwriteType == OverwriteType.Counterattack)
+                    isCounterActive = true;
 
                 if (trigger == ReactiveTrigger.StartOfTurn)
                 {
-                    if (wrapper.Turns > 1)
+                    if (wrapper.Turns > 1) // Reduce turn count
                     {
                         DictReactiveEffects[pair.Key][i].Turns--;
                     }
-                    else if (wrapper.Turns == 1)
+                    else if (wrapper.Turns == 1) // Remove reactive effect
                     {
                         DictReactiveEffects[pair.Key].RemoveAt(i);
-                        Debug.Log("Removed");
+                        isWrapperRemoved = true;
                     }
                 }
                 else if (wrapper.Turns == 0 && trigger == ReactiveTrigger.EndOfTurn)
                 {
                     DictReactiveEffects[pair.Key].RemoveAt(i);
+                    isWrapperRemoved = true;
                 }
+
+                if (isWrapperRemoved) 
+                    isCounterActive = false;
             }
         }
+
+        if (!isCounterActive)
+            GetComponent<Animator>().SetBool("isReady", false);
     }
 
-    public List<List<Executable>> SortQueue(List<ExecutableWrapper> overwriteQueue, List<ExecutableWrapper> stackQueue)
+    public List<ExecutableWrapper> SortQueue(List<ExecutableWrapper> overwriteQueue, List<ExecutableWrapper> stackQueue)
     {
-        List<List<Executable>> sortedCommands = new();
+        List<ExecutableWrapper> sortedCommands = new();
 
-        foreach (OverwriteType type in Enum.GetValues(typeof(OverwriteType)))
+        // Gets all enums of overwrite type in order (Counterattack being last)
+        foreach (OverwriteType type in Enum.GetValues(typeof(OverwriteType))) // Only 1 type (Should play animations)
         {
             ExecutableWrapper wrapper = overwriteQueue.FirstOrDefault(w => w.OverwriteType == type);
 
             if (wrapper == null) continue;
 
-            sortedCommands.Add(new List<Executable>(wrapper.Commands));
+            sortedCommands.Add(new ExecutableWrapper(wrapper.CardData, wrapper.Commands));
         }
 
-        foreach (StackType type in Enum.GetValues(typeof(StackType)))
+        foreach (StackType type in Enum.GetValues(typeof(StackType))) // Multiple types (Play no animations)
         {
             List<ExecutableWrapper> list = stackQueue.Where(w => w.StackType == type).ToList();
 
             if (list.Count == 0) continue;
 
-            // Check to put any damage commands together with counterattack
+            // Create new list if stack type is not damage, Skip this if do damage then add damage commands together with counterattack
             if (type == StackType.DoDamage && !overwriteQueue.Exists(w => w.OverwriteType == OverwriteType.Counterattack))
             {
-                sortedCommands.Add(new List<Executable>());
+                sortedCommands.Add(new ExecutableWrapper(list[0].CardData));
             }
 
             foreach (ExecutableWrapper wrapper in list)
             {
-                sortedCommands[sortedCommands.Count - 1].AddRange(wrapper.Commands);
+                sortedCommands[sortedCommands.Count - 1].Commands.AddRange(wrapper.Commands);
             }
         }
 
@@ -411,5 +451,35 @@ public class Avatar : MonoBehaviour
         Animator.SetBool("IsAttacking", false);
     }
 
+    public void AnimationEventPlaySound()
+    {
+        AudioManager.Instance.PlayAudioType();
+    }
+
+    public void AnimationEventDisableRecoil()
+    {
+        AnimationEventAttackFinish();
+        IsRecoilDone = true;
+        Animator.SetBool("IsRecoiled", false);
+    }
+
+    public void EnableWeaponTrail()
+    {
+        VisualEffect weaponTrail = RightHolder.GetComponentInChildren<VisualEffect>();
+        weaponTrail.Play();
+
+        Debug.Log("WEAPON TRAIL");
+    }
+
+    public void DisableWeaponTrail()
+    {
+        VisualEffect weaponTrail = RightHolder.GetComponentInChildren<VisualEffect>();
+        weaponTrail.enabled = false;
+    }
+
     #endregion
+
+    public virtual void PlayHurtSound() { }
+
+    public virtual void PlayDeathSound() { }
 }

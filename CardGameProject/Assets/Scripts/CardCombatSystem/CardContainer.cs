@@ -194,10 +194,8 @@ public class CardContainer : MonoBehaviour {
         var containerWidth = rectTransform.rect.width ;
         if (forceFitContainer && cardsTotalWidth > containerWidth) {
             DistributeChildrenToFitContainer(cardsTotalWidth);
-            Debug.Log("push");
         }
         else {
-            Debug.Log("no push");
             DistributeChildrenWithoutOverlap(cardsTotalWidth);
         }
     }
@@ -368,10 +366,13 @@ public class CardContainer : MonoBehaviour {
 
         foreach (GameObject playAreaObject in cardPlayConfig.playArea)
         {
+            if (playAreaObject == null) continue;
+
             // If card is in play area, play it!
-            if (IsCursorInPlayArea(playAreaObject.GetComponent<RectTransform>()))
+            RectTransform rectTransform = playAreaObject.GetComponent<RectTransform>();
+            if (IsCursorInPlayArea(rectTransform))
             {
-                if (Ydis < YAmount) return;
+                if (playAreaObject.tag == "Play" && Ydis < YAmount) return;
 
                 eventsConfig?.OnCardPlayed?.Invoke(new CardPlayed(currentDraggedCard), currentDraggedCard.card, playAreaObject.transform.tag);
                 if (cardPlayConfig.destroyOnPlay)

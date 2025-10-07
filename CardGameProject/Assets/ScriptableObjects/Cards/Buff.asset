@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229174bf3bf62b140ae8b2bba2c89d2d, type: 3}
+  m_Name: Buff
+  m_EditorClassIdentifier: 
+  Guid: d9e750402501226458b3af283cd66b87
+  InGameGUID: 
+  CardName: Buff
+  Description: Gain #Amplify for 2 turns
+  DisplayDescription: 
+  LinkDescription: Gain <link="Amplify"><color=#FFBF00><u>Amplify</u></color></link>
+    for 2 turns
+  Flavour: 
+  Image: {fileID: 21300000, guid: eccf85b565b1fdd4582975829f6c189a, type: 3}
+  Frame: {fileID: 21300000, guid: 61329542160dc15418ac2da74fe16cf1, type: 3}
+  Cost: 2
+  RecycleValue: 1
+  ValuesToReference: []
+  Commands:
+  - rid: 5090185919954944131
+  PopupKeyPair:
+  - Key: Amplify
+    Value: {fileID: 11400000, guid: 9ead0859091a0574ba55a2cc00ba81b3, type: 2}
+  - Key: Bleed
+    Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
+  - Key: Poison
+    Value: {fileID: 11400000, guid: 7e7a85d9798338743a57caf3f468f8d4, type: 2}
+  references:
+    version: 2
+    RefIds:
+    - rid: 5090185919954944131
+      type: {class: ApplyStatusEffect, ns: , asm: Assembly-CSharp}
+      data:
+        target: 3
+        effect: {fileID: 11400000, guid: 3ada98233dcf12241bb4289fbc2a5319, type: 2}

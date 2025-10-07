@@ -14,7 +14,7 @@ public class ActionSequence : Executable
 
     private List<Executable> _actionCommands;
 
-    private bool IsDrawingCard;
+    private bool ReactiveSkipAnimation;
 
     public ActionSequence(List<Executable> actionCommands)
     {
@@ -30,12 +30,15 @@ public class ActionSequence : Executable
         Avatar avatarOpponent = ExecutableParameters.AvatarOpponent;
         ExecutableParameters.Targets = new List<Avatar>();
         ExecutableParameters.Queue = new List<Avatar>();
+        AnimationWrapper animationWrapper = GetAttackAnimation();
 
         avatarPlayingCard.DoDamage = false;
         avatarPlayingCard.IsAttackFinished = false;
+        avatarPlayingCard.IsCountered = false;
+        avatarPlayingCard.IsRecoilDone = false;
         bool hasMoved = false;
         IsAttackingAllEnemies = false;
-        IsDrawingCard = false;
+        ReactiveSkipAnimation = false;
 
         //ctx.CameraManager.SetDummy(avatarPlayingCard.transform);
         ctx.CameraManager.SetVictimDummy(avatarOpponent.transform, avatarPlayingCard.transform);
@@ -53,14 +56,14 @@ public class ActionSequence : Executable
             yield break;
         }
 
-        if (!IsDrawingCard)
+        if (!animationWrapper.SkipAnimation && !ReactiveSkipAnimation)
             ctx.CombatUIManager.HideGameplayUI(true);
 
         #region Movement
 
         if (RequiresMovement && !hasMoved)
         {
-            AnimationWrapper animationWrapper = GetAttackAnimation();
+            Debug.Log("movement");
 
             if (IsAttackingAllEnemies)
                 ctx.CameraManager.SetVictimDummy(avatarOpponent.transform.parent.parent, avatarPlayingCard.transform);
@@ -69,7 +72,7 @@ public class ActionSequence : Executable
             MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, IsAttackingAllEnemies, animationWrapper.DistanceOffset, animationWrapper.FollowTimeline);
             ActionSystem.Instance.Perform(moveToPosGA);
 
-            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline);
+            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioType);
             moveToPosGA.PostReactions.Add(triggerAttackAnimGA);
 
             yield return new WaitWhile(() => !avatarPlayingCard.DoDamage);
@@ -78,7 +81,17 @@ public class ActionSequence : Executable
         }
         else
         {
-            avatarPlayingCard.IsAttackFinished = true; // temp fix
+            if (!animationWrapper.SkipAnimation && !ReactiveSkipAnimation)
+            {
+                TriggerAttackAnimGA triggerAttackAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioType);
+                ActionSystem.Instance.Perform(triggerAttackAnimGA);
+
+                yield return new WaitWhile(() => !avatarPlayingCard.DoDamage);
+            }
+            else
+            {
+                avatarPlayingCard.IsAttackFinished = true; // temp fix
+            }
         }
 
         #endregion
@@ -90,7 +103,14 @@ public class ActionSequence : Executable
         }
 
 
-        yield return new WaitWhile(() => !avatarPlayingCard.IsAttackFinished); // TODO - Rename to isAnimationFinished
+        yield return new WaitWhile(() => !avatarPlayingCard.IsAttackFinished);
+
+        if (!hasMoved) // Hard coded fix
+            avatarPlayingCard.IsAttackFinished = false;
+
+        // Wait until opponent has finished recoil animation
+        if (avatarPlayingCard.IsCountered) // Hard coded
+            yield return new WaitWhile(() => !avatarPlayingCard.IsRecoilDone);
 
         #region Return
 
@@ -110,7 +130,6 @@ public class ActionSequence : Executable
             yield return TriggerReactiveEffect(avatarPlayingCard, avatarOpponent, ReactiveTrigger.AfterTakeDamageByWeapon);
 
 
-
         yield return new WaitWhile(() => ActionSystem.Instance.IsPerforming);
     }
 
@@ -123,21 +142,22 @@ public class ActionSequence : Executable
                 ReactiveCondition currentReactiveCondition = command as ReactiveCondition;
 
                 TriggerDuplicateReactiveCondition(ExecutableParameters.AvatarPlayingCard, currentReactiveCondition);
-                
+
+                ReactiveSkipAnimation = true;
+
                 continue;
             }
+
+            ReactiveSkipAnimation = false;
 
             ExecutableParameters.Targets = GetTargets(command.CardTarget);
             ExecutableParameters.CardTarget = command.CardTarget;
 
             if (command.CardTarget == CardTarget.AllEnemies) 
-                IsAttackingAllEnemies = true;
+                IsAttackingAllEnemies = true; // Move to middle position
 
             bool isConditionTrue = false;
             yield return command.Execute(result => isConditionTrue = result);
-
-            if (command is DrawCommand)
-                IsDrawingCard = true;
 
             if (isConditionTrue)
             {
@@ -174,16 +194,17 @@ public class ActionSequence : Executable
 
         currentReactiveCondition.AddReactiveEffect();
         currentReactiveCondition.SetCommands();
+        currentReactiveCondition.OnApply();
     }
 
     private IEnumerator TriggerReactiveEffect(Avatar avatarPlayingCard, Avatar avatarOpponent, ReactiveTrigger trigger)
     {
         foreach (Avatar avatarTarget in ExecutableParameters.Queue)
         {
-            if (!avatarTarget.IsTakeDamage) continue;
+            if (!avatarTarget.IsHit) continue;
 
             if (trigger == ReactiveTrigger.AfterTakeDamageByWeapon) 
-                avatarTarget.IsTakeDamage = false;
+                avatarTarget.IsHit = false;
 
             Debug.Log(trigger);
 
@@ -191,6 +212,7 @@ public class ActionSequence : Executable
 
             ExecutableParameters.AvatarPlayingCard = avatarTarget;
             ExecutableParameters.AvatarOpponent = avatarPlayingCard;
+            CardData tempData = ExecutableParameters.CardData;
             List<Avatar> tempQueue = Extensions.CloneList(ExecutableParameters.Queue);
             List<Avatar> tempTargets = Extensions.CloneList(ExecutableParameters.Targets);
             List<GameAction> tempGA = Extensions.CloneList(avatarTarget.QueueGameActions);
@@ -206,6 +228,7 @@ public class ActionSequence : Executable
             ExecutableParameters.AvatarOpponent = avatarOpponent;
             ExecutableParameters.Queue = tempQueue;
             ExecutableParameters.Targets = tempTargets;
+            ExecutableParameters.CardData = tempData;
             avatarTarget.QueueGameActions = tempGA;
 
             avatarPlayingCard.DoDamage = false;
@@ -251,6 +274,17 @@ public class ActionSequence : Executable
         else if (target == CardTarget.Self)
         {
             targets.Add(ExecutableParameters.AvatarPlayingCard);
+        }
+        else if (target == CardTarget.AllAllies)
+        {
+            if (ExecutableParameters.AvatarPlayingCard is Player)
+            {
+                targets.Add(ExecutableParameters.AvatarPlayingCard);
+            }
+            else
+            {
+                targets.AddRange(ExecutableParameters.Ctx.EnemyList);
+            }
         }
         else if (target == CardTarget.PreviousTarget)
         {

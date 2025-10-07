@@ -32,7 +32,7 @@ public abstract class HealCommand : Command
                 gainHealthGA.HealAmount += heal;
 
                 SpawnDamageUIPopupGA spawnDamageUIPopupGA = gainHealthGA.PostReactions.First(gameAction => gameAction is SpawnDamageUIPopupGA) as SpawnDamageUIPopupGA;
-                spawnDamageUIPopupGA.Damage = gainHealthGA.HealAmount;
+                spawnDamageUIPopupGA.Text = gainHealthGA.HealAmount.ToString();
             }
             else
             {
@@ -40,7 +40,7 @@ public abstract class HealCommand : Command
                 GainHealthGA gainHealthGA = new(avatarToHeal, heal);
                 AddGameActionToQueue(gainHealthGA, avatarToHeal);
 
-                SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatarToHeal, gainHealthGA.HealAmount, Color.red);
+                SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatarToHeal, gainHealthGA.HealAmount.ToString(), Color.red);
                 AddGameActionToQueue(spawnDamageUIPopupGA, avatarToHeal);
             }
 

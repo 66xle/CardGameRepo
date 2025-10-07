@@ -51,7 +51,7 @@ public class EnemyStatSettings : ScriptableObject
         float c = stat.z;
         float def = Mathf.Pow(a, 2) + b + c;
 
-        float value = Mathf.RoundToInt(def * GetMultiplier(AttackMultiplier, type));
+        float value = Mathf.RoundToInt(def * GetMultiplier(DefenceMultiplier, type));
 
         return value;
     }

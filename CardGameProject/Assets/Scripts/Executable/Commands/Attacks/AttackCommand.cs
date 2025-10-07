@@ -23,42 +23,42 @@ public abstract class AttackCommand : Command
         Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
         Animator opponentController = avatarOpponent.GetComponent<Animator>();
 
-        if (avatarOpponent.IsInCounterState)
-        {
-            CounterGA counterGA = new(avatarOpponent, avatarPlayingCardController, opponentController);
-            avatarOpponent.QueueGameActions.Add(counterGA);
-        }
-        else
-        {
-            float damage = CalculateDamage.GetDamage(avatarPlayingCard.Attack, ExecutableParameters.WeaponData.WeaponAttack, avatarOpponent, Value);
+        float damage = CalculateDamage.GetDamage(avatarPlayingCard.Attack, avatarPlayingCard.CurrentWeaponData.WeaponAttack, avatarOpponent, Value);
 
-            for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
+        for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
+        {
+            Avatar avatarToTakeDamage = ExecutableParameters.Targets[i];
+
+            if (avatarToTakeDamage.IsGameActionInQueue<TakeDamageFromWeaponGA>())
             {
-                Avatar avatarToTakeDamage = ExecutableParameters.Targets[i];
+                // Update damage value
+                TakeDamageFromWeaponGA takeDamageFromWeaponGA = avatarToTakeDamage.GetGameActionFromQueue<TakeDamageFromWeaponGA>() as TakeDamageFromWeaponGA;
+                takeDamageFromWeaponGA.Damage += damage;
 
-                if (avatarToTakeDamage.IsGameActionInQueue<TakeDamageFromWeaponGA>())
+                SpawnDamageUIPopupGA spawnDamageUIPopupGA = takeDamageFromWeaponGA.PostReactions.First(gameAction => gameAction is SpawnDamageUIPopupGA) as SpawnDamageUIPopupGA;
+                spawnDamageUIPopupGA.Text = takeDamageFromWeaponGA.Damage.ToString();
+            }
+            else
+            {
+                // Add game action to queue
+                TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, damage, avatarPlayingCard.CurrentWeaponData.DamageType, ExecutableParameters.CardTarget);
+                AddGameActionToQueue(takeDamageFromWeaponGA, avatarToTakeDamage);
+
+                SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.AvatarToTakeDamage, takeDamageFromWeaponGA.Damage.ToString(), Color.white);
+                AddGameActionToQueue(spawnDamageUIPopupGA, avatarToTakeDamage);
+
+                if (avatarOpponent.IsInCounterState)
                 {
-                    // Update damage value
-                    TakeDamageFromWeaponGA takeDamageFromWeaponGA = avatarToTakeDamage.GetGameActionFromQueue<TakeDamageFromWeaponGA>() as TakeDamageFromWeaponGA;
-                    takeDamageFromWeaponGA.Damage += damage;
+                    CounterGA counterGA = new(avatarOpponent, avatarPlayingCard);
+                    avatarOpponent.QueueGameActions.Add(counterGA);
 
-                    SpawnDamageUIPopupGA spawnDamageUIPopupGA = takeDamageFromWeaponGA.PostReactions.First(gameAction => gameAction is SpawnDamageUIPopupGA) as SpawnDamageUIPopupGA;
-                    spawnDamageUIPopupGA.Damage = takeDamageFromWeaponGA.Damage;
+                    AddGameActionToQueue(counterGA, avatarOpponent);
                 }
-                else
-                {
-                    // Add game action to queue
-                    TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, damage, ExecutableParameters.WeaponData.DamageType, ExecutableParameters.CardTarget);
-                    AddGameActionToQueue(takeDamageFromWeaponGA, avatarToTakeDamage);
-
-                    SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.AvatarToTakeDamage, takeDamageFromWeaponGA.Damage, Color.white);
-                    AddGameActionToQueue(spawnDamageUIPopupGA, avatarToTakeDamage);
-                }
-
-                ExecutableParameters.Targets[i] = avatarToTakeDamage;
             }
 
-            UpdateGameActionQueue();
+            ExecutableParameters.Targets[i] = avatarToTakeDamage;
         }
+
+        UpdateGameActionQueue();
     }
 }

@@ -1,19 +1,39 @@
+using System;
+using System.Collections.Generic;
+using DG.Tweening;
 using MyBox;
 using PixelCrushers.DialogueSystem;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+
+[Serializable]
+public struct TutorialData
+{
+    [ConversationPopup(true)] public string ConversationTitle;
+}
+
 
 public class CombatUIManager : MonoBehaviour
 {
+    [Foldout("Tutorial", true)]
+    [MustBeAssigned] [SerializeField] TutorialUI TutorialUI;
+    [MustBeAssigned][SerializeField] DialogueSystemSceneEvents events;
+    [MustBeAssigned][SerializeField] DialogueDatabase DialogueDatabase;
+    [SerializeField] List<TutorialData> TutorialDatas;
+    [SerializeField] float DelayTutorial = 1f;
+    private int _tutorialIndex;
+    private DialogueEntry _currentEntry;
+    private Conversation _currentConversation;
+
     [Foldout("Popup", true)]
     [MustBeAssigned] public GameObject DamagePopupPrefab;
     [MustBeAssigned] public Transform WorldSpaceCanvas;
     [Range(0, 1)] public float RandomOffsetHorizontal = 0.5f;
     public float OffsetVertical = 1f;
     public float baseScale = 1f;
+    public float StatusEffectTweenProgress = 0.3f;
 
     [Separator("Animate")]
     public float MoveDuration;
@@ -31,17 +51,18 @@ public class CombatUIManager : MonoBehaviour
     [MustBeAssigned] public GameObject EnemyTurnUI;
 
     [Foldout("Player UI", true)]
-    [MustBeAssigned] public Slider HealthBar;
+    //[MustBeAssigned] public Slider HealthBar;
     [MustBeAssigned] public TMP_Text HealthValue;
-    [MustBeAssigned] public Slider StaminaBar;
+    //[MustBeAssigned] public Slider StaminaBar;
     [MustBeAssigned] public TMP_Text StaminaValue;
     [MustBeAssigned] public Slider GuardBar;
-    [MustBeAssigned] public TMP_Text GuardValue;
+    //[MustBeAssigned] public TMP_Text GuardValue;
     [MustBeAssigned] public TMP_Text BlockValue;
     [MustBeAssigned] public GameObject PlayerUI;
 
     [Foldout("Enemy", true)]
     [MustBeAssigned] public GameObject enemyUIPrefab;
+    [MustBeAssigned] public EnemyUI eliteUI;
     [MustBeAssigned] public DetailedUI detailedUI;
 
     [Foldout("UI", true)]
@@ -49,10 +70,12 @@ public class CombatUIManager : MonoBehaviour
     [MustBeAssigned] public GameObject SwitchWeaponUI;
     [MustBeAssigned] public GameObject HideUI;
     [MustBeAssigned] public GameObject DetailedUI;
+    [MustBeAssigned] [SerializeField] GameObject StatusPrefab;
+    [MustBeAssigned] [SerializeField] GameObject StatusActive;
+    [MustBeAssigned] [SerializeField] GameObject StatusDeactive;
 
     [Foldout("Managers", true)]
     [MustBeAssigned] public StatsManager StatsManager;
-
 
     public void HideGameplayUI(bool toggle)
     {
@@ -65,8 +88,65 @@ public class CombatUIManager : MonoBehaviour
 
     public void InitPlayerUI(Player player)
     {
-        player.InitUI(HealthBar, HealthValue, StaminaBar, StaminaValue, BlockValue, GuardBar, GuardValue, StatsManager.ArmourType);
-        player.InitStats(StatsManager.CurrentMaxHealth, StatsManager.CurrentMaxStamina, StatsManager.CurrentMaxGuard, StatsManager.Defence, StatsManager.DefencePercentage, StatsManager.Attack, StatsManager.BlockScale);
+        //player.InitUI(HealthBar, HealthValue, StaminaBar, StaminaValue, BlockValue, GuardBar, GuardValue, StatsManager.ArmourType);
+        player.InitUI(HealthValue, StaminaValue, BlockValue, GuardBar, StatsManager.ArmourType, StatusPrefab, StatusActive, StatusDeactive);
+        player.InitStats(StatsManager.CurrentMaxHealth, StatsManager.CurrentMaxStamina, StatsManager.CurrentMaxGuard, StatsManager.Defence, StatsManager.DefencePercentage, StatsManager.Attack, StatsManager.BlockScale, StatsManager.RecoverStaminaPercentage);
     }
 
+    public void InitTutorial()
+    {
+        if (GameManager.Instance.IsInTutorial)
+        {
+            _tutorialIndex = -1;
+
+            StartTutorialConversation(0);
+        }
+    }
+
+    public void StartTutorialConversation(int index)
+    {
+        _currentConversation = DialogueDatabase.GetConversation(TutorialDatas[index].ConversationTitle);
+        _currentEntry = _currentConversation.GetFirstDialogueEntry();
+
+        DisplayNextTutorial();
+    }
+
+    public void DisplayNextTutorial()
+    {
+        // Confirm button
+        if (_currentEntry.outgoingLinks.Count == 0)
+        {
+            TutorialUI.CloseTutorial();
+            return;
+        }
+
+        // Grab next entry
+        int destinationID = _currentEntry.outgoingLinks[0].destinationDialogueID;
+        _currentEntry = _currentConversation.GetDialogueEntry(destinationID);
+
+        // Grab image
+        string imagePath = _currentEntry.fields[1].value;
+
+        if (imagePath == "null")
+        {
+            TutorialUI.DisplayLogo(_currentEntry.MenuText, _currentEntry.DialogueText, DelayTutorial);
+            return;
+        }
+
+        Sprite sprite = Resources.Load<Sprite>(imagePath);
+
+        
+
+        // Last node
+        if (_currentEntry.outgoingLinks.Count == 0)
+        {
+            //TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText, DelayTutorial, "Confirm");
+            TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText, DelayTutorial, "");
+            return;
+        }
+
+
+        //TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText, DelayTutorial);
+        TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText, DelayTutorial, "");
+    }
 }

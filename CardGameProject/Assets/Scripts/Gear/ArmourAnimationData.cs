@@ -9,6 +9,7 @@ using UnityEngine.Playables;
 [SRName("Armour")]
 public class ArmourAnimationData : AnimationData
 {
+    public override bool EnableAnimation => _skipAnimation;
     public override string Animation => _animation.name;
     public override Boolean OverrideDistanceOffset => _overrideDistanceOffset;
     public override float DistanceOffset => _distanceOffset;
@@ -17,7 +18,9 @@ public class ArmourAnimationData : AnimationData
     public override PlayableAsset AttackTimeline => _attackTimeline;
 
 
-    public AnimationClip _animation;
+    public bool _skipAnimation = false;
+    [ConditionalField(false, nameof(ShowAnimation))] public AnimationClip _animation;
+    [ConditionalField(false, nameof(AnimationClip))] public AudioType AudioType;
     [ConditionalField(false, nameof(AnimationClip))] public Boolean _overrideDistanceOffset = Boolean.False;
     [ConditionalField(false, nameof(OverrideDistance))] public float _distanceOffset = 0;
     [ConditionalField(false, nameof(AnimationClip))] public Boolean _overrideCamera = Boolean.False;
@@ -26,7 +29,7 @@ public class ArmourAnimationData : AnimationData
 
     public override AnimationWrapper GetAnimationWrapper()
     {
-        if (_animation == null) return null;
+        if (!_skipAnimation && _animation == null) return null;
 
         float distance = 0f;
 
@@ -42,7 +45,10 @@ public class ArmourAnimationData : AnimationData
             attackTimeline = AttackTimeline;
         }
 
-        return new AnimationWrapper(Animation, distance, followTimeline, attackTimeline);
+        if (_skipAnimation)
+            return new AnimationWrapper(_skipAnimation);
+
+        return new AnimationWrapper(Animation, distance, followTimeline, attackTimeline, AudioType);
     }
 
     public bool AnimationClip()
@@ -50,5 +56,13 @@ public class ArmourAnimationData : AnimationData
         if (_animation == null) return false;
 
         return true;
+    }
+
+    public bool ShowAnimation()
+    {
+        if (!_skipAnimation) return true;
+
+        _animation = null;
+        return false;
     }
 }

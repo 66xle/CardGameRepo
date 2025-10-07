@@ -21,6 +21,7 @@ public class DetailedUI : MonoBehaviour
     [MustBeAssigned] [SerializeField] GameObject DeactiveParent;
     [MustBeAssigned] [SerializeField] GameObject UiPrefab;
     public float EffectUIOffset = 50f;
+    [MustBeAssigned][SerializeField] TMP_Text EnemyName;
 
 
     public void Init(CombatStateMachine ctx)
@@ -29,7 +30,7 @@ public class DetailedUI : MonoBehaviour
 
         _healthBar = GetComponentsInChildren<Image>()[1];
         _guardBar = GetComponentsInChildren<Image>()[2];
-        //healthValue = GetComponentsInChildren<TMP_Text>()[0];
+        healthValue = GetComponentsInChildren<TMP_Text>()[0];
         //guardValue = GetComponentsInChildren<TMP_Text>()[1];
         //blockValue = GetComponentsInChildren<TMP_Text>()[2];
 
@@ -40,6 +41,8 @@ public class DetailedUI : MonoBehaviour
     public void ChangeTarget(Enemy enemy)
     {
         _enemy = enemy;
+        EnemyName.text = enemy.EnemyData.Name;
+
         DisplayStats();
         ClearStatusUI();
         UpdateStatusEffectsUI();
@@ -50,10 +53,16 @@ public class DetailedUI : MonoBehaviour
         if (_enemy == null)
             return;
 
-        _healthBar.fillAmount = _enemy.HealthBar.fillAmount;
-        //healthValue.text = enemy.healthValue.text;
+        float currentHealthPercentage = int.Parse(_enemy.HealthText.text) / _enemy.MaxHealth;
 
-        _guardBar.fillAmount = _enemy.GuardBar.fillAmount;
+        //DOVirtual.Float(_healthBar.fillAmount, currentHealthPercentage, 0.5f, f => _healthBar.fillAmount = f);
+
+        _healthBar.fillAmount = currentHealthPercentage;
+
+
+        healthValue.text = _enemy.HealthText.text;
+
+        _guardBar.fillAmount = _enemy.GuardBar.value;
         //guardValue.text = enemy.guardValue.text;
 
         //blockValue.text = enemy.blockValue.text;
@@ -95,6 +104,7 @@ public class DetailedUI : MonoBehaviour
             // Instanitate object in active
             GameObject newEffectObj = Instantiate(UiPrefab, ActiveParent.transform);
             newEffectObj.tag = data.EffectName;
+            newEffectObj.GetComponent<Image>().sprite = data.Sprite;
             UpdateStatusUI(i, newEffectObj, data);
         }
     }

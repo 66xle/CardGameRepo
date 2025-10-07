@@ -21,6 +21,7 @@ public class WeaponAnimationData : AnimationData
 
 
     [DefinedValues(nameof(GetAnimationNames))] public string _animation = AttackType.None.ToString();
+    [ConditionalField(nameof(_animation), true, AttackType.None)] public AudioType AudioType;
     [ConditionalField(nameof(_animation), true, AttackType.None)] public Boolean _overrideDistanceOffset = Boolean.False;
     [ConditionalField(false, nameof(OverrideDistance))] public float _distanceOffset = 0;
     [ConditionalField(nameof(_animation), true, AttackType.None)] public Boolean _overrideCamera = Boolean.False;
@@ -73,7 +74,7 @@ public class WeaponAnimationData : AnimationData
         }
 
         
-        return new AnimationWrapper(stringSplit[1], distance, followTimeline, attackTimeline);
+        return new AnimationWrapper(stringSplit[1], distance, followTimeline, attackTimeline, AudioType);
     }
 
 

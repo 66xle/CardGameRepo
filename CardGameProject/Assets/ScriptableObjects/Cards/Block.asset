@@ -24,10 +24,12 @@ MonoBehaviour:
   Cost: 2
   RecycleValue: 2
   ValuesToReference:
-  - {x: 1, y: 1.5}
+  - {x: 1, y: 2}
   Commands:
   - rid: 1089680480740835421
   PopupKeyPair:
+  - Key: Amplify
+    Value: {fileID: 11400000, guid: 9ead0859091a0574ba55a2cc00ba81b3, type: 2}
   - Key: Bleed
     Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
   - Key: Poison
@@ -39,4 +41,4 @@ MonoBehaviour:
       type: {class: GainBlock, ns: , asm: Assembly-CSharp}
       data:
         target: 3
-        value: 1.5
+        value: 2

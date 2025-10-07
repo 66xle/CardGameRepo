@@ -15,6 +15,7 @@ using Random = UnityEngine.Random;
 using UnityEngine.Analytics;
 using UnityEngine.EventSystems;
 using PixelCrushers.DialogueSystem;
+using UnityEngine.VFX;
 
 public class CombatStateMachine : MonoBehaviour
 {
@@ -118,11 +119,11 @@ public class CombatStateMachine : MonoBehaviour
         currentState = new PrepState(this, states, vso);
         currentState.EnterState();
 
-        if (ConversationTitle != null)
-        {
-            DialogueManager.StartConversation(ConversationTitle, PlayerActor, EnemyActor);
-            return;
-        }
+        //if (ConversationTitle != null)
+        //{
+        //    DialogueManager.StartConversation(ConversationTitle, PlayerActor, EnemyActor);
+        //    return;
+        //}
 
         InitBattle();
     }
@@ -159,11 +160,23 @@ public class CombatStateMachine : MonoBehaviour
 
     public void InitBattle()
     {
+        AudioData musicData = GameManager.Instance.CurrentLevelDataLoaded.Music;
+        AudioManager.Instance.PlayMusic(musicData);
+
         _isInPrepState = false;
         CardManager.LoadCards();
 
         _selectedEnemyToAttack = EnemyList[0];
         EnemyManager.SelectEnemy(_selectedEnemyToAttack);
+
+        if (!GameManager.Instance.IsInTutorial)
+            return;
+
+        if (GameManager.Instance.TutorialStage == 1)
+        {
+            CombatUIManager.InitTutorial();
+            CombatUIManager.EndTurnButton.interactable = false;
+        }
     }
 
     private void SelectEnemy()
@@ -208,7 +221,15 @@ public class CombatStateMachine : MonoBehaviour
             // Equipment
             _equipmentHolsterScript = player.GetComponent<EquipmentHolster>();
 
-            SwitchWeaponManager.InitWeaponData();
+            if (GameManager.Instance.IsInTutorial)
+            {
+                SwitchWeaponManager.InitTutorialWeapon();
+            }
+            else
+            {
+                SwitchWeaponManager.InitWeaponData();
+            }
+                
             List<WeaponData> holsterWeapons = SwitchWeaponManager.GetWeaponList();
 
             if (holsterWeapons.Count > 0)
@@ -253,6 +274,20 @@ public class CombatStateMachine : MonoBehaviour
         {
             if (player.hasEnoughStamina(card.Cost))
             {
+                if (GameManager.Instance.IsInTutorial)
+                {
+                    if (GameManager.Instance.TutorialStage >= 1 && GameManager.Instance.TutorialStage < 1.2f)
+                    {
+                        GameManager.Instance.TutorialStage += 0.1f;
+                    }
+
+                    if (GameManager.Instance.TutorialStage >= 1.2f && GameManager.Instance.TutorialStage < 2)
+                    {
+                        CombatUIManager.StartTutorialConversation(1);
+                    }
+                }
+                
+
                 player.ConsumeStamina(card.Cost);
 
                 // Get cardData from player hand to move to discard pile
@@ -301,6 +336,8 @@ public class CombatStateMachine : MonoBehaviour
         }
         else if (tag == "Recycle")
         {
+            if (GameManager.Instance.TutorialStage < 4) return;
+
             // Get cardData from player hand to move to discard pile
             CardData cardData = CardManager.PlayerHand.First(data => data.Card.InGameGUID == card.InGameGUID);
             CardManager.PlayerHand.Remove(cardData);
@@ -342,10 +379,28 @@ public class CombatStateMachine : MonoBehaviour
         }
     }
 
+    public void EnableWeaponTrail()
+    {
+        VisualEffect weaponTrail = _equipmentHolsterScript.RightHand.GetChild(0).GetComponent<VisualEffect>();
+        Debug.Log("WEAPON TRAIL");
+    }
+
+    public void DisableWeaponTrail()
+    {
+
+    }
+
     #region Used by StateMachine
 
     public void EndTurn()
     {
+        if (GameManager.Instance.TutorialStage == 1.2f)
+            GameManager.Instance.TutorialStage = 2;
+        else if (GameManager.Instance.TutorialStage == 2.1f)
+            GameManager.Instance.TutorialStage = 3;
+        else if (GameManager.Instance.TutorialStage == 3.1f)
+            GameManager.Instance.TutorialStage = 4;
+
         StartCoroutine(EndTurnReactiveEffect());
     }
 

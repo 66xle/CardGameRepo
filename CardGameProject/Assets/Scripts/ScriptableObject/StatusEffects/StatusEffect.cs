@@ -12,7 +12,8 @@ public enum Effect
     Stunned,
     GuardBroken,
     Bleed,
-    Poison
+    Poison,
+    Amplify
 }
 
 [Serializable]
@@ -21,8 +22,10 @@ public abstract class StatusEffect
     [ReadOnly] public Effect Effect;
     public string EffectName;
     public int MaxTurnsRemaining = 1;
+    public Sprite Sprite;
     [ReadOnly] public int CurrentTurnsRemaning;
-    [ReadOnly] public bool IsActiveEffect = false;
+    public bool IsActiveEffect = false;
+    public bool IsPassiveEffect = false;
 
     public abstract StatusEffect Clone();
 

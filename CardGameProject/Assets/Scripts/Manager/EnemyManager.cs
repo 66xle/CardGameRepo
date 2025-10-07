@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Analytics;
 using Random = UnityEngine.Random;
 
 public class EnemyManager : MonoBehaviour
@@ -57,6 +58,13 @@ public class EnemyManager : MonoBehaviour
             Enemy enemy = Instantiate(enemyDataList[i].Prefab, EnemySpawnPosList[i]).GetComponent<Enemy>();
             enemy.InitStats(enemyDataList[i], ESS);
             enemies.Add(enemy);
+
+            if (i == 0)
+            {
+                enemy.InitUI(CombatUIManager.eliteUI.gameObject, CombatUIManager.detailedUI);
+                CombatUIManager.eliteUI.Init(Ctx, enemy, this);
+                continue;
+            }
 
             GameObject statsUI = Instantiate(CombatUIManager.enemyUIPrefab, EnemyUISpawnPosList[i].GetComponent<RectTransform>());
             enemy.InitUI(statsUI, CombatUIManager.detailedUI);

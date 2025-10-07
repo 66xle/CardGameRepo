@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using MyBox;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyUI : MonoBehaviour
 {
     [SerializeField] GameObject selectedHighlight;
-
+    [MustBeAssigned] public TMP_Text HealthText;
+    [MustBeAssigned] public TMP_Text BlockText;
+    [MustBeAssigned] public Slider GuardBar;
+    public TMP_Text Name;
 
     private CombatStateMachine stateMachine;
     private Enemy enemy;
@@ -21,6 +27,8 @@ public class EnemyUI : MonoBehaviour
 
     public void SetUIActive(bool toggle)
     {
+        if (selectedHighlight == null) return;
+
         selectedHighlight.SetActive(toggle);
     }
 

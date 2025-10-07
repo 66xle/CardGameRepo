@@ -26,4 +26,12 @@ public class IfAttacked : ReactiveCondition
 
         ExecutableParameters.AvatarPlayingCard.DictReactiveEffects[triggerTemp][ExecutableParameters.AvatarPlayingCard.DictReactiveEffects[triggerTemp].Count - 1].Commands = commands;
     }
+
+    public override void OnApply()
+    {
+        ExecutableParameters.AvatarPlayingCard.IsInCounterState = true;
+
+        Animator animator = ExecutableParameters.AvatarPlayingCard.GetComponent<Animator>();
+        animator.SetBool("isReady", true);
+    }
 }

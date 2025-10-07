@@ -5,93 +5,120 @@ using System.Collections.Generic;
 using Systems.SceneManagment;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Timeline;
+
 
 public class CutsceneManager : MonoBehaviour
 {
     [Foldout("References", true)]
     [MustBeAssigned][SerializeField] CombatStateMachine Ctx;
     [MustBeAssigned][SerializeField] CinemachineVirtualCamera VCam;
-    [MustBeAssigned][SerializeField] PlayableDirector Director;
     [MustBeAssigned][SerializeField] GameObject Canvas;
     [MustBeAssigned][SerializeField] Camera MainCamera;
-    [MustBeAssigned][SerializeField] Camera CutsceneCamera;
+
 
     [Foldout("Knight References", true)]
     [MustBeAssigned][SerializeField] GameObject KnightPrefab;
     [HideInInspector] public Transform KnightSpawnPosition;
-    private Transform PlayerActor;
-    private Transform KnightActor;
 
     [Foldout("Cutscenes", true)]
-    public List<PlayableAsset> Cutscenes;
+    public bool RunSignal;
+    public SignalAsset SignalAsset;
+    public List<GameObject> Cutscenes;
     private int _cutsceneIndex;
     private AvatarSpawnPosition asp;
 
     private List<GameObject> cutsceneObjects = new();
+    private GameObject _loadedPrefab;
+
+    [ButtonMethod]
+    public void RunSignalMethod()
+    {
+        SignalReceiver signalReciver = GetComponent<SignalReceiver>();
+        signalReciver.GetReaction(SignalAsset)?.Invoke();
+    }
 
     public void Awake()
     {
+        ServiceLocator.Register(this);
+
         SceneInitialize.Instance.Subscribe(Init);
     }
 
+    public void OnDestroy()
+    {
+        ServiceLocator.Unregister<CutsceneManager>();
+    }
+
+
     private void Init()
     {
+        _cutsceneIndex = -1;
+
         asp = ServiceLocator.Get<AvatarSpawnPosition>();
 
-        // Spawn actors
-        PlayerActor = SpawnGameObject(Ctx.PlayerPrefab, Ctx.PlayerSpawnPos).transform;
-        KnightActor = SpawnGameObject(KnightPrefab, KnightSpawnPosition).transform;
+        if (RunSignal)
+        {
+            SignalReceiver signalReciver = GetComponent<SignalReceiver>();
+            signalReciver.GetReaction(SignalAsset)?.Invoke();
+            return;
+        }
 
-        _cutsceneIndex = -1;
         NextCutscene();
     }
 
-    public void NextCutscene()
+    public void PlaySignal(SignalAsset signal)
     {
-        EnableCutsceneCamera();
+        SignalReceiver signalReciver = GetComponent<SignalReceiver>();
+        signalReciver.GetReaction(signal)?.Invoke();
+    }
+
+    public void NextCutscene()
+    { 
+        DisableAudioListener();
 
         _cutsceneIndex++;
-        Director.playableAsset = Cutscenes[_cutsceneIndex];
-        Director.Play();
+        GameObject prefab = Cutscenes[_cutsceneIndex];
+        _loadedPrefab = Instantiate(prefab, asp.CutsceneParent);
     }
 
     public void EndCutscene()
     {
-        RemoveCutsceneObjects();
-        DisableCutsceneCamera();
+        DestroyPrefab();
+        EnableAudioListener();
     }
 
-    public void EnableCutsceneCamera()
+    public void DisableAudioListener()
     {
         MainCamera.GetComponent<AudioListener>().enabled = false;
-        CutsceneCamera.GetComponent<AudioListener>().enabled = true;
-        CutsceneCamera.depth = 10;
     }
 
-    public void DisableCutsceneCamera()
+    public void EnableAudioListener()
     {
-        CutsceneCamera.GetComponent<AudioListener>().enabled = false;
         MainCamera.GetComponent<AudioListener>().enabled = true;
-        CutsceneCamera.depth = 3;
     }
 
     public async void LoadMainMenu()
     {
         SceneLoader loader = ServiceLocator.Get<SceneLoader>();
-        Debug.Log("test");
         await loader.LoadSceneGroup("MainMenu");
     }
 
     public void StartKnightConversation()
     {
-        DialogueManager.StartConversation("Knight", PlayerActor, KnightActor);
+        DialogueManager.StartConversation("Knight");
     }
 
-    private void RemoveCutsceneObjects()
+    private void DestroyPrefab()
     {
-        foreach (GameObject gameObject in cutsceneObjects)
+        Destroy(_loadedPrefab);
+    }
+
+    public void DestroyActors()
+    {
+        foreach (GameObject actor in cutsceneObjects)
         {
-            Destroy(gameObject);
+            Destroy(actor);
         }
 
         cutsceneObjects.Clear();
@@ -104,6 +131,7 @@ public class CutsceneManager : MonoBehaviour
 
     public void SpawnActor(string actorName)
     {
+        Debug.Log("test");
         foreach (SpawnPosition data in asp.CutsceneSpawnPositions)
         {
             if (data.Name != actorName) continue;
@@ -115,7 +143,7 @@ public class CutsceneManager : MonoBehaviour
     public GameObject SpawnGameObject(GameObject gameObject, Transform parent)
     {
         GameObject spawnedObject = Instantiate(gameObject, parent);
-        spawnedObject.SetLayerRecursively(LayerMask.NameToLayer("Cutscene"));
+        //spawnedObject.SetLayerRecursively(LayerMask.NameToLayer("Cutscene"));
 
         cutsceneObjects.Add(spawnedObject);
 
