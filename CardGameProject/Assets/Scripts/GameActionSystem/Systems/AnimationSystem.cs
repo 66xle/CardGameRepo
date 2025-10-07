@@ -77,7 +77,7 @@ public class AnimationSystem : MonoBehaviour
 
         yield return tween.WaitForCompletion();
 
-        animator.applyRootMotion = false;
+        animator.applyRootMotion = true;
 
         Quaternion targetRotation = Quaternion.LookRotation(Vector3.zero);
         currentTransform.DOLocalRotate(targetRotation.eulerAngles, 1f, RotateMode.Fast);

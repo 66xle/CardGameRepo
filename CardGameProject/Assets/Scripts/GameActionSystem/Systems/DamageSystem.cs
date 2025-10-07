@@ -110,6 +110,7 @@ public class DamageSystem : MonoBehaviour
         counterGA.AvatarPlayingCardController.SetBool("IsRecoiled", true);
         counterGA.AvatarPlayingCardController.SetTrigger("Recoil");
 
+
         yield return null;
     }
 
