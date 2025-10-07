@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c7dcd9d1e95da4db397d2ccdc3302172
+guid: 6beb6de65c1a543c8a23083c30f9f147
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -19,23 +19,13 @@ ModelImporter:
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'Spine3_JNT' is inbetween humanoid transforms
+      to improve retargeting quality.\n\t'Spine1_JNT' is inbetween humanoid transforms
       and has rotation animation that will be discarded.\n"
-    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftUpperArm
-      average position error 31.1 mm and maximum position error 33.3 mm at time 6:20
-      (62.5%) Frame 200\n\tLeftLowerArm average position error 16.6 mm and maximum
-      position error 17.2 mm at time 6:20 (62.5%) Frame 200\n\tLeftHand average position
-      error 8.9 mm and maximum position error 9.3 mm at time 1:21 (15.9%) Frame 51\n\tRightUpperArm
-      average position error 31.1 mm and maximum position error 33.3 mm at time 6:20
-      (62.5%) Frame 200\n\tRightLowerArm average position error 19.9 mm and maximum
-      position error 21.0 mm at time 6:19 (62.2%) Frame 199\n\tRightHand average
-      position error 13.1 mm and maximum position error 15.5 mm at time 6:12 (60.0%)
-      Frame 192\n\tHead average position error 31.1 mm and maximum position error
-      33.3 mm at time 6:20 (62.5%) Frame 200\n"
-    animationDoRetargetingWarnings: 1
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 0
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -44,19 +34,19 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: MorghaineArmsCrossed
+      name: 2H_SpinkStrike_A
       takeName: Take 001
       internalID: 1827226128182048838
-      firstFrame: 0
-      lastFrame: 320
+      firstFrame: 280
+      lastFrame: 400
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 1
+      loopTime: 0
+      loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 1
@@ -178,7 +168,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Spine1_JNT
+    - boneName: Spine2_JNT
       humanName: Spine
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -186,7 +176,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Spine2_JNT
+    - boneName: Spine3_JNT
       humanName: Chest
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -546,7 +536,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Spine3_JNT
+    - boneName: Chest_JNT
       humanName: UpperChest
       limit:
         min: {x: 0, y: 0, z: 0}
