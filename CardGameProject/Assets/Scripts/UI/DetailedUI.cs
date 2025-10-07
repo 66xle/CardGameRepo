@@ -30,7 +30,7 @@ public class DetailedUI : MonoBehaviour
 
         _healthBar = GetComponentsInChildren<Image>()[1];
         _guardBar = GetComponentsInChildren<Image>()[2];
-        //healthValue = GetComponentsInChildren<TMP_Text>()[0];
+        healthValue = GetComponentsInChildren<TMP_Text>()[0];
         //guardValue = GetComponentsInChildren<TMP_Text>()[1];
         //blockValue = GetComponentsInChildren<TMP_Text>()[2];
 
@@ -53,8 +53,12 @@ public class DetailedUI : MonoBehaviour
         if (_enemy == null)
             return;
 
-        _healthBar.fillAmount = int.Parse(_enemy.HealthText.text) / _enemy.MaxHealth;
-        //healthValue.text = enemy.healthValue.text;
+        float currentHealthPercentage = int.Parse(_enemy.HealthText.text) / _enemy.MaxHealth;
+
+        DOVirtual.Float(_healthBar.fillAmount, currentHealthPercentage, 0.5f, f => _healthBar.fillAmount = f);
+
+
+        healthValue.text = _enemy.HealthText.text;
 
         _guardBar.fillAmount = _enemy.GuardBar.value;
         //guardValue.text = enemy.guardValue.text;
