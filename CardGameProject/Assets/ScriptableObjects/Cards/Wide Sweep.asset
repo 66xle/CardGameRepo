@@ -24,10 +24,17 @@ MonoBehaviour:
   Cost: 3
   RecycleValue: 3
   ValuesToReference:
-  - 0.7
+  - {x: 0, y: 0.7}
+  - {x: 2, y: 0.2}
+  - {x: 1, y: 2}
+  - {x: 0, y: 0}
   Commands:
   - rid: 1089679982310457344
+  - rid: 5090185941420867685
+  - rid: 5090185941420867689
   PopupKeyPair:
+  - Key: Amplify
+    Value: {fileID: 11400000, guid: 9ead0859091a0574ba55a2cc00ba81b3, type: 2}
   - Key: Bleed
     Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
   - Key: Poison
@@ -39,4 +46,56 @@ MonoBehaviour:
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 2
+        ShouldMove: 1
         value: 0.7
+    - rid: 5090185941420867685
+      type: {class: IfAttacked, ns: , asm: Assembly-CSharp}
+      data:
+        reactiveOptions:
+          rid: 5090185941420867686
+        commands:
+        - rid: 5090185941420867688
+    - rid: 5090185941420867686
+      type: {class: ReactiveOptions, ns: , asm: Assembly-CSharp}
+      data:
+        DuplicateEffect: 0
+        OverwriteType: 0
+        StackType: 1
+        EffectTiming: 0
+        ReactiveTrigger: 5
+        EffectDuration: 2
+        Turns: 3
+    - rid: 5090185941420867688
+      type: {class: GainHealth, ns: , asm: Assembly-CSharp}
+      data:
+        target: 3
+        value: 0.2
+    - rid: 5090185941420867689
+      type: {class: IfAttacked, ns: , asm: Assembly-CSharp}
+      data:
+        reactiveOptions:
+          rid: 5090185941420867690
+        commands:
+        - rid: 5090185941420867691
+        - rid: 5090185941420867692
+    - rid: 5090185941420867690
+      type: {class: ReactiveOptions, ns: , asm: Assembly-CSharp}
+      data:
+        DuplicateEffect: 0
+        OverwriteType: 0
+        StackType: 0
+        EffectTiming: 0
+        ReactiveTrigger: 5
+        EffectDuration: 1
+        Turns: 0
+    - rid: 5090185941420867691
+      type: {class: GainBlock, ns: , asm: Assembly-CSharp}
+      data:
+        target: 3
+        value: 2
+    - rid: 5090185941420867692
+      type: {class: DealDamage, ns: , asm: Assembly-CSharp}
+      data:
+        target: 1
+        ShouldMove: 1
+        value: 0

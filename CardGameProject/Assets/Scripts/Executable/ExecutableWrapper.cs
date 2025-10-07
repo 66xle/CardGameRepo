@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class ExecutableWrapper
 {
-    public Card Card;
+    public CardData CardData;
     public int Turns;
     public string ReactiveConditionGUID;
     public OverwriteType OverwriteType;
@@ -14,9 +14,9 @@ public class ExecutableWrapper
     public DuplicateEffect DuplicateEffect;
     public List<Executable> Commands = new();
 
-    public ExecutableWrapper(Card card, int turns, ReactiveOptions reactiveOptions)
+    public ExecutableWrapper(CardData data, int turns, ReactiveOptions reactiveOptions)
     {
-        Card = card;
+        CardData = data;
         Turns = turns;
         EffectTiming = reactiveOptions.EffectTiming;
         ReactiveTrigger = reactiveOptions.ReactiveTrigger;
@@ -25,5 +25,16 @@ public class ExecutableWrapper
         StackType = reactiveOptions.StackType;
     }
 
-    
+    public ExecutableWrapper(CardData data, List<Executable> commands)
+    {
+        CardData = data;
+        Commands = commands;
+    }
+
+    public ExecutableWrapper(CardData data)
+    {
+        CardData = data;
+    }
+
+
 }

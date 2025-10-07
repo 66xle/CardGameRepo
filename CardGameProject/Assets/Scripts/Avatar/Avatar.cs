@@ -332,13 +332,15 @@ public class Avatar : MonoBehaviour
 
         #region Sort and Run
         
-        List<List<Executable>> sortedCommands = SortQueue(overwriteQueue, stackQueue);
+        List<ExecutableWrapper> sortedWrappers = SortQueue(overwriteQueue, stackQueue);
 
-        foreach (List<Executable> commands in sortedCommands)
+        foreach (ExecutableWrapper wrapper in sortedWrappers)
         {
             IsRunningReactiveEffect = true;
 
-            ActionSequence actionSequence = new(commands);
+            ExecutableParameters.CardData = wrapper.CardData;
+
+            ActionSequence actionSequence = new(wrapper.Commands);
             yield return actionSequence.Execute(null);
 
             IsRunningReactiveEffect = false;
@@ -392,21 +394,21 @@ public class Avatar : MonoBehaviour
             GetComponent<Animator>().SetBool("isReady", false);
     }
 
-    public List<List<Executable>> SortQueue(List<ExecutableWrapper> overwriteQueue, List<ExecutableWrapper> stackQueue)
+    public List<ExecutableWrapper> SortQueue(List<ExecutableWrapper> overwriteQueue, List<ExecutableWrapper> stackQueue)
     {
-        List<List<Executable>> sortedCommands = new();
+        List<ExecutableWrapper> sortedCommands = new();
 
         // Gets all enums of overwrite type in order (Counterattack being last)
-        foreach (OverwriteType type in Enum.GetValues(typeof(OverwriteType)))
+        foreach (OverwriteType type in Enum.GetValues(typeof(OverwriteType))) // Only 1 type (Should play animations)
         {
             ExecutableWrapper wrapper = overwriteQueue.FirstOrDefault(w => w.OverwriteType == type);
 
             if (wrapper == null) continue;
 
-            sortedCommands.Add(new List<Executable>(wrapper.Commands));
+            sortedCommands.Add(new ExecutableWrapper(wrapper.CardData, wrapper.Commands));
         }
 
-        foreach (StackType type in Enum.GetValues(typeof(StackType)))
+        foreach (StackType type in Enum.GetValues(typeof(StackType))) // Multiple types (Play no animations)
         {
             List<ExecutableWrapper> list = stackQueue.Where(w => w.StackType == type).ToList();
 
@@ -415,12 +417,12 @@ public class Avatar : MonoBehaviour
             // Create new list if stack type is not damage, Skip this if do damage then add damage commands together with counterattack
             if (type == StackType.DoDamage && !overwriteQueue.Exists(w => w.OverwriteType == OverwriteType.Counterattack))
             {
-                sortedCommands.Add(new List<Executable>());
+                sortedCommands.Add(new ExecutableWrapper(list[0].CardData));
             }
 
             foreach (ExecutableWrapper wrapper in list)
             {
-                sortedCommands[sortedCommands.Count - 1].AddRange(wrapper.Commands);
+                sortedCommands[sortedCommands.Count - 1].Commands.AddRange(wrapper.Commands);
             }
         }
 
