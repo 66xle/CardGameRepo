@@ -41,6 +41,8 @@ public class StatusEffectState : CombatBaseState
         _doRecoverGuardBreak = false;
         _isStatusEffectFinished = false;
 
+        _currentAvatarSelected.ResetBlock();
+
         ctx.StartCoroutine(CheckStatusEffect());
     }
     public override void UpdateState()
@@ -92,7 +94,8 @@ public class StatusEffectState : CombatBaseState
             // Check effect to trigger
             if (_currentAvatarSelected.ListOfEffects[i].CurrentTurnsRemaning > 0)
             {
-                statusQueue.Add(currentEffect);
+                if (!currentEffect.IsPassiveEffect)
+                    statusQueue.Add(currentEffect);
             }
 
             _currentAvatarSelected.ListOfEffects[i].CurrentTurnsRemaning--;

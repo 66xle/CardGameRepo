@@ -11,6 +11,7 @@ public class StatusAmplify : StatusEffect
         EffectName = "Amplify";
         Effect = Effect.Amplify;
         IsActiveEffect = false;
+        IsPassiveEffect = true;
     }
 
     public override StatusEffect Clone()

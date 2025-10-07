@@ -176,6 +176,11 @@ public class Avatar : MonoBehaviour
             CurrentBlock += block;
         }
 
+        public void ResetBlock()
+        {
+            CurrentBlock = 0;
+        }
+
         public void Heal(float healAmount)
         {
             CurrentHealth += healAmount;
