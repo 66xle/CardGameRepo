@@ -30,13 +30,11 @@ public class TutorialUI : MonoBehaviour
 
     public void OpenTutorial()
     {
-        Time.timeScale = 0;
         Panel.SetActive(true);
     }
 
     public void CloseTutorial()
     {
-        Time.timeScale = 1;
         gameObject.SetActive(false);
         Panel.SetActive(false);
     }

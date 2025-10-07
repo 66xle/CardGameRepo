@@ -33,7 +33,9 @@ public class DamageSystem : MonoBehaviour
         if (takeDamageFromWeaponGA.CardTarget != CardTarget.Self && !avatarToTakeDamage.IsInCounterState)
         {
             avatarToTakeDamage.IsHit = true;
-            avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
+
+            if (!avatarToTakeDamage.IsInCounterState)
+                avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
 
             if (avatarToTakeDamage.IsGuardReducible(takeDamageFromWeaponGA.DamageType))
                 avatarToTakeDamage.ReduceGuard(1);
