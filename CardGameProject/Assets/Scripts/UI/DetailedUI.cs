@@ -55,7 +55,9 @@ public class DetailedUI : MonoBehaviour
 
         float currentHealthPercentage = int.Parse(_enemy.HealthText.text) / _enemy.MaxHealth;
 
-        DOVirtual.Float(_healthBar.fillAmount, currentHealthPercentage, 0.5f, f => _healthBar.fillAmount = f);
+        //DOVirtual.Float(_healthBar.fillAmount, currentHealthPercentage, 0.5f, f => _healthBar.fillAmount = f);
+
+        _healthBar.fillAmount = currentHealthPercentage;
 
 
         healthValue.text = _enemy.HealthText.text;

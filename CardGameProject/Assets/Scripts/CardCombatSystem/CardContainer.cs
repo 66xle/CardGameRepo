@@ -372,7 +372,7 @@ public class CardContainer : MonoBehaviour {
             RectTransform rectTransform = playAreaObject.GetComponent<RectTransform>();
             if (IsCursorInPlayArea(rectTransform))
             {
-                if (Ydis < YAmount) return;
+                if (playAreaObject.tag == "Play" && Ydis < YAmount) return;
 
                 eventsConfig?.OnCardPlayed?.Invoke(new CardPlayed(currentDraggedCard), currentDraggedCard.card, playAreaObject.transform.tag);
                 if (cardPlayConfig.destroyOnPlay)
