@@ -76,7 +76,9 @@ public class DamageSystem : MonoBehaviour
         if (takeGuardDamageGA.CardTarget != CardTarget.Self)
         {
             avatarToTakeDamage.IsHit = true;
-            avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
+
+            if (!avatarToTakeDamage.IsInCounterState)
+                avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
         }
 
         if (avatarToTakeDamage.IsGuardBroken())
