@@ -15,21 +15,23 @@ MonoBehaviour:
   Guid: 38fce7d3e7fa4834d88c29a8e87c113d
   InGameGUID: 
   CardName: Heavy Strike
-  Description: Deal #0 damage and 1 extra guard damage
+  Description: Deal #0 damage and 2 guard damage
   DisplayDescription: Deal 1.5 Damage #Poison #Bleed
-  LinkDescription: Deal #0 damage and 1 extra guard damage
+  LinkDescription: Deal #0 damage and 2 guard damage
   Flavour: A powerful strike that shatters defenses.
   Image: {fileID: 21300000, guid: 2802e999abef6aa4f92b30fdab726646, type: 3}
   Frame: {fileID: 21300000, guid: a0be78c2424db6a488d2f683021a99a4, type: 3}
   Cost: 2
   RecycleValue: 1
   ValuesToReference:
-  - 1.2
-  - 1
+  - {x: 0, y: 1.2}
+  - {x: 0, y: 2}
   Commands:
   - rid: 7082259346242928707
   - rid: 1089680001544487085
   PopupKeyPair:
+  - Key: Amplify
+    Value: {fileID: 11400000, guid: 9ead0859091a0574ba55a2cc00ba81b3, type: 2}
   - Key: Bleed
     Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
   - Key: Poison
@@ -41,9 +43,10 @@ MonoBehaviour:
       type: {class: DealGuardDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 1
-        value: 1
+        value: 2
     - rid: 7082259346242928707
       type: {class: DealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 1
+        ShouldMove: 1
         value: 1.2
