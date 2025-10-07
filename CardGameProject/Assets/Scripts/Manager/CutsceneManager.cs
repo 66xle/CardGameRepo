@@ -12,7 +12,6 @@ public class CutsceneManager : MonoBehaviour
 {
     [Foldout("References", true)]
     [MustBeAssigned][SerializeField] CombatStateMachine Ctx;
-    [MustBeAssigned][SerializeField] CinemachineVirtualCamera VCam;
     [MustBeAssigned][SerializeField] GameObject Canvas;
     [MustBeAssigned][SerializeField] Camera MainCamera;
 

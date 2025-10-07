@@ -454,6 +454,39 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &743951619419412852
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5633175252585399837}
+  m_Layer: 0
+  m_Name: Cutscene Transform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5633175252585399837
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743951619419412852}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7376414143956719340}
+  - {fileID: 4417199460988476032}
+  m_Father: {fileID: 9167269376142010420}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &767078645668799635
 GameObject:
   m_ObjectHideFlags: 0
@@ -646,6 +679,37 @@ Transform:
   - {fileID: 2420555242809547435}
   - {fileID: 7005839404126494628}
   m_Father: {fileID: 432353149124914154}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1369819549824602596
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4417199460988476032}
+  m_Layer: 0
+  m_Name: Morghaine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4417199460988476032
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1369819549824602596}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.99838513, z: -0, w: 0.056808516}
+  m_LocalPosition: {x: 1.2074256, y: 0.119999886, z: 5.684734}
+  m_LocalScale: {x: 1.1326001, y: 1.1326, z: 1.1326001}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5633175252585399837}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1442010592748146190
 GameObject:
@@ -3326,10 +3390,10 @@ MonoBehaviour:
   CutsceneParent: {fileID: 9167269376142010420}
   CutsceneSpawnPositions:
   - Name: Player
-    Transform: {fileID: 5521611512699574613}
+    Transform: {fileID: 7376414143956719340}
     Prefab: {fileID: 5270826737652167648, guid: 0dc5430deca199944a7be18a8ae6d8c8, type: 3}
   - Name: Knight
-    Transform: {fileID: 4109492932375734356}
+    Transform: {fileID: 4417199460988476032}
     Prefab: {fileID: 2531254808009371631, guid: f488135f04d8cd044a096154358d985e, type: 3}
 --- !u!1 &6858931396549766354
 GameObject:
@@ -3887,6 +3951,37 @@ MonoBehaviour:
   minDuration: 8
   maxDuration: 15
   useSinusoidal: 1
+--- !u!1 &8297086357841266883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7376414143956719340}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7376414143956719340
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8297086357841266883}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.99862957, z: 0, w: 0.052335996}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5633175252585399837}
+  m_LocalEulerAnglesHint: {x: 0, y: 174, z: 0}
 --- !u!1 &8427897777342256490
 GameObject:
   m_ObjectHideFlags: 0
@@ -31218,6 +31313,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c5ab2f76ff5604c6c84f93dde80026af, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8068307469075866313}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c5ab2f76ff5604c6c84f93dde80026af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5633175252585399837}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c5ab2f76ff5604c6c84f93dde80026af, type: 3}
       insertIndex: -1
       addedObject: {fileID: 759663647700280647}
