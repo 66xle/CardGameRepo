@@ -34,6 +34,8 @@ public class CombatEndState : CombatBaseState
 
     public IEnumerator OpenRewardUI()
     {
+        AudioManager.Instance.FadeOutMusic(1f);
+
         yield return new WaitForSeconds(1f);
 
         ctx.RewardManager.DisplayVictoryUI();
@@ -42,6 +44,8 @@ public class CombatEndState : CombatBaseState
 
     public IEnumerator OpenGameOverUI()
     {
+        AudioManager.Instance.FadeOutMusic(1f);
+
         yield return new WaitForSeconds(1f);
 
         AudioManager.Instance.PlaySound(AudioType.UIGameOver);

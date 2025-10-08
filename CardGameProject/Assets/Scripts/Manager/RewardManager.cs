@@ -318,7 +318,7 @@ public class RewardManager : MonoBehaviour
                 ExpFill.fillAmount = current / maxExp;
                 //ExpSlider.value = current / maxExp;
 
-            }).SetUpdate(UpdateType.Normal, true);
+            }).SetUpdate(true);
 
             DOVirtual.Int(0, (int)expGained, AnimationTime, v => ExpText.text = $"+ {v.ToString()}").SetUpdate(true).OnComplete(() =>
             {
