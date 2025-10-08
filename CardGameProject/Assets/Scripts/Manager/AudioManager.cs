@@ -122,6 +122,14 @@ public class AudioManager : Singleton<AudioManager>
         musicSource.Play();
     }
 
+    public void PlayMusic(AudioResource resource)
+    {
+        musicSource.volume = 1;
+
+        musicSource.resource = resource;
+        musicSource.Play();
+    }
+
     public void FadeOutMusic(float duration)
     {
         DOVirtual.Float(musicSource.volume, 0, duration, f => musicSource.volume = f).OnComplete(() => musicSource.Stop());

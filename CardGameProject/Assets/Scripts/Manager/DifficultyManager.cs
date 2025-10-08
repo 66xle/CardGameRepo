@@ -67,7 +67,7 @@ public class DifficultyManager : MonoBehaviour
 
         if (levelData.IsFixed)
         {
-            List<EnemyData> enemies = levelData.GetEnemyList(WaveCount);
+            List<EnemyData> enemies = levelData.GetEnemyList(GameManager.Instance.WaveCount);
 
             if (enemies.Count == 0)
                 Debug.LogError("No enemies in level data: " + levelData.LevelName);
