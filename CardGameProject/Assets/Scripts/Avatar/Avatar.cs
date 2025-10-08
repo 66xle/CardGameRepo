@@ -7,6 +7,7 @@ using Action = System.Action;
 using MyBox;
 using UnityEngine.VFX;
 using DG.Tweening;
+using Random = UnityEngine.Random;
 
 
 
@@ -80,6 +81,9 @@ public class Avatar : MonoBehaviour
     {
         Guid = System.Guid.NewGuid().ToString();
         Animator = GetComponent<Animator>();
+
+        // Random start point between 0 and 1 in the animation cycle
+        Animator.Play("Basic Idle", 0, Random.Range(0f, 1f));
     }
 
     private void LateUpdate()
