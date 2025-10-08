@@ -41,18 +41,20 @@ MonoBehaviour:
         Animations:
         - rid: 5090185919954944187
         AnimationList:
-        - AnimationName: 
+        - AnimationName: Amplify
           DistanceOffset: 0
           FollowTimeline: {fileID: 0}
           AttackTimeline: {fileID: 0}
           AudioType: 0
-          SkipAnimation: 1
+          SkipAnimation: 0
           MoveTime: 0
+          IsAttackAnimation: 0
     - rid: 5090185919954944187
       type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
       data:
-        _skipAnimation: 1
-        _animation: {fileID: 0}
+        _skipAnimation: 0
+        _animation: {fileID: 1827226128182048838, guid: 6e5a0cfe1e3fc4071b34c60d6beae8b6, type: 3}
+        IsAttackAnimation: 0
         AudioType: 0
         _overrideDistanceOffset: 1
         _distanceOffset: 0
