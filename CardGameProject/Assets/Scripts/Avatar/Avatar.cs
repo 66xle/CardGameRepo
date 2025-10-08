@@ -7,6 +7,7 @@ using Action = System.Action;
 using MyBox;
 using UnityEngine.VFX;
 using DG.Tweening;
+using Random = UnityEngine.Random;
 
 
 
@@ -80,6 +81,9 @@ public class Avatar : MonoBehaviour
     {
         Guid = System.Guid.NewGuid().ToString();
         Animator = GetComponent<Animator>();
+
+        // Random start point between 0 and 1 in the animation cycle
+        Animator.Play("Basic Idle", 0, Random.Range(0f, 1f));
     }
 
     private void LateUpdate()
@@ -290,7 +294,6 @@ public class Avatar : MonoBehaviour
 
             if (IsGuardBroken() && wrapper.Commands.Any(command => command is AttackCommand)) continue; // NOTE: If we are guard broken & command is an attack command, ignore
                                                                                                         // (Maybe ignore every command if guard broken)
-
             #region Check Timing 
 
             if (wrapper.EffectTiming == EffectTiming.Immediate && trigger == wrapper.ReactiveTrigger)
@@ -396,7 +399,10 @@ public class Avatar : MonoBehaviour
         }
 
         if (!isCounterActive)
+        {
+            IsInCounterState = false;
             GetComponent<Animator>().SetBool("isReady", false);
+        }
     }
 
     public List<ExecutableWrapper> SortQueue(List<ExecutableWrapper> overwriteQueue, List<ExecutableWrapper> stackQueue)

@@ -49,6 +49,7 @@ public abstract class AttackCommand : Command
 
                 if (avatarOpponent.IsInCounterState)
                 {
+                    Debug.Log("Is in counter state");
                     CounterGA counterGA = new(avatarOpponent, avatarPlayingCard);
                     avatarOpponent.QueueGameActions.Add(counterGA);
 

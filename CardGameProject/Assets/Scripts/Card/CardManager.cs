@@ -14,6 +14,7 @@ public class CardManager : MonoBehaviour
     [MustBeAssigned] [SerializeField] SwitchWeaponManager SwitchWeaponManager;
     [MustBeAssigned] [SerializeField] EquipmentManager EquipmentManager;
     [MustBeAssigned] [SerializeField] StatsManager StatsManager;
+    [MustBeAssigned] [SerializeField] CombatUIManager CombatUIManager;
 
     [HideInInspector] public List<CardData> PlayerDeck;
     [HideInInspector] public List<CardData> PlayerHand;
@@ -122,6 +123,14 @@ public class CardManager : MonoBehaviour
             if (GameManager.Instance.IsInTutorial)
             {
                 cardDrawed = PlayerDeck[0];
+                if (cardDrawed.Card.CardName == "Heavy Strike")
+                {
+                    if (GameManager.Instance.TutorialStage == 5)
+                    {
+                        CombatUIManager.StartTutorialConversation(5);
+                        GameManager.Instance.TutorialStage = 6;
+                    }
+                }
             }
             else
             {

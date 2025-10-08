@@ -68,8 +68,17 @@ public class Player : Avatar
         _maxStamina = maxStamina;
 
         CurrentHealth = maxHealth;
+
+        if (GameManager.Instance.IsInTutorial)
+            CurrentHealth = Mathf.Ceil(maxHealth / 2f);
+
+
         CurrentGuard = maxGuard;
         CurrentStamina = _maxStamina;
+
+        
+
+
 
         Defence = defence;
         DefencePercentage = defencePercentage;
