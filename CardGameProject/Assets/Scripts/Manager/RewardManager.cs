@@ -69,11 +69,11 @@ public class RewardManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Time.timeScale = 0f;
-            DisplayVictoryUI();
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    Time.timeScale = 0f;
+        //    DisplayVictoryUI();
+        //}
     }
 
     public void RewardConfirmButton()
