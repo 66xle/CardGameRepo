@@ -57,7 +57,10 @@ public class ActionSequence : Executable
         }
 
         if (!animationWrapper.SkipAnimation && !ReactiveSkipAnimation)
+        {
             ctx.CombatUIManager.HideGameplayUI(true);
+            ctx._selectedEnemyToAttack.EnableSelectionRing(false);
+        }
 
         #region Movement
 

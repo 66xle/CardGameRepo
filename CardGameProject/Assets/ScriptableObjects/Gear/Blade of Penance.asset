@@ -42,11 +42,12 @@ MonoBehaviour:
   _cards:
   - rid: 7800494701538181218
   - rid: 5090185875588907112
+  - rid: 7800494722459107417
   - rid: 7765747505886134696
   - rid: 7800494701538181216
   - rid: 7800494701538181215
   - rid: 5090185919954944132
-  - rid: 7800494722459107417
+  - rid: 5090185966540292224
   - rid: 5090185941420867696
   references:
     version: 2
@@ -207,11 +208,18 @@ MonoBehaviour:
         AnimationClipDataList:
         - Clip: {fileID: 1827226128182048838, guid: b766f3fdd3c320e409afa7076753976b, type: 3}
           DistanceOffset: 0
+    - rid: 5090185966540292224
+      type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
+      data:
+        Card: {fileID: 11400000, guid: feb203c8a3236344a9761939b29e6d83, type: 2}
+        CardAmount: 1
+        Animations: []
+        AnimationList: []
     - rid: 7765747505886134696
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
         Card: {fileID: 11400000, guid: be0a384b3da5f454785878f76cf65687, type: 2}
-        CardAmount: 2
+        CardAmount: 1
         Animations:
         - rid: 7765747505886134697
         AnimationList:

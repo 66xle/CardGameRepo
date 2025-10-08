@@ -101,8 +101,6 @@ public class ActionState : CombatBaseState
 
         yield return ExecuteCommands(cardData.Card.Commands);
 
-
-
         isInAction = false;
 
         ctx.EnemyList.ForEach(enemy => enemy.IsHit = false);

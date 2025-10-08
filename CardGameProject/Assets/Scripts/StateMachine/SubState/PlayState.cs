@@ -12,6 +12,8 @@ public class PlayState : CombatBaseState
     {
         Debug.Log("Play State");
 
+        ctx._selectedEnemyToAttack.EnableSelectionRing(true);
+
         ctx.CardManager.UpdateCardsInHand(ctx._selectedEnemyToAttack);
 
         ctx.CombatUIManager.HideGameplayUI(false);

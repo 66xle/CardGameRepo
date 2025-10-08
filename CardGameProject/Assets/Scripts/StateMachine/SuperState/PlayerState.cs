@@ -19,6 +19,7 @@ public class PlayerState : CombatBaseState
     {
         Debug.Log("PLAYER STATE");
 
+        ctx._selectedEnemyToAttack.EnableSelectionRing(true);
         ctx.StartCoroutine(ShowTurnUI());
     }
     public override void UpdateState()
