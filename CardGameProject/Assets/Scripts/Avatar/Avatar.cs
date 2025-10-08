@@ -471,7 +471,7 @@ public class Avatar : MonoBehaviour
 
     public void AnimationEventPlaySound()
     {
-        AudioManager.Instance.PlayAudioType();
+        AudioManager.Instance.PlayAudioResource();
     }
 
     public void AnimationEventDisableRecoil()

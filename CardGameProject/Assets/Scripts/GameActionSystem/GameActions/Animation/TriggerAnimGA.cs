@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Playables;
 
 public class TriggerAnimGA : GameAction
@@ -6,14 +7,14 @@ public class TriggerAnimGA : GameAction
     public Avatar AvatarPlayingCard;
     public string AnimationName;
     public PlayableAsset AnimTimeline;
-    public AudioType AudioType;
+    public AudioResource AudioResource;
     public bool EnableAttackCamera;
 
-    public TriggerAnimGA(Avatar avatarPlayingCard, string animationName, PlayableAsset animTimeline, AudioType audioType)
+    public TriggerAnimGA(Avatar avatarPlayingCard, string animationName, PlayableAsset animTimeline, AudioResource audioResource)
     {
         AvatarPlayingCard = avatarPlayingCard;
         AnimationName = animationName;
         AnimTimeline = animTimeline;
-        AudioType = audioType;
+        AudioResource = audioResource;
     }
 }

@@ -105,7 +105,7 @@ public class AnimationSystem : MonoBehaviour
 
         animator.SetBool("IsAttacking", true);
 
-        AudioManager.Instance.SetAudioType(triggerAttackAnimGA.AudioType);
+        AudioManager.Instance.SetAudioResource(triggerAttackAnimGA.AudioResource);
 
         yield return null;
     }
@@ -118,7 +118,7 @@ public class AnimationSystem : MonoBehaviour
         string animationName = triggerAnimGA.AnimationName;
         animator.CrossFade(animationName, 0.25f);
 
-        AudioManager.Instance.SetAudioType(triggerAnimGA.AudioType);
+        AudioManager.Instance.SetAudioResource(triggerAnimGA.AudioResource);
 
         yield return null;
     }

@@ -75,7 +75,7 @@ public class ActionSequence : Executable
             MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, IsAttackingAllEnemies, animationWrapper.DistanceOffset, animationWrapper.FollowTimeline, animationWrapper.MoveTime);
             ActionSystem.Instance.Perform(moveToPosGA);
 
-            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioType);
+            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource);
             moveToPosGA.PostReactions.Add(triggerAttackAnimGA);
 
             yield return new WaitWhile(() => !avatarPlayingCard.DoDamage);
@@ -88,12 +88,12 @@ public class ActionSequence : Executable
             {
                 if (animationWrapper.IsAttackAnimation)
                 {
-                    TriggerAttackAnimGA triggerAttackAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioType, animationWrapper.IsAttackAnimation);
+                    TriggerAttackAnimGA triggerAttackAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource, animationWrapper.IsAttackAnimation);
                     ActionSystem.Instance.Perform(triggerAttackAnimGA);
                 }
                 else
                 {
-                    TriggerAnimGA triggerAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioType);
+                    TriggerAnimGA triggerAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource);
                     ActionSystem.Instance.Perform(triggerAnimGA);
                     Debug.Log("triggerAnimGA");
                 }

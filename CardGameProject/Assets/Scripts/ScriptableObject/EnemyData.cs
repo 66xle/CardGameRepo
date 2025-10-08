@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEditor;
 using PixelCrushers.DialogueSystem;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Audio;
 
 public enum EnemyType
 {
@@ -22,8 +23,8 @@ public class EnemyData : ScriptableObject
     public string Name;
     public int Guard = 3;
     public int Level = 1;
-    public AudioData HurtSounds;
-    public AudioData DeathSounds;
+    public AudioResource HurtSounds;
+    public AudioResource DeathSounds;
 
 
     [Separator]

@@ -1,5 +1,6 @@
 using MyBox;
 using UnityEngine.Playables;
+using UnityEngine.Audio;
 
 [System.Serializable]
 public class AnimationWrapper
@@ -8,18 +9,18 @@ public class AnimationWrapper
     public float DistanceOffset;
     public PlayableAsset FollowTimeline;
     public PlayableAsset AttackTimeline;
-    public AudioType AudioType;
+    public AudioResource AudioResource;
     public bool SkipAnimation;
     public float MoveTime;
     public bool IsAttackAnimation;
 
-    public AnimationWrapper(string animation, float distance, PlayableAsset followTimeline, PlayableAsset attackTimeline, AudioType audioType, float moveTime, bool isAttackAnimation = true)
+    public AnimationWrapper(string animation, float distance, PlayableAsset followTimeline, PlayableAsset attackTimeline, AudioResource audioResource, float moveTime, bool isAttackAnimation = true)
     {
         AnimationName = animation;
         DistanceOffset = distance;
         FollowTimeline = followTimeline;
         AttackTimeline = attackTimeline;
-        AudioType = audioType;
+        AudioResource = audioResource;
         SkipAnimation = false;
         MoveTime = moveTime;
         IsAttackAnimation = isAttackAnimation;
