@@ -108,6 +108,11 @@ public class CutsceneManager : MonoBehaviour
         DialogueManager.StartConversation("Knight");
     }
 
+    public void StopConversation()
+    {
+        DialogueManager.StopAllConversations();
+    }
+
     private void DestroyPrefab()
     {
         Destroy(_loadedPrefab);
@@ -130,7 +135,6 @@ public class CutsceneManager : MonoBehaviour
 
     public void SpawnActor(string actorName)
     {
-        Debug.Log("test");
         foreach (SpawnPosition data in asp.CutsceneSpawnPositions)
         {
             if (data.Name != actorName) continue;
