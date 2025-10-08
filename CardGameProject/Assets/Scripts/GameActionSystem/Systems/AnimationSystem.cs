@@ -62,7 +62,6 @@ public class AnimationSystem : MonoBehaviour
         Avatar avatarPlayingCard = returnToPosGA.AvatarPlayingCard;
 
         Animator animator = avatarPlayingCard.GetComponent<Animator>();
-        animator.applyRootMotion = false;
 
         // Determine position to move to
         Transform currentTransform = avatarPlayingCard.transform;
@@ -76,8 +75,6 @@ public class AnimationSystem : MonoBehaviour
         Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), jumpDuration).SetEase(jumpAnimCurve);
 
         yield return tween.WaitForCompletion();
-
-        animator.applyRootMotion = true;
 
         Quaternion targetRotation = Quaternion.LookRotation(Vector3.zero);
         currentTransform.DOLocalRotate(targetRotation.eulerAngles, 1f, RotateMode.Fast);
