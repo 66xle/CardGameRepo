@@ -246,19 +246,31 @@ public class Avatar : MonoBehaviour
             if (statusEffect.Effect == Effect.GuardBroken)
             {
                 StatusGuardBroken statusGuardBroken = statusEffect as StatusGuardBroken;
-                extraDamage += damage * statusGuardBroken.ExtraDamagePercentage + damage;
+                extraDamage += damage * statusGuardBroken.ExtraDamagePercentage;
                 continue;
             }
+        }
+        return damage + extraDamage;
+    }
 
+    public float ApplyBuffDmgCheck(float damage)
+    {
+        // Don't need to check
+        if (ListOfEffects.Count == 0) return damage;
+
+        float extraDamage = 0;
+
+        foreach (StatusEffect statusEffect in ListOfEffects)
+        {
             if (statusEffect.Effect == Effect.Amplify)
             {
                 StatusAmplify status = statusEffect as StatusAmplify;
-                extraDamage += damage * status.AttackIncreasePercentage + damage;
+                extraDamage += damage * status.AttackIncreasePercentage;
                 continue;
             }
         }
 
-        return damage;
+        return damage + extraDamage;
     }
 
     #endregion
@@ -459,7 +471,7 @@ public class Avatar : MonoBehaviour
 
     public void AnimationEventPlaySound()
     {
-        AudioManager.Instance.PlayAudioType();
+        AudioManager.Instance.PlayAudioResource();
     }
 
     public void AnimationEventDisableRecoil()

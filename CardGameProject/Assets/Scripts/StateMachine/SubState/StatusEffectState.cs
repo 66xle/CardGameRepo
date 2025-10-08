@@ -63,8 +63,7 @@ public class StatusEffectState : CombatBaseState
         {
             SwitchState(factory.CombatEnd());
         }
-
-        if (ctx.currentState.ToString() == PLAYERSTATE && !_skipTurn)
+        else if (ctx.currentState.ToString() == PLAYERSTATE && !_skipTurn)
         {
             SwitchState(factory.Draw());
         }

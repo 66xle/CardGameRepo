@@ -15,9 +15,9 @@ MonoBehaviour:
   Guid: b3b4434c4e8f2a1458a59f3c2a6362d7
   Prefab: {fileID: 6174548058302127, guid: 0308bdc1befa6fb4abe58b4cf8563e20, type: 3}
   Name: Minotaur
-  Guard: 5
+  Guard: 10
   Level: 1
-  HurtSounds: {fileID: 0}
+  HurtSounds: {fileID: 8300000, guid: fcb6a776ddf27bb4999f62d07650f991, type: 3}
   DeathSounds: {fileID: 0}
   EnemyType: 2
   HasDialogue: 0
@@ -25,7 +25,7 @@ MonoBehaviour:
   ConversationTitle: 
   WeaponType: 3
   WeaponTypeAnimationSet:
-  - rid: 5090185875588907251
+  - rid: 5090185966540292105
   Cards:
   - rid: 5090185875588907258
   - rid: 5090185875588907252
@@ -34,16 +34,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5090185875588907251
-      type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
-      data:
-        AnimationClipDataList:
-        - Clip: {fileID: 1827226128182048838, guid: fc9c556776a0a4173861a8d28676eb87, type: 3}
-          DistanceOffset: 0
-        - Clip: {fileID: 1827226128182048838, guid: f5a49e858db004a388266c13b7b5dd96, type: 3}
-          DistanceOffset: 0
-        - Clip: {fileID: 1827226128182048838, guid: 592fa2095370d4ae79dab75198d2fb5a, type: 3}
-          DistanceOffset: 0
     - rid: 5090185875588907252
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -56,8 +46,10 @@ MonoBehaviour:
           DistanceOffset: 2
           FollowTimeline: {fileID: 0}
           AttackTimeline: {fileID: 0}
-          AudioType: 200
+          AudioResource: {fileID: 6418180475301049370, guid: 8b7e50f600e8b2f44b8f5d6dfc525166, type: 2}
           SkipAnimation: 0
+          MoveTime: 1
+          IsAttackAnimation: 1
     - rid: 5090185875588907254
       type: {class: WeaponAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -69,9 +61,11 @@ MonoBehaviour:
         - Clip: {fileID: 1827226128182048838, guid: 592fa2095370d4ae79dab75198d2fb5a, type: 3}
           DistanceOffset: 0
         _animation: 2_2H Strike 3
-        AudioType: 200
+        AudioResource: {fileID: 6418180475301049370, guid: 8b7e50f600e8b2f44b8f5d6dfc525166, type: 2}
         _overrideDistanceOffset: 0
         _distanceOffset: 2
+        _overrideMoveTime: 0
+        _moveTime: 1
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
@@ -87,8 +81,10 @@ MonoBehaviour:
           DistanceOffset: 2
           FollowTimeline: {fileID: 0}
           AttackTimeline: {fileID: 0}
-          AudioType: 200
+          AudioResource: {fileID: 6418180475301049370, guid: 8b7e50f600e8b2f44b8f5d6dfc525166, type: 2}
           SkipAnimation: 0
+          MoveTime: 1
+          IsAttackAnimation: 1
     - rid: 5090185875588907258
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -101,8 +97,10 @@ MonoBehaviour:
           DistanceOffset: 2
           FollowTimeline: {fileID: 0}
           AttackTimeline: {fileID: 0}
-          AudioType: 200
+          AudioResource: {fileID: 6418180475301049370, guid: 8b7e50f600e8b2f44b8f5d6dfc525166, type: 2}
           SkipAnimation: 0
+          MoveTime: 1
+          IsAttackAnimation: 1
     - rid: 5090185875588907260
       type: {class: WeaponAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -114,9 +112,11 @@ MonoBehaviour:
         - Clip: {fileID: 1827226128182048838, guid: 592fa2095370d4ae79dab75198d2fb5a, type: 3}
           DistanceOffset: 0
         _animation: 1_2H Strike 2
-        AudioType: 200
+        AudioResource: {fileID: 6418180475301049370, guid: 8b7e50f600e8b2f44b8f5d6dfc525166, type: 2}
         _overrideDistanceOffset: 0
         _distanceOffset: 2
+        _overrideMoveTime: 0
+        _moveTime: 1
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
@@ -131,16 +131,18 @@ MonoBehaviour:
         - Clip: {fileID: 1827226128182048838, guid: 592fa2095370d4ae79dab75198d2fb5a, type: 3}
           DistanceOffset: 0
         _animation: 0_2H Strike 1
-        AudioType: 200
+        AudioResource: {fileID: 6418180475301049370, guid: 8b7e50f600e8b2f44b8f5d6dfc525166, type: 2}
         _overrideDistanceOffset: 0
         _distanceOffset: 2
+        _overrideMoveTime: 0
+        _moveTime: 1
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
     - rid: 5090185919954944180
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
-        Card: {fileID: 11400000, guid: d9e750402501226458b3af283cd66b87, type: 2}
+        Card: {fileID: 11400000, guid: ed86b4552e13ea54b855cf814de60ad8, type: 2}
         CardAmount: 1
         Animations:
         - rid: 5090185919954944181
@@ -149,16 +151,31 @@ MonoBehaviour:
           DistanceOffset: 0
           FollowTimeline: {fileID: 0}
           AttackTimeline: {fileID: 0}
-          AudioType: 0
+          AudioResource: {fileID: 0}
           SkipAnimation: 1
+          MoveTime: 0
+          IsAttackAnimation: 0
     - rid: 5090185919954944181
       type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
       data:
         _skipAnimation: 1
         _animation: {fileID: 0}
-        AudioType: 0
+        IsAttackAnimation: 0
+        AudioResource: {fileID: 0}
         _overrideDistanceOffset: 1
         _distanceOffset: 0
+        _overrideMoveTime: 1
+        _moveTime: 0
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
+    - rid: 5090185966540292105
+      type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
+      data:
+        AnimationClipDataList:
+        - Clip: {fileID: 1827226128182048838, guid: fc9c556776a0a4173861a8d28676eb87, type: 3}
+          DistanceOffset: 0
+        - Clip: {fileID: 1827226128182048838, guid: f5a49e858db004a388266c13b7b5dd96, type: 3}
+          DistanceOffset: 0
+        - Clip: {fileID: 1827226128182048838, guid: 592fa2095370d4ae79dab75198d2fb5a, type: 3}
+          DistanceOffset: 0

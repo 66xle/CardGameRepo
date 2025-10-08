@@ -23,7 +23,7 @@ public abstract class AttackCommand : Command
         Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
         Animator opponentController = avatarOpponent.GetComponent<Animator>();
 
-        float damage = CalculateDamage.GetDamage(avatarPlayingCard.Attack, avatarPlayingCard.CurrentWeaponData.WeaponAttack, avatarOpponent, Value);
+        float damage = CalculateDamage.GetDamage(avatarPlayingCard.Attack, avatarPlayingCard.CurrentWeaponData.WeaponAttack, avatarOpponent, avatarPlayingCard, Value);
 
         for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
         {

@@ -81,7 +81,7 @@ public class EnemyManager : MonoBehaviour
 
     public void SelectEnemy(Enemy enemy)
     {
-        CardManager.UpdateCardsInHand(enemy);
+        CardManager.UpdateCardsInHand(enemy, Ctx.player);
         enemy.EnemySelection(true);
     }
 

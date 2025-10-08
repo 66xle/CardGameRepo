@@ -10,34 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 229174bf3bf62b140ae8b2bba2c89d2d, type: 3}
-  m_Name: Buff
+  m_Name: Resonance
   m_EditorClassIdentifier: 
   Guid: d9e750402501226458b3af283cd66b87
   InGameGUID: 
-  CardName: Buff
+  CardName: Resonance
   Description: Gain #Amplify for 2 turns
   DisplayDescription: 
-  LinkDescription: Gain <link="Amplify"><color=#FFBF00><u>Amplify</u></color></link>
-    for 2 turns
+  LinkDescription: 
   Flavour: 
   Image: {fileID: 21300000, guid: eccf85b565b1fdd4582975829f6c189a, type: 3}
   Frame: {fileID: 21300000, guid: 61329542160dc15418ac2da74fe16cf1, type: 3}
   Cost: 2
-  RecycleValue: 1
+  RecycleValue: 2
   ValuesToReference: []
   Commands:
-  - rid: 5090185919954944131
-  PopupKeyPair:
-  - Key: Amplify
-    Value: {fileID: 11400000, guid: 9ead0859091a0574ba55a2cc00ba81b3, type: 2}
-  - Key: Bleed
-    Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
-  - Key: Poison
-    Value: {fileID: 11400000, guid: 7e7a85d9798338743a57caf3f468f8d4, type: 2}
+  - rid: 5090185976012341353
+  PopupKeyPair: []
   references:
     version: 2
     RefIds:
-    - rid: 5090185919954944131
+    - rid: 5090185976012341353
       type: {class: ApplyStatusEffect, ns: , asm: Assembly-CSharp}
       data:
         target: 3

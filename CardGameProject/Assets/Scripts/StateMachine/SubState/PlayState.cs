@@ -14,7 +14,7 @@ public class PlayState : CombatBaseState
 
         ctx._selectedEnemyToAttack.EnableSelectionRing(true);
 
-        ctx.CardManager.UpdateCardsInHand(ctx._selectedEnemyToAttack);
+        ctx.CardManager.UpdateCardsInHand(ctx._selectedEnemyToAttack, ctx.player);
 
         ctx.CombatUIManager.HideGameplayUI(false);
 
@@ -29,7 +29,11 @@ public class PlayState : CombatBaseState
                 ctx.CombatUIManager.EndTurnButton.interactable = true;
 
 
-            if (GameManager.Instance.TutorialStage == 2)
+            if (GameManager.Instance.TutorialStage >= 1.2f && GameManager.Instance.TutorialStage < 2)
+            {
+                ctx.CombatUIManager.StartTutorialConversation(1);
+            }
+            else if (GameManager.Instance.TutorialStage == 2)
             { // Play a card
                 ctx.CombatUIManager.StartTutorialConversation(2);
                 GameManager.Instance.TutorialStage = 2.1f;

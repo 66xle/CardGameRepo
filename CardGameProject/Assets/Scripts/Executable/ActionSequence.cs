@@ -72,24 +72,35 @@ public class ActionSequence : Executable
                 ctx.CameraManager.SetVictimDummy(avatarOpponent.transform.parent.parent, avatarPlayingCard.transform);
 
             // Trigger move animation | After move GA, reaction will trigger attack GA
-            MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, IsAttackingAllEnemies, animationWrapper.DistanceOffset, animationWrapper.FollowTimeline);
+            MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, IsAttackingAllEnemies, animationWrapper.DistanceOffset, animationWrapper.FollowTimeline, animationWrapper.MoveTime);
             ActionSystem.Instance.Perform(moveToPosGA);
 
-            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioType);
+            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource);
             moveToPosGA.PostReactions.Add(triggerAttackAnimGA);
 
             yield return new WaitWhile(() => !avatarPlayingCard.DoDamage);
 
             hasMoved = true;
         }
-        else
+        else // If avatar is not moving
         {
             if (!animationWrapper.SkipAnimation && !ReactiveSkipAnimation)
             {
-                TriggerAttackAnimGA triggerAttackAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioType);
-                ActionSystem.Instance.Perform(triggerAttackAnimGA);
+                if (animationWrapper.IsAttackAnimation)
+                {
+                    TriggerAttackAnimGA triggerAttackAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource, animationWrapper.IsAttackAnimation);
+                    ActionSystem.Instance.Perform(triggerAttackAnimGA);
+                }
+                else
+                {
+                    TriggerAnimGA triggerAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource);
+                    ActionSystem.Instance.Perform(triggerAnimGA);
+                    Debug.Log("triggerAnimGA");
+                }
 
-                yield return new WaitWhile(() => !avatarPlayingCard.DoDamage);
+
+
+                yield return new WaitWhile(() => !avatarPlayingCard.DoDamage); // Rename (Wait for animation to finish)
             }
             else
             {
@@ -105,6 +116,7 @@ public class ActionSequence : Executable
             ActionSystem.Instance.PerformQueue(avatar.QueueGameActions);
         }
 
+        //yield return new WaitForEndOfFrame();
 
         yield return new WaitWhile(() => !avatarPlayingCard.IsAttackFinished);
 

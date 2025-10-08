@@ -24,6 +24,8 @@ public class AnimationData
     public virtual string Animation { get; set; }
     public virtual Boolean OverrideDistanceOffset { get; set; }
     public virtual float DistanceOffset { get; set; }
+    public virtual Boolean OverrideMoveTime { get; set; }
+    public virtual float MoveTime { get; set; }
     public virtual Boolean OverrideCamera { get; set; }
     public virtual PlayableAsset FollowTimeline { get; set; }
     public virtual PlayableAsset AttackTimeline { get; set; }
@@ -45,6 +47,15 @@ public class AnimationData
     public bool OverrideDistance()
     {
         if (OverrideDistanceOffset == Boolean.False) return false;
+
+        if (Animation == AttackType.None.ToString()) return false;
+
+        return true;
+    }
+
+    public bool OverrideMove()
+    {
+        if (OverrideMoveTime == Boolean.False) return false;
 
         if (Animation == AttackType.None.ToString()) return false;
 

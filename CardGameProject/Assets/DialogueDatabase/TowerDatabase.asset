@@ -2301,7 +2301,9 @@ MonoBehaviour:
           Right,speaker);
 
           Audio(Audio/Morghaine/Dialogue_Morghaine_Awake,
-          speaker)'
+          speaker);
+
+          AnimatorTrigger(4);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2326,7 +2328,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 635.8562
-        y: 121.73659
+        y: 121.19603
         width: 160
         height: 30
     - id: 7
@@ -2372,7 +2374,9 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Morghaine/Dialogue_Morghaine_LittleLonger, speaker)
+        value: 'Audio(Audio/Morghaine/Dialogue_Morghaine_LittleLonger, speaker);
+
+          AnimatorTrigger(5);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2444,7 +2448,7 @@ MonoBehaviour:
         typeString: CustomFieldType_Text
       - title: Sequence
         value: "CinemachinePriority(PlayerDialogueCam, 999, cut); \nAudioStop(listener);\nAudio(Audio/Prisoner/Dialogue_Awakening_HowDidIDie,
-          speaker)"
+          speaker);\nAnimatorTrigger(3);"
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2523,7 +2527,9 @@ MonoBehaviour:
           Right,speaker);
 
           Audio(Audio/Morghaine/Dialogue_Morghaine_Fool,
-          speaker)'
+          speaker);
+
+          AnimatorTrigger(3);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2547,8 +2553,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 636.2009
-        y: 334.1541
+        x: 633.34375
+        y: 334.8684
         width: 160
         height: 30
     - id: 10
@@ -2594,7 +2600,9 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Morghaine/Dialogue_Morghaine_HowManyTimes, speaker)
+        value: 'Audio(Audio/Morghaine/Dialogue_Morghaine_HowManyTimes, speaker);
+
+          AnimatorTrigger(2);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2670,7 +2678,9 @@ MonoBehaviour:
           AudioStop(listener);
 
           Audio(Audio/Prisoner/Dialogue_Awakening_AsManyAsItTakes,
-          speaker)'
+          speaker);
+
+          AnimatorTrigger(2);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2749,7 +2759,9 @@ MonoBehaviour:
           Right,speaker);
 
           Audio(Audio/Morghaine/Dialogue_Morghaine_Spirit,
-          speaker)'
+          speaker);
+
+          AnimatorTrigger(3);'
         type: 0
         typeString: CustomFieldType_Text
       - title: Response Menu Sequence
@@ -2849,7 +2861,9 @@ MonoBehaviour:
           AudioStop(listener);
 
           Audio(Audio/Prisoner/Dialogue_Awakening_IKnowYou,
-          speaker)'
+          speaker);
+
+          AnimatorTrigger(4);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2925,7 +2939,9 @@ MonoBehaviour:
           AudioStop(listener);
 
           Audio(Audio/Prisoner/Dialogue_Awakening_SoWhatHaveIMissed,
-          speaker)'
+          speaker);
+
+          AnimatorTrigger(3);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3001,7 +3017,9 @@ MonoBehaviour:
           AudioStop(listener);
 
           Audio(Audio/Prisoner/Dialogue_Awakening_SheVisitedMyDreams,
-          speaker)'
+          speaker);
+
+          AnimatorTrigger(2);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3025,7 +3043,7 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 844.46564
+        x: 845.2904
         y: 679.8677
         width: 160
         height: 30
@@ -3077,7 +3095,9 @@ MonoBehaviour:
           AudioStop(listener);
 
           Audio(Audio/Prisoner/Dialogue_Awakening_I''llNeedMySword,
-          speaker)'
+          speaker);
+
+          AnimatorTrigger(2);'
         type: 0
         typeString: CustomFieldType_Text
       - title: EventGuid
@@ -3162,7 +3182,9 @@ MonoBehaviour:
           SetDialoguePanel(true);
 
           Audio(Audio/Morghaine/Dialogue_Morghaine_I''mMorghaine,
-          speaker)@0.5'
+          speaker)@0.5;
+
+          AnimatorTrigger(4);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3187,7 +3209,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 401.31647
-        y: 749.4143
+        y: 748.6596
         width: 160
         height: 30
     - id: 18
@@ -3304,7 +3326,9 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Morghaine/Dialogue_Morghaine_VeryLittleLight, speaker);
+        value: 'Audio(Audio/Morghaine/Dialogue_Morghaine_VeryLittleLight, speaker);
+
+          AnimatorTrigger(5);'
         type: 0
         typeString: CustomFieldType_Text
       - title: Response Menu Sequence
@@ -3474,7 +3498,9 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Morghaine/Dialogue_Morghaine_HoursOrYears, speaker);
+        value: 'Audio(Audio/Morghaine/Dialogue_Morghaine_HoursOrYears, speaker);
+
+          AnimatorTrigger(2);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3499,7 +3525,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 634.17035
-        y: 805.1935
+        y: 804.43884
         width: 160
         height: 30
     - id: 22
@@ -3622,7 +3648,9 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Morghaine/Dialogue_Morghaine_Coming, speaker);
+        value: 'Audio(Audio/Morghaine/Dialogue_Morghaine_Coming, speaker);
+
+          AnimatorTrigger(2);'
         type: 0
         typeString: CustomFieldType_Text
       - title: Response Menu Sequence
@@ -3721,7 +3749,9 @@ MonoBehaviour:
           SetDialoguePanel(true);
 
           Audio(Audio/Morghaine/Dialogue_Morghaine_SheStillSpeaks,
-          speaker);'
+          speaker);
+
+          AnimatorTrigger(2);'
         type: 0
         typeString: CustomFieldType_Text
       - title: Response Menu Sequence
@@ -3802,7 +3832,9 @@ MonoBehaviour:
 
 
           Audio(Audio/Morghaine/Dialogue_Morghaine_SheSees,
-          speaker)@Message(Audio);'
+          speaker)@Message(Audio);
+
+          AnimatorTrigger(4);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3873,7 +3905,9 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Morghaine/Dialogue_Morghaine_FarAbove, speaker);
+        value: 'Audio(Audio/Morghaine/Dialogue_Morghaine_FarAbove, speaker);
+
+          AnimatorTrigger(1);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3949,7 +3983,9 @@ MonoBehaviour:
           AudioStop(listener);
 
           Audio(Audio/Prisoner/Dialogue_Awakening_YourProbablyRight,
-          speaker)'
+          speaker);
+
+          AnimatorTrigger(1);'
         type: 0
         typeString: CustomFieldType_Text
       - title: Response Menu Sequence
@@ -3989,7 +4025,7 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 845.4411
+        x: 844.6164
         y: 905.19904
         width: 160
         height: 30
@@ -4107,7 +4143,9 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Morghaine/Dialogue_Morghaine_Timing, speaker);
+        value: 'Audio(Audio/Morghaine/Dialogue_Morghaine_Timing, speaker);
+
+          AnimatorTrigger(5);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -4136,8 +4174,8 @@ MonoBehaviour:
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 394.7278, y: 243.4779}
-    canvasZoom: 0.6400003
+    canvasScrollPosition: {x: 199.36884, y: 525.8535}
+    canvasZoom: 0.82000023
   syncInfo:
     syncActors: 0
     syncItems: 0

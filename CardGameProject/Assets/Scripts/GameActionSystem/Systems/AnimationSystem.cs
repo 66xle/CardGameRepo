@@ -17,6 +17,7 @@ public class AnimationSystem : MonoBehaviour
         ActionSystem.AttachPerformer<MoveToPosGA>(MoveToPosPerformer);
         ActionSystem.AttachPerformer<ReturnToPosGA>(ReturnToPosPerformer);
         ActionSystem.AttachPerformer<TriggerAttackAnimGA>(TriggerAttackAnimPerformer);
+        ActionSystem.AttachPerformer<TriggerAnimGA>(TriggerAnimPerformer);
     }
 
     private void OnDisable()
@@ -24,6 +25,7 @@ public class AnimationSystem : MonoBehaviour
         ActionSystem.DetachPerformer<MoveToPosGA>();
         ActionSystem.DetachPerformer<ReturnToPosGA>();
         ActionSystem.DetachPerformer<TriggerAttackAnimGA>();
+        ActionSystem.DetachPerformer<TriggerAnimGA>();
     }
 
     private IEnumerator MoveToPosPerformer(MoveToPosGA moveToPosGA)
@@ -47,8 +49,8 @@ public class AnimationSystem : MonoBehaviour
         Vector3 dir = (currentPos - opponentPos).normalized;
 
         Vector3 posToMove = opponentPos + dir * (1.5f + distanceOffset);
-
-        float tweenDuration = distanceOffset > 0 ? moveDuration * distanceOffset : moveDuration;
+        
+        float tweenDuration = moveToPosGA.MoveTime > 0f ? moveToPosGA.MoveTime : moveDuration;
         Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), tweenDuration).SetEase(moveAnimCurve);
 
         Quaternion targetRotation = Quaternion.LookRotation(-dir);
@@ -103,12 +105,24 @@ public class AnimationSystem : MonoBehaviour
 
         animator.SetBool("IsAttacking", true);
 
-        AudioManager.Instance.SetAudioType(triggerAttackAnimGA.AudioType);
+        AudioManager.Instance.SetAudioResource(triggerAttackAnimGA.AudioResource);
 
         yield return null;
     }
 
-    
+    private IEnumerator TriggerAnimPerformer(TriggerAnimGA triggerAnimGA)
+    {
+        Avatar avatarPlayingCard = triggerAnimGA.AvatarPlayingCard;
+        Animator animator = avatarPlayingCard.GetComponent<Animator>();
+
+        string animationName = triggerAnimGA.AnimationName;
+        animator.CrossFade(animationName, 0.25f);
+
+        AudioManager.Instance.SetAudioResource(triggerAnimGA.AudioResource);
+
+        yield return null;
+    }
+
 
     private string GetWeaponCategory(string name)
     {

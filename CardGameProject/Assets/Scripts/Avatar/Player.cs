@@ -63,14 +63,14 @@ public class Player : Avatar
 
     public void InitStats(float maxHealth, float maxStamina, int maxGuard, float defence, float defencePercentage, float attack, float blockScale, float recoverStamPercentage)
     {
-        base.MaxHealth = maxHealth;
-        base.MaxGuard = maxGuard;
+        MaxHealth = maxHealth;
+        MaxGuard = maxGuard;
         _maxStamina = maxStamina;
 
         CurrentHealth = maxHealth;
 
         if (GameManager.Instance.IsInTutorial)
-            CurrentHealth = Mathf.Ceil(maxHealth / 2f);
+            CurrentHealth = Mathf.Ceil(maxHealth / 2f); // TEMP FOR DEMO
 
 
         CurrentGuard = maxGuard;

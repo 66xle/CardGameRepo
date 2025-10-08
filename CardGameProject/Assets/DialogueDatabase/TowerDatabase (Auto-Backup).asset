@@ -104,7 +104,7 @@ MonoBehaviour:
   - id: 4
     fields:
     - title: Name
-      value: Knight
+      value: Morghaine
       type: 0
       typeString: CustomFieldType_Text
     - title: Pictures
@@ -2150,7 +2150,7 @@ MonoBehaviour:
       type: 5
       typeString: CustomFieldType_Actor
     overrideSettings:
-      useOverrides: 1
+      useOverrides: 0
       overrideSubtitleSettings: 0
       showNPCSubtitlesDuringLine: 1
       showNPCSubtitlesWithResponses: 1
@@ -2159,9 +2159,9 @@ MonoBehaviour:
       subtitleCharsPerSecond: 30
       minSubtitleSeconds: 2
       continueButton: 0
-      overrideSequenceSettings: 1
-      defaultSequence: 
-      defaultPlayerSequence: CinemachinePriority(PlayerDialogueCam, 999, cut);
+      overrideSequenceSettings: 0
+      defaultSequence: CinemachinePriority(DialogueVirtualCamera, 999, cut); AudioStop();
+      defaultPlayerSequence: 
       defaultResponseMenuSequence: 
       overrideInputSettings: 0
       alwaysForceResponseMenu: 1
@@ -2275,7 +2275,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Dialogue Text
-        value: "\u2026 Finally awake."
+        value: "\u2026Finally awake."
         type: 0
         typeString: CustomFieldType_Text
       - title: Parenthetical
@@ -2293,8 +2293,15 @@ MonoBehaviour:
       - title: Sequence
         value: 'CinemachinePriority(DialogueVirtualCamera, 999, cut);
 
+          AudioStop(listener);
+
+          Delay({end});
+
           Camera(Medium
-          Right,speaker);'
+          Right,speaker);
+
+          Audio(Audio/Morghaine/Dialogue_Morghaine_Awake,
+          speaker)'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2318,7 +2325,7 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 636.7654
+        x: 635.8562
         y: 121.73659
         width: 160
         height: 30
@@ -2349,7 +2356,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Dialogue Text
-        value: It takes longer, every time.
+        value: It takes a little longer, every time.
         type: 0
         typeString: CustomFieldType_Text
       - title: Parenthetical
@@ -2365,7 +2372,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: Audio(Audio/Morghaine/Dialogue_Morghaine_LittleLonger, speaker)
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2389,8 +2396,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 634.29285
-        y: 191.07722
+        x: 637.9292
+        y: 190.16814
         width: 160
         height: 30
     - id: 8
@@ -2436,7 +2443,8 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Prisoner/Dialogue_Awakening_HowDidIDie, speaker)
+        value: "CinemachinePriority(PlayerDialogueCam, 999, cut); \nAudioStop(listener);\nAudio(Audio/Prisoner/Dialogue_Awakening_HowDidIDie,
+          speaker)"
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2460,8 +2468,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 627.85406
-        y: 249.71204
+        x: 636.94495
+        y: 251.53021
         width: 160
         height: 30
     - id: 9
@@ -2491,7 +2499,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Dialogue Text
-        value: Spectacularly.
+        value: Like a fool.
         type: 0
         typeString: CustomFieldType_Text
       - title: Parenthetical
@@ -2509,8 +2517,13 @@ MonoBehaviour:
       - title: Sequence
         value: 'CinemachinePriority(DialogueVirtualCamera, 999, cut);
 
+          AudioStop(listener);
+
           Camera(Medium
-          Right,speaker);'
+          Right,speaker);
+
+          Audio(Audio/Morghaine/Dialogue_Morghaine_Fool,
+          speaker)'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2534,7 +2547,7 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 631.6555
+        x: 636.2009
         y: 334.1541
         width: 160
         height: 30
@@ -2565,7 +2578,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Dialogue Text
-        value: How many times more, I wonder.
+        value: And yet how many times more, I wonder.
         type: 0
         typeString: CustomFieldType_Text
       - title: Parenthetical
@@ -2581,7 +2594,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: Audio(Audio/Morghaine/Dialogue_Morghaine_HowManyTimes, speaker)
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2605,7 +2618,7 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 633.4138
+        x: 636.14105
         y: 410.5277
         width: 160
         height: 30
@@ -2652,7 +2665,12 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Prisoner/Dialogue_Awakening_AsManyAsItTakes, speaker)
+        value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
+
+          AudioStop(listener);
+
+          Audio(Audio/Prisoner/Dialogue_Awakening_AsManyAsItTakes,
+          speaker)'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2676,8 +2694,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 634.29297
-        y: 493.93433
+        x: 637.0202
+        y: 492.92163
         width: 160
         height: 30
     - id: 12
@@ -2725,14 +2743,19 @@ MonoBehaviour:
       - title: Sequence
         value: 'CinemachinePriority(DialogueVirtualCamera, 999, cut);
 
+          AudioStop(listener);
+
           Camera(Medium
-          Right,speaker);'
+          Right,speaker);
+
+          Audio(Audio/Morghaine/Dialogue_Morghaine_Spirit,
+          speaker)'
         type: 0
         typeString: CustomFieldType_Text
       - title: Response Menu Sequence
         value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
 
-          SetDialoguePanel(false)'
+          SetDialoguePanel(false);'
         type: 0
         typeString: 
       conversationID: 3
@@ -2805,7 +2828,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Dialogue Text
-        value: "I know you\u2026 but I don\u2019t remember why."
+        value: "I know you\u2026 but I can't seem to remember why."
         type: 0
         typeString: CustomFieldType_Text
       - title: Parenthetical
@@ -2821,7 +2844,12 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Prisoner/Dialogue_Awakening_IKnowYou, speaker)
+        value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
+
+          AudioStop(listener);
+
+          Audio(Audio/Prisoner/Dialogue_Awakening_IKnowYou,
+          speaker)'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2892,7 +2920,12 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Prisoner/Dialogue_Awakening_SoWhatHaveIMissed, speaker)
+        value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
+
+          AudioStop(listener);
+
+          Audio(Audio/Prisoner/Dialogue_Awakening_SoWhatHaveIMissed,
+          speaker)'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2917,7 +2950,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 636.12164
-        y: 678.81494
+        y: 677.9059
         width: 160
         height: 30
     - id: 15
@@ -2963,7 +2996,12 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Prisoner/Dialogue_Awakening_SheVisitedMyDreams, speaker)
+        value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
+
+          AudioStop(listener);
+
+          Audio(Audio/Prisoner/Dialogue_Awakening_SheVisitedMyDreams,
+          speaker)'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3018,7 +3056,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Dialogue Text
-        value: I need my sword.
+        value: Well then, I need my sword.
         type: 0
         typeString: CustomFieldType_Text
       - title: Parenthetical
@@ -3034,9 +3072,18 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Prisoner/Dialogue_Awakening_I'llNeedMySword, speaker)
+        value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
+
+          AudioStop(listener);
+
+          Audio(Audio/Prisoner/Dialogue_Awakening_I''llNeedMySword,
+          speaker)'
         type: 0
         typeString: CustomFieldType_Text
+      - title: EventGuid
+        value: 
+        type: 0
+        typeString: 
       conversationID: 3
       isRoot: 0
       isGroup: 0
@@ -3044,7 +3091,13 @@ MonoBehaviour:
       delaySimStatus: 0
       falseConditionAction: Block
       conditionPriority: 2
-      outgoingLinks: []
+      outgoingLinks:
+      - originConversationID: 3
+        originDialogueID: 16
+        destinationConversationID: 3
+        destinationDialogueID: 29
+        isConnector: 0
+        priority: 2
       conditionsString: 
       userScript: 
       onExecute:
@@ -3052,8 +3105,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 869.76794
-        y: 553.88556
+        x: 866.6468
+        y: 552.77484
         width: 160
         height: 30
     - id: 17
@@ -3083,7 +3136,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Dialogue Text
-        value: "\u2026 I am Morghaine."
+        value: "\u2026 I'm Morghaine."
         type: 0
         typeString: CustomFieldType_Text
       - title: Parenthetical
@@ -3101,10 +3154,15 @@ MonoBehaviour:
       - title: Sequence
         value: 'CinemachinePriority(DialogueVirtualCamera, 999, cut);
 
+          AudioStop(listener);
+
           Camera(Medium
           Right,speaker);
 
-          SetDialoguePanel(true)'
+          SetDialoguePanel(true);
+
+          Audio(Audio/Morghaine/Dialogue_Morghaine_I''mMorghaine,
+          speaker)@0.5'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3128,8 +3186,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 402.25763
-        y: 750.35547
+        x: 401.31647
+        y: 749.4143
         width: 160
         height: 30
     - id: 18
@@ -3175,7 +3233,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: Audio(Audio/Morghaine/Dialogue_Morghaine_Shadow, speaker);
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3200,7 +3258,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 402.25763
-        y: 801.4081
+        y: 800.46686
         width: 160
         height: 30
     - id: 19
@@ -3246,11 +3304,13 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: Audio(Audio/Morghaine/Dialogue_Morghaine_VeryLittleLight, speaker);
         type: 0
         typeString: CustomFieldType_Text
       - title: Response Menu Sequence
-        value: 
+        value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
+
+          SetDialoguePanel(false);'
         type: 0
         typeString: 
       conversationID: 3
@@ -3335,10 +3395,15 @@ MonoBehaviour:
       - title: Sequence
         value: 'CinemachinePriority(DialogueVirtualCamera, 999, cut);
 
+          AudioStop(listener);
+
           Camera(Medium
           Right,speaker);
 
-          SetDialoguePanel(true)'
+          SetDialoguePanel(true);
+
+          Audio(Audio/Morghaine/Dialogue_Morghaine_NotMuch,
+          speaker);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3362,7 +3427,7 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 634.17035
+        x: 639.8174
         y: 754.1808
         width: 160
         height: 30
@@ -3393,7 +3458,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Dialogue Text
-        value: "I couldn\u2019t tell you if it were hours or years. "
+        value: "Truth be told, I couldn\u2019t say if it were hours or years. "
         type: 0
         typeString: CustomFieldType_Text
       - title: Parenthetical
@@ -3409,7 +3474,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: Audio(Audio/Morghaine/Dialogue_Morghaine_HoursOrYears, speaker);
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3423,7 +3488,7 @@ MonoBehaviour:
       - originConversationID: 3
         originDialogueID: 21
         destinationConversationID: 3
-        destinationDialogueID: 22
+        destinationDialogueID: 30
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -3434,7 +3499,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 634.17035
-        y: 804.1808
+        y: 805.1935
         width: 160
         height: 30
     - id: 22
@@ -3464,7 +3529,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Dialogue Text
-        value: "Though, something\u2019s different above."
+        value: The air above has shifted. Smells like blood and brass.
         type: 0
         typeString: CustomFieldType_Text
       - title: Parenthetical
@@ -3480,7 +3545,13 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: 'AudioWait(Audio/Morghaine/Dialogue_Morghaine_AirAbove, speaker)->Message(Delay);
+
+          Delay(0.5)@Message(Delay)->Message(Audio);
+
+
+          Audio(Audio/Morghaine/Dialogue_Morghaine_BloodAndBrass,
+          speaker)@Message(Audio);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3494,77 +3565,6 @@ MonoBehaviour:
       - originConversationID: 3
         originDialogueID: 22
         destinationConversationID: 3
-        destinationDialogueID: 23
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 634.17035
-        y: 854.1808
-        width: 160
-        height: 30
-    - id: 23
-      fields:
-      - title: Title
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Pictures
-        value: '[]'
-        type: 3
-        typeString: CustomFieldType_Files
-      - title: Description
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Actor
-        value: 4
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 1
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Menu Text
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Dialogue Text
-        value: The air changed about an hour ago. Smells like blood and brass.
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Parenthetical
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Audio Files
-        value: '[]'
-        type: 3
-        typeString: CustomFieldType_Files
-      - title: Video File
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      conversationID: 3
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: Block
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 3
-        originDialogueID: 23
-        destinationConversationID: 3
         destinationDialogueID: 24
         isConnector: 0
         priority: 2
@@ -3575,8 +3575,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 634.17035
-        y: 904.1808
+        x: 634.17053
+        y: 923.04156
         width: 160
         height: 30
     - id: 24
@@ -3606,7 +3606,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Dialogue Text
-        value: "I think that means they know we\u2019re coming."
+        value: "They must know we\u2019re coming."
         type: 0
         typeString: CustomFieldType_Text
       - title: Parenthetical
@@ -3622,9 +3622,15 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: Audio(Audio/Morghaine/Dialogue_Morghaine_Coming, speaker);
         type: 0
         typeString: CustomFieldType_Text
+      - title: Response Menu Sequence
+        value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
+
+          SetDialoguePanel(false);'
+        type: 0
+        typeString: 
       conversationID: 3
       isRoot: 0
       isGroup: 0
@@ -3658,8 +3664,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 637.0884
-        y: 957.059
+        x: 633.97894
+        y: 975.28674
         width: 160
         height: 30
     - id: 25
@@ -3689,7 +3695,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Dialogue Text
-        value: "So\u2026 She still speaks."
+        value: "So\u2026 she still speaks."
         type: 0
         typeString: CustomFieldType_Text
       - title: Parenthetical
@@ -3707,10 +3713,15 @@ MonoBehaviour:
       - title: Sequence
         value: 'CinemachinePriority(DialogueVirtualCamera, 999, cut);
 
+          AudioStop(listener);
+
           Camera(Medium
           Right,speaker);
 
-          SetDialoguePanel(true)'
+          SetDialoguePanel(true);
+
+          Audio(Audio/Morghaine/Dialogue_Morghaine_SheStillSpeaks,
+          speaker);'
         type: 0
         typeString: CustomFieldType_Text
       - title: Response Menu Sequence
@@ -3739,7 +3750,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 845.4411
-        y: 754.2579
+        y: 753.3167
         width: 160
         height: 30
     - id: 26
@@ -3769,7 +3780,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Dialogue Text
-        value: Just echoes, I should think. She sees very little now.
+        value: Just echoes, I should think. She sees so very little now.
         type: 0
         typeString: CustomFieldType_Text
       - title: Parenthetical
@@ -3785,7 +3796,13 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: 'AudioWait(Audio/Morghaine/Dialogue_Morghaine_Echo, speaker)->Message(Delay);
+
+          Delay(0.5)@Message(Delay)->Message(Audio);
+
+
+          Audio(Audio/Morghaine/Dialogue_Morghaine_SheSees,
+          speaker)@Message(Audio);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3810,7 +3827,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 845.4411
-        y: 804.2579
+        y: 802.304
         width: 160
         height: 30
     - id: 27
@@ -3840,7 +3857,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Dialogue Text
-        value: ...And how could she, from so far above?
+        value: ...And how could she not, from so far above?
         type: 0
         typeString: CustomFieldType_Text
       - title: Parenthetical
@@ -3856,7 +3873,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: Audio(Audio/Morghaine/Dialogue_Morghaine_FarAbove, speaker);
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3880,7 +3897,7 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 845.4411
+        x: 844.49994
         y: 854.2579
         width: 160
         height: 30
@@ -3927,9 +3944,18 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Prisoner/Dialogue_Awakening_YourProbablyRight, speaker)
+        value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
+
+          AudioStop(listener);
+
+          Audio(Audio/Prisoner/Dialogue_Awakening_YourProbablyRight,
+          speaker)'
         type: 0
         typeString: CustomFieldType_Text
+      - title: Response Menu Sequence
+        value: SetDialoguePanel(false);
+        type: 0
+        typeString: 
       conversationID: 3
       isRoot: 0
       isGroup: 0
@@ -3964,12 +3990,154 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 845.4411
-        y: 904.2579
+        y: 905.19904
+        width: 160
+        height: 30
+    - id: 29
+      fields:
+      - title: Title
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Pictures
+        value: '[]'
+        type: 3
+        typeString: CustomFieldType_Files
+      - title: Description
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Actor
+        value: 4
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Dialogue Text
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Parenthetical
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Audio Files
+        value: '[]'
+        type: 3
+        typeString: CustomFieldType_Files
+      - title: Video File
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Sequence
+        value: 'StopConversation();
+
+          SetDialoguePanel(false);'
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: EventGuid
+        value: 62ff5feb-1c4a-4271-b32f-ad3e47ffe7c0
+        type: 0
+        typeString: 
+      conversationID: 3
+      isRoot: 0
+      isGroup: 0
+      nodeColor: 
+      delaySimStatus: 0
+      falseConditionAction: Block
+      conditionPriority: 2
+      outgoingLinks: []
+      conditionsString: 
+      userScript: 
+      onExecute:
+        m_PersistentCalls:
+          m_Calls: []
+      canvasRect:
+        serializedVersion: 2
+        x: 1169.0765
+        y: 554.0841
+        width: 160
+        height: 30
+    - id: 30
+      fields:
+      - title: Title
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Pictures
+        value: '[]'
+        type: 3
+        typeString: CustomFieldType_Files
+      - title: Description
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Actor
+        value: 4
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Dialogue Text
+        value: "And yet this timing cannot be by chance. \r"
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Parenthetical
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Audio Files
+        value: '[]'
+        type: 3
+        typeString: CustomFieldType_Files
+      - title: Video File
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Sequence
+        value: Audio(Audio/Morghaine/Dialogue_Morghaine_Timing, speaker);
+        type: 0
+        typeString: CustomFieldType_Text
+      conversationID: 3
+      isRoot: 0
+      isGroup: 0
+      nodeColor: 
+      delaySimStatus: 0
+      falseConditionAction: Block
+      conditionPriority: 2
+      outgoingLinks:
+      - originConversationID: 3
+        originDialogueID: 30
+        destinationConversationID: 3
+        destinationDialogueID: 22
+        isConnector: 0
+        priority: 2
+      conditionsString: 
+      userScript: 
+      onExecute:
+        m_PersistentCalls:
+          m_Calls: []
+      canvasRect:
+        serializedVersion: 2
+        x: 634.17035
+        y: 864.3074
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 101.848236, y: 419.20578}
-    canvasZoom: 0.88000023
+    canvasScrollPosition: {x: 262.89816, y: 224}
+    canvasZoom: 0.85000014
   syncInfo:
     syncActors: 0
     syncItems: 0

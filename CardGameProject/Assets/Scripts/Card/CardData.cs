@@ -41,7 +41,7 @@ public struct CardData
         Card.DisplayDescription = GenerateDescriptionWithDamage(card, gear, attack, defence, blockScale, health);
     }
 
-    public string GenerateDescriptionWithDamage(Card card, GearData gear, float attack, float defence, float blockScale, float health, Avatar enemy = null)
+    public string GenerateDescriptionWithDamage(Card card, GearData gear, float attack, float defence, float blockScale, float health, Avatar enemy = null, Avatar player = null)
     {
         int weaponAttack = 0;
 
@@ -68,7 +68,7 @@ public struct CardData
             }
             else
             {
-                value = CalculateDamage.GetDamage(attack, weaponAttack, enemy, value);
+                value = CalculateDamage.GetDamage(attack, weaponAttack, enemy, player, value);
             }
 
             displayDescription = displayDescription.Replace($"#{i}", $"<color=#FF0000>{value.ToString()}</color>");

@@ -4,13 +4,15 @@ using static UnityEngine.Rendering.DebugUI;
 public static class CalculateDamage
 {
 
-    public static float GetDamage(float avatarAttack, float weaponAttack, Avatar avatarTakeDamage, float multiplier)
+    public static float GetDamage(float avatarAttack, float weaponAttack, Avatar avatarTakeDamage, Avatar avatarPlayingCard, float multiplier)
     {
         float damage = Mathf.Ceil((avatarAttack + weaponAttack) * multiplier);
 
-        if (avatarTakeDamage != null)
+        if (avatarTakeDamage != null && avatarPlayingCard != null)
         {
             damage = Mathf.Ceil(avatarTakeDamage.ApplyAdditionalDmgCheck(damage));
+
+            damage = Mathf.Ceil(avatarPlayingCard.ApplyBuffDmgCheck(damage));
 
             if (avatarTakeDamage.IsInCounterState)
                 damage = Mathf.Ceil(damage / 2f);
