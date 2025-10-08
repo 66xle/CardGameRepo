@@ -294,7 +294,6 @@ public class Avatar : MonoBehaviour
 
             if (IsGuardBroken() && wrapper.Commands.Any(command => command is AttackCommand)) continue; // NOTE: If we are guard broken & command is an attack command, ignore
                                                                                                         // (Maybe ignore every command if guard broken)
-
             #region Check Timing 
 
             if (wrapper.EffectTiming == EffectTiming.Immediate && trigger == wrapper.ReactiveTrigger)
@@ -400,7 +399,10 @@ public class Avatar : MonoBehaviour
         }
 
         if (!isCounterActive)
+        {
+            IsInCounterState = false;
             GetComponent<Animator>().SetBool("isReady", false);
+        }
     }
 
     public List<ExecutableWrapper> SortQueue(List<ExecutableWrapper> overwriteQueue, List<ExecutableWrapper> stackQueue)
