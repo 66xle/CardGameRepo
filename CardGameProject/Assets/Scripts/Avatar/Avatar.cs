@@ -249,7 +249,20 @@ public class Avatar : MonoBehaviour
                 extraDamage += damage * statusGuardBroken.ExtraDamagePercentage + damage;
                 continue;
             }
+        }
 
+        return extraDamage;
+    }
+
+    public float ApplyBuffDmgCheck(float damage)
+    {
+        // Don't need to check
+        if (ListOfEffects.Count == 0) return damage;
+
+        float extraDamage = 0;
+
+        foreach (StatusEffect statusEffect in ListOfEffects)
+        {
             if (statusEffect.Effect == Effect.Amplify)
             {
                 StatusAmplify status = statusEffect as StatusAmplify;
@@ -258,7 +271,7 @@ public class Avatar : MonoBehaviour
             }
         }
 
-        return damage;
+        return extraDamage;
     }
 
     #endregion

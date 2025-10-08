@@ -105,6 +105,7 @@ public class ActionSequence : Executable
             ActionSystem.Instance.PerformQueue(avatar.QueueGameActions);
         }
 
+        //yield return new WaitForEndOfFrame();
 
         yield return new WaitWhile(() => !avatarPlayingCard.IsAttackFinished);
 
