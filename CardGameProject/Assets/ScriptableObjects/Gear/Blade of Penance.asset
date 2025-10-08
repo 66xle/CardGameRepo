@@ -41,8 +41,8 @@ MonoBehaviour:
     DistanceOffset: 0
   _cards:
   - rid: 7800494701538181218
-  - rid: 5090185875588907112
   - rid: 7800494722459107417
+  - rid: 5090185875588907112
   - rid: 7765747505886134696
   - rid: 7800494701538181216
   - rid: 5090185919954944132
@@ -66,6 +66,7 @@ MonoBehaviour:
           AttackTimeline: {fileID: 0}
           AudioType: 200
           SkipAnimation: 0
+          MoveTime: 0
     - rid: 5090185875588907145
       type: {class: WeaponAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -86,6 +87,8 @@ MonoBehaviour:
         AudioType: 200
         _overrideDistanceOffset: 1
         _distanceOffset: 0
+        _overrideMoveTime: 1
+        _moveTime: 0
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
@@ -103,6 +106,7 @@ MonoBehaviour:
           AttackTimeline: {fileID: 0}
           AudioType: 0
           SkipAnimation: 1
+          MoveTime: 0
     - rid: 5090185919954944133
       type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -111,6 +115,8 @@ MonoBehaviour:
         AudioType: 0
         _overrideDistanceOffset: 1
         _distanceOffset: 0
+        _overrideMoveTime: 1
+        _moveTime: 0
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
@@ -122,6 +128,8 @@ MonoBehaviour:
         AudioType: 0
         _overrideDistanceOffset: 1
         _distanceOffset: 0
+        _overrideMoveTime: 1
+        _moveTime: 0
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
@@ -133,6 +141,8 @@ MonoBehaviour:
         AudioType: 0
         _overrideDistanceOffset: 1
         _distanceOffset: 0
+        _overrideMoveTime: 1
+        _moveTime: 0
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
@@ -144,6 +154,8 @@ MonoBehaviour:
         AudioType: 0
         _overrideDistanceOffset: 1
         _distanceOffset: 0
+        _overrideMoveTime: 1
+        _moveTime: 0
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
@@ -161,6 +173,7 @@ MonoBehaviour:
           AttackTimeline: {fileID: 0}
           AudioType: 200
           SkipAnimation: 0
+          MoveTime: 0
     - rid: 5090185941420867697
       type: {class: WeaponAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -181,6 +194,8 @@ MonoBehaviour:
         AudioType: 200
         _overrideDistanceOffset: 1
         _distanceOffset: 0
+        _overrideMoveTime: 1
+        _moveTime: 0
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
@@ -222,6 +237,7 @@ MonoBehaviour:
           AttackTimeline: {fileID: 0}
           AudioType: 0
           SkipAnimation: 1
+          MoveTime: 0
     - rid: 5090185966540292358
       type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -230,6 +246,8 @@ MonoBehaviour:
         AudioType: 0
         _overrideDistanceOffset: 1
         _distanceOffset: 0
+        _overrideMoveTime: 1
+        _moveTime: 0
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
@@ -247,6 +265,7 @@ MonoBehaviour:
           AttackTimeline: {fileID: 0}
           AudioType: 200
           SkipAnimation: 0
+          MoveTime: 0
     - rid: 7765747505886134697
       type: {class: WeaponAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -267,6 +286,8 @@ MonoBehaviour:
         AudioType: 200
         _overrideDistanceOffset: 1
         _distanceOffset: 0
+        _overrideMoveTime: 1
+        _moveTime: 0
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 11400000, guid: ecd29fff17083244caa53152d92f7681, type: 2}
@@ -284,6 +305,7 @@ MonoBehaviour:
           AttackTimeline: {fileID: 0}
           AudioType: 0
           SkipAnimation: 1
+          MoveTime: 0
     - rid: 7800494701538181216
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -298,6 +320,7 @@ MonoBehaviour:
           AttackTimeline: {fileID: 0}
           AudioType: 0
           SkipAnimation: 1
+          MoveTime: 0
     - rid: 7800494701538181218
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -312,6 +335,7 @@ MonoBehaviour:
           AttackTimeline: {fileID: 0}
           AudioType: 0
           SkipAnimation: 1
+          MoveTime: 0
     - rid: 7800494722459107417
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -326,6 +350,7 @@ MonoBehaviour:
           AttackTimeline: {fileID: 0}
           AudioType: 200
           SkipAnimation: 0
+          MoveTime: 0
     - rid: 7800494722459107418
       type: {class: WeaponAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -346,6 +371,8 @@ MonoBehaviour:
         AudioType: 200
         _overrideDistanceOffset: 0
         _distanceOffset: 0.5
+        _overrideMoveTime: 1
+        _moveTime: 0
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}

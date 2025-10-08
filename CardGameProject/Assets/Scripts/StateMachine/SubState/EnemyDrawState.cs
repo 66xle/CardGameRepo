@@ -25,7 +25,7 @@ public class EnemyDrawState : CombatBaseState
     public override void FixedUpdateState() { }
     public override void ExitState()
     {
-        ctx.EnemyTurnQueue.Remove(ctx.CurrentEnemyTurn);
+        
     }
 
     public override void CheckSwitchState()
