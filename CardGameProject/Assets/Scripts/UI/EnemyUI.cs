@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class EnemyUI : MonoBehaviour
 {
-    [SerializeField] GameObject selectedHighlight;
+    [MustBeAssigned] [SerializeField] Image CharacterImage;
     [MustBeAssigned] public TMP_Text HealthText;
     [MustBeAssigned] public TMP_Text BlockText;
     [MustBeAssigned] public Slider GuardBar;
@@ -27,6 +27,8 @@ public class EnemyUI : MonoBehaviour
         this.stateMachine = stateMachine;
         this.enemy = enemy;
         this.enemyManager = enemyManager;
+
+        CharacterImage.sprite = enemy.EnemyData.CharacterSprite;
 
         rectTransform = GetComponent<RectTransform>();
     }
