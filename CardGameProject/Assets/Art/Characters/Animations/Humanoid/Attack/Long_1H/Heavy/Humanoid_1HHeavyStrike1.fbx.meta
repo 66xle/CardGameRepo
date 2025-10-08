@@ -2,10 +2,7 @@ fileFormatVersion: 2
 guid: 6ff7221927b2e184592ac1f4822ab68a
 ModelImporter:
   serializedVersion: 22200
-  internalIDToNameTable:
-  - first:
-      74: 1827226128182048838
-    second: 1H Long Heavy 1
+  internalIDToNameTable: []
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -22,9 +19,8 @@ ModelImporter:
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'Chest_JNT' is inbetween humanoid transforms
-      and has rotation animation that will be discarded.\n\t'VisorEnd_JNT' is inbetween
-      humanoid transforms and has rotation animation that will be discarded.\n"
+      to improve retargeting quality.\n\t'VisorEnd_JNT' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -38,7 +34,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: 1H Long Heavy 1
+      name: Take 001
       takeName: Take 001
       internalID: 1827226128182048838
       firstFrame: 40
@@ -61,28 +57,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0.41684732
-        functionName: AnimationEventAttack
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 1f7203e086ea7ae43863c31ff4adaf14, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.7442954
-        functionName: AnimationEventAttackFinish
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 1f7203e086ea7ae43863c31ff4adaf14, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.45285642
-        functionName: AnimationEventPlaySound
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 1f7203e086ea7ae43863c31ff4adaf14, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -100,7 +75,7 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    nodeNameCollisionStrategy: 0
+    nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
@@ -193,7 +168,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Spine1_JNT
+    - boneName: Spine2_JNT
       humanName: Spine
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -201,7 +176,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Spine2_JNT
+    - boneName: Spine3_JNT
       humanName: Chest
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -561,7 +536,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Spine3_JNT
+    - boneName: Chest_JNT
       humanName: UpperChest
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -1113,8 +1088,8 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 2
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
-  importBlendShapeDeformPercent: 0
-  remapMaterialsIfMaterialImportModeIsNone: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
