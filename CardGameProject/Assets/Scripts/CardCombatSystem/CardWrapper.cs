@@ -163,7 +163,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
             float Ydis = currentLocal.y - pointDownStartEventY;
 
-            if (Ydis < 50f) return;
+            if (Ydis < 30f) return;
 
             isDragged = true;
 
