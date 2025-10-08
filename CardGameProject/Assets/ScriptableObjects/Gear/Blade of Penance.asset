@@ -40,12 +40,12 @@ MonoBehaviour:
   - Clip: {fileID: 1827226128182048838, guid: b766f3fdd3c320e409afa7076753976b, type: 3}
     DistanceOffset: 0
   _cards:
-  - rid: 5090185919954944132
-  - rid: 7765747505886134696
   - rid: 7800494701538181218
   - rid: 5090185875588907112
   - rid: 7800494722459107417
+  - rid: 7765747505886134696
   - rid: 7800494701538181216
+  - rid: 5090185919954944132
   - rid: 7800494701538181215
   - rid: 5090185966540292224
   - rid: 5090185941420867696
@@ -155,7 +155,7 @@ MonoBehaviour:
         Animations:
         - rid: 5090185941420867697
         AnimationList:
-        - AnimationName: 1H Strike 1
+        - AnimationName: 1H Strike 2
           DistanceOffset: 0
           FollowTimeline: {fileID: 0}
           AttackTimeline: {fileID: 0}
@@ -177,7 +177,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: b766f3fdd3c320e409afa7076753976b, type: 3}
           DistanceOffset: 0
-        _animation: 0_1H Strike 1
+        _animation: 1_1H Strike 2
         AudioType: 200
         _overrideDistanceOffset: 1
         _distanceOffset: 0
@@ -320,8 +320,8 @@ MonoBehaviour:
         Animations:
         - rid: 7800494722459107418
         AnimationList:
-        - AnimationName: 1H Long Heavy 2
-          DistanceOffset: 1
+        - AnimationName: 1H Long Heavy 3
+          DistanceOffset: 0.5
           FollowTimeline: {fileID: 0}
           AttackTimeline: {fileID: 0}
           AudioType: 200
@@ -342,10 +342,10 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: b766f3fdd3c320e409afa7076753976b, type: 3}
           DistanceOffset: 0
-        _animation: 3_1H Long Heavy 2
+        _animation: 4_1H Long Heavy 3
         AudioType: 200
-        _overrideDistanceOffset: 1
-        _distanceOffset: 0
+        _overrideDistanceOffset: 0
+        _distanceOffset: 0.5
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
