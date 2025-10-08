@@ -10,6 +10,7 @@ public class EnemyUI : MonoBehaviour
 {
     [MustBeAssigned] [SerializeField] Image CharacterImage;
     [MustBeAssigned] public TMP_Text HealthText;
+    [MustBeAssigned] public TMP_Text MaxHealthText;
     [MustBeAssigned] public TMP_Text BlockText;
     [MustBeAssigned] public Slider GuardBar;
     public TMP_Text Name;

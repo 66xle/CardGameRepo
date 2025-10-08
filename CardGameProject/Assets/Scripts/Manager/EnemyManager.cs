@@ -63,6 +63,7 @@ public class EnemyManager : MonoBehaviour
             {
                 enemy.InitUI(CombatUIManager.eliteUI.gameObject, CombatUIManager.detailedUI);
                 CombatUIManager.eliteUI.Init(Ctx, enemy, this);
+                spawnedObjects.Add(enemy.gameObject);
                 continue;
             }
 

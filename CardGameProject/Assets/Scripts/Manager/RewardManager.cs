@@ -69,7 +69,7 @@ public class RewardManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Backspace))
         {
             Time.timeScale = 0f;
             DisplayVictoryUI();
