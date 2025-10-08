@@ -2248,223 +2248,6 @@ MonoBehaviour:
         y: 33.934418
         width: 160
         height: 30
-    - id: 1
-      fields:
-      - title: Title
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Pictures
-        value: '[]'
-        type: 3
-        typeString: CustomFieldType_Files
-      - title: Description
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Actor
-        value: 4
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 1
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Menu Text
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Dialogue Text
-        value: Your awake?
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Parenthetical
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Audio Files
-        value: '[]'
-        type: 3
-        typeString: CustomFieldType_Files
-      - title: Video File
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Sequence
-        value: 'CinemachinePriority(DialogueVirtualCamera, 999, cut);
-
-          Camera(OTS
-          Right,listener);
-
-
-          Delay({{end}})'
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: EventGuid
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      conversationID: 3
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: Block
-      conditionPriority: 2
-      outgoingLinks: []
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 1087.6892
-        y: 126.637375
-        width: 160
-        height: 30
-    - id: 2
-      fields:
-      - title: Title
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Pictures
-        value: '[]'
-        type: 3
-        typeString: CustomFieldType_Files
-      - title: Description
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Actor
-        value: 4
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 1
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Menu Text
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Dialogue Text
-        value: Good, lets go.
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Parenthetical
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Audio Files
-        value: '[]'
-        type: 3
-        typeString: CustomFieldType_Files
-      - title: Video File
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Sequence
-        value: 'AnimatorPlay(Morghaine_ArmsCrossed,speaker);
-
-          Audio(Audio/Daemon_Testing,speaker)@3;'
-        type: 0
-        typeString: CustomFieldType_Text
-      conversationID: 3
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: Block
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 3
-        originDialogueID: 2
-        destinationConversationID: 3
-        destinationDialogueID: 3
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 1087.5986
-        y: 182.51167
-        width: 160
-        height: 30
-    - id: 3
-      fields:
-      - title: Title
-        value: END
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Pictures
-        value: '[]'
-        type: 3
-        typeString: CustomFieldType_Files
-      - title: Description
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Actor
-        value: 1
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 4
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Menu Text
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Dialogue Text
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Parenthetical
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Audio Files
-        value: '[]'
-        type: 3
-        typeString: CustomFieldType_Files
-      - title: Video File
-        value: 
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: Sequence
-        value: CinemachinePriority(DialogueVirtualCamera,0);
-        type: 0
-        typeString: CustomFieldType_Text
-      - title: EventGuid
-        value: 9679e16d-2216-47bb-a04e-b9ba1f5d59b2
-        type: 0
-        typeString: CustomFieldType_Text
-      conversationID: 3
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: Block
-      conditionPriority: 2
-      outgoingLinks: []
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 1095.6691
-        y: 261.06036
-        width: 160
-        height: 30
     - id: 6
       fields:
       - title: Title
@@ -2653,7 +2436,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: Audio(Audio/Prisoner/Dialogue_Awakening_HowDidIDie, speaker)
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2869,7 +2652,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: Audio(Audio/Prisoner/Dialogue_Awakening_AsManyAsItTakes, speaker)
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3038,7 +2821,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: Audio(Audio/Prisoner/Dialogue_Awakening_IKnowYou, speaker)
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3062,8 +2845,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 392.77344
-        y: 762.9354
+        x: 399.3308
+        y: 675.06665
         width: 160
         height: 30
     - id: 14
@@ -3093,7 +2876,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Dialogue Text
-        value: What have I missed?
+        value: So.. What have I missed?
         type: 0
         typeString: CustomFieldType_Text
       - title: Parenthetical
@@ -3109,7 +2892,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: Audio(Audio/Prisoner/Dialogue_Awakening_SoWhatHaveIMissed, speaker)
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3133,8 +2916,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 633.7747
-        y: 769.8417
+        x: 636.12164
+        y: 678.81494
         width: 160
         height: 30
     - id: 15
@@ -3180,7 +2963,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: Audio(Audio/Prisoner/Dialogue_Awakening_SheVisitedMyDreams, speaker)
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3204,8 +2987,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 837.90826
-        y: 767.73645
+        x: 844.46564
+        y: 679.8677
         width: 160
         height: 30
     - id: 16
@@ -3231,11 +3014,11 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text
-        value: 
+        value: (End)
         type: 0
         typeString: CustomFieldType_Text
       - title: Dialogue Text
-        value: I need my sword. (End)
+        value: I need my sword.
         type: 0
         typeString: CustomFieldType_Text
       - title: Parenthetical
@@ -3251,7 +3034,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: Audio(Audio/Prisoner/Dialogue_Awakening_I'llNeedMySword, speaker)
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3269,8 +3052,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 863.45215
-        y: 571.78033
+        x: 869.76794
+        y: 553.88556
         width: 160
         height: 30
     - id: 17
@@ -3345,8 +3128,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 395.70026
-        y: 838.22424
+        x: 402.25763
+        y: 750.35547
         width: 160
         height: 30
     - id: 18
@@ -3416,8 +3199,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 395.70026
-        y: 889.27686
+        x: 402.25763
+        y: 801.4081
         width: 160
         height: 30
     - id: 19
@@ -3481,7 +3264,19 @@ MonoBehaviour:
       - originConversationID: 3
         originDialogueID: 19
         destinationConversationID: 3
-        destinationDialogueID: 12
+        destinationDialogueID: 14
+        isConnector: 0
+        priority: 2
+      - originConversationID: 3
+        originDialogueID: 19
+        destinationConversationID: 3
+        destinationDialogueID: 15
+        isConnector: 0
+        priority: 2
+      - originConversationID: 3
+        originDialogueID: 19
+        destinationConversationID: 3
+        destinationDialogueID: 16
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -3491,8 +3286,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 397.80554
-        y: 955.0664
+        x: 404.3629
+        y: 867.19763
         width: 160
         height: 30
     - id: 20
@@ -3567,8 +3362,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 631.8234
-        y: 845.2075
+        x: 634.17035
+        y: 754.1808
         width: 160
         height: 30
     - id: 21
@@ -3638,8 +3433,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 631.8234
-        y: 895.2075
+        x: 634.17035
+        y: 804.1808
         width: 160
         height: 30
     - id: 22
@@ -3709,8 +3504,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 631.8234
-        y: 945.2075
+        x: 634.17035
+        y: 854.1808
         width: 160
         height: 30
     - id: 23
@@ -3780,8 +3575,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 631.8234
-        y: 995.2075
+        x: 634.17035
+        y: 904.1808
         width: 160
         height: 30
     - id: 24
@@ -3841,7 +3636,19 @@ MonoBehaviour:
       - originConversationID: 3
         originDialogueID: 24
         destinationConversationID: 3
-        destinationDialogueID: 12
+        destinationDialogueID: 13
+        isConnector: 0
+        priority: 2
+      - originConversationID: 3
+        originDialogueID: 24
+        destinationConversationID: 3
+        destinationDialogueID: 15
+        isConnector: 0
+        priority: 2
+      - originConversationID: 3
+        originDialogueID: 24
+        destinationConversationID: 3
+        destinationDialogueID: 16
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -3851,8 +3658,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 637.89935
-        y: 1052.2964
+        x: 637.0884
+        y: 957.059
         width: 160
         height: 30
     - id: 25
@@ -3931,8 +3738,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 838.8837
-        y: 842.12665
+        x: 845.4411
+        y: 754.2579
         width: 160
         height: 30
     - id: 26
@@ -4002,8 +3809,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 838.8837
-        y: 892.12665
+        x: 845.4411
+        y: 804.2579
         width: 160
         height: 30
     - id: 27
@@ -4073,8 +3880,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 838.8837
-        y: 942.12665
+        x: 845.4411
+        y: 854.2579
         width: 160
         height: 30
     - id: 28
@@ -4120,7 +3927,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 
+        value: Audio(Audio/Prisoner/Dialogue_Awakening_YourProbablyRight, speaker)
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -4134,7 +3941,19 @@ MonoBehaviour:
       - originConversationID: 3
         originDialogueID: 28
         destinationConversationID: 3
-        destinationDialogueID: 12
+        destinationDialogueID: 13
+        isConnector: 0
+        priority: 2
+      - originConversationID: 3
+        originDialogueID: 28
+        destinationConversationID: 3
+        destinationDialogueID: 14
+        isConnector: 0
+        priority: 2
+      - originConversationID: 3
+        originDialogueID: 28
+        destinationConversationID: 3
+        destinationDialogueID: 16
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -4144,13 +3963,13 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 838.8837
-        y: 992.12665
+        x: 845.4411
+        y: 904.2579
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 180.95872, y: 371.34387}
-    canvasZoom: 0.76000035
+    canvasScrollPosition: {x: 101.848236, y: 419.20578}
+    canvasZoom: 0.88000023
   syncInfo:
     syncActors: 0
     syncItems: 0
