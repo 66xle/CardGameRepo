@@ -67,6 +67,15 @@ public class RewardManager : MonoBehaviour
         cardCarousel = PreviewCards.GetComponent<CardCarousel>();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Time.timeScale = 0f;
+            DisplayVictoryUI();
+        }
+    }
+
     public void RewardConfirmButton()
     {
         if (ListOfRewards.Count > 0)
@@ -126,7 +135,7 @@ public class RewardManager : MonoBehaviour
 
         // Play animations
         VictoryObject.SetActive(true);
-        Tween victoryTween = DOVirtual.Float(0, 1, AlphaDuration, a => CanvasGroup.alpha = a);
+        Tween victoryTween = DOVirtual.Float(0, 1, AlphaDuration, a => CanvasGroup.alpha = a).SetUpdate(true);
 
         CalculateExp(victoryTween);
     }
@@ -309,7 +318,7 @@ public class RewardManager : MonoBehaviour
                 ExpFill.fillAmount = current / maxExp;
                 //ExpSlider.value = current / maxExp;
 
-            }).SetUpdate(true);
+            }).SetUpdate(UpdateType.Normal, true);
 
             DOVirtual.Int(0, (int)expGained, AnimationTime, v => ExpText.text = $"+ {v.ToString()}").SetUpdate(true).OnComplete(() =>
             {
