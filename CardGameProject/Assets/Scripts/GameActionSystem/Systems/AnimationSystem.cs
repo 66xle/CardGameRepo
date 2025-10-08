@@ -17,6 +17,7 @@ public class AnimationSystem : MonoBehaviour
         ActionSystem.AttachPerformer<MoveToPosGA>(MoveToPosPerformer);
         ActionSystem.AttachPerformer<ReturnToPosGA>(ReturnToPosPerformer);
         ActionSystem.AttachPerformer<TriggerAttackAnimGA>(TriggerAttackAnimPerformer);
+        ActionSystem.AttachPerformer<TriggerAnimGA>(TriggerAnimPerformer);
     }
 
     private void OnDisable()
@@ -24,6 +25,7 @@ public class AnimationSystem : MonoBehaviour
         ActionSystem.DetachPerformer<MoveToPosGA>();
         ActionSystem.DetachPerformer<ReturnToPosGA>();
         ActionSystem.DetachPerformer<TriggerAttackAnimGA>();
+        ActionSystem.DetachPerformer<TriggerAnimGA>();
     }
 
     private IEnumerator MoveToPosPerformer(MoveToPosGA moveToPosGA)
@@ -108,7 +110,19 @@ public class AnimationSystem : MonoBehaviour
         yield return null;
     }
 
-    
+    private IEnumerator TriggerAnimPerformer(TriggerAnimGA triggerAnimGA)
+    {
+        Avatar avatarPlayingCard = triggerAnimGA.AvatarPlayingCard;
+        Animator animator = avatarPlayingCard.GetComponent<Animator>();
+
+        string animationName = triggerAnimGA.AnimationName;
+        animator.CrossFade(animationName, 0.25f);
+
+        AudioManager.Instance.SetAudioType(triggerAnimGA.AudioType);
+
+        yield return null;
+    }
+
 
     private string GetWeaponCategory(string name)
     {

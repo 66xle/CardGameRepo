@@ -22,8 +22,8 @@ public class ArmourAnimationData : AnimationData
 
     public bool _skipAnimation = false;
     [ConditionalField(false, nameof(ShowAnimation))] public AnimationClip _animation;
+    [ConditionalField(false, nameof(AnimationClip))] public bool IsAttackAnimation = false;
     [ConditionalField(false, nameof(AnimationClip))] public AudioType AudioType;
-
 
     [ConditionalField(false, nameof(AnimationClip))] public Boolean _overrideDistanceOffset = Boolean.False;
     [ConditionalField(false, nameof(OverrideDistance))] public float _distanceOffset = 0;
@@ -60,7 +60,7 @@ public class ArmourAnimationData : AnimationData
         if (_skipAnimation)
             return new AnimationWrapper(_skipAnimation);
 
-        return new AnimationWrapper(Animation, distance, followTimeline, attackTimeline, AudioType, moveTime);
+        return new AnimationWrapper(Animation, distance, followTimeline, attackTimeline, AudioType, moveTime, IsAttackAnimation);
     }
 
     public bool AnimationClip()

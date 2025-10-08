@@ -82,14 +82,25 @@ public class ActionSequence : Executable
 
             hasMoved = true;
         }
-        else
+        else // If avatar is not moving
         {
             if (!animationWrapper.SkipAnimation && !ReactiveSkipAnimation)
             {
-                TriggerAttackAnimGA triggerAttackAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioType);
-                ActionSystem.Instance.Perform(triggerAttackAnimGA);
+                if (animationWrapper.IsAttackAnimation)
+                {
+                    TriggerAttackAnimGA triggerAttackAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioType, animationWrapper.IsAttackAnimation);
+                    ActionSystem.Instance.Perform(triggerAttackAnimGA);
+                }
+                else
+                {
+                    TriggerAnimGA triggerAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioType);
+                    ActionSystem.Instance.Perform(triggerAnimGA);
+                    Debug.Log("triggerAnimGA");
+                }
 
-                yield return new WaitWhile(() => !avatarPlayingCard.DoDamage);
+
+
+                yield return new WaitWhile(() => !avatarPlayingCard.DoDamage); // Rename (Wait for animation to finish)
             }
             else
             {

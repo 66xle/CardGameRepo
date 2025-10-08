@@ -67,6 +67,7 @@ MonoBehaviour:
           AudioType: 200
           SkipAnimation: 0
           MoveTime: 0
+          IsAttackAnimation: 1
     - rid: 5090185875588907145
       type: {class: WeaponAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -107,11 +108,13 @@ MonoBehaviour:
           AudioType: 0
           SkipAnimation: 1
           MoveTime: 0
+          IsAttackAnimation: 0
     - rid: 5090185919954944133
       type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
       data:
         _skipAnimation: 1
         _animation: {fileID: 0}
+        IsAttackAnimation: 0
         AudioType: 0
         _overrideDistanceOffset: 1
         _distanceOffset: 0
@@ -125,6 +128,7 @@ MonoBehaviour:
       data:
         _skipAnimation: 1
         _animation: {fileID: 0}
+        IsAttackAnimation: 0
         AudioType: 0
         _overrideDistanceOffset: 1
         _distanceOffset: 0
@@ -136,8 +140,9 @@ MonoBehaviour:
     - rid: 5090185919954944150
       type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
       data:
-        _skipAnimation: 1
-        _animation: {fileID: 0}
+        _skipAnimation: 0
+        _animation: {fileID: -998496362607748373, guid: 6e5a0cfe1e3fc4071b34c60d6beae8b6, type: 3}
+        IsAttackAnimation: 0
         AudioType: 0
         _overrideDistanceOffset: 1
         _distanceOffset: 0
@@ -151,6 +156,7 @@ MonoBehaviour:
       data:
         _skipAnimation: 1
         _animation: {fileID: 0}
+        IsAttackAnimation: 0
         AudioType: 0
         _overrideDistanceOffset: 1
         _distanceOffset: 0
@@ -174,6 +180,7 @@ MonoBehaviour:
           AudioType: 200
           SkipAnimation: 0
           MoveTime: 0
+          IsAttackAnimation: 1
     - rid: 5090185941420867697
       type: {class: WeaponAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -238,11 +245,13 @@ MonoBehaviour:
           AudioType: 0
           SkipAnimation: 1
           MoveTime: 0
+          IsAttackAnimation: 0
     - rid: 5090185966540292358
       type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
       data:
         _skipAnimation: 1
         _animation: {fileID: 0}
+        IsAttackAnimation: 0
         AudioType: 0
         _overrideDistanceOffset: 1
         _distanceOffset: 0
@@ -266,6 +275,7 @@ MonoBehaviour:
           AudioType: 200
           SkipAnimation: 0
           MoveTime: 0
+          IsAttackAnimation: 1
     - rid: 7765747505886134697
       type: {class: WeaponAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -306,6 +316,7 @@ MonoBehaviour:
           AudioType: 0
           SkipAnimation: 1
           MoveTime: 0
+          IsAttackAnimation: 0
     - rid: 7800494701538181216
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -321,6 +332,7 @@ MonoBehaviour:
           AudioType: 0
           SkipAnimation: 1
           MoveTime: 0
+          IsAttackAnimation: 0
     - rid: 7800494701538181218
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -329,13 +341,14 @@ MonoBehaviour:
         Animations:
         - rid: 5090185919954944150
         AnimationList:
-        - AnimationName: 
+        - AnimationName: Heal
           DistanceOffset: 0
           FollowTimeline: {fileID: 0}
           AttackTimeline: {fileID: 0}
           AudioType: 0
-          SkipAnimation: 1
+          SkipAnimation: 0
           MoveTime: 0
+          IsAttackAnimation: 0
     - rid: 7800494722459107417
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -351,6 +364,7 @@ MonoBehaviour:
           AudioType: 200
           SkipAnimation: 0
           MoveTime: 0
+          IsAttackAnimation: 1
     - rid: 7800494722459107418
       type: {class: WeaponAnimationData, ns: , asm: Assembly-CSharp}
       data:
