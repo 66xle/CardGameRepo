@@ -14,18 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Guid: 38fce7d3e7fa4834d88c29a8e87c113d
   InGameGUID: 
-  CardName: Heavy Blow
-  Description: Deal 2 guard damage
+  CardName: Heavy Strike
+  Description: Deal #0 damage and 2 guard damage
   DisplayDescription: Deal 1.5 Damage #Poison #Bleed
-  LinkDescription: Deal 2 guard damage
+  LinkDescription: Deal #0 damage and 2 guard damage
   Flavour: A powerful strike that shatters defenses.
   Image: {fileID: 21300000, guid: 2802e999abef6aa4f92b30fdab726646, type: 3}
   Frame: {fileID: 21300000, guid: a0be78c2424db6a488d2f683021a99a4, type: 3}
-  Cost: 4
-  RecycleValue: 1
+  Cost: 3
+  RecycleValue: 3
   ValuesToReference:
+  - {x: 0, y: 1.2}
   - {x: 0, y: 2}
   Commands:
+  - rid: 5090185966540292201
   - rid: 1089680001544487085
   PopupKeyPair:
   - Key: Amplify
@@ -42,3 +44,9 @@ MonoBehaviour:
       data:
         target: 1
         value: 2
+    - rid: 5090185966540292201
+      type: {class: DealDamage, ns: , asm: Assembly-CSharp}
+      data:
+        target: 1
+        ShouldMove: 1
+        value: 1.2

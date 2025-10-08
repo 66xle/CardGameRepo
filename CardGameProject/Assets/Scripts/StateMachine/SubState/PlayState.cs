@@ -40,7 +40,7 @@ public class PlayState : CombatBaseState
             else if (GameManager.Instance.TutorialStage == 4)
             {
                 ctx.CombatUIManager.StartTutorialConversation(4);
-                GameManager.Instance.TutorialStage = 4.1f;
+                GameManager.Instance.TutorialStage = 5;
             }
         }
     }
