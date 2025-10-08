@@ -18,12 +18,4 @@ public class CombatMenuUI : MonoBehaviour
         menu.SetActive(false);
         Time.timeScale = 1f;
     }
-
-    public async void MainMenu()
-    {
-        Time.timeScale = 1f;
-
-        SceneLoader sceneLoader = ServiceLocator.Get<SceneLoader>();
-        await sceneLoader.LoadSceneGroup("MainMenu");
-    }
 }

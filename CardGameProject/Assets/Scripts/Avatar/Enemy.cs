@@ -118,6 +118,11 @@ public class Enemy : Avatar
         }
     }
 
+    public void EnableSelectionRing(bool toggle)
+    {
+        SelectionRing.SetActive(toggle);
+    }
+
     public override void PlayHurtSound()
     {
         AudioManager.Instance.PlaySound(EnemyData.HurtSounds);

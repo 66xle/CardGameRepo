@@ -25,9 +25,6 @@ public class DamageSystem : MonoBehaviour
     {
         Avatar avatarToTakeDamage = takeDamageFromWeaponGA.AvatarToTakeDamage;
 
-        if (avatarToTakeDamage.IsInCounterState)
-            takeDamageFromWeaponGA.Damage = Mathf.Ceil(takeDamageFromWeaponGA.Damage / 2);
-
         avatarToTakeDamage.TakeDamage(takeDamageFromWeaponGA.Damage);
 
         if (takeDamageFromWeaponGA.CardTarget != CardTarget.Self && !avatarToTakeDamage.IsInCounterState)
@@ -71,7 +68,8 @@ public class DamageSystem : MonoBehaviour
     {
         Avatar avatarToTakeDamage = takeGuardDamageGA.AvatarToTakeDamage;
 
-        avatarToTakeDamage.ReduceGuard(takeGuardDamageGA.GuardDamage);
+        if (!avatarToTakeDamage.IsInCounterState)
+            avatarToTakeDamage.ReduceGuard(takeGuardDamageGA.GuardDamage);
 
         if (takeGuardDamageGA.CardTarget != CardTarget.Self)
         {

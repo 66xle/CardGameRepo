@@ -12,9 +12,21 @@ public class UIManager : MonoBehaviour
     {
         Time.timeScale = 1.0f;
 
+        AudioManager.Instance.FadeOutMusic(0.2f);
+
         SceneLoader loader = ServiceLocator.Get<SceneLoader>();
 
         await loader.LoadSceneGroup("Combat");
+    }
+
+    public async void MainMenu()
+    {
+        Time.timeScale = 1f;
+
+        AudioManager.Instance.FadeOutMusic(0.2f);
+
+        SceneLoader sceneLoader = ServiceLocator.Get<SceneLoader>();
+        await sceneLoader.LoadSceneGroup("MainMenu");
     }
 
     public void NextScene()

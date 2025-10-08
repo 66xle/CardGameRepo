@@ -26,6 +26,7 @@ public class StatusCommand : Command
             avatarToApply.QueueGameActions.Add(applyStatusEffectGA);
 
             // ui update here
+            
 
             ExecutableParameters.Targets[i] = avatarToApply;
         }

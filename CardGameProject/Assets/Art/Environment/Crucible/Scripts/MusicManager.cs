@@ -7,7 +7,7 @@ public class MusicManager : MonoBehaviour
 
     private void Awake()
     {
-        AudioManager.Instance.PlayMusic(MainMenuMusic);
+        //AudioManager.Instance.PlayMusic(MainMenuMusic);
     }
 
     public void FadeOut(float duration)
