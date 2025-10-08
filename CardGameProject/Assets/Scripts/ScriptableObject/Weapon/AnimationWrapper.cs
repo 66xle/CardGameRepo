@@ -10,8 +10,9 @@ public class AnimationWrapper
     public PlayableAsset AttackTimeline;
     public AudioType AudioType;
     public bool SkipAnimation;
+    public float MoveTime;
 
-    public AnimationWrapper(string animation, float distance, PlayableAsset followTimeline, PlayableAsset attackTimeline, AudioType audioType)
+    public AnimationWrapper(string animation, float distance, PlayableAsset followTimeline, PlayableAsset attackTimeline, AudioType audioType, float moveTime)
     {
         AnimationName = animation;
         DistanceOffset = distance;
@@ -19,6 +20,7 @@ public class AnimationWrapper
         AttackTimeline = attackTimeline;
         AudioType = audioType;
         SkipAnimation = false;
+        MoveTime = moveTime;
     }
 
     public AnimationWrapper(bool skipAnimation)
