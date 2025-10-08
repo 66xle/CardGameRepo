@@ -25,9 +25,9 @@ MonoBehaviour:
   ConversationTitle: 
   WeaponType: 0
   WeaponTypeAnimationSet:
-  - rid: 5090185941420867600
-  - rid: 5090185941420867601
-  - rid: 5090185941420867602
+  - rid: 5090185966540292112
+  - rid: 5090185966540292113
+  - rid: 5090185966540292114
   Cards:
   - rid: 5090185831254065161
   - rid: 5090185919954944124
@@ -43,7 +43,7 @@ MonoBehaviour:
         Animations:
         - rid: 5090185831254065162
         AnimationList:
-        - AnimationName: 1H Strike 1
+        - AnimationName: 1H Long Heavy 1
           DistanceOffset: 0
           FollowTimeline: {fileID: 0}
           AttackTimeline: {fileID: 0}
@@ -65,7 +65,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: b766f3fdd3c320e409afa7076753976b, type: 3}
           DistanceOffset: 0
-        _animation: 0_1H Strike 1
+        _animation: 2_1H Long Heavy 1
         AudioType: 200
         _overrideDistanceOffset: 1
         _distanceOffset: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
-    - rid: 5090185941420867600
+    - rid: 5090185966540292112
       type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -154,7 +154,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
           DistanceOffset: 0
-    - rid: 5090185941420867601
+    - rid: 5090185966540292113
       type: {class: WeaponTypeAnimationHeavy, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -164,7 +164,7 @@ MonoBehaviour:
           DistanceOffset: 1
         - Clip: {fileID: 1827226128182048838, guid: 038bd9b32bdfa4747a9476ecb109aea9, type: 3}
           DistanceOffset: 0
-    - rid: 5090185941420867602
+    - rid: 5090185966540292114
       type: {class: WeaponTypeAnimationAOE, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
