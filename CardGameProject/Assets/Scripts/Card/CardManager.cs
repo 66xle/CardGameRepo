@@ -120,7 +120,7 @@ public class CardManager : MonoBehaviour
             CardData cardDrawed;
 
             // Shuffle deck
-            if (GameManager.Instance.IsInTutorial)
+            if (GameManager.Instance.IsInTutorial && GameManager.Instance.TutorialStage < 5f)
             {
                 cardDrawed = PlayerDeck[0];
             }

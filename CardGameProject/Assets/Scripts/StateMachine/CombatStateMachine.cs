@@ -213,7 +213,7 @@ public class CombatStateMachine : MonoBehaviour
     {
         if (!_isPlayerLoaded)
         {
-            GameManager.Instance.TutorialStage = 1;
+            GameManager.Instance.TutorialStage = 1; // TEMP FOR DEMO
 
             Debug.Log("Load Player");
             _isPlayerLoaded = true;
