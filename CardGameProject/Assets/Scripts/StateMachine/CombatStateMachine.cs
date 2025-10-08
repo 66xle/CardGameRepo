@@ -282,11 +282,6 @@ public class CombatStateMachine : MonoBehaviour
                     {
                         GameManager.Instance.TutorialStage += 0.1f;
                     }
-
-                    if (GameManager.Instance.TutorialStage >= 1.2f && GameManager.Instance.TutorialStage < 2)
-                    {
-                        CombatUIManager.StartTutorialConversation(1);
-                    }
                 }
                 
 
