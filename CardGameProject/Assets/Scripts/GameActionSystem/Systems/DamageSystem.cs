@@ -71,7 +71,8 @@ public class DamageSystem : MonoBehaviour
     {
         Avatar avatarToTakeDamage = takeGuardDamageGA.AvatarToTakeDamage;
 
-        avatarToTakeDamage.ReduceGuard(takeGuardDamageGA.GuardDamage);
+        if (!avatarToTakeDamage.IsInCounterState)
+            avatarToTakeDamage.ReduceGuard(takeGuardDamageGA.GuardDamage);
 
         if (takeGuardDamageGA.CardTarget != CardTarget.Self)
         {
