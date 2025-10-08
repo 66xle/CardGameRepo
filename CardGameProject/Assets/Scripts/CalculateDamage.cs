@@ -12,6 +12,9 @@ public static class CalculateDamage
         {
             damage = Mathf.Ceil(avatarTakeDamage.ApplyAdditionalDmgCheck(damage));
 
+            if (avatarTakeDamage.IsInCounterState)
+                damage = Mathf.Ceil(damage / 2f);
+
             damage -= Mathf.Ceil(damage * CalculateDefencePercentage(avatarTakeDamage.Defence, avatarTakeDamage.DefencePercentage));
         }
 

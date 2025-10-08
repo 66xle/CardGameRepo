@@ -213,8 +213,26 @@ MonoBehaviour:
       data:
         Card: {fileID: 11400000, guid: feb203c8a3236344a9761939b29e6d83, type: 2}
         CardAmount: 1
-        Animations: []
-        AnimationList: []
+        Animations:
+        - rid: 5090185966540292358
+        AnimationList:
+        - AnimationName: 
+          DistanceOffset: 0
+          FollowTimeline: {fileID: 0}
+          AttackTimeline: {fileID: 0}
+          AudioType: 0
+          SkipAnimation: 1
+    - rid: 5090185966540292358
+      type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
+      data:
+        _skipAnimation: 1
+        _animation: {fileID: 0}
+        AudioType: 0
+        _overrideDistanceOffset: 1
+        _distanceOffset: 0
+        _overrideCamera: 1
+        _followTimeline: {fileID: 0}
+        _attackTimeline: {fileID: 0}
     - rid: 7765747505886134696
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:

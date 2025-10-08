@@ -123,14 +123,6 @@ public class CardManager : MonoBehaviour
             if (GameManager.Instance.IsInTutorial)
             {
                 cardDrawed = PlayerDeck[0];
-                //if (cardDrawed.Card.CardName == "Heavy Strike")
-                //{
-                //    if (GameManager.Instance.TutorialStage == 5)
-                //    {
-                //        CombatUIManager.StartTutorialConversation(5);
-                //        GameManager.Instance.TutorialStage = 6;
-                //    }
-                //}
             }
             else
             {
