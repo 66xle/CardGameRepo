@@ -10,11 +10,12 @@ public class SignalManager : MonoBehaviour
     {
         if (!GameManager.Instance.SkipCutscene) return;
 
-
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Space))
         {
             SendSignalToCutsceneManager();
         }
+#endif
     }
 
     public void SendSignalToCutsceneManager()
