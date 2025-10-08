@@ -9,6 +9,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private const float EPS = 0.01f;
 
     public CombatStateMachine combatStateMachine;
+    public Canvas mainCanvas;
     public Card card;
     public float targetRotation;
     public Vector2 targetPosition;
@@ -92,8 +93,17 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
         else
         {
-            var delta = ((Vector2)Input.mousePosition + dragStartPos);
-            rectTransform.localPosition = new Vector2(delta.x, delta.y);
+            // Works for both PC (mouse) and mobile (touch)
+            Vector2 pointerPos = (Input.touchCount > 0) ? Input.GetTouch(0).position : (Vector2)Input.mousePosition;
+
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            container.mainCanvas.transform as RectTransform,
+            pointerPos,
+            container.mainCanvas.worldCamera,
+            out Vector2 localPoint))
+            {
+                rectTransform.localPosition = localPoint + dragStartPos;
+            }
         }
     }
 
@@ -107,33 +117,6 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
         rectTransform.localScale = new Vector3(newZoom, newZoom, 1);
     }
-
-    //private void UpdateRotation() {
-    //    // If the card is hovered and the rotation should be reset, set the target rotation to 0
-    //    var tempTargetRotation = (IsPreviewActive || isDragged) && zoomConfig.resetRotationOnZoom
-    //        ? 0
-    //        : targetRotation;
-
-    //    var crtAngle = rectTransform.rotation.eulerAngles.z;
-    //    // If the angle is negative, add 360 to it to get the positive equivalent
-    //    crtAngle = crtAngle < 0 ? crtAngle + 360 : crtAngle;
-    //    tempTargetRotation = tempTargetRotation < 0 ? tempTargetRotation + 360 : tempTargetRotation;
-        
-    //    var deltaAngle = Mathf.Abs(crtAngle - tempTargetRotation);
-    //    Debug.Log(targetRotation + " | " + deltaAngle);
-    //    if (!(deltaAngle > EPS)) return;
-
-
-
-    //    // Adjust the current angle and target angle so that the rotation is done in the shortest direction
-    //    var adjustedCurrent = deltaAngle > 180 && crtAngle < tempTargetRotation ? crtAngle + 360 : crtAngle;
-    //    var adjustedTarget = deltaAngle > 180 && crtAngle > tempTargetRotation ? tempTargetRotation + 360 : tempTargetRotation;
-
-    //    var newDelta = Mathf.Abs(adjustedCurrent - adjustedTarget);
-    //    var nextRotation = Mathf.Lerp(adjustedCurrent, adjustedTarget, animationSpeedConfig.rotation / newDelta * Time.deltaTime);
-
-    //    rectTransform.localRotation = Quaternion.Euler(0, 0, nextRotation);
-    //}
 
     private void UpdateRotation()
     {
@@ -171,15 +154,21 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         if (isPointerDown && !isDragged)
         {
-            float Ydis = Input.mousePosition.y - pointDownStartEventY;
+            // Convert both positions to local space
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                container.mainCanvas.transform as RectTransform,
+                eventData.position,
+                container.mainCanvas.worldCamera,
+                out Vector2 currentLocal);
+
+            float Ydis = currentLocal.y - pointDownStartEventY;
 
             if (Ydis < 50f) return;
 
             isDragged = true;
-            dragStartPos = new Vector2(transform.localPosition.x - eventData.position.x,
-                transform.localPosition.y - eventData.position.y);
 
-            dragStartEventY = Input.mousePosition.y;
+            dragStartPos = rectTransform.localPosition - (Vector3)currentLocal;
+            dragStartEventY = currentLocal.y;
 
             container.OnCardDragStart(this);
             eventsConfig?.OnCardDrag?.Invoke(new CardDrag(this));
@@ -224,7 +213,14 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
         isPointerDown = true;
         pointerDownCheck = true;
-        pointDownStartEventY = eventData.position.y;
+
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+        container.mainCanvas.transform as RectTransform,
+        eventData.position,
+        container.mainCanvas.worldCamera,
+        out Vector2 localPoint);
+
+        pointDownStartEventY = localPoint.y;
 
         eventsConfig?.OnCardClick?.Invoke(new CardClick(this));
     }
@@ -239,7 +235,15 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         isPointerDown = false;
         pointerDownCheck = false;
         isDragged = false;
-        float Ydis = position.y - dragStartEventY;
+
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+        container.mainCanvas.transform as RectTransform,
+        position,
+        container.mainCanvas.worldCamera,
+        out Vector2 localPoint);
+
+
+        float Ydis = localPoint.y - dragStartEventY;
         container.OnCardDragEnd(Ydis);
     }
 }

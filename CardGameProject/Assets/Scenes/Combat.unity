@@ -2325,7 +2325,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -8.50061, y: 270.99994}
+  m_AnchoredPosition: {x: -8.50061, y: 271}
   m_SizeDelta: {x: -286.9, y: -542.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &255748320
@@ -4292,6 +4292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatStateMachine: {fileID: 467955062}
+  mainCanvas: {fileID: 1382487001}
   clonePreviewManager: {fileID: 230720528}
   forceFitContainer: 1
   pushAmount: 100
@@ -4307,7 +4308,7 @@ MonoBehaviour:
   YAmount: 100
   zoomConfig:
     zoomOnClick: 1
-    multiplier: 1.8
+    multiplier: 1.5
     overrideYPosition: 250
     defaultSortOrder: 0
     bringToFrontOnHover: 1
@@ -5223,7 +5224,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 1.3676758, y: -0.7692261}
+  m_AnchoredPosition: {x: 1.3676758, y: -0.7692871}
   m_SizeDelta: {x: 27.0598, y: 15.2213}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &402510504
@@ -11532,7 +11533,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 32.590027, y: 30.03003}
+  m_AnchoredPosition: {x: 32.590088, y: 30.03003}
   m_SizeDelta: {x: 1331.4, y: 1957.8}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &1002848069
@@ -17455,7 +17456,7 @@ MonoBehaviour:
   PSS: {fileID: 11400000, guid: a0448ceceb179ec4eb5912d845d90fc8, type: 2}
   Level: 2
   BaseGuard: 5
-  RecoverStaminaPercentage: 0.3
+  RecoverStaminaPercentage: 0.4
   ArmourType: 1
   LightMultiplier: 1
   MediumMultiplier: 1
@@ -22231,7 +22232,7 @@ MonoBehaviour:
   MainCamera: {fileID: 765615826}
   KnightPrefab: {fileID: 8020402571215977629, guid: e1460fd38c5d8074fb6702fba4d830a8, type: 3}
   KnightSpawnPosition: {fileID: 0}
-  RunSignal: 0
+  RunSignal: 1
   SignalAsset: {fileID: 11400000, guid: 848a09acb5ae26d44b951cb66c0c9c38, type: 2}
   Cutscenes:
   - {fileID: 5308107989193443835, guid: 79cd3cf44c21fea4ba673df5651626fc, type: 3}

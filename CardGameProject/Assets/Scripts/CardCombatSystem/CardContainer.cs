@@ -11,6 +11,7 @@ using UnityEngine.UI;
 public class CardContainer : MonoBehaviour {
     [Header("References")]
     [MustBeAssigned] public CombatStateMachine combatStateMachine;
+    [MustBeAssigned] public Canvas mainCanvas;
     [MustBeAssigned] public ClonePreviewManager clonePreviewManager;
 
     [Header("Constraints")]
@@ -125,6 +126,7 @@ public class CardContainer : MonoBehaviour {
             wrapper.container = this;
             wrapper.card = card.GetComponent<CardDisplay>().Card;
             wrapper.combatStateMachine = combatStateMachine;
+            wrapper.mainCanvas = mainCanvas;
 
         }
     }
