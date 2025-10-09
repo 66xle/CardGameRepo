@@ -164,9 +164,12 @@ public class CombatStateMachine : MonoBehaviour
 
     public void InitBattle()
     {
-        LevelData levelData = GameManager.Instance.CurrentLevelDataLoaded;
-        AudioResource resource = levelData.GetMusic(GameManager.Instance.WaveCount);
-        AudioManager.Instance.PlayMusic(resource);
+        if (GameManager.Instance.WaveCount == 0)
+        {
+            LevelData levelData = GameManager.Instance.CurrentLevelDataLoaded;
+            AudioResource resource = levelData.GetMusic(GameManager.Instance.WaveCount);
+            AudioManager.Instance.PlayMusic(resource);
+        }
 
 
         _isInPrepState = false;

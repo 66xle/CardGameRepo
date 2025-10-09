@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Timeline;
 
 public class SignalManager : MonoBehaviour
 {
     public SignalAsset Signal;
+    public AudioResource Resource;
 
 
     public void Update()
@@ -22,5 +24,10 @@ public class SignalManager : MonoBehaviour
     {
         CutsceneManager cutscene = ServiceLocator.Get<CutsceneManager>();
         cutscene.PlaySignal(Signal);
+    }
+
+    public void PlayMusic()
+    {
+        AudioManager.Instance.PlayMusic(Resource);
     }
 }

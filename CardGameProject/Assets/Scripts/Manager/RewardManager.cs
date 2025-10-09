@@ -107,8 +107,8 @@ public class RewardManager : MonoBehaviour
                 Ctx.player.RecoverStamina();
                 Ctx.player.RecoverStamina();
 
-                Ctx.Init(); // Call in cutscene
-                //CutsceneManager.NextCutscene();
+                //Ctx.Init(); // Call in cutscene
+                CutsceneManager.NextCutscene();
                 return;
             }
         }
