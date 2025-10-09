@@ -17,6 +17,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] List<CinemachineVirtualCamera> ListFollowCamera;
     [SerializeField] List<CinemachineVirtualCamera> ListFollowBackCamera;
     [SerializeField] List<CinemachineVirtualCamera> ListAttackCamera;
+    [SerializeField] CinemachineVirtualCamera MinotaurAttackCamera;
 
     [SerializeField] List<CinemachineVirtualCamera> FollowTarget;
 
@@ -137,6 +138,12 @@ public class CameraManager : MonoBehaviour
 
     public void AttackState()
     {
+        if (GameManager.Instance.WaveCount == 1)
+        {
+            ActivateCamera(MinotaurAttackCamera);
+            return;
+        }
+
         CinemachineVirtualCamera cam = GetCamera(ListAttackCamera);
         ActivateCamera(cam);
     }
