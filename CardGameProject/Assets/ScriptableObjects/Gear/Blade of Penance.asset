@@ -23,9 +23,9 @@ MonoBehaviour:
   WeaponAttack: 0
   HolsterSlot: {fileID: 0}
   WeaponTypeAnimationSet:
-  - rid: 5090185966540292096
-  - rid: 5090185966540292097
-  - rid: 5090185966540292098
+  - rid: 1521836457497198592
+  - rid: 1521836457497198593
+  - rid: 1521836457497198594
   AnimationClipDataList:
   - Clip: {fileID: 1827226128182048838, guid: 3d8051e0b50b9c84e8d5c5e945105220, type: 3}
     DistanceOffset: 0
@@ -52,6 +52,30 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 1521836457497198592
+      type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
+      data:
+        AnimationClipDataList:
+        - Clip: {fileID: 1827226128182048838, guid: 3d8051e0b50b9c84e8d5c5e945105220, type: 3}
+          DistanceOffset: 0
+        - Clip: {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
+          DistanceOffset: 0
+    - rid: 1521836457497198593
+      type: {class: WeaponTypeAnimationHeavy, ns: , asm: Assembly-CSharp}
+      data:
+        AnimationClipDataList:
+        - Clip: {fileID: 1827226128182048838, guid: 6ff7221927b2e184592ac1f4822ab68a, type: 3}
+          DistanceOffset: 0
+        - Clip: {fileID: 1827226128182048838, guid: 6c9c0d1dba8607441ab2711dabb88b4d, type: 3}
+          DistanceOffset: 1
+        - Clip: {fileID: 1827226128182048838, guid: 038bd9b32bdfa4747a9476ecb109aea9, type: 3}
+          DistanceOffset: 0
+    - rid: 1521836457497198594
+      type: {class: WeaponTypeAnimationAOE, ns: , asm: Assembly-CSharp}
+      data:
+        AnimationClipDataList:
+        - Clip: {fileID: 1827226128182048838, guid: b766f3fdd3c320e409afa7076753976b, type: 3}
+          DistanceOffset: 0
     - rid: 5090185875588907112
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -100,20 +124,12 @@ MonoBehaviour:
         CardAmount: 1
         Animations:
         - rid: 5090185919954944133
-        AnimationList:
-        - AnimationName: Amplify
-          DistanceOffset: 0
-          FollowTimeline: {fileID: 0}
-          AttackTimeline: {fileID: 0}
-          AudioResource: {fileID: 8300000, guid: 68ca1a7064b719c4db5f46bceb979a86, type: 3}
-          SkipAnimation: 0
-          MoveTime: 0
-          IsAttackAnimation: 0
+        AnimationList: []
     - rid: 5090185919954944133
       type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
       data:
         _skipAnimation: 0
-        _animation: {fileID: 1827226128182048838, guid: 6e5a0cfe1e3fc4071b34c60d6beae8b6, type: 3}
+        _animation: {fileID: 0}
         IsAttackAnimation: 0
         AudioResource: {fileID: 8300000, guid: 68ca1a7064b719c4db5f46bceb979a86, type: 3}
         _overrideDistanceOffset: 1
@@ -141,7 +157,7 @@ MonoBehaviour:
       type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
       data:
         _skipAnimation: 0
-        _animation: {fileID: 9067093048684652814, guid: ac7b2e7485945f9479258bc79665dcbc, type: 3}
+        _animation: {fileID: 1827226128182048838, guid: c6749b7c7a24548a2b41e773c7da7670, type: 3}
         IsAttackAnimation: 0
         AudioResource: {fileID: 8300000, guid: c5c91b4b08d600f4590d2eee5466078b, type: 3}
         _overrideDistanceOffset: 1
@@ -206,30 +222,6 @@ MonoBehaviour:
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
-    - rid: 5090185966540292096
-      type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
-      data:
-        AnimationClipDataList:
-        - Clip: {fileID: 1827226128182048838, guid: 3d8051e0b50b9c84e8d5c5e945105220, type: 3}
-          DistanceOffset: 0
-        - Clip: {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
-          DistanceOffset: 0
-    - rid: 5090185966540292097
-      type: {class: WeaponTypeAnimationHeavy, ns: , asm: Assembly-CSharp}
-      data:
-        AnimationClipDataList:
-        - Clip: {fileID: 1827226128182048838, guid: 6ff7221927b2e184592ac1f4822ab68a, type: 3}
-          DistanceOffset: 0
-        - Clip: {fileID: 1827226128182048838, guid: 6c9c0d1dba8607441ab2711dabb88b4d, type: 3}
-          DistanceOffset: 1
-        - Clip: {fileID: 1827226128182048838, guid: 038bd9b32bdfa4747a9476ecb109aea9, type: 3}
-          DistanceOffset: 0
-    - rid: 5090185966540292098
-      type: {class: WeaponTypeAnimationAOE, ns: , asm: Assembly-CSharp}
-      data:
-        AnimationClipDataList:
-        - Clip: {fileID: 1827226128182048838, guid: b766f3fdd3c320e409afa7076753976b, type: 3}
-          DistanceOffset: 0
     - rid: 5090185966540292224
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
