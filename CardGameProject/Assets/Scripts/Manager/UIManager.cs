@@ -41,6 +41,8 @@ public class UIManager : MonoBehaviour
 
     public async void Play()
     {
+        GameManager.Instance.WaveCount = 0;
+
         SceneLoader sceneLoader = ServiceLocator.Get<SceneLoader>();
 
         await sceneLoader.LoadSceneGroup("Combat");

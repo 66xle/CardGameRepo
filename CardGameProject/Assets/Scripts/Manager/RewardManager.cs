@@ -98,6 +98,10 @@ public class RewardManager : MonoBehaviour
                 Time.timeScale = 1;
                 RewardUI.SetActive(false);
 
+                GameManager.Instance.TutorialStage = 5;
+
+                Ctx.player.Heal(100f);
+
                 Ctx.Init(); // Call in cutscene
                 //CutsceneManager.NextCutscene();
                 return;
@@ -322,7 +326,8 @@ public class RewardManager : MonoBehaviour
             DOVirtual.Int(0, (int)expGained, AnimationTime, v => ExpText.text = $"+ {v.ToString()}").SetUpdate(true).OnComplete(() =>
             {
                 VictoryObject.SetActive(false);
-                DisplayRewardUI();
+                RewardConfirmButton();
+                //DisplayRewardUI();
             });
         });
     }

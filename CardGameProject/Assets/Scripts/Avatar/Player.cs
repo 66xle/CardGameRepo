@@ -69,7 +69,7 @@ public class Player : Avatar
 
         CurrentHealth = maxHealth;
 
-        if (GameManager.Instance.IsInTutorial)
+        if (GameManager.Instance.WaveCount == 0)
             CurrentHealth = Mathf.Ceil(maxHealth / 2f); // TEMP FOR DEMO
 
 

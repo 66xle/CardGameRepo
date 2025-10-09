@@ -26,7 +26,7 @@ MonoBehaviour:
   ConversationTitle: 
   WeaponType: 3
   WeaponTypeAnimationSet:
-  - rid: 1521836460604129286
+  - rid: 1521836464250552326
   Cards:
   - rid: 5090185875588907258
   - rid: 1521836460604129421
@@ -34,16 +34,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 1521836460604129286
-      type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
-      data:
-        AnimationClipDataList:
-        - Clip: {fileID: 1827226128182048838, guid: fc9c556776a0a4173861a8d28676eb87, type: 3}
-          DistanceOffset: 0
-        - Clip: {fileID: 1827226128182048838, guid: f5a49e858db004a388266c13b7b5dd96, type: 3}
-          DistanceOffset: 0
-        - Clip: {fileID: 1827226128182048838, guid: 592fa2095370d4ae79dab75198d2fb5a, type: 3}
-          DistanceOffset: 0
     - rid: 1521836460604129420
       type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
       data:
@@ -61,7 +51,7 @@ MonoBehaviour:
     - rid: 1521836460604129421
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
-        Card: {fileID: 11400000, guid: 38fce7d3e7fa4834d88c29a8e87c113d, type: 2}
+        Card: {fileID: 11400000, guid: be0a384b3da5f454785878f76cf65687, type: 2}
         CardAmount: 1
         Animations:
         - rid: 1521836460604129422
@@ -118,6 +108,16 @@ MonoBehaviour:
         _overrideCamera: 0
         _followTimeline: {fileID: 5143902477397448924, guid: d1d57eab97eaf420bb5c6a63994cda03, type: 3}
         _attackTimeline: {fileID: 0}
+    - rid: 1521836464250552326
+      type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
+      data:
+        AnimationClipDataList:
+        - Clip: {fileID: 1827226128182048838, guid: fc9c556776a0a4173861a8d28676eb87, type: 3}
+          DistanceOffset: 0
+        - Clip: {fileID: 1827226128182048838, guid: f5a49e858db004a388266c13b7b5dd96, type: 3}
+          DistanceOffset: 0
+        - Clip: {fileID: 1827226128182048838, guid: 592fa2095370d4ae79dab75198d2fb5a, type: 3}
+          DistanceOffset: 0
     - rid: 5090185875588907258
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
