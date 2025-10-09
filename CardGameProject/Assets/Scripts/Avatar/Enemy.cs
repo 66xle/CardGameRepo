@@ -17,6 +17,7 @@ public class Enemy : Avatar
     [Header("References")]
     public EnemyData EnemyData { get; private set; }
     public TMP_Text HealthText { get; private set; }
+    public TMP_Text MaxHealthText { get; private set; }
     public TMP_Text BlockText { get; private set; }
     public TMP_Text NameText { get; private set; }
     public Slider GuardBar { get; private set; }
@@ -39,6 +40,7 @@ public class Enemy : Avatar
     {
         EnemyUI = statsUI.GetComponent<EnemyUI>();
         HealthText = EnemyUI.HealthText;
+        MaxHealthText = EnemyUI.MaxHealthText;
         GuardBar = EnemyUI.GuardBar;
         BlockText = EnemyUI.BlockText;
 
@@ -98,6 +100,7 @@ public class Enemy : Avatar
         _currentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);
 
         HealthText.text = CurrentHealth.ToString();
+        MaxHealthText.text = MaxHealth.ToString();
         GuardBar.value = (float)CurrentGuard / MaxGuard;
         BlockText.text = CurrentBlock.ToString();
 

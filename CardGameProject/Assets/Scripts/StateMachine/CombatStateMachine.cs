@@ -16,6 +16,7 @@ using UnityEngine.Analytics;
 using UnityEngine.EventSystems;
 using PixelCrushers.DialogueSystem;
 using UnityEngine.VFX;
+using UnityEngine.Audio;
 
 public class CombatStateMachine : MonoBehaviour
 {
@@ -160,8 +161,10 @@ public class CombatStateMachine : MonoBehaviour
 
     public void InitBattle()
     {
-        AudioData musicData = GameManager.Instance.CurrentLevelDataLoaded.Music;
-        AudioManager.Instance.PlayMusic(musicData);
+        LevelData levelData = GameManager.Instance.CurrentLevelDataLoaded;
+        AudioResource resource = levelData.GetMusic(GameManager.Instance.WaveCount);
+        AudioManager.Instance.PlayMusic(resource);
+
 
         _isInPrepState = false;
         CardManager.LoadCards();
@@ -214,6 +217,7 @@ public class CombatStateMachine : MonoBehaviour
         if (!_isPlayerLoaded)
         {
             GameManager.Instance.TutorialStage = 1; // TEMP FOR DEMO
+            GameManager.Instance.WaveCount = 0; // TEMP FOR DEMO
 
             Debug.Log("Load Player");
             _isPlayerLoaded = true;
@@ -362,18 +366,18 @@ public class CombatStateMachine : MonoBehaviour
         CardManager.ResetCards();
         
         // Add reward to deck and holster
-        if (RewardManager.ListOfRewards.Count > 0)
-        {
-            GearData gearData = RewardManager.ListOfRewards[0];
+        //if (RewardManager.ListOfRewards.Count > 0)
+        //{
+        //    GearData gearData = RewardManager.ListOfRewards[0];
 
-            if (gearData is WeaponData)
-            {
-                SwitchWeaponManager.CreateWeaponData(gearData as WeaponData);
-                _equipmentHolsterScript.SetHolsteredWeapons(new List<WeaponData> { gearData as WeaponData });
-            }
+        //    if (gearData is WeaponData)
+        //    {
+        //        SwitchWeaponManager.CreateWeaponData(gearData as WeaponData);
+        //        _equipmentHolsterScript.SetHolsteredWeapons(new List<WeaponData> { gearData as WeaponData });
+        //    }
 
-            CardManager.AddEquipmentCardsToDeck(gearData);
-        }
+        //    CardManager.AddEquipmentCardsToDeck(gearData);
+        //}
     }
 
     public void EnableWeaponTrail()

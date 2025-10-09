@@ -69,11 +69,11 @@ public class RewardManager : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    Time.timeScale = 0f;
-        //    DisplayVictoryUI();
-        //}
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            Time.timeScale = 0f;
+            DisplayVictoryUI();
+        }
     }
 
     public void RewardConfirmButton()
@@ -91,16 +91,15 @@ public class RewardManager : MonoBehaviour
 
         if (levelData.IsFixed)
         {
-            if (!levelData.IsWaveLimitReached(DifficultyManager.WaveCount))
+            GameManager.Instance.WaveCount++;
+
+            if (!levelData.IsWaveLimitReached(GameManager.Instance.WaveCount))
             {
                 Time.timeScale = 1;
-
-                DifficultyManager.WaveCount++;
                 RewardUI.SetActive(false);
 
-                CutsceneManager.NextCutscene();
-
-
+                Ctx.Init(); // Call in cutscene
+                //CutsceneManager.NextCutscene();
                 return;
             }
         }

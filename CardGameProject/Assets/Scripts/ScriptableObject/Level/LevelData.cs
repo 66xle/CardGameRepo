@@ -4,6 +4,7 @@ using MyBox;
 using SceneReference = Eflatun.SceneReference.SceneReference;
 using SerializeReferenceEditor;
 using System.Linq;
+using UnityEngine.Audio;
 
 public class LevelData : ScriptableObject
 {
@@ -21,6 +22,7 @@ public class LevelData : ScriptableObject
     [ConditionalField(nameof(IsFixed), false, true)] public int RecommendLevel = 1;
     [ConditionalField(nameof(IsFixed), false, true)] public CollectionWrapper<CollectionWrapper<EnemyData>> CollectionEnemies;
     [ConditionalField(nameof(IsFixed), false, true)] public CollectionWrapper<CollectionWrapper<GearData>> CollectionGear;
+    [ConditionalField(nameof(IsFixed), false, true)] public CollectionWrapper<AudioResource> CollectionMusic;
 
 
     public List<EnemyData> GetEnemyList(int waveIndex)
@@ -31,8 +33,14 @@ public class LevelData : ScriptableObject
 
     public bool IsWaveLimitReached(int currentWave)
     {
-        if (CollectionEnemies.Value.Length - 1 == currentWave) return true;
+        if (CollectionEnemies.Value.Length == currentWave) return true;
 
         return false;
+    }
+
+    public AudioResource GetMusic(int index)
+    {
+        AudioResource resource = CollectionMusic.Value[index];
+        return resource;
     }
 }

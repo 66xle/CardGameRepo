@@ -2465,6 +2465,7 @@ MonoBehaviour:
   EquippedArmour: []
   IsEquipmentSaved: 0
   DifficultyScore: 0
+  WaveCount: 0
   PlayerLevel: 0
   CurrentEXP: 0
   CurrentLevelDataLoaded: {fileID: 0}
@@ -2653,18 +2654,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneGroups:
-  - GroupName: Combat
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
-        guid: 9fc0d4010bbf28b4594072e72b8655ab
-      SceneType: 0
   - GroupName: MainMenu
     Scenes:
     - Reference:
         asset: {fileID: 102900000, guid: 92ce5573dcba78949aff270159609b79, type: 3}
         guid: 92ce5573dcba78949aff270159609b79
       SceneType: 2
+  - GroupName: Combat
+    Scenes:
+    - Reference:
+        asset: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
+        guid: 9fc0d4010bbf28b4594072e72b8655ab
+      SceneType: 0
   - GroupName: Environment
     Scenes:
     - Reference:
@@ -4844,6 +4845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b4c542cfe83e7648aa3ae0cf527285e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolSize: 10
   AudioWrappers:
   - AudioData: {fileID: 11400000, guid: 1db0de487eac5e24b8a128103de4bf25, type: 2}
     Type: 1

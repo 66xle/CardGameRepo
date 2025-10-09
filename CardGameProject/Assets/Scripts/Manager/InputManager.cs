@@ -13,28 +13,36 @@ public class InputManager : Singleton<InputManager>
     // Update is called once per frame
     void Update()
     {
-
-#if UNITY_EDITOR
-        LeftClickInputDown = Input.GetKeyDown(KeyCode.Mouse0) ? true : false;
-        HoldLeftClickInput = Input.GetKey(KeyCode.Mouse0) ? true : false;
-        LeftClickInputUp = Input.GetKeyUp(KeyCode.Mouse0) ? true : false;
-#else
-        // Use touch input on mobile
-        LeftClickInputDown = false;
-        HoldLeftClickInput = false;
-        LeftClickInputUp = false;
-
-        if (Input.touchCount > 0)
+        // --- PC Input ---
+        if (Application.platform == RuntimePlatform.WindowsPlayer ||
+            Application.platform == RuntimePlatform.OSXPlayer ||
+            Application.platform == RuntimePlatform.LinuxPlayer ||
+            Application.platform == RuntimePlatform.WindowsEditor ||
+            Application.platform == RuntimePlatform.OSXEditor)
         {
-            Touch touch = Input.GetTouch(0);
+            LeftClickInputDown = Input.GetKeyDown(KeyCode.Mouse0);
+            HoldLeftClickInput = Input.GetKey(KeyCode.Mouse0);
+            LeftClickInputUp = Input.GetKeyUp(KeyCode.Mouse0);
+        }
+        // --- Mobile Input ---
+        else if (Application.platform == RuntimePlatform.Android ||
+                 Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            LeftClickInputDown = false;
+            HoldLeftClickInput = false;
+            LeftClickInputUp = false;
 
-            if (touch.phase == TouchPhase.Began)
-                LeftClickInputDown = true;
-            else if (touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved)
-                HoldLeftClickInput = true;
-            else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
-                LeftClickInputUp = true;
-        }       
-#endif
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
+
+                if (touch.phase == TouchPhase.Began)
+                    LeftClickInputDown = true;
+                else if (touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved)
+                    HoldLeftClickInput = true;
+                else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
+                    LeftClickInputUp = true;
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ public class DetailedUI : MonoBehaviour
 
     private Image _healthBar;
     private TMP_Text healthValue;
+    private TMP_Text maxHeathValue;
     private Image _guardBar;
     private TMP_Text guardValue;
     private TMP_Text blockValue;
@@ -31,6 +32,7 @@ public class DetailedUI : MonoBehaviour
         _healthBar = GetComponentsInChildren<Image>()[1];
         _guardBar = GetComponentsInChildren<Image>()[2];
         healthValue = GetComponentsInChildren<TMP_Text>()[0];
+        maxHeathValue = GetComponentsInChildren<TMP_Text>()[2];
         //guardValue = GetComponentsInChildren<TMP_Text>()[1];
         //blockValue = GetComponentsInChildren<TMP_Text>()[2];
 
@@ -61,6 +63,7 @@ public class DetailedUI : MonoBehaviour
 
 
         healthValue.text = _enemy.HealthText.text;
+        maxHeathValue.text = _enemy.MaxHealth.ToString();
 
         _guardBar.fillAmount = _enemy.GuardBar.value;
         //guardValue.text = enemy.guardValue.text;

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using MyBox;
 using TMPro;
 using UnityEngine;
@@ -7,29 +8,48 @@ using UnityEngine.UI;
 
 public class EnemyUI : MonoBehaviour
 {
-    [SerializeField] GameObject selectedHighlight;
+    [MustBeAssigned] [SerializeField] Image CharacterImage;
     [MustBeAssigned] public TMP_Text HealthText;
+    [MustBeAssigned] public TMP_Text MaxHealthText;
     [MustBeAssigned] public TMP_Text BlockText;
     [MustBeAssigned] public Slider GuardBar;
     public TMP_Text Name;
+    public bool IsMinion = false;
+    public float SelectedDistance = -30f;
+    public float MoveDuration = 1f;
 
     private CombatStateMachine stateMachine;
     private Enemy enemy;
     private EnemyManager enemyManager;
-
+    private RectTransform rectTransform;
 
     public void Init(CombatStateMachine stateMachine, Enemy enemy, EnemyManager enemyManager)
     {
         this.stateMachine = stateMachine;
         this.enemy = enemy;
         this.enemyManager = enemyManager;
+
+        CharacterImage.sprite = enemy.EnemyData.CharacterSprite;
+
+        rectTransform = GetComponent<RectTransform>();
     }
 
     public void SetUIActive(bool toggle)
     {
-        if (selectedHighlight == null) return;
+        if (!IsMinion) return;
 
-        selectedHighlight.SetActive(toggle);
+        Vector2 targetPos = rectTransform.anchoredPosition;
+
+        if (toggle)
+        {
+            targetPos.x = SelectedDistance;
+        }
+        else
+        {
+            targetPos.x = 0f;
+        }
+
+        rectTransform.DOAnchorPosX(targetPos.x, MoveDuration, true);
     }
 
     /// <summary>
