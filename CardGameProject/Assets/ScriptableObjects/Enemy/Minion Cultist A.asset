@@ -26,16 +26,16 @@ MonoBehaviour:
   ConversationTitle: 
   WeaponType: 0
   WeaponTypeAnimationSet:
-  - rid: 1521836457497198598
-  - rid: 1521836457497198599
-  - rid: 1521836457497198600
+  - rid: 1521836460604129280
+  - rid: 1521836460604129281
+  - rid: 1521836460604129282
   Cards:
   - rid: 5090185919954944099
   - rid: 5090185919954944117
   references:
     version: 2
     RefIds:
-    - rid: 1521836457497198598
+    - rid: 1521836460604129280
       type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -43,7 +43,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
           DistanceOffset: 0
-    - rid: 1521836457497198599
+    - rid: 1521836460604129281
       type: {class: WeaponTypeAnimationHeavy, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -53,7 +53,7 @@ MonoBehaviour:
           DistanceOffset: 1
         - Clip: {fileID: 1827226128182048838, guid: 038bd9b32bdfa4747a9476ecb109aea9, type: 3}
           DistanceOffset: 0
-    - rid: 1521836457497198600
+    - rid: 1521836460604129282
       type: {class: WeaponTypeAnimationAOE, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -108,7 +108,7 @@ MonoBehaviour:
         Animations:
         - rid: 5090185976012341487
         AnimationList:
-        - AnimationName: Heal
+        - AnimationName: Amplify
           DistanceOffset: 0
           FollowTimeline: {fileID: 0}
           AttackTimeline: {fileID: 0}
@@ -120,7 +120,7 @@ MonoBehaviour:
       type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
       data:
         _skipAnimation: 0
-        _animation: {fileID: 1827226128182048838, guid: c6749b7c7a24548a2b41e773c7da7670, type: 3}
+        _animation: {fileID: 1827226128182048838, guid: 6e5a0cfe1e3fc4071b34c60d6beae8b6, type: 3}
         IsAttackAnimation: 0
         AudioResource: {fileID: 8300000, guid: 68ca1a7064b719c4db5f46bceb979a86, type: 3}
         _overrideDistanceOffset: 1
