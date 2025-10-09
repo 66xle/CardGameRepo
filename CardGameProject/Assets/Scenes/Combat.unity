@@ -3584,15 +3584,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 212987671}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.000029343671}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0000614024}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1871730572}
+  m_Father: {fileID: 1292894169}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 171.49979, y: -39.69994}
+  m_AnchoredPosition: {x: 521.3992, y: -30.79966}
   m_SizeDelta: {x: 303, y: 76.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &212987673
@@ -3615,7 +3615,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 390
+  m_text: 39
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bf075c4ef2c184872be1858597112f16, type: 2}
   m_sharedMaterial: {fileID: 6074987720669791763, guid: bf075c4ef2c184872be1858597112f16, type: 2}
@@ -8935,7 +8935,6 @@ MonoBehaviour:
   PlayerSpawnPos: {fileID: 0}
   player: {fileID: 0}
   TurnsToWin: 4
-  currentTurns: 0
   EnemyList: []
   EnemyTurnQueue: []
   TurnIndex: 0
@@ -10411,6 +10410,7 @@ MonoBehaviour:
   EnemyTurnUI: {fileID: 1927843935}
   HealthValue: {fileID: 529358725}
   StaminaValue: {fileID: 1568158797}
+  MaxStaminaValue: {fileID: 212987673}
   GuardBar: {fileID: 633518001}
   BlockValue: {fileID: 63398124}
   PlayerUI: {fileID: 990480737}
@@ -22625,11 +22625,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1568158796}
+  - {fileID: 1871730572}
+  - {fileID: 212987672}
   m_Father: {fileID: 990480738}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -73.70001, y: -604.5}
+  m_AnchoredPosition: {x: -2, y: -605}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1292894170
@@ -22652,7 +22654,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Mana
+  m_text: Stamina
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bf075c4ef2c184872be1858597112f16, type: 2}
   m_sharedMaterial: {fileID: 6074987720669791763, guid: bf075c4ef2c184872be1858597112f16, type: 2}
@@ -22695,7 +22697,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_TextWrappingMode: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -24741,7 +24743,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -0.000022888184, y: 73.999466}
+  m_AnchoredPosition: {x: -0.000022888184, y: 73.99948}
   m_SizeDelta: {x: 964.5, y: 153.7}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1452128655
@@ -26237,17 +26239,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1568158795}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1871730572}
+  m_Children: []
   m_Father: {fileID: 1292894169}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 231.5, y: -22.4}
+  m_AnchoredPosition: {x: 184, y: -22}
   m_SizeDelta: {x: 303, y: 76.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1568158797
@@ -26270,7 +26271,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 106
+  m_text: 10
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bf075c4ef2c184872be1858597112f16, type: 2}
   m_sharedMaterial: {fileID: 6074987720669791763, guid: bf075c4ef2c184872be1858597112f16, type: 2}
@@ -31110,16 +31111,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1871730571}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.00003657942}
+  m_LocalPosition: {x: 0, y: 0, z: -0.000010047669}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 212987672}
-  m_Father: {fileID: 1568158796}
+  m_Children: []
+  m_Father: {fileID: 1292894169}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 468.9, y: -45.3}
+  m_AnchoredPosition: {x: 501.3998, y: -29.199806}
   m_SizeDelta: {x: 303, y: 76.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1871730573

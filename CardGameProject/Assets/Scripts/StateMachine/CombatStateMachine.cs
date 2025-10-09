@@ -30,7 +30,7 @@ public class CombatStateMachine : MonoBehaviour
     [ReadOnly] public Transform PlayerSpawnPos;
     [HideInInspector] public Player player;
     public int TurnsToWin = 4;
-    public int currentTurns = 0;
+    [ReadOnly] int currentTurns = 0;
 
     [Header("Lists")]
     [HideInInspector] public List<Enemy> EnemyList;

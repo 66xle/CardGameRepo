@@ -14,6 +14,7 @@ public class Player : Avatar
     [Header("References")]
     private Slider _healthBar;
     private TMP_Text _healthValue;
+    private TMP_Text _maxStaminaValue;
     private Slider _staminaBar;
     private TMP_Text _staminaValue;
     private TMP_Text _blockValue;
@@ -48,10 +49,11 @@ public class Player : Avatar
     //    ArmourType = armourType;
     //}
 
-    public void InitUI(TMP_Text healthValue, TMP_Text staminaValue, TMP_Text blockValue, Slider guardBar, ArmourType armourType, GameObject statusPrefab, GameObject active, GameObject deactive)
+    public void InitUI(TMP_Text healthValue, TMP_Text maxStaminaValue, TMP_Text staminaValue, TMP_Text blockValue, Slider guardBar, ArmourType armourType, GameObject statusPrefab, GameObject active, GameObject deactive)
     {
         _healthValue = healthValue;
         _staminaValue = staminaValue;
+        _maxStaminaValue = maxStaminaValue;
         _guardBar = guardBar;
         _blockValue = blockValue;
         ArmourType = armourType;
@@ -125,11 +127,11 @@ public class Player : Avatar
         _currentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);
         _currentStamina = Mathf.Clamp(CurrentStamina, 0f, _maxStamina);
 
-        //_healthBar.value = CurrentHealth / MaxHealth;
         _healthValue.text = CurrentHealth.ToString();
 
         //_staminaBar.value = CurrentStamina / _maxStamina;
         _staminaValue.text = CurrentStamina.ToString();
+        _maxStaminaValue.text = _maxStamina.ToString();
 
         _guardBar.value = (float)CurrentGuard / MaxGuard;
         //_guardValue.text = CurrentGuard.ToString();
