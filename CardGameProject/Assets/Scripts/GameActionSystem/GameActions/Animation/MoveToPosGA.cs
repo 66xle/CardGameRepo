@@ -8,10 +8,10 @@ public class MoveToPosGA : GameAction
     public Avatar AvatarOpponent;
     public bool MoveToCenter;
     public float DistanceOffset;
-    public PlayableAsset FollowTimeline;
+    public GameObject FollowTimeline;
     public float MoveTime;
 
-    public MoveToPosGA(Avatar avatarToMove, Avatar avatarOpponent, bool moveToCenter, float distanceOffset, PlayableAsset followTimeline, float moveTime)
+    public MoveToPosGA(Avatar avatarToMove, Avatar avatarOpponent, bool moveToCenter, float distanceOffset, GameObject followTimeline, float moveTime)
     {
         AvatarPlayingCard = avatarToMove;
         AvatarOpponent = avatarOpponent;

@@ -19,8 +19,8 @@ public class WeaponAnimationData : AnimationData
     public override Boolean OverrideMoveTime => _overrideMoveTime;
     public override float MoveTime => _moveTime;
     public override Boolean OverrideCamera => _overrideCamera;
-    public override PlayableAsset FollowTimeline => _followTimeline;
-    public override PlayableAsset AttackTimeline => _attackTimeline;
+    public override GameObject FollowTimeline => _followTimeline;
+    public override GameObject AttackTimeline => _attackTimeline;
 
 
     [DefinedValues(nameof(GetAnimationNames))] public string _animation = AttackType.None.ToString();
@@ -33,8 +33,8 @@ public class WeaponAnimationData : AnimationData
     [ConditionalField(false, nameof(OverrideMove))] public float _moveTime = 0;
 
     [ConditionalField(nameof(_animation), true, AttackType.None)] public Boolean _overrideCamera = Boolean.False;
-    [ConditionalField(false, nameof(OverrideVirtualCamera))] public PlayableAsset _followTimeline;
-    [ConditionalField(false, nameof(OverrideVirtualCamera))] public PlayableAsset _attackTimeline;
+    [ConditionalField(false, nameof(OverrideVirtualCamera))] public GameObject _followTimeline;
+    [ConditionalField(false, nameof(OverrideVirtualCamera))] public GameObject _attackTimeline;
 
 
     public override void SetDataClipList(List<AnimationClipData> dataClipList)
@@ -70,8 +70,8 @@ public class WeaponAnimationData : AnimationData
         float distance = AnimationClipDataList[int.Parse(stringSplit[0])].DistanceOffset;
         float moveTime = 0f;
 
-        PlayableAsset followTimeline = null;
-        PlayableAsset attackTimeline = null;
+        GameObject followTimeline = null;
+        GameObject attackTimeline = null;
 
         if (OverrideDistanceOffset == Boolean.True)
             distance = DistanceOffset;

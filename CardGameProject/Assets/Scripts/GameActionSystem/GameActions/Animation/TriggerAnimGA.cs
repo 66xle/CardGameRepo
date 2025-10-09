@@ -6,11 +6,10 @@ public class TriggerAnimGA : GameAction
 {
     public Avatar AvatarPlayingCard;
     public string AnimationName;
-    public PlayableAsset AnimTimeline;
+    public GameObject AnimTimeline;
     public AudioResource AudioResource;
-    public bool EnableAttackCamera;
 
-    public TriggerAnimGA(Avatar avatarPlayingCard, string animationName, PlayableAsset animTimeline, AudioResource audioResource)
+    public TriggerAnimGA(Avatar avatarPlayingCard, string animationName, GameObject animTimeline, AudioResource audioResource)
     {
         AvatarPlayingCard = avatarPlayingCard;
         AnimationName = animationName;

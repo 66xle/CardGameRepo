@@ -31,6 +31,20 @@ public class CameraManager : MonoBehaviour
 
     private CinemachineVirtualCamera _activeCamera;
 
+    private GameObject spawnedTimeline;
+    private PlayableDirector director;
+
+
+    public void DestroyTimeline()
+    {
+        if (director != null)
+        {
+            Destroy(spawnedTimeline);
+            director = null;
+            spawnedTimeline = null;
+        }
+    }
+
     public void ActivateCamera(CinemachineVirtualCamera chosenCamera)
     {
         if (_activeCamera == chosenCamera)
@@ -41,6 +55,12 @@ public class CameraManager : MonoBehaviour
 
         _activeCamera = chosenCamera;
         _activeCamera.Priority = ActivePriority;
+    }
+
+    public void SpawnTimeline(GameObject timeline)
+    {
+        spawnedTimeline = Instantiate(timeline, VictimDummy);
+        director = spawnedTimeline.GetComponentInChildren<PlayableDirector>();
     }
 
     public void SetTimeline(PlayableAsset timeline)
