@@ -15,7 +15,7 @@ MonoBehaviour:
   Guid: 6dc3235823058024db2f600d09fbd3f5
   Prefab: {fileID: 6075165209856986820, guid: 7ad242246ea8dbb47a8940f888fb1f5d, type: 3}
   CharacterSprite: {fileID: 21300000, guid: e14565da7c9c6430194518f1330a196f, type: 3}
-  Name: Elite
+  Name: Malrek
   Guard: 2
   Level: 1
   HurtSounds: {fileID: 6418180475301049370, guid: 0a81132813a07504b9df5c6dd9f1c518, type: 2}
@@ -26,9 +26,9 @@ MonoBehaviour:
   ConversationTitle: 
   WeaponType: 0
   WeaponTypeAnimationSet:
-  - rid: 1521836460604129296
-  - rid: 1521836460604129297
-  - rid: 1521836460604129298
+  - rid: 1521836464250552327
+  - rid: 1521836464250552328
+  - rid: 1521836464250552329
   Cards:
   - rid: 5090185831254065161
   - rid: 5090185919954944124
@@ -77,7 +77,7 @@ MonoBehaviour:
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
-    - rid: 1521836460604129296
+    - rid: 1521836464250552327
       type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -85,7 +85,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
           DistanceOffset: 0
-    - rid: 1521836460604129297
+    - rid: 1521836464250552328
       type: {class: WeaponTypeAnimationHeavy, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -95,7 +95,7 @@ MonoBehaviour:
           DistanceOffset: 1
         - Clip: {fileID: 1827226128182048838, guid: 038bd9b32bdfa4747a9476ecb109aea9, type: 3}
           DistanceOffset: 0
-    - rid: 1521836460604129298
+    - rid: 1521836464250552329
       type: {class: WeaponTypeAnimationAOE, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:

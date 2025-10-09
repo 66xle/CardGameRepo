@@ -69,11 +69,13 @@ public class RewardManager : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
             Time.timeScale = 0f;
             DisplayVictoryUI();
         }
+#endif
     }
 
     public void RewardConfirmButton()
