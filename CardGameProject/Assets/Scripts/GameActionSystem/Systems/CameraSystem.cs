@@ -13,6 +13,7 @@ public class CameraSystem : MonoBehaviour
         ActionSystem.SubscribeReaction<ReturnToPosGA>(ReturnToPosReactionPre, ReactionTiming.PRE);
         ActionSystem.SubscribeReaction<ReturnToPosGA>(ReturnToPosReactionPost, ReactionTiming.POST);
         ActionSystem.SubscribeReaction<TriggerAttackAnimGA>(TriggerAttackAnimReaction, ReactionTiming.PRE);
+        ActionSystem.SubscribeReaction<TriggerAnimGA>(TriggerAnimReaction, ReactionTiming.PRE);
     }
 
     private void OnDisable()
@@ -21,6 +22,7 @@ public class CameraSystem : MonoBehaviour
         ActionSystem.UnsubscribeReaction<ReturnToPosGA>(ReturnToPosReactionPre, ReactionTiming.PRE);
         ActionSystem.UnsubscribeReaction<ReturnToPosGA>(ReturnToPosReactionPost, ReactionTiming.POST);
         ActionSystem.UnsubscribeReaction<TriggerAttackAnimGA>(TriggerAttackAnimReaction, ReactionTiming.PRE);
+        ActionSystem.UnsubscribeReaction<TriggerAnimGA>(TriggerAnimReaction, ReactionTiming.PRE);
     }
 
 
@@ -28,8 +30,7 @@ public class CameraSystem : MonoBehaviour
     {
         if (moveToPosGA.FollowTimeline != null)
         {
-            cm.SetTimeline(moveToPosGA.FollowTimeline);
-            cm.ToggleDirector(true);
+            cm.SpawnTimeline(moveToPosGA.FollowTimeline);
             return;
         }
 
@@ -43,20 +44,31 @@ public class CameraSystem : MonoBehaviour
 
     private void ReturnToPosReactionPost(ReturnToPosGA returnToPosGA)
     {
+        cm.DestroyTimeline();
+
+
         cm.DefaultState();
     }
 
     private void TriggerAttackAnimReaction(TriggerAttackAnimGA triggerAttackAnimGA)
     {
-        if (!triggerAttackAnimGA.EnableAttackCamera) return;
+        if (!triggerAttackAnimGA.IsAttackAnimation) return;
 
         if (triggerAttackAnimGA.AttackTimeline != null)
         {
-            cm.SetTimeline(triggerAttackAnimGA.AttackTimeline);
-            cm.ToggleDirector(true);
+            cm.SpawnTimeline(triggerAttackAnimGA.AttackTimeline);
             return;
         }
 
         cm.AttackState();
+    }
+
+    private void TriggerAnimReaction(TriggerAnimGA TriggerAnimGA)
+    {
+        if (TriggerAnimGA.AnimTimeline != null)
+        {
+            cm.SpawnTimeline(TriggerAnimGA.AnimTimeline);
+            return;
+        }
     }
 }

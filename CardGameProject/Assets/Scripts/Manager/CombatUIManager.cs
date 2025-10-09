@@ -55,6 +55,7 @@ public class CombatUIManager : MonoBehaviour
     [MustBeAssigned] public TMP_Text HealthValue;
     //[MustBeAssigned] public Slider StaminaBar;
     [MustBeAssigned] public TMP_Text StaminaValue;
+    [MustBeAssigned] public TMP_Text MaxStaminaValue;
     [MustBeAssigned] public Slider GuardBar;
     //[MustBeAssigned] public TMP_Text GuardValue;
     [MustBeAssigned] public TMP_Text BlockValue;
@@ -89,7 +90,7 @@ public class CombatUIManager : MonoBehaviour
     public void InitPlayerUI(Player player)
     {
         //player.InitUI(HealthBar, HealthValue, StaminaBar, StaminaValue, BlockValue, GuardBar, GuardValue, StatsManager.ArmourType);
-        player.InitUI(HealthValue, StaminaValue, BlockValue, GuardBar, StatsManager.ArmourType, StatusPrefab, StatusActive, StatusDeactive);
+        player.InitUI(HealthValue, MaxStaminaValue, StaminaValue, BlockValue, GuardBar, StatsManager.ArmourType, StatusPrefab, StatusActive, StatusDeactive);
         player.InitStats(StatsManager.CurrentMaxHealth, StatsManager.CurrentMaxStamina, StatsManager.CurrentMaxGuard, StatsManager.Defence, StatsManager.DefencePercentage, StatsManager.Attack, StatsManager.BlockScale, StatsManager.RecoverStaminaPercentage);
     }
 

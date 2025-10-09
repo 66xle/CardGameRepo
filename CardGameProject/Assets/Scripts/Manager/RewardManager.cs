@@ -69,11 +69,13 @@ public class RewardManager : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
             Time.timeScale = 0f;
             DisplayVictoryUI();
         }
+#endif
     }
 
     public void RewardConfirmButton()
@@ -97,6 +99,13 @@ public class RewardManager : MonoBehaviour
             {
                 Time.timeScale = 1;
                 RewardUI.SetActive(false);
+
+                GameManager.Instance.TutorialStage = 5;
+
+                Ctx.player.Heal(100f);
+                Ctx.player.RecoverStamina();
+                Ctx.player.RecoverStamina();
+                Ctx.player.RecoverStamina();
 
                 Ctx.Init(); // Call in cutscene
                 //CutsceneManager.NextCutscene();
@@ -322,7 +331,8 @@ public class RewardManager : MonoBehaviour
             DOVirtual.Int(0, (int)expGained, AnimationTime, v => ExpText.text = $"+ {v.ToString()}").SetUpdate(true).OnComplete(() =>
             {
                 VictoryObject.SetActive(false);
-                DisplayRewardUI();
+                RewardConfirmButton();
+                //DisplayRewardUI();
             });
         });
     }

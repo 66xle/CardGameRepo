@@ -29,6 +29,8 @@ public class CombatStateMachine : MonoBehaviour
     [MustBeAssigned] public GameObject PlayerPrefab;
     [ReadOnly] public Transform PlayerSpawnPos;
     [HideInInspector] public Player player;
+    public int TurnsToWin = 4;
+    [ReadOnly] int currentTurns = 0;
 
     [Header("Lists")]
     [HideInInspector] public List<Enemy> EnemyList;
@@ -57,6 +59,7 @@ public class CombatStateMachine : MonoBehaviour
     [MustBeAssigned] [SerializeField] EnemyManager EnemyManager;
     [MustBeAssigned] [SerializeField] CameraSystem CameraSystem;
     [MustBeAssigned] [SerializeField] LevelManager LevelManager; // Editor only
+    [MustBeAssigned] [SerializeField] CutsceneManager CutsceneManager; // Editor only
     [MustBeAssigned] public CameraManager CameraManager;
     [MustBeAssigned] public CombatUIManager CombatUIManager;
     [MustBeAssigned] public CardManager CardManager;
@@ -216,8 +219,8 @@ public class CombatStateMachine : MonoBehaviour
     {
         if (!_isPlayerLoaded)
         {
-            GameManager.Instance.TutorialStage = 1; // TEMP FOR DEMO
-            GameManager.Instance.WaveCount = 0; // TEMP FOR DEMO
+            if (GameManager.Instance.WaveCount == 0)
+                GameManager.Instance.TutorialStage = 1; // TEMP FOR DEMO
 
             Debug.Log("Load Player");
             _isPlayerLoaded = true;
@@ -401,6 +404,17 @@ public class CombatStateMachine : MonoBehaviour
             GameManager.Instance.TutorialStage = 3;
         else if (GameManager.Instance.TutorialStage == 3.1f)
             GameManager.Instance.TutorialStage = 4;
+
+        if (GameManager.Instance.WaveCount == 1)
+        {
+            currentTurns++;
+
+            if (currentTurns >= TurnsToWin)
+            {
+                CutsceneManager.NextCutscene();
+                return;
+            }
+        }
 
         StartCoroutine(EndTurnReactiveEffect());
     }

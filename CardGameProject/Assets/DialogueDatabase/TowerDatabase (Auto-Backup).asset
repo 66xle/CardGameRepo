@@ -2301,7 +2301,9 @@ MonoBehaviour:
           Right,speaker);
 
           Audio(Audio/Morghaine/Dialogue_Morghaine_Awake,
-          speaker)'
+          speaker);
+
+          AnimatorTrigger(4);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2326,7 +2328,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 635.8562
-        y: 121.73659
+        y: 121.19603
         width: 160
         height: 30
     - id: 7
@@ -2372,7 +2374,9 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Morghaine/Dialogue_Morghaine_LittleLonger, speaker)
+        value: 'Audio(Audio/Morghaine/Dialogue_Morghaine_LittleLonger, speaker);
+
+          AnimatorTrigger(5);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2443,8 +2447,9 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: "CinemachinePriority(PlayerDialogueCam, 999, cut); \nAudioStop(listener);\nAudio(Audio/Prisoner/Dialogue_Awakening_HowDidIDie,
-          speaker)"
+        value: "CinemachinePriority(DialogueVirtualCamera, 0);\nCinemachinePriority(PlayerDialogueCam,
+          999, cut); \nAudioStop(listener);\nAudio(Audio/Prisoner/Dialogue_Awakening_HowDidIDie,
+          speaker);\nAnimatorTrigger(3);"
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2515,15 +2520,19 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 'CinemachinePriority(DialogueVirtualCamera, 999, cut);
+        value: 'CinemachinePriority(PlayerDialogueCam, 0);
+
+          CinemachinePriority(DialogueVirtualCamera,
+          999, cut);
 
           AudioStop(listener);
 
-          Camera(Medium
-          Right,speaker);
+          Camera(Medium Right,speaker);
 
           Audio(Audio/Morghaine/Dialogue_Morghaine_Fool,
-          speaker)'
+          speaker);
+
+          AnimatorTrigger(3);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2547,8 +2556,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 636.2009
-        y: 334.1541
+        x: 633.34375
+        y: 334.8684
         width: 160
         height: 30
     - id: 10
@@ -2594,7 +2603,9 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Morghaine/Dialogue_Morghaine_HowManyTimes, speaker)
+        value: 'Audio(Audio/Morghaine/Dialogue_Morghaine_HowManyTimes, speaker);
+
+          AnimatorTrigger(2);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2665,12 +2676,17 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
+        value: 'CinemachinePriority(DialogueVirtualCamera, 0);
+
+          CinemachinePriority(PlayerDialogueCam,
+          999, cut);
 
           AudioStop(listener);
 
           Audio(Audio/Prisoner/Dialogue_Awakening_AsManyAsItTakes,
-          speaker)'
+          speaker);
+
+          AnimatorTrigger(2);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2741,21 +2757,25 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 'CinemachinePriority(DialogueVirtualCamera, 999, cut);
+        value: 'CinemachinePriority(PlayerDialogueCam, 0);
+
+          CinemachinePriority(DialogueVirtualCamera,
+          999, cut);
 
           AudioStop(listener);
 
-          Camera(Medium
-          Right,speaker);
+          Camera(Medium Right,speaker);
 
           Audio(Audio/Morghaine/Dialogue_Morghaine_Spirit,
-          speaker)'
+          speaker);
+
+          AnimatorTrigger(3);'
         type: 0
         typeString: CustomFieldType_Text
       - title: Response Menu Sequence
         value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
 
-          SetDialoguePanel(false);'
+          HidePanel(0);'
         type: 0
         typeString: 
       conversationID: 3
@@ -2844,12 +2864,17 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
+        value: 'CinemachinePriority(DialogueVirtualCamera, 0);
+
+          CinemachinePriority(PlayerDialogueCam,
+          999, cut);
 
           AudioStop(listener);
 
           Audio(Audio/Prisoner/Dialogue_Awakening_IKnowYou,
-          speaker)'
+          speaker);
+
+          AnimatorTrigger(4);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2920,12 +2945,17 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
+        value: 'CinemachinePriority(DialogueVirtualCamera, 0);
+
+          CinemachinePriority(PlayerDialogueCam,
+          999, cut);
 
           AudioStop(listener);
 
           Audio(Audio/Prisoner/Dialogue_Awakening_SoWhatHaveIMissed,
-          speaker)'
+          speaker);
+
+          AnimatorTrigger(3);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -2996,12 +3026,17 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
+        value: 'CinemachinePriority(DialogueVirtualCamera, 0);
+
+          CinemachinePriority(PlayerDialogueCam,
+          999, cut);
 
           AudioStop(listener);
 
           Audio(Audio/Prisoner/Dialogue_Awakening_SheVisitedMyDreams,
-          speaker)'
+          speaker);
+
+          AnimatorTrigger(2);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3025,7 +3060,7 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 844.46564
+        x: 845.2904
         y: 679.8677
         width: 160
         height: 30
@@ -3072,12 +3107,19 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
+        value: 'CinemachinePriority(DialogueVirtualCamera, 0);
+
+          CinemachinePriority(PlayerDialogueCam,
+          999, cut);
+
 
           AudioStop(listener);
 
           Audio(Audio/Prisoner/Dialogue_Awakening_I''llNeedMySword,
-          speaker)'
+          speaker);
+
+
+          AnimatorTrigger(2);'
         type: 0
         typeString: CustomFieldType_Text
       - title: EventGuid
@@ -3105,8 +3147,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 866.6468
-        y: 552.77484
+        x: 869.57367
+        y: 551.7992
         width: 160
         height: 30
     - id: 17
@@ -3152,17 +3194,19 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 'CinemachinePriority(DialogueVirtualCamera, 999, cut);
+        value: 'CinemachinePriority(PlayerDialogueCam, 0);
+
+          CinemachinePriority(DialogueVirtualCamera,
+          999, cut);
 
           AudioStop(listener);
 
-          Camera(Medium
-          Right,speaker);
-
-          SetDialoguePanel(true);
+          Camera(Medium Right,speaker);
 
           Audio(Audio/Morghaine/Dialogue_Morghaine_I''mMorghaine,
-          speaker)@0.5'
+          speaker)@0.5;
+
+          AnimatorTrigger(4);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3187,7 +3231,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 401.31647
-        y: 749.4143
+        y: 748.6596
         width: 160
         height: 30
     - id: 18
@@ -3304,13 +3348,15 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Morghaine/Dialogue_Morghaine_VeryLittleLight, speaker);
+        value: 'Audio(Audio/Morghaine/Dialogue_Morghaine_VeryLittleLight, speaker);
+
+          AnimatorTrigger(5);'
         type: 0
         typeString: CustomFieldType_Text
       - title: Response Menu Sequence
         value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
 
-          SetDialoguePanel(false);'
+          HidePanel(0);'
         type: 0
         typeString: 
       conversationID: 3
@@ -3393,14 +3439,15 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 'CinemachinePriority(DialogueVirtualCamera, 999, cut);
+        value: 'CinemachinePriority(PlayerDialogueCam, 0);
+
+          CinemachinePriority(DialogueVirtualCamera,
+          999, cut);
 
           AudioStop(listener);
 
-          Camera(Medium
-          Right,speaker);
+          Camera(Medium Right,speaker);
 
-          SetDialoguePanel(true);
 
           Audio(Audio/Morghaine/Dialogue_Morghaine_NotMuch,
           speaker);'
@@ -3474,7 +3521,9 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Morghaine/Dialogue_Morghaine_HoursOrYears, speaker);
+        value: 'Audio(Audio/Morghaine/Dialogue_Morghaine_HoursOrYears, speaker);
+
+          AnimatorTrigger(2);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3499,7 +3548,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 634.17035
-        y: 805.1935
+        y: 804.43884
         width: 160
         height: 30
     - id: 22
@@ -3622,13 +3671,15 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Morghaine/Dialogue_Morghaine_Coming, speaker);
+        value: 'Audio(Audio/Morghaine/Dialogue_Morghaine_Coming, speaker);
+
+          AnimatorTrigger(2);'
         type: 0
         typeString: CustomFieldType_Text
       - title: Response Menu Sequence
         value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
 
-          SetDialoguePanel(false);'
+          HidePanel(0);'
         type: 0
         typeString: 
       conversationID: 3
@@ -3711,17 +3762,20 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 'CinemachinePriority(DialogueVirtualCamera, 999, cut);
+        value: 'CinemachinePriority(PlayerDialogueCam, 0);
+
+          CinemachinePriority(DialogueVirtualCamera,
+          999, cut);
 
           AudioStop(listener);
 
-          Camera(Medium
-          Right,speaker);
+          Camera(Medium Right,speaker);
 
-          SetDialoguePanel(true);
 
           Audio(Audio/Morghaine/Dialogue_Morghaine_SheStillSpeaks,
-          speaker);'
+          speaker);
+
+          AnimatorTrigger(2);'
         type: 0
         typeString: CustomFieldType_Text
       - title: Response Menu Sequence
@@ -3802,7 +3856,9 @@ MonoBehaviour:
 
 
           Audio(Audio/Morghaine/Dialogue_Morghaine_SheSees,
-          speaker)@Message(Audio);'
+          speaker)@Message(Audio);
+
+          AnimatorTrigger(4);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3873,7 +3929,9 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Morghaine/Dialogue_Morghaine_FarAbove, speaker);
+        value: 'Audio(Audio/Morghaine/Dialogue_Morghaine_FarAbove, speaker);
+
+          AnimatorTrigger(1);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -3944,16 +4002,21 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: 'CinemachinePriority(PlayerDialogueCam, 999, cut);
+        value: 'CinemachinePriority(DialogueVirtualCamera, 0);
+
+          CinemachinePriority(PlayerDialogueCam,
+          999, cut);
 
           AudioStop(listener);
 
           Audio(Audio/Prisoner/Dialogue_Awakening_YourProbablyRight,
-          speaker)'
+          speaker);
+
+          AnimatorTrigger(1);'
         type: 0
         typeString: CustomFieldType_Text
       - title: Response Menu Sequence
-        value: SetDialoguePanel(false);
+        value: HidePanel(0);
         type: 0
         typeString: 
       conversationID: 3
@@ -3989,7 +4052,7 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 845.4411
+        x: 844.6164
         y: 905.19904
         width: 160
         height: 30
@@ -4038,11 +4101,20 @@ MonoBehaviour:
       - title: Sequence
         value: 'StopConversation();
 
-          SetDialoguePanel(false);'
+          CinemachinePriority(PlayerDialogueCam,
+          0);
+
+          HidePanel(0);
+
+          SetActive(PC Panel, false);'
         type: 0
         typeString: CustomFieldType_Text
       - title: EventGuid
         value: 62ff5feb-1c4a-4271-b32f-ad3e47ffe7c0
+        type: 0
+        typeString: 
+      - title: Response Menu Sequence
+        value: 
         type: 0
         typeString: 
       conversationID: 3
@@ -4060,8 +4132,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 1169.0765
-        y: 554.0841
+        x: 1225.662
+        y: 554.08417
         width: 160
         height: 30
     - id: 30
@@ -4107,7 +4179,9 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Sequence
-        value: Audio(Audio/Morghaine/Dialogue_Morghaine_Timing, speaker);
+        value: 'Audio(Audio/Morghaine/Dialogue_Morghaine_Timing, speaker);
+
+          AnimatorTrigger(5);'
         type: 0
         typeString: CustomFieldType_Text
       conversationID: 3
@@ -4136,8 +4210,8 @@ MonoBehaviour:
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 262.89816, y: 224}
-    canvasZoom: 0.85000014
+    canvasScrollPosition: {x: 365.3275, y: 0}
+    canvasZoom: 0.79000014
   syncInfo:
     syncActors: 0
     syncItems: 0

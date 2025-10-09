@@ -1,7 +1,8 @@
-using System;
-using System.Collections.Generic;
 using MyBox;
 using SerializeReferenceEditor;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Playables;
 
 public enum AttackType
@@ -27,8 +28,8 @@ public class AnimationData
     public virtual Boolean OverrideMoveTime { get; set; }
     public virtual float MoveTime { get; set; }
     public virtual Boolean OverrideCamera { get; set; }
-    public virtual PlayableAsset FollowTimeline { get; set; }
-    public virtual PlayableAsset AttackTimeline { get; set; }
+    public virtual GameObject FollowTimeline { get; set; }
+    public virtual GameObject AttackTimeline { get; set; }
 
     public virtual void SetDataClipList(List<AnimationClipData> dataClipList) { }
 

@@ -18,8 +18,8 @@ public class ArmourAnimationData : AnimationData
     public override Boolean OverrideMoveTime => _overrideMoveTime;
     public override float MoveTime => _moveTime;
     public override Boolean OverrideCamera => _overrideCamera;
-    public override PlayableAsset FollowTimeline => _followTimeline;
-    public override PlayableAsset AttackTimeline => _attackTimeline;
+    public override GameObject FollowTimeline => _followTimeline;
+    public override GameObject AttackTimeline => _attackTimeline;
 
 
     public bool _skipAnimation = false;
@@ -35,8 +35,8 @@ public class ArmourAnimationData : AnimationData
     [ConditionalField(false, nameof(OverrideMove))] public float _moveTime = 0;
 
     [ConditionalField(false, nameof(AnimationClip))] public Boolean _overrideCamera = Boolean.False;
-    [ConditionalField(false, nameof(OverrideVirtualCamera))] public PlayableAsset _followTimeline;
-    [ConditionalField(false, nameof(OverrideVirtualCamera))] public PlayableAsset _attackTimeline;
+    [ConditionalField(false, nameof(OverrideVirtualCamera))] public GameObject _followTimeline;
+    [ConditionalField(false, nameof(OverrideVirtualCamera))] public GameObject _attackTimeline;
 
     public override AnimationWrapper GetAnimationWrapper()
     {
@@ -45,8 +45,8 @@ public class ArmourAnimationData : AnimationData
         float distance = 0f;
         float moveTime = 0f;
 
-        PlayableAsset followTimeline = null;
-        PlayableAsset attackTimeline = null;
+        GameObject followTimeline = null;
+        GameObject attackTimeline = null;
 
         if (OverrideDistanceOffset == Boolean.True)
             distance = DistanceOffset;

@@ -8,16 +8,16 @@ public class TriggerAttackAnimGA : GameAction
 {
     public Avatar AvatarPlayingCard;
     public string AnimationName;
-    public PlayableAsset AttackTimeline;
+    public GameObject AttackTimeline;
     public AudioResource AudioResource;
-    public bool EnableAttackCamera;
+    public bool IsAttackAnimation;
 
-    public TriggerAttackAnimGA(Avatar avatarPlayingCard, string animationName, PlayableAsset attackTimeline, AudioResource audioResource, bool enableAttackCamera = true)
+    public TriggerAttackAnimGA(Avatar avatarPlayingCard, string animationName, GameObject attackTimeline, AudioResource audioResource, bool isAttackAnimation = true)
     {
         AvatarPlayingCard = avatarPlayingCard;
         AnimationName = animationName;
         AttackTimeline = attackTimeline;
         AudioResource = audioResource;
-        EnableAttackCamera = enableAttackCamera;
+        IsAttackAnimation = isAttackAnimation;
     }
 }

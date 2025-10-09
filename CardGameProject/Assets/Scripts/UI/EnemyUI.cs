@@ -9,14 +9,24 @@ using UnityEngine.UI;
 public class EnemyUI : MonoBehaviour
 {
     [MustBeAssigned] [SerializeField] Image CharacterImage;
+    
     [MustBeAssigned] public TMP_Text HealthText;
     [MustBeAssigned] public TMP_Text MaxHealthText;
     [MustBeAssigned] public TMP_Text BlockText;
     [MustBeAssigned] public Slider GuardBar;
     public TMP_Text Name;
+
+    [Header("Elite Animate")]
+    public Transform FrontLayer;
+    public float MaxScale = 1.5f;
+    public float ScaleDuration = 1f;
+    private bool isSelected = false;
+
+    [Header("Minion Animate")]
     public bool IsMinion = false;
     public float SelectedDistance = -30f;
     public float MoveDuration = 1f;
+    
 
     private CombatStateMachine stateMachine;
     private Enemy enemy;
@@ -31,12 +41,29 @@ public class EnemyUI : MonoBehaviour
 
         CharacterImage.sprite = enemy.EnemyData.CharacterSprite;
 
+
         rectTransform = GetComponent<RectTransform>();
     }
 
     public void SetUIActive(bool toggle)
     {
-        if (!IsMinion) return;
+        if (!IsMinion)
+        {
+            if (toggle && isSelected) return;
+
+            if (toggle)
+            {
+                FrontLayer.DOScale(MaxScale, ScaleDuration / 2).OnComplete(() => FrontLayer.DOScale(1f, ScaleDuration / 2));
+                isSelected = true;
+            }
+            else
+            {
+                isSelected = false;
+            }
+
+            return;
+        }
+
 
         Vector2 targetPos = rectTransform.anchoredPosition;
 

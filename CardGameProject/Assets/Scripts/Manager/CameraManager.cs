@@ -17,6 +17,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] List<CinemachineVirtualCamera> ListFollowCamera;
     [SerializeField] List<CinemachineVirtualCamera> ListFollowBackCamera;
     [SerializeField] List<CinemachineVirtualCamera> ListAttackCamera;
+    [SerializeField] CinemachineVirtualCamera MinotaurAttackCamera;
 
     [SerializeField] List<CinemachineVirtualCamera> FollowTarget;
 
@@ -31,6 +32,20 @@ public class CameraManager : MonoBehaviour
 
     private CinemachineVirtualCamera _activeCamera;
 
+    private GameObject spawnedTimeline;
+    private PlayableDirector director;
+
+
+    public void DestroyTimeline()
+    {
+        if (director != null)
+        {
+            Destroy(spawnedTimeline);
+            director = null;
+            spawnedTimeline = null;
+        }
+    }
+
     public void ActivateCamera(CinemachineVirtualCamera chosenCamera)
     {
         if (_activeCamera == chosenCamera)
@@ -41,6 +56,12 @@ public class CameraManager : MonoBehaviour
 
         _activeCamera = chosenCamera;
         _activeCamera.Priority = ActivePriority;
+    }
+
+    public void SpawnTimeline(GameObject timeline)
+    {
+        spawnedTimeline = Instantiate(timeline, VictimDummy);
+        director = spawnedTimeline.GetComponentInChildren<PlayableDirector>();
     }
 
     public void SetTimeline(PlayableAsset timeline)
@@ -117,6 +138,12 @@ public class CameraManager : MonoBehaviour
 
     public void AttackState()
     {
+        if (GameManager.Instance.WaveCount == 1)
+        {
+            ActivateCamera(MinotaurAttackCamera);
+            return;
+        }
+
         CinemachineVirtualCamera cam = GetCamera(ListAttackCamera);
         ActivateCamera(cam);
     }
