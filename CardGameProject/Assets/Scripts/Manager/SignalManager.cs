@@ -6,6 +6,9 @@ using UnityEngine.Timeline;
 public class SignalManager : MonoBehaviour
 {
     public SignalAsset Signal;
+    public SignalAsset EndlessSignal;
+    public SignalAsset ResumeSignal;
+
     public AudioResource Resource;
 
 
@@ -25,6 +28,18 @@ public class SignalManager : MonoBehaviour
     {
         CutsceneManager cutscene = ServiceLocator.Get<CutsceneManager>();
         cutscene.PlaySignal(Signal);
+    }
+
+    public void SendEndlessSignal()
+    {
+        CutsceneManager cutscene = ServiceLocator.Get<CutsceneManager>();
+        cutscene.PlaySignal(EndlessSignal);
+    }
+
+    public void SendResumeSignal()
+    {
+        CutsceneManager cutscene = ServiceLocator.Get<CutsceneManager>();
+        cutscene.PlaySignal(ResumeSignal);
     }
 
     public void PlayMusic()
