@@ -414,6 +414,8 @@ public class CombatStateMachine : MonoBehaviour
 
             if (currentTurns >= TurnsToWin)
             {
+                AudioManager.Instance.FadeOutMusic(0.2f);
+
                 CutsceneManager.NextCutscene();
                 return;
             }
