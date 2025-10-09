@@ -103,6 +103,9 @@ public class RewardManager : MonoBehaviour
                 GameManager.Instance.TutorialStage = 5;
 
                 Ctx.player.Heal(100f);
+                Ctx.player.RecoverStamina();
+                Ctx.player.RecoverStamina();
+                Ctx.player.RecoverStamina();
 
                 Ctx.Init(); // Call in cutscene
                 //CutsceneManager.NextCutscene();
