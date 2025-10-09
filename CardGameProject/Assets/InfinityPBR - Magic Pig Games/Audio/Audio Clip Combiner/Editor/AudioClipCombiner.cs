@@ -46,7 +46,7 @@ namespace InfinityPBR.Modules
 	        [HideInInspector] public int onClip = 0;
 	        [HideInInspector] public float longestClipLength = -1f;
 	        [HideInInspector] public float shortestClipLength = -1f;
-	        [HideInInspector] public AudioClipCombiner parent;
+            [NonSerialized] [HideInInspector] public AudioClipCombiner parent;
 
 	        public bool HasClips()
 	        { 
