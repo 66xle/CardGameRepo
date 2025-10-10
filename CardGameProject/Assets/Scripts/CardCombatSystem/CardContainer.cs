@@ -164,6 +164,8 @@ public class CardContainer : MonoBehaviour {
 
     public void SetScale()
     {
+        if (currentDraggedCard == null) return;
+
         bool isScaleTrue = false;
 
         foreach (GameObject playAreaObject in cardPlayConfig.playArea)

@@ -166,9 +166,9 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 container.mainCanvas.worldCamera,
                 out Vector2 currentLocal);
 
-            float Ydis = currentLocal.y - pointDownStartEventY;
+            //float Ydis = currentLocal.y - pointDownStartEventY;
 
-            if (Ydis < 30f) return;
+            //if (Ydis < 10f) return;
 
             isDragged = true;
 
