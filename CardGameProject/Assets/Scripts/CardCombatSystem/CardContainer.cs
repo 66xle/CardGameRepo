@@ -402,6 +402,8 @@ public class CardContainer : MonoBehaviour {
             {
                 if (playAreaObject.tag == "Play" && Ydis < YAmount) return;
 
+                currentInPlayArea = false;
+
                 eventsConfig?.OnCardPlayed?.Invoke(new CardPlayed(currentDraggedCard), currentDraggedCard.card, playAreaObject.transform.tag);
                 if (cardPlayConfig.destroyOnPlay)
                 {
