@@ -164,6 +164,8 @@ public class CardContainer : MonoBehaviour {
 
     public void SetScale()
     {
+        bool isScaleTrue = false;
+
         foreach (GameObject playAreaObject in cardPlayConfig.playArea)
         {
             if (playAreaObject == null) continue;
@@ -172,9 +174,10 @@ public class CardContainer : MonoBehaviour {
             RectTransform rectTransform = playAreaObject.GetComponent<RectTransform>();
             if (IsCursorInPlayArea(rectTransform))
             {
-                currentInPlayArea = true; 
+                currentInPlayArea = true;
+                isScaleTrue = true;
             }
-            else
+            else if (!isScaleTrue)
             {
                 currentInPlayArea = false;
             }
