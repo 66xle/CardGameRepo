@@ -172,7 +172,7 @@ public class CardContainer : MonoBehaviour {
             RectTransform rectTransform = playAreaObject.GetComponent<RectTransform>();
             if (IsCursorInPlayArea(rectTransform))
             {
-                currentInPlayArea = true;
+                currentInPlayArea = true; 
             }
             else
             {
