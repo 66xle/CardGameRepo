@@ -4481,6 +4481,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 254873618}
+  - component: {fileID: 254873619}
   m_Layer: 5
   m_Name: Play Area
   m_TagString: Play
@@ -4507,6 +4508,29 @@ RectTransform:
   m_AnchoredPosition: {x: -8.500488, y: 271}
   m_SizeDelta: {x: -286.9, y: -542.1}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!223 &254873619
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 254873617}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
 --- !u!1 &255748320
 GameObject:
   m_ObjectHideFlags: 0
@@ -7058,6 +7082,7 @@ MonoBehaviour:
   zoomConfig:
     zoomOnClick: 1
     multiplier: 1.5
+    zoomInMultiplier: 1
     overrideYPosition: 250
     defaultSortOrder: 0
     bringToFrontOnHover: 1
@@ -7116,6 +7141,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   currentDraggedCard: {fileID: 0}
+  currentInPlayArea: 0
 --- !u!1 &354071781
 GameObject:
   m_ObjectHideFlags: 0
@@ -20827,6 +20853,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1189335884}
+  - component: {fileID: 1189335885}
   m_Layer: 5
   m_Name: Recycle Area
   m_TagString: Recycle
@@ -20850,9 +20877,32 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 119.79999, y: 116.5}
-  m_SizeDelta: {x: 965.1, y: 2060.3}
+  m_AnchoredPosition: {x: 100.29999, y: 65.19995}
+  m_SizeDelta: {x: 1311.7, y: 2363.7}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!223 &1189335885
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189335883}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
 --- !u!1 &1190348488
 GameObject:
   m_ObjectHideFlags: 0
@@ -32008,6 +32058,7 @@ MonoBehaviour:
   zoomConfig:
     zoomOnClick: 1
     multiplier: 1.5
+    zoomInMultiplier: 0
     overrideYPosition: -1
     defaultSortOrder: 200
     bringToFrontOnHover: 1

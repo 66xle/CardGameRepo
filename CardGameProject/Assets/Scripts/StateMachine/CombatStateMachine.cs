@@ -343,7 +343,7 @@ public class CombatStateMachine : MonoBehaviour
         }
         else if (tag == "Recycle")
         {
-            if (GameManager.Instance.TutorialStage < 4) return;
+            if (GameManager.Instance.IsInTutorial && GameManager.Instance.TutorialStage < 4) return;
 
             // Get cardData from player hand to move to discard pile
             CardData cardData = CardManager.PlayerHand.First(data => data.Card.InGameGUID == card.InGameGUID);

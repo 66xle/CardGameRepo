@@ -61,6 +61,7 @@ public class CardContainer : MonoBehaviour {
 
     private RectTransform rectTransform;
     [HideInInspector] public CardWrapper currentDraggedCard;
+    [HideInInspector] public bool currentInPlayArea;
 
     private void Start() {
         rectTransform = GetComponent<RectTransform>();
@@ -157,7 +158,27 @@ public class CardContainer : MonoBehaviour {
         SetCardsPosition();
         SetCardsRotation();
         SetCardsUILayers();
+        SetScale();
         UpdateCardOrder();
+    }
+
+    public void SetScale()
+    {
+        foreach (GameObject playAreaObject in cardPlayConfig.playArea)
+        {
+            if (playAreaObject == null) continue;
+
+            // If card is in play area, play it!
+            RectTransform rectTransform = playAreaObject.GetComponent<RectTransform>();
+            if (IsCursorInPlayArea(rectTransform))
+            {
+                currentInPlayArea = true;
+            }
+            else
+            {
+                currentInPlayArea = false;
+            }
+        }
     }
 
     private void SortCards()

@@ -15,6 +15,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public Vector2 targetPosition;
     public float targetVerticalDisplacement;
     public int uiLayer;
+    public Vector2 targetScale;
 
     private RectTransform rectTransform;
     [HideInInspector] public Canvas canvas;
@@ -109,6 +110,10 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private void UpdateScale() {
         var targetZoom = (isDragged || IsPreviewActive) && zoomConfig.zoomOnClick ? zoomConfig.multiplier : 1;
+        if (container.currentInPlayArea)
+            targetZoom = zoomConfig.zoomInMultiplier;
+
+
         var delta = Mathf.Abs(rectTransform.localScale.x - targetZoom);
         float newZoom = Mathf.Lerp(rectTransform.localScale.x, targetZoom,
             animationSpeedConfig.zoom / delta * Time.deltaTime);
