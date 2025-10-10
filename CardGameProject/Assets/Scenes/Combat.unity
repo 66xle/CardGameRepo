@@ -4505,7 +4505,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 55.2, y: 271}
+  m_AnchoredPosition: {x: 55.200012, y: 271}
   m_SizeDelta: {x: -802.1, y: -542.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &254873619
@@ -32745,9 +32745,10 @@ MonoBehaviour:
   Ctx: {fileID: 467955062}
   Canvas: {fileID: 562006577}
   MainCamera: {fileID: 765615826}
+  ResponsePanel: {fileID: 0}
   KnightPrefab: {fileID: 8020402571215977629, guid: e1460fd38c5d8074fb6702fba4d830a8, type: 3}
   KnightSpawnPosition: {fileID: 0}
-  RunSignal: 1
+  RunSignal: 0
   SignalAsset: {fileID: 11400000, guid: 848a09acb5ae26d44b951cb66c0c9c38, type: 2}
   Cutscenes:
   - {fileID: 5308107989193443835, guid: 79cd3cf44c21fea4ba673df5651626fc, type: 3}
@@ -33810,6 +33811,22 @@ MonoBehaviour:
         - m_Target: {fileID: 1960274874}
           m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
           m_MethodName: NextCutscene
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - guid: 47396ae8-eeaf-4847-8db2-fb6349f498c5
+    onExecute:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1960274874}
+          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
+          m_MethodName: RemoveButtons
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

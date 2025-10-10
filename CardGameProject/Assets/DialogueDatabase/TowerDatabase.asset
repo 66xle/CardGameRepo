@@ -2306,6 +2306,10 @@ MonoBehaviour:
           AnimatorTrigger(4);'
         type: 0
         typeString: CustomFieldType_Text
+      - title: EventGuid
+        value: 
+        type: 0
+        typeString: 
       conversationID: 3
       isRoot: 0
       isGroup: 0
@@ -2321,7 +2325,12 @@ MonoBehaviour:
         isConnector: 0
         priority: 2
       conditionsString: 
-      userScript: 
+      userScript: 'Variable["Dialogue1"] = false
+
+        Variable["Dialogue2"] =
+        false
+
+        Variable["Dialogue3"] = false'
       onExecute:
         m_PersistentCalls:
           m_Calls: []
@@ -4210,8 +4219,8 @@ MonoBehaviour:
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 400.12402, y: 379.39377}
-    canvasZoom: 0.55000025
+    canvasScrollPosition: {x: 417.10236, y: 0}
+    canvasZoom: 0.82000005
   syncInfo:
     syncActors: 0
     syncItems: 0
