@@ -565,6 +565,106 @@ Transform:
   - {fileID: 7311557281686051833}
   m_Father: {fileID: 2711845999063499283}
   m_LocalEulerAnglesHint: {x: 0, y: 120, z: 0}
+--- !u!1 &1019596766275583022
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6332782202163437412}
+  - component: {fileID: 246041881620729542}
+  - component: {fileID: 7674318820775477061}
+  m_Layer: 0
+  m_Name: Tower
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6332782202163437412
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019596766275583022}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.1312523, y: -7.962687, z: 1.2870136}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5398335070950564778}
+  m_Father: {fileID: 7897188834413571478}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &246041881620729542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019596766275583022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc45ebd9f9d8543f1a28f876f7823de4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tunnelParent: {fileID: 0}
+  sectionLibrary:
+  - {fileID: 11400000, guid: 9e7eb23d89f174d9c9bd43f24e2fb157, type: 2}
+  - {fileID: 11400000, guid: 47258671aa16041438ae27ac41f28f2c, type: 2}
+  - {fileID: 11400000, guid: 148fe1c3ac4b0408ba26167d756ac7c5, type: 2}
+  arenaLibrary:
+  - {fileID: 11400000, guid: 148fe1c3ac4b0408ba26167d756ac7c5, type: 2}
+  initialSections: 2
+  spawnWindowAhead: 40
+  despawnBelow: -10
+  speedRange: {x: 1.5, y: 3}
+  driftIdleIntervalRange: {x: 6, y: 14}
+  driftRampDurationRange: {x: 5, y: 10}
+  arenaDecelDuration: 8
+  OnArenaArrived:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCutsceneStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnResumed:
+    m_PersistentCalls:
+      m_Calls: []
+  resumeDuration: 3
+--- !u!114 &7674318820775477061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019596766275583022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: cb166adebd1fa43c38975bfe5c501192, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 246041881620729542}
+          m_TargetAssemblyTypeName: EndlessTunnelManagerUnified, Assembly-CSharp
+          m_MethodName: ResumeTunnel
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1057483341026589437
 GameObject:
   m_ObjectHideFlags: 0
@@ -2814,7 +2914,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &432353149124914154
 Transform:
   m_ObjectHideFlags: 0
@@ -3388,6 +3488,7 @@ MonoBehaviour:
   PlayerSpawnPosition: {fileID: 5521611512699574613}
   KnightSpawnPosition: {fileID: 4109492932375734356}
   CutsceneParent: {fileID: 9167269376142010420}
+  Endless: {fileID: 246041881620729542}
   CutsceneSpawnPositions:
   - Name: Player
     Transform: {fileID: 7376414143956719340}
@@ -3869,6 +3970,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6332782202163437412}
   - {fileID: 9167269376142010420}
   - {fileID: 432353149124914154}
   - {fileID: 3966209377301994759}
@@ -4016,6 +4118,90 @@ Transform:
   - {fileID: 82760455821847541}
   m_Father: {fileID: 432353149124914154}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8556129508481544987
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5398335070950564778}
+  - component: {fileID: 2880351397155348698}
+  - component: {fileID: 2315450117955142080}
+  m_Layer: 0
+  m_Name: EndlessTower_CutsceneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5398335070950564778
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8556129508481544987}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6332782202163437412}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2880351397155348698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8556129508481544987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fd92af90ff6243bc8fea38e53314bbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 246041881620729542}
+  cutsceneSequence:
+  - {fileID: 11400000, guid: 9e7eb23d89f174d9c9bd43f24e2fb157, type: 2}
+  - {fileID: 11400000, guid: 102b8f9c3b43d478a87ad6d11f4e8159, type: 2}
+  - {fileID: 11400000, guid: 148fe1c3ac4b0408ba26167d756ac7c5, type: 2}
+  - {fileID: 11400000, guid: 148fe1c3ac4b0408ba26167d756ac7c5, type: 2}
+  stopTime: 20
+  decelDuration: 8
+  appendToExisting: 0
+--- !u!114 &2315450117955142080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8556129508481544987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 7b305ac9253c7444984a2fcca640b3d1, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2880351397155348698}
+          m_TargetAssemblyTypeName: TunnelCutsceneHelper, Assembly-CSharp
+          m_MethodName: PlayCutscene
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &8616216021677947573
 GameObject:
   m_ObjectHideFlags: 0
@@ -5767,6 +5953,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 4a4636fec52824205aa3e751e02d30a0, type: 3}
       propertyPath: m_Name
       value: Crucible_IronLoop_A (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4a4636fec52824205aa3e751e02d30a0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18689,6 +18879,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crucible_IronLoop_A (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4a4636fec52824205aa3e751e02d30a0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -19225,6 +19419,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 4a4636fec52824205aa3e751e02d30a0, type: 3}
       propertyPath: m_Name
       value: Crucible_IronLoop_A (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4a4636fec52824205aa3e751e02d30a0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -29406,6 +29604,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crucible_IronLoop_A
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4a4636fec52824205aa3e751e02d30a0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -32874,6 +33076,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d217d393fdcea43e2b9cc454b3867c97, type: 3}
       propertyPath: m_Name
       value: Crucible_BridgeA
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d217d393fdcea43e2b9cc454b3867c97, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d217d393fdcea43e2b9cc454b3867c97, type: 3}
       propertyPath: m_StaticEditorFlags

@@ -12173,7 +12173,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 149.99988, y: 27.000061}
+  m_AnchoredPosition: {x: 150, y: 27}
   m_SizeDelta: {x: 765.1, y: 160.1}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &682366962
@@ -13804,7 +13804,7 @@ Camera:
   m_Depth: 4
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 991
+    m_Bits: 5087
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -20489,7 +20489,7 @@ RectTransform:
   m_Father: {fileID: 354119877}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 393, y: -712}
   m_SizeDelta: {x: -1305.8, y: -1421}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -26975,7 +26975,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1596904554
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32695,11 +32695,14 @@ MonoBehaviour:
   MainCamera: {fileID: 765615826}
   KnightPrefab: {fileID: 8020402571215977629, guid: e1460fd38c5d8074fb6702fba4d830a8, type: 3}
   KnightSpawnPosition: {fileID: 0}
-  RunSignal: 1
+  RunSignal: 0
   SignalAsset: {fileID: 11400000, guid: 848a09acb5ae26d44b951cb66c0c9c38, type: 2}
   Cutscenes:
   - {fileID: 5308107989193443835, guid: 79cd3cf44c21fea4ba673df5651626fc, type: 3}
   - {fileID: 2164174658664680069, guid: 80490f10a5978409d821edb42eae5f80, type: 3}
+  - {fileID: 4143047049901477623, guid: 8350e1019d41c4757a93762d34831791, type: 3}
+  - {fileID: 986751883938443749, guid: a9669b58d418345bf89ee5a323398cd7, type: 3}
+  - {fileID: 8168744646114935628, guid: e9700d113e4344ecdb6f0e9ed18bf17a, type: 3}
 --- !u!114 &1960274875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32718,6 +32721,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 848a09acb5ae26d44b951cb66c0c9c38, type: 2}
     - {fileID: 11400000, guid: 678c720b7a94b9f45b13bb246940386a, type: 2}
     - {fileID: 11400000, guid: 32985e14cef34d040bf33114cdbd0980, type: 2}
+    - {fileID: 11400000, guid: cb166adebd1fa43c38975bfe5c501192, type: 2}
+    - {fileID: 11400000, guid: 7b305ac9253c7444984a2fcca640b3d1, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -32838,6 +32843,34 @@ MonoBehaviour:
         - m_Target: {fileID: 1960274874}
           m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
           m_MethodName: NextCutscene
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1960274874}
+          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
+          m_MethodName: ResumeTower
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1960274874}
+          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
+          m_MethodName: TowerCutscene
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -33724,7 +33757,7 @@ MonoBehaviour:
           m_CallState: 2
         - m_Target: {fileID: 1960274874}
           m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
-          m_MethodName: StartCombatStateMachine
+          m_MethodName: NextCutscene
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

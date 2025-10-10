@@ -17,6 +17,7 @@ public class AvatarSpawnPosition : MonoBehaviour
     public Transform PlayerSpawnPosition;
     public Transform KnightSpawnPosition;
     public Transform CutsceneParent;
+    [MustBeAssigned] public EndlessTunnelManagerUnified Endless;
 
     [Separator]
 

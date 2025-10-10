@@ -27,6 +27,7 @@ public class CutsceneManager : MonoBehaviour
     private int _cutsceneIndex;
     private AvatarSpawnPosition asp;
 
+
     private List<GameObject> cutsceneObjects = new();
     private GameObject _loadedPrefab;
 
@@ -151,5 +152,16 @@ public class CutsceneManager : MonoBehaviour
         cutsceneObjects.Add(spawnedObject);
 
         return spawnedObject;
+    }
+
+    public void ResumeTower()
+    {
+        asp.Endless.ResumeTunnel();
+        
+    }
+
+    public void TowerCutscene()
+    {
+        asp.Endless.GetComponentInChildren<TunnelCutsceneHelper>().PlayCutscene();
     }
 }
