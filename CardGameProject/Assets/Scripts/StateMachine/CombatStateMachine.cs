@@ -340,6 +340,10 @@ public class CombatStateMachine : MonoBehaviour
                 _isPlayedCard = true;
                 _cardPlayed = cardData;
             }
+            else
+            {
+                CombatUIManager.OutOfStaminaAlert();
+            }
         }
         else if (tag == "Recycle")
         {
@@ -396,6 +400,9 @@ public class CombatStateMachine : MonoBehaviour
     {
 
     }
+
+    
+
 
     #region Used by StateMachine
 

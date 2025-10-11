@@ -78,6 +78,12 @@ public class CombatUIManager : MonoBehaviour
     [Foldout("Managers", true)]
     [MustBeAssigned] public StatsManager StatsManager;
 
+    public CanvasGroup OutOfStamina;
+    public float FadeAlertTime = 1f;
+    public float ShowAlertTime = 1f;
+    private bool AlertIsEnabled = false;
+    
+
     public void HideGameplayUI(bool toggle)
     {
         toggle = !toggle;
@@ -149,5 +155,16 @@ public class CombatUIManager : MonoBehaviour
 
         //TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText, DelayTutorial);
         TutorialUI.DisplayTutorial(sprite, _currentEntry.MenuText, _currentEntry.DialogueText, DelayTutorial, "");
+    }
+
+    public void OutOfStaminaAlert()
+    {
+        if (AlertIsEnabled) return;
+
+        AlertIsEnabled = true;
+        DOVirtual.Float(0, 1, FadeAlertTime, f => OutOfStamina.alpha = f).OnComplete(() =>
+        {
+            DOVirtual.Float(1, 0, FadeAlertTime, f => OutOfStamina.alpha = f).SetDelay(ShowAlertTime).OnComplete(() => AlertIsEnabled = false);
+        });
     }
 }
