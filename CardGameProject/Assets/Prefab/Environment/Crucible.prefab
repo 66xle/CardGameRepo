@@ -789,7 +789,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2711845999063499283
 Transform:
   m_ObjectHideFlags: 0
@@ -1598,7 +1598,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5929596699372308756
 Transform:
   m_ObjectHideFlags: 0
@@ -2276,7 +2276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3353323023700063299
 Transform:
   m_ObjectHideFlags: 0
@@ -2827,7 +2827,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3975797819873137948
 Transform:
   m_ObjectHideFlags: 0
@@ -2983,7 +2983,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8524670008866973036
 Transform:
   m_ObjectHideFlags: 0
@@ -3017,7 +3017,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &432353149124914154
 Transform:
   m_ObjectHideFlags: 0
@@ -3645,7 +3645,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5488420090773964868
 Transform:
   m_ObjectHideFlags: 0
@@ -4234,7 +4234,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1743288697049890346
 Transform:
   m_ObjectHideFlags: 0
@@ -4306,7 +4306,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 148fe1c3ac4b0408ba26167d756ac7c5, type: 2}
   stopTime: 20
   decelDuration: 8
-  appendToExisting: 0
+  appendToExisting: 1
 --- !u!114 &2315450117955142080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4352,7 +4352,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2446177569584857140
 Transform:
   m_ObjectHideFlags: 0
@@ -7677,6 +7677,10 @@ PrefabInstance:
       value: Crucible_BridgeA (1)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d217d393fdcea43e2b9cc454b3867c97, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d217d393fdcea43e2b9cc454b3867c97, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -8088,7 +8092,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1670667910142736, guid: 236966b1ca564c1448880f7214945db9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4985469382481466, guid: 236966b1ca564c1448880f7214945db9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8381,6 +8385,10 @@ PrefabInstance:
       value: Crucible_RingA
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b71883936f97c49be84a16cb7cff6419, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b71883936f97c49be84a16cb7cff6419, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -8632,7 +8640,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1670667910142736, guid: 236966b1ca564c1448880f7214945db9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4985469382481466, guid: 236966b1ca564c1448880f7214945db9, type: 3}
       propertyPath: m_LocalScale.x
@@ -9612,6 +9620,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crucible_Ring_Level (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d47638e81860d46b19271696d530b38d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9752,6 +9764,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crucible_RingC
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4bc84083036204e05873c82f85df5279, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9891,6 +9907,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 9c174df4e61d94f0f83c8bbb8f97467d, type: 3}
       propertyPath: m_Name
       value: Crucible_RingInnerB
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9c174df4e61d94f0f83c8bbb8f97467d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13100,7 +13120,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1670667910142736, guid: 236966b1ca564c1448880f7214945db9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4985469382481466, guid: 236966b1ca564c1448880f7214945db9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15058,6 +15078,10 @@ PrefabInstance:
       value: Crucible_Ring_Level
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d47638e81860d46b19271696d530b38d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d47638e81860d46b19271696d530b38d, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -16841,6 +16865,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: da1910da2e9a54b63a75fb4558127094, type: 3}
       propertyPath: m_Name
       value: Crucible_IronLoop_B
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da1910da2e9a54b63a75fb4558127094, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -20197,7 +20225,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1670667910142736, guid: 236966b1ca564c1448880f7214945db9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4985469382481466, guid: 236966b1ca564c1448880f7214945db9, type: 3}
       propertyPath: m_LocalScale.x
@@ -21604,7 +21632,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1670667910142736, guid: 236966b1ca564c1448880f7214945db9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4985469382481466, guid: 236966b1ca564c1448880f7214945db9, type: 3}
       propertyPath: m_LocalScale.x
@@ -23307,6 +23335,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 4a4636fec52824205aa3e751e02d30a0, type: 3}
       propertyPath: m_Name
       value: Crucible_IronLoop_A
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4a4636fec52824205aa3e751e02d30a0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -28734,6 +28766,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crucible_RingB
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 660f66914f1dc4794bfc242f4fb498fa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -32087,7 +32123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6575e48f9fb794e1091d1fa18fbd42dc, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2654712465866470718, guid: 6575e48f9fb794e1091d1fa18fbd42dc, type: 3}
       propertyPath: m_LocalScale.x
@@ -33284,6 +33320,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 42c1b6b7306fa45d4b0de91bb731f3a4, type: 3}
       propertyPath: m_Name
       value: Crucible_RingD
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 42c1b6b7306fa45d4b0de91bb731f3a4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -34635,6 +34675,10 @@ PrefabInstance:
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d217d393fdcea43e2b9cc454b3867c97, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d217d393fdcea43e2b9cc454b3867c97, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -35076,7 +35120,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1670667910142736, guid: 236966b1ca564c1448880f7214945db9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4985469382481466, guid: 236966b1ca564c1448880f7214945db9, type: 3}
       propertyPath: m_LocalScale.x
@@ -35231,6 +35275,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 65e107ea91a73470f9fe707e9deacec2, type: 3}
       propertyPath: m_Name
       value: Crucible_RingInnerB1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 65e107ea91a73470f9fe707e9deacec2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

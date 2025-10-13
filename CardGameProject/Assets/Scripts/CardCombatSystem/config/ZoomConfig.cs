@@ -11,6 +11,9 @@ namespace config {
         [Range(1f, 5f)]
         [SerializeField]
         public float multiplier = 1;
+
+        [SerializeField]
+        public float zoomInMultiplier;
         
         [Tooltip("This is the Y position of the card when it is zoomed in. If this is -1, the card will not be moved on the Y axis.")]
         [SerializeField]

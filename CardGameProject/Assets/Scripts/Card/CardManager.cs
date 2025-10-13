@@ -15,6 +15,7 @@ public class CardManager : MonoBehaviour
     [MustBeAssigned] [SerializeField] EquipmentManager EquipmentManager;
     [MustBeAssigned] [SerializeField] StatsManager StatsManager;
     [MustBeAssigned] [SerializeField] CombatUIManager CombatUIManager;
+    [MustBeAssigned] [SerializeField] Camera UICamera;
 
     [HideInInspector] public List<CardData> PlayerDeck;
     [HideInInspector] public List<CardData> PlayerHand;
@@ -86,6 +87,7 @@ public class CardManager : MonoBehaviour
             CardDisplay display = go.GetComponent<CardDisplay>();
             string description = display.CardData.GenerateDescriptionWithDamage(display.Card, display.CardData.Gear, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale, StatsManager.CurrentMaxHealth, enemy, player);
             display.UpdateDescription(description);
+            display.SetCamera(UICamera);
         }
     }
 

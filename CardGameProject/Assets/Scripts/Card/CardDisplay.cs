@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using MyBox;
 using TMPro;
 using UnityEngine;
@@ -20,7 +21,7 @@ public class CardDisplay : MonoBehaviour
     [MustBeAssigned] [SerializeField] TMP_Text PopupTitle;
     [MustBeAssigned] [SerializeField] TMP_Text PopupDescription;
 
-
+    private Camera UICamera;
     private bool _isPopupDisabled = false;
 
     public Card Card { get; private set; }
@@ -30,7 +31,10 @@ public class CardDisplay : MonoBehaviour
     {
         if (InputManager.Instance.LeftClickInputDown && !_isPopupDisabled)
         {
-            int linkIndex = TMP_TextUtilities.FindIntersectingLink(Description, Input.mousePosition, Camera.main);
+            if (Description.textInfo.linkInfo.Count() <= 0) return;
+
+
+            int linkIndex = TMP_TextUtilities.FindIntersectingLink(Description, Input.mousePosition, UICamera);
             if (linkIndex != -1)
             {
                 TMP_LinkInfo linkInfo = Description.textInfo.linkInfo[linkIndex];
@@ -80,5 +84,10 @@ public class CardDisplay : MonoBehaviour
     public void UpdateDescription(string description)
     {
         Description.text = description;
+    }
+
+    public void SetCamera(Camera camera)
+    {
+        UICamera = camera;
     }
 }
