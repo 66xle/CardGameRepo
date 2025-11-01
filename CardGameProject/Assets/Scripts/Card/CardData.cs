@@ -66,7 +66,7 @@ public struct CardData
             {
                 value = CalculateDamage.GetHealAmount(health, value);
             }
-            else
+            else if (type == 0)
             {
                 value = CalculateDamage.GetDamage(attack, weaponAttack, enemy, player, value);
             }
