@@ -3,8 +3,8 @@ using SerializeReferenceEditor;
 using System.Collections.Generic;
 using UnityEngine;
 
-[SRName("Reactive Conditions/If Attacked")]
-public class IfAttacked : ReactiveCondition
+[SRName("Reactive Conditions/Counter")]
+public class RCCounter : ReactiveCondition
 {
     public override bool IsReactiveCondition => true;
 
