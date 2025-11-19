@@ -10,6 +10,7 @@ public abstract class ReactiveCondition : Condition
     public abstract ReactiveOptions ReactiveOptions { get; }
 
     public override abstract List<Executable> Commands { get; }
+    public abstract List<ReactiveConditionEffects> Effects { get; }
 
     public void AddReactiveEffect()
     {

@@ -10,9 +10,11 @@ public class RCCounter : ReactiveCondition
 
     public override ReactiveOptions ReactiveOptions { get { return reactiveOptions; } }
     public override List<Executable> Commands { get { return commands; } }
+    public override List<ReactiveConditionEffects> Effects { get { return effects; } }
 
     [SerializeReference][SR] public ReactiveOptions reactiveOptions = new();
     [SerializeReference][SR] public List<Executable> commands;
+    [SerializeReference][SR] public List<ReactiveConditionEffects> effects;
 
     public override bool Evaluate()
     {
@@ -25,6 +27,7 @@ public class RCCounter : ReactiveCondition
         if (ReactiveOptions.EffectTiming == EffectTiming.NextTurn) triggerTemp = ReactiveTrigger.StartOfTurn;
 
         ExecutableParameters.AvatarPlayingCard.DictReactiveEffects[triggerTemp][ExecutableParameters.AvatarPlayingCard.DictReactiveEffects[triggerTemp].Count - 1].Commands = commands;
+        ExecutableParameters.AvatarPlayingCard.DictReactiveEffects[triggerTemp][ExecutableParameters.AvatarPlayingCard.DictReactiveEffects[triggerTemp].Count - 1].Effects = effects;
     }
 
     public override void OnApply()

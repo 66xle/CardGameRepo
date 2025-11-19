@@ -18,7 +18,7 @@ public class StatusEffectSystem : MonoBehaviour
         Avatar avatarToApply = applyStatusEffectGA.AvatarToApply;
         StatusEffect statusEffect = applyStatusEffectGA.StatusEffect;
 
-        avatarToApply.ApplyStatusEffect(statusEffect.Clone());
+        avatarToApply.ApplyStatusEffect(statusEffect);
 
         yield return null;
     }

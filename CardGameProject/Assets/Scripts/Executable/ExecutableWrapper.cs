@@ -13,6 +13,7 @@ public class ExecutableWrapper
     public ReactiveTrigger ReactiveTrigger;
     public DuplicateEffect DuplicateEffect;
     public List<Executable> Commands = new();
+    public List<ReactiveConditionEffects> Effects = new();
 
     public ExecutableWrapper(CardData data, int turns, ReactiveOptions reactiveOptions)
     {
@@ -25,10 +26,11 @@ public class ExecutableWrapper
         StackType = reactiveOptions.StackType;
     }
 
-    public ExecutableWrapper(CardData data, List<Executable> commands)
+    public ExecutableWrapper(CardData data, List<Executable> commands, List<ReactiveConditionEffects> effects)
     {
         CardData = data;
         Commands = commands;
+        Effects = effects;
     }
 
     public ExecutableWrapper(CardData data)

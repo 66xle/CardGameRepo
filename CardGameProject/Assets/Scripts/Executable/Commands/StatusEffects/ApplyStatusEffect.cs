@@ -6,7 +6,7 @@ using UnityEngine;
 [SRName("Commands/Apply Status Effect")]
 public class ApplyStatusEffect : StatusCommand
 {
-    public override StatusEffect Effect => effect.StatusEffect;
+    public override StatusEffect Effect => effect.StatusEffect.Clone();
 
     public override CardTarget CardTarget => target;
 

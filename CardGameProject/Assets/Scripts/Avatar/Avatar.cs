@@ -203,6 +203,9 @@ public class Avatar : MonoBehaviour
 
     public void ApplyStatusEffect(StatusEffect statusEffect)
     {
+        // Create the reactive effect and check if it exists
+
+
         if (ListOfEffects.Any(status => status.Effect == statusEffect.Effect))
         {
             int index = ListOfEffects.FindIndex(status => status.Effect == statusEffect.Effect);
@@ -428,7 +431,7 @@ public class Avatar : MonoBehaviour
 
             if (wrapper == null) continue;
 
-            sortedCommands.Add(new ExecutableWrapper(wrapper.CardData, wrapper.Commands));
+            sortedCommands.Add(new ExecutableWrapper(wrapper.CardData, wrapper.Commands, wrapper.Effects));
         }
 
         foreach (StackType type in Enum.GetValues(typeof(StackType))) // Multiple types (Play no animations)
