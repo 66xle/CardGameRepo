@@ -380,7 +380,7 @@ public class CardContainer : MonoBehaviour {
 
     private void SetCardsAnchor() {
         foreach (CardWrapper child in cards) {
-            child.SetAnchor(new Vector2(0, 0.5f), new Vector2(0, 0.5f));
+            child.SetAnchor(new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
         }
     }
 

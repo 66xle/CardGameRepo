@@ -26,7 +26,6 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private bool isHovered;
     private bool isDragged = false;
-    private Vector2 dragStartPos;
     public EventsConfig eventsConfig;
 
     private float dragStartEventY;
@@ -103,7 +102,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             container.mainCanvas.worldCamera,
             out Vector2 localPoint))
             {
-                rectTransform.localPosition = localPoint + dragStartPos;
+                rectTransform.localPosition = localPoint + new Vector2(0, rectTransform.rect.height * 0.7f);
             }
         }
     }
@@ -171,8 +170,6 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             //if (Ydis < 10f) return;
 
             isDragged = true;
-
-            dragStartPos = rectTransform.localPosition - (Vector3)currentLocal;
             dragStartEventY = currentLocal.y;
 
             container.OnCardDragStart(this);
