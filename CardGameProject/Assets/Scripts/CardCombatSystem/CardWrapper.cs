@@ -102,7 +102,17 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             container.mainCanvas.worldCamera,
             out Vector2 localPoint))
             {
-                rectTransform.localPosition = localPoint + new Vector2(0, rectTransform.rect.height * 0.7f);
+                localPoint += new Vector2(0, rectTransform.rect.height * 0.7f);
+
+                var distance = Vector2.Distance(rectTransform.localPosition, localPoint);
+                var repositionSpeed = distance / animationSpeedConfig.duration;
+
+                if (repositionSpeed == 0)
+                    repositionSpeed = 1;
+
+                Vector2 position = Vector2.Lerp(rectTransform.localPosition, localPoint, repositionSpeed / distance * Time.deltaTime);
+
+                rectTransform.localPosition = position;
             }
         }
     }
