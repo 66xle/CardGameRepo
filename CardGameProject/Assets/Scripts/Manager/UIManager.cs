@@ -12,6 +12,9 @@ public class UIManager : MonoBehaviour
     {
         Time.timeScale = 1.0f;
 
+        GameManager.Instance.WaveCount = 0;
+        GameManager.Instance.CurrentEXP = 0;
+
         AudioManager.Instance.FadeOutMusic(0.2f);
 
         SceneLoader loader = ServiceLocator.Get<SceneLoader>();
@@ -22,6 +25,9 @@ public class UIManager : MonoBehaviour
     public async void MainMenu()
     {
         Time.timeScale = 1f;
+
+        GameManager.Instance.WaveCount = 0;
+        GameManager.Instance.CurrentEXP = 0;
 
         AudioManager.Instance.FadeOutMusic(0.2f);
 
@@ -41,8 +47,6 @@ public class UIManager : MonoBehaviour
 
     public async void Play()
     {
-        GameManager.Instance.WaveCount = 0;
-
         SceneLoader sceneLoader = ServiceLocator.Get<SceneLoader>();
 
         await sceneLoader.LoadSceneGroup("Combat");
