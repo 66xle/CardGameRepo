@@ -439,6 +439,7 @@ public class CombatStateMachine : MonoBehaviour
         Debug.Log("END PLAYER'S TURN");
 
         _pressedEndTurnButton = true;
+        CombatUIManager.HideGameplayUI(true);
 
         // For enemy state
         EnemyTurnQueue.Clear();
