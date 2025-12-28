@@ -36,6 +36,7 @@ public class TutorialUI : MonoBehaviour
     {
         Title.text = title;
         Description.text = description;
+        ImageObj.SetActive(false);
         Logo.SetActive(true);
 
         if (!gameObject.activeSelf)

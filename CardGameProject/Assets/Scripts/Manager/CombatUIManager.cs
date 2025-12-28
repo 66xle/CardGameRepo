@@ -104,7 +104,7 @@ public class CombatUIManager : MonoBehaviour
     {
         if (GameManager.Instance.IsInTutorial)
         {
-            _tutorialIndex = -1;
+            _tutorialIndex = -1; // not used
 
             StartTutorialConversation(0);
         }

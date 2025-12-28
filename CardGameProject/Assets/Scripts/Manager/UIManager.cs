@@ -6,20 +6,26 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] DifficultyManager DifficultyManager;
+    [MustBeAssigned] [SerializeField] DifficultyManager DifficultyManager;
+    [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
 
-    public async void RestartCombat()
+    public void RestartCombat(GameObject menu)
     {
+        menu.SetActive(false);
+
+        //AudioManager.Instance.FadeOutMusic(0.2f);
+
+        if (GameManager.Instance.TutorialStage < 5)
+            GameManager.Instance.TutorialStage = 1;
+
+        Ctx.EndGameplay();
+        Ctx.Init();
+
         Time.timeScale = 1.0f;
 
-        GameManager.Instance.WaveCount = 0;
-        GameManager.Instance.CurrentEXP = 0;
+        //SceneLoader loader = ServiceLocator.Get<SceneLoader>();
 
-        AudioManager.Instance.FadeOutMusic(0.2f);
-
-        SceneLoader loader = ServiceLocator.Get<SceneLoader>();
-
-        await loader.LoadSceneGroup("Combat");
+        //await loader.LoadSceneGroup("Combat");
     }
 
     public async void MainMenu()
@@ -42,7 +48,7 @@ public class UIManager : MonoBehaviour
 
         GameManager.Instance.StageLevel++;
 
-        RestartCombat(); // temp
+        //RestartCombat(); // temp
     }
 
     public async void Play()

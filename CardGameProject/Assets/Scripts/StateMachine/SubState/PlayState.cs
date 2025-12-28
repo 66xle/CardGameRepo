@@ -70,6 +70,11 @@ public class PlayState : CombatBaseState
         {
             SwitchState(factory.Action());
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SwitchState(factory.CombatEnd());
+        }
     }
     public override void InitializeSubState() { }
 

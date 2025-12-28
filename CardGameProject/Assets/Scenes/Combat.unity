@@ -1955,7 +1955,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &87634598
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3626,10 +3626,10 @@ MonoBehaviour:
       - m_Target: {fileID: 602362924}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: RestartCombat
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 105679948}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -15479,6 +15479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DifficultyManager: {fileID: 1266213100}
+  Ctx: {fileID: 467955062}
 --- !u!4 &602362925
 Transform:
   m_ObjectHideFlags: 0
@@ -19621,10 +19622,10 @@ MonoBehaviour:
       - m_Target: {fileID: 602362924}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: RestartCombat
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1809290310}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -36077,7 +36078,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PSS: {fileID: 11400000, guid: a0448ceceb179ec4eb5912d845d90fc8, type: 2}
-  Level: 2
+  Level: 20
   BaseGuard: 5
   RecoverStaminaPercentage: 0.4
   ArmourType: 1
@@ -46450,7 +46451,7 @@ MonoBehaviour:
   MainCamera: {fileID: 765615826}
   KnightPrefab: {fileID: 8020402571215977629, guid: e1460fd38c5d8074fb6702fba4d830a8, type: 3}
   KnightSpawnPosition: {fileID: 0}
-  RunSignal: 1
+  RunSignal: 0
   SignalAsset: {fileID: 11400000, guid: 848a09acb5ae26d44b951cb66c0c9c38, type: 2}
   Cutscenes:
   - {fileID: 5308107989193443835, guid: 79cd3cf44c21fea4ba673df5651626fc, type: 3}

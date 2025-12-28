@@ -164,13 +164,9 @@ public class CombatStateMachine : MonoBehaviour
 
     public void InitBattle()
     {
-        if (GameManager.Instance.WaveCount == 0)
-        {
-            LevelData levelData = GameManager.Instance.CurrentLevelDataLoaded;
-            AudioResource resource = levelData.GetMusic(GameManager.Instance.WaveCount);
-            AudioManager.Instance.PlayMusic(resource);
-        }
-
+        LevelData levelData = GameManager.Instance.CurrentLevelDataLoaded;
+        AudioResource resource = levelData.GetMusic(GameManager.Instance.WaveCount);
+        AudioManager.Instance.PlayMusic(resource);
 
         _isInPrepState = false;
         CardManager.LoadCards();
@@ -459,8 +455,8 @@ public class CombatStateMachine : MonoBehaviour
         _selectedEnemyToAttack.SelectionRing.SetActive(false);
 
         // Remove enemy
-        EnemyList.Remove(_selectedEnemyToAttack as Enemy);
-        EnemyTurnQueue.Remove(_selectedEnemyToAttack as Enemy);
+        EnemyList.Remove(_selectedEnemyToAttack);
+        EnemyTurnQueue.Remove(_selectedEnemyToAttack);
         //ctx.DestroyEnemy(ctx.selectedEnemyToAttack);
 
         // Are there enemies still alive

@@ -37,9 +37,13 @@ public class CardManager : MonoBehaviour
 
     public void ResetCards()
     {
-        PlayerDeck.AddRange(PlayerHand);
-        PlayerDeck.AddRange(DiscardPile);
+        // Shuffle deck
+        if (GameManager.Instance.TutorialStage >= 5)
+        {
+            Extensions.Shuffle(PlayerDeck);
+        }
 
+        PlayerDeck.Clear();
         PlayerHand.Clear();
         DiscardPile.Clear();
 
