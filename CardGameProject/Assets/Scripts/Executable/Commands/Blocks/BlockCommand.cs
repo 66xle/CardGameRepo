@@ -23,16 +23,16 @@ public abstract class BlockCommand : Command
         {
             Avatar avatarGainBlock = ExecutableParameters.Targets[i];
 
-            if (avatarGainBlock.IsGameActionInQueue<GainBlockGA>())
+            if (avatarGainBlock.IsGameActionInQueue<GAGainBlock>())
             {
                 // Update damage value
-                GainBlockGA gainBlockGA = avatarGainBlock.GetGameActionFromQueue<GainBlockGA>() as GainBlockGA;
+                GAGainBlock gainBlockGA = avatarGainBlock.GetGameActionFromQueue<GAGainBlock>() as GAGainBlock;
                 gainBlockGA.BlockAmount += (int)block;
             }
             else
             {
                 // Add game action to queue
-                GainBlockGA gainBlockGA = new(avatarGainBlock, block);
+                GAGainBlock gainBlockGA = new(avatarGainBlock, block);
                 AddGameActionToQueue(gainBlockGA, avatarGainBlock);
             }
 

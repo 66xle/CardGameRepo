@@ -23,16 +23,16 @@ public abstract class GuardCommand : Command
         {
             Avatar avatarToTakeDamage = ExecutableParameters.Targets[i];
 
-            if (avatarToTakeDamage.IsGameActionInQueue<TakeGuardDamageGA>())
+            if (avatarToTakeDamage.IsGameActionInQueue<GATakeGuardDamage>())
             {
                 // Update damage value
-                TakeGuardDamageGA takeGuardDamageGA = avatarToTakeDamage.GetGameActionFromQueue<TakeGuardDamageGA>() as TakeGuardDamageGA;
+                GATakeGuardDamage takeGuardDamageGA = avatarToTakeDamage.GetGameActionFromQueue<GATakeGuardDamage>() as GATakeGuardDamage;
                 takeGuardDamageGA.GuardDamage += (int)Value;
             }
             else
             {
                 // Add game action to queue
-                TakeGuardDamageGA takeGuardDamageGA = new(avatarToTakeDamage, Value, CardTarget);
+                GATakeGuardDamage takeGuardDamageGA = new(avatarToTakeDamage, Value, CardTarget);
                 AddGameActionToQueue(takeGuardDamageGA, avatarToTakeDamage);
             }
 

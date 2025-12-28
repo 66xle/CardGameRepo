@@ -12400,7 +12400,7 @@ MonoBehaviour:
   StatsManager: {fileID: 1461295039}
   SwitchWeaponManager: {fileID: 510262701}
   EnemyManager: {fileID: 481923474}
-  CameraSystem: {fileID: 1314847668}
+  CameraSystem: {fileID: 1314847670}
   LevelManager: {fileID: 1177204822}
   CutsceneManager: {fileID: 1960274874}
   CameraManager: {fileID: 1233382175}
@@ -32904,6 +32904,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1314847669}
   - component: {fileID: 1314847668}
+  - component: {fileID: 1314847670}
   m_Layer: 0
   m_Name: CameraSystem
   m_TagString: Untagged
@@ -32939,6 +32940,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1053628506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1314847670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314847667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f41458c96f8bc04da7b1e02ee6dfd78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cm: {fileID: 1233382175}
 --- !u!1 &1315695335
 GameObject:
   m_ObjectHideFlags: 0
@@ -46451,7 +46465,7 @@ MonoBehaviour:
   MainCamera: {fileID: 765615826}
   KnightPrefab: {fileID: 8020402571215977629, guid: e1460fd38c5d8074fb6702fba4d830a8, type: 3}
   KnightSpawnPosition: {fileID: 0}
-  RunSignal: 0
+  RunSignal: 1
   SignalAsset: {fileID: 11400000, guid: 848a09acb5ae26d44b951cb66c0c9c38, type: 2}
   Cutscenes:
   - {fileID: 5308107989193443835, guid: 79cd3cf44c21fea4ba673df5651626fc, type: 3}

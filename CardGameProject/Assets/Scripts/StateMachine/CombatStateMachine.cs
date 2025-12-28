@@ -57,7 +57,7 @@ public class CombatStateMachine : MonoBehaviour
     [MustBeAssigned] [SerializeField] StatsManager StatsManager;
     [MustBeAssigned] [SerializeField] SwitchWeaponManager SwitchWeaponManager;
     [MustBeAssigned] [SerializeField] EnemyManager EnemyManager;
-    [MustBeAssigned] [SerializeField] CameraSystem CameraSystem;
+    [MustBeAssigned] [SerializeField] GASystemCamera CameraSystem;
     [MustBeAssigned] [SerializeField] LevelManager LevelManager; // Editor only
     [MustBeAssigned] [SerializeField] CutsceneManager CutsceneManager; // Editor only
     [MustBeAssigned] public CameraManager CameraManager;

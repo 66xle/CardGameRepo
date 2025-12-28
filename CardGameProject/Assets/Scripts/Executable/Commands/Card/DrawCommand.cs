@@ -19,16 +19,16 @@ public abstract class DrawCommand : Command
         {
             Avatar avatar = ExecutableParameters.Targets[i];
 
-            if (avatar.IsGameActionInQueue<DrawCardGA>())
+            if (avatar.IsGameActionInQueue<GADrawCard>())
             {
                 // Update damage value
-                DrawCardGA drawCardGA = avatar.GetGameActionFromQueue<DrawCardGA>() as DrawCardGA;
+                GADrawCard drawCardGA = avatar.GetGameActionFromQueue<GADrawCard>() as GADrawCard;
                 drawCardGA.DrawAmount += (int)Value;
             }
             else
             {
                 // Add game action to queue
-                DrawCardGA drawCardGA = new(avatar, (int)Value);
+                GADrawCard drawCardGA = new(avatar, (int)Value);
                 AddGameActionToQueue(drawCardGA, avatar, false);
             }
 

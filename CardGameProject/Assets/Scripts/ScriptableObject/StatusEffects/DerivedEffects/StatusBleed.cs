@@ -30,7 +30,7 @@ public class StatusBleed : StatusEffect
     {
         Stacks++;
 
-        SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatar, "Bleed", Color.red, true);
+        GASpawnDamageUIPopup spawnDamageUIPopupGA = new(avatar, "Bleed", Color.red, true);
         ActionSystem.Instance.Perform(spawnDamageUIPopupGA);
 
         base.OnApply(avatar);
@@ -42,7 +42,7 @@ public class StatusBleed : StatusEffect
 
         avatar.TakeDamageByStatusEffect(damage);
 
-        SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatar, damage.ToString(), Color.red);
+        GASpawnDamageUIPopup spawnDamageUIPopupGA = new(avatar, damage.ToString(), Color.red);
         ActionSystem.Instance.Perform(spawnDamageUIPopupGA);
     }
 

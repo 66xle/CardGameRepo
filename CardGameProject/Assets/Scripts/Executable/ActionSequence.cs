@@ -72,10 +72,10 @@ public class ActionSequence : Executable
                 ctx.CameraManager.SetVictimDummy(avatarOpponent.transform.parent.parent, avatarPlayingCard.transform);
 
             // Trigger move animation | After move GA, reaction will trigger attack GA
-            MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, IsAttackingAllEnemies, animationWrapper.DistanceOffset, animationWrapper.FollowTimeline, animationWrapper.MoveTime);
+            GAMoveToPos moveToPosGA = new(avatarPlayingCard, avatarOpponent, IsAttackingAllEnemies, animationWrapper.DistanceOffset, animationWrapper.FollowTimeline, animationWrapper.MoveTime);
             ActionSystem.Instance.Perform(moveToPosGA);
 
-            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource);
+            GATriggerAttackAnim triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource);
             moveToPosGA.PostReactions.Add(triggerAttackAnimGA);
 
             yield return new WaitWhile(() => !avatarPlayingCard.DoDamage);
@@ -88,12 +88,12 @@ public class ActionSequence : Executable
             {
                 if (animationWrapper.IsAttackAnimation)
                 {
-                    TriggerAttackAnimGA triggerAttackAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource, animationWrapper.IsAttackAnimation);
+                    GATriggerAttackAnim triggerAttackAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource, animationWrapper.IsAttackAnimation);
                     ActionSystem.Instance.Perform(triggerAttackAnimGA);
                 }
                 else
                 {
-                    TriggerAnimGA triggerAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource);
+                    GATriggerAnim triggerAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource);
                     ActionSystem.Instance.Perform(triggerAnimGA);
                     Debug.Log("triggerAnimGA");
                 }
@@ -132,7 +132,7 @@ public class ActionSequence : Executable
         if (hasMoved)
         {
             // Return to position
-            ReturnToPosGA returnToPosGA = new(avatarPlayingCard);
+            GAReturnToPos returnToPosGA = new(avatarPlayingCard);
             ActionSystem.Instance.Perform(returnToPosGA);
 
             // wait until we return to our spot

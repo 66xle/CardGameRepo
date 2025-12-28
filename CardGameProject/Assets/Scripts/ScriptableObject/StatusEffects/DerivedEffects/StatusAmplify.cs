@@ -21,7 +21,7 @@ public class StatusAmplify : StatusEffect
 
     public override void OnApply(Avatar avatar)
     {
-        SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatar, "Amplify", new Color32(255, 165, 0, 255), true); // Orange color
+        GASpawnDamageUIPopup spawnDamageUIPopupGA = new(avatar, "Amplify", new Color32(255, 165, 0, 255), true); // Orange color
         ActionSystem.Instance.Perform(spawnDamageUIPopupGA);
 
         base.OnApply(avatar);

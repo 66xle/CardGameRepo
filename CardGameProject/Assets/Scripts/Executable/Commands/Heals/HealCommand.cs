@@ -25,22 +25,22 @@ public abstract class HealCommand : Command
         {
             Avatar avatarToHeal = ExecutableParameters.Targets[i];
 
-            if (avatarToHeal.IsGameActionInQueue<GainHealthGA>())
+            if (avatarToHeal.IsGameActionInQueue<GAGainHealth>())
             {
                 // Update damage value
-                GainHealthGA gainHealthGA = avatarToHeal.GetGameActionFromQueue<GainHealthGA>() as GainHealthGA;
+                GAGainHealth gainHealthGA = avatarToHeal.GetGameActionFromQueue<GAGainHealth>() as GAGainHealth;
                 gainHealthGA.HealAmount += heal;
 
-                SpawnDamageUIPopupGA spawnDamageUIPopupGA = gainHealthGA.PostReactions.First(gameAction => gameAction is SpawnDamageUIPopupGA) as SpawnDamageUIPopupGA;
+                GASpawnDamageUIPopup spawnDamageUIPopupGA = gainHealthGA.PostReactions.First(gameAction => gameAction is GASpawnDamageUIPopup) as GASpawnDamageUIPopup;
                 spawnDamageUIPopupGA.Text = gainHealthGA.HealAmount.ToString();
             }
             else
             {
                 // Add game action to queue
-                GainHealthGA gainHealthGA = new(avatarToHeal, heal);
+                GAGainHealth gainHealthGA = new(avatarToHeal, heal);
                 AddGameActionToQueue(gainHealthGA, avatarToHeal);
 
-                SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatarToHeal, gainHealthGA.HealAmount.ToString(), Color.red);
+                GASpawnDamageUIPopup spawnDamageUIPopupGA = new(avatarToHeal, gainHealthGA.HealAmount.ToString(), Color.red);
                 AddGameActionToQueue(spawnDamageUIPopupGA, avatarToHeal);
             }
 

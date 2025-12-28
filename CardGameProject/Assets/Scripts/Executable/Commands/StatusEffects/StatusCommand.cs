@@ -22,7 +22,7 @@ public class StatusCommand : Command
             Avatar avatarToApply = ExecutableParameters.Targets[i];
 
             // Add game action to queue
-            ApplyStatusEffectGA applyStatusEffectGA = new(avatarToApply, Effect);
+            GAApplyStatusEffect applyStatusEffectGA = new(avatarToApply, Effect);
             avatarToApply.QueueGameActions.Add(applyStatusEffectGA);
 
             // ui update here
