@@ -17,17 +17,17 @@ public abstract class AttackCommand : Command
 
     public override void ExecuteCommand()
     {
-        Avatar avatarPlayingCard = ExecutableParameters.AvatarPlayingCard;
-        Avatar avatarOpponent = ExecutableParameters.AvatarOpponent;
+        Avatar avatarPlayingCard = EXEParameters.AvatarPlayingCard;
+        Avatar avatarOpponent = EXEParameters.AvatarOpponent;
 
         Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
         Animator opponentController = avatarOpponent.GetComponent<Animator>();
 
         float damage = CalculateDamage.GetDamage(avatarPlayingCard.Attack, avatarPlayingCard.CurrentWeaponData.WeaponAttack, avatarOpponent, avatarPlayingCard, Value);
 
-        for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
+        for (int i = 0; i < EXEParameters.Targets.Count; i++)
         {
-            Avatar avatarToTakeDamage = ExecutableParameters.Targets[i];
+            Avatar avatarToTakeDamage = EXEParameters.Targets[i];
 
             if (avatarToTakeDamage.IsGameActionInQueue<GATakeDamageFromWeapon>())
             {
@@ -41,7 +41,7 @@ public abstract class AttackCommand : Command
             else
             {
                 // Add game action to queue
-                GATakeDamageFromWeapon takeDamageFromWeaponGA = new(avatarToTakeDamage, damage, avatarPlayingCard.CurrentWeaponData.DamageType, ExecutableParameters.CardTarget);
+                GATakeDamageFromWeapon takeDamageFromWeaponGA = new(avatarToTakeDamage, damage, avatarPlayingCard.CurrentWeaponData.DamageType, EXEParameters.CardTarget);
                 AddGameActionToQueue(takeDamageFromWeaponGA, avatarToTakeDamage);
 
                 GASpawnDamageUIPopup spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.AvatarToTakeDamage, takeDamageFromWeaponGA.Damage.ToString(), Color.white);
@@ -57,7 +57,7 @@ public abstract class AttackCommand : Command
                 }
             }
 
-            ExecutableParameters.Targets[i] = avatarToTakeDamage;
+            EXEParameters.Targets[i] = avatarToTakeDamage;
         }
 
         UpdateGameActionQueue();

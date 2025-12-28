@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine;
 
 [SRName("Commands/Apply Status Effect")]
-public class ApplyStatusEffect : StatusCommand
+public class CMDApplyStatusEffect : StatusCommand
 {
     public override StatusEffect Effect => effect.StatusEffect.Clone();
 

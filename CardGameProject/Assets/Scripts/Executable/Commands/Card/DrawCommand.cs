@@ -15,9 +15,9 @@ public abstract class DrawCommand : Command
 
     public override void ExecuteCommand()
     {
-        for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
+        for (int i = 0; i < EXEParameters.Targets.Count; i++)
         {
-            Avatar avatar = ExecutableParameters.Targets[i];
+            Avatar avatar = EXEParameters.Targets[i];
 
             if (avatar.IsGameActionInQueue<GADrawCard>())
             {
@@ -32,7 +32,7 @@ public abstract class DrawCommand : Command
                 AddGameActionToQueue(drawCardGA, avatar, false);
             }
 
-            ExecutableParameters.Targets[i] = avatar;
+            EXEParameters.Targets[i] = avatar;
         }
 
         UpdateGameActionQueue();

@@ -1,8 +1,8 @@
-using MyBox;
 using SerializeReferenceEditor;
+using UnityEngine;
 
-[SRName("Commands/Gain Block")]
-public class GainBlock : BlockCommand
+[SRName("Commands/Deal Guard Damage")]
+public class CMDDealGuardDamage : GuardCommand
 {
     public override bool RequiresMovement => SetMovement();
 
@@ -11,11 +11,14 @@ public class GainBlock : BlockCommand
 
     public override CardTarget CardTarget => target;
 
-    [ReadOnly] public CardTarget target = CardTarget.Self;
+    public CardTarget target = CardTarget.Enemy;
     public float value;
 
     bool SetMovement()
     {
-        return false;
+        if (CardTarget == CardTarget.Self)
+            return false;
+
+        return true;
     }
 }

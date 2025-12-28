@@ -26,15 +26,15 @@ public class RCCounter : ReactiveCondition
         ReactiveTrigger triggerTemp = ReactiveOptions.ReactiveTrigger;
         if (ReactiveOptions.EffectTiming == EffectTiming.NextTurn) triggerTemp = ReactiveTrigger.StartOfTurn;
 
-        ExecutableParameters.AvatarPlayingCard.DictReactiveEffects[triggerTemp][ExecutableParameters.AvatarPlayingCard.DictReactiveEffects[triggerTemp].Count - 1].Commands = commands;
-        ExecutableParameters.AvatarPlayingCard.DictReactiveEffects[triggerTemp][ExecutableParameters.AvatarPlayingCard.DictReactiveEffects[triggerTemp].Count - 1].Effects = effects;
+        EXEParameters.AvatarPlayingCard.DictReactiveEffects[triggerTemp][EXEParameters.AvatarPlayingCard.DictReactiveEffects[triggerTemp].Count - 1].Commands = commands;
+        EXEParameters.AvatarPlayingCard.DictReactiveEffects[triggerTemp][EXEParameters.AvatarPlayingCard.DictReactiveEffects[triggerTemp].Count - 1].Effects = effects;
     }
 
     public override void OnApply()
     {
-        ExecutableParameters.AvatarPlayingCard.IsInCounterState = true;
+        EXEParameters.AvatarPlayingCard.IsInCounterState = true;
 
-        Animator animator = ExecutableParameters.AvatarPlayingCard.GetComponent<Animator>();
+        Animator animator = EXEParameters.AvatarPlayingCard.GetComponent<Animator>();
         animator.SetBool("isReady", true);
     }
 }

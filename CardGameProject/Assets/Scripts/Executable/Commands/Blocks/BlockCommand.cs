@@ -15,13 +15,13 @@ public abstract class BlockCommand : Command
 
     public override void ExecuteCommand()
     {
-        Avatar avatarPlayingCard = ExecutableParameters.AvatarPlayingCard;
+        Avatar avatarPlayingCard = EXEParameters.AvatarPlayingCard;
 
         float block = CalculateDamage.GetBlock(avatarPlayingCard.Defence, Value, avatarPlayingCard.BlockScale);
 
-        for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
+        for (int i = 0; i < EXEParameters.Targets.Count; i++)
         {
-            Avatar avatarGainBlock = ExecutableParameters.Targets[i];
+            Avatar avatarGainBlock = EXEParameters.Targets[i];
 
             if (avatarGainBlock.IsGameActionInQueue<GAGainBlock>())
             {
@@ -36,7 +36,7 @@ public abstract class BlockCommand : Command
                 AddGameActionToQueue(gainBlockGA, avatarGainBlock);
             }
 
-            ExecutableParameters.Targets[i] = avatarGainBlock;
+            EXEParameters.Targets[i] = avatarGainBlock;
         }
 
         UpdateGameActionQueue();

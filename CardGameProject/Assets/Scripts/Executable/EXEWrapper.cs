@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ExecutableWrapper
+public class EXEWrapper
 {
     public CardData CardData;
     public int Turns;
@@ -15,7 +15,7 @@ public class ExecutableWrapper
     public List<Executable> Commands = new();
     public List<ReactiveConditionEffects> Effects = new();
 
-    public ExecutableWrapper(CardData data, int turns, ReactiveOptions reactiveOptions)
+    public EXEWrapper(CardData data, int turns, ReactiveOptions reactiveOptions)
     {
         CardData = data;
         Turns = turns;
@@ -26,14 +26,14 @@ public class ExecutableWrapper
         StackType = reactiveOptions.StackType;
     }
 
-    public ExecutableWrapper(CardData data, List<Executable> commands, List<ReactiveConditionEffects> effects)
+    public EXEWrapper(CardData data, List<Executable> commands, List<ReactiveConditionEffects> effects)
     {
         CardData = data;
         Commands = commands;
         Effects = effects;
     }
 
-    public ExecutableWrapper(CardData data)
+    public EXEWrapper(CardData data)
     {
         CardData = data;
     }

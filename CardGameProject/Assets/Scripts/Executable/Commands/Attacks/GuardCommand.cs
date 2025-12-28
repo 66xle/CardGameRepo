@@ -16,12 +16,12 @@ public abstract class GuardCommand : Command
 
     public override void ExecuteCommand()
     {
-        Avatar avatarPlayingCard = ExecutableParameters.AvatarPlayingCard;
-        Avatar avatarOpponent = ExecutableParameters.AvatarOpponent;
+        Avatar avatarPlayingCard = EXEParameters.AvatarPlayingCard;
+        Avatar avatarOpponent = EXEParameters.AvatarOpponent;
 
-        for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
+        for (int i = 0; i < EXEParameters.Targets.Count; i++)
         {
-            Avatar avatarToTakeDamage = ExecutableParameters.Targets[i];
+            Avatar avatarToTakeDamage = EXEParameters.Targets[i];
 
             if (avatarToTakeDamage.IsGameActionInQueue<GATakeGuardDamage>())
             {
@@ -36,7 +36,7 @@ public abstract class GuardCommand : Command
                 AddGameActionToQueue(takeGuardDamageGA, avatarToTakeDamage);
             }
 
-            ExecutableParameters.Targets[i] = avatarToTakeDamage;
+            EXEParameters.Targets[i] = avatarToTakeDamage;
         }
 
         UpdateGameActionQueue();

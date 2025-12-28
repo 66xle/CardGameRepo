@@ -1,8 +1,9 @@
+using MyBox;
 using SerializeReferenceEditor;
 using UnityEngine;
 
-[SRName("Commands/Deal Guard Damage")]
-public class DealGuardDamage : GuardCommand
+[SRName("Commands/Gain Health")]
+public class CMDGainHealth : HealCommand
 {
     public override bool RequiresMovement => SetMovement();
 
@@ -11,14 +12,11 @@ public class DealGuardDamage : GuardCommand
 
     public override CardTarget CardTarget => target;
 
-    public CardTarget target = CardTarget.Enemy;
-    public float value;
+    [ReadOnly] public CardTarget target = CardTarget.Self;
+    [Range(0, 1)] public float value;
 
     bool SetMovement()
     {
-        if (CardTarget == CardTarget.Self)
-            return false;
-
-        return true;
+        return false;
     }
 }

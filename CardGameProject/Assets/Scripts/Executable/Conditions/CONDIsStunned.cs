@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [SRName("Conditions/Is Stunned")]
-public class IsStunned : Condition
+public class CONDIsStunned : Condition
 { 
     public override List<Executable> Commands { get { return commands; } }
 
@@ -13,11 +13,11 @@ public class IsStunned : Condition
 
     public override bool Evaluate()
     {
-        List<Avatar> currentTargets = Extensions.CloneList(ExecutableParameters.Targets);
+        List<Avatar> currentTargets = Extensions.CloneList(EXEParameters.Targets);
 
-        for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
+        for (int i = 0; i < EXEParameters.Targets.Count; i++)
         {
-            Avatar avatar = ExecutableParameters.Targets[i];
+            Avatar avatar = EXEParameters.Targets[i];
 
             if (!avatar.IsGuardBroken())
             {
@@ -25,9 +25,9 @@ public class IsStunned : Condition
             }
         }
 
-        ExecutableParameters.Targets = currentTargets;
+        EXEParameters.Targets = currentTargets;
 
-        if (ExecutableParameters.Targets.Count > 0)
+        if (EXEParameters.Targets.Count > 0)
             return true;
 
         return false;

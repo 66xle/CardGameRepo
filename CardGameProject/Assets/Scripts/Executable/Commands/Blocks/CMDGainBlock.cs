@@ -1,9 +1,8 @@
 using MyBox;
 using SerializeReferenceEditor;
-using UnityEngine;
 
-[SRName("Commands/Gain Health")]
-public class GainHealth : HealCommand
+[SRName("Commands/Gain Block")]
+public class CMDGainBlock : BlockCommand
 {
     public override bool RequiresMovement => SetMovement();
 
@@ -13,7 +12,7 @@ public class GainHealth : HealCommand
     public override CardTarget CardTarget => target;
 
     [ReadOnly] public CardTarget target = CardTarget.Self;
-    [Range(0, 1)] public float value;
+    public float value;
 
     bool SetMovement()
     {

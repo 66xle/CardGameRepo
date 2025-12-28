@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [SRName("Commands/Deal Damage")]
-public class DealDamage : AttackCommand
+public class CMDDealDamage : AttackCommand
 {
     public override bool RequiresMovement => SetMovement();
 

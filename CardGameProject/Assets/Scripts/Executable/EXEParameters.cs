@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public static class ExecutableParameters
+public static class EXEParameters
 {
     public static CombatStateMachine Ctx;
     public static Avatar AvatarPlayingCard;

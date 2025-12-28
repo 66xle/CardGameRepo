@@ -16,14 +16,14 @@ public abstract class HealCommand : Command
 
     public override void ExecuteCommand()
     {
-        Avatar avatarPlayingCard = ExecutableParameters.AvatarPlayingCard;
+        Avatar avatarPlayingCard = EXEParameters.AvatarPlayingCard;
 
         int heal = CalculateDamage.GetHealAmount(avatarPlayingCard.MaxHealth, Value);
         Debug.Log(heal);
 
-        for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
+        for (int i = 0; i < EXEParameters.Targets.Count; i++)
         {
-            Avatar avatarToHeal = ExecutableParameters.Targets[i];
+            Avatar avatarToHeal = EXEParameters.Targets[i];
 
             if (avatarToHeal.IsGameActionInQueue<GAGainHealth>())
             {
@@ -44,7 +44,7 @@ public abstract class HealCommand : Command
                 AddGameActionToQueue(spawnDamageUIPopupGA, avatarToHeal);
             }
 
-            ExecutableParameters.Targets[i] = avatarToHeal;
+            EXEParameters.Targets[i] = avatarToHeal;
         }
 
         UpdateGameActionQueue();

@@ -47,7 +47,7 @@ public class Avatar : MonoBehaviour
 
     #region Lists
 
-    [HideInInspector] public Dictionary<ReactiveTrigger, List<ExecutableWrapper>> DictReactiveEffects = new();
+    [HideInInspector] public Dictionary<ReactiveTrigger, List<EXEWrapper>> DictReactiveEffects = new();
     [HideInInspector] public List<StatusEffect> ListOfEffects = new();
     [HideInInspector] public List<GameAction> QueueGameActions = new();
     [HideInInspector] public List<Tween> CurrentActiveStatusEffectTween = new();
@@ -298,14 +298,14 @@ public class Avatar : MonoBehaviour
     {
         if (!DictReactiveEffects.ContainsKey(trigger)) yield break;
 
-        List<ExecutableWrapper> overwriteQueue = new();
-        List<ExecutableWrapper> stackQueue = new();
+        List<EXEWrapper> overwriteQueue = new();
+        List<EXEWrapper> stackQueue = new();
 
-        List<ExecutableWrapper> listWrapper = Extensions.CloneList(DictReactiveEffects[trigger]);
+        List<EXEWrapper> listWrapper = Extensions.CloneList(DictReactiveEffects[trigger]);
 
         for (int i = 0; i < listWrapper.Count; i++)
         {
-            ExecutableWrapper wrapper = listWrapper[i];
+            EXEWrapper wrapper = listWrapper[i];
 
             if (IsGuardBroken() && wrapper.Commands.Any(command => command is AttackCommand)) continue; // NOTE: If we are guard broken & command is an attack command, ignore
                                                                                                         // (Maybe ignore every command if guard broken)
@@ -355,13 +355,13 @@ public class Avatar : MonoBehaviour
 
         #region Sort and Run
         
-        List<ExecutableWrapper> sortedWrappers = SortQueue(overwriteQueue, stackQueue);
+        List<EXEWrapper> sortedWrappers = SortQueue(overwriteQueue, stackQueue);
 
-        foreach (ExecutableWrapper wrapper in sortedWrappers)
+        foreach (EXEWrapper wrapper in sortedWrappers)
         {
             IsRunningReactiveEffect = true;
 
-            ExecutableParameters.CardData = wrapper.CardData;
+            EXEParameters.CardData = wrapper.CardData;
 
             ActionSequence actionSequence = new(wrapper.Commands);
             yield return actionSequence.Execute(null);
@@ -376,17 +376,17 @@ public class Avatar : MonoBehaviour
     {
         bool isCounterActive = false;
 
-        Dictionary<ReactiveTrigger, List<ExecutableWrapper>> tempDict = DictReactiveEffects.ToDictionary(pair => pair.Key, pair => new List<ExecutableWrapper>(pair.Value));
+        Dictionary<ReactiveTrigger, List<EXEWrapper>> tempDict = DictReactiveEffects.ToDictionary(pair => pair.Key, pair => new List<EXEWrapper>(pair.Value));
 
-        foreach (KeyValuePair<ReactiveTrigger, List<ExecutableWrapper>> pair in tempDict)
+        foreach (KeyValuePair<ReactiveTrigger, List<EXEWrapper>> pair in tempDict)
         {
-            List<ExecutableWrapper> listWrapper = Extensions.CloneList(pair.Value);
+            List<EXEWrapper> listWrapper = Extensions.CloneList(pair.Value);
 
             for (int i = listWrapper.Count - 1; i >= 0; i--)
             {
                 bool isWrapperRemoved = false;
 
-                ExecutableWrapper wrapper = listWrapper[i];
+                EXEWrapper wrapper = listWrapper[i];
                 if (wrapper.OverwriteType == OverwriteType.Counter || wrapper.OverwriteType == OverwriteType.Counterattack)
                     isCounterActive = true;
 
@@ -420,33 +420,33 @@ public class Avatar : MonoBehaviour
         }
     }
 
-    public List<ExecutableWrapper> SortQueue(List<ExecutableWrapper> overwriteQueue, List<ExecutableWrapper> stackQueue)
+    public List<EXEWrapper> SortQueue(List<EXEWrapper> overwriteQueue, List<EXEWrapper> stackQueue)
     {
-        List<ExecutableWrapper> sortedCommands = new();
+        List<EXEWrapper> sortedCommands = new();
 
         // Gets all enums of overwrite type in order (Counterattack being last)
         foreach (OverwriteType type in Enum.GetValues(typeof(OverwriteType))) // Only 1 type (Should play animations)
         {
-            ExecutableWrapper wrapper = overwriteQueue.FirstOrDefault(w => w.OverwriteType == type);
+            EXEWrapper wrapper = overwriteQueue.FirstOrDefault(w => w.OverwriteType == type);
 
             if (wrapper == null) continue;
 
-            sortedCommands.Add(new ExecutableWrapper(wrapper.CardData, wrapper.Commands, wrapper.Effects));
+            sortedCommands.Add(new EXEWrapper(wrapper.CardData, wrapper.Commands, wrapper.Effects));
         }
 
         foreach (StackType type in Enum.GetValues(typeof(StackType))) // Multiple types (Play no animations)
         {
-            List<ExecutableWrapper> list = stackQueue.Where(w => w.StackType == type).ToList();
+            List<EXEWrapper> list = stackQueue.Where(w => w.StackType == type).ToList();
 
             if (list.Count == 0) continue;
 
             // Create new list if stack type is not damage, Skip this if do damage then add damage commands together with counterattack
             if (type == StackType.DoDamage && !overwriteQueue.Exists(w => w.OverwriteType == OverwriteType.Counterattack))
             {
-                sortedCommands.Add(new ExecutableWrapper(list[0].CardData));
+                sortedCommands.Add(new EXEWrapper(list[0].CardData));
             }
 
-            foreach (ExecutableWrapper wrapper in list)
+            foreach (EXEWrapper wrapper in list)
             {
                 sortedCommands[sortedCommands.Count - 1].Commands.AddRange(wrapper.Commands);
             }

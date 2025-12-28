@@ -2,7 +2,7 @@ using MyBox;
 using SerializeReferenceEditor;
 
 [SRName("Commands/Draw Card")]
-public class DrawCard : DrawCommand
+public class CMDDrawCard : DrawCommand
 {
     public override bool RequiresMovement => SetMovement();
 
