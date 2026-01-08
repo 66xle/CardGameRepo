@@ -419,7 +419,7 @@ public class CombatStateMachine : MonoBehaviour
             {
                 AudioManager.Instance.FadeOutMusic(0.2f);
 
-                CutsceneManager.NextCutscene();
+                CutsceneManager.PlayNextCutscene();
                 return;
             }
         }

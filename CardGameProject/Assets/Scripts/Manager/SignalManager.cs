@@ -1,6 +1,7 @@
 using Systems.SceneManagment;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
 public class SignalManager : MonoBehaviour

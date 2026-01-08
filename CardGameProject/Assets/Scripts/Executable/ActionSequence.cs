@@ -156,7 +156,7 @@ public class ActionSequence : Executable
             {
                 ReactiveCondition currentReactiveCondition = command as ReactiveCondition;
 
-                TriggerDuplicateReactiveCondition(EXEParameters.AvatarPlayingCard, currentReactiveCondition);
+                TriggerReactiveCondition(EXEParameters.AvatarPlayingCard, currentReactiveCondition);
 
                 ReactiveSkipAnimation = true;
 
@@ -182,7 +182,7 @@ public class ActionSequence : Executable
         }
     }
 
-    private void TriggerDuplicateReactiveCondition(Avatar avatarPlayingCard, ReactiveCondition currentReactiveCondition)
+    private void TriggerReactiveCondition(Avatar avatarPlayingCard, ReactiveCondition currentReactiveCondition)
     {
         foreach (ReactiveTrigger trigger in avatarPlayingCard.DictReactiveEffects.Keys)
         {
