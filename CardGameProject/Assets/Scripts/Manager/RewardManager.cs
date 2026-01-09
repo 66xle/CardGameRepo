@@ -108,14 +108,14 @@ public class RewardManager : MonoBehaviour
                 Ctx.player.RecoverStamina();
 
                 //Ctx.Init(); // Call in cutscene
-                CutsceneManager.PlayNextCutscene();
+                CutsceneManager.PlayPreloadedCutscene();
                 return;
             }
         }
 
         Time.timeScale = 1;
         RewardUI.SetActive(false);
-        CutsceneManager.PlayNextCutscene();
+        CutsceneManager.NextCutscene();
     }
 
     public void DisplayVictoryUI()

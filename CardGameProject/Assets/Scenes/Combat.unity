@@ -46611,7 +46611,7 @@ MonoBehaviour:
           m_CallState: 2
         - m_Target: {fileID: 1960274874}
           m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
-          m_MethodName: PlayNextCutscene
+          m_MethodName: NextCutscene
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -48036,7 +48036,7 @@ MonoBehaviour:
           m_CallState: 2
         - m_Target: {fileID: 1960274874}
           m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
-          m_MethodName: PlayNextCutscene
+          m_MethodName: NextCutscene
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -48049,19 +48049,7 @@ MonoBehaviour:
   - guid: a07fcd7e-44e3-4611-896e-726adac9a7c2
     onExecute:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1960274874}
-          m_TargetAssemblyTypeName: CutsceneManager, Assembly-CSharp
-          m_MethodName: PreloadNextCutscene
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
 --- !u!4 &2018832960
 Transform:
   m_ObjectHideFlags: 0

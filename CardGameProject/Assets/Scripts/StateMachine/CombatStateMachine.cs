@@ -164,9 +164,12 @@ public class CombatStateMachine : MonoBehaviour
 
     public void InitBattle()
     {
-        LevelData levelData = GameManager.Instance.CurrentLevelDataLoaded;
-        AudioResource resource = levelData.GetMusic(GameManager.Instance.WaveCount);
-        AudioManager.Instance.PlayMusic(resource);
+        if (GameManager.Instance.WaveCount == 0) // For Demo
+        {
+            LevelData levelData = GameManager.Instance.CurrentLevelDataLoaded;
+            AudioResource resource = levelData.GetMusic(GameManager.Instance.WaveCount);
+            AudioManager.Instance.PlayMusic(resource);
+        }
 
         _isInPrepState = false;
         CardManager.LoadCards();
@@ -419,7 +422,7 @@ public class CombatStateMachine : MonoBehaviour
             {
                 AudioManager.Instance.FadeOutMusic(0.2f);
 
-                CutsceneManager.PlayNextCutscene();
+                CutsceneManager.PlayPreloadedCutscene();
                 return;
             }
         }
