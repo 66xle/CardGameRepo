@@ -60,6 +60,7 @@ public class CombatStateMachine : MonoBehaviour
     [MustBeAssigned] [SerializeField] GASystemCamera CameraSystem;
     [MustBeAssigned] [SerializeField] LevelManager LevelManager; // Editor only
     [MustBeAssigned] [SerializeField] CutsceneManager CutsceneManager; // Editor only
+    [MustBeAssigned] [SerializeField] TutorialManager TutorialManager;
     [MustBeAssigned] public CameraManager CameraManager;
     [MustBeAssigned] public CombatUIManager CombatUIManager;
     [MustBeAssigned] public CardManager CardManager;
@@ -177,15 +178,6 @@ public class CombatStateMachine : MonoBehaviour
         EnemyManager.SelectEnemy(_selectedEnemyToAttack);
 
         _isInPrepState = false;
-
-        if (!GameManager.Instance.IsInTutorial)
-            return;
-
-        if (GameManager.Instance.TutorialStage == 1)
-        {
-            CombatUIManager.InitTutorial();
-            CombatUIManager.EndTurnButton.interactable = false;
-        }
     }
 
     private void SelectEnemy()
@@ -286,14 +278,9 @@ public class CombatStateMachine : MonoBehaviour
         {
             if (player.hasEnoughStamina(card.Cost))
             {
-                if (GameManager.Instance.IsInTutorial)
-                {
-                    if (GameManager.Instance.TutorialStage >= 1 && GameManager.Instance.TutorialStage < 1.2f)
-                    {
-                        GameManager.Instance.TutorialStage += 0.1f;
-                    }
-                }
-                
+                Bus<EventCardPlayed>.Raise(new EventCardPlayed());
+
+
 
                 player.ConsumeStamina(card.Cost);
 
@@ -408,12 +395,8 @@ public class CombatStateMachine : MonoBehaviour
 
     public void EndTurn()
     {
-        if (GameManager.Instance.TutorialStage == 1.2f)
-            GameManager.Instance.TutorialStage = 2;
-        else if (GameManager.Instance.TutorialStage == 2.1f)
-            GameManager.Instance.TutorialStage = 3;
-        else if (GameManager.Instance.TutorialStage == 3.1f)
-            GameManager.Instance.TutorialStage = 4;
+        
+        Bus<EventEndTurn>.Raise(new EventEndTurn());
 
         if (GameManager.Instance.WaveCount == 1)
         {

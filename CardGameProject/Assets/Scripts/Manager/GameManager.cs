@@ -27,8 +27,6 @@ public class GameManager : Singleton<GameManager>
     public bool IsInTutorial = true;
     [HideInInspector] public float TutorialStage = 1;
 
-    public bool SkipCutscene = true;
-
     public new void Awake()
     {
         base.Awake();

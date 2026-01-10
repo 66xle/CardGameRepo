@@ -3539,6 +3539,52 @@ Transform:
   - {fileID: 1381688665}
   m_Father: {fileID: 2017181495}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &172364895
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 172364896}
+  - component: {fileID: 172364897}
+  m_Layer: 0
+  m_Name: TutorialManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &172364896
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172364895}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 674976766}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &172364897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172364895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc385a8efd0248e4491cee5008d2a3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsInTutorial: 1
+  CombatUIManager: {fileID: 563799117}
 --- !u!1 &174202755
 GameObject:
   m_ObjectHideFlags: 0
@@ -10313,7 +10359,7 @@ MonoBehaviour:
   Chest: {fileID: 11400000, guid: fbcde13b947d2fb47aa55d748b4f372d, type: 2}
   Legs: {fileID: 0}
   Boots: {fileID: 0}
-  MainHand: {fileID: 11400000, guid: 6c8e5e6ed3d79954e87e45ed9908fda2, type: 2}
+  MainHand: {fileID: 11400000, guid: d9bfb8cf74d55844bbc837e956e8c878, type: 2}
   OffHand: {fileID: 0}
   EquippedWeapons: []
   FixedWeapon1stBattle: {fileID: 11400000, guid: 6c8e5e6ed3d79954e87e45ed9908fda2, type: 2}
@@ -12403,6 +12449,7 @@ MonoBehaviour:
   CameraSystem: {fileID: 1314847670}
   LevelManager: {fileID: 1177204822}
   CutsceneManager: {fileID: 1960274874}
+  TutorialManager: {fileID: 172364897}
   CameraManager: {fileID: 1233382175}
   CombatUIManager: {fileID: 563799117}
   CardManager: {fileID: 1150495170}
@@ -17141,6 +17188,7 @@ Transform:
   - {fileID: 563799118}
   - {fileID: 1749312352}
   - {fileID: 1266213099}
+  - {fileID: 172364896}
   - {fileID: 1386923979}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -36091,7 +36139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PSS: {fileID: 11400000, guid: a0448ceceb179ec4eb5912d845d90fc8, type: 2}
-  Level: 20
+  Level: 2
   BaseGuard: 5
   RecoverStaminaPercentage: 0.4
   ArmourType: 1
@@ -46464,7 +46512,7 @@ MonoBehaviour:
   MainCamera: {fileID: 765615826}
   KnightPrefab: {fileID: 8020402571215977629, guid: e1460fd38c5d8074fb6702fba4d830a8, type: 3}
   KnightSpawnPosition: {fileID: 0}
-  RunSignal: 0
+  RunSignal: 1
   SignalAsset: {fileID: 11400000, guid: 848a09acb5ae26d44b951cb66c0c9c38, type: 2}
   Cutscenes:
   - {fileID: 5308107989193443835, guid: 79cd3cf44c21fea4ba673df5651626fc, type: 3}
@@ -48046,10 +48094,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - guid: a07fcd7e-44e3-4611-896e-726adac9a7c2
-    onExecute:
-      m_PersistentCalls:
-        m_Calls: []
 --- !u!4 &2018832960
 Transform:
   m_ObjectHideFlags: 0
