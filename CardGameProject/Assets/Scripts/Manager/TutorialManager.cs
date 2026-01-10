@@ -9,6 +9,7 @@ public class TutorialManager : MonoBehaviour
 
 
     private float _tutorialStage = 1f;
+    public float TutorialStage { get { return _tutorialStage; } }
 
     private void OnEnable()
     {
