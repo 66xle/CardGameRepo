@@ -171,11 +171,12 @@ public class CombatStateMachine : MonoBehaviour
             AudioManager.Instance.PlayMusic(resource);
         }
 
-        _isInPrepState = false;
         CardManager.LoadCards();
 
         _selectedEnemyToAttack = EnemyList[0];
         EnemyManager.SelectEnemy(_selectedEnemyToAttack);
+
+        _isInPrepState = false;
 
         if (!GameManager.Instance.IsInTutorial)
             return;

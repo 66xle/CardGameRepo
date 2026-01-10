@@ -38,12 +38,12 @@ public class CutsceneManager : MonoBehaviour
         SignalReceiver signalReciver = GetComponent<SignalReceiver>();
         signalReciver.GetReaction(SignalAsset)?.Invoke();
     }
-
+    
     public void Awake()
     {
         ServiceLocator.Register(this);
 
-        SceneInitialize.Instance.Subscribe(Init, -7);
+        SceneInitialize.Instance.Subscribe(Init);
     }
 
     public void OnDestroy()
@@ -155,9 +155,12 @@ public class CutsceneManager : MonoBehaviour
 
     private void DestroyPrefab()
     {
-        GameObject loadedCutscene = LoadedCutscenes[0].Item1;
-        Destroy(loadedCutscene);
-        LoadedCutscenes.RemoveAt(0);
+        if (LoadedCutscenes.Count > 0)
+        {
+            GameObject loadedCutscene = LoadedCutscenes[0].Item1;
+            Destroy(loadedCutscene);
+            LoadedCutscenes.RemoveAt(0);
+        }
     }
 
     public void DestroyActors()
