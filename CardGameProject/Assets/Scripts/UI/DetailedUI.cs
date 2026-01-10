@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class DetailedUI : MonoBehaviour
 {
-    private Enemy _enemy;
+    private Enemy _selectedEnemy;
     private CombatStateMachine _ctx;
 
     private Image _healthBar;
@@ -42,7 +42,7 @@ public class DetailedUI : MonoBehaviour
 
     public void ChangeTarget(Enemy enemy)
     {
-        _enemy = enemy;
+        _selectedEnemy = enemy;
         EnemyName.text = enemy.EnemyData.Name;
 
         DisplayStats();
@@ -52,20 +52,20 @@ public class DetailedUI : MonoBehaviour
 
     public void DisplayStats()
     {
-        if (_enemy == null)
+        if (_selectedEnemy == null)
             return;
 
-        float currentHealthPercentage = int.Parse(_enemy.HealthText.text) / _enemy.MaxHealth;
+        float currentHealthPercentage = int.Parse(_selectedEnemy.HealthText.text) / _selectedEnemy.MaxHealth;
 
         //DOVirtual.Float(_healthBar.fillAmount, currentHealthPercentage, 0.5f, f => _healthBar.fillAmount = f);
 
         _healthBar.fillAmount = currentHealthPercentage;
 
 
-        healthValue.text = _enemy.HealthText.text;
-        maxHeathValue.text = _enemy.MaxHealth.ToString();
+        healthValue.text = _selectedEnemy.HealthText.text;
+        maxHeathValue.text = _selectedEnemy.MaxHealth.ToString();
 
-        _guardBar.fillAmount = _enemy.GuardBar.value;
+        _guardBar.fillAmount = _selectedEnemy.GuardBar.value;
         //guardValue.text = enemy.guardValue.text;
 
         //blockValue.text = enemy.blockValue.text;
@@ -73,15 +73,15 @@ public class DetailedUI : MonoBehaviour
 
     public void UpdateStatusEffectsUI()
     {
-        if (_enemy == null)
+        if (_selectedEnemy == null)
             return;
 
-        if (_ctx._selectedEnemyToAttack != _enemy)
+        if (_ctx._selectedEnemyToAttack != _selectedEnemy)
             return;
 
-        for (int i = 0; i < _enemy.ListOfEffects.Count; i++)
+        for (int i = 0; i < _selectedEnemy.ListOfEffects.Count; i++)
         {
-            StatusEffect data = _enemy.ListOfEffects[i];
+            StatusEffect data = _selectedEnemy.ListOfEffects[i];
 
             // Check activeParent childs
             GameObject activeObj = GetEffectObject(ActiveParent, data.EffectName);
