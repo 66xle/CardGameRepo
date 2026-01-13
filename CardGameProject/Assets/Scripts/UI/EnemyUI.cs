@@ -125,6 +125,8 @@ public class EnemyUI : MonoBehaviour
         FrontDivider.color = Color.gray;
         GuardBarImage.color = Color.gray;
 
+        if (IsMinion) return;
+
         // Elite
         FrontLayer.GetComponent<Image>().color = Color.gray;
         EyeMotifHollow.color = Color.gray;
