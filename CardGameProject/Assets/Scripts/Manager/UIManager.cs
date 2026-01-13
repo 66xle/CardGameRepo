@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     [MustBeAssigned] [SerializeField] DifficultyManager DifficultyManager;
+    [MustBeAssigned] [SerializeField] TutorialManager TutorialManager;
     [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
 
     public void RestartCombat(GameObject menu)
@@ -15,8 +16,8 @@ public class UIManager : MonoBehaviour
 
         //AudioManager.Instance.FadeOutMusic(0.2f);
 
-        if (GameManager.Instance.TutorialStage < 5)
-            GameManager.Instance.TutorialStage = 1;
+        if (TutorialManager.TutorialStage < 5)
+            TutorialManager.TutorialStage = 1;
 
         Ctx.EndGameplay();
         Ctx.Init();

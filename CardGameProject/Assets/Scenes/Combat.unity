@@ -9124,7 +9124,7 @@ MonoBehaviour:
     zoomOnClick: 1
     multiplier: 1.5
     zoomInMultiplier: 1
-    overrideYPosition: 250
+    overrideYPosition: 95
     defaultSortOrder: 0
     bringToFrontOnHover: 1
     zoomedSortOrder: 100
@@ -15526,6 +15526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DifficultyManager: {fileID: 1266213100}
+  TutorialManager: {fileID: 172364897}
   Ctx: {fileID: 467955062}
 --- !u!4 &602362925
 Transform:
@@ -29009,7 +29010,7 @@ RectTransform:
   m_Father: {fileID: 354119877}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 393, y: -712}
   m_SizeDelta: {x: -1305.8, y: -1421}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -36139,7 +36140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PSS: {fileID: 11400000, guid: a0448ceceb179ec4eb5912d845d90fc8, type: 2}
-  Level: 2
+  Level: 20
   BaseGuard: 5
   RecoverStaminaPercentage: 0.4
   ArmourType: 1
@@ -38399,7 +38400,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1596904554
 RectTransform:
   m_ObjectHideFlags: 0
