@@ -29009,7 +29009,7 @@ RectTransform:
   m_Father: {fileID: 354119877}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 393, y: -712}
   m_SizeDelta: {x: -1305.8, y: -1421}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -38399,7 +38399,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1596904554
 RectTransform:
   m_ObjectHideFlags: 0
@@ -48316,6 +48316,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterImage: {fileID: 744092531}
+  BackLayer: {fileID: 439928186}
+  FrontDivider: {fileID: 294059892}
+  GuardBarImage: {fileID: 1152566991}
+  EyeMotifHollow: {fileID: 1013170411}
+  FrontLayer2: {fileID: 1502481391}
   HealthText: {fileID: 704391043}
   MaxHealthText: {fileID: 371154877}
   BlockText: {fileID: 407568263}

@@ -438,6 +438,7 @@ public class CombatStateMachine : MonoBehaviour
     public void EnemyDied(Enemy enemyDied)
     {
         ResetSelectedEnemyUI();
+        enemyDied.EnemyUI.GrayoutUI();
         enemyDied.DisableSelection = true;
         enemyDied.SelectionRing.SetActive(false);
 

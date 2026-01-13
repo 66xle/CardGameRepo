@@ -8,8 +8,18 @@ using UnityEngine.UI;
 
 public class EnemyUI : MonoBehaviour
 {
+    [Header("Images")]
     [MustBeAssigned] [SerializeField] Image CharacterImage;
+    [MustBeAssigned] [SerializeField] Image BackLayer;
+    [MustBeAssigned] [SerializeField] Image FrontDivider;
+    [MustBeAssigned] [SerializeField] Image GuardBarImage;
+
+    [Header("Elite Images")]
+    [SerializeField] Image EyeMotifHollow;
+    [SerializeField] Image FrontLayer2;
     
+
+    [Header("Text UI")]
     [MustBeAssigned] public TMP_Text HealthText;
     [MustBeAssigned] public TMP_Text MaxHealthText;
     [MustBeAssigned] public TMP_Text BlockText;
@@ -41,8 +51,9 @@ public class EnemyUI : MonoBehaviour
 
         CharacterImage.sprite = enemy.EnemyData.CharacterSprite;
 
-
         rectTransform = GetComponent<RectTransform>();
+
+        ResetColor();
     }
 
     public void SetUIActive(bool toggle)
@@ -90,5 +101,33 @@ public class EnemyUI : MonoBehaviour
 
         stateMachine._selectedEnemyToAttack = enemy;
         enemyManager.SelectEnemy(enemy);
+    }
+
+    public void ResetColor()
+    {
+        CharacterImage.color = Color.white;
+        BackLayer.color = Color.white;
+        FrontDivider.color = Color.white;
+        GuardBarImage.color = Color.white;
+
+        if (IsMinion) return;
+
+        // Elite
+        FrontLayer.GetComponent<Image>().color = Color.white;
+        EyeMotifHollow.color = Color.white;
+        FrontLayer2.color = Color.white;
+    }
+
+    public void GrayoutUI()
+    {
+        CharacterImage.color = Color.gray;
+        BackLayer.color = Color.gray;
+        FrontDivider.color = Color.gray;
+        GuardBarImage.color = Color.gray;
+
+        // Elite
+        FrontLayer.GetComponent<Image>().color = Color.gray;
+        EyeMotifHollow.color = Color.gray;
+        FrontLayer2.color = Color.gray;
     }
 }
