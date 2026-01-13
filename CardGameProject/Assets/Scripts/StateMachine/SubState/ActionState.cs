@@ -111,9 +111,13 @@ public class ActionState : CombatBaseState
         //if (avatarPlayingCard is Player)
         //    ctx.CombatUIManager.ToggleHideUI(true);
 
-        if (avatarOpponent is Enemy && avatarOpponent.IsAvatarDead() || avatarPlayingCard is Enemy && avatarPlayingCard.IsAvatarDead())
+        if (avatarOpponent is Enemy && avatarOpponent.IsAvatarDead())
         {
-            ctx.EnemyDied();
+            ctx.EnemyDied(avatarOpponent as Enemy);
+        }
+        else if (avatarPlayingCard is Enemy && avatarPlayingCard.IsAvatarDead())
+        {
+            ctx.EnemyDied(avatarPlayingCard as Enemy);
         }
     }
 

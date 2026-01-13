@@ -435,15 +435,15 @@ public class CombatStateMachine : MonoBehaviour
         Destroy(enemy.gameObject);
     }
 
-    public void EnemyDied()
+    public void EnemyDied(Enemy enemyDied)
     {
         ResetSelectedEnemyUI();
-        _selectedEnemyToAttack.DisableSelection = true;
-        _selectedEnemyToAttack.SelectionRing.SetActive(false);
+        enemyDied.DisableSelection = true;
+        enemyDied.SelectionRing.SetActive(false);
 
         // Remove enemy
-        EnemyList.Remove(_selectedEnemyToAttack);
-        EnemyTurnQueue.Remove(_selectedEnemyToAttack);
+        EnemyList.Remove(enemyDied);
+        EnemyTurnQueue.Remove(enemyDied);
         //ctx.DestroyEnemy(ctx.selectedEnemyToAttack);
 
         // Are there enemies still alive
