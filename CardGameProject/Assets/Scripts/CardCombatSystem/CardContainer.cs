@@ -13,6 +13,7 @@ public class CardContainer : MonoBehaviour {
     [MustBeAssigned] public CombatStateMachine combatStateMachine;
     [MustBeAssigned] public Canvas mainCanvas;
     [MustBeAssigned] public ClonePreviewManager clonePreviewManager;
+    [MustBeAssigned] public TutorialManager tutorialManager;
 
     [Header("Constraints")]
     [SerializeField] private bool forceFitContainer;
@@ -171,6 +172,8 @@ public class CardContainer : MonoBehaviour {
         foreach (GameObject playAreaObject in cardPlayConfig.playArea)
         {
             if (playAreaObject == null) continue;
+
+            if (playAreaObject.CompareTag("Recycle") && tutorialManager.IsInTutorial && tutorialManager.TutorialStage < 4f) continue;
 
             // If card is in play area, play it!
             RectTransform rectTransform = playAreaObject.GetComponent<RectTransform>();
