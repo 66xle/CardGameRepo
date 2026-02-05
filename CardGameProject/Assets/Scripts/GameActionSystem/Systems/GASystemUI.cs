@@ -60,7 +60,7 @@ public class GASystemUI : MonoBehaviour
 
         // Scale popup based on camera distance
         float distance = Vector3.Distance(popupObj.transform.position, Camera.main.transform.position);
-        float scaleFactor = (CombatUIManager.baseScale / 10f) / distance;
+        float scaleFactor = (CombatUIManager.baseScale * distance / 100f) ;
         Vector3 endOffset = Vector3.up * CombatUIManager.MoveVertical * scaleFactor;
         Vector3 targetPos = spawnPos + endOffset;
 
