@@ -15003,9 +15003,9 @@ MonoBehaviour:
   DelayTutorial: 0.7
   DamagePopupPrefab: {fileID: 1751356153391490187, guid: d4558f44bed57f8408c5689783a1f8fd, type: 3}
   WorldSpaceCanvas: {fileID: 5839485938255906829}
-  RandomOffsetHorizontal: 0.25
-  OffsetVertical: 1
-  baseScale: 1
+  RandomOffsetHorizontal: 0.05
+  OffsetVertical: 0.1
+  baseScale: 0.5
   StatusEffectTweenProgress: 0.3
   MoveDuration: 0.8
   FadeDuration: 0.5
@@ -28120,6 +28120,7 @@ MonoBehaviour:
   WeaponJoint: {fileID: 1055542035}
   FollowJoint: {fileID: 2099161251}
   RightHolder: {fileID: 1076126290}
+  SkinnedMeshes: []
   DrawAmount: 1
 --- !u!95 &1114965820
 Animator:
@@ -46513,7 +46514,7 @@ MonoBehaviour:
   MainCamera: {fileID: 765615826}
   KnightPrefab: {fileID: 8020402571215977629, guid: e1460fd38c5d8074fb6702fba4d830a8, type: 3}
   KnightSpawnPosition: {fileID: 0}
-  RunSignal: 1
+  RunSignal: 0
   SignalAsset: {fileID: 11400000, guid: 848a09acb5ae26d44b951cb66c0c9c38, type: 2}
   Cutscenes:
   - {fileID: 5308107989193443835, guid: 79cd3cf44c21fea4ba673df5651626fc, type: 3}

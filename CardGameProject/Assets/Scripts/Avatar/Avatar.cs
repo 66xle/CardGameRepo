@@ -29,6 +29,8 @@ public class Avatar : MonoBehaviour
     public Transform FollowJoint;
     public Transform RightHolder;
 
+    [SerializeField] List<SkinnedMeshRenderer> SkinnedMeshes;
+
     #endregion
 
     #region Bools
@@ -84,6 +86,12 @@ public class Avatar : MonoBehaviour
 
         // Random start point between 0 and 1 in the animation cycle
         Animator.Play("Basic Idle", 0, Random.Range(0f, 1f));
+
+        if (SkinnedMeshes.Count == 0)
+        {
+            Debug.LogError($"{name} Avatar: Skinned Meshes is not assigned");
+            return;
+        }
     }
 
     private void LateUpdate()
@@ -101,6 +109,7 @@ public class Avatar : MonoBehaviour
             //Animator.SetLayerWeight(1, 0);
         }
     }
+
 
 
     #region Avatar Methods
@@ -458,7 +467,6 @@ public class Avatar : MonoBehaviour
     #endregion
 
     
-
     #region Animation Events
 
     public void AnimationEventAttack()
@@ -503,4 +511,23 @@ public class Avatar : MonoBehaviour
     public virtual void PlayHurtSound() { }
 
     public virtual void PlayDeathSound() { }
+
+
+    public Vector3 GetCharacterCenter()
+    {
+        Bounds bounds = SkinnedMeshes[0].bounds;
+
+        for (int i = 1; i < SkinnedMeshes.Count; i++)
+        {
+            bounds.Encapsulate(SkinnedMeshes[i].bounds);
+        }
+
+        return bounds.center;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(GetCharacterCenter(), 0.1f);
+    }
 }

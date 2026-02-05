@@ -42,14 +42,14 @@ public class GASystemUI : MonoBehaviour
         Vector3 spawnPos;
         if (spawnDamageUIPopupGA.IsStatusEffect)
         {
-            spawnPos = avatar.transform.position;
+            spawnPos = avatar.GetCharacterCenter();
             spawnPos.y += CombatUIManager.OffsetVertical;
         }
         else
         {
-            spawnPos = new Vector3(avatar.transform.position.x + Random.Range(-CombatUIManager.RandomOffsetHorizontal, CombatUIManager.RandomOffsetHorizontal),
-                                                  avatar.transform.position.y + CombatUIManager.OffsetVertical,
-                                                  avatar.transform.position.z + Random.Range(-CombatUIManager.RandomOffsetHorizontal, CombatUIManager.RandomOffsetHorizontal));
+            spawnPos = new Vector3(avatar.GetCharacterCenter().x + Random.Range(-CombatUIManager.RandomOffsetHorizontal, CombatUIManager.RandomOffsetHorizontal),
+                                                  avatar.GetCharacterCenter().y + CombatUIManager.OffsetVertical,
+                                                  avatar.GetCharacterCenter().z + Random.Range(-CombatUIManager.RandomOffsetHorizontal, CombatUIManager.RandomOffsetHorizontal));
         }
         popupObj.transform.position = spawnPos;
 
@@ -58,8 +58,8 @@ public class GASystemUI : MonoBehaviour
         popupText.text = spawnDamageUIPopupGA.Text;
         popupText.color = spawnDamageUIPopupGA.Color;
 
-
-        float distance = Vector3.Distance(transform.position, Camera.main.transform.position);
+        // Scale popup based on camera distance
+        float distance = Vector3.Distance(popupObj.transform.position, Camera.main.transform.position);
         float scaleFactor = (CombatUIManager.baseScale / 10f) / distance;
         Vector3 endOffset = Vector3.up * CombatUIManager.MoveVertical * scaleFactor;
         Vector3 targetPos = spawnPos + endOffset;
@@ -69,6 +69,7 @@ public class GASystemUI : MonoBehaviour
             popupText.transform.position = Vector3.Lerp(spawnPos, targetPos, t / CombatUIManager.MoveDuration);
         }, CombatUIManager.MoveDuration, CombatUIManager.MoveDuration).SetEase(Ease.OutQuad);
         
+
         if (spawnDamageUIPopupGA.IsStatusEffect)
             avatar.CurrentActiveStatusEffectTween.Add(tween);
 
