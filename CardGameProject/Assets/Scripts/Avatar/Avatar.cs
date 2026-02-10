@@ -71,6 +71,7 @@ public class Avatar : MonoBehaviour
     protected float _currentHealth;
     protected float _currentBlock;
     protected int _currentGuard;
+    protected bool _allowRootMotion;
 
     protected float CurrentHealth { get { return _currentHealth; } set { _currentHealth = value; UpdateStatsUI(); } }
     protected float CurrentBlock { get { return _currentBlock; } set { _currentBlock = value; UpdateStatsUI(); } }
@@ -92,6 +93,8 @@ public class Avatar : MonoBehaviour
             Debug.LogError($"{name} Avatar: Skinned Meshes is not assigned");
             return;
         }
+
+        _allowRootMotion = true;
     }
 
     private void LateUpdate()
@@ -507,6 +510,39 @@ public class Avatar : MonoBehaviour
     }
 
     #endregion
+
+    private void OnAnimatorMove()
+    {
+        if (!_allowRootMotion)
+            return;
+
+        // Apply root motion manually
+        transform.position += Animator.deltaPosition;
+        transform.rotation *= Animator.deltaRotation;
+    }
+
+    public void SetHealth(float health)
+    {
+        CurrentHealth = health;
+    }
+
+
+    public virtual void ResetDeath()
+    {
+        CurrentGuard = MaxGuard;
+        CurrentBlock = 0;
+
+        _allowRootMotion = false;
+
+
+        Animator.Play("Basic Idle");
+        Animator.ResetTrigger("TakeDamage");
+        Animator.ResetTrigger("Counter");
+        transform.localPosition = Vector3.zero;
+        Animator.Update(0f);
+
+        _allowRootMotion = true;
+    }
 
     public virtual void PlayHurtSound() { }
 

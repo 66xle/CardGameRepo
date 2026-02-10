@@ -56,11 +56,6 @@ public class Player : Avatar
         _maxStamina = maxStamina;
 
         CurrentHealth = maxHealth;
-
-        if (GameManager.Instance.WaveCount == 0)
-            CurrentHealth = Mathf.Ceil(maxHealth / 2f); // TEMP FOR DEMO
-
-
         CurrentGuard = maxGuard;
         CurrentStamina = _maxStamina;
 
@@ -104,6 +99,12 @@ public class Player : Avatar
     }
 
     #endregion
+
+    public override void ResetDeath()
+    {
+        base.ResetDeath();
+        CurrentStamina = _maxStamina;
+    }
 
     private void DisplayStats()
     {

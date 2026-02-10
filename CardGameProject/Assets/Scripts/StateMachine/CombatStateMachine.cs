@@ -77,6 +77,7 @@ public class CombatStateMachine : MonoBehaviour
     [ReadOnly] public bool _enemyTurnDone;
     [ReadOnly] public bool _isInPrepState;
     [ReadOnly] public bool _isPlayerLoaded = false;
+    private float _playerStartingHealth;
 
     [HideInInspector] public CardData _cardPlayed;
     [HideInInspector] public Enemy _selectedEnemyToAttack;
@@ -218,6 +219,7 @@ public class CombatStateMachine : MonoBehaviour
             _isPlayerLoaded = true;
 
             CombatUIManager.InitPlayerUI(player);
+            _playerStartingHealth = player.MaxHealth / 2f; // TEMP FOR DEMO
 
             // Equipment
             _equipmentHolsterScript = player.GetComponent<EquipmentHolster>();
@@ -241,6 +243,12 @@ public class CombatStateMachine : MonoBehaviour
                 _equipmentHolsterScript.EquipWeapon(weaponToEquip);
             }
         }
+
+        // TEMP FOR DEMO
+        if (GameManager.Instance.WaveCount == 0)
+            player.SetHealth(_playerStartingHealth);
+        else
+            player.SetHealth(player.MaxHealth);
 
         CameraManager.SetDummy(player.transform);
         CameraManager.DefaultState();

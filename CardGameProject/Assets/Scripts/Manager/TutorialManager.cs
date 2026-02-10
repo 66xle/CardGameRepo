@@ -53,13 +53,15 @@ public class TutorialManager : MonoBehaviour
         if (!IsInTutorial) return;
 
         if (_tutorialStage == 1)
-        {
             CombatUIManager.InitTutorial();
+
+
+        if (_tutorialStage >= 1 && _tutorialStage < 1.2f)
             CombatUIManager.EndTurnButton.interactable = false;
-        }
 
         if (_tutorialStage >= 1.2f)
             CombatUIManager.EndTurnButton.interactable = true;
+
 
         if (_tutorialStage >= 1.2f && _tutorialStage < 2)
         {

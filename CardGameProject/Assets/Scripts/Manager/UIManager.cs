@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
             TutorialManager.TutorialStage = 1;
 
         Ctx.EndGameplay();
+        Ctx.player.ResetDeath();
         Ctx.Init();
 
         Time.timeScale = 1.0f;
