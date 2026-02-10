@@ -122,8 +122,11 @@ public class AudioManager : Singleton<AudioManager>
         musicSource.Play();
     }
 
-    public void PlayMusic(AudioResource resource)
+    public void PlayMusic(AudioResource resource, bool disallowSameResource = false)
     {
+        if (disallowSameResource && musicSource.resource == resource)
+            return;
+
         musicSource.volume = 1;
 
         musicSource.resource = resource;
