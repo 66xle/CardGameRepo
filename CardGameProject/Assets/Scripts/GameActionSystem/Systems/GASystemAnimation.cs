@@ -39,6 +39,14 @@ public class GASystemAnimation : MonoBehaviour
         Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
         avatarPlayingCardController.SetTrigger("Move");
 
+        yield return new WaitUntil(() =>
+            (avatarPlayingCardController.IsInTransition(0) &&
+            avatarPlayingCardController.GetNextAnimatorStateInfo(0).IsName("Run")) ||
+            avatarPlayingCardController.GetCurrentAnimatorStateInfo(0).IsName("Run")
+        );
+
+        Debug.Log("Transition to Run");
+
         // Determine position to move to
         Transform currentTransform = avatarPlayingCard.transform;
         Transform opponentTransform = moveToCenter ? avatarOpponent.transform.parent.parent : avatarOpponent.transform;
@@ -50,6 +58,7 @@ public class GASystemAnimation : MonoBehaviour
 
         Vector3 posToMove = opponentPos + dir * (1.5f + distanceOffset);
         
+        // Move avatar
         float tweenDuration = moveToPosGA.MoveTime > 0f ? moveToPosGA.MoveTime : moveDuration;
         Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), tweenDuration).SetEase(moveAnimCurve);
 
@@ -61,9 +70,20 @@ public class GASystemAnimation : MonoBehaviour
 
     private IEnumerator ReturnToPosPerformer(GAReturnToPos returnToPosGA)
     {
+
         Avatar avatarPlayingCard = returnToPosGA.AvatarPlayingCard;
 
         Animator animator = avatarPlayingCard.GetComponent<Animator>();
+
+        animator.SetTrigger("JumpBack");
+
+        yield return new WaitUntil(() =>
+            (animator.IsInTransition(0) &&
+            animator.GetNextAnimatorStateInfo(0).IsName("Jump Back")) ||
+            animator.GetCurrentAnimatorStateInfo(0).IsName("Jump Back")
+        );
+
+        Debug.Log("Transition to Jump Back");
 
         // Determine position to move to
         Transform currentTransform = avatarPlayingCard.transform;
@@ -74,12 +94,15 @@ public class GASystemAnimation : MonoBehaviour
 
         Vector3 posToMove = parentPos;
 
+        // Move avatar
         Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), jumpDuration).SetEase(jumpAnimCurve);
-
-        yield return tween.WaitForCompletion();
 
         Quaternion targetRotation = Quaternion.LookRotation(Vector3.zero);
         currentTransform.DOLocalRotate(targetRotation.eulerAngles, 1f, RotateMode.Fast);
+
+        yield return tween.WaitForCompletion();
+
+        
 
 
         returnToPosGA.IsReturnFinished = true;
