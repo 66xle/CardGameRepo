@@ -516,6 +516,9 @@ public class Avatar : MonoBehaviour
         if (!_allowRootMotion)
             return;
 
+        if (Animator.IsInTransition(0) && Animator.GetNextAnimatorStateInfo(0).IsName("Take Damage") ||
+            Animator.GetCurrentAnimatorStateInfo(0).IsName("Take Damage")) return;
+
         // Apply root motion manually
         transform.position += Animator.deltaPosition;
         transform.rotation *= Animator.deltaRotation;
