@@ -72,11 +72,6 @@ public class DifficultyManager : MonoBehaviour
             if (enemies.Count == 0)
                 Debug.LogError("No enemies in level data: " + levelData.LevelName);
 
-            foreach (EnemyData enemy in enemies)
-            {
-                enemy.Level = levelData.RecommendLevel;
-            }
-
             return enemies;
         }
             

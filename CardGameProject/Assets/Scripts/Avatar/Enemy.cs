@@ -57,16 +57,20 @@ public class Enemy : Avatar
     public void InitStats(EnemyData data, EnemyStatSettings ess)
     {
         DisableSelection = false;
-        
+
+        // Used fixed level data or stored enemy data
+        LevelData levelData = GameManager.Instance.CurrentLevelDataLoaded;
+        float enemyLevel = levelData.IsFixed ? levelData.RecommendLevel : data.Level;
+
 
         WeaponData weapon = new();
         weapon.DamageType = DamageType;
 
         EnemyData = data;
         MaxGuard = data.Guard;
-        MaxHealth = ess.CalculateHealth(data.Level, data.EnemyType);
-        Attack = ess.CalculateAttack(data.Level, data.EnemyType);
-        Defence = ess.CalculateDefence(data.Level, data.EnemyType);
+        MaxHealth = ess.CalculateHealth(enemyLevel, data.EnemyType);
+        Attack = ess.CalculateAttack(enemyLevel, data.EnemyType);
+        Defence = ess.CalculateDefence(enemyLevel, data.EnemyType);
         DefencePercentage = ess.GetDefencePercentage();
         BlockScale = ess.GetBlockScale();
 
