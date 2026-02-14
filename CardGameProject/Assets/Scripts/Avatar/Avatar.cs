@@ -16,6 +16,7 @@ public class Avatar : MonoBehaviour
     #region Public Variables
 
     [Header("Stats")]
+    public bool AllowRootMotion = false;
     public float MaxHealth = 100f;
     public int MaxGuard = 10;
     public float Attack;
@@ -71,7 +72,7 @@ public class Avatar : MonoBehaviour
     protected float _currentHealth;
     protected float _currentBlock;
     protected int _currentGuard;
-    protected bool _allowRootMotion;
+    
 
     protected float CurrentHealth { get { return _currentHealth; } set { _currentHealth = value; UpdateStatsUI(); } }
     protected float CurrentBlock { get { return _currentBlock; } set { _currentBlock = value; UpdateStatsUI(); } }
@@ -94,7 +95,7 @@ public class Avatar : MonoBehaviour
             return;
         }
 
-        _allowRootMotion = true;
+        AllowRootMotion = true;
     }
 
     private void LateUpdate()
@@ -513,8 +514,11 @@ public class Avatar : MonoBehaviour
 
     private void OnAnimatorMove()
     {
-        if (!_allowRootMotion)
+        if (!AllowRootMotion)
+        {
+            transform.rotation = transform.rotation;
             return;
+        }
 
         if (Animator.IsInTransition(0) && Animator.GetNextAnimatorStateInfo(0).IsName("Take Damage") ||
             Animator.GetCurrentAnimatorStateInfo(0).IsName("Take Damage")) return;
@@ -535,7 +539,7 @@ public class Avatar : MonoBehaviour
         CurrentGuard = MaxGuard;
         CurrentBlock = 0;
 
-        _allowRootMotion = false;
+        AllowRootMotion = false;
 
 
         Animator.Play("Basic Idle");
@@ -544,7 +548,7 @@ public class Avatar : MonoBehaviour
         transform.localPosition = Vector3.zero;
         Animator.Update(0f);
 
-        _allowRootMotion = true;
+        AllowRootMotion = true;
     }
 
     public virtual void PlayHurtSound() { }
