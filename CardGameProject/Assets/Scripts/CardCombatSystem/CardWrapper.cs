@@ -1,3 +1,4 @@
+using System.Collections;
 using config;
 using events;
 using MyBox;
@@ -22,6 +23,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public ZoomConfig zoomConfig;
     public AnimationSpeedConfig animationSpeedConfig;
+    public float animationSpeed;
     public CardContainer container;
 
     private bool isHovered;
@@ -34,7 +36,6 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private bool isPointerDown = false;
     private bool pointerDownCheck = false;
     [HideInInspector] public bool IsPreviewActive = false;
-
     public float width {
         get => rectTransform.rect.width;
     }
@@ -45,6 +46,17 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private void Start() {
         canvas = GetComponent<Canvas>();
+
+        StartCoroutine(DrawTimer());
+    }
+
+    IEnumerator DrawTimer()
+    {
+        animationSpeed = animationSpeedConfig.drawDuration;
+
+        yield return new WaitForSeconds(animationSpeedConfig.drawDuration);
+
+        animationSpeed = animationSpeedConfig.duration;
     }
 
     private void Update() {
@@ -80,7 +92,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             }
 
             var distance = Vector2.Distance(rectTransform.localPosition, target);
-            var repositionSpeed = distance / animationSpeedConfig.duration;
+            var repositionSpeed = distance / animationSpeed;
 
             if (repositionSpeed == 0)
                 repositionSpeed = 1;

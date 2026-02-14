@@ -15,6 +15,8 @@ namespace config {
         //[SerializeField] public float releasePosition = 2000f;
         public float duration = 5.0f;
 
+        public float drawDuration = 0.3f;
+
         [SerializeField]
         public float zoom = 0.3f;
     }
