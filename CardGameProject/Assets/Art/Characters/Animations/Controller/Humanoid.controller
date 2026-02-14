@@ -1334,16 +1334,16 @@ AnimatorStateMachine:
     - {fileID: 2080630523769853810}
     - {fileID: 7536782907922359724}
     - {fileID: -8359466804606877355}
-  - first: {fileID: -1652850160698487886}
-    second:
-    - {fileID: -1602948547088415042}
-  - first: {fileID: 3859830734630179592}
-    second:
-    - {fileID: -6331961768438676358}
   - first: {fileID: -3626155104925452733}
     second:
     - {fileID: 412355940250290053}
     - {fileID: -8180521499138532208}
+  - first: {fileID: 3859830734630179592}
+    second:
+    - {fileID: -6331961768438676358}
+  - first: {fileID: -1652850160698487886}
+    second:
+    - {fileID: -1602948547088415042}
   - first: {fileID: 6944047056301394563}
     second:
     - {fileID: -4478839721514053524}
@@ -1633,7 +1633,10 @@ AnimatorTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions: []
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: JumpBack
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5895721447547103877}
   m_Solo: 0
@@ -2055,6 +2058,12 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: Recoil
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: JumpBack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
