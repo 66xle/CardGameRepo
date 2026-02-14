@@ -26,6 +26,12 @@ public class Enemy : Avatar
     public GameObject SelectionRing { get; private set; }
     public bool HasDialogue { get; private set; }
 
+
+    private void Awake()
+    {
+        Animator = GetComponentInChildren<Animator>();
+    }
+
     private void OnEnable()
     {
         OnStatChanged += DisplayStats;

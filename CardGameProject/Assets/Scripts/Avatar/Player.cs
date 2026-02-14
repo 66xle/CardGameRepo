@@ -25,6 +25,11 @@ public class Player : Avatar
     private GameObject StatusActive;
     private GameObject StatusDeactive;
 
+    private void Awake()
+    {
+        Animator = GetComponent<Animator>();
+    }
+
     private void OnEnable()
     {
         OnStatChanged += DisplayStats;

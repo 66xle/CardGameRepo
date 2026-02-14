@@ -3088,6 +3088,8 @@ GameObject:
   - component: {fileID: 3145259851833366050}
   - component: {fileID: 653846066684589859}
   - component: {fileID: 982311864220085004}
+  - component: {fileID: 3278010978615016297}
+  - component: {fileID: -5476125546637522101}
   m_Layer: 0
   m_Name: New Player
   m_TagString: Player
@@ -3146,6 +3148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b06ade74b318a348a3a2c6bafc0e9a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowRootMotion: 0
   MaxHealth: 100
   MaxGuard: 10
   Attack: 0
@@ -3235,6 +3238,33 @@ MonoBehaviour:
     prependActorNameSeparator: ': '
     prependActorNameFormat: '{0}{1}'
     subtitleColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &3278010978615016297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4658104607824738427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb94604730315b4fb95a718222d997e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _avatar: {fileID: 3145259851833366050}
+--- !u!114 &-5476125546637522101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4658104607824738427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b6b36de7a9c9b24589ee648ccb914fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 5188253808895499010}
+  _avatar: {fileID: 3145259851833366050}
 --- !u!1 &4733090406416034523
 GameObject:
   m_ObjectHideFlags: 0

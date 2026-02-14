@@ -32,7 +32,7 @@ public class GASystemDamage : MonoBehaviour
             avatarToTakeDamage.IsHit = true;
 
             if (!avatarToTakeDamage.IsInCounterState)
-                avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
+                avatarToTakeDamage.Animator.SetTrigger("TakeDamage");
 
             if (avatarToTakeDamage.IsGuardReducible(takeDamageFromWeaponGA.DamageType))
                 avatarToTakeDamage.ReduceGuard(1);
@@ -41,7 +41,7 @@ public class GASystemDamage : MonoBehaviour
 
         if (avatarToTakeDamage.IsAvatarDead())
         {
-            avatarToTakeDamage.GetComponent<Animator>().SetTrigger("Death");
+            avatarToTakeDamage.Animator.SetTrigger("Death");
             avatarToTakeDamage.DictReactiveEffects.Clear();
             avatarToTakeDamage.PlayDeathSound();
         }
@@ -76,7 +76,7 @@ public class GASystemDamage : MonoBehaviour
             avatarToTakeDamage.IsHit = true;
 
             if (!avatarToTakeDamage.IsInCounterState)
-                avatarToTakeDamage.GetComponent<Animator>().SetTrigger("TakeDamage");
+                avatarToTakeDamage.Animator.SetTrigger("TakeDamage");
         }
 
         if (avatarToTakeDamage.IsGuardBroken())

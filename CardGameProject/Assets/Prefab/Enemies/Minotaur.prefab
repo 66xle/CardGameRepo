@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6468019591024407201}
-  - component: {fileID: 2630625728507271816}
   - component: {fileID: 6125813535662174479}
   m_Layer: 0
   m_Name: Minotaur
@@ -36,28 +35,6 @@ Transform:
   - {fileID: 3000314978552269465}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &2630625728507271816
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6174548058302127}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 9db6c2fdad2c74c29a16662031994a23, type: 3}
-  m_Controller: {fileID: 9100000, guid: 76e52a6de854ea0439632153c6f9064a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &6125813535662174479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d90357ea7b32ca4c807ca3802f54737, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowRootMotion: 0
   MaxHealth: 100
   MaxGuard: 10
   Attack: 0
@@ -306,6 +284,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8664025769829247012, guid: 9db6c2fdad2c74c29a16662031994a23, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.2119012
+      objectReference: {fileID: 0}
+    - target: {fileID: -8664025769829247012, guid: 9db6c2fdad2c74c29a16662031994a23, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.74474037
+      objectReference: {fileID: 0}
+    - target: {fileID: -8664025769829247012, guid: 9db6c2fdad2c74c29a16662031994a23, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.2264657
+      objectReference: {fileID: 0}
+    - target: {fileID: -8664025769829247012, guid: 9db6c2fdad2c74c29a16662031994a23, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.1542967
+      objectReference: {fileID: 0}
+    - target: {fileID: -8664025769829247012, guid: 9db6c2fdad2c74c29a16662031994a23, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.30389127
+      objectReference: {fileID: 0}
+    - target: {fileID: -8664025769829247012, guid: 9db6c2fdad2c74c29a16662031994a23, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.3678099
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9db6c2fdad2c74c29a16662031994a23, type: 3}
       propertyPath: m_Name
       value: Minotaur_AvatarRig
@@ -314,15 +316,43 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5866666021909216657, guid: 9db6c2fdad2c74c29a16662031994a23, type: 3}
+    - target: {fileID: 5866666021909216657, guid: 9db6c2fdad2c74c29a16662031994a23, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 76e52a6de854ea0439632153c6f9064a, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 9db6c2fdad2c74c29a16662031994a23, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9db6c2fdad2c74c29a16662031994a23, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6230130445912608279}
     - targetCorrespondingSourceObject: {fileID: -790793310168966103, guid: 9db6c2fdad2c74c29a16662031994a23, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7901947795279861409}
   m_SourcePrefab: {fileID: 100100000, guid: 9db6c2fdad2c74c29a16662031994a23, type: 3}
+--- !u!1 &2321071664635566226 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9db6c2fdad2c74c29a16662031994a23, type: 3}
+  m_PrefabInstance: {fileID: 3240185657756149187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6230130445912608279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2321071664635566226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb94604730315b4fb95a718222d997e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _avatar: {fileID: 6125813535662174479}
 --- !u!4 &3133883898583548456 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9db6c2fdad2c74c29a16662031994a23, type: 3}
@@ -348,12 +378,12 @@ ParentConstraint:
   m_Enabled: 1
   serializedVersion: 2
   m_Weight: 1
-  m_TranslationAtRest: {x: -0.2119008, y: -0.74474007, z: -1.2264655}
-  m_RotationAtRest: {x: -46.905796, y: 176.35408, z: -37.124596}
+  m_TranslationAtRest: {x: -0.2119012, y: -0.74474037, z: -1.2264657}
+  m_RotationAtRest: {x: -46.90582, y: 176.35414, z: -37.124596}
   m_TranslationOffsets:
-  - {x: -0.30940628, y: -0.128308, z: 0.27020192}
+  - {x: -0.30940628, y: -0.12830806, z: 0.2702024}
   m_RotationOffsets:
-  - {x: -58.176533, y: 75.479805, z: -170.02509}
+  - {x: -58.176514, y: 75.47979, z: -170.02505}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1

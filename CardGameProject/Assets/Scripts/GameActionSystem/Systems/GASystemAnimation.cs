@@ -36,7 +36,9 @@ public class GASystemAnimation : MonoBehaviour
 
         float distanceOffset = moveToPosGA.DistanceOffset;
 
-        Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
+        
+
+        Animator avatarPlayingCardController = avatarPlayingCard.Animator;
         avatarPlayingCardController.SetTrigger("Move");
 
         yield return new WaitUntil(() =>
@@ -70,10 +72,9 @@ public class GASystemAnimation : MonoBehaviour
 
     private IEnumerator ReturnToPosPerformer(GAReturnToPos returnToPosGA)
     {
-
         Avatar avatarPlayingCard = returnToPosGA.AvatarPlayingCard;
 
-        Animator animator = avatarPlayingCard.GetComponent<Animator>();
+        Animator animator = avatarPlayingCard.Animator;
 
         animator.SetTrigger("JumpBack");
 
@@ -111,7 +112,7 @@ public class GASystemAnimation : MonoBehaviour
     private IEnumerator TriggerAttackAnimPerformer(GATriggerAttackAnim triggerAttackAnimGA)
     {
         Avatar avatarPlayingCard = triggerAttackAnimGA.AvatarPlayingCard;
-        Animator animator = avatarPlayingCard.GetComponent<Animator>();
+        Animator animator = avatarPlayingCard.Animator;
 
         string animationName = triggerAttackAnimGA.AnimationName;
 

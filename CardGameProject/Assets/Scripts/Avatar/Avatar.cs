@@ -60,7 +60,7 @@ public class Avatar : MonoBehaviour
     #region Read Only
 
     public string Guid { get; private set; }
-    public Animator Animator { get; private set; }
+    public Animator Animator { get; protected set; }
 
     public WeaponData CurrentWeaponData { get; set; }
 
@@ -84,10 +84,8 @@ public class Avatar : MonoBehaviour
     private void Awake()
     {
         Guid = System.Guid.NewGuid().ToString();
-        Animator = GetComponent<Animator>();
 
-        // Random start point between 0 and 1 in the animation cycle
-        Animator.Play("Basic Idle", 0, Random.Range(0f, 1f));
+        
 
         if (SkinnedMeshes.Count == 0)
         {
@@ -96,6 +94,12 @@ public class Avatar : MonoBehaviour
         }
 
         AllowRootMotion = true;
+    }
+
+    private void Start()
+    {
+        // Random start point between 0 and 1 in the animation cycle
+        Animator.Play("Basic Idle", 0, Random.Range(0f, 1f)); // Ref is grabbed in Player/Enemy Awake
     }
 
     private void LateUpdate()
@@ -429,7 +433,7 @@ public class Avatar : MonoBehaviour
         if (!isCounterActive)
         {
             IsInCounterState = false;
-            GetComponent<Animator>().SetBool("isReady", false);
+            Animator.SetBool("isReady", false);
         }
     }
 
@@ -470,63 +474,7 @@ public class Avatar : MonoBehaviour
 
     #endregion
 
-    
-    #region Animation Events
 
-    public void AnimationEventAttack()
-    {
-        DoDamage = true;
-    }
-
-    public void AnimationEventAttackFinish()
-    {
-        IsAttackFinished = true;
-        Animator.SetBool("IsAttacking", false);
-    }
-
-    public void AnimationEventPlaySound()
-    {
-        AudioManager.Instance.PlayAudioResource();
-    }
-
-    public void AnimationEventDisableRecoil()
-    {
-        AnimationEventAttackFinish();
-        IsRecoilDone = true;
-        Animator.SetBool("IsRecoiled", false);
-    }
-
-    public void EnableWeaponTrail()
-    {
-        VisualEffect weaponTrail = RightHolder.GetComponentInChildren<VisualEffect>();
-        weaponTrail.Play();
-
-        Debug.Log("WEAPON TRAIL");
-    }
-
-    public void DisableWeaponTrail()
-    {
-        VisualEffect weaponTrail = RightHolder.GetComponentInChildren<VisualEffect>();
-        weaponTrail.enabled = false;
-    }
-
-    #endregion
-
-    private void OnAnimatorMove()
-    {
-        if (!AllowRootMotion)
-        {
-            transform.rotation = transform.rotation;
-            return;
-        }
-
-        if (Animator.IsInTransition(0) && Animator.GetNextAnimatorStateInfo(0).IsName("Take Damage") ||
-            Animator.GetCurrentAnimatorStateInfo(0).IsName("Take Damage")) return;
-
-        // Apply root motion manually
-        transform.position += Animator.deltaPosition;
-        transform.rotation *= Animator.deltaRotation;
-    }
 
     public void SetHealth(float health)
     {
