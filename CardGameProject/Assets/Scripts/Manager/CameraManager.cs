@@ -3,13 +3,13 @@ using UnityEngine;
 using Cinemachine;
 using MyBox;
 using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 public class CameraManager : MonoBehaviour
 {
     public int ActivePriority = 30;
     [MustBeAssigned] [SerializeField] Transform CameraDummy;
     [MustBeAssigned] [SerializeField] Transform VictimDummy;
-    [MustBeAssigned] [SerializeField] PlayableDirector TimelineDirector;
 
     [Header("Lists")]
     [SerializeField] List<CinemachineVirtualCamera> ListIdleCamera;
@@ -35,15 +35,14 @@ public class CameraManager : MonoBehaviour
     private GameObject spawnedTimeline;
     private PlayableDirector director;
 
-
-    public void DestroyTimeline()
+    public void Awake()
     {
-        if (director != null)
-        {
-            Destroy(spawnedTimeline);
-            director = null;
-            spawnedTimeline = null;
-        }
+        ServiceLocator.Register(this);
+    }
+
+    public void OnDestroy()
+    {
+        ServiceLocator.Unregister<CameraManager>();
     }
 
     public void ActivateCamera(CinemachineVirtualCamera chosenCamera)
@@ -64,20 +63,14 @@ public class CameraManager : MonoBehaviour
         director = spawnedTimeline.GetComponentInChildren<PlayableDirector>();
     }
 
-    public void SetTimeline(PlayableAsset timeline)
+    public void DestroyTimeline()
     {
-        TimelineDirector.playableAsset = timeline;
-    }
-
-    public void ToggleDirector(bool toggle)
-    {
-        if (toggle)
+        if (director != null)
         {
-            TimelineDirector.Play();
-            return;
+            Destroy(spawnedTimeline);
+            director = null;
+            spawnedTimeline = null;
         }
-
-        TimelineDirector.Stop();
     }
 
     private void SetFollowTarget(Transform player)

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using Cinemachine;
 
 public class SignalManager : MonoBehaviour
 {
@@ -17,6 +18,12 @@ public class SignalManager : MonoBehaviour
     {
         CutsceneManager cutscene = ServiceLocator.Get<CutsceneManager>();
         cutscene.PlaySignal(Signal);
+    }
+
+    public void ActivateCamera(CinemachineVirtualCamera virtualCamera)
+    {
+        CameraManager camera = ServiceLocator.Get<CameraManager>();
+        camera.ActivateCamera(virtualCamera);
     }
 
     public void SendEndlessSignal()
