@@ -11,7 +11,7 @@ public class GACounter : GameAction
     {
         AvatarOpponent = avatarOpponent;
         AvatarPlayingCard = avatarPlayingCard;
-        OpponentController = avatarOpponent.GetComponent<Animator>();
-        AvatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
+        OpponentController = avatarOpponent.Animator;
+        AvatarPlayingCardController = avatarPlayingCard.Animator;
     }
 }

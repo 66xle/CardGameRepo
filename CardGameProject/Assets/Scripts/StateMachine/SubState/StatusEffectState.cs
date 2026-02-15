@@ -161,7 +161,7 @@ public class StatusEffectState : CombatBaseState
 
                 if (_currentAvatarSelected.IsAvatarDead())
                 {
-                    _currentAvatarSelected.GetComponent<Animator>().SetTrigger("Death");
+                    _currentAvatarSelected.Animator.SetTrigger("Death");
                     _currentAvatarSelected.DictReactiveEffects.Clear();
 
                     if (_currentAvatarSelected is Enemy) ctx.EnemyDied(_currentAvatarSelected as Enemy);

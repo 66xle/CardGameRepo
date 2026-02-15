@@ -20,8 +20,8 @@ public abstract class AttackCommand : Command
         Avatar avatarPlayingCard = EXEParameters.AvatarPlayingCard;
         Avatar avatarOpponent = EXEParameters.AvatarOpponent;
 
-        Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
-        Animator opponentController = avatarOpponent.GetComponent<Animator>();
+        Animator avatarPlayingCardController = avatarPlayingCard.Animator;
+        Animator opponentController = avatarOpponent.Animator;
 
         float damage = CalculateDamage.GetDamage(avatarPlayingCard.Attack, avatarPlayingCard.CurrentWeaponData.WeaponAttack, avatarOpponent, avatarPlayingCard, Value);
 

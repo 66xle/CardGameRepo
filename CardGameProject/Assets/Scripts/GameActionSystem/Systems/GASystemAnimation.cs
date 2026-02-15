@@ -137,7 +137,7 @@ public class GASystemAnimation : MonoBehaviour
     private IEnumerator TriggerAnimPerformer(GATriggerAnim triggerAnimGA)
     {
         Avatar avatarPlayingCard = triggerAnimGA.AvatarPlayingCard;
-        Animator animator = avatarPlayingCard.GetComponent<Animator>();
+        Animator animator = avatarPlayingCard.Animator;
 
         string animationName = triggerAnimGA.AnimationName;
         animator.CrossFade(animationName, 0.25f);

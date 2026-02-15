@@ -34,7 +34,7 @@ public class RCCounter : ReactiveCondition
     {
         EXEParameters.AvatarPlayingCard.IsInCounterState = true;
 
-        Animator animator = EXEParameters.AvatarPlayingCard.GetComponent<Animator>();
+        Animator animator = EXEParameters.AvatarPlayingCard.Animator;
         animator.SetBool("isReady", true);
     }
 }
