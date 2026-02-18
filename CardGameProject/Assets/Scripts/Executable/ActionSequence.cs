@@ -2,6 +2,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using SerializeReferenceEditor;
 using Random = UnityEngine.Random;
 
@@ -45,6 +46,7 @@ public class ActionSequence : Executable
 
         #endregion
 
+
         yield return ReadCommands(_actionCommands);
 
         if (!avatarOpponent.IsRunningReactiveEffect)
@@ -75,7 +77,9 @@ public class ActionSequence : Executable
             GAMoveToPos moveToPosGA = new(avatarPlayingCard, avatarOpponent, IsAttackingAllEnemies, animationWrapper.DistanceOffset, animationWrapper.FollowTimeline, animationWrapper.MoveTime);
             ActionSystem.Instance.Perform(moveToPosGA);
 
-            GATriggerAttackAnim triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource);
+            AudioResource audio = DetermineCorrectAttackSound(avatarOpponent, animationWrapper.AudioResource);
+
+            GATriggerAttackAnim triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, audio);
             moveToPosGA.PostReactions.Add(triggerAttackAnimGA);
 
             yield return new WaitWhile(() => !avatarPlayingCard.DoDamage);
@@ -88,7 +92,9 @@ public class ActionSequence : Executable
             {
                 if (animationWrapper.IsAttackAnimation)
                 {
-                    GATriggerAttackAnim triggerAttackAnimGA = new(EXEParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource, animationWrapper.IsAttackAnimation);
+                    AudioResource audio = DetermineCorrectAttackSound(avatarOpponent, animationWrapper.AudioResource);
+
+                    GATriggerAttackAnim triggerAttackAnimGA = new(EXEParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, audio, animationWrapper.IsAttackAnimation);
                     ActionSystem.Instance.Perform(triggerAttackAnimGA);
                 }
                 else
@@ -314,6 +320,14 @@ public class ActionSequence : Executable
         int index = Random.Range(0, EXEParameters.CardData.AnimationList.Count);
 
         return EXEParameters.CardData.AnimationList[index];
+    }
+
+    private AudioResource DetermineCorrectAttackSound(Avatar avatarOpponent, AudioResource attackAudio)
+    {
+        if (avatarOpponent.IsInCounterState)
+            return AudioManager.Instance.CounteredSound;
+
+        return attackAudio;
     }
 }
 

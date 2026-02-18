@@ -45,6 +45,9 @@ public class AudioManager : Singleton<AudioManager>
     public List<AudioWrapper> AudioWrappers;
     public List<AudioWrapper> AttackSounds;
 
+    [Foldout("Attack", true)]
+    [MustBeAssigned] public AudioResource CounteredSound;
+
     [Foldout("Audio Sources", true)]
     [MustBeAssigned][SerializeField] AudioSource audioSource;
     [MustBeAssigned][SerializeField] AudioSource musicSource;
