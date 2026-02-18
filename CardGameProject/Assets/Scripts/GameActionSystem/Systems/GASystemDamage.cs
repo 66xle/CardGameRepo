@@ -11,14 +11,14 @@ public class GASystemDamage : MonoBehaviour
     {
         ActionSystem.AttachPerformer<GATakeDamageFromWeapon>(TakeDamageFromWeaponPerformer);
         ActionSystem.AttachPerformer<GATakeGuardDamage>(TakeGuardDamagePerformer);
-        ActionSystem.AttachPerformer<GACounter>(CounterPerformer);
+        
     }
 
     private void OnDisable()
     {
         ActionSystem.DetachPerformer<GATakeDamageFromWeapon>();
         ActionSystem.DetachPerformer<GATakeGuardDamage>();
-        ActionSystem.DetachPerformer<GACounter>();
+        
     }
 
     private IEnumerator TakeDamageFromWeaponPerformer(GATakeDamageFromWeapon takeDamageFromWeaponGA)
@@ -97,20 +97,7 @@ public class GASystemDamage : MonoBehaviour
         yield return null;
     }
 
-    private IEnumerator CounterPerformer(GACounter counterGA)
-    {
-        //counterGA.OpponentController.SetBool("isReady", false);
-        //counterGA.AvatarOpponent.IsInCounterState = false;
-        counterGA.OpponentController.SetTrigger("Counter");
-        counterGA.AvatarOpponent.IsHit = true;
-
-        counterGA.AvatarPlayingCard.IsCountered = true;
-        counterGA.AvatarPlayingCardController.SetBool("IsRecoiled", true);
-        counterGA.AvatarPlayingCardController.SetTrigger("Recoil");
-
-
-        yield return null;
-    }
+    
 
     public void ReduceHitToRecover(Avatar avatarOpponent)
     {

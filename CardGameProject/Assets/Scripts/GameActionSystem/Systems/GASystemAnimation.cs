@@ -18,6 +18,7 @@ public class GASystemAnimation : MonoBehaviour
         ActionSystem.AttachPerformer<GAReturnToPos>(ReturnToPosPerformer);
         ActionSystem.AttachPerformer<GATriggerAttackAnim>(TriggerAttackAnimPerformer);
         ActionSystem.AttachPerformer<GATriggerAnim>(TriggerAnimPerformer);
+        ActionSystem.AttachPerformer<GACounter>(CounterPerformer);
     }
 
     private void OnDisable()
@@ -26,6 +27,7 @@ public class GASystemAnimation : MonoBehaviour
         ActionSystem.DetachPerformer<GAReturnToPos>();
         ActionSystem.DetachPerformer<GATriggerAttackAnim>();
         ActionSystem.DetachPerformer<GATriggerAnim>();
+        ActionSystem.DetachPerformer<GACounter>();
     }
 
     private IEnumerator MoveToPosPerformer(GAMoveToPos moveToPosGA)
@@ -147,7 +149,20 @@ public class GASystemAnimation : MonoBehaviour
         yield return null;
     }
 
+    private IEnumerator CounterPerformer(GACounter counterGA)
+    {
+        //counterGA.OpponentController.SetBool("isReady", false);
+        //counterGA.AvatarOpponent.IsInCounterState = false;
+        counterGA.OpponentController.SetTrigger("Counter");
+        counterGA.AvatarOpponent.IsHit = true;
 
+        counterGA.AvatarPlayingCard.IsCountered = true;
+        counterGA.AvatarPlayingCardController.SetBool("IsRecoiled", true);
+        counterGA.AvatarPlayingCardController.SetTrigger("Recoil");
+
+
+        yield return null;
+    }
     private string GetWeaponCategory(string name)
     {
         if (name.Contains("Long"))
