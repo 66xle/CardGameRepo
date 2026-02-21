@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using DG.Tweening;
+using System.Runtime.CompilerServices;
 
 public class OptionUI : MonoBehaviour
 {
@@ -13,17 +14,24 @@ public class OptionUI : MonoBehaviour
     [SerializeField] Slider MusicSlider;
     [SerializeField] Slider EffectSlider;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        SetupResolution();
-    }
-
     private Resolution[] resolutions;
     private List<Resolution> filteredResolutions;
 
     private RefreshRate currentRefreshRate;
     private int currentResolutionIndex = 0;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        if (GameManager.Instance.HasOptionLoadedThisSession) return;
+
+        SetupResolution();
+        SetupVolume();
+
+        GameManager.Instance.HasOptionLoadedThisSession = true;
+    }
+
+    #region Resolution
 
     private void SetupResolution()
     {
@@ -50,7 +58,7 @@ public class OptionUI : MonoBehaviour
 
             if (filteredResolutions[i].width == Screen.width && filteredResolutions[i].height == Screen.height)
             {
-                currentResolutionIndex = 0;
+                currentResolutionIndex = PlayerPrefs.GetInt("resolution", 0);
             }
         }
 
@@ -63,15 +71,34 @@ public class OptionUI : MonoBehaviour
     {
         Resolution resolution = filteredResolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, true);
+
+        PlayerPrefs.SetInt("resolution", resolutionIndex);
+    }
+
+    #endregion
+
+    #region Volume
+
+    private void SetupVolume()
+    {
+        MusicSlider.value = PlayerPrefs.GetFloat("musicVol", 1);
+        EffectSlider.value = PlayerPrefs.GetFloat("effectVol", 1);
+
+        SoundMixer.SetFloat("musicVol", Mathf.Log10(MusicSlider.value) * 20);
+        SoundMixer.SetFloat("effectVol", Mathf.Log10(EffectSlider.value) * 20);
     }
 
     public void SetMusicVolume()
     {
         SoundMixer.SetFloat("musicVol", Mathf.Log10(MusicSlider.value) * 20);
+        PlayerPrefs.SetFloat("musicVol", MusicSlider.value);
     }
 
     public void SetEffectVolume()
     {
         SoundMixer.SetFloat("effectVol", Mathf.Log10(EffectSlider.value) * 20);
+        PlayerPrefs.SetFloat("effectVol", EffectSlider.value);
     }
+
+    #endregion
 }
