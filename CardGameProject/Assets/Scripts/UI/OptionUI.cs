@@ -2,10 +2,16 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Audio;
+using DG.Tweening;
 
 public class OptionUI : MonoBehaviour
 {
     [SerializeField] TMP_Dropdown resolutionDropdown;
+    [SerializeField] AudioMixer SoundMixer;
+    [SerializeField] Slider MusicSlider;
+    [SerializeField] Slider EffectSlider;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -57,5 +63,15 @@ public class OptionUI : MonoBehaviour
     {
         Resolution resolution = filteredResolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, true);
+    }
+
+    public void SetMusicVolume()
+    {
+        SoundMixer.SetFloat("musicVol", Mathf.Log10(MusicSlider.value) * 20);
+    }
+
+    public void SetEffectVolume()
+    {
+        SoundMixer.SetFloat("effectVol", Mathf.Log10(EffectSlider.value) * 20);
     }
 }

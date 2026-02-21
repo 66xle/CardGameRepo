@@ -2882,6 +2882,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resolutionDropdown: {fileID: 977211834}
+  SoundMixer: {fileID: 24100000, guid: d773aaaa73b53ae4f9d38abd28e62633, type: 2}
+  MusicSlider: {fileID: 1106781518}
+  EffectSlider: {fileID: 1147702318}
 --- !u!1 &479568364
 GameObject:
   m_ObjectHideFlags: 0
@@ -3488,7 +3491,7 @@ AudioSource:
   m_GameObject: {fileID: 566617319}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -516571385649342821, guid: d773aaaa73b53ae4f9d38abd28e62633, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 6418180475301049370, guid: d5442059ccc7adc4ba66b0e8d4c3db41, type: 2}
   m_PlayOnAwake: 1
@@ -4327,7 +4330,7 @@ AudioSource:
   m_GameObject: {fileID: 762382033}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1479169428943780299, guid: d773aaaa73b53ae4f9d38abd28e62633, type: 2}
   m_audioClip: {fileID: 8300000, guid: dccf83e9f2f914610b88d9924cf952b5, type: 3}
   m_Resource: {fileID: 8300000, guid: dccf83e9f2f914610b88d9924cf952b5, type: 3}
   m_PlayOnAwake: 1
@@ -6954,13 +6957,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 1430365395}
   m_HandleRect: {fileID: 1556339826}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.518
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 469026277}
+        m_TargetAssemblyTypeName: OptionUI, Assembly-CSharp
+        m_MethodName: SetMusicVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1124964313 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4796915811395072, guid: 12bc79824943cfa448fab5c0e01d9678, type: 3}
@@ -7398,13 +7413,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 738651471}
   m_HandleRect: {fileID: 1220638882}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.518
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 469026277}
+        m_TargetAssemblyTypeName: OptionUI, Assembly-CSharp
+        m_MethodName: SetEffectVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1154289548 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 20c247dfee31243bf8c7020103f030b7, type: 3}
