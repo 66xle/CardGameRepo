@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    [MustBeAssigned] [SerializeField] DifficultyManager DifficultyManager;
-    [MustBeAssigned] [SerializeField] TutorialManager TutorialManager;
-    [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
+    [SerializeField] DifficultyManager DifficultyManager;
+    [SerializeField] TutorialManager TutorialManager;
+    [SerializeField] CombatStateMachine Ctx;
+    [SerializeField] GameObject OptionMenu;
+
 
     public void RestartCombat(GameObject menu)
     {
@@ -51,6 +53,11 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.StageLevel++;
 
         //RestartCombat(); // temp
+    }
+
+    public void EnableOptionMenu(bool toggle)
+    {
+        OptionMenu.SetActive(toggle);
     }
 
     public async void Play()
