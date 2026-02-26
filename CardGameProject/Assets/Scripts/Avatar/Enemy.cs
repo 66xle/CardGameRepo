@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using MyBox;
 using TMPro;
 using UnityEngine;
@@ -29,6 +30,7 @@ public class Enemy : Avatar
 
     private void Awake()
     {
+        base.Awake();
         Animator = GetComponentInChildren<Animator>();
     }
 
@@ -90,6 +92,7 @@ public class Enemy : Avatar
         Deck.AddRange(data.Cards.Select(card => new CardData(weapon, card, Attack, Defence, BlockScale, MaxHealth)));
 
         SelectionRing = transform.GetChild(0).gameObject;
+
     }
   
     public List<CardData> DrawCards()

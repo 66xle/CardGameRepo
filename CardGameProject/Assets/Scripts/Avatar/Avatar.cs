@@ -8,6 +8,8 @@ using MyBox;
 using UnityEngine.VFX;
 using DG.Tweening;
 using Random = UnityEngine.Random;
+using Cinemachine;
+using UnityEditor.Rendering;
 
 
 
@@ -64,6 +66,8 @@ public class Avatar : MonoBehaviour
 
     public WeaponData CurrentWeaponData { get; set; }
 
+    public CinemachineVirtualCamera StatusCamera { get; private set; }
+
     #endregion
 
     #region Internal Variables
@@ -81,19 +85,17 @@ public class Avatar : MonoBehaviour
     #endregion
 
 
-    private void Awake()
+    protected void Awake()
     {
         Guid = System.Guid.NewGuid().ToString();
+        StatusCamera = transform.GetComponentInChildren<CinemachineVirtualCamera>();
 
-        
 
         if (SkinnedMeshes.Count == 0)
         {
             Debug.LogError($"{name} Avatar: Skinned Meshes is not assigned");
             return;
         }
-
-        AllowRootMotion = true;
     }
 
     private void Start()
