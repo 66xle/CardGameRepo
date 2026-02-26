@@ -27,6 +27,7 @@ public class Player : Avatar
 
     private void Awake()
     {
+        base.Awake();
         Animator = GetComponent<Animator>();
     }
 
