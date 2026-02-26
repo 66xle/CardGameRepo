@@ -98,6 +98,36 @@ public class CombatStateMachine : MonoBehaviour
         //SceneInitialize.Instance.Subscribe(Init, 1);
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+#if UNITY_EDITOR
+        if (!LevelManager.isEnvironmentLoaded) return; // Editor only
+#endif
+
+        if (currentState == null) return;
+
+        currentState.UpdateStates();
+        if (currentState.currentSubState != null)
+        {
+            subState = currentState.currentSubState.ToString();
+        }
+
+        if (InputManager.Instance.LeftClickInputDown && _isPlayState && Time.timeScale == 1)
+        {
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
+
+            if (Input.touchCount > 0 && EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+                return;
+
+            if (_isInPrepState)
+                return;
+
+            SelectEnemy();
+        }
+    }
+
     public void Init()
     {
 #if UNITY_EDITOR
@@ -132,36 +162,6 @@ public class CombatStateMachine : MonoBehaviour
         //}
 
         InitBattle();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-#if UNITY_EDITOR
-        if (!LevelManager.isEnvironmentLoaded) return; // Editor only
-#endif
-
-        if (currentState == null) return;
-
-        currentState.UpdateStates();
-        if (currentState.currentSubState != null)
-        {
-            subState = currentState.currentSubState.ToString();
-        }
-
-        if (InputManager.Instance.LeftClickInputDown && _isPlayState && Time.timeScale == 1)
-        {
-            if (EventSystem.current.IsPointerOverGameObject())
-                return;
-
-            if (Input.touchCount > 0 && EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
-                return;
-
-            if (_isInPrepState)
-                return;
-
-            SelectEnemy();
-        }
     }
 
     public void InitBattle()

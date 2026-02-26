@@ -64,6 +64,8 @@ public class UIManager : MonoBehaviour
     {
         SceneLoader sceneLoader = ServiceLocator.Get<SceneLoader>();
 
+        GameManager.Instance.WaveCount = 0; // TEMP: For Demo
+
         await sceneLoader.LoadSceneGroup("Combat");
     }
 
