@@ -21,7 +21,7 @@ public class StatusPoison : StatusEffect
 
     public override void OnApply(Avatar avatar)
     {
-        SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatar, "Poison", Color.green, true);
+        GASpawnDamageUIPopup spawnDamageUIPopupGA = new(avatar, "Poison", Color.green, true);
         ActionSystem.Instance.Perform(spawnDamageUIPopupGA);
 
         base.OnApply(avatar);
@@ -33,7 +33,7 @@ public class StatusPoison : StatusEffect
 
         avatar.TakeDamageByStatusEffect(damage);
 
-        SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatar, damage.ToString(), Color.green);
+        GASpawnDamageUIPopup spawnDamageUIPopupGA = new(avatar, damage.ToString(), Color.green);
         ActionSystem.Instance.Perform(spawnDamageUIPopupGA);
     }
 

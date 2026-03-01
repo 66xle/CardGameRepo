@@ -13,6 +13,7 @@ public class CardContainer : MonoBehaviour {
     [MustBeAssigned] public CombatStateMachine combatStateMachine;
     [MustBeAssigned] public Canvas mainCanvas;
     [MustBeAssigned] public ClonePreviewManager clonePreviewManager;
+    [MustBeAssigned] public TutorialManager tutorialManager;
 
     [Header("Constraints")]
     [SerializeField] private bool forceFitContainer;
@@ -172,10 +173,12 @@ public class CardContainer : MonoBehaviour {
         {
             if (playAreaObject == null) continue;
 
+            if (playAreaObject.CompareTag("Recycle") && tutorialManager.IsInTutorial && tutorialManager.TutorialStage < 4f) continue;
+
             // If card is in play area, play it!
             RectTransform rectTransform = playAreaObject.GetComponent<RectTransform>();
             if (IsCursorInPlayArea(rectTransform))
-            {
+            { 
                 currentInPlayArea = true;
                 isScaleTrue = true;
             }
@@ -228,53 +231,6 @@ public class CardContainer : MonoBehaviour {
         }
     }
 
-    //private void DistributeChildrenToFitContainer(float childrenTotalWidth)
-    //{
-
-    //    int selectedIndex = clonePreviewManager.currentCard == null ? -1 : cards.IndexOf(clonePreviewManager.currentCard);
-
-    //    // Get the width of the container
-    //    var width = rectTransform.rect.width * transform.lossyScale.x;
-    //    // Get the distance between each child
-    //    var distanceBetweenChildren = (width - childrenTotalWidth) / (cards.Count - 1);
-    //    // Set all children's positions to be evenly spaced out
-    //    var currentX = transform.localPosition.x - width / 2;
-
-    //    for (int i = 0; i < cards.Count; i++)
-    //    {
-    //        var child = cards[i];
-    //        float adjustedChildWidth = child.width * child.transform.lossyScale.x;
-
-    //        // Base X without push
-    //        float baseX = currentX + adjustedChildWidth / 2;
-
-    //        // Apply push if any card is selected
-    //        float pushOffset = 0f;
-    //        if (selectedIndex >= 0 && cards.Count >= pushAffectedCardCount)
-    //        {
-    //            int distanceFromSelected = Mathf.Abs(i - selectedIndex);
-
-    //            if (distanceFromSelected <= affectedCardCount && i != selectedIndex)
-    //            {
-    //                // Normalized falloff: closer cards are pushed more
-    //                float t = 1f - (distanceFromSelected / (float)(affectedCardCount + 1));
-    //                t = Mathf.Pow(t, falloff);
-
-    //                // Right side bias: push cards on the right harder
-    //                if (i > selectedIndex)
-    //                {
-    //                    t *= rightPushMultiplier; // e.g., 1.25f
-    //                }
-
-    //                float direction = Mathf.Sign(i - selectedIndex); // -1 = left, +1 = right
-    //                pushOffset = direction * pushAmount * t;
-    //            }
-    //        }
-
-    //        child.targetPosition = new Vector2(baseX + pushOffset, transform.localPosition.y);
-    //        currentX += adjustedChildWidth + distanceBetweenChildren;
-    //    }
-    //}
 
 
     private void DistributeChildrenToFitContainer(float childrenTotalWidth)
@@ -321,14 +277,6 @@ public class CardContainer : MonoBehaviour {
     }
 
 
-    //private void DistributeChildrenWithoutOverlap(float childrenTotalWidth) {
-    //    var currentPosition = GetAnchorPositionByAlignment(childrenTotalWidth);
-    //    foreach (CardWrapper child in cards) {
-    //        var adjustedChildWidth = child.width * child.transform.lossyScale.x;
-    //        child.targetPosition = new Vector2(currentPosition + adjustedChildWidth / 2, transform.localPosition.y);
-    //        currentPosition += adjustedChildWidth;
-    //    }
-    //}
 
     private void DistributeChildrenWithoutOverlap(float childrenTotalWidth)
     {
@@ -346,21 +294,6 @@ public class CardContainer : MonoBehaviour {
         }
     }
 
-    //private float GetAnchorPositionByAlignment(float childrenWidth)
-    //{
-    //    var containerWidthInGlobalSpace = rectTransform.rect.width * transform.lossyScale.x;
-    //    switch (alignment)
-    //    {
-    //        case CardAlignment.Left:
-    //            return transform.localPosition.x - containerWidthInGlobalSpace / 2;
-    //        case CardAlignment.Center:
-    //            return transform.localPosition.x - childrenWidth / 2;
-    //        case CardAlignment.Right:
-    //            return transform.localPosition.x + containerWidthInGlobalSpace / 2 - childrenWidth;
-    //        default:
-    //            return 0;
-    //    }
-    //}
 
     private float GetAnchorPositionByAlignment(float childrenWidth)
     {
@@ -380,7 +313,7 @@ public class CardContainer : MonoBehaviour {
 
     private void SetCardsAnchor() {
         foreach (CardWrapper child in cards) {
-            child.SetAnchor(new Vector2(0, 0.5f), new Vector2(0, 0.5f));
+            child.SetAnchor(new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
         }
     }
 

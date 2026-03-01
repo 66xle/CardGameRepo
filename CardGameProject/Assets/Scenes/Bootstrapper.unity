@@ -2472,7 +2472,7 @@ MonoBehaviour:
   LoadedEnvironment: {fileID: 0}
   IsInTutorial: 1
   TutorialStage: 1
-  SkipCutscene: 1
+  HasOptionLoadedThisSession: 0
 --- !u!1 &1447330678
 GameObject:
   m_ObjectHideFlags: 0
@@ -2654,24 +2654,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneGroups:
-  - GroupName: MainMenu
-    Scenes:
-    - Reference:
-        asset: {fileID: 102900000, guid: 92ce5573dcba78949aff270159609b79, type: 3}
-        guid: 92ce5573dcba78949aff270159609b79
-      SceneType: 2
   - GroupName: Combat
     Scenes:
     - Reference:
         asset: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
         guid: 9fc0d4010bbf28b4594072e72b8655ab
       SceneType: 0
-  - GroupName: Environment
+  - GroupName: MainMenu
     Scenes:
     - Reference:
-        asset: {fileID: 102900000, guid: 2a5cb9336105ec743947d7dadaeee140, type: 3}
-        guid: 2a5cb9336105ec743947d7dadaeee140
-      SceneType: 0
+        asset: {fileID: 102900000, guid: 92ce5573dcba78949aff270159609b79, type: 3}
+        guid: 92ce5573dcba78949aff270159609b79
+      SceneType: 2
   loadingScene:
     asset: {fileID: 102900000, guid: 8414d81814d60914cbb86e20dbd796e4, type: 3}
     guid: 8414d81814d60914cbb86e20dbd796e4
@@ -2857,7 +2851,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 11.0466, y: -32}
+  m_AnchoredPosition: {x: 11.0466175, y: -32}
   m_SizeDelta: {x: 1319.3577, y: 234.9795}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1943304733
@@ -2933,13 +2927,13 @@ AudioSource:
   m_GameObject: {fileID: 4920422243514451024}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1479169428943780299, guid: d773aaaa73b53ae4f9d38abd28e62633, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -4870,8 +4864,9 @@ MonoBehaviour:
   AttackSounds:
   - AudioData: {fileID: 11400000, guid: 15dd4ba80698d64408c7877e0fe5219d, type: 2}
     Type: 200
-  audioSource: {fileID: 7166983139156125176}
-  musicSource: {fileID: 19882687639364896}
+  CounteredSound: {fileID: 8300000, guid: 893d485f547355347b4cde9508f0bd1a, type: 3}
+  audioSource: {fileID: 19882687639364896}
+  musicSource: {fileID: 7166983139156125176}
 --- !u!82 &7166983139156125176
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4881,13 +4876,13 @@ AudioSource:
   m_GameObject: {fileID: 4920422243514451024}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -516571385649342821, guid: d773aaaa73b53ae4f9d38abd28e62633, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

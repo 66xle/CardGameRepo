@@ -17,47 +17,47 @@ public abstract class AttackCommand : Command
 
     public override void ExecuteCommand()
     {
-        Avatar avatarPlayingCard = ExecutableParameters.AvatarPlayingCard;
-        Avatar avatarOpponent = ExecutableParameters.AvatarOpponent;
+        Avatar avatarPlayingCard = EXEParameters.AvatarPlayingCard;
+        Avatar avatarOpponent = EXEParameters.AvatarOpponent;
 
-        Animator avatarPlayingCardController = avatarPlayingCard.GetComponent<Animator>();
-        Animator opponentController = avatarOpponent.GetComponent<Animator>();
+        Animator avatarPlayingCardController = avatarPlayingCard.Animator;
+        Animator opponentController = avatarOpponent.Animator;
 
         float damage = CalculateDamage.GetDamage(avatarPlayingCard.Attack, avatarPlayingCard.CurrentWeaponData.WeaponAttack, avatarOpponent, avatarPlayingCard, Value);
 
-        for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
+        for (int i = 0; i < EXEParameters.Targets.Count; i++)
         {
-            Avatar avatarToTakeDamage = ExecutableParameters.Targets[i];
+            Avatar avatarToTakeDamage = EXEParameters.Targets[i];
 
-            if (avatarToTakeDamage.IsGameActionInQueue<TakeDamageFromWeaponGA>())
+            if (avatarToTakeDamage.IsGameActionInQueue<GATakeDamageFromWeapon>())
             {
                 // Update damage value
-                TakeDamageFromWeaponGA takeDamageFromWeaponGA = avatarToTakeDamage.GetGameActionFromQueue<TakeDamageFromWeaponGA>() as TakeDamageFromWeaponGA;
+                GATakeDamageFromWeapon takeDamageFromWeaponGA = avatarToTakeDamage.GetGameActionFromQueue<GATakeDamageFromWeapon>() as GATakeDamageFromWeapon;
                 takeDamageFromWeaponGA.Damage += damage;
 
-                SpawnDamageUIPopupGA spawnDamageUIPopupGA = takeDamageFromWeaponGA.PostReactions.First(gameAction => gameAction is SpawnDamageUIPopupGA) as SpawnDamageUIPopupGA;
+                GASpawnDamageUIPopup spawnDamageUIPopupGA = takeDamageFromWeaponGA.PostReactions.First(gameAction => gameAction is GASpawnDamageUIPopup) as GASpawnDamageUIPopup;
                 spawnDamageUIPopupGA.Text = takeDamageFromWeaponGA.Damage.ToString();
             }
             else
             {
                 // Add game action to queue
-                TakeDamageFromWeaponGA takeDamageFromWeaponGA = new(avatarToTakeDamage, damage, avatarPlayingCard.CurrentWeaponData.DamageType, ExecutableParameters.CardTarget);
+                GATakeDamageFromWeapon takeDamageFromWeaponGA = new(avatarToTakeDamage, damage, avatarPlayingCard.CurrentWeaponData.DamageType, EXEParameters.CardTarget);
                 AddGameActionToQueue(takeDamageFromWeaponGA, avatarToTakeDamage);
 
-                SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.AvatarToTakeDamage, takeDamageFromWeaponGA.Damage.ToString(), Color.white);
+                GASpawnDamageUIPopup spawnDamageUIPopupGA = new(takeDamageFromWeaponGA.AvatarToTakeDamage, takeDamageFromWeaponGA.Damage.ToString(), Color.white);
                 AddGameActionToQueue(spawnDamageUIPopupGA, avatarToTakeDamage);
 
                 if (avatarOpponent.IsInCounterState)
                 {
                     Debug.Log("Is in counter state");
-                    CounterGA counterGA = new(avatarOpponent, avatarPlayingCard);
+                    GACounter counterGA = new(avatarOpponent, avatarPlayingCard);
                     avatarOpponent.QueueGameActions.Add(counterGA);
 
                     AddGameActionToQueue(counterGA, avatarOpponent);
                 }
             }
 
-            ExecutableParameters.Targets[i] = avatarToTakeDamage;
+            EXEParameters.Targets[i] = avatarToTakeDamage;
         }
 
         UpdateGameActionQueue();

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using MyBox;
@@ -45,6 +46,9 @@ public class AudioManager : Singleton<AudioManager>
     public List<AudioWrapper> AudioWrappers;
     public List<AudioWrapper> AttackSounds;
 
+    [Foldout("Attack", true)]
+    [MustBeAssigned] public AudioResource CounteredSound;
+
     [Foldout("Audio Sources", true)]
     [MustBeAssigned][SerializeField] AudioSource audioSource;
     [MustBeAssigned][SerializeField] AudioSource musicSource;
@@ -52,6 +56,7 @@ public class AudioManager : Singleton<AudioManager>
     private List<AudioWrapper> wrappers = new();
 
     private AudioResource _type;
+    private Tween _fadeTween;
     public new void Awake()
     {
         base.Awake();
@@ -116,14 +121,21 @@ public class AudioManager : Singleton<AudioManager>
 
     public void PlayMusic(AudioData data)
     {
+        _fadeTween.Complete();
+
         musicSource.volume = 1;
 
         musicSource.resource = data.audios[Random.Range(0, data.audios.Count)];
         musicSource.Play();
     }
 
-    public void PlayMusic(AudioResource resource)
+    public void PlayMusic(AudioResource resource, bool disallowSameResource = false)
     {
+        if (disallowSameResource && musicSource.resource == resource)
+            return;
+
+        _fadeTween.Complete();
+
         musicSource.volume = 1;
 
         musicSource.resource = resource;
@@ -132,7 +144,7 @@ public class AudioManager : Singleton<AudioManager>
 
     public void FadeOutMusic(float duration)
     {
-        DOVirtual.Float(musicSource.volume, 0, duration, f => musicSource.volume = f).OnComplete(() => musicSource.Stop());
+        _fadeTween = DOVirtual.Float(musicSource.volume, 0, duration, f => musicSource.volume = f).OnComplete(() => musicSource.Stop());
     }
 
     /// <summary>

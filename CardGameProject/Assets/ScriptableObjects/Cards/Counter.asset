@@ -15,10 +15,11 @@ MonoBehaviour:
   Guid: 614757c7207c7e642bd6d2044bac82f7
   InGameGUID: 
   CardName: Counter
-  Description: Reduce damage by 50%. When attacked, deal #0 damage until next turn
-  DisplayDescription: 
-  LinkDescription: Reduce damage by 50%. When attacked, deal #0 damage until next
+  Description: Reduce damage taken by 50%. When attacked, deal #0 damage until next
     turn
+  DisplayDescription: 
+  LinkDescription: Reduce damage taken by 50%. When attacked, deal #0 damage until
+    next turn
   Flavour: 
   Image: {fileID: 21300000, guid: c30db6b8cbc462e4185fb1e25d3e4ddc, type: 3}
   Frame: {fileID: 21300000, guid: 61329542160dc15418ac2da74fe16cf1, type: 3}
@@ -27,7 +28,7 @@ MonoBehaviour:
   ValuesToReference:
   - {x: 0, y: 1}
   Commands:
-  - rid: 5090185875588907209
+  - rid: 7459927208181366902
   PopupKeyPair:
   - Key: Amplify
     Value: {fileID: 11400000, guid: 9ead0859091a0574ba55a2cc00ba81b3, type: 2}
@@ -38,14 +39,19 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5090185875588907209
-      type: {class: IfAttacked, ns: , asm: Assembly-CSharp}
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 7459927208181366902
+      type: {class: RCCounter, ns: , asm: Assembly-CSharp}
       data:
         reactiveOptions:
-          rid: 5090185875588907210
+          rid: 7459927208181366903
         commands:
-        - rid: 5090185875588907211
-    - rid: 5090185875588907210
+        - rid: 8299078191375450204
+        effects:
+        - rid: 7459927341251952744
+        - rid: 7459927341251952738
+    - rid: 7459927208181366903
       type: {class: ReactiveOptions, ns: , asm: Assembly-CSharp}
       data:
         DuplicateEffect: 1
@@ -55,8 +61,22 @@ MonoBehaviour:
         ReactiveTrigger: 5
         EffectDuration: 1
         Turns: 0
-    - rid: 5090185875588907211
-      type: {class: DealDamage, ns: , asm: Assembly-CSharp}
+    - rid: 7459927341251952738
+      type: {class: ReactiveConditionEffects, ns: , asm: Assembly-CSharp}
+      data:
+        EffectType: 1
+        ReactiveTrigger: 0
+        Commands:
+        - rid: -2
+    - rid: 7459927341251952744
+      type: {class: ReactiveConditionEffects, ns: , asm: Assembly-CSharp}
+      data:
+        EffectType: 1
+        ReactiveTrigger: 0
+        Commands:
+        - rid: -2
+    - rid: 8299078191375450204
+      type: {class: CMDDealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 1
         ShouldMove: 1

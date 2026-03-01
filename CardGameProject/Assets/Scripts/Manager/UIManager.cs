@@ -7,21 +7,37 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] DifficultyManager DifficultyManager;
+    [SerializeField] TutorialManager TutorialManager;
+    [SerializeField] CombatStateMachine Ctx;
+    [SerializeField] GameObject OptionMenu;
 
-    public async void RestartCombat()
+
+    public void RestartCombat(GameObject menu)
     {
+        menu.SetActive(false);
+
+        //AudioManager.Instance.FadeOutMusic(0.2f);
+
+        if (TutorialManager.TutorialStage < 5)
+            TutorialManager.TutorialStage = 1;
+
+        Ctx.EndGameplay();
+        Ctx.player.ResetDeath();
+        Ctx.Init();
+
         Time.timeScale = 1.0f;
 
-        AudioManager.Instance.FadeOutMusic(0.2f);
+        //SceneLoader loader = ServiceLocator.Get<SceneLoader>();
 
-        SceneLoader loader = ServiceLocator.Get<SceneLoader>();
-
-        await loader.LoadSceneGroup("Combat");
+        //await loader.LoadSceneGroup("Combat");
     }
 
     public async void MainMenu()
     {
         Time.timeScale = 1f;
+
+        GameManager.Instance.WaveCount = 0;
+        GameManager.Instance.CurrentEXP = 0;
 
         AudioManager.Instance.FadeOutMusic(0.2f);
 
@@ -36,14 +52,19 @@ public class UIManager : MonoBehaviour
 
         GameManager.Instance.StageLevel++;
 
-        RestartCombat(); // temp
+        //RestartCombat(); // temp
+    }
+
+    public void EnableOptionMenu(bool toggle)
+    {
+        OptionMenu.SetActive(toggle);
     }
 
     public async void Play()
     {
-        GameManager.Instance.WaveCount = 0;
-
         SceneLoader sceneLoader = ServiceLocator.Get<SceneLoader>();
+
+        GameManager.Instance.WaveCount = 0; // TEMP: For Demo
 
         await sceneLoader.LoadSceneGroup("Combat");
     }

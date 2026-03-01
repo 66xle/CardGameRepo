@@ -108,7 +108,7 @@ public class RewardManager : MonoBehaviour
                 Ctx.player.RecoverStamina();
 
                 //Ctx.Init(); // Call in cutscene
-                CutsceneManager.NextCutscene();
+                CutsceneManager.PlayPreloadedCutscene();
                 return;
             }
         }
@@ -120,6 +120,9 @@ public class RewardManager : MonoBehaviour
 
     public void DisplayVictoryUI()
     {
+        CutsceneManager.PreloadNextCutscene(); // Hard Coded for now
+        CutsceneManager.PreloadNextCutscene(); // Hard Coded for now
+
         DetermineDrops();
 
         if (PoolOfGear.Count == 0)

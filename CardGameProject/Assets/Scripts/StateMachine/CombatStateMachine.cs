@@ -57,9 +57,10 @@ public class CombatStateMachine : MonoBehaviour
     [MustBeAssigned] [SerializeField] StatsManager StatsManager;
     [MustBeAssigned] [SerializeField] SwitchWeaponManager SwitchWeaponManager;
     [MustBeAssigned] [SerializeField] EnemyManager EnemyManager;
-    [MustBeAssigned] [SerializeField] CameraSystem CameraSystem;
+    [MustBeAssigned] [SerializeField] GASystemCamera CameraSystem;
     [MustBeAssigned] [SerializeField] LevelManager LevelManager; // Editor only
     [MustBeAssigned] [SerializeField] CutsceneManager CutsceneManager; // Editor only
+    [MustBeAssigned] [SerializeField] TutorialManager TutorialManager;
     [MustBeAssigned] public CameraManager CameraManager;
     [MustBeAssigned] public CombatUIManager CombatUIManager;
     [MustBeAssigned] public CardManager CardManager;
@@ -76,6 +77,7 @@ public class CombatStateMachine : MonoBehaviour
     [ReadOnly] public bool _enemyTurnDone;
     [ReadOnly] public bool _isInPrepState;
     [ReadOnly] public bool _isPlayerLoaded = false;
+    private float _playerStartingHealth;
 
     [HideInInspector] public CardData _cardPlayed;
     [HideInInspector] public Enemy _selectedEnemyToAttack;
@@ -94,6 +96,36 @@ public class CombatStateMachine : MonoBehaviour
     private void Awake()
     {
         //SceneInitialize.Instance.Subscribe(Init, 1);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+#if UNITY_EDITOR
+        if (!LevelManager.isEnvironmentLoaded) return; // Editor only
+#endif
+
+        if (currentState == null) return;
+
+        currentState.UpdateStates();
+        if (currentState.currentSubState != null)
+        {
+            subState = currentState.currentSubState.ToString();
+        }
+
+        if (InputManager.Instance.LeftClickInputDown && _isPlayState && Time.timeScale == 1)
+        {
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
+
+            if (Input.touchCount > 0 && EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+                return;
+
+            if (_isInPrepState)
+                return;
+
+            SelectEnemy();
+        }
     }
 
     public void Init()
@@ -132,60 +164,18 @@ public class CombatStateMachine : MonoBehaviour
         InitBattle();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-#if UNITY_EDITOR
-        if (!LevelManager.isEnvironmentLoaded) return; // Editor only
-#endif
-
-        if (currentState == null) return;
-
-        currentState.UpdateStates();
-        if (currentState.currentSubState != null)
-        {
-            subState = currentState.currentSubState.ToString();
-        }
-
-        if (InputManager.Instance.LeftClickInputDown && _isPlayState && Time.timeScale == 1)
-        {
-            if (EventSystem.current.IsPointerOverGameObject())
-                return;
-
-            if (Input.touchCount > 0 && EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
-                return;
-
-            if (_isInPrepState)
-                return;
-
-            SelectEnemy();
-        }
-    }
-
     public void InitBattle()
     {
-        if (GameManager.Instance.WaveCount == 0)
-        {
-            LevelData levelData = GameManager.Instance.CurrentLevelDataLoaded;
-            AudioResource resource = levelData.GetMusic(GameManager.Instance.WaveCount);
-            AudioManager.Instance.PlayMusic(resource);
-        }
+        LevelData levelData = GameManager.Instance.CurrentLevelDataLoaded;
+        AudioResource resource = levelData.GetMusic(GameManager.Instance.WaveCount);
+        AudioManager.Instance.PlayMusic(resource, true);
 
-
-        _isInPrepState = false;
         CardManager.LoadCards();
 
         _selectedEnemyToAttack = EnemyList[0];
         EnemyManager.SelectEnemy(_selectedEnemyToAttack);
 
-        if (!GameManager.Instance.IsInTutorial)
-            return;
-
-        if (GameManager.Instance.TutorialStage == 1)
-        {
-            CombatUIManager.InitTutorial();
-            CombatUIManager.EndTurnButton.interactable = false;
-        }
+        _isInPrepState = false;
     }
 
     private void SelectEnemy()
@@ -229,6 +219,7 @@ public class CombatStateMachine : MonoBehaviour
             _isPlayerLoaded = true;
 
             CombatUIManager.InitPlayerUI(player);
+            _playerStartingHealth = player.MaxHealth / 2f; // TEMP FOR DEMO
 
             // Equipment
             _equipmentHolsterScript = player.GetComponent<EquipmentHolster>();
@@ -252,6 +243,12 @@ public class CombatStateMachine : MonoBehaviour
                 _equipmentHolsterScript.EquipWeapon(weaponToEquip);
             }
         }
+
+        // TEMP FOR DEMO
+        if (GameManager.Instance.WaveCount == 0)
+            player.SetHealth(_playerStartingHealth);
+        else
+            player.SetHealth(player.MaxHealth);
 
         CameraManager.SetDummy(player.transform);
         CameraManager.DefaultState();
@@ -286,14 +283,9 @@ public class CombatStateMachine : MonoBehaviour
         {
             if (player.hasEnoughStamina(card.Cost))
             {
-                if (GameManager.Instance.IsInTutorial)
-                {
-                    if (GameManager.Instance.TutorialStage >= 1 && GameManager.Instance.TutorialStage < 1.2f)
-                    {
-                        GameManager.Instance.TutorialStage += 0.1f;
-                    }
-                }
-                
+                Bus<EventCardPlayed>.Raise(new EventCardPlayed());
+
+
 
                 player.ConsumeStamina(card.Cost);
 
@@ -347,7 +339,7 @@ public class CombatStateMachine : MonoBehaviour
         }
         else if (tag == "Recycle")
         {
-            if (GameManager.Instance.IsInTutorial && GameManager.Instance.TutorialStage < 4) return;
+            if (TutorialManager.IsInTutorial && TutorialManager.TutorialStage < 4) return;
 
             // Get cardData from player hand to move to discard pile
             CardData cardData = CardManager.PlayerHand.First(data => data.Card.InGameGUID == card.InGameGUID);
@@ -408,12 +400,8 @@ public class CombatStateMachine : MonoBehaviour
 
     public void EndTurn()
     {
-        if (GameManager.Instance.TutorialStage == 1.2f)
-            GameManager.Instance.TutorialStage = 2;
-        else if (GameManager.Instance.TutorialStage == 2.1f)
-            GameManager.Instance.TutorialStage = 3;
-        else if (GameManager.Instance.TutorialStage == 3.1f)
-            GameManager.Instance.TutorialStage = 4;
+        
+        Bus<EventEndTurn>.Raise(new EventEndTurn());
 
         if (GameManager.Instance.WaveCount == 1)
         {
@@ -423,7 +411,7 @@ public class CombatStateMachine : MonoBehaviour
             {
                 AudioManager.Instance.FadeOutMusic(0.2f);
 
-                CutsceneManager.NextCutscene();
+                CutsceneManager.PlayPreloadedCutscene();
                 return;
             }
         }
@@ -439,6 +427,7 @@ public class CombatStateMachine : MonoBehaviour
         Debug.Log("END PLAYER'S TURN");
 
         _pressedEndTurnButton = true;
+        CombatUIManager.HideGameplayUI(true);
 
         // For enemy state
         EnemyTurnQueue.Clear();
@@ -451,15 +440,16 @@ public class CombatStateMachine : MonoBehaviour
         Destroy(enemy.gameObject);
     }
 
-    public void EnemyDied()
+    public void EnemyDied(Enemy enemyDied)
     {
         ResetSelectedEnemyUI();
-        _selectedEnemyToAttack.DisableSelection = true;
-        _selectedEnemyToAttack.SelectionRing.SetActive(false);
+        enemyDied.EnemyUI.GrayoutUI();
+        enemyDied.DisableSelection = true;
+        enemyDied.SelectionRing.SetActive(false);
 
         // Remove enemy
-        EnemyList.Remove(_selectedEnemyToAttack as Enemy);
-        EnemyTurnQueue.Remove(_selectedEnemyToAttack as Enemy);
+        EnemyList.Remove(enemyDied);
+        EnemyTurnQueue.Remove(enemyDied);
         //ctx.DestroyEnemy(ctx.selectedEnemyToAttack);
 
         // Are there enemies still alive

@@ -28,8 +28,8 @@ MonoBehaviour:
   ValuesToReference:
   - {x: 0, y: 0.7}
   Commands:
-  - rid: 1089679982310457345
-  - rid: 1089679982310457346
+  - rid: 8299078191375450216
+  - rid: 8299078191375450217
   PopupKeyPair:
   - Key: Amplify
     Value: {fileID: 11400000, guid: 9ead0859091a0574ba55a2cc00ba81b3, type: 2}
@@ -40,14 +40,14 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 1089679982310457345
-      type: {class: DealDamage, ns: , asm: Assembly-CSharp}
+    - rid: 8299078191375450216
+      type: {class: CMDDealDamage, ns: , asm: Assembly-CSharp}
       data:
         target: 1
         ShouldMove: 1
         value: 0.7
-    - rid: 1089679982310457346
-      type: {class: ApplyStatusEffect, ns: , asm: Assembly-CSharp}
+    - rid: 8299078191375450217
+      type: {class: CMDApplyStatusEffect, ns: , asm: Assembly-CSharp}
       data:
         target: 1
         effect: {fileID: 11400000, guid: 3a9c7cdf4c1c2d14fa4c9d113a47aee1, type: 2}

@@ -17,18 +17,18 @@ public class StatusCommand : Command
 
     public override void ExecuteCommand()
     {
-        for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
+        for (int i = 0; i < EXEParameters.Targets.Count; i++)
         {
-            Avatar avatarToApply = ExecutableParameters.Targets[i];
+            Avatar avatarToApply = EXEParameters.Targets[i];
 
             // Add game action to queue
-            ApplyStatusEffectGA applyStatusEffectGA = new(avatarToApply, Effect);
+            GAApplyStatusEffect applyStatusEffectGA = new(avatarToApply, Effect);
             avatarToApply.QueueGameActions.Add(applyStatusEffectGA);
 
             // ui update here
             
 
-            ExecutableParameters.Targets[i] = avatarToApply;
+            EXEParameters.Targets[i] = avatarToApply;
         }
 
         UpdateGameActionQueue();

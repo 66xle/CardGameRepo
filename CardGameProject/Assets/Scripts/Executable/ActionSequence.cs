@@ -2,6 +2,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using SerializeReferenceEditor;
 using Random = UnityEngine.Random;
 
@@ -25,11 +26,11 @@ public class ActionSequence : Executable
     {
         #region Initialize
 
-        CombatStateMachine ctx = ExecutableParameters.Ctx;
-        Avatar avatarPlayingCard = ExecutableParameters.AvatarPlayingCard;
-        Avatar avatarOpponent = ExecutableParameters.AvatarOpponent;
-        ExecutableParameters.Targets = new List<Avatar>();
-        ExecutableParameters.Queue = new List<Avatar>();
+        CombatStateMachine ctx = EXEParameters.Ctx;
+        Avatar avatarPlayingCard = EXEParameters.AvatarPlayingCard;
+        Avatar avatarOpponent = EXEParameters.AvatarOpponent;
+        EXEParameters.Targets = new List<Avatar>();
+        EXEParameters.Queue = new List<Avatar>();
         AnimationWrapper animationWrapper = GetAttackAnimation();
 
         avatarPlayingCard.DoDamage = false;
@@ -45,6 +46,7 @@ public class ActionSequence : Executable
 
         #endregion
 
+
         yield return ReadCommands(_actionCommands);
 
         if (!avatarOpponent.IsRunningReactiveEffect)
@@ -52,7 +54,7 @@ public class ActionSequence : Executable
 
         if (avatarPlayingCard.IsGuardBroken())
         {
-            ExecutableParameters.Queue.ForEach(avatar => avatar.QueueGameActions.Clear());
+            EXEParameters.Queue.ForEach(avatar => avatar.QueueGameActions.Clear());
             yield break;
         }
 
@@ -72,10 +74,12 @@ public class ActionSequence : Executable
                 ctx.CameraManager.SetVictimDummy(avatarOpponent.transform.parent.parent, avatarPlayingCard.transform);
 
             // Trigger move animation | After move GA, reaction will trigger attack GA
-            MoveToPosGA moveToPosGA = new(avatarPlayingCard, avatarOpponent, IsAttackingAllEnemies, animationWrapper.DistanceOffset, animationWrapper.FollowTimeline, animationWrapper.MoveTime);
+            GAMoveToPos moveToPosGA = new(avatarPlayingCard, avatarOpponent, IsAttackingAllEnemies, animationWrapper.DistanceOffset, animationWrapper.FollowTimeline, animationWrapper.MoveTime);
             ActionSystem.Instance.Perform(moveToPosGA);
 
-            TriggerAttackAnimGA triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource);
+            AudioResource audio = DetermineCorrectAttackSound(avatarOpponent, animationWrapper.AudioResource);
+
+            GATriggerAttackAnim triggerAttackAnimGA = new(moveToPosGA.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, audio);
             moveToPosGA.PostReactions.Add(triggerAttackAnimGA);
 
             yield return new WaitWhile(() => !avatarPlayingCard.DoDamage);
@@ -88,12 +92,14 @@ public class ActionSequence : Executable
             {
                 if (animationWrapper.IsAttackAnimation)
                 {
-                    TriggerAttackAnimGA triggerAttackAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource, animationWrapper.IsAttackAnimation);
+                    AudioResource audio = DetermineCorrectAttackSound(avatarOpponent, animationWrapper.AudioResource);
+
+                    GATriggerAttackAnim triggerAttackAnimGA = new(EXEParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, audio, animationWrapper.IsAttackAnimation);
                     ActionSystem.Instance.Perform(triggerAttackAnimGA);
                 }
                 else
                 {
-                    TriggerAnimGA triggerAnimGA = new(ExecutableParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource);
+                    GATriggerAnim triggerAnimGA = new(EXEParameters.AvatarPlayingCard, animationWrapper.AnimationName, animationWrapper.AttackTimeline, animationWrapper.AudioResource);
                     ActionSystem.Instance.Perform(triggerAnimGA);
                     Debug.Log("triggerAnimGA");
                 }
@@ -110,7 +116,7 @@ public class ActionSequence : Executable
 
         #endregion
 
-        foreach (Avatar avatar in ExecutableParameters.Queue)
+        foreach (Avatar avatar in EXEParameters.Queue)
         {
             // Perform the game actions on themselfs
             ActionSystem.Instance.PerformQueue(avatar.QueueGameActions);
@@ -132,7 +138,7 @@ public class ActionSequence : Executable
         if (hasMoved)
         {
             // Return to position
-            ReturnToPosGA returnToPosGA = new(avatarPlayingCard);
+            GAReturnToPos returnToPosGA = new(avatarPlayingCard);
             ActionSystem.Instance.Perform(returnToPosGA);
 
             // wait until we return to our spot
@@ -156,7 +162,7 @@ public class ActionSequence : Executable
             {
                 ReactiveCondition currentReactiveCondition = command as ReactiveCondition;
 
-                TriggerDuplicateReactiveCondition(ExecutableParameters.AvatarPlayingCard, currentReactiveCondition);
+                TriggerReactiveCondition(EXEParameters.AvatarPlayingCard, currentReactiveCondition);
 
                 ReactiveSkipAnimation = true;
 
@@ -165,8 +171,8 @@ public class ActionSequence : Executable
 
             ReactiveSkipAnimation = false;
 
-            ExecutableParameters.Targets = GetTargets(command.CardTarget);
-            ExecutableParameters.CardTarget = command.CardTarget;
+            EXEParameters.Targets = GetTargets(command.CardTarget);
+            EXEParameters.CardTarget = command.CardTarget;
 
             if (command.CardTarget == CardTarget.AllEnemies) 
                 IsAttackingAllEnemies = true; // Move to middle position
@@ -182,13 +188,13 @@ public class ActionSequence : Executable
         }
     }
 
-    private void TriggerDuplicateReactiveCondition(Avatar avatarPlayingCard, ReactiveCondition currentReactiveCondition)
+    private void TriggerReactiveCondition(Avatar avatarPlayingCard, ReactiveCondition currentReactiveCondition)
     {
         foreach (ReactiveTrigger trigger in avatarPlayingCard.DictReactiveEffects.Keys)
         {
-            List<ExecutableWrapper> listWrapper = Extensions.CloneList(avatarPlayingCard.DictReactiveEffects[trigger]);
+            List<EXEWrapper> listWrapper = Extensions.CloneList(avatarPlayingCard.DictReactiveEffects[trigger]);
 
-            foreach (ExecutableWrapper wrapper in listWrapper)
+            foreach (EXEWrapper wrapper in listWrapper)
             {
                 if (wrapper.DuplicateEffect != DuplicateEffect.Overwrite) continue;
 
@@ -214,7 +220,7 @@ public class ActionSequence : Executable
 
     private IEnumerator TriggerReactiveEffect(Avatar avatarPlayingCard, Avatar avatarOpponent, ReactiveTrigger trigger)
     {
-        foreach (Avatar avatarTarget in ExecutableParameters.Queue)
+        foreach (Avatar avatarTarget in EXEParameters.Queue)
         {
             if (!avatarTarget.IsHit) continue;
 
@@ -225,11 +231,11 @@ public class ActionSequence : Executable
 
             #region Avatar Reference
 
-            ExecutableParameters.AvatarPlayingCard = avatarTarget;
-            ExecutableParameters.AvatarOpponent = avatarPlayingCard;
-            CardData tempData = ExecutableParameters.CardData;
-            List<Avatar> tempQueue = Extensions.CloneList(ExecutableParameters.Queue);
-            List<Avatar> tempTargets = Extensions.CloneList(ExecutableParameters.Targets);
+            EXEParameters.AvatarPlayingCard = avatarTarget;
+            EXEParameters.AvatarOpponent = avatarPlayingCard;
+            CardData tempData = EXEParameters.CardData;
+            List<Avatar> tempQueue = Extensions.CloneList(EXEParameters.Queue);
+            List<Avatar> tempTargets = Extensions.CloneList(EXEParameters.Targets);
             List<GameAction> tempGA = Extensions.CloneList(avatarTarget.QueueGameActions);
             avatarTarget.QueueGameActions.Clear();
 
@@ -239,11 +245,11 @@ public class ActionSequence : Executable
 
             #region Reset
 
-            ExecutableParameters.AvatarPlayingCard = avatarPlayingCard;
-            ExecutableParameters.AvatarOpponent = avatarOpponent;
-            ExecutableParameters.Queue = tempQueue;
-            ExecutableParameters.Targets = tempTargets;
-            ExecutableParameters.CardData = tempData;
+            EXEParameters.AvatarPlayingCard = avatarPlayingCard;
+            EXEParameters.AvatarOpponent = avatarOpponent;
+            EXEParameters.Queue = tempQueue;
+            EXEParameters.Targets = tempTargets;
+            EXEParameters.CardData = tempData;
             avatarTarget.QueueGameActions = tempGA;
 
             avatarPlayingCard.DoDamage = false;
@@ -273,37 +279,37 @@ public class ActionSequence : Executable
 
         if (target == CardTarget.Enemy)
         {
-            targets.Add(ExecutableParameters.AvatarOpponent);
+            targets.Add(EXEParameters.AvatarOpponent);
         }
         else if (target == CardTarget.AllEnemies)
         {
-            if (ExecutableParameters.AvatarPlayingCard is Player)
+            if (EXEParameters.AvatarPlayingCard is Player)
             {
-                targets.AddRange(ExecutableParameters.Ctx.EnemyList);
+                targets.AddRange(EXEParameters.Ctx.EnemyList);
             }
             else
             {
-                targets.Add(ExecutableParameters.AvatarOpponent);
+                targets.Add(EXEParameters.AvatarOpponent);
             }
         }
         else if (target == CardTarget.Self)
         {
-            targets.Add(ExecutableParameters.AvatarPlayingCard);
+            targets.Add(EXEParameters.AvatarPlayingCard);
         }
         else if (target == CardTarget.AllAllies)
         {
-            if (ExecutableParameters.AvatarPlayingCard is Player)
+            if (EXEParameters.AvatarPlayingCard is Player)
             {
-                targets.Add(ExecutableParameters.AvatarPlayingCard);
+                targets.Add(EXEParameters.AvatarPlayingCard);
             }
             else
             {
-                targets.AddRange(ExecutableParameters.Ctx.EnemyList);
+                targets.AddRange(EXEParameters.Ctx.EnemyList);
             }
         }
         else if (target == CardTarget.PreviousTarget)
         {
-            return ExecutableParameters.Targets;
+            return EXEParameters.Targets;
         }
 
         return targets;
@@ -311,9 +317,17 @@ public class ActionSequence : Executable
 
     private AnimationWrapper GetAttackAnimation()
     {
-        int index = Random.Range(0, ExecutableParameters.CardData.AnimationList.Count);
+        int index = Random.Range(0, EXEParameters.CardData.AnimationList.Count);
 
-        return ExecutableParameters.CardData.AnimationList[index];
+        return EXEParameters.CardData.AnimationList[index];
+    }
+
+    private AudioResource DetermineCorrectAttackSound(Avatar avatarOpponent, AudioResource attackAudio)
+    {
+        if (avatarOpponent.IsInCounterState)
+            return AudioManager.Instance.CounteredSound;
+
+        return attackAudio;
     }
 }
 

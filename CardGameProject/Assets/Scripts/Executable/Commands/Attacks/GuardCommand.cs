@@ -16,27 +16,27 @@ public abstract class GuardCommand : Command
 
     public override void ExecuteCommand()
     {
-        Avatar avatarPlayingCard = ExecutableParameters.AvatarPlayingCard;
-        Avatar avatarOpponent = ExecutableParameters.AvatarOpponent;
+        Avatar avatarPlayingCard = EXEParameters.AvatarPlayingCard;
+        Avatar avatarOpponent = EXEParameters.AvatarOpponent;
 
-        for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
+        for (int i = 0; i < EXEParameters.Targets.Count; i++)
         {
-            Avatar avatarToTakeDamage = ExecutableParameters.Targets[i];
+            Avatar avatarToTakeDamage = EXEParameters.Targets[i];
 
-            if (avatarToTakeDamage.IsGameActionInQueue<TakeGuardDamageGA>())
+            if (avatarToTakeDamage.IsGameActionInQueue<GATakeGuardDamage>())
             {
                 // Update damage value
-                TakeGuardDamageGA takeGuardDamageGA = avatarToTakeDamage.GetGameActionFromQueue<TakeGuardDamageGA>() as TakeGuardDamageGA;
+                GATakeGuardDamage takeGuardDamageGA = avatarToTakeDamage.GetGameActionFromQueue<GATakeGuardDamage>() as GATakeGuardDamage;
                 takeGuardDamageGA.GuardDamage += (int)Value;
             }
             else
             {
                 // Add game action to queue
-                TakeGuardDamageGA takeGuardDamageGA = new(avatarToTakeDamage, Value, CardTarget);
+                GATakeGuardDamage takeGuardDamageGA = new(avatarToTakeDamage, Value, CardTarget);
                 AddGameActionToQueue(takeGuardDamageGA, avatarToTakeDamage);
             }
 
-            ExecutableParameters.Targets[i] = avatarToTakeDamage;
+            EXEParameters.Targets[i] = avatarToTakeDamage;
         }
 
         UpdateGameActionQueue();

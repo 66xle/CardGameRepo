@@ -16,35 +16,35 @@ public abstract class HealCommand : Command
 
     public override void ExecuteCommand()
     {
-        Avatar avatarPlayingCard = ExecutableParameters.AvatarPlayingCard;
+        Avatar avatarPlayingCard = EXEParameters.AvatarPlayingCard;
 
         int heal = CalculateDamage.GetHealAmount(avatarPlayingCard.MaxHealth, Value);
         Debug.Log(heal);
 
-        for (int i = 0; i < ExecutableParameters.Targets.Count; i++)
+        for (int i = 0; i < EXEParameters.Targets.Count; i++)
         {
-            Avatar avatarToHeal = ExecutableParameters.Targets[i];
+            Avatar avatarToHeal = EXEParameters.Targets[i];
 
-            if (avatarToHeal.IsGameActionInQueue<GainHealthGA>())
+            if (avatarToHeal.IsGameActionInQueue<GAGainHealth>())
             {
                 // Update damage value
-                GainHealthGA gainHealthGA = avatarToHeal.GetGameActionFromQueue<GainHealthGA>() as GainHealthGA;
+                GAGainHealth gainHealthGA = avatarToHeal.GetGameActionFromQueue<GAGainHealth>() as GAGainHealth;
                 gainHealthGA.HealAmount += heal;
 
-                SpawnDamageUIPopupGA spawnDamageUIPopupGA = gainHealthGA.PostReactions.First(gameAction => gameAction is SpawnDamageUIPopupGA) as SpawnDamageUIPopupGA;
+                GASpawnDamageUIPopup spawnDamageUIPopupGA = gainHealthGA.PostReactions.First(gameAction => gameAction is GASpawnDamageUIPopup) as GASpawnDamageUIPopup;
                 spawnDamageUIPopupGA.Text = gainHealthGA.HealAmount.ToString();
             }
             else
             {
                 // Add game action to queue
-                GainHealthGA gainHealthGA = new(avatarToHeal, heal);
+                GAGainHealth gainHealthGA = new(avatarToHeal, heal);
                 AddGameActionToQueue(gainHealthGA, avatarToHeal);
 
-                SpawnDamageUIPopupGA spawnDamageUIPopupGA = new(avatarToHeal, gainHealthGA.HealAmount.ToString(), Color.red);
+                GASpawnDamageUIPopup spawnDamageUIPopupGA = new(avatarToHeal, gainHealthGA.HealAmount.ToString(), Color.red);
                 AddGameActionToQueue(spawnDamageUIPopupGA, avatarToHeal);
             }
 
-            ExecutableParameters.Targets[i] = avatarToHeal;
+            EXEParameters.Targets[i] = avatarToHeal;
         }
 
         UpdateGameActionQueue();

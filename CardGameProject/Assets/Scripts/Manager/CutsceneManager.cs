@@ -1,6 +1,7 @@
 using Cinemachine;
 using MyBox;
 using PixelCrushers.DialogueSystem;
+using System;
 using System.Collections.Generic;
 using Systems.SceneManagment;
 using UnityEngine;
@@ -24,12 +25,12 @@ public class CutsceneManager : MonoBehaviour
     public bool RunSignal;
     public SignalAsset SignalAsset;
     public List<GameObject> Cutscenes;
+    private List<(GameObject, PlayableDirector)> LoadedCutscenes = new();
     private int _cutsceneIndex;
     private AvatarSpawnPosition asp;
 
 
     private List<GameObject> cutsceneObjects = new();
-    private GameObject _loadedPrefab;
 
     [ButtonMethod]
     public void RunSignalMethod()
@@ -37,7 +38,7 @@ public class CutsceneManager : MonoBehaviour
         SignalReceiver signalReciver = GetComponent<SignalReceiver>();
         signalReciver.GetReaction(SignalAsset)?.Invoke();
     }
-
+    
     public void Awake()
     {
         ServiceLocator.Register(this);
@@ -73,13 +74,51 @@ public class CutsceneManager : MonoBehaviour
         signalReciver.GetReaction(signal)?.Invoke();
     }
 
-    public void NextCutscene()
+    public void PreloadNextCutscene()
+    {
+        GameObject loadedCutscene = SpawnCutscene();
+        loadedCutscene.SetActive(false);
+        
+        PlayableDirector director = loadedCutscene.GetComponentInChildren<PlayableDirector>();
+        director.time = 0;
+        director.Evaluate(); // Prewarm
+        director.Stop();
+
+        LoadedCutscenes.Add((loadedCutscene, director));
+    }
+
+
+    public void PlayPreloadedCutscene()
     { 
         DisableAudioListener();
+        
+        GameObject prefab = LoadedCutscenes[0].Item1;
+        PlayableDirector director = LoadedCutscenes[0].Item2;
 
+        prefab.SetActive(true);
+        director.Play();
+    }
+
+    public void NextCutscene()
+    {
+        GameObject loadedCutscene = SpawnCutscene();
+
+        PlayableDirector director = loadedCutscene.GetComponentInChildren<PlayableDirector>();
+        director.time = 0;
+        director.Play();
+        LoadedCutscenes.Add((loadedCutscene, director));
+
+        DisableAudioListener();
+    }
+
+    public GameObject SpawnCutscene()
+    {
         _cutsceneIndex++;
+
         GameObject prefab = Cutscenes[_cutsceneIndex];
-        _loadedPrefab = Instantiate(prefab, asp.CutsceneParent);
+        GameObject loadedCutscene = Instantiate(prefab, asp.CutsceneParent);
+
+        return loadedCutscene;
     }
 
     public void EndCutscene()
@@ -116,7 +155,12 @@ public class CutsceneManager : MonoBehaviour
 
     private void DestroyPrefab()
     {
-        Destroy(_loadedPrefab);
+        if (LoadedCutscenes.Count > 0)
+        {
+            GameObject loadedCutscene = LoadedCutscenes[0].Item1;
+            Destroy(loadedCutscene);
+            LoadedCutscenes.RemoveAt(0);
+        }
     }
 
     public void DestroyActors()

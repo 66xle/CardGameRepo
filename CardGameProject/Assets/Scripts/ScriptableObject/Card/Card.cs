@@ -83,6 +83,12 @@ public class Card : ScriptableObject
 
             return;
         }
+        else if (command is GuardCommand || command is DrawCommand)
+        {
+            ValuesToReference.Add(new Vector2(3, command.Value));
+
+            return;
+        }
 
         ValuesToReference.Add(new Vector2(0, command.Value));
     }

@@ -20,16 +20,6 @@ AudioContainerElement:
   m_AudioClip: {fileID: 8300000, guid: 9cc866a15fdbf41a7a4c3989ec130531, type: 3}
   m_Volume: 0
   m_Enabled: 1
---- !u!1233149941 &2628433094074241231
-AudioContainerElement:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: AxeOnFlesh_10_{2628433094074241231}
-  m_AudioClip: {fileID: 8300000, guid: 67a252084e11e4280a585155e5894e0d, type: 3}
-  m_Volume: 0
-  m_Enabled: 1
 --- !u!1233149941 &5115163896626005049
 AudioContainerElement:
   m_ObjectHideFlags: 1
@@ -59,8 +49,7 @@ AudioRandomContainer:
   - {fileID: 5115163896626005049}
   - {fileID: -2698713486296519760}
   - {fileID: -5556888072595047971}
-  - {fileID: 2628433094074241231}
-  m_AvoidRepeatingLast: 2
+  m_AvoidRepeatingLast: 0
   m_PlaybackMode: 1
   m_TriggerMode: 0
   m_AutomaticTriggerMode: 1

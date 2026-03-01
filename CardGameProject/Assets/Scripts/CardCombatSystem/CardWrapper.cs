@@ -1,3 +1,4 @@
+using System.Collections;
 using config;
 using events;
 using MyBox;
@@ -22,11 +23,11 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public ZoomConfig zoomConfig;
     public AnimationSpeedConfig animationSpeedConfig;
+    public float animationSpeed;
     public CardContainer container;
 
     private bool isHovered;
     private bool isDragged = false;
-    private Vector2 dragStartPos;
     public EventsConfig eventsConfig;
 
     private float dragStartEventY;
@@ -35,7 +36,6 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private bool isPointerDown = false;
     private bool pointerDownCheck = false;
     [HideInInspector] public bool IsPreviewActive = false;
-
     public float width {
         get => rectTransform.rect.width;
     }
@@ -46,6 +46,17 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private void Start() {
         canvas = GetComponent<Canvas>();
+
+        StartCoroutine(DrawTimer());
+    }
+
+    IEnumerator DrawTimer()
+    {
+        animationSpeed = animationSpeedConfig.drawDuration;
+
+        yield return new WaitForSeconds(animationSpeedConfig.drawDuration);
+
+        animationSpeed = animationSpeedConfig.duration;
     }
 
     private void Update() {
@@ -81,7 +92,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             }
 
             var distance = Vector2.Distance(rectTransform.localPosition, target);
-            var repositionSpeed = distance / animationSpeedConfig.duration;
+            var repositionSpeed = distance / animationSpeed;
 
             if (repositionSpeed == 0)
                 repositionSpeed = 1;
@@ -103,7 +114,17 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             container.mainCanvas.worldCamera,
             out Vector2 localPoint))
             {
-                rectTransform.localPosition = localPoint + dragStartPos;
+                localPoint += new Vector2(0, rectTransform.rect.height * 0.7f);
+
+                var distance = Vector2.Distance(rectTransform.localPosition, localPoint);
+                var repositionSpeed = distance / animationSpeedConfig.duration;
+
+                if (repositionSpeed == 0)
+                    repositionSpeed = 1;
+
+                Vector2 position = Vector2.Lerp(rectTransform.localPosition, localPoint, repositionSpeed / distance * Time.deltaTime);
+
+                rectTransform.localPosition = position;
             }
         }
     }
@@ -171,8 +192,6 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             //if (Ydis < 10f) return;
 
             isDragged = true;
-
-            dragStartPos = rectTransform.localPosition - (Vector3)currentLocal;
             dragStartEventY = currentLocal.y;
 
             container.OnCardDragStart(this);

@@ -8,6 +8,8 @@ using MyBox;
 using UnityEngine.VFX;
 using DG.Tweening;
 using Random = UnityEngine.Random;
+using Cinemachine;
+using UnityEditor.Rendering;
 
 
 
@@ -16,6 +18,7 @@ public class Avatar : MonoBehaviour
     #region Public Variables
 
     [Header("Stats")]
+    public bool AllowRootMotion = false;
     public float MaxHealth = 100f;
     public int MaxGuard = 10;
     public float Attack;
@@ -28,6 +31,8 @@ public class Avatar : MonoBehaviour
     public Transform WeaponJoint;
     public Transform FollowJoint;
     public Transform RightHolder;
+
+    [SerializeField] List<SkinnedMeshRenderer> SkinnedMeshes;
 
     #endregion
 
@@ -47,7 +52,7 @@ public class Avatar : MonoBehaviour
 
     #region Lists
 
-    [HideInInspector] public Dictionary<ReactiveTrigger, List<ExecutableWrapper>> DictReactiveEffects = new();
+    [HideInInspector] public Dictionary<ReactiveTrigger, List<EXEWrapper>> DictReactiveEffects = new();
     [HideInInspector] public List<StatusEffect> ListOfEffects = new();
     [HideInInspector] public List<GameAction> QueueGameActions = new();
     [HideInInspector] public List<Tween> CurrentActiveStatusEffectTween = new();
@@ -57,9 +62,11 @@ public class Avatar : MonoBehaviour
     #region Read Only
 
     public string Guid { get; private set; }
-    public Animator Animator { get; private set; }
+    public Animator Animator { get; protected set; }
 
     public WeaponData CurrentWeaponData { get; set; }
+
+    public CinemachineVirtualCamera StatusCamera { get; private set; }
 
     #endregion
 
@@ -69,6 +76,7 @@ public class Avatar : MonoBehaviour
     protected float _currentHealth;
     protected float _currentBlock;
     protected int _currentGuard;
+    
 
     protected float CurrentHealth { get { return _currentHealth; } set { _currentHealth = value; UpdateStatsUI(); } }
     protected float CurrentBlock { get { return _currentBlock; } set { _currentBlock = value; UpdateStatsUI(); } }
@@ -77,13 +85,23 @@ public class Avatar : MonoBehaviour
     #endregion
 
 
-    private void Awake()
+    protected void Awake()
     {
         Guid = System.Guid.NewGuid().ToString();
-        Animator = GetComponent<Animator>();
+        StatusCamera = transform.GetComponentInChildren<CinemachineVirtualCamera>();
 
+
+        if (SkinnedMeshes.Count == 0)
+        {
+            Debug.LogError($"{name} Avatar: Skinned Meshes is not assigned");
+            return;
+        }
+    }
+
+    private void Start()
+    {
         // Random start point between 0 and 1 in the animation cycle
-        Animator.Play("Basic Idle", 0, Random.Range(0f, 1f));
+        Animator.Play("Basic Idle", 0, Random.Range(0f, 1f)); // Ref is grabbed in Player/Enemy Awake
     }
 
     private void LateUpdate()
@@ -101,6 +119,7 @@ public class Avatar : MonoBehaviour
             //Animator.SetLayerWeight(1, 0);
         }
     }
+
 
 
     #region Avatar Methods
@@ -203,6 +222,9 @@ public class Avatar : MonoBehaviour
 
     public void ApplyStatusEffect(StatusEffect statusEffect)
     {
+        // Create the reactive effect and check if it exists
+
+
         if (ListOfEffects.Any(status => status.Effect == statusEffect.Effect))
         {
             int index = ListOfEffects.FindIndex(status => status.Effect == statusEffect.Effect);
@@ -295,14 +317,14 @@ public class Avatar : MonoBehaviour
     {
         if (!DictReactiveEffects.ContainsKey(trigger)) yield break;
 
-        List<ExecutableWrapper> overwriteQueue = new();
-        List<ExecutableWrapper> stackQueue = new();
+        List<EXEWrapper> overwriteQueue = new();
+        List<EXEWrapper> stackQueue = new();
 
-        List<ExecutableWrapper> listWrapper = Extensions.CloneList(DictReactiveEffects[trigger]);
+        List<EXEWrapper> listWrapper = Extensions.CloneList(DictReactiveEffects[trigger]);
 
         for (int i = 0; i < listWrapper.Count; i++)
         {
-            ExecutableWrapper wrapper = listWrapper[i];
+            EXEWrapper wrapper = listWrapper[i];
 
             if (IsGuardBroken() && wrapper.Commands.Any(command => command is AttackCommand)) continue; // NOTE: If we are guard broken & command is an attack command, ignore
                                                                                                         // (Maybe ignore every command if guard broken)
@@ -352,13 +374,13 @@ public class Avatar : MonoBehaviour
 
         #region Sort and Run
         
-        List<ExecutableWrapper> sortedWrappers = SortQueue(overwriteQueue, stackQueue);
+        List<EXEWrapper> sortedWrappers = SortQueue(overwriteQueue, stackQueue);
 
-        foreach (ExecutableWrapper wrapper in sortedWrappers)
+        foreach (EXEWrapper wrapper in sortedWrappers)
         {
             IsRunningReactiveEffect = true;
 
-            ExecutableParameters.CardData = wrapper.CardData;
+            EXEParameters.CardData = wrapper.CardData;
 
             ActionSequence actionSequence = new(wrapper.Commands);
             yield return actionSequence.Execute(null);
@@ -373,17 +395,17 @@ public class Avatar : MonoBehaviour
     {
         bool isCounterActive = false;
 
-        Dictionary<ReactiveTrigger, List<ExecutableWrapper>> tempDict = DictReactiveEffects.ToDictionary(pair => pair.Key, pair => new List<ExecutableWrapper>(pair.Value));
+        Dictionary<ReactiveTrigger, List<EXEWrapper>> tempDict = DictReactiveEffects.ToDictionary(pair => pair.Key, pair => new List<EXEWrapper>(pair.Value));
 
-        foreach (KeyValuePair<ReactiveTrigger, List<ExecutableWrapper>> pair in tempDict)
+        foreach (KeyValuePair<ReactiveTrigger, List<EXEWrapper>> pair in tempDict)
         {
-            List<ExecutableWrapper> listWrapper = Extensions.CloneList(pair.Value);
+            List<EXEWrapper> listWrapper = Extensions.CloneList(pair.Value);
 
             for (int i = listWrapper.Count - 1; i >= 0; i--)
             {
                 bool isWrapperRemoved = false;
 
-                ExecutableWrapper wrapper = listWrapper[i];
+                EXEWrapper wrapper = listWrapper[i];
                 if (wrapper.OverwriteType == OverwriteType.Counter || wrapper.OverwriteType == OverwriteType.Counterattack)
                     isCounterActive = true;
 
@@ -413,37 +435,37 @@ public class Avatar : MonoBehaviour
         if (!isCounterActive)
         {
             IsInCounterState = false;
-            GetComponent<Animator>().SetBool("isReady", false);
+            Animator.SetBool("isReady", false);
         }
     }
 
-    public List<ExecutableWrapper> SortQueue(List<ExecutableWrapper> overwriteQueue, List<ExecutableWrapper> stackQueue)
+    public List<EXEWrapper> SortQueue(List<EXEWrapper> overwriteQueue, List<EXEWrapper> stackQueue)
     {
-        List<ExecutableWrapper> sortedCommands = new();
+        List<EXEWrapper> sortedCommands = new();
 
         // Gets all enums of overwrite type in order (Counterattack being last)
         foreach (OverwriteType type in Enum.GetValues(typeof(OverwriteType))) // Only 1 type (Should play animations)
         {
-            ExecutableWrapper wrapper = overwriteQueue.FirstOrDefault(w => w.OverwriteType == type);
+            EXEWrapper wrapper = overwriteQueue.FirstOrDefault(w => w.OverwriteType == type);
 
             if (wrapper == null) continue;
 
-            sortedCommands.Add(new ExecutableWrapper(wrapper.CardData, wrapper.Commands));
+            sortedCommands.Add(new EXEWrapper(wrapper.CardData, wrapper.Commands, wrapper.Effects));
         }
 
         foreach (StackType type in Enum.GetValues(typeof(StackType))) // Multiple types (Play no animations)
         {
-            List<ExecutableWrapper> list = stackQueue.Where(w => w.StackType == type).ToList();
+            List<EXEWrapper> list = stackQueue.Where(w => w.StackType == type).ToList();
 
             if (list.Count == 0) continue;
 
             // Create new list if stack type is not damage, Skip this if do damage then add damage commands together with counterattack
             if (type == StackType.DoDamage && !overwriteQueue.Exists(w => w.OverwriteType == OverwriteType.Counterattack))
             {
-                sortedCommands.Add(new ExecutableWrapper(list[0].CardData));
+                sortedCommands.Add(new EXEWrapper(list[0].CardData));
             }
 
-            foreach (ExecutableWrapper wrapper in list)
+            foreach (EXEWrapper wrapper in list)
             {
                 sortedCommands[sortedCommands.Count - 1].Commands.AddRange(wrapper.Commands);
             }
@@ -454,50 +476,51 @@ public class Avatar : MonoBehaviour
 
     #endregion
 
-    
 
-    #region Animation Events
 
-    public void AnimationEventAttack()
+    public void SetHealth(float health)
     {
-        DoDamage = true;
+        CurrentHealth = health;
     }
 
-    public void AnimationEventAttackFinish()
+
+    public virtual void ResetDeath()
     {
-        IsAttackFinished = true;
-        Animator.SetBool("IsAttacking", false);
+        CurrentGuard = MaxGuard;
+        CurrentBlock = 0;
+
+        AllowRootMotion = false;
+
+
+        Animator.Play("Basic Idle");
+        Animator.ResetTrigger("TakeDamage");
+        Animator.ResetTrigger("Counter");
+        transform.localPosition = Vector3.zero;
+        Animator.Update(0f);
+
+        AllowRootMotion = true;
     }
-
-    public void AnimationEventPlaySound()
-    {
-        AudioManager.Instance.PlayAudioResource();
-    }
-
-    public void AnimationEventDisableRecoil()
-    {
-        AnimationEventAttackFinish();
-        IsRecoilDone = true;
-        Animator.SetBool("IsRecoiled", false);
-    }
-
-    public void EnableWeaponTrail()
-    {
-        VisualEffect weaponTrail = RightHolder.GetComponentInChildren<VisualEffect>();
-        weaponTrail.Play();
-
-        Debug.Log("WEAPON TRAIL");
-    }
-
-    public void DisableWeaponTrail()
-    {
-        VisualEffect weaponTrail = RightHolder.GetComponentInChildren<VisualEffect>();
-        weaponTrail.enabled = false;
-    }
-
-    #endregion
 
     public virtual void PlayHurtSound() { }
 
     public virtual void PlayDeathSound() { }
+
+
+    public Vector3 GetCharacterCenter()
+    {
+        Bounds bounds = SkinnedMeshes[0].bounds;
+
+        for (int i = 1; i < SkinnedMeshes.Count; i++)
+        {
+            bounds.Encapsulate(SkinnedMeshes[i].bounds);
+        }
+
+        return bounds.center;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(GetCharacterCenter(), 0.1f);
+    }
 }

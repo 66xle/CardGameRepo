@@ -7,6 +7,8 @@ public class CardManager : MonoBehaviour
 {
     [Header("Card")]
     public int CardsToDraw = 2;
+    public Vector2 DrawOffset;
+    public Vector3 SpawnScale;
 
     [Header("References")]
     [MustBeAssigned] [SerializeField] GameObject CardPrefab; 
@@ -37,9 +39,13 @@ public class CardManager : MonoBehaviour
 
     public void ResetCards()
     {
-        PlayerDeck.AddRange(PlayerHand);
-        PlayerDeck.AddRange(DiscardPile);
+        // Shuffle deck
+        if (GameManager.Instance.TutorialStage >= 5)
+        {
+            Extensions.Shuffle(PlayerDeck);
+        }
 
+        PlayerDeck.Clear();
         PlayerHand.Clear();
         DiscardPile.Clear();
 
@@ -93,7 +99,13 @@ public class CardManager : MonoBehaviour
 
     public void CreateCard(CardData cardDrawed, Transform parent)
     {
-        CardDisplay cardDisplay = Instantiate(CardPrefab, parent).GetComponent<CardDisplay>();
+        GameObject card = Instantiate(CardPrefab, parent);
+        
+        RectTransform rect = card.GetComponent<RectTransform>();
+        rect.localPosition += new Vector3(DrawOffset.x, DrawOffset.y, rect.localPosition.z);
+        rect.localScale = SpawnScale;
+
+        CardDisplay cardDisplay = card.GetComponent<CardDisplay>();
         cardDisplay.SetCard(cardDrawed, cardDrawed.Card);
     }
 
@@ -131,8 +143,6 @@ public class CardManager : MonoBehaviour
                 int index = Random.Range(0, PlayerDeck.Count);
                 cardDrawed = PlayerDeck[index];
             }
-
-            
 
             CreateCard(cardDrawed, PlayerHandTransform);
             PlayerDeck.Remove(cardDrawed);

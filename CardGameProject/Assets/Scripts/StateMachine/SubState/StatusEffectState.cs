@@ -161,10 +161,10 @@ public class StatusEffectState : CombatBaseState
 
                 if (_currentAvatarSelected.IsAvatarDead())
                 {
-                    _currentAvatarSelected.GetComponent<Animator>().SetTrigger("Death");
+                    _currentAvatarSelected.Animator.SetTrigger("Death");
                     _currentAvatarSelected.DictReactiveEffects.Clear();
 
-                    if (_currentAvatarSelected is Enemy) ctx.EnemyDied();
+                    if (_currentAvatarSelected is Enemy) ctx.EnemyDied(_currentAvatarSelected as Enemy);
 
                     break;
                 }
@@ -193,7 +193,7 @@ public class StatusEffectState : CombatBaseState
 
     public void ActivateStatusCamera()
     {
-        CinemachineVirtualCamera vcam = _currentAvatarSelected.transform.parent.GetChild(0).GetComponent<CinemachineVirtualCamera>();
+        CinemachineVirtualCamera vcam = _currentAvatarSelected.StatusCamera;
         ctx.CameraManager.ActivateCamera(vcam);
     }
 

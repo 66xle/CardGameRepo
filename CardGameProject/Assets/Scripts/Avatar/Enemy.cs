@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using MyBox;
 using TMPro;
 using UnityEngine;
@@ -25,6 +26,13 @@ public class Enemy : Avatar
     public DetailedUI DetailedUI { get; private set; }
     public GameObject SelectionRing { get; private set; }
     public bool HasDialogue { get; private set; }
+
+
+    private void Awake()
+    {
+        base.Awake();
+        Animator = GetComponentInChildren<Animator>();
+    }
 
     private void OnEnable()
     {
@@ -57,16 +65,20 @@ public class Enemy : Avatar
     public void InitStats(EnemyData data, EnemyStatSettings ess)
     {
         DisableSelection = false;
-        
+
+        // Used fixed level data or stored enemy data
+        LevelData levelData = GameManager.Instance.CurrentLevelDataLoaded;
+        float enemyLevel = levelData.IsFixed ? levelData.RecommendLevel : data.Level;
+
 
         WeaponData weapon = new();
         weapon.DamageType = DamageType;
 
         EnemyData = data;
         MaxGuard = data.Guard;
-        MaxHealth = ess.CalculateHealth(data.Level, data.EnemyType);
-        Attack = ess.CalculateAttack(data.Level, data.EnemyType);
-        Defence = ess.CalculateDefence(data.Level, data.EnemyType);
+        MaxHealth = ess.CalculateHealth(enemyLevel, data.EnemyType);
+        Attack = ess.CalculateAttack(enemyLevel, data.EnemyType);
+        Defence = ess.CalculateDefence(enemyLevel, data.EnemyType);
         DefencePercentage = ess.GetDefencePercentage();
         BlockScale = ess.GetBlockScale();
 
@@ -80,6 +92,7 @@ public class Enemy : Avatar
         Deck.AddRange(data.Cards.Select(card => new CardData(weapon, card, Attack, Defence, BlockScale, MaxHealth)));
 
         SelectionRing = transform.GetChild(0).gameObject;
+
     }
   
     public List<CardData> DrawCards()

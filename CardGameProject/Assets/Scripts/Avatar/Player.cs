@@ -25,6 +25,12 @@ public class Player : Avatar
     private GameObject StatusActive;
     private GameObject StatusDeactive;
 
+    private void Awake()
+    {
+        base.Awake();
+        Animator = GetComponent<Animator>();
+    }
+
     private void OnEnable()
     {
         OnStatChanged += DisplayStats;
@@ -34,20 +40,6 @@ public class Player : Avatar
     {
         OnStatChanged -= DisplayStats;
     }
-
-    //public void InitUI(Slider healthBar, TMP_Text healthValue, Slider staminaBar, TMP_Text staminaValue, TMP_Text blockValue, 
-    //                 Slider guardBar, TMP_Text guardValue,
-    //                 ArmourType armourType)
-    //{
-    //    _healthBar = healthBar;
-    //    _healthValue = healthValue;
-    //    _staminaBar = staminaBar;
-    //    _staminaValue = staminaValue;
-    //    _guardBar = guardBar;
-    //    _guardValue = guardValue;
-    //    _blockValue = blockValue;
-    //    ArmourType = armourType;
-    //}
 
     public void InitUI(TMP_Text healthValue, TMP_Text maxStaminaValue, TMP_Text staminaValue, TMP_Text blockValue, Slider guardBar, ArmourType armourType, GameObject statusPrefab, GameObject active, GameObject deactive)
     {
@@ -70,16 +62,8 @@ public class Player : Avatar
         _maxStamina = maxStamina;
 
         CurrentHealth = maxHealth;
-
-        if (GameManager.Instance.WaveCount == 0)
-            CurrentHealth = Mathf.Ceil(maxHealth / 2f); // TEMP FOR DEMO
-
-
         CurrentGuard = maxGuard;
         CurrentStamina = _maxStamina;
-
-        
-
 
 
         Defence = defence;
@@ -121,6 +105,12 @@ public class Player : Avatar
     }
 
     #endregion
+
+    public override void ResetDeath()
+    {
+        base.ResetDeath();
+        CurrentStamina = _maxStamina;
+    }
 
     private void DisplayStats()
     {
