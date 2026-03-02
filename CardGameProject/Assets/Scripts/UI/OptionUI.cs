@@ -23,12 +23,12 @@ public class OptionUI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (GameManager.Instance.HasOptionLoadedThisSession) return;
+        //if (GameManager.Instance.HasOptionLoadedThisSession) return;
 
         SetupResolution();
         SetupVolume();
 
-        GameManager.Instance.HasOptionLoadedThisSession = true;
+        //GameManager.Instance.HasOptionLoadedThisSession = true;
     }
 
     #region Resolution
@@ -43,10 +43,7 @@ public class OptionUI : MonoBehaviour
 
         for (int i = 0; i < resolutions.Length; i++)
         {
-            if (resolutions[i].refreshRateRatio.ToString() == currentRefreshRate.ToString())
-            {
-                filteredResolutions.Add(resolutions[i]);
-            }
+            filteredResolutions.Add(resolutions[i]);
         }
 
         List<string> options = new List<string>();

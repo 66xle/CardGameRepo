@@ -530,7 +530,7 @@ RectTransform:
   m_Children:
   - {fileID: 391695251}
   - {fileID: 1300559433}
-  m_Father: {fileID: 2010364647}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5294,7 +5294,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.5647059, g: 0.11372549, b: 0.11372549, a: 1}
+    m_HighlightedColor: {r: 0.5372549, g: 0.47058824, b: 0.42352942, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.56078434}
@@ -17399,7 +17399,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.5660378, g: 0.11480955, b: 0.11480955, a: 1}
+    m_HighlightedColor: {r: 0.5372549, g: 0.47058824, b: 0.42352942, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -17420,7 +17420,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1776554737}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1838010565}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1776554737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19118,7 +19130,6 @@ Transform:
   - {fileID: 1039060927}
   - {fileID: 56499533}
   - {fileID: 944894371}
-  - {fileID: 25157033}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2016584205
@@ -19925,6 +19936,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 2010364647}
+  - {fileID: 25157033}
   - {fileID: 1793860944}
   - {fileID: 1838010564}
   - {fileID: 1398678401}
