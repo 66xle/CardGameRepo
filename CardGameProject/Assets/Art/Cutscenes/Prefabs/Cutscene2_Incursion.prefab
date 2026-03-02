@@ -4080,12 +4080,40 @@ PrefabInstance:
       value: Skip Button
       objectReference: {fileID: 0}
     - target: {fileID: 7233740477261095090, guid: c284922565e3e8d4488177a948bb0980, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7233740477261095090, guid: c284922565e3e8d4488177a948bb0980, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7233740477261095090, guid: c284922565e3e8d4488177a948bb0980, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 3832484176651472063}
     - target: {fileID: 7233740477261095090, guid: c284922565e3e8d4488177a948bb0980, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 3832484176651472063}
+    - target: {fileID: 7233740477261095090, guid: c284922565e3e8d4488177a948bb0980, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7233740477261095090, guid: c284922565e3e8d4488177a948bb0980, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SendSignalToCutsceneManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7233740477261095090, guid: c284922565e3e8d4488177a948bb0980, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SendResumeSignal
+      objectReference: {fileID: 0}
+    - target: {fileID: 7233740477261095090, guid: c284922565e3e8d4488177a948bb0980, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: SignalManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7233740477261095090, guid: c284922565e3e8d4488177a948bb0980, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

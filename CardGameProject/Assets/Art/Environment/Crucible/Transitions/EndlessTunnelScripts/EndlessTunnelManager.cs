@@ -124,7 +124,7 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
 
     public void ResumeTunnel()
     {
-        if (_mode != TunnelMode.Paused) return;
+        if (_mode != TunnelMode.Paused && _mode != TunnelMode.Cutscene) return;
         _resumeTimer = 0f;
         _resumeTargetSpeed = Random.Range(speedRange.x, speedRange.y);
         _mode = TunnelMode.Resuming;
