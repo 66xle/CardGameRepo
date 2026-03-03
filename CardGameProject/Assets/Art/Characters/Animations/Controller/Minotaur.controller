@@ -1258,11 +1258,9 @@ AnimatorStateMachine:
   - {fileID: 2965379659979397404}
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: -6305722690135653433}
+  - first: {fileID: 3859830734630179592}
     second:
-    - {fileID: 2080630523769853810}
-    - {fileID: 7536782907922359724}
-    - {fileID: -8359466804606877355}
+    - {fileID: -6331961768438676358}
   - first: {fileID: -1652850160698487886}
     second:
     - {fileID: -1602948547088415042}
@@ -1270,9 +1268,11 @@ AnimatorStateMachine:
     second:
     - {fileID: 412355940250290053}
     - {fileID: -8180521499138532208}
-  - first: {fileID: 3859830734630179592}
+  - first: {fileID: -6305722690135653433}
     second:
-    - {fileID: -6331961768438676358}
+    - {fileID: 2080630523769853810}
+    - {fileID: 7536782907922359724}
+    - {fileID: -8359466804606877355}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 650, y: 350, z: 0}
   m_EntryPosition: {x: -80, y: 110, z: 0}
@@ -1394,9 +1394,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.44063437
+  m_TransitionDuration: 0.44063425
   m_TransitionOffset: 0
-  m_ExitTime: 0.7151749
+  m_ExitTime: 0.835688
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -2683,7 +2683,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -998496362607748373, guid: fc9c556776a0a4173861a8d28676eb87, type: 3}
+  m_Motion: {fileID: 1827226128182048838, guid: ea20461a05822476dbbd02cea27e377e, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -3012,9 +3012,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.24999994
+  m_TransitionDuration: 0.25
   m_TransitionOffset: 0
-  m_ExitTime: 0.6332261
+  m_ExitTime: 0.84405357
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -3080,7 +3080,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Jump Back
-  m_Speed: 1
+  m_Speed: 1.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 5286109732247229648}
@@ -3094,7 +3094,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1827226128182048838, guid: 7eff0295a145a4f128c9d72ed2056a39, type: 3}
+  m_Motion: {fileID: 1827226128182048838, guid: b738766fc78cf4018b033398c5f21b9f, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
