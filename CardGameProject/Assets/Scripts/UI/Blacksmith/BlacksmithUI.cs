@@ -18,8 +18,12 @@ public class BlacksmithUI : MonoBehaviour
 
     [MustBeAssigned] [SerializeField] EquipmentManager equipmentManager; // temp for testing
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Awake()
+    {
+        SceneInitialize.Instance.Subscribe(Init);
+    }
+
+    void Init()
     {
         equipmentManager.SaveGear(); // temp for testing
 
@@ -34,13 +38,15 @@ public class BlacksmithUI : MonoBehaviour
 
         List<GearData> armours = new List<GearData>(GameManager.Instance.EquippedArmour);
 
-
+        // All and weapon tabs
         foreach (GearData data in weapons)
         {
             CreateGearIcon(data, AllInventoryParent);
             CreateGearIcon(data, WeaponInventoryParent);
         }
 
+
+        // All and Armor tabs
         foreach (GearData data in armours)
         {
             if (data == null) continue;

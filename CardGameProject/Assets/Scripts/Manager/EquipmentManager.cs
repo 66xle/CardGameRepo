@@ -48,6 +48,8 @@ public class EquipmentManager : MonoBehaviour
 
     public void SaveGear()
     {
+        Debug.Log("Save Gear");
+
         GameManager.Instance.MainHand = MainHand;
         GameManager.Instance.OffHand = OffHand;
         GameManager.Instance.EquippedWeapons = _equippedWeapons;
@@ -58,6 +60,8 @@ public class EquipmentManager : MonoBehaviour
 
     public void LoadGear()
     {
+        Debug.Log("Load Gear");
+
         _equippedWeapons = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedWeapons : EquippedWeapons;
 
         Head        = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[0] : Head;
