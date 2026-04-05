@@ -45,11 +45,14 @@ MonoBehaviour:
     - rid: 7765747868154462314
       type: {class: ArmourAnimationData, ns: , asm: Assembly-CSharp}
       data:
-        _enableAnimation: 1
+        _skipAnimation: 0
         _animation: {fileID: 0}
-        AudioType: 200
+        IsAttackAnimation: 0
+        AudioResource: {fileID: 0}
         _overrideDistanceOffset: 1
         _distanceOffset: 0
+        _overrideMoveTime: 1
+        _moveTime: 0
         _overrideCamera: 1
         _followTimeline: {fileID: 0}
         _attackTimeline: {fileID: 0}
@@ -57,6 +60,6 @@ MonoBehaviour:
       type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
       data:
         Card: {fileID: 11400000, guid: c0a4b73227f56c64a9723c442f16b44d, type: 2}
-        CardAmount: 1
+        CardAmount: 3
         Animations: []
         AnimationList: []

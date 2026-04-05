@@ -9,11 +9,14 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CardContainer : MonoBehaviour {
+
+    public bool inDisplayMode = false;
+
     [Header("References")]
-    [MustBeAssigned] public CombatStateMachine combatStateMachine;
-    [MustBeAssigned] public Canvas mainCanvas;
-    [MustBeAssigned] public ClonePreviewManager clonePreviewManager;
-    [MustBeAssigned] public TutorialManager tutorialManager;
+    public CombatStateMachine combatStateMachine;
+    public Canvas mainCanvas;
+    public ClonePreviewManager clonePreviewManager;
+    public TutorialManager tutorialManager;
 
     [Header("Constraints")]
     [SerializeField] private bool forceFitContainer;
@@ -127,8 +130,13 @@ public class CardContainer : MonoBehaviour {
             wrapper.eventsConfig = eventsConfig;
             wrapper.container = this;
             wrapper.card = card.GetComponent<CardDisplay>().Card;
-            wrapper.combatStateMachine = combatStateMachine;
-            wrapper.mainCanvas = mainCanvas;
+            wrapper.inDisplayMode = inDisplayMode;
+
+            if (!inDisplayMode)
+            {
+                wrapper.combatStateMachine = combatStateMachine;
+                wrapper.mainCanvas = mainCanvas;
+            }
 
         }
     }
@@ -165,6 +173,8 @@ public class CardContainer : MonoBehaviour {
 
     public void SetScale()
     {
+        if (inDisplayMode) return;
+
         if (currentDraggedCard == null) return;
 
         bool isScaleTrue = false;
@@ -173,6 +183,7 @@ public class CardContainer : MonoBehaviour {
         {
             if (playAreaObject == null) continue;
 
+            // Disable card recycle zoom interaction on hover depending on tutorial progress
             if (playAreaObject.CompareTag("Recycle") && tutorialManager.IsInTutorial && tutorialManager.TutorialStage < 4f) continue;
 
             // If card is in play area, play it!
@@ -322,8 +333,11 @@ public class CardContainer : MonoBehaviour {
     }
 
     public void OnCardDragEnd(float Ydis) {
-        if (!combatStateMachine._isPlayState || currentDraggedCard == null)
-            return;
+        if (!inDisplayMode)
+        {
+            if (!combatStateMachine._isPlayState || currentDraggedCard == null)
+                return;
+        }
 
         foreach (GameObject playAreaObject in cardPlayConfig.playArea)
         {

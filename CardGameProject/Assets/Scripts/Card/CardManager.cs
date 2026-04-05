@@ -59,10 +59,16 @@ public class CardManager : MonoBehaviour
         {
             for (int i = 0; i < data.CardAmount; i++)
             {
-                CardData cardData = new(gearData, data, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
+                CardData cardData = CreateCardData(gearData, data);
                 PlayerDeck.Add(cardData);
             }
         }
+    }
+
+    public CardData CreateCardData(GearData gearData, CardAnimationData data )
+    {
+        CardData cardData = new(gearData, data, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
+        return cardData;
     }
 
     public void LoadCards()
@@ -101,6 +107,7 @@ public class CardManager : MonoBehaviour
     {
         GameObject card = Instantiate(CardPrefab, parent);
         
+        // Spawn location
         RectTransform rect = card.GetComponent<RectTransform>();
         rect.localPosition += new Vector3(DrawOffset.x, DrawOffset.y, rect.localPosition.z);
         rect.localScale = SpawnScale;

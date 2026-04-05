@@ -9,6 +9,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     IPointerUpHandler {
     private const float EPS = 0.01f;
 
+    public bool inDisplayMode;
     public CombatStateMachine combatStateMachine;
     public Canvas mainCanvas;
     public Card card;
@@ -232,8 +233,11 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
 
     public void OnPointerDown(PointerEventData eventData) {
-        if (!combatStateMachine._isPlayState)
-            return;
+        if (!inDisplayMode)
+        {
+            if (!combatStateMachine._isPlayState)
+                return;
+        }
 
         isPointerDown = true;
         pointerDownCheck = true;

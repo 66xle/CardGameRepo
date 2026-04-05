@@ -13,10 +13,14 @@ public class BlacksmithUI : MonoBehaviour
     [MustBeAssigned] [SerializeField] Transform AccessoriesInventoryParent;
     [MustBeAssigned] [SerializeField] GearSelectionUI GearSelectionUI;
 
+    [MustBeAssigned][SerializeField] Transform SelectedCardParent;
+
     Action<GearData> _onClickSelectIcon;
     GearData _selectedGear;
+    CardContainer _cardContainer;
 
     [MustBeAssigned] [SerializeField] EquipmentManager equipmentManager; // temp for testing
+    [MustBeAssigned] [SerializeField] CardManager CardManager; // temp for testing
 
     public void Awake()
     {
@@ -25,6 +29,9 @@ public class BlacksmithUI : MonoBehaviour
 
     void Init()
     {
+        _cardContainer = SelectedCardParent.GetComponent<CardContainer>();
+
+
         equipmentManager.SaveGear(); // temp for testing
 
         _onClickSelectIcon += SelectIcon;
@@ -77,10 +84,23 @@ public class BlacksmithUI : MonoBehaviour
         selectedTab.SetActive(true);
     }
 
-    public void SelectIcon(GearData data)
+    public void SelectIcon(GearData gearData)
     {
         GearSelectionUI.gameObject.SetActive(true);
-        GearSelectionUI.SelectGear(data);
-        _selectedGear = data;
+        GearSelectionUI.SelectGear(gearData);
+        _selectedGear = gearData;
+
+        _cardContainer.DestroyAllCards(); // DO OBJECT POOLING
+
+        // spawn in cards
+        foreach (CardAnimationData data in gearData.Cards)
+        {
+            CardData cardData = CardManager.CreateCardData(gearData, data);
+
+            for (int i = 0; i < data.CardAmount; i++)
+            {
+                CardManager.CreateCard(cardData, SelectedCardParent);
+            }
+        }
     }
 }
