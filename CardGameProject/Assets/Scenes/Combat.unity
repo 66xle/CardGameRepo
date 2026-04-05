@@ -14068,9 +14068,9 @@ MonoBehaviour:
   minRatio: 0.3
   YAmount: 0.3
   zoomConfig:
-    zoomOnClick: 0
+    zoomOnClick: 1
     multiplier: 1
-    zoomInMultiplier: 0
+    zoomInMultiplier: 1
     overrideYPosition: -1
     defaultSortOrder: 1
     bringToFrontOnHover: 0
@@ -14090,7 +14090,19 @@ MonoBehaviour:
         m_Calls: []
     OnCardClick:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 986766342}
+          m_TargetAssemblyTypeName: demo.ClonePreviewManager, Assembly-CSharp
+          m_MethodName: OnCardClick
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     OnCardDrag:
       m_PersistentCalls:
         m_Calls: []
