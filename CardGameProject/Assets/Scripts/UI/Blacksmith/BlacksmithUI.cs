@@ -5,21 +5,21 @@ using UnityEngine;
 
 public class BlacksmithUI : MonoBehaviour
 {
-    [MustBeAssigned][SerializeField] GameObject GearIconPrefab;
-    [MustBeAssigned][SerializeField] Transform AllInventoryParent;
-    [MustBeAssigned][SerializeField] Transform WeaponInventoryParent;
-    [MustBeAssigned][SerializeField] Transform ArmourInventoryParent;
-    [MustBeAssigned][SerializeField] Transform AccessoriesInventoryParent;
-    [MustBeAssigned][SerializeField] GearSelectionUI GearSelectionUI;
+    [MustBeAssigned][SerializeField] public GameObject GearIconPrefab;
+    [MustBeAssigned][SerializeField] public Transform AllInventoryParent;
+    [MustBeAssigned][SerializeField] public Transform WeaponInventoryParent;
+    [MustBeAssigned][SerializeField] public Transform ArmourInventoryParent;
+    [MustBeAssigned][SerializeField] public Transform AccessoriesInventoryParent;
+    [MustBeAssigned][SerializeField] public GearSelectionUI GearSelectionUI;
 
-    [MustBeAssigned][SerializeField] Transform SelectedCardParent;
+    [MustBeAssigned][SerializeField] public Transform SelectedCardParent;
 
     Action<GearData> _onClickSelectIcon;
     GearData _selectedGear;
     CardContainer _cardContainer;
 
-    [MustBeAssigned][SerializeField] EquipmentManager equipmentManager; // temp for testing
-    [MustBeAssigned][SerializeField] CardManager CardManager; // temp for testing
+    [MustBeAssigned][SerializeField] public EquipmentManager EquipmentManager; // temp for testing
+    [MustBeAssigned][SerializeField] public CardManager CardManager; // temp for testing
 
     public void Awake()
     {
@@ -31,7 +31,7 @@ public class BlacksmithUI : MonoBehaviour
         _cardContainer = SelectedCardParent.GetComponent<CardContainer>();
 
 
-        equipmentManager.SaveGear(); // temp for testing
+        EquipmentManager.SaveGear(); // temp for testing
 
         _onClickSelectIcon += SelectIcon;
         LoadInventory();
