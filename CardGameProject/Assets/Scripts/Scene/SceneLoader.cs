@@ -1,23 +1,20 @@
-using UnityEngine;
+using MyBox;
 using System;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using MyBox;
-using SceneReference = Eflatun.SceneReference.SceneReference;
-using System.Collections.Generic;
 using UnityEngine.UI;
-using DG.Tweening;
-using PixelCrushers;
+using SceneReference = Eflatun.SceneReference.SceneReference;
 
 namespace Systems.SceneManagment
-{ 
+{
     public class SceneLoader : MonoBehaviour
     {
         [SerializeField] SceneGroup[] sceneGroups;
-        [MustBeAssigned] [SerializeField] SceneReference loadingScene;
-        [MustBeAssigned] [SerializeField] Image FadeImage;
-        [MustBeAssigned] [SerializeField] float FadeTime = 1f;
-        [MustBeAssigned] [SerializeField] LevelSettings LevelSettings;
+        [MustBeAssigned][SerializeField] SceneReference loadingScene;
+        [MustBeAssigned][SerializeField] Image FadeImage;
+        [MustBeAssigned][SerializeField] float FadeTime = 1f;
+        [MustBeAssigned][SerializeField] LevelSettings LevelSettings;
 
         public readonly SceneGroupManager manager = new SceneGroupManager();
 
@@ -69,7 +66,7 @@ namespace Systems.SceneManagment
 
             LoadingProgress progress = new LoadingProgress();
             progress.Progressed += target => targetProgress = Mathf.Max(target, targetProgress);
-            
+
 
             foreach (SceneGroup group in sceneGroups)
             {

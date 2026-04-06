@@ -1,12 +1,11 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-using System.IO;
-using System.Linq;
-using System;
 
 enum CycleField
 {
@@ -33,7 +32,7 @@ public class DialogueEditor : EditorWindow
     public ListView eventList;
     private PopupWindow window;
     public bool isPopupActive;
-    
+
 
     private int selectedIndex;
     private bool manualSelected = false;
@@ -48,8 +47,9 @@ public class DialogueEditor : EditorWindow
         }
     }
 
-    private string GetEventField { 
-        
+    private string GetEventField
+    {
+
         get
         {
             EnumField eventField = rootVisualElement.Query<EnumField>("event-type");
@@ -95,14 +95,14 @@ public class DialogueEditor : EditorWindow
             name = "Dialogue Graph"
         };
 
-        
+
         GenerateToolBar();
 
         // Load uxml
         VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/Dialogue/Graph/Resources/DialogueGraph.uxml");
         visualTree.CloneTree(rootVisualElement);
         rootVisualElement.Add(_graphView);
-        
+
         inspectorView = rootVisualElement.Q<InspectorView>();
         settingView = rootVisualElement.Q<SettingView>();
         _graphView = rootVisualElement.Q<DialogueGraphView>();
@@ -187,7 +187,7 @@ public class DialogueEditor : EditorWindow
 
             AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedEvent.guid));
 
-            
+
             CreateEventListView();
         }
     }
@@ -227,10 +227,10 @@ public class DialogueEditor : EditorWindow
             return;
 
         // Load stored graph
-        
+
         saveUtility.LoadGraph(_graphView.linkedEvent);
 
-        
+
 
         _graphView.graphTitle.text = $"Graph View >> {selectedEvent.name}";
         _graphView.openedEventGUID = selectedEvent.guid;
@@ -259,7 +259,7 @@ public class DialogueEditor : EditorWindow
 
         settingView.ClearSetting();
 
-        
+
 
         #region Setup Event List
 
@@ -354,7 +354,7 @@ public class DialogueEditor : EditorWindow
     #endregion
 
     #region Compare Events
-    
+
     bool CheckGraphChanges(Event eventToCheck)
     {
         Event onGraphEvent = GraphSaveUtility.GetInstance(_graphView).GetEventData();
@@ -421,7 +421,7 @@ public class DialogueEditor : EditorWindow
             if (prevData.image != currData.image)
                 return false;
 
-            
+
         }
 
         return true;
@@ -459,7 +459,7 @@ public class DialogueEditor : EditorWindow
                 if (listA[i].text != listB[i].text)
                     return true;
             }
-            
+
             if (listA[i].portGUID != listB[i].portGUID)
                 return true;
             if (listA[i].targetGUID != listB[i].targetGUID)
@@ -539,7 +539,7 @@ public class DialogueEditor : EditorWindow
         }
 
         Event selectedEvent = eventList.selectedItem as Event;
-        
+
 
         GraphSaveUtility saveUtility = GraphSaveUtility.GetInstance(_graphView);
         if (save)

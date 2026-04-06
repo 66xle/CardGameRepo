@@ -1,24 +1,24 @@
-using System.Collections;
 using MyBox;
+using System.Collections;
 using UnityEngine;
 
 public class GASystemDamage : MonoBehaviour
 {
     [MustBeAssigned] public CombatStateMachine Ctx;
-    
+
 
     private void OnEnable()
     {
         ActionSystem.AttachPerformer<GATakeDamageFromWeapon>(TakeDamageFromWeaponPerformer);
         ActionSystem.AttachPerformer<GATakeGuardDamage>(TakeGuardDamagePerformer);
-        
+
     }
 
     private void OnDisable()
     {
         ActionSystem.DetachPerformer<GATakeDamageFromWeapon>();
         ActionSystem.DetachPerformer<GATakeGuardDamage>();
-        
+
     }
 
     private IEnumerator TakeDamageFromWeaponPerformer(GATakeDamageFromWeapon takeDamageFromWeaponGA)
@@ -97,7 +97,7 @@ public class GASystemDamage : MonoBehaviour
         yield return null;
     }
 
-    
+
 
     public void ReduceHitToRecover(Avatar avatarOpponent)
     {

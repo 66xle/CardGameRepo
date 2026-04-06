@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class GAApplyStatusEffect : GameAction
 {
     public Avatar AvatarToApply;

@@ -1,6 +1,6 @@
+using MyBox;
 using System.Collections.Generic;
 using UnityEngine;
-using MyBox;
 
 public class EncounterData : ScriptableObject
 {

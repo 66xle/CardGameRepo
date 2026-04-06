@@ -1,18 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using UnityEngine.UIElements;
-using UnityEditor.UIElements;
-using static UnityEngine.GraphicsBuffer;
-using UnityEditor.PackageManager.UI;
 using System;
-using System.Security.Policy;
-using System.Runtime.Remoting.Contexts;
-using UnityEditor.Experimental.GraphView;
-using System.IO;
-using UnityEngine.Assertions.Must;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
+using UnityEditor.UIElements;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CardEditorWindow : BaseEditorWindow
 {
@@ -217,7 +209,7 @@ public class CardEditorWindow : BaseEditorWindow
         {
             cardPreviewImage.image = card.Image.texture;
         }
-        catch (Exception err) 
+        catch (Exception err)
         {
             cardPreviewImage.image = null;
         }
@@ -226,7 +218,7 @@ public class CardEditorWindow : BaseEditorWindow
         {
             cardPreviewFrame.image = card.Frame.texture;
         }
-        catch (Exception err) 
+        catch (Exception err)
         {
             cardPreviewFrame.image = null;
         }
@@ -260,7 +252,7 @@ public class CardEditorWindow : BaseEditorWindow
 
     private void CreateClickableText(Card card)
     {
-        if (card.PopupKeyPair == null) 
+        if (card.PopupKeyPair == null)
             card.PopupKeyPair = new();
 
         card.PopupKeyPair.Clear();

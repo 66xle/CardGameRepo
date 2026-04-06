@@ -1,6 +1,5 @@
-using UnityEngine;
-using MyBox;
 using System;
+using UnityEngine;
 
 public class StatusAmplify : StatusEffect
 {

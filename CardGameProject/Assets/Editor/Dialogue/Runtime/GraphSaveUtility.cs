@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using System;
-using System.Web;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GraphSaveUtility
 {
@@ -32,7 +29,7 @@ public class GraphSaveUtility
             _targetGraphView = targetGraphView
         };
     }
-    
+
     #region SaveGraph
 
     public void SaveGraph(string fileName, SettingView settingView)
@@ -129,7 +126,7 @@ public class GraphSaveUtility
                     choices.Add(choiceData);
                 }
             }
-            
+
 
             DialogueNodeData newNode = new DialogueNodeData
             {
@@ -186,7 +183,7 @@ public class GraphSaveUtility
         return eventContainer;
     }
 
-    
+
 
     private void SaveEventAsset(string fileName, Event eventContainer)
     {
@@ -245,7 +242,7 @@ public class GraphSaveUtility
                     }
                 }
             }
-            
+
 
             EditorUtility.SetDirty(loadedAsset);
         }

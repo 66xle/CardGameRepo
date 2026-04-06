@@ -29,7 +29,7 @@ public class EncounterEditorWindow : BaseEditorWindow
     {
         Enable("EncounterEditorWindow", "EncounterEditorStyles", "encounter", "Encounter");
 
-        EditorApplication.delayCall += () => 
+        EditorApplication.delayCall += () =>
         {
             base.Init();
 
@@ -46,9 +46,9 @@ public class EncounterEditorWindow : BaseEditorWindow
     {
         FindAllEncounters(out List<EncounterData> encounters);
 
-        
+
         //DropdownField dropdownField = rootVisualElement.Query<DropdownField>("filter");
-        
+
         //if (dropdownField.value != "Any")
         //{
         //    levels = levels.Where(data => data.IsFixed == true).ToList();
@@ -60,7 +60,7 @@ public class EncounterEditorWindow : BaseEditorWindow
         list.selectionChanged += (enumerable) =>
         {
             if (isInitialized)
-                SessionState.SetInt("encounterListIndex", list.selectedIndex); 
+                SessionState.SetInt("encounterListIndex", list.selectedIndex);
 
             foreach (UnityEngine.Object it in enumerable)
             {
@@ -100,7 +100,7 @@ public class EncounterEditorWindow : BaseEditorWindow
 
         list.Rebuild();
 
-        if (!isInitialized) 
+        if (!isInitialized)
             list.SetSelection(listIndex);
     }
 
@@ -109,7 +109,7 @@ public class EncounterEditorWindow : BaseEditorWindow
         base.SetButtons();
 
         Button refreshButton = rootVisualElement.Query<Button>("refresh").First();
-        refreshButton.clicked += RefreshScripts; 
+        refreshButton.clicked += RefreshScripts;
     }
 
     public override void AddButton()

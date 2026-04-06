@@ -1,11 +1,9 @@
-using Cinemachine;
 using MyBox;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public class GASystemCamera : MonoBehaviour
 {
-    [MustBeAssigned] [SerializeField] CameraManager cm;
+    [MustBeAssigned][SerializeField] CameraManager cm;
 
     private void OnEnable()
     {

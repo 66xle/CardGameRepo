@@ -1,9 +1,7 @@
+using MyBox;
+using SerializeReferenceEditor;
 using System.Collections.Generic;
 using UnityEngine;
-using SerializeReferenceEditor;
-using UnityEngine.Playables;
-using System;
-using MyBox;
 using UnityEngine.Audio;
 
 
@@ -85,7 +83,7 @@ public class WeaponAnimationData : AnimationData
             attackTimeline = AttackTimeline;
         }
 
-        
+
         return new AnimationWrapper(stringSplit[1], distance, followTimeline, attackTimeline, AudioResource, moveTime);
     }
 

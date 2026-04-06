@@ -4,7 +4,7 @@ using UnityEngine;
 public class TutorialManager : MonoBehaviour
 {
     public bool IsInTutorial = false;
-    [MustBeAssigned] [SerializeField] CombatUIManager CombatUIManager;
+    [MustBeAssigned][SerializeField] CombatUIManager CombatUIManager;
 
 
 

@@ -1,11 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using System;
-using UnityEngine.UIElements;
-using System.Web;
 using System.IO;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BaseEditorWindow : EditorWindow
 {

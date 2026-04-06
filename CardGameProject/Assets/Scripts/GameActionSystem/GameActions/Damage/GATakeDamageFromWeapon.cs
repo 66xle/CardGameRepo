@@ -1,7 +1,3 @@
-
-using UnityEngine;
-using System.Collections.Generic;
-
 public class GATakeDamageFromWeapon : GameAction
 {
     public Avatar AvatarToTakeDamage;

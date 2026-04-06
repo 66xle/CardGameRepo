@@ -1,7 +1,5 @@
 using DG.Tweening;
-using MyBox;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GASystemAnimation : MonoBehaviour
@@ -38,7 +36,7 @@ public class GASystemAnimation : MonoBehaviour
 
         float distanceOffset = moveToPosGA.DistanceOffset;
 
-        
+
 
         Animator avatarPlayingCardController = avatarPlayingCard.Animator;
         avatarPlayingCardController.SetTrigger("Move");
@@ -61,13 +59,13 @@ public class GASystemAnimation : MonoBehaviour
         Vector3 dir = (currentPos - opponentPos).normalized;
 
         Vector3 posToMove = opponentPos + dir * (1.5f + distanceOffset);
-        
+
         // Move avatar
         float tweenDuration = moveToPosGA.MoveTime > 0f ? moveToPosGA.MoveTime : moveDuration;
         Tween tween = currentTransform.DOMove(new Vector3(posToMove.x, currentTransform.position.y, posToMove.z), tweenDuration).SetEase(moveAnimCurve);
 
         Quaternion targetRotation = Quaternion.LookRotation(-dir);
-        currentTransform.DORotate(targetRotation.eulerAngles, 1f, RotateMode.Fast); 
+        currentTransform.DORotate(targetRotation.eulerAngles, 1f, RotateMode.Fast);
 
         yield return tween.WaitForCompletion();
     }
@@ -105,7 +103,7 @@ public class GASystemAnimation : MonoBehaviour
 
         yield return tween.WaitForCompletion();
 
-        
+
 
 
         returnToPosGA.IsReturnFinished = true;

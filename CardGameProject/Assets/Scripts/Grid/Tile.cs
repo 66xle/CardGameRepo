@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class Tile
 {
     public enum Type
@@ -42,5 +38,5 @@ public class Tile
         this.z = z;
     }
 
-    
+
 }

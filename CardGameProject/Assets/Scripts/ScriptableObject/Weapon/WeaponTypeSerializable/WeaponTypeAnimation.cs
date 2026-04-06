@@ -1,7 +1,6 @@
+using SerializeReferenceEditor;
 using System;
 using System.Collections.Generic;
-using SerializeReferenceEditor;
-using UnityEngine;
 
 
 [Serializable]

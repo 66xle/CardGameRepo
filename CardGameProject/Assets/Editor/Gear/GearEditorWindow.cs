@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework.Constraints;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -30,7 +29,7 @@ public class GearEditorWindow : BaseEditorWindow
     {
         Enable("GearEditorWindow", "GearEditorStyles", "gear", "Gear");
 
-        EditorApplication.delayCall += () => 
+        EditorApplication.delayCall += () =>
         {
             base.Init();
 
@@ -105,7 +104,7 @@ public class GearEditorWindow : BaseEditorWindow
         list.selectionChanged += (enumerable) =>
         {
             if (isInitialized)
-                SessionState.SetInt("gearListIndex", list.selectedIndex); 
+                SessionState.SetInt("gearListIndex", list.selectedIndex);
 
             foreach (UnityEngine.Object it in enumerable)
             {
@@ -144,7 +143,7 @@ public class GearEditorWindow : BaseEditorWindow
 
         list.Rebuild();
 
-        if (!isInitialized) 
+        if (!isInitialized)
             list.SetSelection(listIndex);
     }
 
@@ -153,7 +152,7 @@ public class GearEditorWindow : BaseEditorWindow
         base.SetButtons();
 
         Button refreshButton = rootVisualElement.Query<Button>("refresh").First();
-        refreshButton.clicked += RefreshScripts; 
+        refreshButton.clicked += RefreshScripts;
     }
 
     public override void AddButton()

@@ -1,17 +1,16 @@
 using MyBox;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using System;
 
 public class BlacksmithUI : MonoBehaviour
 {
-    [MustBeAssigned] [SerializeField] GameObject GearIconPrefab;
-    [MustBeAssigned] [SerializeField] Transform AllInventoryParent;
-    [MustBeAssigned] [SerializeField] Transform WeaponInventoryParent;
-    [MustBeAssigned] [SerializeField] Transform ArmourInventoryParent;
-    [MustBeAssigned] [SerializeField] Transform AccessoriesInventoryParent;
-    [MustBeAssigned] [SerializeField] GearSelectionUI GearSelectionUI;
+    [MustBeAssigned][SerializeField] GameObject GearIconPrefab;
+    [MustBeAssigned][SerializeField] Transform AllInventoryParent;
+    [MustBeAssigned][SerializeField] Transform WeaponInventoryParent;
+    [MustBeAssigned][SerializeField] Transform ArmourInventoryParent;
+    [MustBeAssigned][SerializeField] Transform AccessoriesInventoryParent;
+    [MustBeAssigned][SerializeField] GearSelectionUI GearSelectionUI;
 
     [MustBeAssigned][SerializeField] Transform SelectedCardParent;
 
@@ -19,8 +18,8 @@ public class BlacksmithUI : MonoBehaviour
     GearData _selectedGear;
     CardContainer _cardContainer;
 
-    [MustBeAssigned] [SerializeField] EquipmentManager equipmentManager; // temp for testing
-    [MustBeAssigned] [SerializeField] CardManager CardManager; // temp for testing
+    [MustBeAssigned][SerializeField] EquipmentManager equipmentManager; // temp for testing
+    [MustBeAssigned][SerializeField] CardManager CardManager; // temp for testing
 
     public void Awake()
     {

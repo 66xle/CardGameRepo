@@ -1,5 +1,5 @@
-using System.Collections;
 using MyBox;
+using System.Collections;
 using UnityEngine;
 
 public class GASystemCard : MonoBehaviour

@@ -6,7 +6,7 @@ using UnityEngine;
 public class StatsManager : MonoBehaviour
 {
     [Header("Stats")]
-    [MustBeAssigned] [SerializeField] PlayerStatSettings PSS;
+    [MustBeAssigned][SerializeField] PlayerStatSettings PSS;
 
     [SerializeField] int Level = 1;
     public int BaseGuard;

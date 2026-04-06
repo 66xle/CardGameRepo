@@ -1,6 +1,6 @@
+using MyBox;
 using System;
 using System.Collections.Generic;
-using MyBox;
 using UnityEngine;
 
 [Serializable]
@@ -22,7 +22,7 @@ public class AvatarSpawnPosition : MonoBehaviour
     [Separator]
 
     public List<SpawnPosition> CutsceneSpawnPositions;
-    
+
 
     public void Awake()
     {

@@ -1,22 +1,12 @@
 using events;
-using System;
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using Cinemachine;
-using MyBox;
-using DG.Tweening;
-using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
-using UnityEngine.Analytics;
-using UnityEngine.EventSystems;
-using PixelCrushers.DialogueSystem;
-using UnityEngine.VFX;
 using UnityEngine.Audio;
+using UnityEngine.EventSystems;
+using UnityEngine.VFX;
 
 public class CombatStateMachine : MonoBehaviour
 {
@@ -54,13 +44,13 @@ public class CombatStateMachine : MonoBehaviour
     [HideInInspector] public Transform KnightActor;
 
     [Foldout("References", true)]
-    [MustBeAssigned] [SerializeField] StatsManager StatsManager;
-    [MustBeAssigned] [SerializeField] SwitchWeaponManager SwitchWeaponManager;
-    [MustBeAssigned] [SerializeField] EnemyManager EnemyManager;
-    [MustBeAssigned] [SerializeField] GASystemCamera CameraSystem;
-    [MustBeAssigned] [SerializeField] LevelManager LevelManager; // Editor only
-    [MustBeAssigned] [SerializeField] CutsceneManager CutsceneManager; // Editor only
-    [MustBeAssigned] [SerializeField] TutorialManager TutorialManager;
+    [MustBeAssigned][SerializeField] StatsManager StatsManager;
+    [MustBeAssigned][SerializeField] SwitchWeaponManager SwitchWeaponManager;
+    [MustBeAssigned][SerializeField] EnemyManager EnemyManager;
+    [MustBeAssigned][SerializeField] GASystemCamera CameraSystem;
+    [MustBeAssigned][SerializeField] LevelManager LevelManager; // Editor only
+    [MustBeAssigned][SerializeField] CutsceneManager CutsceneManager; // Editor only
+    [MustBeAssigned][SerializeField] TutorialManager TutorialManager;
     [MustBeAssigned] public CameraManager CameraManager;
     [MustBeAssigned] public CombatUIManager CombatUIManager;
     [MustBeAssigned] public CardManager CardManager;
@@ -192,7 +182,7 @@ public class CombatStateMachine : MonoBehaviour
                 if (enemy.IsAvatarDead()) return;
 
                 ResetSelectedEnemyUI();
-                
+
                 _selectedEnemyToAttack = enemy;
                 EnemyManager.SelectEnemy(enemy);
             }
@@ -232,7 +222,7 @@ public class CombatStateMachine : MonoBehaviour
             {
                 SwitchWeaponManager.InitWeaponData();
             }
-                
+
             List<WeaponData> holsterWeapons = SwitchWeaponManager.GetWeaponList();
 
             if (holsterWeapons.Count > 0)
@@ -366,7 +356,7 @@ public class CombatStateMachine : MonoBehaviour
     {
         EnemyManager.ClearEnemiesAndUI();
         CardManager.ResetCards();
-        
+
         // Add reward to deck and holster
         //if (RewardManager.ListOfRewards.Count > 0)
         //{
@@ -393,14 +383,14 @@ public class CombatStateMachine : MonoBehaviour
 
     }
 
-    
+
 
 
     #region Used by StateMachine
 
     public void EndTurn()
     {
-        
+
         Bus<EventEndTurn>.Raise(new EventEndTurn());
 
         if (GameManager.Instance.WaveCount == 1)

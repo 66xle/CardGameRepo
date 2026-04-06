@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
-using System;
 
 
 public class EventDisplay : MonoBehaviour
@@ -139,7 +137,7 @@ public class EventDisplay : MonoBehaviour
     public void NextDialogue(DialogueChoices selectedChoice = null)
     {
         DialogueNodeData nextNode = null;
-        
+
         if (doesNodeHaveChoice)
         {
             // Get next node through choice picked
@@ -197,7 +195,7 @@ public class EventDisplay : MonoBehaviour
         mapScene.SetActive(false);
 
         //turnBaseSystem.Init(currentNode);
-    }    
+    }
 
     public void FinishCombatEvent()
     {

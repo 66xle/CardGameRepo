@@ -1,8 +1,6 @@
+using SerializeReferenceEditor;
 using System;
 using System.Collections;
-using System.Linq;
-using SerializeReferenceEditor;
-using UnityEngine;
 
 [SRHidden]
 public class StatusCommand : Command
@@ -26,7 +24,7 @@ public class StatusCommand : Command
             avatarToApply.QueueGameActions.Add(applyStatusEffectGA);
 
             // ui update here
-            
+
 
             EXEParameters.Targets[i] = avatarToApply;
         }

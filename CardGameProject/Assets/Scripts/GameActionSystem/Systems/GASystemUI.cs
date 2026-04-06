@@ -1,16 +1,14 @@
 using DG.Tweening;
 using MyBox;
-using System.Collections.Generic;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Analytics;
 
 public class GASystemUI : MonoBehaviour
 {
     [Header("References")]
-    [MustBeAssigned] [SerializeField] CombatUIManager CombatUIManager;
-    [MustBeAssigned] [SerializeField] Camera MainCamera;
+    [MustBeAssigned][SerializeField] CombatUIManager CombatUIManager;
+    [MustBeAssigned][SerializeField] Camera MainCamera;
 
     private void OnEnable()
     {
@@ -30,7 +28,7 @@ public class GASystemUI : MonoBehaviour
     {
         Avatar avatar = spawnDamageUIPopupGA.AvatarTakingDamage;
 
-     
+
         foreach (Tween activeTween in avatar.CurrentActiveStatusEffectTween)
         {
             yield return new WaitUntil(() => activeTween.ElapsedPercentage() >= CombatUIManager.StatusEffectTweenProgress);
@@ -53,22 +51,23 @@ public class GASystemUI : MonoBehaviour
         }
         popupObj.transform.position = spawnPos;
 
-        
+
         TextMeshProUGUI popupText = popupObj.GetComponent<TextMeshProUGUI>();
         popupText.text = spawnDamageUIPopupGA.Text;
         popupText.color = spawnDamageUIPopupGA.Color;
 
         // Scale popup based on camera distance
         float distance = Vector3.Distance(popupObj.transform.position, Camera.main.transform.position);
-        float scaleFactor = (CombatUIManager.baseScale * distance / 100f) ;
+        float scaleFactor = (CombatUIManager.baseScale * distance / 100f);
         Vector3 endOffset = Vector3.up * CombatUIManager.MoveVertical * scaleFactor;
         Vector3 targetPos = spawnPos + endOffset;
 
-        Tween tween = DOTween.To(() => 0f, t => {
+        Tween tween = DOTween.To(() => 0f, t =>
+        {
             popupText.transform.localScale = Vector3.one * scaleFactor;
             popupText.transform.position = Vector3.Lerp(spawnPos, targetPos, t / CombatUIManager.MoveDuration);
         }, CombatUIManager.MoveDuration, CombatUIManager.MoveDuration).SetEase(Ease.OutQuad);
-        
+
 
         if (spawnDamageUIPopupGA.IsStatusEffect)
             avatar.CurrentActiveStatusEffectTween.Add(tween);

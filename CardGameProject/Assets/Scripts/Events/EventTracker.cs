@@ -28,7 +28,7 @@ public class EventTracker
         {
             events.Add(evt);
         }
-        
+
         if (evt.nextEvent != null)
             nextEvent = new EventTracker(evt.nextEvent);
     }
@@ -58,7 +58,7 @@ public class EventTracker
     }
 
     public bool IsEventFinished()
-    { 
+    {
         if (index == events.Count)
         {
             return true;

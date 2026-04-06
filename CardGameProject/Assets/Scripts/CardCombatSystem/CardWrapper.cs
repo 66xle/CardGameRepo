@@ -1,12 +1,12 @@
-using System.Collections;
 using config;
 using events;
-using MyBox;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerMoveHandler,
-    IPointerUpHandler {
+    IPointerUpHandler
+{
     private const float EPS = 0.01f;
 
     public bool inDisplayMode;
@@ -37,15 +37,18 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private bool isPointerDown = false;
     private bool pointerDownCheck = false;
     [HideInInspector] public bool IsPreviewActive = false;
-    public float width {
+    public float width
+    {
         get => rectTransform.rect.width;
     }
 
-    private void Awake() {
+    private void Awake()
+    {
         rectTransform = GetComponent<RectTransform>();
     }
 
-    private void Start() {
+    private void Start()
+    {
         canvas = GetComponent<Canvas>();
 
         StartCoroutine(DrawTimer());
@@ -60,7 +63,8 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         animationSpeed = animationSpeedConfig.duration;
     }
 
-    private void Update() {
+    private void Update()
+    {
 
         if (Time.timeScale == 0) return;
 
@@ -76,8 +80,10 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
     }
 
-    private void UpdateUILayer() {
-        if (!IsPreviewActive && !isDragged) {
+    private void UpdateUILayer()
+    {
+        if (!IsPreviewActive && !isDragged)
+        {
             canvas.sortingOrder = uiLayer;
         }
     }
@@ -130,7 +136,8 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
     }
 
-    private void UpdateScale() {
+    private void UpdateScale()
+    {
         var targetZoom = (isDragged || IsPreviewActive) && zoomConfig.zoomOnClick ? zoomConfig.multiplier : 1;
         if (container.currentInPlayArea)
             targetZoom = zoomConfig.zoomInMultiplier;
@@ -172,7 +179,8 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
 
 
-    public void SetAnchor(Vector2 min, Vector2 max) {
+    public void SetAnchor(Vector2 min, Vector2 max)
+    {
         rectTransform.anchorMin = min;
         rectTransform.anchorMax = max;
     }
@@ -200,7 +208,8 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
     }
 
-    public void OnPointerEnter(PointerEventData eventData) {
+    public void OnPointerEnter(PointerEventData eventData)
+    {
         if (isDragged) return;
 
         Debug.Log("enter");
@@ -217,8 +226,10 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         isHovered = true;
     }
 
-    public void OnPointerExit(PointerEventData eventData) {
-        if (isDragged) {
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (isDragged)
+        {
             // Avoid hover events while dragging
             return;
         }
@@ -232,7 +243,8 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         eventsConfig?.OnCardUnhover?.Invoke(new CardUnhover(this));
     }
 
-    public void OnPointerDown(PointerEventData eventData) {
+    public void OnPointerDown(PointerEventData eventData)
+    {
         if (!inDisplayMode)
         {
             if (!combatStateMachine._isPlayState)
@@ -253,8 +265,9 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         eventsConfig?.OnCardClick?.Invoke(new CardClick(this));
     }
 
-    public void OnPointerUp(PointerEventData eventData) {
-        
+    public void OnPointerUp(PointerEventData eventData)
+    {
+
         PointerUp(eventData.position);
     }
 

@@ -1,5 +1,4 @@
 using SerializeReferenceEditor;
-using UnityEngine;
 
 [SRName("Commands/Deal Guard Damage")]
 public class CMDDealGuardDamage : GuardCommand

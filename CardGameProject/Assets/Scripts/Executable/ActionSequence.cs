@@ -1,9 +1,9 @@
-using System.Collections;
+using SerializeReferenceEditor;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-using SerializeReferenceEditor;
 using Random = UnityEngine.Random;
 
 [SRHidden]
@@ -174,7 +174,7 @@ public class ActionSequence : Executable
             EXEParameters.Targets = GetTargets(command.CardTarget);
             EXEParameters.CardTarget = command.CardTarget;
 
-            if (command.CardTarget == CardTarget.AllEnemies) 
+            if (command.CardTarget == CardTarget.AllEnemies)
                 IsAttackingAllEnemies = true; // Move to middle position
 
             bool isConditionTrue = false;
@@ -224,7 +224,7 @@ public class ActionSequence : Executable
         {
             if (!avatarTarget.IsHit) continue;
 
-            if (trigger == ReactiveTrigger.AfterTakeDamageByWeapon) 
+            if (trigger == ReactiveTrigger.AfterTakeDamageByWeapon)
                 avatarTarget.IsHit = false;
 
             Debug.Log(trigger);
@@ -266,7 +266,7 @@ public class ActionSequence : Executable
             if (command.IsReactiveCondition)
                 return false;
 
-            if (command.RequiresMovement) 
+            if (command.RequiresMovement)
                 return true;
         }
 

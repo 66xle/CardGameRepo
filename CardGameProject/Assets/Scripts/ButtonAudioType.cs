@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ButtonAudioType : MonoBehaviour
 {
-    [MustBeAssigned] [SerializeField] AudioType AudioType = AudioType.None;
+    [MustBeAssigned][SerializeField] AudioType AudioType = AudioType.None;
     private Button Button;
 
     public void Awake()

@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using SerializeReferenceEditor;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "StatusEffectData", menuName = "StatusEffectData")]
 public class StatusEffectData : ScriptableObject

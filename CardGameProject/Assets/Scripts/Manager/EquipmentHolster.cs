@@ -1,9 +1,5 @@
 using MyBox;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -18,7 +14,7 @@ public class EquipmentHolster : MonoBehaviour
     [MustBeAssigned] public Transform RightHand;
     [MustBeAssigned] public Transform LeftHand;
 
-    [MustBeAssigned]public Transform BackHolster;
+    [MustBeAssigned] public Transform BackHolster;
     [MustBeAssigned] public Transform LowerBackHolster;
 
     [MustBeAssigned] public Transform RightHipHolster;
@@ -69,7 +65,7 @@ public class EquipmentHolster : MonoBehaviour
         foreach (WeaponData data in weapons)
         {
             Weapon weaponScript = data.Prefab.GetComponent<Weapon>();
-            
+
             if (weaponScript.WeaponType == WeaponType.Sword)
             {
                 SetWeapon(SwordHolsterPriority, data, weaponScript);
@@ -97,7 +93,7 @@ public class EquipmentHolster : MonoBehaviour
             {
                 GameObject prefabToSpawn = DeterminePrefabOffset(holsterTransfrom, weaponScript);
 
-                if (prefabToSpawn == null) 
+                if (prefabToSpawn == null)
                     prefabToSpawn = data.Prefab;
 
                 data.HolsterSlot = holsterTransfrom;

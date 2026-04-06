@@ -1,15 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Analytics;
 using Random = UnityEngine.Random;
 
 public class GridMap : MonoBehaviour
 {
     [Header("Grid Settings")]
     [SerializeField] float gridXSize = 13;
-    [SerializeField] float gridZSize= 13;
+    [SerializeField] float gridZSize = 13;
     [SerializeField] float hexSize = 0.577f;
 
     [Header("Path Settings")]
@@ -257,7 +255,7 @@ public class GridMap : MonoBehaviour
         Tile forwardTile = OffsetTile(currentTile.x + 1, currentTile.z);
         Tile rightTile = (currentTile.z % 2 == 0) ? OffsetTile(currentTile.x, currentTile.z - 1) : OffsetTile(currentTile.x + 1, currentTile.z - 1);
 
-        
+
 
         List<Tile> temp = new List<Tile>(new List<Tile> { leftTile, forwardTile, rightTile });
 
@@ -412,14 +410,14 @@ public class GridMap : MonoBehaviour
             tempList.Remove(tileRow);
     }
 
-    bool IsNearEventTiles (Tile selectedTile, float distance)
+    bool IsNearEventTiles(Tile selectedTile, float distance)
     {
         foreach (DisplayTile tile in eventList)
         {
             float disX = Mathf.Abs(tile.dx - selectedTile.x);
             float disZ = Mathf.Abs(tile.dz - selectedTile.z);
 
-             if (disX <= distance)
+            if (disX <= distance)
             {
                 if (disZ <= distance)
                 {

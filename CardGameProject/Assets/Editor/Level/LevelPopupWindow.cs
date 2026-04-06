@@ -1,8 +1,6 @@
-using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 public class LevelPopupWindow : PopupWindow

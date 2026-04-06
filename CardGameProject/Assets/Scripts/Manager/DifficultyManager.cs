@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
 using MyBox;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -74,7 +73,7 @@ public class DifficultyManager : MonoBehaviour
 
             return enemies;
         }
-            
+
         #region Random Enemies
 
         selectedEncounter = encounterData[Random.Range(0, encounterData.Count)];

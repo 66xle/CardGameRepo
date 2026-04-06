@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using MyBox;
 using TMPro;
@@ -9,15 +7,15 @@ using UnityEngine.UI;
 public class EnemyUI : MonoBehaviour
 {
     [Header("Images")]
-    [MustBeAssigned] [SerializeField] Image CharacterImage;
-    [MustBeAssigned] [SerializeField] Image BackLayer;
-    [MustBeAssigned] [SerializeField] Image FrontDivider;
-    [MustBeAssigned] [SerializeField] Image GuardBarImage;
+    [MustBeAssigned][SerializeField] Image CharacterImage;
+    [MustBeAssigned][SerializeField] Image BackLayer;
+    [MustBeAssigned][SerializeField] Image FrontDivider;
+    [MustBeAssigned][SerializeField] Image GuardBarImage;
 
     [Header("Elite Images")]
     [SerializeField] Image EyeMotifHollow;
     [SerializeField] Image FrontLayer2;
-    
+
 
     [Header("Text UI")]
     [MustBeAssigned] public TMP_Text HealthText;
@@ -36,7 +34,7 @@ public class EnemyUI : MonoBehaviour
     public bool IsMinion = false;
     public float SelectedDistance = -30f;
     public float MoveDuration = 1f;
-    
+
 
     private CombatStateMachine stateMachine;
     private Enemy enemy;

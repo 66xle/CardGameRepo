@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +7,7 @@ public class EventManager : MonoBehaviour
     [SerializeField] List<Event> linkedEventList;
 
     public List<EventTracker> events = new List<EventTracker>();
-    
+
 
     private List<EventTracker> eventQueue;
 

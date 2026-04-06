@@ -1,7 +1,4 @@
 using SerializeReferenceEditor;
-using System;
-using System.Collections;
-using UnityEngine;
 
 [SRName("Commands/Apply Status Effect")]
 public class CMDApplyStatusEffect : StatusCommand

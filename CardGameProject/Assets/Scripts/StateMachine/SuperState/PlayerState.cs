@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
-using MyBox;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,7 +26,7 @@ public class PlayerState : CombatBaseState
     }
 
     public override void FixedUpdateState() { }
-    public override void ExitState() 
+    public override void ExitState()
     {
         ctx._pressedEndTurnButton = false;
     }

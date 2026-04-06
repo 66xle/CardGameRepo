@@ -1,15 +1,12 @@
-using SerializeReferenceEditor;
 using MyBox;
-using UnityEditor;
-using System.Collections.Generic;
-using UnityEngine;
+using SerializeReferenceEditor;
 
 [SRName("Commands/Deal Damage")]
 public class CMDDealDamage : AttackCommand
 {
     public override bool RequiresMovement => SetMovement();
 
-    public override float Value => value; 
+    public override float Value => value;
     public override bool IsUsingValue => true;
 
     public override CardTarget CardTarget => target;

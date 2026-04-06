@@ -1,12 +1,12 @@
+using Cinemachine;
+using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using System;
 using Action = System.Action;
-using DG.Tweening;
 using Random = UnityEngine.Random;
-using Cinemachine;
 
 
 
@@ -73,7 +73,7 @@ public class Avatar : MonoBehaviour
     protected float _currentHealth;
     protected float _currentBlock;
     protected int _currentGuard;
-    
+
 
     protected float CurrentHealth { get { return _currentHealth; } set { _currentHealth = value; UpdateStatsUI(); } }
     protected float CurrentBlock { get { return _currentBlock; } set { _currentBlock = value; UpdateStatsUI(); } }
@@ -123,94 +123,94 @@ public class Avatar : MonoBehaviour
 
     #region Take Damage
 
-        public virtual void TakeDamage(float damage) 
+    public virtual void TakeDamage(float damage)
+    {
+        float block = CurrentBlock - damage;
+
+        // Block is negative do damage / Block is positive dont do damage
+        damage = block < 0 ? Mathf.Abs(block) : 0;
+
+        if (block < 0) block = 0;
+
+        CurrentBlock = block;
+
+        float health = CurrentHealth - damage;
+        CurrentHealth = Mathf.Clamp(health, 0, MaxHealth);
+    }
+
+    public void TakeDamageByStatusEffect(float damage)
+    {
+        float health = CurrentHealth - damage;
+        CurrentHealth = Mathf.Clamp(health, 0, MaxHealth);
+    }
+
+    #endregion
+
+    #region Guard
+
+    public bool IsGuardReducible(DamageType damageType)
+    {
+        if (ArmourType == ArmourType.Light && damageType == DamageType.Slash ||
+            ArmourType == ArmourType.Medium && damageType == DamageType.Pierce ||
+            ArmourType == ArmourType.Heavy && damageType == DamageType.Blunt ||
+            ArmourType == ArmourType.None)
         {
-            float block = CurrentBlock - damage;
-
-            // Block is negative do damage / Block is positive dont do damage
-            damage = block < 0 ? Mathf.Abs(block) : 0;
-
-            if (block < 0) block = 0;
-
-            CurrentBlock = block;
-
-            float health = CurrentHealth - damage;
-            CurrentHealth = Mathf.Clamp(health, 0, MaxHealth);
+            return true;
         }
 
-        public void TakeDamageByStatusEffect(float damage)
+        return false;
+    }
+
+    public bool IsGuardBroken()
+    {
+        return CurrentGuard == 0 ? true : false;
+    }
+
+    public void ReduceGuard(int guardDamage)
+    {
+        int guard = CurrentGuard - guardDamage;
+        CurrentGuard = Mathf.Clamp(guard, 0, MaxGuard);
+    }
+
+    public virtual void RecoverGuardBreak()
+    {
+        CurrentGuard = MaxGuard;
+    }
+
+    #endregion
+
+    #region Other
+
+    public bool IsAvatarDead()
+    {
+        if (CurrentHealth <= 0f)
         {
-            float health = CurrentHealth - damage;
-            CurrentHealth = Mathf.Clamp(health, 0, MaxHealth);
+            return true;
         }
 
-        #endregion
+        return false;
+    }
 
-        #region Guard
+    public void AddBlock(float block)
+    {
+        CurrentBlock += block;
+    }
 
-        public bool IsGuardReducible(DamageType damageType)
-        {
-            if (ArmourType == ArmourType.Light && damageType == DamageType.Slash ||
-                ArmourType == ArmourType.Medium && damageType == DamageType.Pierce ||
-                ArmourType == ArmourType.Heavy && damageType == DamageType.Blunt ||
-                ArmourType == ArmourType.None)
-            {
-                return true;
-            }
+    public void ResetBlock()
+    {
+        CurrentBlock = 0;
+    }
 
-            return false;
-        }
+    public void Heal(float healAmount)
+    {
+        CurrentHealth += healAmount;
+        CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+    }
 
-        public bool IsGuardBroken()
-        {
-            return CurrentGuard == 0 ? true : false;
-        }
-
-        public void ReduceGuard(int guardDamage)
-        {
-            int guard = CurrentGuard - guardDamage;
-            CurrentGuard = Mathf.Clamp(guard, 0, MaxGuard);
-        }
-
-        public virtual void RecoverGuardBreak()
-        {
-            CurrentGuard = MaxGuard;
-        }
-
-        #endregion
-
-        #region Other
-
-        public bool IsAvatarDead()
-        {
-            if (CurrentHealth <= 0f)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public void AddBlock(float block)
-        {
-            CurrentBlock += block;
-        }
-
-        public void ResetBlock()
-        {
-            CurrentBlock = 0;
-        }
-
-        public void Heal(float healAmount)
-        {
-            CurrentHealth += healAmount;
-            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
-        }
-
-        public void UpdateStatsUI()
-        {
-            OnStatChanged?.Invoke();
-        }
+    public void UpdateStatsUI()
+    {
+        OnStatChanged?.Invoke();
+    }
     #endregion
 
     #endregion
@@ -232,7 +232,7 @@ public class Avatar : MonoBehaviour
             ListOfEffects.Add(statusEffect);
             statusEffect.OnApply(this);
         }
-        
+
         UpdateStatsUI();
     }
 
@@ -370,7 +370,7 @@ public class Avatar : MonoBehaviour
         }
 
         #region Sort and Run
-        
+
         List<EXEWrapper> sortedWrappers = SortQueue(overwriteQueue, stackQueue);
 
         foreach (EXEWrapper wrapper in sortedWrappers)
@@ -424,7 +424,7 @@ public class Avatar : MonoBehaviour
                     isWrapperRemoved = true;
                 }
 
-                if (isWrapperRemoved) 
+                if (isWrapperRemoved)
                     isCounterActive = false;
             }
         }

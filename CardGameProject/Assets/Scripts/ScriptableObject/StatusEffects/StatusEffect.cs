@@ -1,11 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using UnityEditor;
-using UnityEngine;
 using MyBox;
+using System;
+using UnityEngine;
 
 public enum Effect
 {
@@ -29,7 +24,7 @@ public abstract class StatusEffect
 
     public abstract StatusEffect Clone();
 
-    public virtual void OnApply(Avatar avatar) 
+    public virtual void OnApply(Avatar avatar)
     {
         CurrentTurnsRemaning = MaxTurnsRemaining;
     }

@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
@@ -112,7 +109,7 @@ public class EventNode : Node
 
     public override void OnSelected()
     {
-        if ( _nodeType == LINKEDNODE)
+        if (_nodeType == LINKEDNODE)
             return;
 
         base.OnSelected();

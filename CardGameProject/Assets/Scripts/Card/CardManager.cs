@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using MyBox;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -11,13 +11,13 @@ public class CardManager : MonoBehaviour
     public Vector3 SpawnScale;
 
     [Header("References")]
-    [MustBeAssigned] [SerializeField] GameObject CardPrefab; 
+    [MustBeAssigned][SerializeField] GameObject CardPrefab;
     [MustBeAssigned] public Transform PlayerHandTransform;
-    [MustBeAssigned] [SerializeField] SwitchWeaponManager SwitchWeaponManager;
-    [MustBeAssigned] [SerializeField] EquipmentManager EquipmentManager;
-    [MustBeAssigned] [SerializeField] StatsManager StatsManager;
-    [MustBeAssigned] [SerializeField] CombatUIManager CombatUIManager;
-    [MustBeAssigned] [SerializeField] Camera UICamera;
+    [MustBeAssigned][SerializeField] SwitchWeaponManager SwitchWeaponManager;
+    [MustBeAssigned][SerializeField] EquipmentManager EquipmentManager;
+    [MustBeAssigned][SerializeField] StatsManager StatsManager;
+    [MustBeAssigned][SerializeField] CombatUIManager CombatUIManager;
+    [MustBeAssigned][SerializeField] Camera UICamera;
 
     [HideInInspector] public List<CardData> PlayerDeck;
     [HideInInspector] public List<CardData> PlayerHand;
@@ -65,7 +65,7 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public CardData CreateCardData(GearData gearData, CardAnimationData data )
+    public CardData CreateCardData(GearData gearData, CardAnimationData data)
     {
         CardData cardData = new(gearData, data, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
         return cardData;
@@ -106,7 +106,7 @@ public class CardManager : MonoBehaviour
     public void CreateCard(CardData cardDrawed, Transform parent)
     {
         GameObject card = Instantiate(CardPrefab, parent);
-        
+
         // Spawn location
         RectTransform rect = card.GetComponent<RectTransform>();
         rect.localPosition += new Vector3(DrawOffset.x, DrawOffset.y, rect.localPosition.z);

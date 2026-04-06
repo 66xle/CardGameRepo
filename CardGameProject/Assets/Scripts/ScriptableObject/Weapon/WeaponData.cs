@@ -1,11 +1,9 @@
 using MyBox;
 using SerializeReferenceEditor;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Analytics;
 
 public enum Rarity
 {
@@ -15,7 +13,7 @@ public enum Rarity
     Legendary
 }
 
-public class WeaponData : GearData 
+public class WeaponData : GearData
 {
     public DamageType DamageType;
     public WeaponType WeaponType;
@@ -24,7 +22,7 @@ public class WeaponData : GearData
     [ReadOnly] public int WeaponAttack;
 
     // Equipment, Switch Weapon
-    [HideInInspector] public Transform HolsterSlot; 
+    [HideInInspector] public Transform HolsterSlot;
 
     [Separator]
 
@@ -37,7 +35,7 @@ public class WeaponData : GearData
 
     [Separator]
 
-    public override List<CardAnimationData> Cards => _cards; 
+    public override List<CardAnimationData> Cards => _cards;
     [SerializeReference][SR] public List<CardAnimationData> _cards;
 
     public WeaponData() { }

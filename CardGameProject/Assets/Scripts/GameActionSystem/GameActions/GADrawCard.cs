@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class GADrawCard : GameAction
 {
     public Avatar Avatar;

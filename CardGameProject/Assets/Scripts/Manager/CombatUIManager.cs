@@ -1,11 +1,10 @@
-using System;
-using System.Collections.Generic;
 using DG.Tweening;
 using MyBox;
 using PixelCrushers.DialogueSystem;
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [Serializable]
@@ -18,7 +17,7 @@ public struct TutorialData
 public class CombatUIManager : MonoBehaviour
 {
     [Foldout("Tutorial", true)]
-    [MustBeAssigned] [SerializeField] TutorialUI TutorialUI;
+    [MustBeAssigned][SerializeField] TutorialUI TutorialUI;
     [MustBeAssigned][SerializeField] DialogueSystemSceneEvents events;
     [MustBeAssigned][SerializeField] DialogueDatabase DialogueDatabase;
     [SerializeField] List<TutorialData> TutorialDatas;
@@ -71,9 +70,9 @@ public class CombatUIManager : MonoBehaviour
     [MustBeAssigned] public GameObject SwitchWeaponUI;
     [MustBeAssigned] public GameObject HideUI;
     [MustBeAssigned] public GameObject DetailedUI;
-    [MustBeAssigned] [SerializeField] GameObject StatusPrefab;
-    [MustBeAssigned] [SerializeField] GameObject StatusActive;
-    [MustBeAssigned] [SerializeField] GameObject StatusDeactive;
+    [MustBeAssigned][SerializeField] GameObject StatusPrefab;
+    [MustBeAssigned][SerializeField] GameObject StatusActive;
+    [MustBeAssigned][SerializeField] GameObject StatusDeactive;
 
     [Foldout("Managers", true)]
     [MustBeAssigned] public StatsManager StatsManager;
@@ -82,7 +81,7 @@ public class CombatUIManager : MonoBehaviour
     public float FadeAlertTime = 1f;
     public float ShowAlertTime = 1f;
     private bool AlertIsEnabled = false;
-    
+
 
     public void HideGameplayUI(bool toggle)
     {
@@ -142,7 +141,7 @@ public class CombatUIManager : MonoBehaviour
 
         Sprite sprite = Resources.Load<Sprite>(imagePath);
 
-        
+
 
         // Last node
         if (_currentEntry.outgoingLinks.Count == 0)

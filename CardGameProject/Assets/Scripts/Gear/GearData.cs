@@ -1,7 +1,6 @@
-using UnityEngine;
 using MyBox;
-using SerializeReferenceEditor;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class GearData : ScriptableObject
 {
@@ -14,5 +13,5 @@ public class GearData : ScriptableObject
     public Texture IconTexture; // Reward Manager
     public Rarity Rarity;
 
-    public virtual List<CardAnimationData> Cards { get; } 
+    public virtual List<CardAnimationData> Cards { get; }
 }

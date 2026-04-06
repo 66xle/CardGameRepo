@@ -1,23 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
-using static UnityEditor.Experimental.GraphView.Port;
-using UnityEditor.UIElements;
-using System;
-using static DialogueNode;
-using System.Reflection.Emit;
-using Label = UnityEngine.UIElements.Label;
-using UnityEngine.Experimental.AI;
-using UnityEditorInternal.VR;
 
 public class DialogueNode : EventNode
 {
     public string dialogueText;
 
-    public DialogueNode(string GUID, string nodeType, DialogueGraphView graphView , Modifier modifier, Action<EventNode> nodeSelected)
+    public DialogueNode(string GUID, string nodeType, DialogueGraphView graphView, Modifier modifier, Action<EventNode> nodeSelected)
     {
         _GUID = GUID;
         _nodeType = nodeType;

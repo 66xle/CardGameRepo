@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Playables;
 
 public struct CardData
 {
@@ -57,7 +55,7 @@ public struct CardData
         {
             float type = card.ValuesToReference[i].x;
             float value = card.ValuesToReference[i].y;
-            
+
             if (type == 1)
             {
                 value = CalculateDamage.GetBlock(defence, value, blockScale);

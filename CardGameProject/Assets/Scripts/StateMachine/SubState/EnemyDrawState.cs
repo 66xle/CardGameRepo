@@ -1,9 +1,5 @@
-using events;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public class EnemyDrawState : CombatBaseState
 {
@@ -25,7 +21,7 @@ public class EnemyDrawState : CombatBaseState
     public override void FixedUpdateState() { }
     public override void ExitState()
     {
-        
+
     }
 
     public override void CheckSwitchState()

@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
 using MyBox;
 using SerializeReferenceEditor;
+using System;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Playables;
-using UnityEngine.Timeline;
 
 [Serializable]
 [SRName("Armour")]
@@ -26,7 +23,7 @@ public class ArmourAnimationData : AnimationData
     [ConditionalField(false, nameof(ShowAnimation))] public AnimationClip _animation;
     [ConditionalField(false, nameof(AnimationClip))] public bool IsAttackAnimation = false;
     [ConditionalField(false, nameof(AnimationClip))] public AudioResource AudioResource;
-    
+
 
     [ConditionalField(false, nameof(AnimationClip))] public Boolean _overrideDistanceOffset = Boolean.False;
     [ConditionalField(false, nameof(OverrideDistance))] public float _distanceOffset = 0;

@@ -1,11 +1,10 @@
 using config;
-using events;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
 
 public class CardCarouselDisplay : MonoBehaviour, IPointerDownHandler, IPointerMoveHandler,
-    IPointerUpHandler {
+    IPointerUpHandler
+{
 
     public Card card;
     public float targetRotation;

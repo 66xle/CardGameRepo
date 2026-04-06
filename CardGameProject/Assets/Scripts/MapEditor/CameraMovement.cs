@@ -1,6 +1,4 @@
 using MyBox;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
@@ -31,6 +29,6 @@ public class CameraMovement : MonoBehaviour
         }
 
 
-        transform.position = new Vector3(xAxis * camSpeed + transform.position.x, yAxis * zoomSpeed + transform.position.y, zAxis * camSpeed + transform.position.z); 
+        transform.position = new Vector3(xAxis * camSpeed + transform.position.x, yAxis * zoomSpeed + transform.position.y, zAxis * camSpeed + transform.position.z);
     }
 }

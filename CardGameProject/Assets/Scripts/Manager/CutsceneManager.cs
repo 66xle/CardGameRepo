@@ -1,7 +1,5 @@
-using Cinemachine;
 using MyBox;
 using PixelCrushers.DialogueSystem;
-using System;
 using System.Collections.Generic;
 using Systems.SceneManagment;
 using UnityEngine;
@@ -38,7 +36,7 @@ public class CutsceneManager : MonoBehaviour
         SignalReceiver signalReciver = GetComponent<SignalReceiver>();
         signalReciver.GetReaction(SignalAsset)?.Invoke();
     }
-    
+
     public void Awake()
     {
         ServiceLocator.Register(this);
@@ -78,7 +76,7 @@ public class CutsceneManager : MonoBehaviour
     {
         GameObject loadedCutscene = SpawnCutscene();
         loadedCutscene.SetActive(false);
-        
+
         PlayableDirector director = loadedCutscene.GetComponentInChildren<PlayableDirector>();
         director.time = 0;
         director.Evaluate(); // Prewarm
@@ -89,9 +87,9 @@ public class CutsceneManager : MonoBehaviour
 
 
     public void PlayPreloadedCutscene()
-    { 
+    {
         DisableAudioListener();
-        
+
         GameObject prefab = LoadedCutscenes[0].Item1;
         PlayableDirector director = LoadedCutscenes[0].Item2;
 
@@ -201,7 +199,7 @@ public class CutsceneManager : MonoBehaviour
     public void ResumeTower()
     {
         asp.Endless.ResumeTunnel();
-        
+
     }
 
     public void TowerCutscene()

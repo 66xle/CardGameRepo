@@ -1,4 +1,3 @@
-using MyBox;
 using UnityEngine;
 
 public class OverrideRootMotion : MonoBehaviour

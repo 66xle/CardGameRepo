@@ -1,8 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Net.Security;
-using UnityEngine;
-
 public abstract class CombatBaseState
 {
     protected const string PLAYERSTATE = "PlayerState";
@@ -68,7 +63,7 @@ public abstract class CombatBaseState
                 }
             }
 
-            
+
         }
         else if (currentSuperState != null)
         {
@@ -89,4 +84,4 @@ public abstract class CombatBaseState
     }
 }
 
-    
+

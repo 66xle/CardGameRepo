@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class GATakeGuardDamage : GameAction
 {
     public Avatar AvatarToTakeDamage;

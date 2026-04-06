@@ -1,9 +1,7 @@
-using MyBox;
 using SerializeReferenceEditor;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public enum AttackType
 {
@@ -43,7 +41,7 @@ public class AnimationData
         return null;
     }
 
-    
+
 
     public bool OverrideDistance()
     {

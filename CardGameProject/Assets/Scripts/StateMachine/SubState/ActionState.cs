@@ -1,11 +1,6 @@
-using events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
-using DG.Tweening;
-using System.Security.Cryptography;
 
 
 
@@ -45,10 +40,10 @@ public class ActionState : CombatBaseState
     public override void UpdateState()
     {
         CheckSwitchState();
-    }   
+    }
 
     public override void FixedUpdateState() { }
-    public override void ExitState() {}
+    public override void ExitState() { }
     public override void CheckSwitchState()
     {
         if (!isInAction)
@@ -127,5 +122,5 @@ public class ActionState : CombatBaseState
         yield return sequence.Execute(null);
     }
 
-    
+
 }

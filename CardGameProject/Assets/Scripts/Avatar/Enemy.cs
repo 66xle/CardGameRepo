@@ -1,7 +1,6 @@
+using MyBox;
 using System.Collections.Generic;
 using System.Linq;
-using Cinemachine;
-using MyBox;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -94,7 +93,7 @@ public class Enemy : Avatar
         SelectionRing = transform.GetChild(0).gameObject;
 
     }
-  
+
     public List<CardData> DrawCards()
     {
         List<CardData> cardDrawn = new();
@@ -107,7 +106,7 @@ public class Enemy : Avatar
 
         return cardDrawn;
     }
-    
+
     private void DisplayStats()
     {
         _currentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);

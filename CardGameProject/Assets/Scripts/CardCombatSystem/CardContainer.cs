@@ -2,13 +2,13 @@
 using DefaultNamespace;
 using demo;
 using events;
-using MyBox;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardContainer : MonoBehaviour {
+public class CardContainer : MonoBehaviour
+{
 
     public bool inDisplayMode = false;
 
@@ -24,7 +24,7 @@ public class CardContainer : MonoBehaviour {
     [Header("Clone Preview")]
     [SerializeField] private float pushAmount = 100f;
     [SerializeField] private float falloff = 0.5f;
-    [SerializeField] [Tooltip("Cards adjacent affected by push")] private int affectedCardCount = 2;
+    [SerializeField][Tooltip("Cards adjacent affected by push")] private int affectedCardCount = 2;
     [SerializeField][Tooltip("Number of cards in hand to be affected by push")] private int pushAffectedCardCount = 2;
     [SerializeField] private float rightPushMultiplier = 1.25f;
 
@@ -40,7 +40,7 @@ public class CardContainer : MonoBehaviour {
     [Range(0f, 90f)]
     private float maxCardRotation;
 
-    
+
     [SerializeField] float maxHeightDisplacement;
     [SerializeField] float minRatio = 0.3f;
 
@@ -56,7 +56,7 @@ public class CardContainer : MonoBehaviour {
 
     [SerializeField]
     private CardPlayConfig cardPlayConfig;
-    
+
     [Header("Events")]
     [SerializeField]
     private EventsConfig eventsConfig;
@@ -67,18 +67,22 @@ public class CardContainer : MonoBehaviour {
     [HideInInspector] public CardWrapper currentDraggedCard;
     [HideInInspector] public bool currentInPlayArea;
 
-    private void Start() {
+    private void Start()
+    {
         rectTransform = GetComponent<RectTransform>();
         InitCards();
     }
 
-    private void InitCards() {
+    private void InitCards()
+    {
         SetUpCards();
         SetCardsAnchor();
     }
 
-    private void SetCardsRotation() {
-        for (var i = 0; i < cards.Count; i++) {
+    private void SetCardsRotation()
+    {
+        for (var i = 0; i < cards.Count; i++)
+        {
             cards[i].targetRotation = GetCardRotation(i);
             cards[i].targetVerticalDisplacement = GetCardVerticalDisplacement(i);
         }
@@ -101,22 +105,27 @@ public class CardContainer : MonoBehaviour {
         return scaledOffsetY * finalRatio;
     }
 
-    private float GetCardRotation(int index) {
+    private float GetCardRotation(int index)
+    {
         if (cards.Count < 3) return 0;
         // Associate a rotation based on the index in the cards list
         // so that the first and last cards are at max rotation, mirrored around the center
         return -maxCardRotation * (index - (cards.Count - 1) / 2f) / ((cards.Count - 1) / 2f);
     }
 
-    void Update() {
+    void Update()
+    {
         UpdateCards();
     }
 
-    void SetUpCards() {
+    void SetUpCards()
+    {
         cards.Clear();
-        foreach (Transform card in transform) {
+        foreach (Transform card in transform)
+        {
             var wrapper = card.GetComponent<CardWrapper>();
-            if (wrapper == null) {
+            if (wrapper == null)
+            {
                 wrapper = card.gameObject.AddComponent<CardWrapper>();
             }
 
@@ -141,25 +150,31 @@ public class CardContainer : MonoBehaviour {
         }
     }
 
-    private void AddOtherComponentsIfNeeded(CardWrapper wrapper) {
+    private void AddOtherComponentsIfNeeded(CardWrapper wrapper)
+    {
         var canvas = wrapper.GetComponent<Canvas>();
-        if (canvas == null) {
+        if (canvas == null)
+        {
             canvas = wrapper.gameObject.AddComponent<Canvas>();
         }
 
         canvas.overrideSorting = true;
 
-        if (wrapper.GetComponent<GraphicRaycaster>() == null) {
+        if (wrapper.GetComponent<GraphicRaycaster>() == null)
+        {
             wrapper.gameObject.AddComponent<GraphicRaycaster>();
         }
     }
 
-    private void UpdateCards() {
-        if (transform.childCount != cards.Count) {
+    private void UpdateCards()
+    {
+        if (transform.childCount != cards.Count)
+        {
             InitCards();
         }
 
-        if (cards.Count == 0) {
+        if (cards.Count == 0)
+        {
             return;
         }
 
@@ -189,7 +204,7 @@ public class CardContainer : MonoBehaviour {
             // If card is in play area, play it!
             RectTransform rectTransform = playAreaObject.GetComponent<RectTransform>();
             if (IsCursorInPlayArea(rectTransform))
-            { 
+            {
                 currentInPlayArea = true;
                 isScaleTrue = true;
             }
@@ -205,21 +220,26 @@ public class CardContainer : MonoBehaviour {
         cards.Sort((a, b) => string.Compare(a.card.CardName, b.card.CardName));
     }
 
-    private void SetCardsUILayers() {
-        for (var i = 0; i < cards.Count; i++) {
+    private void SetCardsUILayers()
+    {
+        for (var i = 0; i < cards.Count; i++)
+        {
             cards[i].uiLayer = zoomConfig.defaultSortOrder + i;
         }
     }
 
-    private void UpdateCardOrder() {
+    private void UpdateCardOrder()
+    {
         if (!allowCardRepositioning || currentDraggedCard == null) return;
 
         // Get the index of the dragged card depending on its position
         var newCardIdx = cards.Count(card => currentDraggedCard.transform.position.x > card.transform.position.x);
         var originalCardIdx = cards.IndexOf(currentDraggedCard);
-        if (newCardIdx != originalCardIdx) {
+        if (newCardIdx != originalCardIdx)
+        {
             cards.RemoveAt(originalCardIdx);
-            if (newCardIdx > originalCardIdx && newCardIdx < cards.Count - 1) {
+            if (newCardIdx > originalCardIdx && newCardIdx < cards.Count - 1)
+            {
                 newCardIdx--;
             }
 
@@ -229,15 +249,18 @@ public class CardContainer : MonoBehaviour {
         currentDraggedCard.transform.SetSiblingIndex(newCardIdx);
     }
 
-    private void SetCardsPosition() {
+    private void SetCardsPosition()
+    {
         // Compute the total width of all the cards in global space
         var cardsTotalWidth = cards.Sum(card => card.width);
         // Compute the width of the container in global space
-        var containerWidth = rectTransform.rect.width ;
-        if (forceFitContainer && cardsTotalWidth > containerWidth) {
+        var containerWidth = rectTransform.rect.width;
+        if (forceFitContainer && cardsTotalWidth > containerWidth)
+        {
             DistributeChildrenToFitContainer(cardsTotalWidth);
         }
-        else {
+        else
+        {
             DistributeChildrenWithoutOverlap(cardsTotalWidth);
         }
     }
@@ -322,17 +345,21 @@ public class CardContainer : MonoBehaviour {
         }
     }
 
-    private void SetCardsAnchor() {
-        foreach (CardWrapper child in cards) {
+    private void SetCardsAnchor()
+    {
+        foreach (CardWrapper child in cards)
+        {
             child.SetAnchor(new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
         }
     }
 
-    public void OnCardDragStart(CardWrapper card) {
+    public void OnCardDragStart(CardWrapper card)
+    {
         currentDraggedCard = card;
     }
 
-    public void OnCardDragEnd(float Ydis) {
+    public void OnCardDragEnd(float Ydis)
+    {
         if (!inDisplayMode)
         {
             if (!combatStateMachine._isPlayState || currentDraggedCard == null)
@@ -361,8 +388,9 @@ public class CardContainer : MonoBehaviour {
 
         currentDraggedCard = null;
     }
-    
-    public void DestroyCard(CardWrapper card) {
+
+    public void DestroyCard(CardWrapper card)
+    {
         cards.Remove(card);
         eventsConfig.OnCardDestroy?.Invoke(new CardDestroy(card));
         Destroy(card.gameObject);
@@ -376,9 +404,10 @@ public class CardContainer : MonoBehaviour {
         }
     }
 
-    private bool IsCursorInPlayArea(RectTransform playArea) {
+    private bool IsCursorInPlayArea(RectTransform playArea)
+    {
         if (cardPlayConfig.playArea == null) return false;
-        
+
         var cursorPosition = Input.mousePosition;
         var playAreaCorners = new Vector3[4];
         playArea.GetWorldCorners(playAreaCorners);

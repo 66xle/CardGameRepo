@@ -1,9 +1,11 @@
 using System;
 using UnityEngine;
 
-namespace config {
+namespace config
+{
     [Serializable]
-    public class AnimationSpeedConfig {
+    public class AnimationSpeedConfig
+    {
         [SerializeField]
         [Tooltip("Animation speed in degrees per second")]
         public float rotation = 60f;

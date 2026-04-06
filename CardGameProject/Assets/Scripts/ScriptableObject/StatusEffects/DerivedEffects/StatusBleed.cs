@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using MyBox;
 using System;
+using UnityEngine;
 
 public class StatusBleed : StatusEffect
 {

@@ -1,8 +1,6 @@
-using UnityEngine;
-using System.Collections;
-using System.Security.Cryptography;
-using System.Collections.Generic;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 public abstract class Condition : Executable
 {
     public abstract List<Executable> Commands { get; }

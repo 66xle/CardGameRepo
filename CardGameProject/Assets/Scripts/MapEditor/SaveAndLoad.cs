@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -20,20 +19,20 @@ public class SaveAndLoad : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void SaveMap()
     {
 
         Point[] pointObjArr = FindObjectsByType<Point>(FindObjectsSortMode.None);
-        
+
 
         Debug.Log(pointObjArr.Length);
 
@@ -104,7 +103,7 @@ public class SaveAndLoad : MonoBehaviour
 
         Debug.Log("clear");
 
-        
+
 
         ClearMap();
         LoadPoints(loadedAsset);
@@ -113,7 +112,7 @@ public class SaveAndLoad : MonoBehaviour
     void ClearMap()
     {
         Point[] pointObjArr = FindObjectsByType<Point>(FindObjectsSortMode.None);
-        
+
         foreach (Point point in pointObjArr)
         {
             point.DestoryPoint();
@@ -142,10 +141,10 @@ public class SaveAndLoad : MonoBehaviour
             {
                 baseObj = createdPointObj.First(x => x.GetComponent<Point>().guid == data.Guid);
             }
-            
-            
+
+
             // Loop through links
-            foreach(Connection connection in data.Connections)
+            foreach (Connection connection in data.Connections)
             {
                 // Check if point isn't/is created
                 if (!pointCreatedGUID.Contains(connection.targetGUID))

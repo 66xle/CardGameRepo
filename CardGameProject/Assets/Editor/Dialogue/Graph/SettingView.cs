@@ -1,11 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using UnityEditor;
-using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 public class SettingView : VisualElement
@@ -20,7 +15,7 @@ public class SettingView : VisualElement
 
     public SettingView()
     {
-      
+
     }
 
     public void ClearSetting()
@@ -43,7 +38,7 @@ public class SettingView : VisualElement
         Add(categoryField);
 
 
-        var eventList = new List<string> { "None"};
+        var eventList = new List<string> { "None" };
         events.ForEach(e => eventList.Add(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(e.guid))));
         eventList.Remove(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(selectedEvent.guid)));
 
@@ -51,7 +46,7 @@ public class SettingView : VisualElement
         eventField = CreatePopupField("Next Event", eventList, callback =>
         {
             eventField.value = callback.newValue;
-         });
+        });
 
 
         if (selectedEvent.nextEvent != null)

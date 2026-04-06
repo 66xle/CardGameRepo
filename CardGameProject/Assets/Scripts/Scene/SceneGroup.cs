@@ -1,5 +1,5 @@
-using System;
 using Eflatun.SceneReference;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,7 +7,7 @@ using System.Linq;
 namespace Systems.SceneManagment
 {
     [Serializable]
-    public class SceneGroup 
+    public class SceneGroup
     {
         public string GroupName = "New Scene Group";
         public List<SceneData> Scenes;

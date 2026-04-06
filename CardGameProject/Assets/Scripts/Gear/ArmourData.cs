@@ -1,9 +1,7 @@
+using MyBox;
 using SerializeReferenceEditor;
 using System.Collections.Generic;
 using UnityEngine;
-using MyBox;
-using System.Linq;
-using UnityEditor;
 
 public enum ArmourSlot
 {

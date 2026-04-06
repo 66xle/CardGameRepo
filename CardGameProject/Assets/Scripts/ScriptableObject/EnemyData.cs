@@ -1,11 +1,10 @@
-using System.Collections.Generic;
-using SerializeReferenceEditor;
-using UnityEngine;
 using MyBox;
+using PixelCrushers.DialogueSystem;
+using SerializeReferenceEditor;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
-using PixelCrushers.DialogueSystem;
-using UnityEngine.Rendering.Universal;
+using UnityEngine;
 using UnityEngine.Audio;
 
 public enum EnemyType
@@ -102,6 +101,6 @@ public class EnemyData : ScriptableObject
 
     }
 
-    
+
 #endif
 }

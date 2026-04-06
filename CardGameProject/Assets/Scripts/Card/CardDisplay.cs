@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using MyBox;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,17 +7,17 @@ using UnityEngine.UI;
 public class CardDisplay : MonoBehaviour
 {
     [Header("Card")]
-    [MustBeAssigned] [SerializeField] TMP_Text Name;
-    [MustBeAssigned] [SerializeField] TMP_Text Description;
-    [MustBeAssigned] [SerializeField] TMP_Text Flavour;
-    [MustBeAssigned] [SerializeField] TMP_Text Cost;
-    [MustBeAssigned] [SerializeField] Image Image;
-    [MustBeAssigned] [SerializeField] Image Frame;
+    [MustBeAssigned][SerializeField] TMP_Text Name;
+    [MustBeAssigned][SerializeField] TMP_Text Description;
+    [MustBeAssigned][SerializeField] TMP_Text Flavour;
+    [MustBeAssigned][SerializeField] TMP_Text Cost;
+    [MustBeAssigned][SerializeField] Image Image;
+    [MustBeAssigned][SerializeField] Image Frame;
 
     [Header("Popup")]
-    [MustBeAssigned] [SerializeField] GameObject PopupObj;
-    [MustBeAssigned] [SerializeField] TMP_Text PopupTitle;
-    [MustBeAssigned] [SerializeField] TMP_Text PopupDescription;
+    [MustBeAssigned][SerializeField] GameObject PopupObj;
+    [MustBeAssigned][SerializeField] TMP_Text PopupTitle;
+    [MustBeAssigned][SerializeField] TMP_Text PopupDescription;
 
     private Camera UICamera;
     private bool _isPopupDisabled = false;
@@ -45,7 +43,7 @@ public class CardDisplay : MonoBehaviour
                 for (int i = 0; i < Card.PopupKeyPair.Count; i++)
                 {
                     if (Card.PopupKeyPair[i].Key != linkID) continue;
-                    
+
                     PopupTitle.text = Card.PopupKeyPair[i].Value.Title;
                     PopupDescription.text = Card.PopupKeyPair[i].Value.DisplayDescription;
                 }

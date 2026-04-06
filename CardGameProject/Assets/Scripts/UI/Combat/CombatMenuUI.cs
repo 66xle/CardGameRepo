@@ -1,7 +1,4 @@
-using System;
-using Systems.SceneManagment;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class CombatMenuUI : MonoBehaviour
 {
