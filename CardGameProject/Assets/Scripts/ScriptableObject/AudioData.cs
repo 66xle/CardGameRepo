@@ -8,5 +8,5 @@ public class AudioData : ScriptableObject
 
     public List<AudioResource> audios;
 
-    
+
 }

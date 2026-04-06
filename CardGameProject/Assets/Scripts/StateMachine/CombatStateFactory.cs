@@ -1,5 +1,3 @@
-using System;
-
 public class CombatStateFactory
 {
     CombatStateMachine context;
@@ -56,6 +54,6 @@ public class CombatStateFactory
 
     public CombatBaseState Prep()
     {
-        return new PrepState(context,this, vso);
+        return new PrepState(context, this, vso);
     }
 }

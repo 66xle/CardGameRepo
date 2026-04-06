@@ -28,7 +28,7 @@ public class CombatEndState : CombatBaseState
     public override void ExitState() { }
     public override void CheckSwitchState()
     {
-        
+
     }
     public override void InitializeSubState() { }
 

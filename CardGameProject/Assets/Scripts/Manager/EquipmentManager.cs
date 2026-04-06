@@ -64,12 +64,12 @@ public class EquipmentManager : MonoBehaviour
 
         _equippedWeapons = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedWeapons : EquippedWeapons;
 
-        Head        = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[0] : Head;
-        Shoulders   = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[1] : Shoulders;
-        Arms        = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[2] : Arms;
-        Chest       = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[3] : Chest;
-        Legs        = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[4] : Legs;
-        Boots       = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[5] : Boots;
+        Head = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[0] : Head;
+        Shoulders = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[1] : Shoulders;
+        Arms = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[2] : Arms;
+        Chest = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[3] : Chest;
+        Legs = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[4] : Legs;
+        Boots = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[5] : Boots;
     }
 
     public void AddGear(GearData gear)

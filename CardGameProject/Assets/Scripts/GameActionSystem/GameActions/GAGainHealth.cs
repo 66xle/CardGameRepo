@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class GAGainHealth : GameAction
 {
     public Avatar AvatarTarget;

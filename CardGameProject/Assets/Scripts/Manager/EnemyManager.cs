@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using MyBox;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Analytics;
-using Random = UnityEngine.Random;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -11,12 +8,12 @@ public class EnemyManager : MonoBehaviour
     public List<GameObject> EnemyUISpawnPosList;
 
     [Header("References")]
-    [MustBeAssigned] [SerializeField] CombatUIManager CombatUIManager;
-    [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
-    [MustBeAssigned] [SerializeField] EnemyStatSettings ESS;
-    [MustBeAssigned] [SerializeField] DifficultyManager DifficultyManager;
-    [MustBeAssigned] [SerializeField] CardManager CardManager;
-    [MustBeAssigned] [SerializeField] LevelManager LevelManager; // Editor only
+    [MustBeAssigned][SerializeField] CombatUIManager CombatUIManager;
+    [MustBeAssigned][SerializeField] CombatStateMachine Ctx;
+    [MustBeAssigned][SerializeField] EnemyStatSettings ESS;
+    [MustBeAssigned][SerializeField] DifficultyManager DifficultyManager;
+    [MustBeAssigned][SerializeField] CardManager CardManager;
+    [MustBeAssigned][SerializeField] LevelManager LevelManager; // Editor only
 
     private List<GameObject> spawnedObjects = new();
 

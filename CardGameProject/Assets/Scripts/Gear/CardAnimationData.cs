@@ -1,10 +1,7 @@
-using MyBox;
-using NUnit.Framework;
 using SerializeReferenceEditor;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
 
 [Serializable]

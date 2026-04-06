@@ -1,16 +1,11 @@
 using System;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEditor;
-using UnityEditor.UIElements;
-using UnityEditor.Experimental.GraphView;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using System.Runtime.CompilerServices;
-using static TreeEditor.TreeEditorHelper;
-using System.IO;
 
 public class DialogueGraphView : GraphView
 {
@@ -117,14 +112,14 @@ public class DialogueGraphView : GraphView
     {
         // Pass in linked event guid
         string fileName = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(openedEventGUID));
-        
+
         // Event node guid linking opened event graph
         openedEventGUID = nodeGUID;
 
         GraphSaveUtility saveUtility = GraphSaveUtility.GetInstance(this);
         linkedEvent = saveUtility.GetEventData();
 
-        
+
         Event loadEvent = saveUtility.GetDataFromObject(fileName, nodeGUID);
         saveUtility.LoadGraph(loadEvent);
 
@@ -133,7 +128,7 @@ public class DialogueGraphView : GraphView
         isInEventState = true;
     }
 
-    
+
 
     #region Search Window
 

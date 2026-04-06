@@ -1,9 +1,7 @@
-using System.Collections.Generic;
-using UnityEngine;
 using MyBox;
-using SceneReference = Eflatun.SceneReference.SceneReference;
-using SerializeReferenceEditor;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.Audio;
 
 public class LevelData : ScriptableObject

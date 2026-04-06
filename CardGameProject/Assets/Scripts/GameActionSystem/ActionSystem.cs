@@ -1,8 +1,6 @@
-using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 public enum ReactionTiming
 {
@@ -47,7 +45,7 @@ public class ActionSystem : Singleton<ActionSystem>
         }));
     }
 
-    
+
 
     public void AddReaction(GameAction gameAction)
     {
@@ -131,7 +129,7 @@ public class ActionSystem : Singleton<ActionSystem>
         subs[typeof(T)].Add(wrappedReaction);
     }
 
-    public static void UnsubscribeReaction<T>(Action <T> reaction, ReactionTiming timing) where T : GameAction
+    public static void UnsubscribeReaction<T>(Action<T> reaction, ReactionTiming timing) where T : GameAction
     {
         Dictionary<Type, List<Action<GameAction>>> subs = timing == ReactionTiming.PRE ? _preSubs : _postSubs;
 

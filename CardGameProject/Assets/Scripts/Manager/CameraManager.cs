@@ -1,15 +1,14 @@
-using System.Collections.Generic;
-using UnityEngine;
 using Cinemachine;
 using MyBox;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Timeline;
 
 public class CameraManager : MonoBehaviour
 {
     public int ActivePriority = 30;
-    [MustBeAssigned] [SerializeField] Transform CameraDummy;
-    [MustBeAssigned] [SerializeField] Transform VictimDummy;
+    [MustBeAssigned][SerializeField] Transform CameraDummy;
+    [MustBeAssigned][SerializeField] Transform VictimDummy;
 
     [Header("Lists")]
     [SerializeField] List<CinemachineVirtualCamera> ListIdleCamera;
@@ -122,7 +121,7 @@ public class CameraManager : MonoBehaviour
         CinemachineVirtualCamera cam = GetCamera(ListFollowCamera);
         ActivateCamera(cam);
     }
-    
+
     public void FollowBackState()
     {
         CinemachineVirtualCamera cam = GetCamera(ListFollowBackCamera);

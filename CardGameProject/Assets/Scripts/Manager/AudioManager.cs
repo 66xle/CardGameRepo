@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using MyBox;
-using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Events;
-using UnityEngine.Timeline;
 
 public enum AudioType
 {
@@ -21,7 +17,7 @@ public enum AudioType
     UIPlayerTurn = 8,
     UIEnemyTurn = 9,
     UIEndTurn = 10,
-    CardPlay= 100,
+    CardPlay = 100,
     CardDiscard = 101,
     CardDraw = 102,
     OneHandSword = 200,
@@ -112,7 +108,7 @@ public class AudioManager : Singleton<AudioManager>
         AudioResource resource = data.audios[Random.Range(0, data.audios.Count)];
         PlaySound(resource);
     }
-    
+
     public void PlaySound(AudioData data)
     {
         audioSource.resource = data.audios[Random.Range(0, data.audios.Count)];

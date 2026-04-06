@@ -1,11 +1,8 @@
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Audio;
-using DG.Tweening;
-using System.Runtime.CompilerServices;
+using UnityEngine.UI;
 
 public class OptionUI : MonoBehaviour
 {

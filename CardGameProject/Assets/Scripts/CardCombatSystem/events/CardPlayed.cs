@@ -1,7 +1,10 @@
-namespace events {
+namespace events
+{
 
-    public class CardPlayed : CardEvent {
-        public CardPlayed(CardWrapper card, Card evt = null) : base(card, evt) {
+    public class CardPlayed : CardEvent
+    {
+        public CardPlayed(CardWrapper card, Card evt = null) : base(card, evt)
+        {
         }
     }
 }

@@ -1,7 +1,4 @@
-using DG.Tweening;
 using MyBox;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,9 +15,9 @@ public class DetailedUI : MonoBehaviour
     private TMP_Text guardValue;
     private TMP_Text blockValue;
 
-    [MustBeAssigned] [SerializeField] GameObject ActiveParent;
-    [MustBeAssigned] [SerializeField] GameObject DeactiveParent;
-    [MustBeAssigned] [SerializeField] GameObject UiPrefab;
+    [MustBeAssigned][SerializeField] GameObject ActiveParent;
+    [MustBeAssigned][SerializeField] GameObject DeactiveParent;
+    [MustBeAssigned][SerializeField] GameObject UiPrefab;
     public float EffectUIOffset = 50f;
     [MustBeAssigned][SerializeField] TMP_Text EnemyName;
 
@@ -111,7 +108,7 @@ public class DetailedUI : MonoBehaviour
             UpdateStatusUI(i, newEffectObj, data);
         }
     }
-    
+
     public void ClearStatusUI()
     {
         int parentCount = ActiveParent.transform.childCount;
@@ -140,7 +137,7 @@ public class DetailedUI : MonoBehaviour
     void UpdateStatusUI(int index, GameObject effectObj, StatusEffect effect)
     {
         effectObj.GetComponent<RectTransform>().localPosition = new Vector3(ActiveParent.transform.localPosition.x + (EffectUIOffset * index), ActiveParent.transform.localPosition.y, ActiveParent.transform.localPosition.z);
-        
+
         if (effect.GetStacks() > 0)
             effectObj.GetComponentInChildren<TMP_Text>().text = effect.GetStacks().ToString();
 

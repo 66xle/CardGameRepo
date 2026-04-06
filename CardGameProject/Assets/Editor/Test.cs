@@ -1,5 +1,5 @@
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
 // Create an editor window which can display a chosen GameObject.
 // Use OnInteractivePreviewGUI to display the GameObject and
@@ -27,7 +27,7 @@ public class ExampleClass : EditorWindow
 
         if (EditorGUI.EndChangeCheck())
         {
-            if (gameObjectEditor != null) 
+            if (gameObjectEditor != null)
                 DestroyImmediate(gameObjectEditor);
         }
 

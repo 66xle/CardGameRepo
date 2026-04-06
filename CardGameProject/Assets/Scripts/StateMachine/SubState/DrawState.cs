@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DrawState : CombatBaseState
@@ -34,5 +32,5 @@ public class DrawState : CombatBaseState
         cm.DrawCards(cm.CardsToDraw);
     }
 
-    
+
 }

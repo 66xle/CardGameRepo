@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
 using MyBox;
 using SerializeReferenceEditor;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum EffectType
-{   
+{
     Passive,
     Active
 }

@@ -1,12 +1,10 @@
 using SerializeReferenceEditor;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [SRName("Conditions/Is Stunned")]
 public class CONDIsStunned : Condition
-{ 
+{
     public override List<Executable> Commands { get { return commands; } }
 
     [SerializeReference][SR] public List<Executable> commands;

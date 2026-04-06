@@ -1,11 +1,13 @@
-using System;
 using events;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace config {
+namespace config
+{
     [Serializable]
-    public class EventsConfig {
+    public class EventsConfig
+    {
         [SerializeField]
         public UnityEvent<CardPlayed, Card, string> OnCardPlayed;
 
@@ -17,10 +19,10 @@ namespace config {
 
         [SerializeField]
         public UnityEvent<CardHover> OnCardHover;
-        
+
         [SerializeField]
         public UnityEvent<CardUnhover> OnCardUnhover;
-        
+
         [SerializeField]
         public UnityEvent<CardDestroy> OnCardDestroy;
     }

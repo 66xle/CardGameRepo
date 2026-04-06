@@ -1,8 +1,6 @@
-using System.Collections;
 using Systems.SceneManagment;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.SceneManagement;
 
 public class LoadManager : MonoBehaviour
 {

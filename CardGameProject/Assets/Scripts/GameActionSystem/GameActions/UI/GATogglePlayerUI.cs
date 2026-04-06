@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class GATogglePlayerUI : GameAction
 {
     public bool Toggle;

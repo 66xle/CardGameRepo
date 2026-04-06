@@ -1,12 +1,12 @@
-using System.Collections.Generic;
-using UnityEngine;
-using SerializeReferenceEditor;
-using UnityEditor;
 using MyBox;
+using SerializeReferenceEditor;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 
 #if UNITY_EDITOR
 
-[CreateAssetMenu(fileName = "New Weapon Type Animation Data", menuName = "Weapon Type Animation")] 
+[CreateAssetMenu(fileName = "New Weapon Type Animation Data", menuName = "Weapon Type Animation")]
 public class WeaponTypeAnimationData : ScriptableObject
 {
     public WeaponType WeaponType;

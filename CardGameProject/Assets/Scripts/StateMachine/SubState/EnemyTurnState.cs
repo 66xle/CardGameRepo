@@ -1,8 +1,4 @@
-using events;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public class EnemyTurnState : CombatBaseState
 {
@@ -14,7 +10,7 @@ public class EnemyTurnState : CombatBaseState
         Debug.Log("Enemy Turn State");
 
         DecideEnemyTurn();
-        
+
     }
     public override void UpdateState()
     {
@@ -22,7 +18,7 @@ public class EnemyTurnState : CombatBaseState
     }
 
     public override void FixedUpdateState() { }
-    public override void ExitState() 
+    public override void ExitState()
     {
         ctx.EnemyTurnQueue.Remove(ctx.CurrentEnemyTurn);
     }

@@ -12,5 +12,5 @@ public class PointData
     public bool IsStart;
 
     public List<Connection> Connections = new List<Connection>();
-    
+
 }

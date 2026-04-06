@@ -10,7 +10,7 @@ public class SkipSubtitleTimer : MonoBehaviour
     {
         Response[] responses = DialogueManager.currentConversationState.pcResponses;
         Subtitle subtitle = DialogueManager.currentConversationState.subtitle;
-        
+
         if (TypewriterEffect.isPlaying)
         {
             if (responses.Length > 0)
@@ -20,5 +20,5 @@ public class SkipSubtitleTimer : MonoBehaviour
                 //StandardUI.OnContinue();
             }
         }
-    }   
+    }
 }

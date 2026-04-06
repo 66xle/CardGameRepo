@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using Codice.CM.Interfaces;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -43,7 +41,7 @@ public class EnemyEditorWindow : BaseEditorWindow
     {
         Enable("EnemyEditorWindow", "EnemyEditorStyles", "enemy", "Enemy");
 
-        EditorApplication.delayCall += () => 
+        EditorApplication.delayCall += () =>
         {
             base.Init();
 
@@ -65,7 +63,7 @@ public class EnemyEditorWindow : BaseEditorWindow
         FindAllEnemies(out List<EnemyData> enemies);
 
         DropdownField dropdownField = rootVisualElement.Query<DropdownField>("filter");
-        
+
         if (dropdownField.value != "Any")
         {
             enemies = enemies.Where(data => data.EnemyType.ToString() == dropdownField.value).ToList();
@@ -77,7 +75,7 @@ public class EnemyEditorWindow : BaseEditorWindow
         list.selectionChanged += (enumerable) =>
         {
             if (isInitialized)
-                SessionState.SetInt("enemyListIndex", list.selectedIndex); 
+                SessionState.SetInt("enemyListIndex", list.selectedIndex);
 
             foreach (UnityEngine.Object it in enumerable)
             {
@@ -123,7 +121,7 @@ public class EnemyEditorWindow : BaseEditorWindow
 
         list.Rebuild();
 
-        if (!isInitialized) 
+        if (!isInitialized)
             list.SetSelection(listIndex);
     }
 
@@ -308,5 +306,5 @@ public class EnemyEditorWindow : BaseEditorWindow
             container.MarkDirtyRepaint();
     }
 
-    
+
 }

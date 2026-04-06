@@ -1,9 +1,9 @@
-using MyBox;
-using UnityEngine;
-using System.Collections.Generic;
-using UnityEngine.UI;
-using TMPro;
 using DG.Tweening;
+using MyBox;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class RewardManager : MonoBehaviour
 {
@@ -20,7 +20,7 @@ public class RewardManager : MonoBehaviour
     [ReadOnly][SerializeField] List<GearData> PoolOfGear;
     [SerializeField] int LowLevel;
     [SerializeField] int MidLevel;
-    [PositiveValueOnly] [SerializeField] Vector3 BattleMultiplier;
+    [PositiveValueOnly][SerializeField] Vector3 BattleMultiplier;
 
     [Foldout("Victory UI", true)]
     [MustBeAssigned][SerializeField] GameObject VictoryObject;
@@ -37,21 +37,21 @@ public class RewardManager : MonoBehaviour
     [MustBeAssigned][SerializeField] AudioData LeveUpSound;
 
     [Foldout("References", true)]
-    [MustBeAssigned] [SerializeField] CombatStateMachine Ctx;
-    [MustBeAssigned] [SerializeField] UIManager UIManager;
-    [MustBeAssigned] [SerializeField] EquipmentManager EquipmentManager;
-    [MustBeAssigned] [SerializeField] StatsManager StatsManager;
-    [MustBeAssigned] [SerializeField] DifficultyManager DifficultyManager;
-    [MustBeAssigned] [SerializeField] CutsceneManager CutsceneManager;
+    [MustBeAssigned][SerializeField] CombatStateMachine Ctx;
+    [MustBeAssigned][SerializeField] UIManager UIManager;
+    [MustBeAssigned][SerializeField] EquipmentManager EquipmentManager;
+    [MustBeAssigned][SerializeField] StatsManager StatsManager;
+    [MustBeAssigned][SerializeField] DifficultyManager DifficultyManager;
+    [MustBeAssigned][SerializeField] CutsceneManager CutsceneManager;
     [MustBeAssigned][SerializeField] PlayerStatSettings PSS;
     [MustBeAssigned][SerializeField] LootTable LootTable;
-    [MustBeAssigned] [SerializeField] Camera RenderCamera;
-    [MustBeAssigned] [SerializeField] GameObject IconPrefab;
-    [MustBeAssigned] [SerializeField] GameObject CardPrefab;
+    [MustBeAssigned][SerializeField] Camera RenderCamera;
+    [MustBeAssigned][SerializeField] GameObject IconPrefab;
+    [MustBeAssigned][SerializeField] GameObject CardPrefab;
     [MustBeAssigned] public GameObject RewardUI;
     [MustBeAssigned] public GameObject GameOverUI;
     [MustBeAssigned] public GameObject ChooseGearUI;
-    
+
     public List<GearData> ListOfRewards = new();
     private GameObject currentObjectInOverlay;
     private CardCarousel cardCarousel;

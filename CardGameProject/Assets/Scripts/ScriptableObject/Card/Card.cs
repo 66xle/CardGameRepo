@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using SerializeReferenceEditor;
-using UnityEngine;
 using MyBox;
-using System.Reflection;
-using UnityEngine.Analytics;
-using UnityEditor;
+using SerializeReferenceEditor;
+using System.Collections.Generic;
+using UnityEngine;
 
 
 
@@ -18,7 +14,7 @@ public class Card : ScriptableObject
     public string CardName;
     [TextArea] public string Description;
     [HideInInspector] public string DisplayDescription;
-    [HideInInspector] public string LinkDescription; 
+    [HideInInspector] public string LinkDescription;
     [TextArea] public string Flavour;
 
     [Header("Card Image")]
@@ -44,7 +40,7 @@ public class Card : ScriptableObject
         ValuesToReference.Clear();
 
         CheckCommandsForValues(Commands);
-    } 
+    }
 
     private void CheckCommandsForValues(List<Executable> commands)
     {

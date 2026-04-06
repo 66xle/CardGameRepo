@@ -1,9 +1,7 @@
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
-using UnityEngine.SceneManagement;
 
 public class CustomPreviewHandler
 {
@@ -47,7 +45,7 @@ public class CustomPreviewHandler
         if (animator == null)
             animator = previewInstance.AddComponent<Animator>();
 
-        
+
 
         cachedBounds = CalculateBounds(previewInstance);
 
@@ -217,5 +215,5 @@ public class CustomPreviewHandler
 
         return false;
     }
-        
+
 }

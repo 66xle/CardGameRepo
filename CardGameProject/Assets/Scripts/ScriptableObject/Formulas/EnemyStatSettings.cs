@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 [CreateAssetMenu(fileName = "Enemy Stats Settings", menuName = "Enemy Stats Settings")]
 public class EnemyStatSettings : ScriptableObject

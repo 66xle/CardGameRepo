@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -15,7 +13,7 @@ public class EquipmentSlot : MonoBehaviour, IDropHandler
             transform.GetChild(0).SetParent(draggableItem.parentAfterDrag);
         }
 
-        
+
         draggableItem.parentAfterDrag = transform;
     }
 }

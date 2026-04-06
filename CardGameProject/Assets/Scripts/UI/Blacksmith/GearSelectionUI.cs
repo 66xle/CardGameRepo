@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class GearSelectionUI : MonoBehaviour
 {
-    [MustBeAssigned] [SerializeField] TMP_Text Title;
-    [MustBeAssigned] [SerializeField] TMP_Text Stats;
-    [MustBeAssigned] [SerializeField] TMP_Text Passive;
-    [MustBeAssigned] [SerializeField] TMP_Text FlavourDescription;
+    [MustBeAssigned][SerializeField] TMP_Text Title;
+    [MustBeAssigned][SerializeField] TMP_Text Stats;
+    [MustBeAssigned][SerializeField] TMP_Text Passive;
+    [MustBeAssigned][SerializeField] TMP_Text FlavourDescription;
 
     public void SelectGear(GearData data)
     {

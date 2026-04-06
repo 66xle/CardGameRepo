@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class GAReturnToPos : GameAction
 {
     public Avatar AvatarPlayingCard;

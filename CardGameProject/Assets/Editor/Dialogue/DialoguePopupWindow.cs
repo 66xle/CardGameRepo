@@ -1,10 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UIElements;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.UIElements;
 using System.IO;
+using UnityEditor;
+using UnityEngine.UIElements;
 
 public class DialoguePopupWindow : PopupWindow
 {

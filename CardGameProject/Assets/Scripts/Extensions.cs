@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 
 public static class Extensions
 {
@@ -26,7 +22,7 @@ public static class Extensions
     {
         List<T> listToSave = new List<T>();
 
-        foreach(var item in listToClone)
+        foreach (var item in listToClone)
         {
             listToSave.Add(item);
         }

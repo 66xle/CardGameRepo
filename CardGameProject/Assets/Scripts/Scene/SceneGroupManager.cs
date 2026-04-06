@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
 
 namespace Systems.SceneManagment
@@ -16,7 +15,7 @@ namespace Systems.SceneManagment
 
         SceneGroup ActiveSceneGroup;
 
-        public async Task LoadScenes(SceneGroup group, IProgress<float> progress, bool reloadDupScenes = false) 
+        public async Task LoadScenes(SceneGroup group, IProgress<float> progress, bool reloadDupScenes = false)
         {
             ActiveSceneGroup = group;
             var loadedScenes = new List<string>();
@@ -62,7 +61,7 @@ namespace Systems.SceneManagment
             OnSceneGroupLoaded.Invoke();
         }
 
-        public async Task UnloadScenes() 
+        public async Task UnloadScenes()
         {
             var scenes = new List<string>();
             var activeScene = SceneManager.GetActiveScene().name;
@@ -75,7 +74,7 @@ namespace Systems.SceneManagment
                 if (!sceneAt.isLoaded) continue;
 
                 var sceneName = sceneAt.name;
-                if(/*sceneName.Equals(activeScene) ||*/ sceneName == "Bootstrapper" || sceneName == "LoadingScene") continue;
+                if (/*sceneName.Equals(activeScene) ||*/ sceneName == "Bootstrapper" || sceneName == "LoadingScene") continue;
                 scenes.Add(sceneName);
             }
 

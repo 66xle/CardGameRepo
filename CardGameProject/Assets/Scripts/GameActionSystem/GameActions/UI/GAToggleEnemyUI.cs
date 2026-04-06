@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class GAToggleEnemyUI : GameAction
 {
     public bool Toggle;

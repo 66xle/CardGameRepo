@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.UIElements;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.UIElements;
 using System.IO;
+using UnityEditor;
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
 
 public class CardPopupWindow : PopupWindow
 {
@@ -99,7 +96,7 @@ public class CardPopupWindow : PopupWindow
         Card card = CreateNewCard(newCard);
         AssetDatabase.CreateAsset(card, $"Assets/ScriptableObjects/Cards/{fileName}.asset");
 
-        
+
         window.CreateListView();
         window.list.selectedIndex = 0;
         CloseWindow();

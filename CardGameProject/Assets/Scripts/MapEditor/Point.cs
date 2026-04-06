@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -10,7 +9,7 @@ public class Point : MonoBehaviour
     public string guid;
 
     public GameObject currentLinkObj;
-        
+
     public LayerMask mapLayerMask;
 
 

@@ -1,10 +1,7 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Rendering;
-using Cinemachine;
-using MyBox;
 
 public class StatusEffectState : CombatBaseState
 {
@@ -84,7 +81,7 @@ public class StatusEffectState : CombatBaseState
     IEnumerator CheckStatusEffect()
     {
         List<StatusEffect> statusQueue = new List<StatusEffect>();
-        
+
         // Add effects to active to queue
         for (int i = _currentAvatarSelected.ListOfEffects.Count - 1; i >= 0; i--)
         {

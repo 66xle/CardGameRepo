@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine.UIElements;
-using UnityEngine;
 
 public class InspectorView : VisualElement
 {

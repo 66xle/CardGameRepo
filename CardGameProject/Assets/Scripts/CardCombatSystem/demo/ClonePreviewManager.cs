@@ -1,26 +1,23 @@
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using config;
 using events;
-using MyBox;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 
-namespace demo {
+namespace demo
+{
     /**
      * Offers a preview of a card when hovering over it by cloning the original card and placing it on top of the original.
      * Allows setting the global preview position and scale.
      */
-    public class ClonePreviewManager : MonoBehaviour/*, CardPreviewManager */{
+    public class ClonePreviewManager : MonoBehaviour/*, CardPreviewManager */
+    {
 
         [SerializeField]
         private float verticalPosition;
-        
+
         [SerializeField]
         private float previewScale = 1f;
-        
+
         [SerializeField]
         private int previewSortingOrder = 1;
 

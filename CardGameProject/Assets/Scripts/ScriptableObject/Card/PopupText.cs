@@ -1,6 +1,5 @@
 using MyBox;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 [CreateAssetMenu(fileName = "New Popup", menuName = "Card Popup")]
 public class PopupText : ScriptableObject

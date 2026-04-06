@@ -1,26 +1,22 @@
 using config;
-using System.Collections.Generic;
-using DefaultNamespace;
-using UnityEngine;
-using UnityEngine.UI;
-using System.Linq;
-using demo;
-using events;
 using MyBox;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using UnityEngine;
 
 public class CardCarousel : MonoBehaviour
 {
-    [MustBeAssigned] [SerializeField] GameObject InfoBoxObj;
+    [MustBeAssigned][SerializeField] GameObject InfoBoxObj;
     private RectTransform InfoBoxRect;
-    [MustBeAssigned] [SerializeField] TMP_Text InfoTitle;
-    [MustBeAssigned] [SerializeField] TMP_Text InfoDescription;
-    [MustBeAssigned] [SerializeField] TMP_Text InfoFlavourText;
+    [MustBeAssigned][SerializeField] TMP_Text InfoTitle;
+    [MustBeAssigned][SerializeField] TMP_Text InfoDescription;
+    [MustBeAssigned][SerializeField] TMP_Text InfoFlavourText;
 
-    [MustBeAssigned] [SerializeField] GameObject PopupObj;
+    [MustBeAssigned][SerializeField] GameObject PopupObj;
     private RectTransform PopupRect;
-    [MustBeAssigned] [SerializeField] TMP_Text PopupTitle;
-    [MustBeAssigned] [SerializeField] TMP_Text PopupDescription;
+    [MustBeAssigned][SerializeField] TMP_Text PopupTitle;
+    [MustBeAssigned][SerializeField] TMP_Text PopupDescription;
 
     [SerializeField]
     private ZoomConfig zoomConfig;

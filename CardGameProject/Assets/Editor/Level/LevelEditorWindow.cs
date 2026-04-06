@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEditor.SearchService;
 using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.Analytics;
 using UnityEngine.UIElements;
 using SceneReference = Eflatun.SceneReference.SceneReference;
 
@@ -33,7 +31,7 @@ public class LevelEditorWindow : BaseEditorWindow
     {
         Enable("LevelEditorWindow", "LevelEditorStyles", "level", "Level");
 
-        EditorApplication.delayCall += () => 
+        EditorApplication.delayCall += () =>
         {
             base.Init();
 
@@ -50,9 +48,9 @@ public class LevelEditorWindow : BaseEditorWindow
     {
         FindAllLevels(out List<LevelData> levels);
 
-        
+
         DropdownField dropdownField = rootVisualElement.Query<DropdownField>("filter");
-        
+
         if (dropdownField.value != "Any")
         {
             levels = levels.Where(data => data.IsFixed == true).ToList();
@@ -64,7 +62,7 @@ public class LevelEditorWindow : BaseEditorWindow
         list.selectionChanged += (enumerable) =>
         {
             if (isInitialized)
-                SessionState.SetInt("levelListIndex", list.selectedIndex); 
+                SessionState.SetInt("levelListIndex", list.selectedIndex);
 
             foreach (UnityEngine.Object it in enumerable)
             {
@@ -104,7 +102,7 @@ public class LevelEditorWindow : BaseEditorWindow
 
         list.Rebuild();
 
-        if (!isInitialized) 
+        if (!isInitialized)
             list.SetSelection(listIndex);
     }
 
@@ -113,7 +111,7 @@ public class LevelEditorWindow : BaseEditorWindow
         base.SetButtons();
 
         Button refreshButton = rootVisualElement.Query<Button>("refresh").First();
-        refreshButton.clicked += RefreshScripts; 
+        refreshButton.clicked += RefreshScripts;
     }
 
     public override void AddButton()

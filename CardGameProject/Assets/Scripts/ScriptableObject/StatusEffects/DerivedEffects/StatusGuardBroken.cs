@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using MyBox;
 
 [CreateAssetMenu(fileName = "GuardBroken", menuName = "StatusEffect/GuardBroken")]
 public class StatusGuardBroken : StatusEffect

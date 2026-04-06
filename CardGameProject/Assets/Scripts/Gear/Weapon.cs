@@ -1,8 +1,5 @@
 using MyBox;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 
@@ -40,7 +37,7 @@ public class Weapon : MonoBehaviour
     [ConditionalField(nameof(OffSetHolster), false, OffSetHolster.Back)] public GameObject BackPrefab = null;
     [ConditionalField(nameof(OffSetHolster), false, OffSetHolster.LowerBack)] public GameObject LowerBackPrefab = null;
     [ConditionalField(nameof(OffSetHolster), false, OffSetHolster.RightHip)] public GameObject RightHipPrefab = null;
-    [ConditionalField(nameof(OffSetHolster), false, OffSetHolster.LeftHip)] public GameObject LeftHipPrefab = null ;
+    [ConditionalField(nameof(OffSetHolster), false, OffSetHolster.LeftHip)] public GameObject LeftHipPrefab = null;
     [ConditionalField(nameof(OffSetHolster), false, OffSetHolster.RightChest)] public GameObject RightChestPrefab = null;
     [ConditionalField(nameof(OffSetHolster), false, OffSetHolster.LeftChest)] public GameObject LeftChestPrefab = null;
 

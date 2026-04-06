@@ -1,4 +1,3 @@
-using PixelCrushers.Wrappers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -70,7 +69,7 @@ public class Player : Avatar
         DefencePercentage = defencePercentage;
         Attack = attack;
         BlockScale = blockScale;
-        RecoverStaminaPercentage = recoverStamPercentage; 
+        RecoverStaminaPercentage = recoverStamPercentage;
     }
 
     public bool hasEnoughStamina(float cost)
