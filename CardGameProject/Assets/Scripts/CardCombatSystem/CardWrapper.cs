@@ -187,6 +187,8 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerMove(PointerEventData eventData)
     {
+        if (inDisplayMode) return;
+
         if (isPointerDown && !isDragged)
         {
             // Convert both positions to local space

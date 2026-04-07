@@ -1,4 +1,4 @@
-﻿using config;
+using config;
 using DefaultNamespace;
 using demo;
 using events;
