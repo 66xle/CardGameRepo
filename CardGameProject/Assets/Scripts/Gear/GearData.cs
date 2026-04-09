@@ -12,6 +12,7 @@ public class GearData : ScriptableObject
     public GameObject Prefab;
     public Texture IconTexture; // Reward Manager
     public Rarity Rarity;
+    public bool Passive = false;
 
     public virtual List<CardAnimationData> Cards { get; }
 }
