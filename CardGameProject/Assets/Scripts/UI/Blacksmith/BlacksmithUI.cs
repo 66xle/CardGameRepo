@@ -105,11 +105,23 @@ public class BlacksmithUI : MonoBehaviour
         _gearSelectionUI.SelectGear(gearData);
         _selectedGear = gearData;
 
-        // move all cards to disabled parent (preserve original order)
+        // move all cards to disabled parent (preserve original order and normalize transforms)
         while (SelectedCardParent.childCount > 0)
         {
             Transform child = SelectedCardParent.GetChild(0);
-            child.parent = DisabledCardsParent;
+
+            // Reparent without keeping world position so local positions are predictable
+            child.SetParent(DisabledCardsParent, worldPositionStays: false);
+
+            // Normalize RectTransform to avoid leftover offsets from previous usage
+            var rect = child.GetComponent<RectTransform>();
+            if (rect != null)
+            {
+                rect.localPosition = Vector3.zero;
+                rect.localRotation = Quaternion.identity;
+            }
+
+            // Make sure container internal list is updated
             _cardContainer.RemoveCard(child.gameObject);
         }
 
@@ -132,6 +144,7 @@ public class BlacksmithUI : MonoBehaviour
             }
         }
 
+        // Rebuild container state so positions/widths are correct immediately
         _cardContainer.InitCards();
     }
 
@@ -140,7 +153,18 @@ public class BlacksmithUI : MonoBehaviour
         if (DisabledCardsParent.childCount == 0) return null;
 
         Transform child = DisabledCardsParent.GetChild(0);
-        child.parent = SelectedCardParent;
+
+        // Reparent without keeping world position so local positions are predictable
+        child.SetParent(SelectedCardParent, worldPositionStays: false);
+
+        // Normalize RectTransform to avoid visual jumps
+        var rect = child.GetComponent<RectTransform>();
+        if (rect != null)
+        {
+            rect.localPosition = Vector3.zero;
+            rect.localRotation = Quaternion.identity;
+        }
+
         return child.gameObject;
     }
 
