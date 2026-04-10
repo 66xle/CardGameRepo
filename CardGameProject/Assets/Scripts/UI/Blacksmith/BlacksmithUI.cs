@@ -5,18 +5,24 @@ using UnityEngine;
 
 public class BlacksmithUI : MonoBehaviour
 {
-    [Foldout("Inventory")]
+    [Foldout("Inventory", true)]
     [MustBeAssigned][SerializeField] public GameObject GearIconPrefab;
     [MustBeAssigned][SerializeField] public Transform AllInventoryParent;
     [MustBeAssigned][SerializeField] public Transform WeaponInventoryParent;
     [MustBeAssigned][SerializeField] public Transform ArmourInventoryParent;
     [MustBeAssigned][SerializeField] public Transform AccessoriesInventoryParent;
 
-    [Foldout("Selection")]
-    [MustBeAssigned][SerializeField] public GearSelectionUI GearSelectionUI;
+    [Foldout("Selection", true)]
+    private GearSelectionUI _gearSelectionUI;
     [MustBeAssigned][SerializeField] public Transform SelectedCardParent;
 
-    [Foldout("References")]
+
+    [Foldout("Objects", true)]
+    [MustBeAssigned][SerializeField] public GameObject SelectGearUI;
+    [MustBeAssigned][SerializeField] public GameObject UpgradeUI;
+    [MustBeAssigned][SerializeField] public GameObject SelectionUI;
+
+    [Foldout("References", true)]
     [MustBeAssigned][SerializeField] public EquipmentManager EquipmentManager; // temp for testing
     [MustBeAssigned][SerializeField] public CardManager CardManager;
 
@@ -32,6 +38,7 @@ public class BlacksmithUI : MonoBehaviour
     void Init()
     {
         _cardContainer = SelectedCardParent.GetComponent<CardContainer>();
+        _gearSelectionUI = SelectionUI.GetComponent<GearSelectionUI>();
 
 
         EquipmentManager.SaveGear(); // temp for testing
@@ -88,8 +95,10 @@ public class BlacksmithUI : MonoBehaviour
 
     public void SelectIcon(GearData gearData)
     {
-        GearSelectionUI.gameObject.SetActive(true);
-        GearSelectionUI.SelectGear(gearData);
+        if (!SelectionUI.activeSelf)
+            SelectionUI.SetActive(true);
+
+        _gearSelectionUI.SelectGear(gearData);
         _selectedGear = gearData;
 
         _cardContainer.DestroyAllCards(); // DO OBJECT POOLING
@@ -104,5 +113,17 @@ public class BlacksmithUI : MonoBehaviour
                 CardManager.CreateCard(cardData, SelectedCardParent);
             }
         }
+    }
+
+    public void SwitchToUpgradeUI()
+    {
+        SelectGearUI.SetActive(false);
+        UpgradeUI.SetActive(true);
+    }
+
+    public void SwitchToSelectionUI()
+    {
+        UpgradeUI.SetActive(false);
+        SelectGearUI.SetActive(true);
     }
 }
