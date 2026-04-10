@@ -7,22 +7,22 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
     public enum TunnelMode { Organic, Arriving, Cutscene, Paused, Resuming }
 
     [Header("Setup")]
-    public Transform tunnelParent;
-    public List<TunnelSectionSO> sectionLibrary = new List<TunnelSectionSO>();
-    public List<TunnelSectionSO> arenaLibrary = new List<TunnelSectionSO>();
-    public int initialSections = 6;
+    public Transform TunnelParent;
+    public List<TunnelSectionSO> SectionLibrary = new List<TunnelSectionSO>();
+    public List<TunnelSectionSO> ArenaLibrary = new List<TunnelSectionSO>();
+    public int InitialSections = 6;
 
     [Header("Spawn/Despawn")]
-    public float spawnWindowAhead = 80f;
-    public float despawnBelow = -80f;
+    public float SpawnWindowAhead = 80f;
+    public float DespawnBelow = -80f;
 
     [Header("Organic Speed Drift")]
-    public Vector2 speedRange = new Vector2(1.5f, 3f);
-    public Vector2 driftIdleIntervalRange = new Vector2(6f, 14f);
-    public Vector2 driftRampDurationRange = new Vector2(5f, 10f);
+    public Vector2 SpeedRange = new Vector2(1.5f, 3f);
+    public Vector2 DriftIdleIntervalRange = new Vector2(6f, 14f);
+    public Vector2 DriftRampDurationRange = new Vector2(5f, 10f);
 
     [Header("Arena Arrival")]
-    public float arenaDecelDuration = 4f;
+    public float ArenaDecelDuration = 4f;
     public UnityEvent OnArenaArrived;
 
     [Header("Cutscene Events")]
@@ -32,7 +32,7 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
     public UnityEvent OnResumed;
 
     [Header("Resume Settings")]
-    public float resumeDuration = 3f;
+    public float ResumeDuration = 3f;
 
     // --- Internal ---
     private TunnelMode _mode = TunnelMode.Organic;
@@ -67,18 +67,18 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
     // Active spawned sections
     private struct Spawned
     {
-        public GameObject go;
-        public float localY;
-        public float height;
-        public TunnelSectionSO def;
+        public GameObject Go;
+        public float LocalY;
+        public float Height;
+        public TunnelSectionSO Def;
     }
     private readonly List<Spawned> _active = new List<Spawned>();
     private float _nextStackY;
 
     void Start()
     {
-        if (tunnelParent == null) tunnelParent = transform;
-        _currentSpeed = (speedRange.x + speedRange.y) * 0.5f;
+        if (TunnelParent == null) TunnelParent = transform;
+        _currentSpeed = (SpeedRange.x + SpeedRange.y) * 0.5f;
         ResetAndPrewarm();
     }
 
@@ -93,7 +93,7 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
             case TunnelMode.Paused:   _currentSpeed = 0f; break;
         }
 
-        tunnelParent.position += Vector3.down * (_currentSpeed * Time.deltaTime);
+        TunnelParent.position += Vector3.down * (_currentSpeed * Time.deltaTime);
 
         // Spawning rules
         if (_mode == TunnelMode.Cutscene)
@@ -111,9 +111,9 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
     // ---------------- Public API ----------------
     public void ArriveAtArena(int arenaIndex)
     {
-        if (arenaIndex < 0 || arenaIndex >= arenaLibrary.Count) return;
+        if (arenaIndex < 0 || arenaIndex >= ArenaLibrary.Count) return;
 
-        _arrivalDef = arenaLibrary[arenaIndex];
+        _arrivalDef = ArenaLibrary[arenaIndex];
         SpawnNext(_arrivalDef);
 
         _arriving = true;
@@ -126,7 +126,7 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
     {
         if (_mode != TunnelMode.Paused && _mode != TunnelMode.Cutscene) return;
         _resumeTimer = 0f;
-        _resumeTargetSpeed = Random.Range(speedRange.x, speedRange.y);
+        _resumeTargetSpeed = Random.Range(SpeedRange.x, SpeedRange.y);
         _mode = TunnelMode.Resuming;
     }
 
@@ -154,7 +154,7 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
 
         // Measure distance
         Spawned target = spawnedSequence[spawnedSequence.Count - 1];
-        Vector3 stopPoint = tunnelParent.TransformPoint(new Vector3(0f, target.localY + target.def.stopOffset, 0f));
+        Vector3 stopPoint = TunnelParent.TransformPoint(new Vector3(0f, target.LocalY + target.Def.stopOffset, 0f));
         float distance = stopPoint.y - _anchorPlaneY;
 
         // Base speed formula (integral of decel = 0.25)
@@ -179,7 +179,7 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
             if (_driftT >= 1f)
             {
                 _drifting = false;
-                _driftIdleTimer = Random.Range(driftIdleIntervalRange.x, driftIdleIntervalRange.y);
+                _driftIdleTimer = Random.Range(DriftIdleIntervalRange.x, DriftIdleIntervalRange.y);
             }
         }
         else
@@ -189,11 +189,11 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
             {
                 _drifting = true;
                 _driftT = 0f;
-                _driftDuration = Random.Range(driftRampDurationRange.x, driftRampDurationRange.y);
+                _driftDuration = Random.Range(DriftRampDurationRange.x, DriftRampDurationRange.y);
 
                 float newTarget;
                 int safety = 0;
-                do { newTarget = Random.Range(speedRange.x, speedRange.y); safety++; }
+                do { newTarget = Random.Range(SpeedRange.x, SpeedRange.y); safety++; }
                 while (Mathf.Abs(newTarget - _currentSpeed) < 0.15f && safety < 8);
 
                 _targetSpeed = newTarget;
@@ -205,13 +205,13 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
     {
         foreach (var s in _active)
         {
-            if (s.def == _arrivalDef)
+            if (s.Def == _arrivalDef)
             {
-                float stopWorldY = tunnelParent.TransformPoint(new Vector3(0, s.localY + _arrivalDef.stopOffset, 0)).y;
+                float stopWorldY = TunnelParent.TransformPoint(new Vector3(0, s.LocalY + _arrivalDef.stopOffset, 0)).y;
                 if (stopWorldY > _anchorPlaneY) return;
 
                 _arrivalTimer += Time.deltaTime;
-                float t = Mathf.Clamp01(_arrivalTimer / arenaDecelDuration);
+                float t = Mathf.Clamp01(_arrivalTimer / ArenaDecelDuration);
                 _currentSpeed = Mathf.Lerp(_arrivalStartSpeed, 0f, t * t * (3f - 2f * t));
 
                 if (_currentSpeed <= 0.01f)
@@ -252,7 +252,7 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
     private void UpdateResuming()
     {
         _resumeTimer += Time.deltaTime;
-        float t = Mathf.Clamp01(_resumeTimer / resumeDuration);
+        float t = Mathf.Clamp01(_resumeTimer / ResumeDuration);
         float ease = t * t * (3f - 2f * t);
         _currentSpeed = Mathf.Lerp(0f, _resumeTargetSpeed, ease);
 
@@ -268,18 +268,18 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
     private void ResetAndPrewarm()
     {
         for (int i = _active.Count - 1; i >= 0; i--)
-            if (_active[i].go) Destroy(_active[i].go);
+            if (_active[i].Go) Destroy(_active[i].Go);
         _active.Clear();
         _nextStackY = 0f;
 
-        for (int i = 0; i < initialSections; i++)
+        for (int i = 0; i < InitialSections; i++)
             SpawnNext(null);
     }
 
     private void ResetForCutscene()
     {
         for (int i = _active.Count - 1; i >= 0; i--)
-            if (_active[i].go) Destroy(_active[i].go);
+            if (_active[i].Go) Destroy(_active[i].Go);
         _active.Clear();
         _nextStackY = 0f;
     }
@@ -288,7 +288,7 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
     {
         float topWorldY = GetNextBaseWorldY();
         int safety = 0;
-        while (topWorldY < spawnWindowAhead && safety++ < 100)
+        while (topWorldY < SpawnWindowAhead && safety++ < 100)
         {
             SpawnNext(null);
             topWorldY = GetNextBaseWorldY();
@@ -300,11 +300,11 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
         for (int i = _active.Count - 1; i >= 0; i--)
         {
             Spawned s = _active[i];
-            float topLocalY = s.localY + s.height;
-            float topWorldY = tunnelParent.TransformPoint(new Vector3(0f, topLocalY, 0f)).y;
-            if (topWorldY < despawnBelow)
+            float topLocalY = s.LocalY + s.Height;
+            float topWorldY = TunnelParent.TransformPoint(new Vector3(0f, topLocalY, 0f)).y;
+            if (topWorldY < DespawnBelow)
             {
-                if (s.go) Destroy(s.go);
+                if (s.Go) Destroy(s.Go);
                 _active.RemoveAt(i);
             }
         }
@@ -315,7 +315,7 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
         TunnelSectionSO def = forced ?? PickDefinition();
         if (def == null || def.prefab == null) return default;
 
-        GameObject go = Instantiate(def.prefab, tunnelParent);
+        GameObject go = Instantiate(def.prefab, TunnelParent);
         go.transform.localPosition = new Vector3(0f, _nextStackY, 0f);
 
         float step = Mathf.Max(1f, def.rotationStepDegrees);
@@ -324,7 +324,7 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
         go.transform.localRotation = Quaternion.Euler(0f, r * step, 0f);
 
         float h = Mathf.Max(0.01f, def.EffectiveHeight);
-        Spawned spawned = new Spawned { go = go, localY = _nextStackY, height = h, def = def };
+        Spawned spawned = new Spawned { Go = go, LocalY = _nextStackY, Height = h, Def = def };
         _active.Add(spawned);
         _nextStackY += h;
         return spawned;
@@ -334,12 +334,12 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
     {
         if (def == null || def.prefab == null) return default;
 
-        GameObject go = Instantiate(def.prefab, tunnelParent);
+        GameObject go = Instantiate(def.prefab, TunnelParent);
         go.transform.localPosition = new Vector3(0f, _nextStackY, 0f);
         go.transform.localRotation = Quaternion.Euler(0f, def.initialRotation, 0f);
 
         float h = Mathf.Max(0.01f, def.EffectiveHeight);
-        Spawned spawned = new Spawned { go = go, localY = _nextStackY, height = h, def = def };
+        Spawned spawned = new Spawned { Go = go, LocalY = _nextStackY, Height = h, Def = def };
         _active.Add(spawned);
         _nextStackY += h;
         return spawned;
@@ -349,7 +349,7 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
     {
         float total = 0f;
         List<TunnelSectionSO> eligible = new List<TunnelSectionSO>();
-        foreach (var d in sectionLibrary)
+        foreach (var d in SectionLibrary)
         {
             if (d == null || d.prefab == null) continue;
             if (d.minProgressLevel > 0) continue;
@@ -370,7 +370,7 @@ public class EndlessTunnelManagerUnified : MonoBehaviour
 
     private float GetNextBaseWorldY()
     {
-        return tunnelParent.TransformPoint(new Vector3(0f, _nextStackY, 0f)).y;
+        return TunnelParent.TransformPoint(new Vector3(0f, _nextStackY, 0f)).y;
     }
 
     void OnDrawGizmos()
