@@ -1,6 +1,7 @@
-using MyBox;
 using System;
 using System.Collections.Generic;
+using MyBox;
+using PixelCrushers;
 using UnityEngine;
 
 public class BlacksmithUI : MonoBehaviour
@@ -15,6 +16,7 @@ public class BlacksmithUI : MonoBehaviour
     [Foldout("Selection", true)]
     private GearSelectionUI _gearSelectionUI;
     [MustBeAssigned][SerializeField] public Transform SelectedCardParent;
+    [MustBeAssigned][SerializeField] public Transform DisabledCardsParent;
 
 
     [Foldout("Objects", true)]
@@ -98,22 +100,50 @@ public class BlacksmithUI : MonoBehaviour
         if (!SelectionUI.activeSelf)
             SelectionUI.SetActive(true);
 
+        if (_selectedGear == gearData) return;
+
         _gearSelectionUI.SelectGear(gearData);
         _selectedGear = gearData;
 
-        _cardContainer.DestroyAllCards(); // DO OBJECT POOLING
+        // move all cards to disabled parent (preserve original order)
+        while (SelectedCardParent.childCount > 0)
+        {
+            Transform child = SelectedCardParent.GetChild(0);
+            child.parent = DisabledCardsParent;
+            _cardContainer.RemoveCard(child.gameObject);
+        }
 
-        // spawn in cards
+        // get/spawn in cards 
         foreach (CardAnimationData data in gearData.Cards)
         {
             CardData cardData = CardManager.CreateCardData(gearData, data);
 
             for (int i = 0; i < data.CardAmount; i++)
             {
+                GameObject cardObject = GetCard();
+
+                if (cardObject != null)
+                {
+                    CardManager.SetCardDisplay(cardObject, cardData);
+                    continue;
+                }
+
                 CardManager.CreateCard(cardData, SelectedCardParent);
             }
         }
+
+        _cardContainer.InitCards();
     }
+
+    private GameObject GetCard()
+    {
+        if (DisabledCardsParent.childCount == 0) return null;
+
+        Transform child = DisabledCardsParent.GetChild(0);
+        child.parent = SelectedCardParent;
+        return child.gameObject;
+    }
+
 
     public void SwitchToUpgradeUI()
     {

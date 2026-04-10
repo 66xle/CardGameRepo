@@ -51,7 +51,10 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         canvas = GetComponent<Canvas>();
 
-        StartCoroutine(DrawTimer());
+        if (inDisplayMode)
+            StartCoroutine(CardSpeedToZero());
+        else
+            StartCoroutine(DrawTimer());
     }
 
     IEnumerator DrawTimer()
@@ -59,6 +62,15 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         animationSpeed = animationSpeedConfig.drawDuration;
 
         yield return new WaitForSeconds(animationSpeedConfig.drawDuration);
+
+        animationSpeed = animationSpeedConfig.duration;
+    }
+
+    public IEnumerator CardSpeedToZero()
+    {
+        animationSpeed = 0f;
+
+        yield return new WaitForSeconds(animationSpeedConfig.duration);
 
         animationSpeed = animationSpeedConfig.duration;
     }
@@ -124,7 +136,7 @@ public class CardWrapper : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 localPoint += new Vector2(0, rectTransform.rect.height * 0.7f);
 
                 var distance = Vector2.Distance(rectTransform.localPosition, localPoint);
-                var repositionSpeed = distance / animationSpeedConfig.duration;
+                var repositionSpeed = distance / animationSpeed;
 
                 if (repositionSpeed == 0)
                     repositionSpeed = 1;

@@ -24,6 +24,8 @@ public class CardManager : MonoBehaviour
     [HideInInspector] public List<CardData> DiscardPile;
     [HideInInspector] public List<CardData> EnemyCardQueue;
 
+    public GameObject GetCardPrefab => CardPrefab;
+
     void Awake()
     {
         SceneInitialize.Instance.Subscribe(Init);
@@ -103,17 +105,26 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public void CreateCard(CardData cardDrawed, Transform parent)
+    public void CreateCard(CardData cardData, Transform parent)
     {
-        GameObject card = Instantiate(CardPrefab, parent);
+        GameObject cardObject = Instantiate(CardPrefab, parent);
 
         // Spawn location
-        RectTransform rect = card.GetComponent<RectTransform>();
+        RectTransform rect = cardObject.GetComponent<RectTransform>();
         rect.localPosition += new Vector3(DrawOffset.x, DrawOffset.y, rect.localPosition.z);
         rect.localScale = SpawnScale;
 
-        CardDisplay cardDisplay = card.GetComponent<CardDisplay>();
-        cardDisplay.SetCard(cardDrawed, cardDrawed.Card);
+        CardDisplay cardDisplay = cardObject.GetComponent<CardDisplay>();
+        cardDisplay.SetCard(cardData, cardData.Card);
+    }
+
+    public void SetCardDisplay(GameObject cardObject, CardData data)
+    {
+        // Set card speed to zero so it snaps to new position instead of flying there
+        StartCoroutine(cardObject.GetComponent<CardWrapper>().CardSpeedToZero());
+
+        CardDisplay cardDisplay = cardObject.GetComponent<CardDisplay>();
+        cardDisplay.SetCard(data, data.Card);
     }
 
     public void DrawCards(int amount)

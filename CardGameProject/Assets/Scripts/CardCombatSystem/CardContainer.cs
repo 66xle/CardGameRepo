@@ -73,7 +73,7 @@ public class CardContainer : MonoBehaviour
         InitCards();
     }
 
-    private void InitCards()
+    public void InitCards()
     {
         SetUpCards();
         SetCardsAnchor();
@@ -394,6 +394,11 @@ public class CardContainer : MonoBehaviour
         cards.Remove(card);
         eventsConfig.OnCardDestroy?.Invoke(new CardDestroy(card));
         Destroy(card.gameObject);
+    }
+
+    public void RemoveCard(GameObject cardObject)
+    {
+        cards.Remove(cardObject.GetComponent<CardWrapper>());
     }
 
     public void DestroyAllCards()
