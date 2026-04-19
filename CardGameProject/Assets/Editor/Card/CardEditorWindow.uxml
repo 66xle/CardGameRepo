@@ -1,20 +1,21 @@
-<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Editor/Card/CardEditorStyles.uss?fileID=7433441132597879392&amp;guid=d5348b8bd4dc52b49962c9add49df308&amp;type=3#CardEditorStyles" />
     <engine:Box name="toolbar">
         <engine:Button text="Add Card" name="add-card" />
         <engine:Button text="Delete Card" name="delete-card" />
         <engine:Button text="Rename Card" name="rename-card" />
     </engine:Box>
     <engine:Box name="container">
-        <engine:ListView name="card-list" />
-        <engine:Box name="card" style="position: relative; right: 0; left: 0; align-self: auto;">
-            <engine:Image name="preview" style="left: 185px;" />
-            <engine:Image name="preview2" style="left: 185px;" />
-            <engine:Label name="title" />
-            <engine:Label name="description" />
-            <engine:Label name="flavour" />
-            <engine:Label name="cost" />
+        <engine:ListView name="card-list" style="height: auto; max-height: none; width: 197px;" />
+        <engine:Box name="card" style="height: auto; width: 446px; align-items: auto; justify-content: flex-start; flex-grow: 0;">
+            <engine:Image name="preview" style="left: 130px; position: absolute; top: 60px;" />
+            <engine:Image name="preview2" style="left: 127px; position: absolute; top: 60px;" />
+            <engine:Label name="cost" style="height: 26px; top: 98px; left: 214px;" />
+            <engine:Label name="title" style="align-items: center; top: 359px; left: 167px; flex-grow: 1; position: absolute; height: 28px; width: 128px; align-self: center;" />
+            <engine:Label name="description" style="top: 386px; left: 157px; align-self: center;" />
+            <engine:Label name="flavour" style="top: 439px; left: 164px; align-self: center;" />
         </engine:Box>
-        <engine:ScrollView name="card-info-scroll" style="right: 0; position: absolute; justify-content: flex-start; align-self: auto; left: auto; top: 0; bottom: 0;">
+        <engine:ScrollView name="card-info-scroll" style="right: 0; position: relative; justify-content: flex-start; align-self: auto; left: 0; top: 0; bottom: 0; height: auto; width: 130px;">
             <engine:Box name="card-info" />
         </engine:ScrollView>
     </engine:Box>
