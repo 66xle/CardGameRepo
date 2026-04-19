@@ -132,12 +132,7 @@ public class CardPopupWindow : PopupWindow
         window.rootVisualElement.Query<Box>("card-info").First().Clear();
         window.list.itemsSource = null;
 
-
-        Card card = CreateNewCard(selectedCard);
-
-        // Delete then create asset
-        AssetDatabase.DeleteAsset($"Assets/ScriptableObjects/Cards/{oldFileName}.asset");
-        AssetDatabase.CreateAsset(card, $"Assets/ScriptableObjects/Cards/{newFileName}.asset");
+        AssetDatabase.RenameAsset($"Assets/ScriptableObjects/Cards/{oldFileName}.asset", newFileName);
 
         window.CreateListView();
         CloseWindow();

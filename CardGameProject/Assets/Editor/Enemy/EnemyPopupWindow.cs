@@ -134,12 +134,7 @@ public class EnemyPopupWindow : PopupWindow
         window.rootVisualElement.Query<Box>("enemy-info").First().Clear();
         window.list.itemsSource = null;
 
-
-        EnemyData enemy = CreateNewEnemy(selectedEnemyData);
-
-        // Delete then create asset
-        AssetDatabase.DeleteAsset($"Assets/ScriptableObjects/Enemy/{oldFileName}.asset");
-        AssetDatabase.CreateAsset(enemy, $"Assets/ScriptableObjects/Enemy/{newFileName}.asset");
+        AssetDatabase.RenameAsset($"Assets/ScriptableObjects/Enemy/{oldFileName}.asset", newFileName);
 
         window.CreateListView();
         CloseWindow();

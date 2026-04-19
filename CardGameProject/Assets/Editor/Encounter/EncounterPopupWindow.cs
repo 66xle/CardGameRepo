@@ -156,11 +156,8 @@ public class EncounterPopupWindow : PopupWindow
         window.list.itemsSource = null;
 
 
-        EncounterData encounter = CreateNewEncounter(selectedData);
+        AssetDatabase.RenameAsset($"Assets/ScriptableObjects/Encounter/{oldFileName}.asset", newFileName);
 
-        // Delete then create asset
-        AssetDatabase.DeleteAsset($"Assets/ScriptableObjects/Encounter/{oldFileName}.asset");
-        AssetDatabase.CreateAsset(encounter, $"Assets/ScriptableObjects/Encounter/{newFileName}.asset");
 
         window.CreateListView();
         CloseWindow();

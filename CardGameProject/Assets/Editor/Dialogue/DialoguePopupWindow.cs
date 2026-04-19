@@ -148,9 +148,8 @@ public class DialoguePopupWindow : PopupWindow
                 eventsToBeRenamed.Add(evt);
         }
 
-        // Delete then create asset
-        AssetDatabase.DeleteAsset($"Assets/ScriptableObjects/Events/{oldFileName}.asset");
-        AssetDatabase.CreateAsset(newEvent, $"Assets/ScriptableObjects/Events/{newFileName}.asset");
+
+        AssetDatabase.RenameAsset($"Assets/ScriptableObjects/Events/{oldFileName}.asset", newFileName);
 
         Event renamedEvent = AssetDatabase.LoadAssetAtPath<Event>($"Assets/ScriptableObjects/Events/{newFileName}.asset");
         eventsToBeRenamed.ForEach(evt => evt.nextEvent = renamedEvent);

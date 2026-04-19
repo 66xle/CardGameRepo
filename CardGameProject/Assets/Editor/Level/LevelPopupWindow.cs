@@ -135,11 +135,8 @@ public class LevelPopupWindow : PopupWindow
         window.list.itemsSource = null;
 
 
-        LevelData level = CreateNewLevel(selectedLevelData);
+        AssetDatabase.RenameAsset($"Assets/ScriptableObjects/Level/{oldFileName}.asset", newFileName);
 
-        // Delete then create asset
-        AssetDatabase.DeleteAsset($"Assets/ScriptableObjects/Level/{oldFileName}.asset");
-        AssetDatabase.CreateAsset(level, $"Assets/ScriptableObjects/Level/{newFileName}.asset");
 
         window.CreateListView();
         CloseWindow();

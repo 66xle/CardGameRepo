@@ -175,22 +175,7 @@ public class GearPopupWindow : PopupWindow
         window.rootVisualElement.Query<Box>("gear-info").First().Clear();
         window.list.itemsSource = null;
 
-        if (type == "Weapon")
-        {
-            WeaponData weapon = RenameWeapon(selectedData as WeaponData);
-
-            // Delete then create asset
-            AssetDatabase.DeleteAsset($"Assets/ScriptableObjects/Gear/{oldFileName}.asset");
-            AssetDatabase.CreateAsset(weapon, $"Assets/ScriptableObjects/Gear/{newFileName}.asset");
-        }
-        else
-        {
-            ArmourData armour = RenameArmour(selectedData as ArmourData);
-
-            // Delete then create asset
-            AssetDatabase.DeleteAsset($"Assets/ScriptableObjects/Gear/{oldFileName}.asset");
-            AssetDatabase.CreateAsset(armour, $"Assets/ScriptableObjects/Gear/{newFileName}.asset");
-        }
+        AssetDatabase.RenameAsset($"Assets/ScriptableObjects/Gear/{oldFileName}.asset", newFileName);
 
         window.CreateListView();
         CloseWindow();
