@@ -1,11 +1,11 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/Editor/Card/CardEditorStyles.uss?fileID=7433441132597879392&amp;guid=d5348b8bd4dc52b49962c9add49df308&amp;type=3#CardEditorStyles" />
-    <engine:Box name="toolbar">
+    <engine:Box name="toolbar" style="min-height: 30px;">
         <engine:Button text="Add Card" name="add-card" />
         <engine:Button text="Delete Card" name="delete-card" />
         <engine:Button text="Rename Card" name="rename-card" />
     </engine:Box>
-    <engine:Box name="container">
+    <engine:Box name="container" style="min-width: auto; min-height: 1000px;">
         <engine:ListView name="card-list" style="height: auto; max-height: none; width: 197px;" />
         <engine:Box name="card" style="height: auto; width: 446px; align-items: auto; justify-content: flex-start; flex-grow: 0;">
             <DynamicDropdown name="variant-dropdown" style="position: absolute; top: 14px; left: 11px;" />
