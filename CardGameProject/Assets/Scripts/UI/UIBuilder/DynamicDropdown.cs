@@ -117,7 +117,7 @@ public partial class DynamicDropdown : VisualElement
         {
             if (string.IsNullOrWhiteSpace(_inputField.value))
             {
-                _inputField.value = DEFAULTTEXT;
+                _inputField.value = ADDTEXT;
                 _isPlaceholderActive = true;
             }
 
