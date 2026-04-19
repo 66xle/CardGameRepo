@@ -10,6 +10,7 @@ public class CardEditorWindow : BaseEditorWindow
 {
     private Card selectedCard;
     private string lastDisplayDescription;
+    Box cardInfoBox;
 
     [MenuItem("Editor/Card Editor")]
     public static void ShowWindow()
@@ -33,6 +34,11 @@ public class CardEditorWindow : BaseEditorWindow
         EditorApplication.update += UpdateCardUI;
 
         EditorApplication.delayCall += () => { base.Init(); };
+
+        cardInfoBox = rootVisualElement.Query<Box>("card-info").First();
+
+        
+
     }
 
     private void OnDisable()
@@ -53,47 +59,28 @@ public class CardEditorWindow : BaseEditorWindow
         {
             foreach (UnityEngine.Object it in enumerable)
             {
-                Box cardInfoBox = rootVisualElement.Query<Box>("card-info").First();
                 cardInfoBox.Clear();
 
                 Card card = it as Card;
                 selectedCard = card;
 
-                if (card == null) return;
+                if (selectedCard == null) return;
 
-                SerializedObject serializeCard = new SerializedObject(card);
-                SerializedProperty cardProperty = serializeCard.GetIterator();
-                cardProperty.Next(true);
+                DynamicDropdown variantDropdown = rootVisualElement.Query<DynamicDropdown>("variant-dropdown").First();
+                variantDropdown.ClearItems();
 
-                while (cardProperty.NextVisible(false))
+                foreach (CardVariant variant in selectedCard.Variants)
                 {
-                    PropertyField prop = new PropertyField(cardProperty);
-
-                    prop.SetEnabled(cardProperty.name != "m-Script");
-                    prop.Bind(serializeCard);
-                    cardInfoBox.Add(prop);
-
-                    // Update images and text
-                    if (cardProperty.name == "Image" || cardProperty.name == "Frame")
-                    {
-                        prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadCardImage(card));
-                    }
-
-                    if (cardProperty.name == "CardName" || cardProperty.name == "Description" ||
-                        cardProperty.name == "Flavour" || cardProperty.name == "Value" || cardProperty.name == "Cost")
-                    {
-                        prop.RegisterValueChangeCallback(changeEvt => LoadCardText(card, list));
-                    }
-
-                    if (cardProperty.name == "DisplayDescription")
-                    {
-                        lastDisplayDescription = card.DisplayDescription;
-                    }
-
+                    variantDropdown.AddItemExternal(variant.Name);
                 }
 
-                LoadCardImage(card);
-                LoadCardText(card);
+                
+                variantDropdown.OnItemSelected -= CheckCardVariant; 
+                variantDropdown.OnItemSelected += CheckCardVariant; 
+                variantDropdown.OnItemAdded -= AddCardVariant;
+                variantDropdown.OnItemAdded += AddCardVariant;
+
+                LoadDefaultCard();
             }
         };
 
@@ -101,6 +88,237 @@ public class CardEditorWindow : BaseEditorWindow
 
         if (!isInitialized)
             list.SetSelection(listIndex);
+    }
+
+    private void AddCardVariant(string name)
+    {
+        selectedCard.Variants.Add(new CardVariant() { Name = name });
+    }
+
+    private void CheckCardVariant(string name)
+    {
+        if (name == "Base Card")
+        {
+            LoadDefaultCard();
+        }
+        else
+        {
+            LoadCardVariant(name);
+        }
+    }
+
+    private void LoadDefaultCard()
+    {
+        cardInfoBox.Clear();
+
+        SerializedObject serializeCard = new SerializedObject(selectedCard);
+        SerializedProperty cardProperty = serializeCard.GetIterator();
+        cardProperty.Next(true);
+
+        while (cardProperty.NextVisible(false))
+        {
+            PropertyField prop = new PropertyField(cardProperty);
+
+            prop.SetEnabled(cardProperty.name != "m-Script");
+            prop.Bind(serializeCard);
+            cardInfoBox.Add(prop);
+
+            // Update images and text
+            if (cardProperty.name == "Image" || cardProperty.name == "Frame")
+            {
+                prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadCardImage(selectedCard));
+            }
+
+            if (cardProperty.name == "CardName" || cardProperty.name == "Description" ||
+                cardProperty.name == "Flavour" || cardProperty.name == "Value" || cardProperty.name == "Cost")
+            {
+                prop.RegisterValueChangeCallback(changeEvt => LoadCardText(selectedCard, list));
+            }
+
+            if (cardProperty.name == "DisplayDescription")
+            {
+                lastDisplayDescription = selectedCard.DisplayDescription;
+            }
+
+        }
+
+        LoadCardImage(selectedCard);
+        LoadCardText(selectedCard);
+    }
+
+    private void LoadCardVariant(string variant)
+    {
+        cardInfoBox.Clear();
+
+        SerializedObject cardSO = new SerializedObject(selectedCard);
+        SerializedProperty variants = cardSO.FindProperty("Variants");
+
+        int index = selectedCard.Variants.FindIndex(x => x.Name == variant);
+        SerializedProperty variantElement = variants.GetArrayElementAtIndex(index);
+
+        CardVariant cardVariant = selectedCard.Variants[index];
+
+        SerializedProperty variantProp = variantElement.Copy();
+
+        SerializedProperty end = variantProp.GetEndProperty();
+        bool enterChildren = true;
+
+        PropertyField overRideDescription = null;
+        PropertyField overRideFlavour = null;
+
+        PropertyField overRideImage = null;
+        PropertyField overRideFrame = null;
+
+        PropertyField overRideCost = null;
+        PropertyField overRideRecycleValue = null;
+
+
+        while (variantProp.NextVisible(enterChildren) && !SerializedProperty.EqualContents(variantProp, end))
+        {
+            enterChildren = false;
+
+            PropertyField prop = new PropertyField(variantProp);
+            prop.Bind(cardSO);
+
+            #region Assign Override Properties
+
+            if (variantProp.name == "OverrideDescription")
+            {
+                overRideDescription = prop;
+            }
+            else if (variantProp.name == "OverrideFlavour")
+            {
+                overRideFlavour = prop;
+            }
+            else if (variantProp.name == "OverrideImage")
+            {
+                overRideImage = prop;
+            }
+            else if (variantProp.name == "OverrideFrame")
+            {
+                overRideFrame = prop;
+            }
+            else if (variantProp.name == "OverrideCost")
+            {
+                overRideCost = prop;
+            }
+            else if (variantProp.name == "OverrideRecycleValue")
+            {
+                overRideRecycleValue = prop;
+            }
+
+            #endregion
+
+
+            if (variantProp.name == "Description" || variantProp.name == "Flavour")
+            {
+                Label label = new Label(variantProp.name);
+                label.style.marginTop = 10;
+
+                TextField textArea = new TextField();
+                textArea.RegisterCallback<AttachToPanelEvent>(evt =>
+                {
+                    var input = textArea.Q(TextField.textInputUssName);
+
+                    if (input != null)
+                    {
+                        input.style.minHeight = 50;
+                    }
+                });
+
+                textArea.multiline = true;
+                textArea.value = variantProp.stringValue;
+
+                textArea.RegisterValueChangedCallback(evt =>
+                {
+                    variantProp.stringValue = evt.newValue;
+                    cardSO.ApplyModifiedProperties();
+                });
+
+                if (variantProp.name == "Description")
+                {
+                    overRideDescription.RegisterValueChangeCallback(evt =>
+                    {
+                        label.style.opacity = cardVariant.OverrideDescription ? 1f : 0f;
+                        textArea.style.opacity = cardVariant.OverrideDescription ? 1f : 0f;
+                        label.style.height = cardVariant.OverrideDescription ? Length.Auto() : 0;
+                        textArea.style.height = cardVariant.OverrideDescription ? Length.Auto() : 0;
+                    });
+                }
+                else if (variantProp.name == "Flavour")
+                {
+                    overRideFlavour.RegisterValueChangeCallback(evt =>
+                    {
+                        label.style.opacity = cardVariant.OverrideFlavour ? 1f : 0f;
+                        textArea.style.opacity = cardVariant.OverrideFlavour ? 1f : 0f;
+                        label.style.height = cardVariant.OverrideFlavour ? Length.Auto() : 0;
+                        textArea.style.height = cardVariant.OverrideFlavour ? Length.Auto() : 0;
+                    });
+                }
+
+                cardInfoBox.Add(label);
+                cardInfoBox.Add(textArea);
+                continue;
+            }
+
+            if (variantProp.name == "Image")
+            {
+                Label label = new Label("Card Image");
+                label.style.unityFontStyleAndWeight = FontStyle.Bold;
+                label.style.marginTop = 10;
+
+                overRideImage.RegisterValueChangeCallback(evt =>
+                {
+                    label.style.opacity = (cardVariant.OverrideImage || cardVariant.OverrideFrame) ? 1f : 0f;
+                    label.style.height = (cardVariant.OverrideImage || cardVariant.OverrideFrame) ? Length.Auto() : 0;
+                });
+
+                overRideFrame.RegisterValueChangeCallback(evt =>
+                {
+                    label.style.opacity = (cardVariant.OverrideImage || cardVariant.OverrideFrame) ? 1f : 0f;
+                    label.style.height = (cardVariant.OverrideImage || cardVariant.OverrideFrame) ? Length.Auto() : 0;
+                });
+
+                if (cardVariant.OverrideImage || cardVariant.OverrideFrame)
+                {
+                    label.style.opacity = (cardVariant.OverrideImage || cardVariant.OverrideFrame) ? 1f : 0f;
+                    label.style.height = (cardVariant.OverrideImage || cardVariant.OverrideFrame) ? Length.Auto() : 0;
+                }
+
+                cardInfoBox.Add(label);
+            }
+
+            if (variantProp.name == "Cost")
+            {
+                Label label = new Label("Card Info");
+                label.style.unityFontStyleAndWeight = FontStyle.Bold;
+                label.style.marginTop = 10;
+
+                overRideCost.RegisterValueChangeCallback(evt =>
+                {
+                    label.style.opacity = (cardVariant.OverrideCost || cardVariant.OverrideRecycleValue) ? 1f : 0f;
+                    label.style.height = (cardVariant.OverrideCost || cardVariant.OverrideRecycleValue) ? Length.Auto() : 0;
+                });
+
+                overRideRecycleValue.RegisterValueChangeCallback(evt =>
+                {
+                    label.style.opacity = (cardVariant.OverrideCost || cardVariant.OverrideRecycleValue) ? 1f : 0f;
+                    label.style.height = (cardVariant.OverrideCost || cardVariant.OverrideRecycleValue) ? Length.Auto() : 0;
+                });
+
+                if (cardVariant.OverrideCost || cardVariant.OverrideRecycleValue)
+                {
+                    label.style.opacity = (cardVariant.OverrideCost || cardVariant.OverrideRecycleValue) ? 1f : 0f;
+                    label.style.height = (cardVariant.OverrideCost || cardVariant.OverrideRecycleValue) ? Length.Auto() : 0;
+                }
+
+                cardInfoBox.Add(label);
+            }
+            
+
+            prop.SetEnabled(variantProp.name != "m-Script");
+            cardInfoBox.Add(prop);
+        }
     }
 
     public override void SetButtons()

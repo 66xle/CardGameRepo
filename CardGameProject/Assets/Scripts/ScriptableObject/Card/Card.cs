@@ -35,6 +35,8 @@ public class Card : ScriptableObject
 
     [HideInInspector] public List<SerializableKeyValuePair<string, PopupText>> PopupKeyPair;
 
+    public List<CardVariant> Variants = new();
+
     private void OnValidate()
     {
         ValuesToReference.Clear();

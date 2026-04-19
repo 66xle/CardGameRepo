@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 using System.Collections.Generic;
+using PixelCrushers.DialogueSystem;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -27,7 +29,8 @@ public partial class DynamicDropdown : VisualElement
 
     // ================= STATE =================
     private bool _isPlaceholderActive = true;
-    private const string PLACEHOLDER = "Add Item";
+    private const string ADDTEXT = "Add Item";
+    private const string DEFAULTTEXT = "Base Card";
 
     // ================= EVENTS =================
     public event Action<string> OnItemSelected;
@@ -40,7 +43,7 @@ public partial class DynamicDropdown : VisualElement
         BuildToggle();
         BuildDropdown();
 
-        AddDefaultItem("Default Item");
+        AddDefaultItem("Default");
 
         Add(_toggleButton);
         Add(_dropdownContent);
@@ -56,7 +59,7 @@ public partial class DynamicDropdown : VisualElement
         _toggleButton.style.justifyContent = Justify.SpaceBetween;
         _toggleButton.style.alignItems = Align.Center;
 
-        _label = new Label("Default Item");
+        _label = new Label(DEFAULTTEXT);
         _label.style.flexGrow = 1;
 
         _arrow = new Label("▼");
@@ -98,7 +101,7 @@ public partial class DynamicDropdown : VisualElement
         container.style.alignItems = Align.Center;
 
         _inputField = new TextField();
-        _inputField.value = PLACEHOLDER;
+        _inputField.value = ADDTEXT;
         _inputField.style.flexGrow = 1;
 
         _inputField.RegisterCallback<FocusInEvent>(_ =>
@@ -114,7 +117,7 @@ public partial class DynamicDropdown : VisualElement
         {
             if (string.IsNullOrWhiteSpace(_inputField.value))
             {
-                _inputField.value = PLACEHOLDER;
+                _inputField.value = DEFAULTTEXT;
                 _isPlaceholderActive = true;
             }
 
@@ -196,12 +199,26 @@ public partial class DynamicDropdown : VisualElement
         _items.Add(name);
         CreateItem(name);
 
-        _inputField.value = PLACEHOLDER;
+        _inputField.value = DEFAULTTEXT;
         _isPlaceholderActive = true;
 
         ValidateInput();
 
         OnItemAdded?.Invoke(name);
+    }
+
+    public void AddItemExternal(string name)
+    {
+        if (_items.Contains(name)) return;
+        _items.Add(name);
+        CreateItem(name);
+    }
+
+    public void ClearItems()
+    {
+        _items.Clear();
+        _itemList.Clear();
+        AddDefaultItem(DEFAULTTEXT);
     }
 
     // =========================================================
@@ -302,7 +319,7 @@ public partial class DynamicDropdown : VisualElement
     {
         if (_selectedItem == name)
         {
-            _selectedItem = "Default Item";
+            _selectedItem = DEFAULTTEXT;
             _label.text = _selectedItem;
         }
 
@@ -322,6 +339,11 @@ public partial class DynamicDropdown : VisualElement
         _label.text = name;
 
         OnItemSelected?.Invoke(name);
+    }
+
+    public string GetSelectedItem()
+    {
+        return _selectedItem;
     }
 
     // =========================================================
