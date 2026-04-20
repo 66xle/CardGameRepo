@@ -21,21 +21,32 @@ public class CardVariant
     public bool OverrideCommands;
 
 
+    // Not shown in inspector (Editor creates these fields)
+    public string Description = string.Empty;
+    public string Flavour = string.Empty;
 
-    [ConditionalField(nameof(OverrideDescription))] public string Description = string.Empty;
-    [ConditionalField(nameof(OverrideFlavour))] public string Flavour = string.Empty;
 
-    [ConditionalField(nameof(OverrideImage))] public Sprite Image;
-    [ConditionalField(nameof(OverrideFrame))] public Sprite Frame;
 
-    [ConditionalField(nameof(OverrideCost))] public int Cost = 0;
-    [ConditionalField(nameof(OverrideRecycleValue))] public int RecycleValue = 0;
+    [ReadOnly(nameof(OverrideImage), true)] public Sprite Image;
+    [ReadOnly(nameof(OverrideFrame), true)] public Sprite Frame;
+
+    [ReadOnly(nameof(OverrideCost), true)] public int Cost = 0;
+    [ReadOnly(nameof(OverrideRecycleValue), true)] public int RecycleValue = 0;
 
     [Separator]
 
     [SerializeReference][SR] public List<Executable> Commands;
 
-
+    public CardVariant(Card card)
+    {
+       Description = card.Description;
+       Flavour = card.Flavour;
+       Image = card.Image;
+       Frame = card.Frame;
+       Cost = card.Cost;
+       RecycleValue = card.RecycleValue;
+       Commands = new List<Executable>(card.Commands);
+    }
 
 
 

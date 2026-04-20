@@ -94,7 +94,7 @@ public class CardEditorWindow : BaseEditorWindow
 
     private void AddCardVariant(string name)
     {
-        selectedCard.Variants.Add(new CardVariant() { Name = name });
+        selectedCard.Variants.Add(new CardVariant(selectedCard) { Name = name });
     }
 
     private void DeleteCardVariant(string name)
@@ -251,31 +251,37 @@ public class CardEditorWindow : BaseEditorWindow
 
                 textArea.multiline = true;
                 textArea.value = variantProp.stringValue;
-
-                textArea.RegisterValueChangedCallback(evt =>
-                {
-                    variantProp.stringValue = evt.newValue;
-                    cardSO.ApplyModifiedProperties();
-                });
+                VisualElement text = textArea.Query(className: "unity-text-element");
+                
 
                 if (variantProp.name == "Description")
                 {
+                    textArea.RegisterValueChangedCallback(evt =>
+                    {
+                        cardVariant.Description = evt.newValue;
+                    });
+
                     overRideDescription.RegisterValueChangeCallback(evt =>
                     {
-                        label.style.opacity = cardVariant.OverrideDescription ? 1f : 0f;
-                        textArea.style.opacity = cardVariant.OverrideDescription ? 1f : 0f;
-                        label.style.height = cardVariant.OverrideDescription ? Length.Auto() : 0;
-                        textArea.style.height = cardVariant.OverrideDescription ? Length.Auto() : 0;
+                        label.style.color = cardVariant.OverrideDescription ? Color.white : Color.gray;
+
+                        textArea.isReadOnly = cardVariant.OverrideDescription ? false : true;
+                        text.style.color = cardVariant.OverrideDescription ? Color.white : Color.gray;
                     });
                 }
                 else if (variantProp.name == "Flavour")
                 {
+                    textArea.RegisterValueChangedCallback(evt =>
+                    {
+                        cardVariant.Flavour = evt.newValue;
+                    });
+
                     overRideFlavour.RegisterValueChangeCallback(evt =>
                     {
-                        label.style.opacity = cardVariant.OverrideFlavour ? 1f : 0f;
-                        textArea.style.opacity = cardVariant.OverrideFlavour ? 1f : 0f;
-                        label.style.height = cardVariant.OverrideFlavour ? Length.Auto() : 0;
-                        textArea.style.height = cardVariant.OverrideFlavour ? Length.Auto() : 0;
+                        label.style.color = cardVariant.OverrideFlavour ? Color.white : Color.gray;
+
+                        textArea.isReadOnly = cardVariant.OverrideFlavour ? false : true;
+                        text.style.color = cardVariant.OverrideFlavour ? Color.white : Color.gray;
                     });
                 }
 
@@ -289,25 +295,6 @@ public class CardEditorWindow : BaseEditorWindow
                 Label label = new Label("Card Image");
                 label.style.unityFontStyleAndWeight = FontStyle.Bold;
                 label.style.marginTop = 10;
-
-                overRideImage.RegisterValueChangeCallback(evt =>
-                {
-                    label.style.opacity = (cardVariant.OverrideImage || cardVariant.OverrideFrame) ? 1f : 0f;
-                    label.style.height = (cardVariant.OverrideImage || cardVariant.OverrideFrame) ? Length.Auto() : 0;
-                });
-
-                overRideFrame.RegisterValueChangeCallback(evt =>
-                {
-                    label.style.opacity = (cardVariant.OverrideImage || cardVariant.OverrideFrame) ? 1f : 0f;
-                    label.style.height = (cardVariant.OverrideImage || cardVariant.OverrideFrame) ? Length.Auto() : 0;
-                });
-
-                if (cardVariant.OverrideImage || cardVariant.OverrideFrame)
-                {
-                    label.style.opacity = (cardVariant.OverrideImage || cardVariant.OverrideFrame) ? 1f : 0f;
-                    label.style.height = (cardVariant.OverrideImage || cardVariant.OverrideFrame) ? Length.Auto() : 0;
-                }
-
                 cardInfoBox.Add(label);
             }
 
@@ -316,24 +303,6 @@ public class CardEditorWindow : BaseEditorWindow
                 Label label = new Label("Card Info");
                 label.style.unityFontStyleAndWeight = FontStyle.Bold;
                 label.style.marginTop = 10;
-
-                overRideCost.RegisterValueChangeCallback(evt =>
-                {
-                    label.style.opacity = (cardVariant.OverrideCost || cardVariant.OverrideRecycleValue) ? 1f : 0f;
-                    label.style.height = (cardVariant.OverrideCost || cardVariant.OverrideRecycleValue) ? Length.Auto() : 0;
-                });
-
-                overRideRecycleValue.RegisterValueChangeCallback(evt =>
-                {
-                    label.style.opacity = (cardVariant.OverrideCost || cardVariant.OverrideRecycleValue) ? 1f : 0f;
-                    label.style.height = (cardVariant.OverrideCost || cardVariant.OverrideRecycleValue) ? Length.Auto() : 0;
-                });
-
-                if (cardVariant.OverrideCost || cardVariant.OverrideRecycleValue)
-                {
-                    label.style.opacity = (cardVariant.OverrideCost || cardVariant.OverrideRecycleValue) ? 1f : 0f;
-                    label.style.height = (cardVariant.OverrideCost || cardVariant.OverrideRecycleValue) ? Length.Auto() : 0;
-                }
 
                 cardInfoBox.Add(label);
             }
