@@ -35,6 +35,7 @@ public partial class DynamicDropdown : VisualElement
     // ================= EVENTS =================
     public event Action<string> OnItemSelected;
     public event Action<string> OnItemAdded;
+    public event Action<string> OnItemDeleted;
 
     public DynamicDropdown()
     {
@@ -313,6 +314,11 @@ public partial class DynamicDropdown : VisualElement
 #endif
 
         DeleteItem(name, row);
+
+        OnItemDeleted?.Invoke(name);
+
+        SelectItem("Base Card");
+        ToggleDropdown();
     }
 
     private void DeleteItem(string name, VisualElement row)

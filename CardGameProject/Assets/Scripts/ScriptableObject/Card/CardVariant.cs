@@ -9,6 +9,9 @@ using UnityEngine;
 public class CardVariant
 {
     public string Name;
+
+    [Separator]
+
     public bool OverrideDescription;
     public bool OverrideFlavour;
     public bool OverrideImage;
@@ -17,9 +20,8 @@ public class CardVariant
     public bool OverrideRecycleValue;
     public bool OverrideCommands;
 
-    [Separator]
 
-    
+
     [ConditionalField(nameof(OverrideDescription))] public string Description = string.Empty;
     [ConditionalField(nameof(OverrideFlavour))] public string Flavour = string.Empty;
 

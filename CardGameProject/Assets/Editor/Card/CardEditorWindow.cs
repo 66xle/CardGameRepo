@@ -79,6 +79,8 @@ public class CardEditorWindow : BaseEditorWindow
                 variantDropdown.OnItemSelected += CheckCardVariant; 
                 variantDropdown.OnItemAdded -= AddCardVariant;
                 variantDropdown.OnItemAdded += AddCardVariant;
+                variantDropdown.OnItemDeleted -= DeleteCardVariant;
+                variantDropdown.OnItemDeleted += DeleteCardVariant;
 
                 LoadDefaultCard();
             }
@@ -93,6 +95,15 @@ public class CardEditorWindow : BaseEditorWindow
     private void AddCardVariant(string name)
     {
         selectedCard.Variants.Add(new CardVariant() { Name = name });
+    }
+
+    private void DeleteCardVariant(string name)
+    {
+        int index = selectedCard.Variants.FindIndex(x => x.Name == name);
+        if (index >= 0)
+        {
+            selectedCard.Variants.RemoveAt(index);
+        }
     }
 
     private void CheckCardVariant(string name)
@@ -172,6 +183,8 @@ public class CardEditorWindow : BaseEditorWindow
         PropertyField overRideCost = null;
         PropertyField overRideRecycleValue = null;
 
+        PropertyField overRideCommands = null;
+
 
         while (variantProp.NextVisible(enterChildren) && !SerializedProperty.EqualContents(variantProp, end))
         {
@@ -205,6 +218,10 @@ public class CardEditorWindow : BaseEditorWindow
             else if (variantProp.name == "OverrideRecycleValue")
             {
                 overRideRecycleValue = prop;
+            }
+            else if (variantProp.name == "OverrideCommands")
+            {
+                overRideCommands = prop;
             }
 
             #endregion
@@ -314,7 +331,16 @@ public class CardEditorWindow : BaseEditorWindow
 
                 cardInfoBox.Add(label);
             }
-            
+
+            if (variantProp.name == "Commands")
+            {
+                overRideCommands.RegisterValueChangeCallback(evt =>
+                {
+                    prop.style.opacity = cardVariant.OverrideCommands ? 1f : 0f;
+                    prop.style.height = cardVariant.OverrideCommands ? Length.Auto() : 0;
+                });
+            }
+
 
             prop.SetEnabled(variantProp.name != "m-Script");
             cardInfoBox.Add(prop);
