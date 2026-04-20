@@ -151,6 +151,12 @@ public class CardEditorWindow : BaseEditorWindow
                 lastDisplayDescription = selectedCard.DisplayDescription;
             }
 
+            if (cardProperty.name == "Variants")
+            {
+                prop.style.opacity = 0f;
+                prop.style.height = 0;
+            }
+
         }
 
         LoadCardImage(selectedCard);

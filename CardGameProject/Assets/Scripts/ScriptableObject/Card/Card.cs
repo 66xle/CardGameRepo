@@ -35,7 +35,7 @@ public class Card : ScriptableObject
 
     [HideInInspector] public List<SerializableKeyValuePair<string, PopupText>> PopupKeyPair;
 
-    [HideInInspector] public List<CardVariant> Variants = new();
+    public List<CardVariant> Variants = new();
 
     private void OnValidate()
     {
