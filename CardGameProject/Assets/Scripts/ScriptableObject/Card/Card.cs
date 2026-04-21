@@ -40,11 +40,16 @@ public class Card : ScriptableObject
     private void OnValidate()
     {
         ValuesToReference.Clear();
+        CheckCommandsForValues(Commands, ValuesToReference);
 
-        CheckCommandsForValues(Commands);
+        foreach (CardVariant variant in Variants)
+        {
+            variant.ValuesToReference.Clear();
+            CheckCommandsForValues(variant.Commands, variant.ValuesToReference);
+        }
     }
 
-    private void CheckCommandsForValues(List<Executable> commands)
+    private void CheckCommandsForValues(List<Executable> commands, List<Vector2> valuesToReference)
     {
         foreach (Executable command in commands)
         {
@@ -53,42 +58,42 @@ public class Card : ScriptableObject
             if (command is Condition)
             {
                 if (command.IsUsingValue)
-                    AddValueToReferenceList(command);
+                    AddValueToReferenceList(command, valuesToReference);
 
                 Condition condition = command as Condition;
-                CheckCommandsForValues(condition.Commands);
+                CheckCommandsForValues(condition.Commands, valuesToReference);
                 continue;
             }
 
             if (!command.IsUsingValue) continue;
 
 
-            AddValueToReferenceList(command);
+            AddValueToReferenceList(command, valuesToReference);
         }
     }
 
-    public void AddValueToReferenceList(Executable command)
+    public void AddValueToReferenceList(Executable command, List<Vector2> valuesToReference)
     {
         if (command is BlockCommand)
         {
-            ValuesToReference.Add(new Vector2(1, command.Value));
+            valuesToReference.Add(new Vector2(1, command.Value));
 
             return;
         }
         else if (command is HealCommand)
         {
-            ValuesToReference.Add(new Vector2(2, command.Value));
+            valuesToReference.Add(new Vector2(2, command.Value));
 
             return;
         }
         else if (command is GuardCommand || command is DrawCommand)
         {
-            ValuesToReference.Add(new Vector2(3, command.Value));
+            valuesToReference.Add(new Vector2(3, command.Value));
 
             return;
         }
 
-        ValuesToReference.Add(new Vector2(0, command.Value));
+        valuesToReference.Add(new Vector2(0, command.Value));
     }
 
 }

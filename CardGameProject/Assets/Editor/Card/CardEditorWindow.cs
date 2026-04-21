@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 public class CardEditorWindow : BaseEditorWindow
 {
     private Card selectedCard;
-    private string lastDisplayDescription;
+    private CardVariant selectedVariant;
     Box cardInfoBox;
 
     [MenuItem("Editor/Card Editor")]
@@ -31,19 +31,9 @@ public class CardEditorWindow : BaseEditorWindow
     {
         Enable("CardEditorWindow", "CardEditorStyles", "card", "Card");
 
-        EditorApplication.update += UpdateCardUI;
-
         EditorApplication.delayCall += () => { base.Init(); };
 
         cardInfoBox = rootVisualElement.Query<Box>("card-info").First();
-
-        
-
-    }
-
-    private void OnDisable()
-    {
-        EditorApplication.update -= UpdateCardUI;
     }
 
     public override void CreateListView()
@@ -143,12 +133,7 @@ public class CardEditorWindow : BaseEditorWindow
             if (cardProperty.name == "CardName" || cardProperty.name == "Description" ||
                 cardProperty.name == "Flavour" || cardProperty.name == "Value" || cardProperty.name == "Cost")
             {
-                prop.RegisterValueChangeCallback(changeEvt => LoadCardText(selectedCard, list));
-            }
-
-            if (cardProperty.name == "DisplayDescription")
-            {
-                lastDisplayDescription = selectedCard.DisplayDescription;
+                prop.RegisterValueChangeCallback(changeEvt => LoadCardText(selectedCard));
             }
 
             if (cardProperty.name == "Variants")
@@ -173,7 +158,7 @@ public class CardEditorWindow : BaseEditorWindow
         int index = selectedCard.Variants.FindIndex(x => x.Name == variant);
         SerializedProperty variantElement = variants.GetArrayElementAtIndex(index);
 
-        CardVariant cardVariant = selectedCard.Variants[index];
+        selectedVariant = selectedCard.Variants[index];
 
         SerializedProperty variantProp = variantElement.Copy();
 
@@ -197,6 +182,8 @@ public class CardEditorWindow : BaseEditorWindow
             enterChildren = false;
 
             PropertyField prop = new PropertyField(variantProp);
+
+            prop.SetEnabled(variantProp.name != "m-Script");
             prop.Bind(cardSO);
 
             #region Assign Override Properties
@@ -233,6 +220,25 @@ public class CardEditorWindow : BaseEditorWindow
             #endregion
 
 
+            if (variantProp.name == "Image" || variantProp.name == "Frame")
+            {
+                prop.RegisterValueChangeCallback(changeEvt => LoadCardImage(selectedCard, selectedVariant));
+
+                if (variantProp.name == "Image")
+                {
+                    overRideImage.RegisterValueChangeCallback(evt => LoadCardImage(selectedCard, selectedVariant));
+                }
+                else if (variantProp.name == "Frame")
+                {
+                    overRideFrame.RegisterValueChangeCallback(evt => LoadCardImage(selectedCard, selectedVariant));
+                }
+            }
+
+            if (variantProp.name == "CardName" || variantProp.name == "Value" || variantProp.name == "Cost")
+            {
+                prop.RegisterValueChangeCallback(changeEvt => LoadCardText(selectedCard, selectedVariant));
+            }
+
             if (variantProp.name == "Description" || variantProp.name == "Flavour")
             {
                 Label label = new Label(variantProp.name);
@@ -258,30 +264,36 @@ public class CardEditorWindow : BaseEditorWindow
                 {
                     textArea.RegisterValueChangedCallback(evt =>
                     {
-                        cardVariant.Description = evt.newValue;
+                        selectedVariant.Description = evt.newValue;
+                        LoadCardText(selectedCard, selectedVariant);
                     });
 
                     overRideDescription.RegisterValueChangeCallback(evt =>
                     {
-                        label.style.color = cardVariant.OverrideDescription ? Color.white : Color.gray;
+                        label.style.color = selectedVariant.OverrideDescription ? Color.white : Color.gray;
 
-                        textArea.isReadOnly = cardVariant.OverrideDescription ? false : true;
-                        text.style.color = cardVariant.OverrideDescription ? Color.white : Color.gray;
+                        textArea.isReadOnly = selectedVariant.OverrideDescription ? false : true;
+                        text.style.color = selectedVariant.OverrideDescription ? Color.white : Color.gray;
+
+                        LoadCardText(selectedCard, selectedVariant);
                     });
                 }
                 else if (variantProp.name == "Flavour")
                 {
                     textArea.RegisterValueChangedCallback(evt =>
                     {
-                        cardVariant.Flavour = evt.newValue;
+                        selectedVariant.Flavour = evt.newValue;
+                        LoadCardText(selectedCard, selectedVariant);
                     });
 
                     overRideFlavour.RegisterValueChangeCallback(evt =>
                     {
-                        label.style.color = cardVariant.OverrideFlavour ? Color.white : Color.gray;
+                        label.style.color = selectedVariant.OverrideFlavour ? Color.white : Color.gray;
 
-                        textArea.isReadOnly = cardVariant.OverrideFlavour ? false : true;
-                        text.style.color = cardVariant.OverrideFlavour ? Color.white : Color.gray;
+                        textArea.isReadOnly = selectedVariant.OverrideFlavour ? false : true;
+                        text.style.color = selectedVariant.OverrideFlavour ? Color.white : Color.gray;
+
+                        LoadCardText(selectedCard, selectedVariant);
                     });
                 }
 
@@ -308,10 +320,15 @@ public class CardEditorWindow : BaseEditorWindow
             }
 
 
-            prop.SetEnabled(variantProp.name != "m-Script");
+            
             cardInfoBox.Add(prop);
         }
+
+        LoadCardImage(selectedCard, selectedVariant);
+        LoadCardText(selectedCard, selectedVariant);
     }
+
+    #region Buttons
 
     public override void SetButtons()
     {
@@ -377,6 +394,8 @@ public class CardEditorWindow : BaseEditorWindow
         }
     }
 
+    #endregion
+
     public void FindAllCards(out List<Card> cards)
     {
         string[] guids = AssetDatabase.FindAssets("t:Card");
@@ -409,7 +428,7 @@ public class CardEditorWindow : BaseEditorWindow
         }
     }
 
-    private void LoadCardImage(Card card)
+    private void LoadCardImage(Card card, CardVariant variant = null)
     {
         Image cardPreviewImage = rootVisualElement.Query<Image>("preview").First();
         Image cardPreviewFrame = rootVisualElement.Query<Image>("preview2").First();
@@ -417,7 +436,7 @@ public class CardEditorWindow : BaseEditorWindow
 
         try
         {
-            cardPreviewImage.image = card.Image.texture;
+            cardPreviewImage.image = (variant != null && variant.OverrideImage) ? variant.Image.texture : card.Image.texture;
         }
         catch (Exception err)
         {
@@ -426,7 +445,7 @@ public class CardEditorWindow : BaseEditorWindow
 
         try
         {
-            cardPreviewFrame.image = card.Frame.texture;
+            cardPreviewFrame.image = (variant != null && variant.OverrideFrame) ? variant.Frame.texture : card.Frame.texture;
         }
         catch (Exception err)
         {
@@ -434,42 +453,54 @@ public class CardEditorWindow : BaseEditorWindow
         }
     }
 
-    private void LoadCardText(Card card, ListView cardList = null)
+    private void LoadCardText(Card card, CardVariant variant = null)
     {
         Label title = rootVisualElement.Query<Label>("title").First();
         Label description = rootVisualElement.Query<Label>("description").First();
         Label flavour = rootVisualElement.Query<Label>("flavour").First();
         Label cost = rootVisualElement.Query<Label>("cost").First();
 
-        CreateClickableText(card);
+        CardVariant IsVariantNull = null;
+
+        if (variant != null)
+            IsVariantNull = variant.OverrideDescription ? variant : null;
+
+        CreateClickableText(card, IsVariantNull);
 
         title.text = card.CardName;
-        description.text = card.LinkDescription;
-        flavour.text = card.Flavour;
-        cost.text = card.Cost.ToString();
+        description.text = (variant != null && variant.OverrideDescription) ? variant.LinkDescription : card.LinkDescription;
+        flavour.text = (variant != null && variant.OverrideFlavour) ? variant.Flavour : card.Flavour;
+        cost.text = (variant != null && variant.OverrideCost) ? variant.Cost.ToString() : card.Cost.ToString();
     }
 
-    private void UpdateCardUI()
+    private void CreateClickableText(Card card, CardVariant variant = null)
     {
-        if (selectedCard == null) return;
+        FindAllPopupText(out List<PopupText> popupList);
 
-        if (selectedCard.DisplayDescription != lastDisplayDescription)
+        if (variant != null)
         {
-            lastDisplayDescription = selectedCard.DisplayDescription;
-            LoadCardText(selectedCard, list);
-        }
-    }
+            if (variant.PopupKeyPair == null)
+                variant.PopupKeyPair = new();
 
-    private void CreateClickableText(Card card)
-    {
+            variant.PopupKeyPair.Clear();
+
+            variant.LinkDescription = variant.Description;
+
+            foreach (PopupText popupText in popupList)
+            {
+                variant.LinkDescription = variant.LinkDescription.Replace($"#{popupText.Title}", $"<link=\"{popupText.Title}\"><color=#FFBF00><u>{popupText.Title}</u></color></link>");
+                variant.PopupKeyPair.Add(new SerializableKeyValuePair<string, PopupText>(popupText.Title, popupText));
+            }
+
+            return;
+        }
+
         if (card.PopupKeyPair == null)
             card.PopupKeyPair = new();
 
         card.PopupKeyPair.Clear();
 
         card.LinkDescription = card.Description;
-
-        FindAllPopupText(out List<PopupText> popupList);
 
         foreach (PopupText popupText in popupList)
         {

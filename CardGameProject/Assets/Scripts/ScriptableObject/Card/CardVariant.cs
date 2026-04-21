@@ -26,7 +26,7 @@ public class CardVariant
     public string Description = string.Empty;
     public string Flavour = string.Empty;
 
-
+    [HideInInspector] public string LinkDescription;
 
     [ReadOnly(nameof(OverrideImage), true)] public Sprite Image;
     [ReadOnly(nameof(OverrideFrame), true)] public Sprite Frame;
@@ -36,19 +36,26 @@ public class CardVariant
 
     [Separator]
 
+    [ReadOnly] public List<Vector2> ValuesToReference = new();
+
+    [Separator]
+
     [SerializeReference][SR] [ReadOnly(nameof(OverrideCommands), true)] public List<Executable> Commands;
+
+    [HideInInspector] public List<SerializableKeyValuePair<string, PopupText>> PopupKeyPair;
 
     public CardVariant(Card card)
     {
        Description = card.Description;
+       LinkDescription = card.LinkDescription;
        Flavour = card.Flavour;
        Image = card.Image;
        Frame = card.Frame;
        Cost = card.Cost;
        RecycleValue = card.RecycleValue;
+       ValuesToReference = new List<Vector2>(card.ValuesToReference);
+       PopupKeyPair = new List<SerializableKeyValuePair<string, PopupText>>(card.PopupKeyPair); 
        Commands = card.Commands.Select(c => c.Clone()).ToList();
     }
-
-
 
 }
