@@ -15,6 +15,16 @@ public class CMDDealDamage : AttackCommand
     [ConditionalField(false, nameof(CheckCardTarget))] public bool ShouldMove = true;
     public float value;
 
+    public override Executable Clone()
+    {
+        return new CMDDealDamage
+        {
+            target = this.target,
+            ShouldMove = this.ShouldMove,
+            value = this.value,
+        };
+    }
+
     bool CheckCardTarget()
     {
         if (CardTarget == CardTarget.Self)

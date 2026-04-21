@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using MyBox;
 using SerializeReferenceEditor;
@@ -35,7 +36,7 @@ public class CardVariant
 
     [Separator]
 
-    [SerializeReference][SR] public List<Executable> Commands;
+    [SerializeReference][SR] [ReadOnly(nameof(OverrideCommands), true)] public List<Executable> Commands;
 
     public CardVariant(Card card)
     {
@@ -45,10 +46,8 @@ public class CardVariant
        Frame = card.Frame;
        Cost = card.Cost;
        RecycleValue = card.RecycleValue;
-       Commands = new List<Executable>(card.Commands);
+       Commands = card.Commands.Select(c => c.Clone()).ToList();
     }
-
-
 
 
 

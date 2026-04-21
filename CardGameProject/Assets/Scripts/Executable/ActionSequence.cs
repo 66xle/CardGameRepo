@@ -22,6 +22,11 @@ public class ActionSequence : Executable
         _actionCommands = actionCommands;
     }
 
+    public override Executable Clone()
+    {
+        throw new NotImplementedException();
+    }
+
     public override IEnumerator Execute(Action<bool> IsConditionTrue)
     {
         #region Initialize

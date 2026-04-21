@@ -14,6 +14,15 @@ public class CMDDrawCard : DrawCommand
     [ReadOnly] public CardTarget target = CardTarget.Self;
     public float value;
 
+    public override Executable Clone()
+    {
+        return new CMDDrawCard
+        {
+            target = this.target,
+            value = this.value,
+        };
+    }
+
     bool SetMovement()
     {
         return false;

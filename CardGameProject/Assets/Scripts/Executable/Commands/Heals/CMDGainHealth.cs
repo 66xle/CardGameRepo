@@ -15,6 +15,14 @@ public class CMDGainHealth : HealCommand
     [ReadOnly] public CardTarget target = CardTarget.Self;
     [Range(0, 1)] public float value;
 
+    public override Executable Clone()
+    {
+        return new CMDGainHealth
+        {
+            target = this.target,
+            value = this.value,
+        };
+    }
     bool SetMovement()
     {
         return false;

@@ -1,5 +1,6 @@
-using SerializeReferenceEditor;
 using System.Collections.Generic;
+using System.Linq;
+using SerializeReferenceEditor;
 using UnityEngine;
 
 [SRName("Conditions/Has Weakness")]
@@ -8,6 +9,17 @@ public class CONDHasWeakness : Condition
     public override List<Executable> Commands { get { return commands; } }
 
     [SerializeReference][SR] public List<Executable> commands;
+
+    public override Executable Clone()
+    {
+        var copy = new CONDHasWeakness();
+
+        copy.commands = commands?
+            .Select(c => c?.Clone())
+            .ToList();
+
+        return copy;
+    }
 
     public override bool Evaluate()
     {

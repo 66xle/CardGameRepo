@@ -307,15 +307,6 @@ public class CardEditorWindow : BaseEditorWindow
                 cardInfoBox.Add(label);
             }
 
-            if (variantProp.name == "Commands")
-            {
-                overRideCommands.RegisterValueChangeCallback(evt =>
-                {
-                    prop.style.opacity = cardVariant.OverrideCommands ? 1f : 0f;
-                    prop.style.height = cardVariant.OverrideCommands ? Length.Auto() : 0;
-                });
-            }
-
 
             prop.SetEnabled(variantProp.name != "m-Script");
             cardInfoBox.Add(prop);

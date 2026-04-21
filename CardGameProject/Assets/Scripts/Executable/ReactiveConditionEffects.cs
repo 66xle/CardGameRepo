@@ -3,6 +3,7 @@ using SerializeReferenceEditor;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public enum EffectType
 {
@@ -18,4 +19,16 @@ public class ReactiveConditionEffects
     [ConditionalField(nameof(EffectType), false, EffectType.Active)] public ReactiveTrigger ReactiveTrigger = ReactiveTrigger.StartOfTurn;
 
     [SerializeReference][SR] public List<Executable> Commands;
+
+    public ReactiveConditionEffects Clone()
+    {
+        return new ReactiveConditionEffects
+        {
+            EffectType = this.EffectType,
+            ReactiveTrigger = this.ReactiveTrigger,
+            Commands = this.Commands?
+                .Select(c => c?.Clone())
+                .ToList(),
+        };
+    }   
 }

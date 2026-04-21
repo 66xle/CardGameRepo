@@ -7,6 +7,11 @@ public class StatusCommand : Command
 {
     public virtual StatusEffect Effect => null;
 
+    public override Executable Clone()
+    {
+        return (StatusCommand)this.MemberwiseClone();
+    }
+
     public override IEnumerator Execute(Action<bool> IsConditionTrue)
     {
         ExecuteCommand();

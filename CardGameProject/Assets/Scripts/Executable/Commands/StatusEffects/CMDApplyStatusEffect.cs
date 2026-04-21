@@ -11,5 +11,12 @@ public class CMDApplyStatusEffect : StatusCommand
 
     public StatusEffectData effect;
 
-
+    public override Executable Clone()
+    {
+        return new CMDApplyStatusEffect
+        {
+            target = this.target,
+            effect = this.effect, // or deep clone if needed
+        };
+    }
 }

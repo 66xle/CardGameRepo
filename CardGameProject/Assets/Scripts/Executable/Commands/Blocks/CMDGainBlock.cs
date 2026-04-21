@@ -14,6 +14,14 @@ public class CMDGainBlock : BlockCommand
     [ReadOnly] public CardTarget target = CardTarget.Self;
     public float value;
 
+    public override Executable Clone()
+    {
+        return new CMDGainBlock
+        {
+            target = this.target,
+            value = this.value,
+        };
+    }
     bool SetMovement()
     {
         return false;

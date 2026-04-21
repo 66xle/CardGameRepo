@@ -13,6 +13,15 @@ public class CMDDealGuardDamage : GuardCommand
     public CardTarget target = CardTarget.Enemy;
     public float value;
 
+    public override Executable Clone()
+    {
+        return new CMDDealGuardDamage
+        {
+            target = this.target,
+            value = this.value,
+        };
+    }
+
     bool SetMovement()
     {
         if (CardTarget == CardTarget.Self)

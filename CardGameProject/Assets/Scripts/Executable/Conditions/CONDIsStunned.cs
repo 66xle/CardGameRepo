@@ -1,6 +1,7 @@
 using SerializeReferenceEditor;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [SRName("Conditions/Is Stunned")]
 public class CONDIsStunned : Condition
@@ -8,6 +9,15 @@ public class CONDIsStunned : Condition
     public override List<Executable> Commands { get { return commands; } }
 
     [SerializeReference][SR] public List<Executable> commands;
+
+    public override Executable Clone()
+    {
+        var copy = new CONDIsStunned();
+        copy.commands = commands?
+            .Select(c => c?.Clone())
+            .ToList();
+        return copy;
+    }
 
     public override bool Evaluate()
     {
