@@ -11,8 +11,8 @@ public class CMDDrawCard : DrawCommand
 
     public override CardTarget CardTarget => target;
 
-    [ReadOnly] public CardTarget target = CardTarget.Self;
     public float value;
+    [ReadOnly] public CardTarget target = CardTarget.Self;
 
     public override Executable Clone()
     {

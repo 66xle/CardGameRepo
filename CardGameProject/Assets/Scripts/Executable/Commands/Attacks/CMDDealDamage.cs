@@ -11,9 +11,9 @@ public class CMDDealDamage : AttackCommand
 
     public override CardTarget CardTarget => target;
 
+    public float value;
     public CardTarget target = CardTarget.Enemy;
     [ConditionalField(false, nameof(CheckCardTarget))] public bool ShouldMove = true;
-    public float value;
 
     public override Executable Clone()
     {

@@ -10,8 +10,8 @@ public class CMDDealGuardDamage : GuardCommand
 
     public override CardTarget CardTarget => target;
 
-    public CardTarget target = CardTarget.Enemy;
     public float value;
+    public CardTarget target = CardTarget.Enemy;
 
     public override Executable Clone()
     {

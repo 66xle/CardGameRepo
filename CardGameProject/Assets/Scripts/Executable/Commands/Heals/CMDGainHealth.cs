@@ -12,8 +12,8 @@ public class CMDGainHealth : HealCommand
 
     public override CardTarget CardTarget => target;
 
-    [ReadOnly] public CardTarget target = CardTarget.Self;
     [Range(0, 1)] public float value;
+    [ReadOnly] public CardTarget target = CardTarget.Self;
 
     public override Executable Clone()
     {
