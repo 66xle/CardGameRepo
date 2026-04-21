@@ -11,6 +11,7 @@ public class CardEditorWindow : BaseEditorWindow
     private Card selectedCard;
     private CardVariant selectedVariant;
     Box cardInfoBox;
+    DynamicDropdown variantDropdown;
 
     [MenuItem("Editor/Card Editor")]
     public static void ShowWindow()
@@ -56,8 +57,10 @@ public class CardEditorWindow : BaseEditorWindow
 
                 if (selectedCard == null) return;
 
-                DynamicDropdown variantDropdown = rootVisualElement.Query<DynamicDropdown>("variant-dropdown").First();
+                variantDropdown = rootVisualElement.Query<DynamicDropdown>("variant-dropdown").First();
                 variantDropdown.ClearItems();
+                variantDropdown.SetEnabled(true);
+                variantDropdown.style.opacity = 1f;
 
                 foreach (CardVariant variant in selectedCard.Variants)
                 {
@@ -360,6 +363,9 @@ public class CardEditorWindow : BaseEditorWindow
             list.itemsSource = null;
 
             AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(selectedCard.Guid));
+
+            variantDropdown.SetEnabled(false);
+            variantDropdown.style.opacity = 0f;
 
             CreateListView();
 

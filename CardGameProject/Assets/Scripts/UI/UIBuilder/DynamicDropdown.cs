@@ -21,6 +21,7 @@ public partial class DynamicDropdown : VisualElement
     private VisualElement _itemList;
 
     private TextField _inputField;
+    private VisualElement _inputText;
     private Button _addButton;
 
     // ================= DATA =================
@@ -104,6 +105,8 @@ public partial class DynamicDropdown : VisualElement
         _inputField = new TextField();
         _inputField.value = ADDTEXT;
         _inputField.style.flexGrow = 1;
+        _inputText = _inputField.Query(className: "unity-text-element");
+        _inputText.style.color = Color.gray;
 
         _inputField.RegisterCallback<FocusInEvent>(_ =>
         {
@@ -111,6 +114,7 @@ public partial class DynamicDropdown : VisualElement
             {
                 _inputField.value = "";
                 _isPlaceholderActive = false;
+                _inputText.style.color = Color.white;
             }
         });
 
@@ -120,6 +124,7 @@ public partial class DynamicDropdown : VisualElement
             {
                 _inputField.value = ADDTEXT;
                 _isPlaceholderActive = true;
+                _inputText.style.color = Color.gray;
             }
 
             ValidateInput();
@@ -169,12 +174,6 @@ public partial class DynamicDropdown : VisualElement
         _arrow.text = opening ? "▲" : "▼";
     }
 
-    private void CloseDropdown()
-    {
-        _dropdownContent.style.display = DisplayStyle.None;
-        _arrow.text = "▼";
-    }
-
     // =========================================================
     // DEFAULT ITEM
     // =========================================================
@@ -200,10 +199,11 @@ public partial class DynamicDropdown : VisualElement
         _items.Add(name);
         CreateItem(name);
 
-        _inputField.value = DEFAULTTEXT;
+        _inputField.value = ADDTEXT;
         _isPlaceholderActive = true;
 
         ValidateInput();
+
 
         OnItemAdded?.Invoke(name);
     }
@@ -233,6 +233,14 @@ public partial class DynamicDropdown : VisualElement
             !_isPlaceholderActive &&
             !string.IsNullOrWhiteSpace(value) &&
             !_items.Contains(value);
+
+        if (valid)
+            _inputText.style.color = Color.white;
+        else
+            _inputText.style.color = Color.red;
+
+        if (_isPlaceholderActive)
+            _inputText.style.color = Color.gray;
 
         _addButton.SetEnabled(valid);
     }
@@ -272,7 +280,6 @@ public partial class DynamicDropdown : VisualElement
         {
             SelectItem(name);
             RefreshHighlights();
-            CloseDropdown();
         });
 
         row.Add(label);
@@ -318,7 +325,6 @@ public partial class DynamicDropdown : VisualElement
         OnItemDeleted?.Invoke(name);
 
         SelectItem("Base Card");
-        ToggleDropdown();
     }
 
     private void DeleteItem(string name, VisualElement row)

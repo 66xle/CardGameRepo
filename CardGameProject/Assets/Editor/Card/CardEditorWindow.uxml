@@ -8,13 +8,13 @@
     <engine:Box name="container" style="min-width: auto; min-height: 700px;">
         <engine:ListView name="card-list" style="height: auto; max-height: none; width: 197px;" />
         <engine:Box name="card" style="height: auto; width: 446px; align-items: auto; justify-content: flex-start; flex-grow: 0;">
-            <DynamicDropdown name="variant-dropdown" style="position: absolute; top: 14px; left: 11px;" />
             <engine:Image name="preview" style="left: 130px; position: absolute; top: 60px;" />
             <engine:Image name="preview2" style="left: 127px; position: absolute; top: 60px;" />
             <engine:Label name="cost" style="height: 26px; top: 98px; left: 214px;" />
             <engine:Label name="title" style="align-items: center; top: 359px; left: 167px; flex-grow: 1; position: absolute; height: 28px; width: 128px; align-self: center;" />
             <engine:Label name="description" style="top: 386px; left: 157px; align-self: center;" />
             <engine:Label name="flavour" style="top: 439px; left: 164px; align-self: center;" />
+            <DynamicDropdown name="variant-dropdown" enabled="false" style="position: absolute; top: 14px; left: 11px; opacity: 0;" />
         </engine:Box>
         <engine:ScrollView name="card-info-scroll" style="right: 0; position: relative; justify-content: flex-start; align-self: auto; left: 0; top: 0; bottom: 0; height: auto; width: 130px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
             <engine:Box name="card-info" style="padding-left: 0;" />
