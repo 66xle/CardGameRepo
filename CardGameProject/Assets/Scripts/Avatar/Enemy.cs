@@ -9,7 +9,7 @@ public class Enemy : Avatar
 {
     [Header("Cards")]
     [SerializeField] int DrawAmount = 1;
-    [ReadOnly] public List<CardData> Deck;
+    [ReadOnly] public List<CardRuntime> Deck;
 
     public List<Card> CardsToPlay { get; set; }
     public bool DisableSelection { get; set; }
@@ -88,15 +88,15 @@ public class Enemy : Avatar
 
 
         Deck = new();
-        Deck.AddRange(data.Cards.Select(card => new CardData(weapon, card, Attack, Defence, BlockScale, MaxHealth)));
+        Deck.AddRange(data.Cards.Select(card => new CardRuntime(weapon, card, Attack, Defence, BlockScale, MaxHealth)));
 
         SelectionRing = transform.GetChild(0).gameObject;
 
     }
 
-    public List<CardData> DrawCards()
+    public List<CardRuntime> DrawCards()
     {
-        List<CardData> cardDrawn = new();
+        List<CardRuntime> cardDrawn = new();
 
         for (int i = 0; i < DrawAmount; i++)
         {

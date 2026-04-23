@@ -377,7 +377,7 @@ public class Avatar : MonoBehaviour
         {
             IsRunningReactiveEffect = true;
 
-            EXEParameters.CardData = wrapper.CardData;
+            EXEParameters.CardRuntime = wrapper.CardRuntime;
 
             ActionSequence actionSequence = new(wrapper.Commands);
             yield return actionSequence.Execute(null);
@@ -447,7 +447,7 @@ public class Avatar : MonoBehaviour
 
             if (wrapper == null) continue;
 
-            sortedCommands.Add(new EXEWrapper(wrapper.CardData, wrapper.Commands, wrapper.Effects));
+            sortedCommands.Add(new EXEWrapper(wrapper.CardRuntime, wrapper.Commands, wrapper.Effects));
         }
 
         foreach (StackType type in Enum.GetValues(typeof(StackType))) // Multiple types (Play no animations)
@@ -459,7 +459,7 @@ public class Avatar : MonoBehaviour
             // Create new list if stack type is not damage, Skip this if do damage then add damage commands together with counterattack
             if (type == StackType.DoDamage && !overwriteQueue.Exists(w => w.OverwriteType == OverwriteType.Counterattack))
             {
-                sortedCommands.Add(new EXEWrapper(list[0].CardData));
+                sortedCommands.Add(new EXEWrapper(list[0].CardRuntime));
             }
 
             foreach (EXEWrapper wrapper in list)

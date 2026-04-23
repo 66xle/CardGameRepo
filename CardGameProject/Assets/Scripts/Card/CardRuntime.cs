@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 
-public struct CardData
+public class CardRuntime
 {
     public GearData Gear { get; private set; }
     public Card Card { get; private set; }
 
     public List<AnimationWrapper> AnimationList { get; private set; }
 
-    public CardData(GearData gear, CardAnimationData data, float attack, float defence, float blockScale, float health)
+    public CardRuntime(GearData gear, CardAnimationData data, float attack, float defence, float blockScale, float health)
     {
         Card card = data.Card;
         Card copyCard = new Card();

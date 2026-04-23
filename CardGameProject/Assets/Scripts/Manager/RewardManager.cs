@@ -248,10 +248,10 @@ public class RewardManager : MonoBehaviour
                 return;
             }
 
-            CardData cardData = new(data, animationData, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
+            CardRuntime cardRuntime = new(data, animationData, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
 
             CardDisplay cardDisplay = Instantiate(CardPrefab, PreviewCards).GetComponent<CardDisplay>();
-            cardDisplay.SetCard(cardData, cardData.Card);
+            cardDisplay.SetCard(cardRuntime, cardRuntime.Card);
         }
 
         GearOverlay.SetActive(true);

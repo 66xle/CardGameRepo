@@ -238,7 +238,7 @@ public class ActionSequence : Executable
 
             EXEParameters.AvatarPlayingCard = avatarTarget;
             EXEParameters.AvatarOpponent = avatarPlayingCard;
-            CardData tempData = EXEParameters.CardData;
+            CardRuntime tempData = EXEParameters.CardRuntime;
             List<Avatar> tempQueue = Extensions.CloneList(EXEParameters.Queue);
             List<Avatar> tempTargets = Extensions.CloneList(EXEParameters.Targets);
             List<GameAction> tempGA = Extensions.CloneList(avatarTarget.QueueGameActions);
@@ -254,7 +254,7 @@ public class ActionSequence : Executable
             EXEParameters.AvatarOpponent = avatarOpponent;
             EXEParameters.Queue = tempQueue;
             EXEParameters.Targets = tempTargets;
-            EXEParameters.CardData = tempData;
+            EXEParameters.CardRuntime = tempData;
             avatarTarget.QueueGameActions = tempGA;
 
             avatarPlayingCard.DoDamage = false;
@@ -322,9 +322,9 @@ public class ActionSequence : Executable
 
     private AnimationWrapper GetAttackAnimation()
     {
-        int index = Random.Range(0, EXEParameters.CardData.AnimationList.Count);
+        int index = Random.Range(0, EXEParameters.CardRuntime.AnimationList.Count);
 
-        return EXEParameters.CardData.AnimationList[index];
+        return EXEParameters.CardRuntime.AnimationList[index];
     }
 
     private AudioResource DetermineCorrectAttackSound(Avatar avatarOpponent, AudioResource attackAudio)

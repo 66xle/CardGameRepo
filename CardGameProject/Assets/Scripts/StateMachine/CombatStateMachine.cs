@@ -69,7 +69,7 @@ public class CombatStateMachine : MonoBehaviour
     [ReadOnly] public bool _isPlayerLoaded = false;
     private float _playerStartingHealth;
 
-    [HideInInspector] public CardData _cardPlayed;
+    [HideInInspector] public CardRuntime _cardPlayed;
     [HideInInspector] public Enemy _selectedEnemyToAttack;
 
     [HideInInspector] public VariableScriptObject vso; // Not using for now
@@ -279,10 +279,10 @@ public class CombatStateMachine : MonoBehaviour
 
                 player.ConsumeStamina(card.Cost);
 
-                // Get cardData from player hand to move to discard pile
-                CardData cardData = CardManager.PlayerHand.First(data => data.Card.InGameGUID == card.InGameGUID);
-                CardManager.PlayerHand.Remove(cardData);
-                CardManager.DiscardPile.Add(cardData);
+                // Get cardRuntime from player hand to move to discard pile
+                CardRuntime cardRuntime = CardManager.PlayerHand.First(data => data.Card.InGameGUID == card.InGameGUID);
+                CardManager.PlayerHand.Remove(cardRuntime);
+                CardManager.DiscardPile.Add(cardRuntime);
 
                 // Destory Card
                 CardContainer container = CardManager.PlayerHandTransform.GetComponent<CardContainer>();
@@ -292,7 +292,7 @@ public class CombatStateMachine : MonoBehaviour
                 Weapon weaponScript = mainHandWeapon.GetComponent<Weapon>();
 
                 // Swap Weapon
-                if (weaponScript.Guid != cardData.Gear.Guid)
+                if (weaponScript.Guid != cardRuntime.Gear.Guid)
                 {
                     GameObject holsteredWeapon;
 
@@ -300,7 +300,7 @@ public class CombatStateMachine : MonoBehaviour
                     {
                         Weapon equippedWeapon = weaponObj.GetComponent<Weapon>();
 
-                        if (equippedWeapon.Guid == cardData.Gear.Guid)
+                        if (equippedWeapon.Guid == cardRuntime.Gear.Guid)
                         {
                             holsteredWeapon = weaponObj;
                             WeaponType weaponType = equippedWeapon.WeaponType;
@@ -320,7 +320,7 @@ public class CombatStateMachine : MonoBehaviour
 
                 // Allow to switch to attack state
                 _isPlayedCard = true;
-                _cardPlayed = cardData;
+                _cardPlayed = cardRuntime;
             }
             else
             {
@@ -331,10 +331,10 @@ public class CombatStateMachine : MonoBehaviour
         {
             if (TutorialManager.IsInTutorial && TutorialManager.TutorialStage < 4) return;
 
-            // Get cardData from player hand to move to discard pile
-            CardData cardData = CardManager.PlayerHand.First(data => data.Card.InGameGUID == card.InGameGUID);
-            CardManager.PlayerHand.Remove(cardData);
-            CardManager.DiscardPile.Add(cardData);
+            // Get cardRuntime from player hand to move to discard pile
+            CardRuntime cardRuntime = CardManager.PlayerHand.First(data => data.Card.InGameGUID == card.InGameGUID);
+            CardManager.PlayerHand.Remove(cardRuntime);
+            CardManager.DiscardPile.Add(cardRuntime);
 
             // Destory Card
             CardContainer container = CardManager.PlayerHandTransform.GetComponent<CardContainer>();

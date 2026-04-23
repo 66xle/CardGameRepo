@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public class EXEWrapper
 {
-    public CardData CardData;
+    public CardRuntime CardRuntime;
     public int Turns;
     public string ReactiveConditionGUID;
     public OverwriteType OverwriteType;
@@ -13,9 +13,9 @@ public class EXEWrapper
     public List<Executable> Commands = new();
     public List<ReactiveConditionEffects> Effects = new();
 
-    public EXEWrapper(CardData data, int turns, ReactiveOptions reactiveOptions)
+    public EXEWrapper(CardRuntime cardRuntime, int turns, ReactiveOptions reactiveOptions)
     {
-        CardData = data;
+        CardRuntime = cardRuntime;
         Turns = turns;
         EffectTiming = reactiveOptions.EffectTiming;
         ReactiveTrigger = reactiveOptions.ReactiveTrigger;
@@ -24,16 +24,16 @@ public class EXEWrapper
         StackType = reactiveOptions.StackType;
     }
 
-    public EXEWrapper(CardData data, List<Executable> commands, List<ReactiveConditionEffects> effects)
+    public EXEWrapper(CardRuntime cardRuntime, List<Executable> commands, List<ReactiveConditionEffects> effects)
     {
-        CardData = data;
+        CardRuntime = cardRuntime;
         Commands = commands;
         Effects = effects;
     }
 
-    public EXEWrapper(CardData data)
+    public EXEWrapper(CardRuntime cardRuntime)
     {
-        CardData = data;
+        CardRuntime = cardRuntime;
     }
 
 

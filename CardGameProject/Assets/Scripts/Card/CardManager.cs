@@ -19,10 +19,10 @@ public class CardManager : MonoBehaviour
     [MustBeAssigned][SerializeField] CombatUIManager CombatUIManager;
     [MustBeAssigned][SerializeField] Camera UICamera;
 
-    [HideInInspector] public List<CardData> PlayerDeck;
-    [HideInInspector] public List<CardData> PlayerHand;
-    [HideInInspector] public List<CardData> DiscardPile;
-    [HideInInspector] public List<CardData> EnemyCardQueue;
+    [HideInInspector] public List<CardRuntime> PlayerDeck;
+    [HideInInspector] public List<CardRuntime> PlayerHand;
+    [HideInInspector] public List<CardRuntime> DiscardPile;
+    [HideInInspector] public List<CardRuntime> EnemyCardQueue;
 
     public GameObject GetCardPrefab => CardPrefab;
 
@@ -33,10 +33,10 @@ public class CardManager : MonoBehaviour
 
     private void Init()
     {
-        PlayerDeck = new List<CardData>();
-        PlayerHand = new List<CardData>();
-        DiscardPile = new List<CardData>();
-        EnemyCardQueue = new List<CardData>();
+        PlayerDeck = new List<CardRuntime>();
+        PlayerHand = new List<CardRuntime>();
+        DiscardPile = new List<CardRuntime>();
+        EnemyCardQueue = new List<CardRuntime>();
     }
 
     public void ResetCards()
@@ -61,16 +61,16 @@ public class CardManager : MonoBehaviour
         {
             for (int i = 0; i < data.CardAmount; i++)
             {
-                CardData cardData = CreateCardData(gearData, data);
-                PlayerDeck.Add(cardData);
+                CardRuntime cardRuntime = CreateCardRuntime(gearData, data);
+                PlayerDeck.Add(cardRuntime);
             }
         }
     }
 
-    public CardData CreateCardData(GearData gearData, CardAnimationData data)
+    public CardRuntime CreateCardRuntime(GearData gearData, CardAnimationData data)
     {
-        CardData cardData = new(gearData, data, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
-        return cardData;
+        CardRuntime cardRuntime = new(gearData, data, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
+        return cardRuntime;
     }
 
     public void LoadCards()
@@ -99,13 +99,13 @@ public class CardManager : MonoBehaviour
         {
             GameObject go = PlayerHandTransform.GetChild(i).gameObject;
             CardDisplay display = go.GetComponent<CardDisplay>();
-            string description = display.CardData.GenerateDescriptionWithDamage(display.Card, display.CardData.Gear, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale, StatsManager.CurrentMaxHealth, enemy, player);
+            string description = display.CardRuntime.GenerateDescriptionWithDamage(display.Card, display.CardRuntime.Gear, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale, StatsManager.CurrentMaxHealth, enemy, player);
             display.UpdateDescription(description);
             display.SetCamera(UICamera);
         }
     }
 
-    public void CreateCard(CardData cardData, Transform parent)
+    public void CreateCard(CardRuntime cardRuntime, Transform parent)
     {
         GameObject cardObject = Instantiate(CardPrefab, parent);
 
@@ -115,10 +115,10 @@ public class CardManager : MonoBehaviour
         rect.localScale = SpawnScale;
 
         CardDisplay cardDisplay = cardObject.GetComponent<CardDisplay>();
-        cardDisplay.SetCard(cardData, cardData.Card);
+        cardDisplay.SetCard(cardRuntime, cardRuntime.Card);
     }
 
-    public void SetCardDisplay(GameObject cardObject, CardData data)
+    public void SetCardDisplay(GameObject cardObject, CardRuntime data)
     {
         // Set card speed to zero so it snaps to new position instead of flying there
         StartCoroutine(cardObject.GetComponent<CardWrapper>().CardSpeedToZero());
@@ -134,7 +134,7 @@ public class CardManager : MonoBehaviour
             if (PlayerDeck.Count <= 0)
             {
                 // Reset deck and clear discard pile
-                PlayerDeck = new List<CardData>(DiscardPile);
+                PlayerDeck = new List<CardRuntime>(DiscardPile);
                 DiscardPile.Clear();
 
                 // Shuffle deck
@@ -149,7 +149,7 @@ public class CardManager : MonoBehaviour
                 break;
 
             // Pick random card
-            CardData cardDrawed;
+            CardRuntime cardDrawed;
 
             // Shuffle deck
             if (GameManager.Instance.IsInTutorial && GameManager.Instance.TutorialStage < 5f)

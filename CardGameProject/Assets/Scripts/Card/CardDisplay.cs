@@ -23,7 +23,7 @@ public class CardDisplay : MonoBehaviour
     private bool _isPopupDisabled = false;
 
     public Card Card { get; private set; }
-    public CardData CardData { get; private set; }
+    public CardRuntime CardRuntime { get; private set; }
 
     private void Update()
     {
@@ -62,10 +62,10 @@ public class CardDisplay : MonoBehaviour
         Frame.sprite = Card.Frame;
     }
 
-    public void SetCard(CardData cardData, Card card)
+    public void SetCard(CardRuntime cardRuntime, Card card)
     {
         Card = card;
-        CardData = cardData;
+        CardRuntime = cardRuntime;
         Init();
     }
 

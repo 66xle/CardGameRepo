@@ -128,7 +128,7 @@ public class BlacksmithUI : MonoBehaviour
         // get/spawn in cards 
         foreach (CardAnimationData data in gearData.Cards)
         {
-            CardData cardData = CardManager.CreateCardData(gearData, data);
+            CardRuntime cardRuntime = CardManager.CreateCardRuntime(gearData, data);
 
             for (int i = 0; i < data.CardAmount; i++)
             {
@@ -136,11 +136,11 @@ public class BlacksmithUI : MonoBehaviour
 
                 if (cardObject != null)
                 {
-                    CardManager.SetCardDisplay(cardObject, cardData);
+                    CardManager.SetCardDisplay(cardObject, cardRuntime);
                     continue;
                 }
 
-                CardManager.CreateCard(cardData, SelectedCardParent);
+                CardManager.CreateCard(cardRuntime, SelectedCardParent);
             }
         }
 

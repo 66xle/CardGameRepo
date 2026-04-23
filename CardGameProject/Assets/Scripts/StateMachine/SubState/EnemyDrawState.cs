@@ -33,9 +33,9 @@ public class EnemyDrawState : CombatBaseState
 
     public void DrawCards()
     {
-        List<CardData> cards = ctx.CurrentEnemyTurn.GetComponent<Enemy>().DrawCards();
+        List<CardRuntime> cards = ctx.CurrentEnemyTurn.GetComponent<Enemy>().DrawCards();
 
-        foreach (CardData card in cards)
+        foreach (CardRuntime card in cards)
         {
             ctx.CardManager.EnemyCardQueue.Add(card);
         }
