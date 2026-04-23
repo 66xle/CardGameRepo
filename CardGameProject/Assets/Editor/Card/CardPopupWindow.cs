@@ -127,11 +127,6 @@ public class CardPopupWindow : PopupWindow
             return;
         }
 
-        // Clear selection
-        window.list.ClearSelection();
-        window.rootVisualElement.Query<Box>("card-info").First().Clear();
-        window.list.itemsSource = null;
-
         AssetDatabase.RenameAsset($"Assets/ScriptableObjects/Cards/{oldFileName}.asset", newFileName);
 
         window.CreateListView();
