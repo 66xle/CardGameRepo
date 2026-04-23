@@ -84,7 +84,7 @@ public class CardPopupWindow : PopupWindow
             return;
         }
 
-        Card loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Cards/{fileName}.asset", typeof(Card)) as Card;
+        Card loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/_ScriptableObjects/Cards/{fileName}.asset", typeof(Card)) as Card;
 
         if (loadedAsset != null)
         {
@@ -94,7 +94,7 @@ public class CardPopupWindow : PopupWindow
         }
 
         Card card = CreateNewCard(newCard);
-        AssetDatabase.CreateAsset(card, $"Assets/ScriptableObjects/Cards/{fileName}.asset");
+        AssetDatabase.CreateAsset(card, $"Assets/_ScriptableObjects/Cards/{fileName}.asset");
 
 
         window.CreateListView();
@@ -118,7 +118,7 @@ public class CardPopupWindow : PopupWindow
             return;
         }
 
-        Card loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Cards/{newFileName}.asset", typeof(Card)) as Card;
+        Card loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/_ScriptableObjects/Cards/{newFileName}.asset", typeof(Card)) as Card;
 
         if (loadedAsset != null)
         {
@@ -127,7 +127,7 @@ public class CardPopupWindow : PopupWindow
             return;
         }
 
-        AssetDatabase.RenameAsset($"Assets/ScriptableObjects/Cards/{oldFileName}.asset", newFileName);
+        AssetDatabase.RenameAsset($"Assets/_ScriptableObjects/Cards/{oldFileName}.asset", newFileName);
 
         window.CreateListView();
         CloseWindow();

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -189,7 +189,7 @@ public class GraphSaveUtility
     {
         // Check if asset exists
 
-        Event loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Events/{fileName}.asset", typeof(Event)) as Event;
+        Event loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/_ScriptableObjects/Events/{fileName}.asset", typeof(Event)) as Event;
 
         if (loadedAsset != null)
         {
@@ -249,7 +249,7 @@ public class GraphSaveUtility
         else
         {
             // Never will run
-            //AssetDatabase.CreateAsset(eventContainer, $"Assets/ScriptableObjects/Events/{fileName}.asset");
+            //AssetDatabase.CreateAsset(eventContainer, $"Assets/_ScriptableObjects/Events/{fileName}.asset");
         }
 
         AssetDatabase.SaveAssets();
@@ -294,7 +294,7 @@ public class GraphSaveUtility
     {
         Event tempEvent = new Event();
 
-        Event loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Events/{fileName}.asset", typeof(Event)) as Event;
+        Event loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/_ScriptableObjects/Events/{fileName}.asset", typeof(Event)) as Event;
 
         // Loop to find child data
         for (int i = 0; i < loadedAsset.listChildData.Count; i++)

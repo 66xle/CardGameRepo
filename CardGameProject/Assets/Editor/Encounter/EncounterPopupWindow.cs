@@ -107,7 +107,7 @@ public class EncounterPopupWindow : PopupWindow
         }
 
 
-        EncounterData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Encounter/{fileName}.asset", typeof(EncounterData)) as EncounterData;
+        EncounterData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/_ScriptableObjects/Encounter/{fileName}.asset", typeof(EncounterData)) as EncounterData;
 
         if (loadedAsset != null)
         {
@@ -118,7 +118,7 @@ public class EncounterPopupWindow : PopupWindow
         {
             EncounterData encounter = CreateNewEncounter(newEncounter);
 
-            AssetDatabase.CreateAsset(encounter, $"Assets/ScriptableObjects/Encounter/{fileName}.asset");
+            AssetDatabase.CreateAsset(encounter, $"Assets/_ScriptableObjects/Encounter/{fileName}.asset");
 
             window.CreateListView();
         }
@@ -142,7 +142,7 @@ public class EncounterPopupWindow : PopupWindow
             return;
         }
 
-        EncounterData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Encounter/{newFileName}.asset", typeof(EncounterData)) as EncounterData;
+        EncounterData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/_ScriptableObjects/Encounter/{newFileName}.asset", typeof(EncounterData)) as EncounterData;
 
         if (loadedAsset != null)
         {
@@ -156,7 +156,7 @@ public class EncounterPopupWindow : PopupWindow
         window.list.itemsSource = null;
 
 
-        AssetDatabase.RenameAsset($"Assets/ScriptableObjects/Encounter/{oldFileName}.asset", newFileName);
+        AssetDatabase.RenameAsset($"Assets/_ScriptableObjects/Encounter/{oldFileName}.asset", newFileName);
 
 
         window.CreateListView();

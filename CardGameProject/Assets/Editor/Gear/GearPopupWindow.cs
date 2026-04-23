@@ -116,7 +116,7 @@ public class GearPopupWindow : PopupWindow
         }
 
 
-        GearData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Gear/{fileName}.asset", typeof(GearData)) as GearData;
+        GearData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/_ScriptableObjects/Gear/{fileName}.asset", typeof(GearData)) as GearData;
 
         if (loadedAsset != null)
         {
@@ -130,13 +130,13 @@ public class GearPopupWindow : PopupWindow
             {
                 WeaponData weapon = CreateNewWeapon(newGear);
 
-                AssetDatabase.CreateAsset(weapon, $"Assets/ScriptableObjects/Gear/{fileName}.asset");
+                AssetDatabase.CreateAsset(weapon, $"Assets/_ScriptableObjects/Gear/{fileName}.asset");
             }
             else
             {
                 ArmourData armour = CreateNewArmour(newGear);
 
-                AssetDatabase.CreateAsset(armour, $"Assets/ScriptableObjects/Gear/{fileName}.asset");
+                AssetDatabase.CreateAsset(armour, $"Assets/_ScriptableObjects/Gear/{fileName}.asset");
             }
 
             window.CreateListView();
@@ -161,7 +161,7 @@ public class GearPopupWindow : PopupWindow
             return;
         }
 
-        GearData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Gear/{newFileName}.asset", typeof(GearData)) as GearData;
+        GearData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/_ScriptableObjects/Gear/{newFileName}.asset", typeof(GearData)) as GearData;
 
         if (loadedAsset != null)
         {
@@ -175,7 +175,7 @@ public class GearPopupWindow : PopupWindow
         window.rootVisualElement.Query<Box>("gear-info").First().Clear();
         window.list.itemsSource = null;
 
-        AssetDatabase.RenameAsset($"Assets/ScriptableObjects/Gear/{oldFileName}.asset", newFileName);
+        AssetDatabase.RenameAsset($"Assets/_ScriptableObjects/Gear/{oldFileName}.asset", newFileName);
 
         window.CreateListView();
         CloseWindow();

@@ -77,7 +77,7 @@ public class DialoguePopupWindow : PopupWindow
             return;
         }
 
-        Event loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Events/{fileName}.asset", typeof(Event)) as Event;
+        Event loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/_ScriptableObjects/Events/{fileName}.asset", typeof(Event)) as Event;
 
         if (loadedAsset != null)
         {
@@ -92,7 +92,7 @@ public class DialoguePopupWindow : PopupWindow
             newEvent.category = "Random";
             newEvent.nextEvent = null;
 
-            AssetDatabase.CreateAsset(newEvent, $"Assets/ScriptableObjects/Events/{fileName}.asset");
+            AssetDatabase.CreateAsset(newEvent, $"Assets/_ScriptableObjects/Events/{fileName}.asset");
             dialogueWindow.eventList.Clear();
             dialogueWindow.CreateEventListView();
         }
@@ -149,9 +149,9 @@ public class DialoguePopupWindow : PopupWindow
         }
 
 
-        AssetDatabase.RenameAsset($"Assets/ScriptableObjects/Events/{oldFileName}.asset", newFileName);
+        AssetDatabase.RenameAsset($"Assets/_ScriptableObjects/Events/{oldFileName}.asset", newFileName);
 
-        Event renamedEvent = AssetDatabase.LoadAssetAtPath<Event>($"Assets/ScriptableObjects/Events/{newFileName}.asset");
+        Event renamedEvent = AssetDatabase.LoadAssetAtPath<Event>($"Assets/_ScriptableObjects/Events/{newFileName}.asset");
         eventsToBeRenamed.ForEach(evt => evt.nextEvent = renamedEvent);
 
 

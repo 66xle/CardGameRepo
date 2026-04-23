@@ -84,7 +84,7 @@ public class EnemyPopupWindow : PopupWindow
         }
 
 
-        EnemyData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Enemy/{fileName}.asset", typeof(EnemyData)) as EnemyData;
+        EnemyData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/_ScriptableObjects/Enemy/{fileName}.asset", typeof(EnemyData)) as EnemyData;
 
         if (loadedAsset != null)
         {
@@ -96,7 +96,7 @@ public class EnemyPopupWindow : PopupWindow
         {
             EnemyData enemy = CreateNewEnemy(newEnemy);
 
-            AssetDatabase.CreateAsset(enemy, $"Assets/ScriptableObjects/Enemy/{fileName}.asset");
+            AssetDatabase.CreateAsset(enemy, $"Assets/_ScriptableObjects/Enemy/{fileName}.asset");
 
             window.CreateListView();
         }
@@ -120,7 +120,7 @@ public class EnemyPopupWindow : PopupWindow
             return;
         }
 
-        EnemyData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Enemy/{newFileName}.asset", typeof(EnemyData)) as EnemyData;
+        EnemyData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/_ScriptableObjects/Enemy/{newFileName}.asset", typeof(EnemyData)) as EnemyData;
 
         if (loadedAsset != null)
         {
@@ -134,7 +134,7 @@ public class EnemyPopupWindow : PopupWindow
         window.rootVisualElement.Query<Box>("enemy-info").First().Clear();
         window.list.itemsSource = null;
 
-        AssetDatabase.RenameAsset($"Assets/ScriptableObjects/Enemy/{oldFileName}.asset", newFileName);
+        AssetDatabase.RenameAsset($"Assets/_ScriptableObjects/Enemy/{oldFileName}.asset", newFileName);
 
         window.CreateListView();
         CloseWindow();

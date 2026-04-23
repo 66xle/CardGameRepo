@@ -60,7 +60,7 @@ public class SettingView : VisualElement
 
     public Event GetEventFromString(string name)
     {
-        return AssetDatabase.LoadAssetAtPath<Event>($"Assets/ScriptableObjects/Events/{name}.asset");
+        return AssetDatabase.LoadAssetAtPath<Event>($"Assets/_ScriptableObjects/Events/{name}.asset");
     }
 
     PopupField<string> CreatePopupField(string name, List<string> choices, EventCallback<ChangeEvent<string>> onValueChanged = null)

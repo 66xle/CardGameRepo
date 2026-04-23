@@ -84,7 +84,7 @@ public class LevelPopupWindow : PopupWindow
         }
 
 
-        LevelData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Level/{fileName}.asset", typeof(LevelData)) as LevelData;
+        LevelData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/_ScriptableObjects/Level/{fileName}.asset", typeof(LevelData)) as LevelData;
 
         if (loadedAsset != null)
         {
@@ -96,7 +96,7 @@ public class LevelPopupWindow : PopupWindow
         {
             LevelData level = CreateNewLevel(newLevel);
 
-            AssetDatabase.CreateAsset(level, $"Assets/ScriptableObjects/Level/{fileName}.asset");
+            AssetDatabase.CreateAsset(level, $"Assets/_ScriptableObjects/Level/{fileName}.asset");
 
             window.CreateListView();
         }
@@ -120,7 +120,7 @@ public class LevelPopupWindow : PopupWindow
             return;
         }
 
-        LevelData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/ScriptableObjects/Level/{newFileName}.asset", typeof(LevelData)) as LevelData;
+        LevelData loadedAsset = AssetDatabase.LoadAssetAtPath($"Assets/_ScriptableObjects/Level/{newFileName}.asset", typeof(LevelData)) as LevelData;
 
         if (loadedAsset != null)
         {
@@ -135,7 +135,7 @@ public class LevelPopupWindow : PopupWindow
         window.list.itemsSource = null;
 
 
-        AssetDatabase.RenameAsset($"Assets/ScriptableObjects/Level/{oldFileName}.asset", newFileName);
+        AssetDatabase.RenameAsset($"Assets/_ScriptableObjects/Level/{oldFileName}.asset", newFileName);
 
 
         window.CreateListView();
