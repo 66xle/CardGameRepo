@@ -12,7 +12,7 @@ public class BaseEditorWindow : EditorWindow
 
     public ListView list;
 
-    public PopupWindow window;
+    public PopupWindow popupWindow;
 
     public bool isPopupActive;
 

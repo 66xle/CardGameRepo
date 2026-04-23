@@ -340,14 +340,14 @@ public class CardEditorWindow : BaseEditorWindow
 
     public override void AddButton()
     {
-        window = CreateInstance<CardPopupWindow>();
-        window.addButtonPressed = true;
+        popupWindow = CreateInstance<CardPopupWindow>();
+        popupWindow.addButtonPressed = true;
         isPopupActive = true;
-        window.window = this;
+        popupWindow.window = this;
 
         Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
-        window.position = new Rect(mousePos.x, mousePos.y, 500, 700);
-        window.ShowPopup();
+        popupWindow.position = new Rect(mousePos.x, mousePos.y, 500, 700);
+        popupWindow.ShowPopup();
     }
 
     public override void DeleteButton()
@@ -389,14 +389,14 @@ public class CardEditorWindow : BaseEditorWindow
     {
         if (list.selectedItem != null)
         {
-            window = CreateInstance<CardPopupWindow>();
-            window.renameButtonPressed = true;
+            popupWindow = CreateInstance<CardPopupWindow>();
+            popupWindow.renameButtonPressed = true;
             isPopupActive = true;
-            window.window = this;
+            popupWindow.window = this;
 
             Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
-            window.position = new Rect(mousePos.x, mousePos.y, 300, 100);
-            window.ShowPopup();
+            popupWindow.position = new Rect(mousePos.x, mousePos.y, 300, 100);
+            popupWindow.ShowPopup();
         }
     }
 

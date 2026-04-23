@@ -157,14 +157,14 @@ public class GearEditorWindow : BaseEditorWindow
 
     public override void AddButton()
     {
-        window = CreateInstance<GearPopupWindow>();
-        window.addButtonPressed = true;
+        popupWindow = CreateInstance<GearPopupWindow>();
+        popupWindow.addButtonPressed = true;
         isPopupActive = true;
-        window.window = this;
+        popupWindow.window = this;
 
         Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
-        window.position = new Rect(mousePos.x, mousePos.y, 300, 250);
-        window.ShowPopup();
+        popupWindow.position = new Rect(mousePos.x, mousePos.y, 300, 250);
+        popupWindow.ShowPopup();
     }
 
     public override void DeleteButton()
@@ -192,14 +192,14 @@ public class GearEditorWindow : BaseEditorWindow
     {
         if (list.selectedItem != null)
         {
-            window = CreateInstance<GearPopupWindow>();
-            window.renameButtonPressed = true;
+            popupWindow = CreateInstance<GearPopupWindow>();
+            popupWindow.renameButtonPressed = true;
             isPopupActive = true;
-            window.window = this;
+            popupWindow.window = this;
 
             Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
-            window.position = new Rect(mousePos.x, mousePos.y, 300, 200);
-            window.ShowPopup();
+            popupWindow.position = new Rect(mousePos.x, mousePos.y, 300, 200);
+            popupWindow.ShowPopup();
         }
     }
 

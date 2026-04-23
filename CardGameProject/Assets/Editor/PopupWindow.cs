@@ -10,7 +10,10 @@ public class PopupWindow : EditorWindow
     private void OnDisable()
     {
         if (window != null)
+        {
             window.isPopupActive = false;
+            window.popupWindow = null;
+        }
     }
 
 }

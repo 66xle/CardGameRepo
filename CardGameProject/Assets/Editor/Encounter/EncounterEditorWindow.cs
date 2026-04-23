@@ -114,14 +114,14 @@ public class EncounterEditorWindow : BaseEditorWindow
 
     public override void AddButton()
     {
-        window = CreateInstance<EncounterPopupWindow>();
-        window.addButtonPressed = true;
+        popupWindow = CreateInstance<EncounterPopupWindow>();
+        popupWindow.addButtonPressed = true;
         isPopupActive = true;
-        window.window = this;
+        popupWindow.window = this;
 
         Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
-        window.position = new Rect(mousePos.x, mousePos.y, 300, 200);
-        window.ShowPopup();
+        popupWindow.position = new Rect(mousePos.x, mousePos.y, 300, 200);
+        popupWindow.ShowPopup();
     }
 
     public override void DeleteButton()
@@ -149,14 +149,14 @@ public class EncounterEditorWindow : BaseEditorWindow
     {
         if (list.selectedItem != null)
         {
-            window = CreateInstance<EncounterPopupWindow>();
-            window.renameButtonPressed = true;
+            popupWindow = CreateInstance<EncounterPopupWindow>();
+            popupWindow.renameButtonPressed = true;
             isPopupActive = true;
-            window.window = this;
+            popupWindow.window = this;
 
             Vector2 mousePos = GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition);
-            window.position = new Rect(mousePos.x, mousePos.y, 300, 200);
-            window.ShowPopup();
+            popupWindow.position = new Rect(mousePos.x, mousePos.y, 300, 200);
+            popupWindow.ShowPopup();
         }
     }
 
