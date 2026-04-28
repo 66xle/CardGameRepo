@@ -55,41 +55,33 @@ public class CardManager : MonoBehaviour
         container.DestroyAllCards();
     }
 
-    public void AddEquipmentCardsToDeck(GearData gearData)
+    public void AddEquipmentCardsToDeck(GearRuntime gearRuntime)
     {
-        foreach (CardAnimationData data in gearData.Cards)
-        {
-            for (int i = 0; i < data.CardAmount; i++)
-            {
-                CardRuntime cardRuntime = CreateCardRuntime(gearData, data);
-                PlayerDeck.Add(cardRuntime);
-            }
-        }
-    }
+        
 
-    public CardRuntime CreateCardRuntime(GearData gearData, CardAnimationData data)
-    {
-        CardRuntime cardRuntime = new(gearData, data, StatsManager.Attack, StatsManager.Defence + EquipmentManager.GetArmoursDefence(), StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
-        return cardRuntime;
+        foreach (CardRuntime cardRuntime in gearRuntime.CardRuntimes)
+        {
+            PlayerDeck.Add(cardRuntime);
+        }
     }
 
     public void LoadCards()
     {
-        AddEquipmentCardsToDeck(SwitchWeaponManager.CurrentMainHand);
+        PlayerDeck.AddRange(SwitchWeaponManager.CurrentMainHand.CardRuntimes);
 
         return;
 
         // Load main hand
-        AddEquipmentCardsToDeck(SwitchWeaponManager.CurrentMainHand);
+        PlayerDeck.AddRange(SwitchWeaponManager.CurrentMainHand.CardRuntimes);
 
-        foreach (WeaponData weaponData in SwitchWeaponManager.CurrentEquippedWeapons)
+        foreach (GearRuntime gearRuntime in SwitchWeaponManager.CurrentEquippedWeapons)
         {
-            AddEquipmentCardsToDeck(weaponData);
+            PlayerDeck.AddRange(gearRuntime.CardRuntimes);
         }
 
-        foreach (ArmourData armour in EquipmentManager.GetEquippedArmours())
+        foreach (GearRuntime gearRuntime in EquipmentManager.GetEquippedArmours())
         {
-            AddEquipmentCardsToDeck(armour);
+            PlayerDeck.AddRange(gearRuntime.CardRuntimes);
         }
     }
 
@@ -99,7 +91,7 @@ public class CardManager : MonoBehaviour
         {
             GameObject go = PlayerHandTransform.GetChild(i).gameObject;
             CardDisplay display = go.GetComponent<CardDisplay>();
-            string description = display.CardRuntime.GenerateDescriptionWithDamage(display.Card, display.CardRuntime.Gear, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale, StatsManager.CurrentMaxHealth, enemy, player);
+            string description = display.CardRuntime.GenerateDescriptionWithDamage(display.Card, display.CardRuntime.GearRuntime.CurrentValue, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale, StatsManager.CurrentMaxHealth, enemy, player);
             display.UpdateDescription(description);
             display.SetCamera(UICamera);
         }

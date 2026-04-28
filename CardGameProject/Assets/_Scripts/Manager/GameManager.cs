@@ -6,10 +6,10 @@ public class GameManager : Singleton<GameManager>
     [HideInInspector] public string SceneToLoad;
     [HideInInspector] public int StageLevel;
 
-    [HideInInspector] public WeaponData MainHand;
-    [HideInInspector] public WeaponData OffHand;
-    [HideInInspector] public List<WeaponData> EquippedWeapons;
-    [HideInInspector] public List<ArmourData> EquippedArmour;
+    [HideInInspector] public GearRuntime MainHand;
+    [HideInInspector] public GearRuntime OffHand;
+    [HideInInspector] public List<GearRuntime> EquippedWeapons;
+    [HideInInspector] public List<GearRuntime> EquippedArmour;
     [HideInInspector] public bool IsEquipmentSaved = false;
 
 

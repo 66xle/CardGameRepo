@@ -70,9 +70,6 @@ public class Enemy : Avatar
         float enemyLevel = levelData.IsFixed ? levelData.RecommendLevel : data.Level;
 
 
-        WeaponData weapon = new();
-        weapon.DamageType = DamageType;
-
         EnemyData = data;
         MaxGuard = data.Guard;
         MaxHealth = ess.CalculateHealth(enemyLevel, data.EnemyType);
@@ -88,7 +85,7 @@ public class Enemy : Avatar
 
 
         Deck = new();
-        Deck.AddRange(data.Cards.Select(card => new CardRuntime(weapon, card, Attack, Defence, BlockScale, MaxHealth)));
+        Deck.AddRange(data.Cards.Select(card => new CardRuntime(card, Attack, Defence, BlockScale, MaxHealth)));
 
         SelectionRing = transform.GetChild(0).gameObject;
 

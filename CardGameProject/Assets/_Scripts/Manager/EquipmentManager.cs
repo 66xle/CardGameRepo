@@ -35,10 +35,14 @@ public class EquipmentManager : MonoBehaviour
     [Separator]
 
     [SerializeField] List<WeaponData> EquippedWeapons;
-    private List<WeaponData> _equippedWeapons;
+    private List<GearRuntime> _equippedWeapons;
 
     public WeaponData FixedWeapon1stBattle;
     public WeaponData FixedWeapon2ndBattle;
+
+    [Separator]
+
+    [MustBeAssigned] public StatsManager StatsManager;
 
     private void Awake()
     {
@@ -50,10 +54,15 @@ public class EquipmentManager : MonoBehaviour
     {
         Debug.Log("Save Gear");
 
-        GameManager.Instance.MainHand = MainHand;
-        GameManager.Instance.OffHand = OffHand;
+        GameManager.Instance.MainHand = MainHand == null ? null : new GearRuntime(MainHand, StatsManager);
+        GameManager.Instance.OffHand = OffHand == null ? null : new GearRuntime(OffHand, StatsManager);
         GameManager.Instance.EquippedWeapons = _equippedWeapons;
-        GameManager.Instance.EquippedArmour = new() { Head, Shoulders, Arms, Chest, Legs, Boots };
+        GameManager.Instance.EquippedArmour = new() { new GearRuntime(Head, StatsManager),
+                                                      new GearRuntime(Shoulders, StatsManager),
+                                                      new GearRuntime(Arms, StatsManager),
+                                                      new GearRuntime(Chest, StatsManager),
+                                                      new GearRuntime(Legs, StatsManager),
+                                                      new GearRuntime(Boots, StatsManager) };
 
         GameManager.Instance.IsEquipmentSaved = true;
     }
@@ -62,26 +71,40 @@ public class EquipmentManager : MonoBehaviour
     {
         Debug.Log("Load Gear");
 
-        _equippedWeapons = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedWeapons : EquippedWeapons;
+        if (GameManager.Instance.IsEquipmentSaved)
+            _equippedWeapons = GameManager.Instance.EquippedWeapons;
+        else
+        {
+            // Convert EquippedWeapons (List<WeaponData>) to List<GearRuntime>
+            _equippedWeapons = new List<GearRuntime>();
+            if (EquippedWeapons != null)
+            {
+                foreach (var weapon in EquippedWeapons)
+                {
+                    if (weapon == null) continue;
 
-        Head = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[0] : Head;
-        Shoulders = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[1] : Shoulders;
-        Arms = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[2] : Arms;
-        Chest = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[3] : Chest;
-        Legs = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[4] : Legs;
-        Boots = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[5] : Boots;
+                    _equippedWeapons.Add(new GearRuntime(weapon, StatsManager));
+                }
+            }
+        }
+
+        Head = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[0].GearData as ArmourData : Head;
+        Shoulders = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[1].GearData as ArmourData : Shoulders;
+        Arms = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[2].GearData as ArmourData : Arms;
+        Chest = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[3].GearData as ArmourData : Chest;
+        Legs = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[4].GearData as ArmourData : Legs;
+        Boots = GameManager.Instance.IsEquipmentSaved ? GameManager.Instance.EquippedArmour[5].GearData as ArmourData : Boots;
     }
 
-    public void AddGear(GearData gear)
+    public void AddGear(GearRuntime gearRuntime)
     {
-        if (gear is WeaponData)
+        if (gearRuntime.GearData is WeaponData)
         {
-            _equippedWeapons.Add(gear as WeaponData);
+            _equippedWeapons.Add(gearRuntime);
         }
-        else if (gear is ArmourData)
+        else if (gearRuntime.GearData is ArmourData)
         {
-            ArmourData armourData = gear as ArmourData;
-
+            ArmourData armourData = gearRuntime.GearData as ArmourData;
             if (armourData.ArmourSlot == ArmourSlot.Head) Head = armourData;
             else if (armourData.ArmourSlot == ArmourSlot.Shoulders) Head = armourData;
             else if (armourData.ArmourSlot == ArmourSlot.Arms) Arms = armourData;
@@ -91,18 +114,22 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
-    public List<WeaponData> GetEquippedWeapons()
+    public List<GearRuntime> GetEquippedWeapons()
     {
         return _equippedWeapons;
     }
 
-    public List<ArmourData> GetEquippedArmours()
+    public List<GearRuntime> GetEquippedArmours()
     {
-        List<ArmourData> armourDatas = new() { Head, Shoulders, Arms, Chest, Legs, Boots };
+        List<GearRuntime> armourGearRuntime = new() { new GearRuntime(Head, StatsManager),
+                                                      new GearRuntime(Shoulders, StatsManager),
+                                                      new GearRuntime(Arms, StatsManager),
+                                                      new GearRuntime(Chest, StatsManager),
+                                                      new GearRuntime(Legs, StatsManager),
+                                                      new GearRuntime(Boots, StatsManager) };
 
-        List<ArmourData> equipped = new();
-
-        foreach (ArmourData armourData in armourDatas)
+        List<GearRuntime> equipped = new();
+        foreach (GearRuntime armourData in armourGearRuntime)
         {
             if (armourData == null) continue;
 

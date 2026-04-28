@@ -82,7 +82,7 @@ public class RewardManager : MonoBehaviour
     {
         if (ListOfRewards.Count > 0)
         {
-            EquipmentManager.AddGear(ListOfRewards[0]);
+            EquipmentManager.AddGear(new GearRuntime(ListOfRewards[0], StatsManager));
             EquipmentManager.SaveGear();
         }
 
@@ -216,7 +216,7 @@ public class RewardManager : MonoBehaviour
             image.texture = data.IconTexture;
 
             Button button = icon.GetComponent<Button>();
-            button.onClick.AddListener(() => OpenGearOverlay(data));
+            button.onClick.AddListener(() => OpenGearOverlay(new GearRuntime(data, StatsManager)));
 
             GearItem item = icon.GetComponent<GearItem>();
             item.GearData = data;
@@ -224,32 +224,30 @@ public class RewardManager : MonoBehaviour
     }
 
 
-    // Gear Overlay UI
-    public void OpenGearOverlay(GearData data)
+    // Gear Overlay UI (RECODE THIS ENTIRE THING LATER)
+    public void OpenGearOverlay(GearRuntime gearRuntime)
     {
         RenderCamera.gameObject.SetActive(true);
 
-        if (data.Prefab == null)
+        if (gearRuntime.GearData.Prefab == null)
         {
-            Debug.LogError($"[Missing Reference] Prefab not set in gear: {data.GearName}");
+            Debug.LogError($"[Missing Reference] Prefab not set in gear: {gearRuntime.GearData.GearName}");
             return;
         }
 
-        Weapon weapon = data.Prefab.GetComponent<Weapon>();
-
+        Weapon weapon = gearRuntime.GearData.Prefab.GetComponent<Weapon>();
         Vector3 spawnPos = RenderCamera.transform.position + weapon.positionOffset;
-        currentObjectInOverlay = Instantiate(data.Prefab, spawnPos, Quaternion.Euler(weapon.rotationOffset));
+        currentObjectInOverlay = Instantiate(gearRuntime.GearData.Prefab, spawnPos, Quaternion.Euler(weapon.rotationOffset));
 
-        foreach (CardAnimationData animationData in data.Cards)
+        foreach (CardAnimationData animationData in gearRuntime.GearData.Cards)
         {
             if (animationData.Card == null)
             {
-                Debug.LogError($"[Missing Reference] Card not set in gear: {data.GearName}");
+                Debug.LogError($"[Missing Reference] Card not set in gear: {gearRuntime.GearData.GearName}");
                 return;
             }
 
-            CardRuntime cardRuntime = new(data, animationData, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
-
+            CardRuntime cardRuntime = new(gearRuntime, animationData, StatsManager.Attack, StatsManager.Defence, StatsManager.BlockScale, StatsManager.CurrentMaxHealth);
             CardDisplay cardDisplay = Instantiate(CardPrefab, PreviewCards).GetComponent<CardDisplay>();
             cardDisplay.SetCard(cardRuntime, cardRuntime.Card);
         }

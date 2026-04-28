@@ -60,10 +60,11 @@ public class EquipmentHolster : MonoBehaviour
         CreateWeaponObject(weaponData.Prefab, LeftHand, weaponData);
     }
 
-    public void SetHolsteredWeapons(List<WeaponData> weapons)
+    public void SetHolsteredWeapons(List<GearRuntime> weapons)
     {
-        foreach (WeaponData data in weapons)
+        foreach (GearRuntime gear in weapons)
         {
+            WeaponData data = (WeaponData)gear.GearData;
             Weapon weaponScript = data.Prefab.GetComponent<Weapon>();
 
             if (weaponScript.WeaponType == WeaponType.Sword)

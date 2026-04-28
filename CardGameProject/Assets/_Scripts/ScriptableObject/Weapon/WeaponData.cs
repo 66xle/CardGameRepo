@@ -55,6 +55,8 @@ public class WeaponData : GearData
 #if UNITY_EDITOR
     public void OnValidate()
     {
+        WeaponAttack = GetWeaponAttack();
+
         if (WeaponType != _previousWeaponType || WeaponTypeAnimationSet.Count != _weaponTypeCount)
         {
             _previousWeaponType = WeaponType;
@@ -98,6 +100,17 @@ public class WeaponData : GearData
 
             data.Add(loadedData);
         }
+    }
+
+    private int GetWeaponAttack()
+    {
+        string[] guids = AssetDatabase.FindAssets("t:WeaponDamageSettings");
+
+        string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+
+        WeaponDamageSettings loadedData = AssetDatabase.LoadAssetAtPath<WeaponDamageSettings>(path);
+
+        return loadedData.GetWeaponDamage(this);
     }
 
 #endif

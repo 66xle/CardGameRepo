@@ -10,11 +10,11 @@ public class SwitchWeaponManager : MonoBehaviour
     [Header("References")]
     [MustBeAssigned] public EquipmentManager EquipmentManager;
     [MustBeAssigned] public CombatUIManager CombatUIManager;
-    [MustBeAssigned] public WeaponDamageSettings WeaponRaritySettings;
+    [MustBeAssigned] public StatsManager StatsManager;
 
-    public WeaponData CurrentMainHand { get; set; }
-    public WeaponData CurrentOffHand { get; set; }
-    public List<WeaponData> CurrentEquippedWeapons { get; set; } = new();
+    public GearRuntime CurrentMainHand { get; set; }
+    public GearRuntime CurrentOffHand { get; set; }
+    public List<GearRuntime> CurrentEquippedWeapons { get; set; } = new();
 
 
     private List<CinemachineVirtualCamera> _cameraList = new();
@@ -42,32 +42,34 @@ public class SwitchWeaponManager : MonoBehaviour
         CurrentEquippedWeapons.Clear();
 
         // Copy Data
-        CurrentMainHand = CopyWeaponData(EquipmentManager.MainHand);
+        CurrentMainHand = CreateGearRuntime(EquipmentManager.MainHand);
 
         if (IsOffhandEquipped())
-            CurrentOffHand = CopyWeaponData(EquipmentManager.OffHand);
+            CurrentOffHand = CreateGearRuntime(EquipmentManager.OffHand);
 
         if (IsHolstersEquipped())
         {
-            foreach (WeaponData weaponData in EquipmentManager.GetEquippedWeapons())
+            foreach (GearRuntime gearRuntime in EquipmentManager.GetEquippedWeapons())
             {
-                CurrentEquippedWeapons.Add(CopyWeaponData(weaponData));
+                CurrentEquippedWeapons.Add(gearRuntime);
             }
         }
     }
 
     public void InitTutorialWeapon()
     {
-        CurrentMainHand = CopyWeaponData(EquipmentManager.FixedWeapon1stBattle);
+        CurrentMainHand = CreateGearRuntime(EquipmentManager.FixedWeapon1stBattle);
     }
 
     public void InitCameraList()
     {
         _cameraList.Clear();
 
-        foreach (WeaponData data in CurrentEquippedWeapons)
+        foreach (GearRuntime gear in CurrentEquippedWeapons)
         {
-            Transform holsterTransform = data.HolsterSlot;
+            WeaponData weaponData = (WeaponData)gear.GearData;
+
+            Transform holsterTransform = weaponData.HolsterSlot;
             CinemachineVirtualCamera camera = DetermineCamera(holsterTransform);
 
             if (camera != null)
@@ -77,14 +79,9 @@ public class SwitchWeaponManager : MonoBehaviour
         }
     }
 
-    public void CreateWeaponData(WeaponData weaponData)
+    public List<GearRuntime> GetWeaponList()
     {
-        CurrentEquippedWeapons.Add(CopyWeaponData(weaponData));
-    }
-
-    public List<WeaponData> GetWeaponList()
-    {
-        List<WeaponData> holsterWeapons = new List<WeaponData>();
+        List<GearRuntime> holsterWeapons = new List<GearRuntime>();
         holsterWeapons.Add(CurrentMainHand);
 
         if (IsOffhandEquipped())
@@ -95,15 +92,9 @@ public class SwitchWeaponManager : MonoBehaviour
         return holsterWeapons;
     }
 
-    private WeaponData CopyWeaponData(WeaponData data)
+    private GearRuntime CreateGearRuntime(WeaponData data)
     {
-        WeaponData newData = new WeaponData(data);
-
-        // Scale weapon damage to rarity
-        newData.WeaponAttack = WeaponRaritySettings.GetWeaponDamage(newData);
-
-        newData.Guid = Guid.NewGuid().ToString();
-        return newData;
+        return new GearRuntime(data, StatsManager);
     }
 
     public bool IsOffhandEquipped()

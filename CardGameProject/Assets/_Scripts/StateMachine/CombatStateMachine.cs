@@ -223,14 +223,22 @@ public class CombatStateMachine : MonoBehaviour
                 SwitchWeaponManager.InitWeaponData();
             }
 
-            List<WeaponData> holsterWeapons = SwitchWeaponManager.GetWeaponList();
+            List<GearRuntime> holsterWeapons = SwitchWeaponManager.GetWeaponList();
 
             if (holsterWeapons.Count > 0)
             {
                 _equipmentHolsterScript.SetHolsteredWeapons(holsterWeapons);
 
-                GameObject weaponToEquip = _equipmentHolsterScript.EquippedWeaponObjects.First(weapon => weapon.GetComponent<Weapon>().Guid == SwitchWeaponManager.CurrentMainHand.Guid);
-                _equipmentHolsterScript.EquipWeapon(weaponToEquip);
+                foreach (GameObject gearObj in _equipmentHolsterScript.EquippedWeaponObjects)
+                {
+                    Weapon weapon = gearObj.GetComponent<Weapon>();
+                    WeaponData weaponData = SwitchWeaponManager.CurrentMainHand.GearData as WeaponData;
+
+                    if (weapon.Guid != weaponData.Guid) continue;
+
+                    _equipmentHolsterScript.EquipWeapon(gearObj);
+                    break;
+                }
             }
         }
 
@@ -292,7 +300,7 @@ public class CombatStateMachine : MonoBehaviour
                 Weapon weaponScript = mainHandWeapon.GetComponent<Weapon>();
 
                 // Swap Weapon
-                if (weaponScript.Guid != cardRuntime.Gear.Guid)
+                if (weaponScript.Guid != cardRuntime.GearRuntime.GearData.Guid)
                 {
                     GameObject holsteredWeapon;
 
@@ -300,7 +308,7 @@ public class CombatStateMachine : MonoBehaviour
                     {
                         Weapon equippedWeapon = weaponObj.GetComponent<Weapon>();
 
-                        if (equippedWeapon.Guid == cardRuntime.Gear.Guid)
+                        if (equippedWeapon.Guid == cardRuntime.GearRuntime.GearData.Guid)
                         {
                             holsteredWeapon = weaponObj;
                             WeaponType weaponType = equippedWeapon.WeaponType;

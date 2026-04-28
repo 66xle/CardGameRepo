@@ -3,16 +3,37 @@ using System.Collections.Generic;
 
 public class CardRuntime
 {
-    public GearData Gear { get; private set; }
+    public GearRuntime GearRuntime { get; private set; }
     public Card Card { get; private set; }
 
     public List<AnimationWrapper> AnimationList { get; private set; }
 
-    public CardRuntime(GearData gear, CardAnimationData data, float attack, float defence, float blockScale, float health)
+
+    /// For Player card runtime, where there is a gear runtime to reference for damage calculation
+    public CardRuntime(GearRuntime gearRuntime, CardAnimationData data, float attack, float defence, float blockScale, float health)
     {
         Card card = data.Card;
-        Card copyCard = new Card();
+        
+        Card = CopyCard(card);
+        AnimationList = data.AnimationList;
+        GearRuntime = gearRuntime;
 
+        Card.DisplayDescription = GenerateDescriptionWithDamage(card, gearRuntime.CurrentValue, attack, defence, blockScale, health);
+    }
+
+    /// For Enemy card runtime, where there is no gear runtime
+    public CardRuntime(CardAnimationData data, float attack, float defence, float blockScale, float health)
+    {
+        Card card = data.Card;
+        Card = CopyCard(card);
+        AnimationList = data.AnimationList;
+
+        Card.DisplayDescription = GenerateDescriptionWithDamage(card, 0, attack, defence, blockScale, health);
+    }
+
+    public Card CopyCard(Card card)
+    {
+        Card copyCard = new Card();
         copyCard.Guid = card.Guid;
         copyCard.InGameGUID = Guid.NewGuid().ToString();
 
@@ -31,23 +52,12 @@ public class CardRuntime
         copyCard.ValuesToReference = card.ValuesToReference;
         copyCard.Commands = card.Commands;
 
-
-        AnimationList = data.AnimationList;
-        Card = copyCard;
-        Gear = gear;
-
-        Card.DisplayDescription = GenerateDescriptionWithDamage(card, gear, attack, defence, blockScale, health);
+        return copyCard;
     }
 
-    public string GenerateDescriptionWithDamage(Card card, GearData gear, float attack, float defence, float blockScale, float health, Avatar enemy = null, Avatar player = null)
+    public string GenerateDescriptionWithDamage(Card card, int gearValue, float attack, float defence, float blockScale, float health, Avatar enemy = null, Avatar player = null)
     {
-        int weaponAttack = 0;
-
-        if (gear is WeaponData)
-        {
-            WeaponData weaponData = (WeaponData)gear;
-            weaponAttack = weaponData.WeaponAttack;
-        }
+        int weaponAttack = gearValue;
 
         string displayDescription = card.LinkDescription;
 

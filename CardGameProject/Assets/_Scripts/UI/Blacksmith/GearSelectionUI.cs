@@ -10,15 +10,15 @@ public class GearSelectionUI : MonoBehaviour
     [MustBeAssigned][SerializeField] public TMP_Text Passive;
     [MustBeAssigned][SerializeField] public TMP_Text FlavourDescription;
 
-    public void SelectGear(GearData data)
+    public void SelectGear(GearRuntime gearRuntime)
     {
-        Title.text = data.GearName;
-        StatValue.text = data.Value.ToString();
-        FlavourDescription.text = data.Description;
+        Title.text = gearRuntime.GearData.GearName;
+        StatValue.text = gearRuntime.GearData.Value.ToString();
+        FlavourDescription.text = gearRuntime.GearData.Description;
 
-        StatTitle.text = data is WeaponData ? StatTitle.text = "ATK" : StatTitle.text = "DEF";
+        StatTitle.text = gearRuntime.GearData is WeaponData ? StatTitle.text = "ATK" : StatTitle.text = "DEF";
 
-        if (!data.Passive)
+        if (!gearRuntime.GearData.Passive)
         {
             Passive.gameObject.SetActive(false);
         }

@@ -4,15 +4,14 @@ using UnityEngine.UI;
 
 public class GearIconUI : MonoBehaviour
 {
-    GearData GearData;
+    private GearRuntime _gearRuntime;
 
-    public void SetData(GearData data, Action<GearData> onClickSelectIcon)
+    public void SetData(GearRuntime gearRuntime, Action<GearRuntime> onClickSelectIcon)
     {
-        GearData = data;
+        _gearRuntime = gearRuntime;
         RawImage image = GetComponent<RawImage>();
-        image.texture = data.IconTexture;
-
+        image.texture = gearRuntime.GearData.IconTexture;
         Button button = GetComponent<Button>();
-        button.onClick.AddListener(() => onClickSelectIcon?.Invoke(GearData));
+        button.onClick.AddListener(() => onClickSelectIcon?.Invoke(gearRuntime));
     }
 }

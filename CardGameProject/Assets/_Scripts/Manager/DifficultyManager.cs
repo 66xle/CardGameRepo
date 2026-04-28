@@ -22,7 +22,7 @@ public class DifficultyManager : MonoBehaviour
     public int acceptableRange = 3;
 
     [Header("References")]
-    public StatsManager statsManager;
+    [MustBeAssigned] public StatsManager statsManager;
 
     [Separator]
 
@@ -117,7 +117,7 @@ public class DifficultyManager : MonoBehaviour
 
     List<EnemyData> GenerateRandomizedCloseComposition(int targetScore)
     {
-        // Build all possible combinations (1–3 enemies)
+        // Build all possible combinations (1â€“3 enemies)
         List<Combination> allCombinations = new List<Combination>();
 
         for (int enemyCount = 1; enemyCount <= maxEnemiesPerWave; enemyCount++)

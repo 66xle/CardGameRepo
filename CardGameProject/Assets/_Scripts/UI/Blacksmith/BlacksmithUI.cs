@@ -28,8 +28,8 @@ public class BlacksmithUI : MonoBehaviour
     [MustBeAssigned][SerializeField] public EquipmentManager EquipmentManager; // temp for testing
     [MustBeAssigned][SerializeField] public CardManager CardManager;
 
-    Action<GearData> _onClickSelectIcon;
-    GearData _selectedGear;
+    Action<GearRuntime> _onClickSelectIcon;
+    GearRuntime _selectedGear;
     CardContainer _cardContainer;
 
     public void Awake()
@@ -51,26 +51,26 @@ public class BlacksmithUI : MonoBehaviour
 
     void LoadInventory()
     {
-        List<GearData> weapons = new List<GearData>(GameManager.Instance.EquippedWeapons);
+        List<GearRuntime> weapons = new List<GearRuntime>(GameManager.Instance.EquippedWeapons);
         weapons.Add(GameManager.Instance.MainHand);
 
-        List<GearData> armours = new List<GearData>(GameManager.Instance.EquippedArmour);
+        List<GearRuntime> armours = new List<GearRuntime>(GameManager.Instance.EquippedArmour);
 
         // All and weapon tabs
-        foreach (GearData data in weapons)
+        foreach (GearRuntime gearRuntime in weapons)
         {
-            CreateGearIcon(data, AllInventoryParent);
-            CreateGearIcon(data, WeaponInventoryParent);
+            CreateGearIcon(gearRuntime, AllInventoryParent);
+            CreateGearIcon(gearRuntime, WeaponInventoryParent);
         }
 
 
         // All and Armor tabs
-        foreach (GearData data in armours)
+        foreach (GearRuntime gearRuntime in armours)
         {
-            if (data == null) continue;
+            if (gearRuntime.GearData == null) continue;
 
-            CreateGearIcon(data, AllInventoryParent);
-            CreateGearIcon(data, ArmourInventoryParent);
+            CreateGearIcon(gearRuntime, AllInventoryParent);
+            CreateGearIcon(gearRuntime, ArmourInventoryParent);
         }
 
         // Missing accessories tab for now
@@ -78,11 +78,11 @@ public class BlacksmithUI : MonoBehaviour
         SelectTab(AllInventoryParent.gameObject);
     }
 
-    private void CreateGearIcon(GearData data, Transform parent)
+    private void CreateGearIcon(GearRuntime gearRuntime, Transform parent)
     {
         GameObject iconObj = Instantiate(GearIconPrefab, parent);
         GearIconUI iconUI = iconObj.GetComponent<GearIconUI>();
-        iconUI.SetData(data, _onClickSelectIcon);
+        iconUI.SetData(gearRuntime, _onClickSelectIcon);
     }
 
     public void SelectTab(GameObject selectedTab)
@@ -95,15 +95,15 @@ public class BlacksmithUI : MonoBehaviour
         selectedTab.SetActive(true);
     }
 
-    public void SelectIcon(GearData gearData)
+    public void SelectIcon(GearRuntime gearRuntime)
     {
         if (!SelectionUI.activeSelf)
             SelectionUI.SetActive(true);
 
-        if (_selectedGear == gearData) return;
+        if (_selectedGear == gearRuntime) return;
 
-        _gearSelectionUI.SelectGear(gearData);
-        _selectedGear = gearData;
+        _gearSelectionUI.SelectGear(gearRuntime);
+        _selectedGear = gearRuntime;
 
         // move all cards to disabled parent (preserve original order and normalize transforms)
         while (SelectedCardParent.childCount > 0)
@@ -125,23 +125,17 @@ public class BlacksmithUI : MonoBehaviour
             _cardContainer.RemoveCard(child.gameObject);
         }
 
-        // get/spawn in cards 
-        foreach (CardAnimationData data in gearData.Cards)
+        foreach (CardRuntime cardRuntime in gearRuntime.CardRuntimes)
         {
-            CardRuntime cardRuntime = CardManager.CreateCardRuntime(gearData, data);
+            GameObject cardObject = GetCard(); // try to reuse existing card if possible (object pooling)
 
-            for (int i = 0; i < data.CardAmount; i++)
+            if (cardObject != null)
             {
-                GameObject cardObject = GetCard();
-
-                if (cardObject != null)
-                {
-                    CardManager.SetCardDisplay(cardObject, cardRuntime);
-                    continue;
-                }
-
-                CardManager.CreateCard(cardRuntime, SelectedCardParent);
+                CardManager.SetCardDisplay(cardObject, cardRuntime);
+                continue;
             }
+
+            CardManager.CreateCard(cardRuntime, SelectedCardParent);
         }
 
         // Rebuild container state so positions/widths are correct immediately
