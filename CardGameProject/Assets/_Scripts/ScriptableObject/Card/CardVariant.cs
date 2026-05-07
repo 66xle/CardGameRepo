@@ -9,7 +9,8 @@ using UnityEngine;
 [Serializable]
 public class CardVariant
 {
-    public string Name;
+    [ReadOnly] public string Name;
+
 
     [Separator]
 
@@ -57,5 +58,4 @@ public class CardVariant
        PopupKeyPair = new List<SerializableKeyValuePair<string, PopupText>>(card.PopupKeyPair); 
        Commands = card.Commands.Select(c => c.Clone()).ToList();
     }
-
 }

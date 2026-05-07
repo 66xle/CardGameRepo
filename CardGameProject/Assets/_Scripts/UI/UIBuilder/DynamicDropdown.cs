@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using PixelCrushers.DialogueSystem;
 
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -37,6 +36,7 @@ public partial class DynamicDropdown : VisualElement
     public event Action<string> OnItemSelected;
     public event Action<string> OnItemAdded;
     public event Action<string> OnItemDeleted;
+    public event Action<string, string> OnItemRenamed;
 
     public DynamicDropdown()
     {
@@ -45,7 +45,7 @@ public partial class DynamicDropdown : VisualElement
         BuildToggle();
         BuildDropdown();
 
-        AddDefaultItem("Default");
+        AddDefaultItem(DEFAULTTEXT);
 
         Add(_toggleButton);
         Add(_dropdownContent);
@@ -105,6 +105,7 @@ public partial class DynamicDropdown : VisualElement
         _inputField = new TextField();
         _inputField.value = ADDTEXT;
         _inputField.style.flexGrow = 1;
+
         _inputText = _inputField.Query(className: "unity-text-element");
         _inputText.style.color = Color.gray;
 
@@ -184,7 +185,7 @@ public partial class DynamicDropdown : VisualElement
 
         _items.Add(name);
 
-        CreateItem(name, isDefault: true);
+        CreateItem(name, true);
     }
 
     // =========================================================
@@ -197,6 +198,7 @@ public partial class DynamicDropdown : VisualElement
         if (_items.Contains(name)) return;
 
         _items.Add(name);
+
         CreateItem(name);
 
         _inputField.value = ADDTEXT;
@@ -204,14 +206,15 @@ public partial class DynamicDropdown : VisualElement
 
         ValidateInput();
 
-
         OnItemAdded?.Invoke(name);
     }
 
     public void AddItemExternal(string name)
     {
         if (_items.Contains(name)) return;
+
         _items.Add(name);
+
         CreateItem(name);
     }
 
@@ -219,6 +222,7 @@ public partial class DynamicDropdown : VisualElement
     {
         _items.Clear();
         _itemList.Clear();
+
         AddDefaultItem(DEFAULTTEXT);
     }
 
@@ -243,6 +247,7 @@ public partial class DynamicDropdown : VisualElement
             _inputText.style.color = Color.gray;
 
         _addButton.SetEnabled(valid);
+        _addButton.style.opacity = valid ? 1f : 0.5f;
     }
 
     // =========================================================
@@ -259,44 +264,166 @@ public partial class DynamicDropdown : VisualElement
         row.style.paddingTop = 2;
         row.style.paddingBottom = 2;
 
+        string currentName = name;
+
         var label = new Label(name);
         label.style.flexGrow = 1;
 
-        // hover highlight
+        var renameField = new TextField();
+        renameField.style.flexGrow = 1;
+        renameField.style.display = DisplayStyle.None;
+
         row.RegisterCallback<MouseEnterEvent>(_ =>
         {
-            if (_selectedItem != name)
+            if (_selectedItem != currentName)
                 row.style.backgroundColor = new Color(0.25f, 0.25f, 0.25f);
         });
 
         row.RegisterCallback<MouseLeaveEvent>(_ =>
         {
-            if (_selectedItem != name)
+            if (_selectedItem != currentName)
                 row.style.backgroundColor = StyleKeyword.None;
         });
 
-        // select
         row.RegisterCallback<ClickEvent>(_ =>
         {
-            SelectItem(name);
+            if (renameField.style.display == DisplayStyle.Flex)
+                return;
+
+            SelectItem(currentName);
+
             RefreshHighlights();
         });
 
         row.Add(label);
+        row.Add(renameField);
 
-        // delete with confirmation (Editor only)
         if (!isDefault)
         {
-            var remove = new Button(() =>
+            bool renaming = false;
+
+            var renameButton = new Button()
             {
-                ConfirmDelete(name, row);
-            })
+                text = "R"
+            };
+
+            renameButton.style.width = 20;
+
+            var deleteButton = new Button()
             {
                 text = "X"
             };
 
-            remove.style.width = 20;
-            row.Add(remove);
+            deleteButton.style.width = 20;
+
+            bool IsValidRename(string value)
+            {
+                return
+                    !string.IsNullOrWhiteSpace(value) &&
+                    value != currentName &&
+                    !_items.Contains(value);
+            }
+
+            void UpdateRenameValidation()
+            {
+                bool valid = IsValidRename(renameField.value);
+
+                renameField.Q(TextInputBaseField<string>.textInputUssName)
+                    .style.color = valid
+                        ? Color.white
+                        : Color.red;
+
+                deleteButton.SetEnabled(valid);
+                deleteButton.style.opacity = valid ? 1f : 0.5f;
+            }
+
+            void ExitRenameMode()
+            {
+                renaming = false;
+
+                label.style.display = DisplayStyle.Flex;
+                renameField.style.display = DisplayStyle.None;
+
+                renameButton.text = "R";
+                deleteButton.text = "X";
+
+                deleteButton.SetEnabled(true);
+                deleteButton.style.opacity = 1f;
+
+                renameField.value = currentName;
+            }
+
+            renameButton.clicked += () =>
+            {
+                if (!renaming)
+                {
+                    renaming = true;
+
+                    renameField.value = currentName;
+
+                    label.style.display = DisplayStyle.None;
+                    renameField.style.display = DisplayStyle.Flex;
+
+                    renameButton.text = "C";
+                    deleteButton.text = "✔";
+
+                    renameField.Focus();
+
+                    UpdateRenameValidation();
+
+                    return;
+                }
+
+                ExitRenameMode();
+            };
+
+            deleteButton.clicked += () =>
+            {
+                if (renaming)
+                {
+                    string newName = renameField.value;
+
+                    if (!IsValidRename(newName))
+                        return;
+
+                    int index = _items.IndexOf(currentName);
+
+                    if (index >= 0)
+                        _items[index] = newName;
+
+                    if (_selectedItem == currentName)
+                    {
+                        _selectedItem = newName;
+                        _label.text = newName;
+                    }
+
+                    OnItemRenamed?.Invoke(currentName, newName);
+
+                    currentName = newName;
+                    label.text = newName;
+
+                    ExitRenameMode();
+
+                    RefreshHighlights();
+
+                    return;
+                }
+
+                ConfirmDelete(currentName, row);
+
+                if (_selectedItem == currentName)
+                {
+                    SelectItem(DEFAULTTEXT);
+                }
+            };
+
+            renameField.RegisterValueChangedCallback(_ =>
+            {
+                UpdateRenameValidation();
+            });
+
+            row.Add(renameButton);
+            row.Add(deleteButton);
         }
 
         _itemList.Add(row);
@@ -305,7 +432,7 @@ public partial class DynamicDropdown : VisualElement
     }
 
     // =========================================================
-    // DELETE CONFIRMATION (EDITOR ONLY)
+    // DELETE CONFIRMATION
     // =========================================================
     private void ConfirmDelete(string name, VisualElement row)
     {
@@ -324,7 +451,7 @@ public partial class DynamicDropdown : VisualElement
 
         OnItemDeleted?.Invoke(name);
 
-        SelectItem("Base Card");
+        SelectItem(DEFAULTTEXT);
     }
 
     private void DeleteItem(string name, VisualElement row)
@@ -336,9 +463,11 @@ public partial class DynamicDropdown : VisualElement
         }
 
         _items.Remove(name);
+
         row.RemoveFromHierarchy();
 
         RefreshHighlights();
+
         ValidateInput();
     }
 
@@ -366,7 +495,9 @@ public partial class DynamicDropdown : VisualElement
         foreach (var child in _itemList.Children())
         {
             var label = child.Q<Label>();
-            if (label == null) continue;
+
+            if (label == null)
+                continue;
 
             bool selected = label.text == _selectedItem;
 

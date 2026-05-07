@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PixelCrushers.DialogueSystem;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -61,13 +62,15 @@ public class CardEditorWindow : BaseEditorWindow
                 variantDropdown.ClearItems();
                 variantDropdown.SetEnabled(true);
                 variantDropdown.style.opacity = 1f;
-
-                foreach (CardVariant variant in selectedCard.Variants)
+                
+                for (int i = 0; i < selectedCard.Variants.Count; i++)
                 {
+                    CardVariant variant = selectedCard.Variants[i];
                     variantDropdown.AddItemExternal(variant.Name);
                 }
 
-                
+                variantDropdown.OnItemRenamed -= ItemRenamedCallback;
+                variantDropdown.OnItemRenamed += ItemRenamedCallback;
                 variantDropdown.OnItemSelected -= CheckCardVariant; 
                 variantDropdown.OnItemSelected += CheckCardVariant; 
                 variantDropdown.OnItemAdded -= AddCardVariant;
@@ -83,6 +86,16 @@ public class CardEditorWindow : BaseEditorWindow
 
         if (!isInitialized)
             list.SetSelection(listIndex);
+    }
+
+    private void ItemRenamedCallback(string oldName, string newName)
+    {
+        CardVariant variant = selectedCard.Variants.First(v => v.Name == oldName);
+
+        if (variant != null)
+        {
+            variant.Name = newName;
+        }
     }
 
     private void AddCardVariant(string name)
