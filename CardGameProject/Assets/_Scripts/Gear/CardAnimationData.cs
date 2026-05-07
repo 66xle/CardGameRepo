@@ -10,6 +10,7 @@ public class CardAnimationData
 {
     public Card Card;
     public int CardAmount = 1;
+    
 
     [SerializeReference][SR] public List<AnimationData> Animations;
 

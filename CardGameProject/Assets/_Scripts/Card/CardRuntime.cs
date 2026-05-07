@@ -51,6 +51,7 @@ public class CardRuntime
 
         copyCard.ValuesToReference = card.ValuesToReference;
         copyCard.Commands = card.Commands;
+        copyCard.Variants = card.Variants;
 
         return copyCard;
     }

@@ -33,10 +33,104 @@ MonoBehaviour:
     Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
   - Key: Poison
     Value: {fileID: 11400000, guid: 7e7a85d9798338743a57caf3f468f8d4, type: 2}
-  Variants: []
+  Variants:
+  - Name: A
+    OverrideDescription: 1
+    OverrideFlavour: 0
+    OverrideImage: 0
+    OverrideFrame: 0
+    OverrideCost: 0
+    OverrideRecycleValue: 0
+    OverrideCommands: 0
+    Description: 'aaaaaaa
+
+'
+    Flavour: Flavour
+    LinkDescription: 'aaaaaaa
+
+'
+    Image: {fileID: 21300000, guid: eccf85b565b1fdd4582975829f6c189a, type: 3}
+    Frame: {fileID: 21300000, guid: 61329542160dc15418ac2da74fe16cf1, type: 3}
+    Cost: 2
+    RecycleValue: 2
+    ValuesToReference: []
+    Commands:
+    - rid: 1946961476651843691
+    PopupKeyPair:
+    - Key: Amplify
+      Value: {fileID: 11400000, guid: 9ead0859091a0574ba55a2cc00ba81b3, type: 2}
+    - Key: Bleed
+      Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
+    - Key: Poison
+      Value: {fileID: 11400000, guid: 7e7a85d9798338743a57caf3f468f8d4, type: 2}
+  - Name: B
+    OverrideDescription: 0
+    OverrideFlavour: 0
+    OverrideImage: 0
+    OverrideFrame: 0
+    OverrideCost: 0
+    OverrideRecycleValue: 0
+    OverrideCommands: 0
+    Description: bbbbbbbb
+    Flavour: Flavour
+    LinkDescription: bbbbbbbb
+    Image: {fileID: 21300000, guid: eccf85b565b1fdd4582975829f6c189a, type: 3}
+    Frame: {fileID: 21300000, guid: 61329542160dc15418ac2da74fe16cf1, type: 3}
+    Cost: 2
+    RecycleValue: 2
+    ValuesToReference: []
+    Commands:
+    - rid: 1946961476651843692
+    PopupKeyPair:
+    - Key: Amplify
+      Value: {fileID: 11400000, guid: 9ead0859091a0574ba55a2cc00ba81b3, type: 2}
+    - Key: Bleed
+      Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
+    - Key: Poison
+      Value: {fileID: 11400000, guid: 7e7a85d9798338743a57caf3f468f8d4, type: 2}
+  - Name: C
+    OverrideDescription: 0
+    OverrideFlavour: 0
+    OverrideImage: 0
+    OverrideFrame: 0
+    OverrideCost: 0
+    OverrideRecycleValue: 0
+    OverrideCommands: 0
+    Description: Description
+    Flavour: Flavour
+    LinkDescription: Description
+    Image: {fileID: 21300000, guid: eccf85b565b1fdd4582975829f6c189a, type: 3}
+    Frame: {fileID: 21300000, guid: 61329542160dc15418ac2da74fe16cf1, type: 3}
+    Cost: 2
+    RecycleValue: 2
+    ValuesToReference: []
+    Commands:
+    - rid: 1946961476651843693
+    PopupKeyPair:
+    - Key: Amplify
+      Value: {fileID: 11400000, guid: 9ead0859091a0574ba55a2cc00ba81b3, type: 2}
+    - Key: Bleed
+      Value: {fileID: 11400000, guid: bf62e6e2b35ecef4980feb798ea538ea, type: 2}
+    - Key: Poison
+      Value: {fileID: 11400000, guid: 7e7a85d9798338743a57caf3f468f8d4, type: 2}
   references:
     version: 2
     RefIds:
+    - rid: 1946961476651843691
+      type: {class: CMDApplyStatusEffect, ns: , asm: Assembly-CSharp}
+      data:
+        target: 4
+        effect: {fileID: 11400000, guid: 3ada98233dcf12241bb4289fbc2a5319, type: 2}
+    - rid: 1946961476651843692
+      type: {class: CMDApplyStatusEffect, ns: , asm: Assembly-CSharp}
+      data:
+        target: 4
+        effect: {fileID: 11400000, guid: 3ada98233dcf12241bb4289fbc2a5319, type: 2}
+    - rid: 1946961476651843693
+      type: {class: CMDApplyStatusEffect, ns: , asm: Assembly-CSharp}
+      data:
+        target: 4
+        effect: {fileID: 11400000, guid: 3ada98233dcf12241bb4289fbc2a5319, type: 2}
     - rid: 8299078191375450202
       type: {class: CMDApplyStatusEffect, ns: , asm: Assembly-CSharp}
       data:
