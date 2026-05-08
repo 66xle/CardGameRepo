@@ -306,6 +306,7 @@ public class GearEditorWindow : BaseEditorWindow
     {
         if (cardList == null) return;
 
+        rootVisualElement.Query<TextField>("count").First().style.display = DisplayStyle.None;
         selectedObj = obj;
         cardList.selectionChanged -= OnCardSelectionChanged;
         cardList.Clear();
@@ -348,15 +349,29 @@ public class GearEditorWindow : BaseEditorWindow
 
     public void OnCardSelectionChanged(IEnumerable<object> enumerable)
     {
+        cardList.RefreshItems();
         CardAnimationData data = cardList.selectedItem as CardAnimationData;
 
-        SerializedProperty cardsProperty = selectedObj.FindProperty("Cards");
-        SerializedProperty cardProperty = cardsProperty.GetArrayElementAtIndex(cardList.selectedIndex);
-        SerializedProperty cardAmountProp = cardProperty.FindPropertyRelative("CardAmount");
+        SerializedProperty prop = selectedObj.FindProperty("_cards");
+        SerializedProperty cardProperty = prop.GetArrayElementAtIndex(cardList.selectedIndex);
+        SerializedProperty amountProp = cardProperty.FindPropertyRelative("CardAmount");
 
-        rootVisualElement.Query<TextField>("count").First().BindProperty(cardAmountProp);
+        rootVisualElement.Query<TextField>("count").First().style.display = DisplayStyle.Flex;
+        TextField countField = rootVisualElement.Query<TextField>("count").First();
 
-        cardList.RefreshItems();
+        countField.Unbind();
+        countField.BindProperty(amountProp);
+
+        countField.RegisterValueChangedCallback(evt =>
+        {
+            PropertyField prop = new PropertyField(amountProp);
+
+            if (int.TryParse(evt.newValue, out int newAmount))
+            {
+                amountProp.intValue = newAmount;
+                selectedObj.ApplyModifiedProperties();
+            }
+        });
     }
 
 
