@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -21,6 +22,10 @@ public class GearEditorWindow : BaseEditorWindow
     GroupBox detailContent;
     GroupBox cardContent;
     GroupBox animationContent;
+
+    private readonly Dictionary<int, GearCardElement> cardElements = new();
+    ListView cardList;
+    SerializedObject selectedObj;
 
 
     [MenuItem("Editor/Gear Editor")]
@@ -47,7 +52,7 @@ public class GearEditorWindow : BaseEditorWindow
         {
             base.Init();
 
-            Debug.Log("Initializing Gear Editor Window...");
+            cardList = rootVisualElement.Query<ListView>("cards-list").First();
 
             #region Filters
             DropdownField gearField = rootVisualElement.Query<DropdownField>("gear-filter");
@@ -81,11 +86,63 @@ public class GearEditorWindow : BaseEditorWindow
             cardButton = rootVisualElement.Query<Button>("card-tab").First();
             animationButton = rootVisualElement.Query<Button>("animation-tab").First();
 
+            #region Button Hover Callbacks
+
+            detailButton.RegisterCallback<MouseEnterEvent>(evt =>
+            {
+                if (detailButton.enabledSelf)
+                    detailButton.style.backgroundColor = new StyleColor(new Color32(103, 103, 103, 255));
+            });
+
+            detailButton.RegisterCallback<MouseLeaveEvent>(evt =>
+            {
+                if (detailButton.enabledSelf)
+                    detailButton.style.backgroundColor = new StyleColor(new Color32(88, 88, 88, 255));
+            });
+
+            cardButton.RegisterCallback<MouseEnterEvent>(evt =>
+            {
+                if (cardButton.enabledSelf)
+                    cardButton.style.backgroundColor = new StyleColor(new Color32(103, 103, 103, 255));
+            });
+
+            cardButton.RegisterCallback<MouseLeaveEvent>(evt =>
+            {
+                if (cardButton.enabledSelf)
+                    cardButton.style.backgroundColor = new StyleColor(new Color32(88, 88, 88, 255));
+            });
+
+            animationButton.RegisterCallback<MouseEnterEvent>(evt =>
+            {
+                if (animationButton.enabledSelf)
+                    animationButton.style.backgroundColor = new StyleColor(new Color32(103, 103, 103, 255));
+            });
+
+            animationButton.RegisterCallback<MouseLeaveEvent>(evt =>
+            {
+                if (animationButton.enabledSelf)
+                    animationButton.style.backgroundColor = new StyleColor(new Color32(88, 88, 88, 255));
+            });
+
+            #endregion
+
             detailButton.clicked += DetailTab;
             cardButton.clicked += CardTab;
             animationButton.clicked += AnimationTab;
 
             #endregion
+
+            Button addCardButton = rootVisualElement.Query<Button>("cards-add-button").First();
+            Button removeCardButton = rootVisualElement.Query<Button>("cards-remove-button").First();
+
+            StyleColor hover = new StyleColor(new Color32(63, 63, 63, 255));
+            StyleColor normal = new StyleColor(new Color32(51, 51, 51, 255));
+
+            addCardButton.RegisterCallback<MouseEnterEvent>(evt => addCardButton.style.backgroundColor = hover);
+            addCardButton.RegisterCallback<MouseLeaveEvent>(evt => addCardButton.style.backgroundColor = normal);
+            
+            removeCardButton.RegisterCallback<MouseEnterEvent>(evt => removeCardButton.style.backgroundColor = hover);
+            removeCardButton.RegisterCallback<MouseLeaveEvent>(evt => removeCardButton.style.backgroundColor = normal);
         };
     }
 
@@ -153,16 +210,6 @@ public class GearEditorWindow : BaseEditorWindow
                 Box objectPreview = rootVisualElement.Query<Box>("object-preview").First();
                 objectPreview.Clear();
 
-                if (detailButton != null || cardButton != null || animationButton != null)
-                {
-                    if (!cardButton.enabledSelf)
-                        CardTab();
-                    else if (!animationButton.enabledSelf)
-                        AnimationTab();
-                    else
-                        DetailTab();
-                }
-
                 GearData data = it as GearData;
 
                 if (data == null) return;
@@ -184,11 +231,24 @@ public class GearEditorWindow : BaseEditorWindow
                     {
                         prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadPrefab(data));
                     }
-
-                    LoadDetailContent(data, serializeGear);
                 }
 
-                LoadPrefab(data);
+                if (detailButton != null || cardButton != null || animationButton != null)
+                {
+                    if (!cardButton.enabledSelf)
+                    {
+                        CardTab();
+                    }
+                    else if (!animationButton.enabledSelf)
+                    {
+                        AnimationTab();
+                    }
+                    else
+                    {
+                        DetailTab();
+                        LoadPrefab(data);
+                    }
+                }
             }
         };
 
@@ -242,6 +302,64 @@ public class GearEditorWindow : BaseEditorWindow
         }
     }
 
+    public void LoadCardContent(GearData data, SerializedObject obj)
+    {
+        if (cardList == null) return;
+
+        selectedObj = obj;
+        cardList.selectionChanged -= OnCardSelectionChanged;
+        cardList.Clear();
+        cardList.selectedIndex = -1;
+
+        cardList.reorderable = false;
+
+        if (data.Cards.Count == 0)
+        {
+            if (cardList.itemsSource == null) return;
+
+            cardList.itemsSource.Clear();
+            return;
+        }
+
+        cardList.makeItem = () =>
+        {
+            GearCardElement gearCardElement = new GearCardElement();
+            return gearCardElement;
+        };
+
+        cardList.bindItem = (element, i) =>
+        {
+            GearCardElement gearCardElement = element as GearCardElement;
+            cardElements[i] = gearCardElement;
+            gearCardElement.Selected = i == cardList.selectedIndex;
+
+            Label label = element.Query<Label>("card-title");
+
+            if (i < data.Cards.Count)
+                label.text = data.Cards[i].Card.CardName;
+        };
+
+        if (data != null)
+            cardList.itemsSource = data.Cards;
+
+        cardList.selectionChanged += OnCardSelectionChanged;
+
+    }
+
+    public void OnCardSelectionChanged(IEnumerable<object> enumerable)
+    {
+        CardAnimationData data = cardList.selectedItem as CardAnimationData;
+
+        SerializedProperty cardsProperty = selectedObj.FindProperty("Cards");
+        SerializedProperty cardProperty = cardsProperty.GetArrayElementAtIndex(cardList.selectedIndex);
+        SerializedProperty cardAmountProp = cardProperty.FindPropertyRelative("CardAmount");
+
+        rootVisualElement.Query<TextField>("count").First().BindProperty(cardAmountProp);
+
+        cardList.RefreshItems();
+    }
+
+
     public void DetailTab()
     {
         ActiveTab(detailButton);
@@ -250,6 +368,8 @@ public class GearEditorWindow : BaseEditorWindow
         detailContent.style.display = DisplayStyle.Flex;
         cardContent.style.display = DisplayStyle.None;
         animationContent.style.display = DisplayStyle.None;
+
+        LoadDetailContent(list.selectedItem as GearData, new SerializedObject(list.selectedItem as GearData));
     }
 
     public void CardTab()
@@ -260,6 +380,8 @@ public class GearEditorWindow : BaseEditorWindow
         detailContent.style.display = DisplayStyle.None;
         cardContent.style.display = DisplayStyle.Flex;
         animationContent.style.display = DisplayStyle.None;
+
+        LoadCardContent(list.selectedItem as GearData, new SerializedObject(list.selectedItem as GearData));
     }
 
     public void AnimationTab()
