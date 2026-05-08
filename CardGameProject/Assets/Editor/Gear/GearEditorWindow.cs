@@ -3,7 +3,10 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
+
+using Button = UnityEngine.UIElements.Button;
 
 public class GearEditorWindow : BaseEditorWindow
 {
@@ -114,6 +117,16 @@ public class GearEditorWindow : BaseEditorWindow
                 Box objectPreview = rootVisualElement.Query<Box>("object-preview").First();
                 objectPreview.Clear();
 
+                // Tabs
+                Button detailButton = rootVisualElement.Query<Button>("detail-tab").First();
+                detailButton.style.backgroundColor = new StyleColor(new Color32(51, 51, 51, 255));
+                detailButton.SetEnabled(false);
+                detailButton.style.borderBottomWidth = 1;
+
+                GroupBox detail = rootVisualElement.Query<GroupBox>("details").First();
+                detail.style.display = DisplayStyle.Flex;
+
+
                 GearData data = it as GearData;
 
                 if (data == null) return;
@@ -135,6 +148,8 @@ public class GearEditorWindow : BaseEditorWindow
                     {
                         prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadPrefab(data));
                     }
+
+                    DetailTab(data, serializeGear);
                 }
 
                 LoadPrefab(data);
@@ -145,6 +160,50 @@ public class GearEditorWindow : BaseEditorWindow
 
         if (!isInitialized)
             list.SetSelection(listIndex);
+    }
+
+    public void DetailTab(GearData data, SerializedObject obj)
+    {
+        TextField name = rootVisualElement.Query<TextField>("detail-name").First();
+        TextField description = rootVisualElement.Query<TextField>("detail-description").First();
+        DropdownField rarity = rootVisualElement.Query<DropdownField>("detail-rarity").First();
+        ObjectField prefab = rootVisualElement.Query<ObjectField>("detail-prefab").First();
+        ObjectField icon = rootVisualElement.Query<ObjectField>("detail-icon").First();
+
+        name.Bind(obj);
+        description.Bind(obj);
+        rarity.Bind(obj);
+        prefab.Bind(obj);
+        icon.Bind(obj);
+
+        GroupBox weaponBox = rootVisualElement.Query<GroupBox>("detail-weapon-box").First();
+        GroupBox armourBox = rootVisualElement.Query<GroupBox>("detail-armour-box").First();
+
+        // check weapon or armour
+        if (data is WeaponData)
+        {
+            weaponBox.style.display = DisplayStyle.Flex;
+            armourBox.style.display = DisplayStyle.None;
+
+            DropdownField damageType = rootVisualElement.Query<DropdownField>("detail-damage-type").First();
+            DropdownField weaponType = rootVisualElement.Query<DropdownField>("detail-weapon-type").First();
+            TextField weaponAttack = rootVisualElement.Query<TextField>("detail-weapon-attack").First();
+
+            damageType.Bind(obj);
+            weaponType.Bind(obj);
+            weaponAttack.Bind(obj);
+        }
+        else
+        {
+            armourBox.style.display = DisplayStyle.Flex;
+            weaponBox.style.display = DisplayStyle.None;
+
+            DropdownField armourSlot = rootVisualElement.Query<DropdownField>("detail-armour-slot").First();
+            TextField armourDefence = rootVisualElement.Query<TextField>("detail-armour-defence").First();
+
+            armourSlot.Bind(obj);
+            armourDefence.Bind(obj);
+        }
     }
 
     public override void SetButtons()
