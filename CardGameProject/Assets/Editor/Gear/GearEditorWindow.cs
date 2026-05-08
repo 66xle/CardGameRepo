@@ -13,12 +13,23 @@ public class GearEditorWindow : BaseEditorWindow
     GameObject gameObject;
     Editor gameObjectEditor;
 
+
+    Button detailButton;
+    Button cardButton;
+    Button animationButton;
+
+    GroupBox detailContent;
+    GroupBox cardContent;
+    GroupBox animationContent;
+
+
     [MenuItem("Editor/Gear Editor")]
     public static void ShowWindow()
     {
         GearEditorWindow window = GetWindow<GearEditorWindow>();
         ShowWindow(window, "Gear Editor");
     }
+
 
     [InitializeOnLoadMethod]
     private static void OnLoad()
@@ -36,6 +47,9 @@ public class GearEditorWindow : BaseEditorWindow
         {
             base.Init();
 
+            Debug.Log("Initializing Gear Editor Window...");
+
+            #region Filters
             DropdownField gearField = rootVisualElement.Query<DropdownField>("gear-filter");
             gearField.RegisterCallback<ChangeEvent<string>>((evt) =>
             {
@@ -56,11 +70,29 @@ public class GearEditorWindow : BaseEditorWindow
                 armourField.value = evt.newValue;
                 CreateListView();
             });
+            #endregion
+
+            #region Tabs
+            detailContent = rootVisualElement.Query<GroupBox>("details").First();
+            cardContent = rootVisualElement.Query<GroupBox>("cards").First();
+            animationContent = rootVisualElement.Query<GroupBox>("animations").First();
+
+            detailButton = rootVisualElement.Query<Button>("detail-tab").First();
+            cardButton = rootVisualElement.Query<Button>("card-tab").First();
+            animationButton = rootVisualElement.Query<Button>("animation-tab").First();
+
+            detailButton.clicked += DetailTab;
+            cardButton.clicked += CardTab;
+            animationButton.clicked += AnimationTab;
+
+            #endregion
         };
     }
 
     public override void CreateListView()
     {
+        #region Filter & Gear Setup
+
         DropdownField dropdownField = rootVisualElement.Query<DropdownField>("gear-filter");
         DropdownField weaponFilter = rootVisualElement.Query<DropdownField>("weapon-filter");
         DropdownField armourFilter = rootVisualElement.Query<DropdownField>("armour-filter");
@@ -101,8 +133,12 @@ public class GearEditorWindow : BaseEditorWindow
                 gears = armours.Cast<GearData>().ToList();
         }
 
+        
+
         List<string> pathList = gears.Select(data => AssetDatabase.GUIDToAssetPath(data.Guid)).ToList();
         SetupListView(gears, pathList, "gear-list");
+
+        #endregion
 
         list.selectionChanged += (enumerable) =>
         {
@@ -117,15 +153,15 @@ public class GearEditorWindow : BaseEditorWindow
                 Box objectPreview = rootVisualElement.Query<Box>("object-preview").First();
                 objectPreview.Clear();
 
-                // Tabs
-                Button detailButton = rootVisualElement.Query<Button>("detail-tab").First();
-                detailButton.style.backgroundColor = new StyleColor(new Color32(51, 51, 51, 255));
-                detailButton.SetEnabled(false);
-                detailButton.style.borderBottomWidth = 1;
-
-                GroupBox detail = rootVisualElement.Query<GroupBox>("details").First();
-                detail.style.display = DisplayStyle.Flex;
-
+                if (detailButton != null || cardButton != null || animationButton != null)
+                {
+                    if (!cardButton.enabledSelf)
+                        CardTab();
+                    else if (!animationButton.enabledSelf)
+                        AnimationTab();
+                    else
+                        DetailTab();
+                }
 
                 GearData data = it as GearData;
 
@@ -149,7 +185,7 @@ public class GearEditorWindow : BaseEditorWindow
                         prop.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvt) => LoadPrefab(data));
                     }
 
-                    DetailTab(data, serializeGear);
+                    LoadDetailContent(data, serializeGear);
                 }
 
                 LoadPrefab(data);
@@ -162,7 +198,7 @@ public class GearEditorWindow : BaseEditorWindow
             list.SetSelection(listIndex);
     }
 
-    public void DetailTab(GearData data, SerializedObject obj)
+    public void LoadDetailContent(GearData data, SerializedObject obj)
     {
         TextField name = rootVisualElement.Query<TextField>("detail-name").First();
         TextField description = rootVisualElement.Query<TextField>("detail-description").First();
@@ -205,6 +241,51 @@ public class GearEditorWindow : BaseEditorWindow
             armourDefence.Bind(obj);
         }
     }
+
+    public void DetailTab()
+    {
+        ActiveTab(detailButton);
+        DeactiveTab(cardButton);
+        DeactiveTab(animationButton);
+        detailContent.style.display = DisplayStyle.Flex;
+        cardContent.style.display = DisplayStyle.None;
+        animationContent.style.display = DisplayStyle.None;
+    }
+
+    public void CardTab()
+    {
+        DeactiveTab(detailButton);
+        ActiveTab(cardButton);
+        DeactiveTab(animationButton);
+        detailContent.style.display = DisplayStyle.None;
+        cardContent.style.display = DisplayStyle.Flex;
+        animationContent.style.display = DisplayStyle.None;
+    }
+
+    public void AnimationTab()
+    {
+        DeactiveTab(detailButton);
+        DeactiveTab(cardButton);
+        ActiveTab(animationButton);
+        detailContent.style.display = DisplayStyle.None;
+        cardContent.style.display = DisplayStyle.None;
+        animationContent.style.display = DisplayStyle.Flex;
+    }
+
+    public void ActiveTab(Button button)
+    {
+        button.style.backgroundColor = new StyleColor(new Color32(51, 51, 51, 255));
+        button.SetEnabled(false);
+        button.style.borderBottomWidth = 1;
+    }
+
+    public void DeactiveTab(Button button)
+    {
+        button.style.backgroundColor = new StyleColor(new Color32(88, 88, 88, 255));
+        button.SetEnabled(true);
+        button.style.borderBottomWidth = 0;
+    }
+
 
     public override void SetButtons()
     {

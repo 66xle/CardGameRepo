@@ -46,6 +46,12 @@
                         </engine:GroupBox>
                         <engine:Box name="gear-info" style="padding-left: 0;" />
                     </engine:GroupBox>
+                    <engine:GroupBox name="cards" style="width: 100%; height: 100%; display: flex; visibility: visible;">
+                        <engine:TextField label="Cards" name="detail-name" readonly="false" binding-path="GearName" style="font-size: 20px;" />
+                    </engine:GroupBox>
+                    <engine:GroupBox name="animations" style="width: 100%; height: 100%; display: flex; visibility: visible;">
+                        <engine:TextField label="Animations" name="detail-name" readonly="false" binding-path="GearName" style="font-size: 20px;" />
+                    </engine:GroupBox>
                 </engine:ScrollView>
             </engine:VisualElement>
         </engine:Box>
