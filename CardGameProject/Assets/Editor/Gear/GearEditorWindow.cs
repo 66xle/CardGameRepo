@@ -27,6 +27,9 @@ public class GearEditorWindow : BaseEditorWindow
     ListView cardList;
     SerializedObject selectedObj;
 
+    private EventCallback<ChangeEvent<UnityEngine.Object>> _objCallback;
+    private EventCallback<ChangeEvent<int>> _intCallback;
+
 
     [MenuItem("Editor/Gear Editor")]
     public static void ShowWindow()
@@ -306,7 +309,9 @@ public class GearEditorWindow : BaseEditorWindow
     {
         if (cardList == null) return;
 
-        rootVisualElement.Query<TextField>("count").First().style.display = DisplayStyle.None;
+        rootVisualElement.Query<VisualElement>("card-options").First().style.display = DisplayStyle.None;
+
+        cardElements.Clear();
         selectedObj = obj;
         cardList.selectionChanged -= OnCardSelectionChanged;
         cardList.Clear();
@@ -334,10 +339,15 @@ public class GearEditorWindow : BaseEditorWindow
             cardElements[i] = gearCardElement;
             gearCardElement.Selected = i == cardList.selectedIndex;
 
-            Label label = element.Query<Label>("card-title");
+            Label label = element.Query<Label>($"card-title");
 
             if (i < data.Cards.Count)
-                label.text = data.Cards[i].Card.CardName;
+            {
+                if (data.Cards[i].Card == null)
+                    label.text = "<Missing Card>";
+                else
+                    label.text = data.Cards[i].Card.CardName;
+            }
         };
 
         if (data != null)
@@ -349,29 +359,49 @@ public class GearEditorWindow : BaseEditorWindow
 
     public void OnCardSelectionChanged(IEnumerable<object> enumerable)
     {
-        cardList.RefreshItems();
-        CardAnimationData data = cardList.selectedItem as CardAnimationData;
+        rootVisualElement.Query<VisualElement>("card-options").First().style.display = DisplayStyle.Flex;
 
         SerializedProperty prop = selectedObj.FindProperty("_cards");
         SerializedProperty cardProperty = prop.GetArrayElementAtIndex(cardList.selectedIndex);
+
+
+        SerializedProperty cardProp = cardProperty.FindPropertyRelative("Card");
         SerializedProperty amountProp = cardProperty.FindPropertyRelative("CardAmount");
 
-        rootVisualElement.Query<TextField>("count").First().style.display = DisplayStyle.Flex;
-        TextField countField = rootVisualElement.Query<TextField>("count").First();
+        
+        ObjectField cardField = rootVisualElement.Query<ObjectField>("card-object").First();
+        cardField.Unbind();
+        cardField.BindProperty(cardProp);
 
+        if (_objCallback != null)
+            cardField.UnregisterValueChangedCallback(_objCallback);
+
+        cardField.RegisterValueChangedCallback(_objCallback = evt => ObjCallBack(cardProp, evt));
+
+
+        IntegerField countField = rootVisualElement.Query<IntegerField>("card-amount").First();
         countField.Unbind();
         countField.BindProperty(amountProp);
 
-        countField.RegisterValueChangedCallback(evt =>
-        {
-            PropertyField prop = new PropertyField(amountProp);
+        if (_intCallback != null)
+            countField.UnregisterValueChangedCallback(_intCallback);
 
-            if (int.TryParse(evt.newValue, out int newAmount))
-            {
-                amountProp.intValue = newAmount;
-                selectedObj.ApplyModifiedProperties();
-            }
-        });
+        countField.RegisterValueChangedCallback(_intCallback = evt => IntCallBack(amountProp, evt));
+
+        cardList.RefreshItems();
+    }
+
+    private void ObjCallBack(SerializedProperty prop, ChangeEvent<UnityEngine.Object> evt)
+    {
+        prop.objectReferenceValue = evt.newValue;
+        selectedObj.ApplyModifiedProperties();
+        cardList.RefreshItems();
+    }
+
+    private void IntCallBack(SerializedProperty prop, ChangeEvent<int> evt)
+    {
+        prop.intValue = evt.newValue;
+        selectedObj.ApplyModifiedProperties();
     }
 
 

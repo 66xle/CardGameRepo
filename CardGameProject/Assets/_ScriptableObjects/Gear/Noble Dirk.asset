@@ -18,9 +18,10 @@ MonoBehaviour:
   Prefab: {fileID: 3606237064665495957, guid: 0a030890a8c1d8341a985f1ee681ad06, type: 3}
   IconTexture: {fileID: 2800000, guid: d437060c544b4f147aed7ee9dac611e9, type: 3}
   Rarity: 0
+  Passive: 0
   DamageType: 0
   WeaponType: 1
-  WeaponAttack: 0
+  WeaponAttack: 7
   HolsterSlot: {fileID: 0}
   WeaponTypeAnimationSet:
   - rid: 7765747794828853344
@@ -42,46 +43,13 @@ MonoBehaviour:
   - Clip: {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
     DistanceOffset: 0
   _cards:
-  - rid: 7765747505886134710
+  - Card: {fileID: 11400000, guid: 584f51c1c4933dc4194707aca270787a, type: 2}
+    CardAmount: 1
+    Animations: []
+    AnimationList: []
   references:
     version: 2
     RefIds:
-    - rid: 7765747505886134710
-      type: {class: CardAnimationData, ns: , asm: Assembly-CSharp}
-      data:
-        Card: {fileID: 11400000, guid: ce2c800f1190d4f4ea7e902256bd7aaf, type: 2}
-        CardAmount: 1
-        Animations:
-        - rid: 7765747505886134711
-        AnimationList:
-        - AnimationName: 1H Strike 1
-          DistanceOffset: 0
-          FollowTimeline: {fileID: 0}
-          AttackTimeline: {fileID: 0}
-    - rid: 7765747505886134711
-      type: {class: WeaponAnimationData, ns: , asm: Assembly-CSharp}
-      data:
-        AnimationClipDataList:
-        - Clip: {fileID: 1827226128182048838, guid: 3d8051e0b50b9c84e8d5c5e945105220, type: 3}
-          DistanceOffset: 0
-        - Clip: {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
-          DistanceOffset: 0
-        - Clip: {fileID: 1827226128182048838, guid: 97b15962ca9b5e048a51b3ea243fcc52, type: 3}
-          DistanceOffset: 0
-        - Clip: {fileID: 1827226128182048838, guid: 2680591b97b18a24cabe8e529c6763c4, type: 3}
-          DistanceOffset: 0
-        - Clip: {fileID: 1827226128182048838, guid: 04206163fa6f4ef47a2577edd8706e26, type: 3}
-          DistanceOffset: 0
-        - Clip: {fileID: 1827226128182048838, guid: ba31907f1536e61439b0c4b2b1727f79, type: 3}
-          DistanceOffset: 0
-        - Clip: {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
-          DistanceOffset: 0
-        _animation: 0_1H Strike 1
-        _overrideDistanceOffset: 1
-        _distanceOffset: 0
-        _overrideCamera: 1
-        _followTimeline: {fileID: 0}
-        _attackTimeline: {fileID: 0}
     - rid: 7765747794828853344
       type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
       data:
