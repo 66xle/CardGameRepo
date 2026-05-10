@@ -21,8 +21,8 @@
             </engine:VisualElement>
             <engine:Box name="gear" style="height: 500px; width: 500px; padding-top: 10px; padding-right: 50px; padding-bottom: 0; padding-left: 50px; max-height: 500px; max-width: 500px; min-height: 100%; min-width: 500px;">
                 <engine:Box name="object-preview" style="flex-grow: 0; width: 100%; flex-shrink: 1; top: auto; height: 100%; max-height: 500px; max-width: none; min-width: 300px; display: flex;" />
-                <engine:Box name="card" style="height: auto; width: 446px; align-items: auto; justify-content: flex-start; flex-grow: 0; max-height: 500px; min-width: 300px;">
-                    <engine:Image name="preview" style="left: 130px; position: absolute; top: 60px;" />
+                <engine:Box name="card-preview" style="height: auto; width: 446px; align-items: auto; justify-content: flex-start; flex-grow: 0; max-height: 500px; min-width: 300px;">
+                    <engine:Image name="preview" style="left: 130px; position: absolute; top: 60px; width: 200px; height: 500px;" />
                     <engine:Image name="preview2" style="left: 127px; position: absolute; top: 60px;" />
                     <engine:Label name="cost" style="height: 26px; top: 98px; left: 214px;" />
                     <engine:Label name="title" style="align-items: center; top: 359px; left: 167px; flex-grow: 1; position: absolute; height: 28px; width: 128px; align-self: center;" />
@@ -60,7 +60,7 @@
                             <engine:Button text="Add Card" name="cards-add-button" style="font-size: 15px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; color: rgb(255, 255, 255); text-shadow: 0 0 0 rgba(0, 0, 0, 0); background-color: rgb(51, 51, 51); width: 150px; border-left-color: rgb(68, 68, 68); border-right-color: rgb(68, 68, 68); border-top-color: rgb(68, 68, 68); border-bottom-color: rgb(68, 68, 68); -unity-font-style: bold;" />
                         </engine:VisualElement>
                         <engine:ListView show-border="false" name="cards-list" fixed-item-height="60" style="width: 100%; max-height: 200px; height: 200px;" />
-                        <engine:VisualElement name="card-options" style="flex-grow: 1;">
+                        <engine:VisualElement name="card-options" style="flex-grow: 1; margin-top: 10px; border-top-width: 0; border-top-color: rgba(255, 255, 255, 0); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; width: 100%; height: auto; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
                             <editor:ObjectField label="Card" type="Card, Assembly-CSharp" allow-scene-objects="false" name="card-object" style="font-size: 20px; max-width: 400px;" />
                             <engine:IntegerField label="Card Amount" value="0" name="card-amount" style="font-size: 20px;" />
                         </engine:VisualElement>

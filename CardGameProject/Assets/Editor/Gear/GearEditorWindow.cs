@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 using Button = UnityEngine.UIElements.Button;
+using Image = UnityEngine.UIElements.Image;
 
 public class GearEditorWindow : BaseEditorWindow
 {
@@ -22,6 +23,8 @@ public class GearEditorWindow : BaseEditorWindow
     GroupBox detailContent;
     GroupBox cardContent;
     GroupBox animationContent;
+    VisualElement objectPreview;
+    VisualElement cardPreview;
 
     private readonly Dictionary<int, GearCardElement> cardElements = new();
     ListView cardList;
@@ -56,6 +59,9 @@ public class GearEditorWindow : BaseEditorWindow
             base.Init();
 
             cardList = rootVisualElement.Query<ListView>("cards-list").First();
+
+            objectPreview = rootVisualElement.Query<Box>("object-preview").First();
+            cardPreview = rootVisualElement.Query<Box>("card-preview").First();
 
             #region Filters
             DropdownField gearField = rootVisualElement.Query<DropdownField>("gear-filter");
@@ -344,9 +350,15 @@ public class GearEditorWindow : BaseEditorWindow
             if (i < data.Cards.Count)
             {
                 if (data.Cards[i].Card == null)
+                {
                     label.text = "<Missing Card>";
+                    gearCardElement.Icon = null;
+                }
                 else
+                {
                     label.text = data.Cards[i].Card.CardName;
+                    gearCardElement.Icon = data.Cards[i].Card.Image.texture;
+                }
             }
         };
 
@@ -389,6 +401,16 @@ public class GearEditorWindow : BaseEditorWindow
         countField.RegisterValueChangedCallback(_intCallback = evt => IntCallBack(amountProp, evt));
 
         cardList.RefreshItems();
+
+        CardAnimationData animationData = cardList.selectedItem as CardAnimationData;
+        if (animationData.Card == null)
+        {
+            ClearCardPreview();
+            return;
+        }
+
+        LoadCardImage(animationData.Card);
+        LoadCardText(animationData.Card);
     }
 
     private void ObjCallBack(SerializedProperty prop, ChangeEvent<UnityEngine.Object> evt)
@@ -404,6 +426,67 @@ public class GearEditorWindow : BaseEditorWindow
         selectedObj.ApplyModifiedProperties();
     }
 
+    private void LoadCardImage(Card card, CardVariant variant = null)
+    {
+        Image cardPreviewImage = rootVisualElement.Query<Image>("preview").First();
+        Image cardPreviewFrame = rootVisualElement.Query<Image>("preview2").First();
+
+        try
+        {
+            cardPreviewImage.image = card.Image.texture;
+        }
+        catch (Exception err)
+        {
+            cardPreviewImage.image = null;
+        }
+
+        try
+        {
+            cardPreviewFrame.image = card.Frame.texture;
+        }
+        catch (Exception err)
+        {
+            cardPreviewFrame.image = null;
+        }
+    }
+
+    private void LoadCardText(Card card, CardVariant variant = null)
+    {
+        Label title = rootVisualElement.Query<Label>("title").First();
+        Label description = rootVisualElement.Query<Label>("description").First();
+        Label flavour = rootVisualElement.Query<Label>("flavour").First();
+        Label cost = rootVisualElement.Query<Label>("cost").First();
+
+        //CardVariant IsVariantNull = null;
+
+        //if (variant != null)
+        //    IsVariantNull = variant.OverrideDescription ? variant : null;
+
+        //CreateClickableText(card, IsVariantNull);
+
+        title.text = card.CardName;
+        description.text = card.LinkDescription;
+        flavour.text = card.Flavour;
+        cost.text = card.Cost.ToString();
+    }
+
+    private void ClearCardPreview()
+    {
+        Image cardPreviewImage = rootVisualElement.Query<Image>("preview").First();
+        Image cardPreviewFrame = rootVisualElement.Query<Image>("preview2").First();
+
+        Label title = rootVisualElement.Query<Label>("title").First();
+        Label description = rootVisualElement.Query<Label>("description").First();
+        Label flavour = rootVisualElement.Query<Label>("flavour").First();
+        Label cost = rootVisualElement.Query<Label>("cost").First();
+
+        cardPreviewImage.image = null;
+        cardPreviewFrame.image = null;
+        title.text = "";
+        description.text = "";
+        flavour.text = "";
+        cost.text = "";
+    }
 
     public void DetailTab()
     {
@@ -413,6 +496,8 @@ public class GearEditorWindow : BaseEditorWindow
         detailContent.style.display = DisplayStyle.Flex;
         cardContent.style.display = DisplayStyle.None;
         animationContent.style.display = DisplayStyle.None;
+        objectPreview.style.display = DisplayStyle.Flex;
+        cardPreview.style.display = DisplayStyle.None;
 
         LoadDetailContent(list.selectedItem as GearData, new SerializedObject(list.selectedItem as GearData));
     }
@@ -425,8 +510,11 @@ public class GearEditorWindow : BaseEditorWindow
         detailContent.style.display = DisplayStyle.None;
         cardContent.style.display = DisplayStyle.Flex;
         animationContent.style.display = DisplayStyle.None;
+        objectPreview.style.display = DisplayStyle.None;
+        cardPreview.style.display = DisplayStyle.Flex;
 
         LoadCardContent(list.selectedItem as GearData, new SerializedObject(list.selectedItem as GearData));
+        ClearCardPreview();
     }
 
     public void AnimationTab()
@@ -437,6 +525,8 @@ public class GearEditorWindow : BaseEditorWindow
         detailContent.style.display = DisplayStyle.None;
         cardContent.style.display = DisplayStyle.None;
         animationContent.style.display = DisplayStyle.Flex;
+        objectPreview.style.display = DisplayStyle.None;
+        cardPreview.style.display = DisplayStyle.None;
     }
 
     public void ActiveTab(Button button)

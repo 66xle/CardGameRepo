@@ -28,9 +28,9 @@ public partial class GearCardElement : VisualElement
         set => _title.text = value;
     }
 
-    public Sprite Icon
+    public Texture Icon
     {
-        set => _icon.image = value.texture;
+        set => _icon.image = value;
     }
 
     public GearCardElement()
@@ -89,9 +89,10 @@ public partial class GearCardElement : VisualElement
 
         // Icon
         _icon = new Image();
-        _icon.scaleMode = ScaleMode.ScaleToFit;
+        _icon.scaleMode = ScaleMode.StretchToFill;
         _icon.style.width = 42;
-        _icon.style.height = 42;
+        _icon.style.height = 100;
+        _icon.style.bottom = -15;
         _icon.style.marginLeft = 14;
         _icon.style.marginRight = 14;
 
