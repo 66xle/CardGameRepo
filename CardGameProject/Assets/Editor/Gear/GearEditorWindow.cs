@@ -267,6 +267,8 @@ public class GearEditorWindow : BaseEditorWindow
             list.SetSelection(listIndex);
     }
 
+    #region Detail Content
+
     public void LoadDetailContent(GearData data, SerializedObject obj)
     {
         TextField name = rootVisualElement.Query<TextField>("detail-name").First();
@@ -311,9 +313,36 @@ public class GearEditorWindow : BaseEditorWindow
         }
     }
 
+    private void LoadPrefab(GearData data)
+    {
+        if (data.Prefab == null)
+            return;
+
+        Box gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
+        gameObjectPreview.Clear();
+
+        GUIStyle bgColor = new GUIStyle();
+        bgColor.normal.background = EditorGUIUtility.whiteTexture;
+
+        if (isInitialized)
+            DestroyImmediate(gameObjectEditor);
+
+        gameObjectEditor = Editor.CreateEditor(data.Prefab);
+        IMGUIContainer container = new IMGUIContainer(() => { gameObjectEditor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(1000, 500), bgColor); });
+        gameObjectPreview.Add(container);
+    }
+
+    #endregion
+
+    #region Card Content
+
     public void LoadCardContent(GearData data, SerializedObject obj)
     {
         if (cardList == null) return;
+         
+        rootVisualElement.Query<Button>("cards-add-button").First().RegisterCallback<ClickEvent>(evt => AddCard());
+        rootVisualElement.Query<Button>("cards-remove-button").First().RegisterCallback<ClickEvent>(evt => RemoveCard());
+
 
         rootVisualElement.Query<VisualElement>("card-options").First().style.display = DisplayStyle.None;
 
@@ -332,6 +361,9 @@ public class GearEditorWindow : BaseEditorWindow
             cardList.itemsSource.Clear();
             return;
         }
+
+        if (data != null)
+            cardList.itemsSource = data.Cards;
 
         cardList.makeItem = () =>
         {
@@ -426,6 +458,8 @@ public class GearEditorWindow : BaseEditorWindow
         selectedObj.ApplyModifiedProperties();
     }
 
+    #region Card Preview
+
     private void LoadCardImage(Card card, CardVariant variant = null)
     {
         Image cardPreviewImage = rootVisualElement.Query<Image>("preview").First();
@@ -488,6 +522,13 @@ public class GearEditorWindow : BaseEditorWindow
         cost.text = "";
     }
 
+    #endregion
+
+
+    #endregion
+
+    #region Tabs
+
     public void DetailTab()
     {
         ActiveTab(detailButton);
@@ -543,6 +584,9 @@ public class GearEditorWindow : BaseEditorWindow
         button.style.borderBottomWidth = 0;
     }
 
+    #endregion
+
+    #region Toolbar
 
     public override void SetButtons()
     {
@@ -599,6 +643,8 @@ public class GearEditorWindow : BaseEditorWindow
             popupWindow.ShowPopup();
         }
     }
+
+    #endregion
 
     private void RefreshScripts()
     {
@@ -662,23 +708,6 @@ public class GearEditorWindow : BaseEditorWindow
         return armours;
     }
 
-    private void LoadPrefab(GearData data)
-    {
-        if (data.Prefab == null)
-            return;
-
-        Box gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
-        gameObjectPreview.Clear();
-
-        GUIStyle bgColor = new GUIStyle();
-        bgColor.normal.background = EditorGUIUtility.whiteTexture;
-
-        if (isInitialized)
-            DestroyImmediate(gameObjectEditor);
-
-        gameObjectEditor = Editor.CreateEditor(data.Prefab);
-        IMGUIContainer container = new IMGUIContainer(() => { gameObjectEditor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(1000, 500), bgColor); });
-        gameObjectPreview.Add(container);
-    }
+    
 
 }
