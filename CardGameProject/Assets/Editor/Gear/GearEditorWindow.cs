@@ -152,6 +152,9 @@ public class GearEditorWindow : BaseEditorWindow
             
             removeCardButton.RegisterCallback<MouseEnterEvent>(evt => removeCardButton.style.backgroundColor = hover);
             removeCardButton.RegisterCallback<MouseLeaveEvent>(evt => removeCardButton.style.backgroundColor = normal);
+
+            addCardButton.clicked += AddCard;
+            removeCardButton.clicked += RemoveCard;
         };
     }
 
@@ -339,10 +342,6 @@ public class GearEditorWindow : BaseEditorWindow
     public void LoadCardContent(GearData data, SerializedObject obj)
     {
         if (cardList == null) return;
-         
-        rootVisualElement.Query<Button>("cards-add-button").First().RegisterCallback<ClickEvent>(evt => AddCard());
-        rootVisualElement.Query<Button>("cards-remove-button").First().RegisterCallback<ClickEvent>(evt => RemoveCard());
-
 
         rootVisualElement.Query<VisualElement>("card-options").First().style.display = DisplayStyle.None;
 
@@ -462,6 +461,10 @@ public class GearEditorWindow : BaseEditorWindow
         if (selectedObj == null) return;
         SerializedProperty prop = selectedObj.FindProperty("_cards");
         prop.arraySize++;
+        prop.GetArrayElementAtIndex(prop.arraySize - 1).FindPropertyRelative("Card").objectReferenceValue = null;
+        prop.GetArrayElementAtIndex(prop.arraySize - 1).FindPropertyRelative("CardAmount").intValue = 1;
+
+
         selectedObj.ApplyModifiedProperties();
         cardList.RefreshItems();
         cardList.selectedIndex = prop.arraySize - 1;
@@ -531,10 +534,10 @@ public class GearEditorWindow : BaseEditorWindow
 
         //CreateClickableText(card, IsVariantNull);
 
-        title.text = card.CardName;
-        description.text = card.LinkDescription;
-        flavour.text = card.Flavour;
-        cost.text = card.Cost.ToString();
+        try { title.text = card.CardName; } catch { title.text = ""; }
+        try { description.text = card.LinkDescription; } catch { description.text = ""; }
+        try { flavour.text = card.Flavour; } catch { flavour.text = ""; }
+        try { cost.text = card.Cost.ToString(); } catch { cost.text = ""; }
     }
 
     private void ClearCardPreview()
