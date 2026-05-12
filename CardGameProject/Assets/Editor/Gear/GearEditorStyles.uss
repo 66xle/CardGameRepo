@@ -76,6 +76,8 @@
 {
 	flex-grow: 1;
 	height: 1000px;
+	border-right-color: red;
+	border-left-color: red;
 }
 
 #gear-info
@@ -86,6 +88,8 @@
 #toolbar
 {
 	flex-direction: row;
+	border-bottom-color: red;
+
 }
 
 #container
@@ -118,5 +122,14 @@ Button
 #detail-weapon-attack #unity-text-input, #detail-weapon-attack .unity-label
 {
 	color: #808080;
+}
+
+
+#cards-list
+{
+	border-top-color: red;
+    border-bottom-color: red;
+    border-left-color: red;
+    border-right-color: red;
 }
 
