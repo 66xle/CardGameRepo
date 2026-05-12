@@ -10,6 +10,7 @@ public class CardAnimationData
 {
     public Card Card;
     public int CardAmount = 1;
+    [HideInInspector] public List<string> EnabledVariantID = new();
     
 
     [SerializeReference][SR] public List<AnimationData> Animations;

@@ -10,6 +10,8 @@ public partial class GearCardElement : VisualElement
     private readonly Image _icon;
     private readonly Label _title;
 
+    private readonly Toggle _toggle;
+
     private bool _selected;
 
     public bool Selected
@@ -33,7 +35,24 @@ public partial class GearCardElement : VisualElement
         set => _icon.image = value;
     }
 
-    public GearCardElement()
+    public bool ToggleValue
+    {
+        get => _toggle?.value ?? false;
+        set
+        {
+            if (_toggle != null)
+                _toggle.value = value;
+        }
+    }
+
+    public Toggle ToggleElement => _toggle;
+
+    public GearCardElement() : this(false) { }
+
+    /// <summary>
+    /// showToggle = true will add a checkbox toggle on the right side.
+    /// </summary>
+    public GearCardElement(bool showToggle = false)
     {
         style.flexDirection = FlexDirection.Row;
         style.alignItems = Align.Center;
@@ -102,11 +121,28 @@ public partial class GearCardElement : VisualElement
         _title.style.fontSize = 16;
         _title.style.color = Color.white;
         _title.style.flexGrow = 1;
-        _title.name = "card-title";
+        _title.name = "gear-card-title";
 
         Add(_radioOuter);
         Add(_icon);
         Add(_title);
+
+        // Optional Toggle
+        if (showToggle)
+        {
+            _toggle = new Toggle();
+            _toggle.style.marginLeft = 12;
+            _toggle.style.flexShrink = 0;
+
+            var checkmark = _toggle.Q(className: "unity-toggle__checkmark");
+            checkmark.style.width = 20;
+            checkmark.style.height = 20;
+
+            // Hide default label
+            _toggle.label = string.Empty;
+
+            Add(_toggle);
+        }
 
         RefreshState();
     }

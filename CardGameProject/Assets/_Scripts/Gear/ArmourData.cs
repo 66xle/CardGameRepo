@@ -21,7 +21,7 @@ public class ArmourData : GearData
     [ReadOnly] public int ArmourDefence;
 
     public override List<CardAnimationData> Cards => _cards;
-    [SerializeReference][SR] public List<CardAnimationData> _cards;
+    [SerializeField] public List<CardAnimationData> _cards;
 
 
     public ArmourData() { }

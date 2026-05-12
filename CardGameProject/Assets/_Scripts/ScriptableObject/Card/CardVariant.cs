@@ -10,6 +10,7 @@ using UnityEngine;
 public class CardVariant
 {
     [ReadOnly] public string Name;
+    [ReadOnly] public string VariantID;
 
 
     [Separator]
@@ -47,6 +48,7 @@ public class CardVariant
 
     public CardVariant(Card card)
     {
+       VariantID = Guid.NewGuid().ToString();
        Description = card.Description;
        LinkDescription = card.LinkDescription;
        Flavour = card.Flavour;

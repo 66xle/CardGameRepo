@@ -28,6 +28,7 @@ public class GearEditorWindow : BaseEditorWindow
 
     private readonly Dictionary<int, GearCardElement> cardElements = new();
     ListView cardList;
+    ListView variantList;
     SerializedObject selectedObj;
 
     private EventCallback<ChangeEvent<UnityEngine.Object>> _objCallback;
@@ -59,6 +60,7 @@ public class GearEditorWindow : BaseEditorWindow
             base.Init();
 
             cardList = rootVisualElement.Query<ListView>("cards-list").First();
+            variantList = rootVisualElement.Query<ListView>("cards-variant-list").First();
 
             objectPreview = rootVisualElement.Query<Box>("object-preview").First();
             cardPreview = rootVisualElement.Query<Box>("card-preview").First();
@@ -345,24 +347,19 @@ public class GearEditorWindow : BaseEditorWindow
 
         rootVisualElement.Query<VisualElement>("card-options").First().style.display = DisplayStyle.None;
 
-        cardElements.Clear();
-        selectedObj = obj;
-        cardList.selectionChanged -= OnCardSelectionChanged;
-        cardList.Clear();
-        cardList.selectedIndex = -1;
+        if (variantList.itemsSource != null)
+            variantList.itemsSource = null;
 
+        selectedObj = obj;
+        cardElements.Clear();
+        cardList.selectionChanged -= OnCardSelectionChanged;
+        cardList.selectedIndex = -1;
         cardList.reorderable = false;
 
         if (data.Cards.Count == 0)
-        {
-            if (cardList.itemsSource == null) return;
-
-            cardList.itemsSource.Clear();
             return;
-        }
 
-        if (data != null)
-            cardList.itemsSource = data.Cards;
+        cardList.itemsSource = data.Cards;
 
         cardList.makeItem = () =>
         {
@@ -376,7 +373,7 @@ public class GearEditorWindow : BaseEditorWindow
             cardElements[i] = gearCardElement;
             gearCardElement.Selected = i == cardList.selectedIndex;
 
-            Label label = element.Query<Label>($"card-title");
+            Label label = element.Query<Label>($"gear-card-title");
 
             if (cardList.selectedIndex == i)
             {
@@ -446,6 +443,7 @@ public class GearEditorWindow : BaseEditorWindow
         cardList.RefreshItems();
 
         CardAnimationData animationData = cardList.selectedItem as CardAnimationData;
+
         if (animationData.Card == null)
         {
             ClearCardPreview();
@@ -454,6 +452,39 @@ public class GearEditorWindow : BaseEditorWindow
 
         LoadCardImage(animationData.Card);
         LoadCardText(animationData.Card);
+
+        LoadCardVariantList(animationData.Card.Variants);
+    }
+
+    public void LoadCardVariantList(List<CardVariant> variants)
+    {
+        variantList.selectedIndex = -1;
+        variantList.reorderable = false;
+
+        if (variants.Count == 0)
+        {
+            variantList.itemsSource = null;
+            return;
+        }
+
+        variantList.itemsSource = variants;
+
+        variantList.makeItem = () =>
+        {
+            GearCardElement gearCardElement = new GearCardElement(true);
+            return gearCardElement;
+        };
+
+        variantList.bindItem = (element, i) =>
+        {
+            GearCardElement gearCardElement = element as GearCardElement;
+            gearCardElement.Selected = i == variantList.selectedIndex;
+            Label label = element.Query<Label>($"gear-card-title");
+            label.text = variants[i].Name;
+        };
+
+        
+
     }
 
     public void AddCard()
