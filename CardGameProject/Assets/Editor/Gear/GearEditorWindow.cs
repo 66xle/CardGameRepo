@@ -379,6 +379,12 @@ public class GearEditorWindow : BaseEditorWindow
 
             Label label = element.Query<Label>($"card-title");
 
+            if (cardList.selectedIndex == i)
+            {
+                LoadCardImage(data.Cards[i].Card, null);
+                LoadCardText(data.Cards[i].Card, null);
+            }
+
             if (i < data.Cards.Count)
             {
                 if (data.Cards[i].Card == null)
@@ -389,14 +395,20 @@ public class GearEditorWindow : BaseEditorWindow
                 else
                 {
                     label.text = data.Cards[i].Card.CardName;
-                    gearCardElement.Icon = data.Cards[i].Card.Image.texture;
+
+                    try
+                    {
+                        gearCardElement.Icon = data.Cards[i].Card.Image.texture;
+                    }
+                    catch (Exception err)
+                    {
+                        gearCardElement.Icon = null;
+                    }
+                    
                 }
             }
         };
-
-        if (data != null)
-            cardList.itemsSource = data.Cards;
-
+        
         cardList.selectionChanged += OnCardSelectionChanged;
 
     }
@@ -443,6 +455,27 @@ public class GearEditorWindow : BaseEditorWindow
 
         LoadCardImage(animationData.Card);
         LoadCardText(animationData.Card);
+    }
+
+    public void AddCard()
+    {
+        if (selectedObj == null) return;
+        SerializedProperty prop = selectedObj.FindProperty("_cards");
+        prop.arraySize++;
+        selectedObj.ApplyModifiedProperties();
+        cardList.RefreshItems();
+        cardList.selectedIndex = prop.arraySize - 1;
+    }
+
+    public void RemoveCard()
+    {
+        if (selectedObj == null) return;
+        SerializedProperty prop = selectedObj.FindProperty("_cards");
+        if (prop.arraySize == 0 || cardList.selectedIndex < 0) return;
+        prop.DeleteArrayElementAtIndex(cardList.selectedIndex);
+        selectedObj.ApplyModifiedProperties();
+        cardList.RefreshItems();
+        cardList.selectedIndex = Mathf.Clamp(cardList.selectedIndex, 0, prop.arraySize - 1);
     }
 
     private void ObjCallBack(SerializedProperty prop, ChangeEvent<UnityEngine.Object> evt)
