@@ -26,7 +26,6 @@ public class GearEditorWindow : BaseEditorWindow
     VisualElement objectPreview;
     VisualElement cardPreview;
 
-    private readonly Dictionary<int, GearCardElement> cardElements = new();
     ListView cardList;
     ListView variantList;
     SerializedObject selectedObj;
@@ -350,8 +349,8 @@ public class GearEditorWindow : BaseEditorWindow
         if (variantList.itemsSource != null)
             variantList.itemsSource = null;
 
+
         selectedObj = obj;
-        cardElements.Clear();
         cardList.selectionChanged -= OnCardSelectionChanged;
         cardList.selectedIndex = -1;
         cardList.reorderable = false;
@@ -370,12 +369,11 @@ public class GearEditorWindow : BaseEditorWindow
         cardList.bindItem = (element, i) =>
         {
             GearCardElement gearCardElement = element as GearCardElement;
-            cardElements[i] = gearCardElement;
             gearCardElement.Selected = i == cardList.selectedIndex;
 
             Label label = element.Query<Label>($"gear-card-title");
 
-            if (cardList.selectedIndex == i)
+            if (cardList.selectedIndex == i && data.Cards[i].Card != null)
             {
                 LoadCardImage(data.Cards[i].Card, null);
                 LoadCardText(data.Cards[i].Card, null);
@@ -458,7 +456,9 @@ public class GearEditorWindow : BaseEditorWindow
 
     public void LoadCardVariantList(CardAnimationData animationData)
     {
-        variantList.selectedIndex = -1;
+        variantList.selectionChanged -= OnVariantSelectionChange;
+
+        variantList.selectedIndex = 0;
         variantList.reorderable = false;
 
         if (animationData.Card.Variants.Count == 0)
@@ -488,8 +488,23 @@ public class GearEditorWindow : BaseEditorWindow
             if (variantWithDefault[i].Name == "Default") gearCardElement.ToggleElement.style.display = DisplayStyle.None;
         };
 
-        
+        variantList.selectionChanged += OnVariantSelectionChange;
 
+    }
+
+    public void OnVariantSelectionChange(IEnumerable<object> enumerable)
+    {
+        CardVariant variant = variantList.selectedItem as CardVariant;
+        if (variant == null)
+            return;
+
+        variant = variant.Name == "Default" ? null : variant;
+
+        CardAnimationData animationData = cardList.selectedItem as CardAnimationData;
+        LoadCardImage(animationData.Card, variant);
+        LoadCardText(animationData.Card, variant);
+
+        variantList.RefreshItems();
     }
 
     public void AddCard()
@@ -539,7 +554,7 @@ public class GearEditorWindow : BaseEditorWindow
 
         try
         {
-            cardPreviewImage.image = card.Image.texture;
+            cardPreviewImage.image = (variant != null && variant.OverrideImage) ? variant.Image.texture : card.Image.texture;
         }
         catch (Exception err)
         {
@@ -548,7 +563,7 @@ public class GearEditorWindow : BaseEditorWindow
 
         try
         {
-            cardPreviewFrame.image = card.Frame.texture;
+            cardPreviewFrame.image = (variant != null && variant.OverrideFrame) ? variant.Frame.texture : card.Frame.texture;
         }
         catch (Exception err)
         {
@@ -563,17 +578,10 @@ public class GearEditorWindow : BaseEditorWindow
         Label flavour = rootVisualElement.Query<Label>("flavour").First();
         Label cost = rootVisualElement.Query<Label>("cost").First();
 
-        //CardVariant IsVariantNull = null;
-
-        //if (variant != null)
-        //    IsVariantNull = variant.OverrideDescription ? variant : null;
-
-        //CreateClickableText(card, IsVariantNull);
-
-        try { title.text = card.CardName; } catch { title.text = ""; }
-        try { description.text = card.LinkDescription; } catch { description.text = ""; }
-        try { flavour.text = card.Flavour; } catch { flavour.text = ""; }
-        try { cost.text = card.Cost.ToString(); } catch { cost.text = ""; }
+        title.text = card.CardName;
+        description.text = (variant != null && variant.OverrideDescription) ? variant.LinkDescription : card.LinkDescription;
+        flavour.text = (variant != null && variant.OverrideFlavour) ? variant.Flavour : card.Flavour;
+        cost.text = (variant != null && variant.OverrideCost) ? variant.Cost.ToString() : card.Cost.ToString();
     }
 
     private void ClearCardPreview()
