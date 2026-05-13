@@ -11,6 +11,7 @@ public partial class GearCardElement : VisualElement
     private readonly Label _title;
 
     private readonly Toggle _toggle;
+    public EventCallback<ChangeEvent<bool>> ToggleCallback;
 
     private bool _selected;
 

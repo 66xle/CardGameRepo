@@ -32,6 +32,7 @@ public class GearEditorWindow : BaseEditorWindow
 
     private EventCallback<ChangeEvent<UnityEngine.Object>> _objCallback;
     private EventCallback<ChangeEvent<int>> _intCallback;
+    EventCallback<ChangeEvent<bool>> _toggleCallback;
 
 
     [MenuItem("Editor/Gear Editor")]
@@ -340,6 +341,31 @@ public class GearEditorWindow : BaseEditorWindow
 
     #region Card Content
 
+    public void AddCard()
+    {
+        if (selectedObj == null) return;
+        SerializedProperty prop = selectedObj.FindProperty("_cards");
+        prop.arraySize++;
+        prop.GetArrayElementAtIndex(prop.arraySize - 1).FindPropertyRelative("Card").objectReferenceValue = null;
+        prop.GetArrayElementAtIndex(prop.arraySize - 1).FindPropertyRelative("CardAmount").intValue = 1;
+
+
+        selectedObj.ApplyModifiedProperties();
+        cardList.RefreshItems();
+        cardList.selectedIndex = prop.arraySize - 1;
+    }
+
+    public void RemoveCard()
+    {
+        if (selectedObj == null) return;
+        SerializedProperty prop = selectedObj.FindProperty("_cards");
+        if (prop.arraySize == 0 || cardList.selectedIndex < 0) return;
+        prop.DeleteArrayElementAtIndex(cardList.selectedIndex);
+        selectedObj.ApplyModifiedProperties();
+        cardList.RefreshItems();
+        cardList.selectedIndex = Mathf.Clamp(cardList.selectedIndex, 0, prop.arraySize - 1);
+    }
+
     public void LoadCardContent(GearData data, SerializedObject obj)
     {
         if (cardList == null) return;
@@ -454,6 +480,8 @@ public class GearEditorWindow : BaseEditorWindow
         LoadCardVariantList(animationData);
     }
 
+
+    // Load variants into the variant list
     public void LoadCardVariantList(CardAnimationData animationData)
     {
         variantList.selectionChanged -= OnVariantSelectionChange;
@@ -482,10 +510,34 @@ public class GearEditorWindow : BaseEditorWindow
         {
             GearCardElement gearCardElement = element as GearCardElement;
             gearCardElement.Selected = i == variantList.selectedIndex;
+            
             Label label = element.Query<Label>($"gear-card-title");
             label.text = variantWithDefault[i].Name;
 
-            if (variantWithDefault[i].Name == "Default") gearCardElement.ToggleElement.style.display = DisplayStyle.None;
+            if (variantWithDefault[i].Name == "Default")
+                gearCardElement.ToggleElement.style.display = DisplayStyle.None;
+            else
+            {
+                gearCardElement.ToggleElement.style.display = DisplayStyle.Flex;
+
+                int variantIndex = i - 1;
+                List<string> enabledVariantList = animationData.EnabledVariantID;
+                string variantID = animationData.Card.Variants[variantIndex].VariantID;
+
+                gearCardElement.ToggleElement.value = enabledVariantList.Contains(variantID);
+
+
+                if (gearCardElement.ToggleCallback != null)
+                    gearCardElement.ToggleElement.UnregisterValueChangedCallback(gearCardElement.ToggleCallback);
+
+                gearCardElement.ToggleCallback = evt =>
+                {
+                    OnVariantToggleChange(evt, enabledVariantList, variantID);
+                };
+
+                gearCardElement.ToggleElement.RegisterValueChangedCallback(gearCardElement.ToggleCallback);
+            }
+
         };
 
         variantList.selectionChanged += OnVariantSelectionChange;
@@ -507,30 +559,19 @@ public class GearEditorWindow : BaseEditorWindow
         variantList.RefreshItems();
     }
 
-    public void AddCard()
+    public void OnVariantToggleChange(ChangeEvent<bool> evt, List<string> enabledVariantList, string id)
     {
-        if (selectedObj == null) return;
-        SerializedProperty prop = selectedObj.FindProperty("_cards");
-        prop.arraySize++;
-        prop.GetArrayElementAtIndex(prop.arraySize - 1).FindPropertyRelative("Card").objectReferenceValue = null;
-        prop.GetArrayElementAtIndex(prop.arraySize - 1).FindPropertyRelative("CardAmount").intValue = 1;
-
-
-        selectedObj.ApplyModifiedProperties();
-        cardList.RefreshItems();
-        cardList.selectedIndex = prop.arraySize - 1;
+        if (evt.newValue)
+        {
+            if (!enabledVariantList.Contains(id))
+                enabledVariantList.Add(id);
+        }
+        else
+        {
+            enabledVariantList.Remove(id);
+        }
     }
-
-    public void RemoveCard()
-    {
-        if (selectedObj == null) return;
-        SerializedProperty prop = selectedObj.FindProperty("_cards");
-        if (prop.arraySize == 0 || cardList.selectedIndex < 0) return;
-        prop.DeleteArrayElementAtIndex(cardList.selectedIndex);
-        selectedObj.ApplyModifiedProperties();
-        cardList.RefreshItems();
-        cardList.selectedIndex = Mathf.Clamp(cardList.selectedIndex, 0, prop.arraySize - 1);
-    }
+    
 
     private void ObjCallBack(SerializedProperty prop, ChangeEvent<UnityEngine.Object> evt)
     {
