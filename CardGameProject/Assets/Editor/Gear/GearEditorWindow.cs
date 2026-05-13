@@ -453,21 +453,24 @@ public class GearEditorWindow : BaseEditorWindow
         LoadCardImage(animationData.Card);
         LoadCardText(animationData.Card);
 
-        LoadCardVariantList(animationData.Card.Variants);
+        LoadCardVariantList(animationData);
     }
 
-    public void LoadCardVariantList(List<CardVariant> variants)
+    public void LoadCardVariantList(CardAnimationData animationData)
     {
         variantList.selectedIndex = -1;
         variantList.reorderable = false;
 
-        if (variants.Count == 0)
+        if (animationData.Card.Variants.Count == 0)
         {
             variantList.itemsSource = null;
             return;
         }
 
-        variantList.itemsSource = variants;
+        List<CardVariant> variantWithDefault = new List<CardVariant>() { new CardVariant(animationData.Card) { Name = "Default" } };  
+        variantWithDefault.AddRange(animationData.Card.Variants);
+
+        variantList.itemsSource = variantWithDefault;
 
         variantList.makeItem = () =>
         {
@@ -480,7 +483,9 @@ public class GearEditorWindow : BaseEditorWindow
             GearCardElement gearCardElement = element as GearCardElement;
             gearCardElement.Selected = i == variantList.selectedIndex;
             Label label = element.Query<Label>($"gear-card-title");
-            label.text = variants[i].Name;
+            label.text = variantWithDefault[i].Name;
+
+            if (variantWithDefault[i].Name == "Default") gearCardElement.ToggleElement.style.display = DisplayStyle.None;
         };
 
         
