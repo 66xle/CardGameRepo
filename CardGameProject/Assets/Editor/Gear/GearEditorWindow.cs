@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 
 using Button = UnityEngine.UIElements.Button;
 using Image = UnityEngine.UIElements.Image;
+using Toggle = UnityEngine.UIElements.Toggle;
 
 public class GearEditorWindow : BaseEditorWindow
 {
@@ -28,11 +29,12 @@ public class GearEditorWindow : BaseEditorWindow
 
     ListView cardList;
     ListView variantList;
+    ListView animationCardList;
     SerializedObject selectedObj;
 
     private EventCallback<ChangeEvent<UnityEngine.Object>> _objCallback;
     private EventCallback<ChangeEvent<int>> _intCallback;
-    EventCallback<ChangeEvent<bool>> _toggleCallback;
+    private EventCallback<ChangeEvent<bool>> _toggleCallback;
 
 
     [MenuItem("Editor/Gear Editor")]
@@ -61,6 +63,7 @@ public class GearEditorWindow : BaseEditorWindow
 
             cardList = rootVisualElement.Query<ListView>("cards-list").First();
             variantList = rootVisualElement.Query<ListView>("cards-variant-list").First();
+            animationCardList = rootVisualElement.Query<ListView>("animations-card-list").First();
 
             objectPreview = rootVisualElement.Query<Box>("object-preview").First();
             cardPreview = rootVisualElement.Query<Box>("card-preview").First();
@@ -573,18 +576,9 @@ public class GearEditorWindow : BaseEditorWindow
     }
     
 
-    private void ObjCallBack(SerializedProperty prop, ChangeEvent<UnityEngine.Object> evt)
-    {
-        prop.objectReferenceValue = evt.newValue;
-        selectedObj.ApplyModifiedProperties();
-        cardList.RefreshItems();
-    }
 
-    private void IntCallBack(SerializedProperty prop, ChangeEvent<int> evt)
-    {
-        prop.intValue = evt.newValue;
-        selectedObj.ApplyModifiedProperties();
-    }
+
+
 
     #region Card Preview
 
@@ -648,6 +642,106 @@ public class GearEditorWindow : BaseEditorWindow
 
     #endregion
 
+    public void LoadAnimationContent(GearData data, SerializedObject obj)
+    {
+        if (animationCardList == null) return;
+
+        rootVisualElement.Query<Label>("animation-select-title").First().style.display = DisplayStyle.None;
+        rootVisualElement.Query<GroupBox>("animation-select").First().style.display = DisplayStyle.None;
+        rootVisualElement.Query<VisualElement>("animation-options").First().style.display = DisplayStyle.None;
+
+
+        selectedObj = obj;
+        animationCardList.selectionChanged -= OnAnimationCardSelectionChange;
+        animationCardList.selectedIndex = -1;
+
+        // Get only the cards that are not null for animation list
+        List<CardAnimationData> animationDataList = data.Cards.Where(data => data.Card != null).ToList();
+
+        if (animationDataList.Count == 0)
+            return;
+
+        animationCardList.itemsSource = animationDataList;
+
+        animationCardList.makeItem = () =>
+        {
+            GearCardElement gearCardElement = new GearCardElement();
+            return gearCardElement;
+        };
+
+        animationCardList.bindItem = (element, i) =>
+        {
+            GearCardElement gearCardElement = element as GearCardElement;
+            gearCardElement.Selected = i == animationCardList.selectedIndex;
+
+            Label label = element.Query<Label>($"gear-card-title");
+
+            if (i < animationDataList.Count)
+            {
+                label.text = animationDataList[i].Card.CardName;
+
+                try
+                {
+                    gearCardElement.Icon = animationDataList[i].Card.Image.texture;
+                }
+                catch (Exception err)
+                {
+                    gearCardElement.Icon = null;
+                }
+            }
+        };
+
+        animationCardList.selectionChanged += OnAnimationCardSelectionChange;
+    }
+
+    public void OnAnimationCardSelectionChange(IEnumerable<object> enumerable)
+    {
+        rootVisualElement.Query<GroupBox>("animation-select").First().style.display = DisplayStyle.Flex;
+
+        SerializedProperty prop = selectedObj.FindProperty("_cards");
+        SerializedProperty cardProperty = prop.GetArrayElementAtIndex(animationCardList.selectedIndex);
+        SerializedProperty animationsProp = cardProperty.FindPropertyRelative("Animations");
+
+
+
+        SerializedProperty skipAnimation = animationsProp.FindPropertyRelative("EnableAnimation");
+
+        Toggle skipToggle = rootVisualElement.Query<Toggle>("animation-skip").First();
+        skipToggle.Unbind();
+        skipToggle.BindProperty(skipAnimation);
+
+        if (_toggleCallback != null)
+            skipToggle.UnregisterValueChangedCallback(_toggleCallback);
+
+        skipToggle.RegisterValueChangedCallback(_toggleCallback = evt => ToggleCallback(skipAnimation, evt));
+
+
+        animationCardList.RefreshItems();
+    }
+
+    private void ToggleCallback(SerializedProperty prop, ChangeEvent<bool> evt)
+    {
+        prop.boolValue = evt.newValue;
+        selectedObj.ApplyModifiedProperties();
+        cardList.RefreshItems();
+    } 
+
+
+    private void ObjCallBack(SerializedProperty prop, ChangeEvent<UnityEngine.Object> evt)
+    {
+        prop.objectReferenceValue = evt.newValue;
+        selectedObj.ApplyModifiedProperties();
+        cardList.RefreshItems();
+    }
+
+    private void IntCallBack(SerializedProperty prop, ChangeEvent<int> evt)
+    {
+        prop.intValue = evt.newValue;
+        selectedObj.ApplyModifiedProperties();
+    }
+
+    
+
     #region Tabs
 
     public void DetailTab()
@@ -689,6 +783,8 @@ public class GearEditorWindow : BaseEditorWindow
         animationContent.style.display = DisplayStyle.Flex;
         objectPreview.style.display = DisplayStyle.None;
         cardPreview.style.display = DisplayStyle.None;
+
+        LoadAnimationContent(list.selectedItem as GearData, new SerializedObject(list.selectedItem as GearData));
     }
 
     public void ActiveTab(Button button)

@@ -13,35 +13,35 @@ public class CardAnimationData
     [HideInInspector] public List<string> EnabledVariantID = new();
     
 
-    [SerializeReference][SR] public List<AnimationData> Animations;
+    [SerializeField] public AnimationData Animations;
 
     [HideInInspector] public List<AnimationWrapper> AnimationList = new();
 
 
     public void UpdateClipData(List<AnimationClipData> animationClipDataList)
     {
-        foreach (AnimationData animationData in Animations)
-        {
-            if (animationData == null) continue;
+        //foreach (AnimationData animationData in Animations)
+        //{
+        //    if (animationData == null) continue;
 
-            animationData.SetDataClipList(animationClipDataList);
-        }
+        //    animationData.SetDataClipList(animationClipDataList);
+        //}
     }
 
     public void UpdateAnimationList()
     {
-        AnimationList.Clear();
+        //AnimationList.Clear();
 
-        foreach (AnimationData animationData in Animations)
-        {
-            if (animationData == null) continue;
+        //foreach (AnimationData animationData in Animations)
+        //{
+        //    if (animationData == null) continue;
 
-            AnimationWrapper wrapper = animationData.GetAnimationWrapper();
+        //    AnimationWrapper wrapper = animationData.GetAnimationWrapper();
 
-            if (wrapper == null) continue;
+        //    if (wrapper == null) continue;
 
-            AnimationList.Add(wrapper);
-        }
+        //    AnimationList.Add(wrapper);
+        //}
     }
 
 }

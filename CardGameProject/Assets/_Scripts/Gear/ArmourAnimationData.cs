@@ -8,7 +8,7 @@ using UnityEngine.Audio;
 [SRName("Armour")]
 public class ArmourAnimationData : AnimationData
 {
-    public override bool EnableAnimation => _skipAnimation;
+    //public override bool EnableAnimation => _skipAnimation;
     public override string Animation => _animation.name;
     public override Boolean OverrideDistanceOffset => _overrideDistanceOffset;
     public override float DistanceOffset => _distanceOffset;

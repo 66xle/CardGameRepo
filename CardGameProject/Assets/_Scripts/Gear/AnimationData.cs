@@ -16,10 +16,9 @@ public enum Boolean
 }
 
 [Serializable]
-[SRHidden]
 public class AnimationData
 {
-    public virtual bool EnableAnimation { get; set; }
+    public bool EnableAnimation;
     public virtual string Animation { get; set; }
     public virtual Boolean OverrideDistanceOffset { get; set; }
     public virtual float DistanceOffset { get; set; }
