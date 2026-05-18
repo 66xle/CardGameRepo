@@ -72,12 +72,12 @@
                         <engine:Label text="SELECT ANIMATION" name="animation-select-title" style="-unity-font-style: bold; font-size: 20px; margin-left: 10px; text-overflow: clip; color: rgb(134, 134, 134); border-bottom-width: 0; border-top-width: 0; border-right-width: 0; border-left-width: 0;" />
                         <engine:GroupBox name="animation-select" style="font-size: 20px; -unity-font-style: normal; margin-top: 0;">
                             <engine:Toggle label="Skip Animation" name="animation-skip" style="font-size: 15px;" />
-                            <engine:DropdownField label="Preset" name="animation-dropdown" style="padding-left: 0; padding-right: 0; font-size: 20px; width: 396px;" />
+                            <engine:DropdownField label="Preset" name="animation-preset" style="padding-left: 0; padding-right: 0; font-size: 20px; width: 396px;" />
                             <editor:ObjectField label="Animation" type="UnityEngine.AnimationClip, UnityEngine.AnimationModule" allow-scene-objects="false" name="animation-clip" style="font-size: 20px; max-width: 400px;" />
                         </engine:GroupBox>
-                        <engine:VisualElement name="animation-options" style="flex-grow: 1; margin-top: 0; border-top-width: 0; border-top-color: rgba(255, 255, 255, 0); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; width: 100%; height: auto; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; margin-left: 9px; margin-right: 0; margin-bottom: 0;">
-                            <editor:ObjectField label="Audio" type="UnityEngine.Audio.AudioResource, UnityEngine.AudioModule" allow-scene-objects="false" name="animation-clip" style="font-size: 20px; max-width: 400px; margin-left: 0;" />
-                            <LabelCheckboxField name="override-distance" title="Override Distance" style="width: 400px;" />
+                        <engine:VisualElement name="animation-options" style="flex-grow: 1; margin-top: 0; border-top-width: 0; border-top-color: rgba(255, 255, 255, 0); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; width: 100%; height: auto; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; margin-left: 9px; margin-right: 0; margin-bottom: 0; display: flex;">
+                            <editor:ObjectField label="Audio" type="UnityEngine.Audio.AudioResource, UnityEngine.AudioModule" allow-scene-objects="false" name="animation-audio" style="font-size: 20px; max-width: 400px; margin-left: 0;" />
+                            <LabelCheckboxField name="override-distance" title="Override Distance" style="width: 400px; display: flex;" />
                             <LabelCheckboxField name="override-move-time" unit="s" title="Override Move Time" style="width: 396px;" />
                         </engine:VisualElement>
                     </engine:GroupBox>

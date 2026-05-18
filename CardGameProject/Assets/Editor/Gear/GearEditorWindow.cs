@@ -39,6 +39,7 @@ public class GearEditorWindow : BaseEditorWindow
     private EventCallback<ChangeEvent<int>> _intCallback;
     private EventCallback<ChangeEvent<bool>> _toggleCallback;
     private EventCallback<ChangeEvent<string>> _presetCallback;
+    private EventCallback<ChangeEvent<UnityEngine.Object>> _clipCallback;
 
 
     [MenuItem("Editor/Gear Editor")]
@@ -707,6 +708,7 @@ public class GearEditorWindow : BaseEditorWindow
         SerializedProperty cardProperty = prop.GetArrayElementAtIndex(animationCardList.selectedIndex);
         SerializedProperty skipAnimationProp = cardProperty.FindPropertyRelative("SkipAnimation");
         SerializedProperty animationClipProp = cardProperty.FindPropertyRelative("Animation");
+        SerializedProperty animationResourceProp = cardProperty.FindPropertyRelative("AudioResource");
 
         Toggle skipToggle = rootVisualElement.Query<Toggle>("animation-skip").First();
         skipToggle.Unbind();
@@ -717,15 +719,33 @@ public class GearEditorWindow : BaseEditorWindow
         animationClip.Unbind();
         animationClip.BindProperty(animationClipProp);
 
+        VisualElement options = rootVisualElement.Query<VisualElement>("animation-options").First();
+        AnimationClipCallback(animationClip.value, options);
+
+        ObjectField animationAudio = rootVisualElement.Query<ObjectField>("animation-audio").First();
+        animationAudio.Unbind();
+        animationAudio.BindProperty(animationResourceProp);
+
+
+        if (_clipCallback != null)
+            animationClip.UnregisterValueChangedCallback(_clipCallback);
+
+        animationClip.RegisterValueChangedCallback(_clipCallback = evt =>
+        {
+            AnimationClipCallback(animationClip.value, options);
+        });
+
 
         if (_toggleCallback != null)
             skipToggle.UnregisterValueChangedCallback(_toggleCallback);
 
         skipToggle.RegisterValueChangedCallback(_toggleCallback = evt =>
         {
+            AnimationClipCallback(!evt.newValue, options);
             animationPreset.SetEnabled(!evt.newValue);
             animationClip.SetEnabled(!evt.newValue);
         });
+
 
         if (selectedGearData is WeaponData)
         {
@@ -765,6 +785,11 @@ public class GearEditorWindow : BaseEditorWindow
         if (clipData == null) return;
 
         animationClip.value = clipData.Clip;
+    }
+
+    private void AnimationClipCallback(bool value, VisualElement options)
+    {
+        options.style.display = value ? DisplayStyle.Flex : DisplayStyle.None;
     }
 
     private void ToggleCallback(SerializedProperty prop, ChangeEvent<bool> evt)
