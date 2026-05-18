@@ -14,6 +14,5 @@ public class GearData : ScriptableObject
     public Rarity Rarity;
     public bool Passive = false;
     
-
     public virtual List<CardAnimationData> Cards { get; }
 }

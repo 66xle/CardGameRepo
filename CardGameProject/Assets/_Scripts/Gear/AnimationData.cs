@@ -1,43 +1,76 @@
-using SerializeReferenceEditor;
 using System;
 using System.Collections.Generic;
+using SerializeReferenceEditor;
 using UnityEngine;
-
-public enum AttackType
-{
-    None
-}
+using UnityEngine.Audio;
 
 
-public enum Boolean
-{
-    True,
-    False
-}
 
-[Serializable]
 public class AnimationData
 {
-    public bool EnableAnimation;
-    public virtual string Animation { get; set; }
-    public virtual Boolean OverrideDistanceOffset { get; set; }
-    public virtual float DistanceOffset { get; set; }
-    public virtual Boolean OverrideMoveTime { get; set; }
-    public virtual float MoveTime { get; set; }
-    public virtual Boolean OverrideCamera { get; set; }
-    public virtual GameObject FollowTimeline { get; set; }
-    public virtual GameObject AttackTimeline { get; set; }
+    public bool SkipAnimation;
+    public AnimationClip Animation; 
+    public AudioResource AudioResource;
+    public Boolean OverrideDistanceOffset;
+    public float DistanceOffset;
+    public Boolean OverrideMoveTime;
+    public float MoveTime;
+    public Boolean OverrideCamera;
+    public GameObject FollowTimeline;
+    public GameObject AttackTimeline;
 
-    public virtual void SetDataClipList(List<AnimationClipData> dataClipList) { }
+    [HideInInspector] public List<AnimationClipData> AnimationClipDataList;
 
-    public virtual string[] GetAnimationNames()
+    public void SetDataClipList(List<AnimationClipData> dataClipList)
     {
-        return null;
+        AnimationClipDataList = dataClipList;
     }
 
-    public virtual AnimationWrapper GetAnimationWrapper()
+    public string[] GetAnimationNames()
     {
-        return null;
+        List<string> strings = new() { "None" };
+
+        for (int i = 0; i < AnimationClipDataList.Count; i++)
+        {
+            string name = $"{i}_{AnimationClipDataList[i].Clip.name}";
+
+            strings.Add(name);
+        }
+
+        return strings.ToArray();
+    }
+
+    public AnimationWrapper GetAnimationWrapper()
+    {
+        if (AnimationClipDataList.Count == 0) return null;
+
+        if (Animation.name == AttackType.None.ToString()) return null;
+
+        char split = '_';
+        string[] stringSplit = Animation.name.Split(split);
+
+        if (stringSplit[0] == "") return null;
+
+        float distance = AnimationClipDataList[int.Parse(stringSplit[0])].DistanceOffset;
+        float moveTime = 0f;
+
+        GameObject followTimeline = null;
+        GameObject attackTimeline = null;
+
+        if (OverrideDistanceOffset == Boolean.True)
+            distance = DistanceOffset;
+
+        if (OverrideMoveTime == Boolean.True)
+            moveTime = MoveTime;
+
+        if (OverrideCamera == Boolean.True)
+        {
+            followTimeline = FollowTimeline;
+            attackTimeline = AttackTimeline;
+        }
+
+
+        return new AnimationWrapper(stringSplit[1], distance, followTimeline, attackTimeline, AudioResource, moveTime);
     }
 
 
@@ -46,7 +79,7 @@ public class AnimationData
     {
         if (OverrideDistanceOffset == Boolean.False) return false;
 
-        if (Animation == AttackType.None.ToString()) return false;
+        if (Animation.name == AttackType.None.ToString()) return false;
 
         return true;
     }
@@ -55,7 +88,7 @@ public class AnimationData
     {
         if (OverrideMoveTime == Boolean.False) return false;
 
-        if (Animation == AttackType.None.ToString()) return false;
+        if (Animation.name == AttackType.None.ToString()) return false;
 
         return true;
     }
@@ -67,4 +100,6 @@ public class AnimationData
 
         return true;
     }
+
+    
 }

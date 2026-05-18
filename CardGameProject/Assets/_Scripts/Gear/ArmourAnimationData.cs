@@ -9,14 +9,14 @@ using UnityEngine.Audio;
 public class ArmourAnimationData : AnimationData
 {
     //public override bool EnableAnimation => _skipAnimation;
-    public override string Animation => _animation.name;
-    public override Boolean OverrideDistanceOffset => _overrideDistanceOffset;
-    public override float DistanceOffset => _distanceOffset;
-    public override Boolean OverrideMoveTime => _overrideMoveTime;
-    public override float MoveTime => _moveTime;
-    public override Boolean OverrideCamera => _overrideCamera;
-    public override GameObject FollowTimeline => _followTimeline;
-    public override GameObject AttackTimeline => _attackTimeline;
+    public string Animation => _animation.name;
+    public Boolean OverrideDistanceOffset => _overrideDistanceOffset;
+    public float DistanceOffset => _distanceOffset;
+    public Boolean OverrideMoveTime => _overrideMoveTime;
+    public float MoveTime => _moveTime;
+    public Boolean OverrideCamera => _overrideCamera;
+    public GameObject FollowTimeline => _followTimeline;
+    public GameObject AttackTimeline => _attackTimeline;
 
 
     public bool _skipAnimation = false;
@@ -35,7 +35,7 @@ public class ArmourAnimationData : AnimationData
     [ConditionalField(false, nameof(OverrideVirtualCamera))] public GameObject _followTimeline;
     [ConditionalField(false, nameof(OverrideVirtualCamera))] public GameObject _attackTimeline;
 
-    public override AnimationWrapper GetAnimationWrapper()
+    public AnimationWrapper GetAnimationWrapper()
     {
         if (!_skipAnimation && _animation == null) return null;
 

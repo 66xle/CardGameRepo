@@ -11,14 +11,14 @@ public class WeaponAnimationData : AnimationData
 {
     [HideInInspector] public List<AnimationClipData> AnimationClipDataList;
 
-    public override string Animation => _animation;
-    public override Boolean OverrideDistanceOffset => _overrideDistanceOffset;
-    public override float DistanceOffset => _distanceOffset;
-    public override Boolean OverrideMoveTime => _overrideMoveTime;
-    public override float MoveTime => _moveTime;
-    public override Boolean OverrideCamera => _overrideCamera;
-    public override GameObject FollowTimeline => _followTimeline;
-    public override GameObject AttackTimeline => _attackTimeline;
+    public string Animation => _animation;
+    public Boolean OverrideDistanceOffset => _overrideDistanceOffset;
+    public float DistanceOffset => _distanceOffset;
+    public Boolean OverrideMoveTime => _overrideMoveTime;
+    public float MoveTime => _moveTime;
+    public Boolean OverrideCamera => _overrideCamera;
+    public GameObject FollowTimeline => _followTimeline;
+    public GameObject AttackTimeline => _attackTimeline;
 
 
     [DefinedValues(nameof(GetAnimationNames))] public string _animation = AttackType.None.ToString();
@@ -35,12 +35,12 @@ public class WeaponAnimationData : AnimationData
     [ConditionalField(false, nameof(OverrideVirtualCamera))] public GameObject _attackTimeline;
 
 
-    public override void SetDataClipList(List<AnimationClipData> dataClipList)
+    public void SetDataClipList(List<AnimationClipData> dataClipList)
     {
         AnimationClipDataList = dataClipList;
     }
 
-    public override string[] GetAnimationNames()
+    public string[] GetAnimationNames()
     {
         List<string> strings = new() { "None" };
 
@@ -54,7 +54,7 @@ public class WeaponAnimationData : AnimationData
         return strings.ToArray();
     }
 
-    public override AnimationWrapper GetAnimationWrapper()
+    public AnimationWrapper GetAnimationWrapper()
     {
         if (AnimationClipDataList.Count == 0) return null;
 

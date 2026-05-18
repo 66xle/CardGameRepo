@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MyBox.EditorTools;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -30,11 +31,14 @@ public class GearEditorWindow : BaseEditorWindow
     ListView cardList;
     ListView variantList;
     ListView animationCardList;
+
     SerializedObject selectedObj;
+    GearData selectedGearData;
 
     private EventCallback<ChangeEvent<UnityEngine.Object>> _objCallback;
     private EventCallback<ChangeEvent<int>> _intCallback;
     private EventCallback<ChangeEvent<bool>> _toggleCallback;
+    private EventCallback<ChangeEvent<string>> _presetCallback;
 
 
     [MenuItem("Editor/Gear Editor")]
@@ -230,6 +234,8 @@ public class GearEditorWindow : BaseEditorWindow
                 GearData data = it as GearData;
 
                 if (data == null) return;
+
+                selectedGearData = data;
 
                 SerializedObject serializeGear = new SerializedObject(data);
                 SerializedProperty dataProperty = serializeGear.GetIterator();
@@ -699,23 +705,66 @@ public class GearEditorWindow : BaseEditorWindow
 
         SerializedProperty prop = selectedObj.FindProperty("_cards");
         SerializedProperty cardProperty = prop.GetArrayElementAtIndex(animationCardList.selectedIndex);
-        SerializedProperty animationsProp = cardProperty.FindPropertyRelative("Animations");
-
-
-
-        SerializedProperty skipAnimation = animationsProp.FindPropertyRelative("EnableAnimation");
+        SerializedProperty skipAnimationProp = cardProperty.FindPropertyRelative("SkipAnimation");
+        SerializedProperty animationClipProp = cardProperty.FindPropertyRelative("Animation");
 
         Toggle skipToggle = rootVisualElement.Query<Toggle>("animation-skip").First();
         skipToggle.Unbind();
-        skipToggle.BindProperty(skipAnimation);
+        skipToggle.BindProperty(skipAnimationProp);
+
+        DropdownField animationPreset = rootVisualElement.Query<DropdownField>("animation-preset").First();
+        ObjectField animationClip = rootVisualElement.Query<ObjectField>("animation-clip").First();
+        animationClip.Unbind();
+        animationClip.BindProperty(animationClipProp);
+
 
         if (_toggleCallback != null)
             skipToggle.UnregisterValueChangedCallback(_toggleCallback);
 
-        skipToggle.RegisterValueChangedCallback(_toggleCallback = evt => ToggleCallback(skipAnimation, evt));
+        skipToggle.RegisterValueChangedCallback(_toggleCallback = evt =>
+        {
+            animationPreset.SetEnabled(!evt.newValue);
+            animationClip.SetEnabled(!evt.newValue);
+        });
 
+        if (selectedGearData is WeaponData)
+        {
+            WeaponData weaponData = selectedGearData as WeaponData;
+            animationPreset.choices = weaponData.AnimationClipDataList.Select(data => data.Clip.name).ToList();
+
+            if (_presetCallback != null)
+                animationPreset.UnregisterValueChangedCallback(_presetCallback);
+
+            animationPreset.RegisterValueChangedCallback(_presetCallback = evt =>
+            {
+                animationPreset.value = string.Empty;
+                PresetCallBack(evt, weaponData.AnimationClipDataList, animationClip);
+            });
+        }
+        else
+        {
+            animationPreset.style.display = DisplayStyle.None;
+        }
 
         animationCardList.RefreshItems();
+    }
+
+    private void PresetCallBack(ChangeEvent<string> evt, List<AnimationClipData> animationClipDataList, ObjectField animationClip)
+    {
+        AnimationClipData clipData = null;
+
+        foreach (AnimationClipData data in animationClipDataList)
+        {
+            if (data.Clip.name == evt.newValue)
+            {
+                clipData = data;
+                break;
+            }
+        }
+
+        if (clipData == null) return;
+
+        animationClip.value = clipData.Clip;
     }
 
     private void ToggleCallback(SerializedProperty prop, ChangeEvent<bool> evt)
