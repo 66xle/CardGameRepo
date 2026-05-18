@@ -382,7 +382,6 @@ public class GearEditorWindow : BaseEditorWindow
         selectedObj = obj;
         cardList.selectionChanged -= OnCardSelectionChanged;
         cardList.selectedIndex = -1;
-        cardList.reorderable = false;
 
         if (data.Cards.Count == 0)
             return;
