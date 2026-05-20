@@ -30,7 +30,8 @@ public class CardAnimationData
     public float DistanceOffset;
     public bool OverrideMoveTime;
     public float MoveTime;
-    public bool OverrideCamera;
+    public bool OverrideCameraFollow;
+    public bool OverrideCameraAttack;
     public GameObject FollowTimeline;
     public GameObject AttackTimeline;
 

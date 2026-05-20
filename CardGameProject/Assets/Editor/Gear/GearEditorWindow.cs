@@ -713,7 +713,10 @@ public class GearEditorWindow : BaseEditorWindow
         SerializedProperty fieldDistanceProp = cardProperty.FindPropertyRelative("DistanceOffset");
         SerializedProperty toggleMoveTimeProp = cardProperty.FindPropertyRelative("OverrideMoveTime");
         SerializedProperty fieldMoveTimeProp = cardProperty.FindPropertyRelative("MoveTime");
-
+        SerializedProperty toggleFollowProp = cardProperty.FindPropertyRelative("OverrideCameraFollow");
+        SerializedProperty fieldFollowProp = cardProperty.FindPropertyRelative("FollowTimeline");
+        SerializedProperty toggleAttackProp = cardProperty.FindPropertyRelative("OverrideCameraAttack");
+        SerializedProperty fieldAttackProp = cardProperty.FindPropertyRelative("AttackTimeline");
 
         Toggle skipToggle = rootVisualElement.Query<Toggle>("animation-skip").First();
         skipToggle.Unbind();
@@ -731,6 +734,7 @@ public class GearEditorWindow : BaseEditorWindow
         animationAudio.Unbind();
         animationAudio.BindProperty(animationResourceProp);
 
+        #region Movement
 
         LabelCheckboxField overrideDistance = rootVisualElement.Query<LabelCheckboxField>("override-distance").First();
         Toggle distanceToggle = overrideDistance.Query<Toggle>().First();
@@ -749,10 +753,32 @@ public class GearEditorWindow : BaseEditorWindow
 
         FloatField moveTimeField = overrideMoveTime.Query<FloatField>().First();
         moveTimeField.Unbind();
-        moveTimeField.BindProperty(fieldMoveTimeProp);  
+        moveTimeField.BindProperty(fieldMoveTimeProp);
+
+        #endregion
+
+        #region Timeline
+
+        LabelCheckboxField overrideFollow = rootVisualElement.Query<LabelCheckboxField>("override-follow").First();
+        Toggle followToggle = overrideFollow.Query<Toggle>().First();
+        followToggle.Unbind();
+        followToggle.BindProperty(toggleFollowProp);
+
+        ObjectField followField = overrideFollow.Query<ObjectField>().First();
+        followField.Unbind();
+        followField.BindProperty(fieldFollowProp);
 
 
+        LabelCheckboxField overrideAttack = rootVisualElement.Query<LabelCheckboxField>("override-attack").First();
+        Toggle attackToggle = overrideAttack.Query<Toggle>().First();
+        attackToggle.Unbind();
+        attackToggle.BindProperty(toggleAttackProp);
 
+        ObjectField attackField = overrideAttack.Query<ObjectField>().First();
+        attackField.Unbind();
+        attackField.BindProperty(fieldAttackProp);
+
+        #endregion
 
         if (_clipCallback != null)
             animationClip.UnregisterValueChangedCallback(_clipCallback);
