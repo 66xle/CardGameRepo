@@ -11,11 +11,11 @@ public class AnimationData
     public bool SkipAnimation;
     public AnimationClip Animation; 
     public AudioResource AudioResource;
-    public Boolean OverrideDistanceOffset;
+    public bool OverrideDistanceOffset;
     public float DistanceOffset;
-    public Boolean OverrideMoveTime;
+    public bool OverrideMoveTime;
     public float MoveTime;
-    public Boolean OverrideCamera;
+    public bool OverrideCamera;
     public GameObject FollowTimeline;
     public GameObject AttackTimeline;
 
@@ -57,13 +57,13 @@ public class AnimationData
         GameObject followTimeline = null;
         GameObject attackTimeline = null;
 
-        if (OverrideDistanceOffset == Boolean.True)
+        if (OverrideDistanceOffset)
             distance = DistanceOffset;
 
-        if (OverrideMoveTime == Boolean.True)
+        if (OverrideMoveTime)
             moveTime = MoveTime;
 
-        if (OverrideCamera == Boolean.True)
+        if (OverrideCamera)
         {
             followTimeline = FollowTimeline;
             attackTimeline = AttackTimeline;
@@ -77,7 +77,7 @@ public class AnimationData
 
     public bool OverrideDistance()
     {
-        if (OverrideDistanceOffset == Boolean.False) return false;
+        if (!OverrideDistanceOffset) return false;
 
         if (Animation.name == AttackType.None.ToString()) return false;
 
@@ -86,7 +86,7 @@ public class AnimationData
 
     public bool OverrideMove()
     {
-        if (OverrideMoveTime == Boolean.False) return false;
+        if (!OverrideMoveTime) return false;
 
         if (Animation.name == AttackType.None.ToString()) return false;
 
@@ -95,8 +95,7 @@ public class AnimationData
 
     public bool OverrideVirtualCamera()
     {
-        if (OverrideCamera == Boolean.False)
-            return false;
+        if (!OverrideCamera) return false;
 
         return true;
     }

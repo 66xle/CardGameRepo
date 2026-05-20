@@ -709,6 +709,11 @@ public class GearEditorWindow : BaseEditorWindow
         SerializedProperty skipAnimationProp = cardProperty.FindPropertyRelative("SkipAnimation");
         SerializedProperty animationClipProp = cardProperty.FindPropertyRelative("Animation");
         SerializedProperty animationResourceProp = cardProperty.FindPropertyRelative("AudioResource");
+        SerializedProperty toggleDistanceProp = cardProperty.FindPropertyRelative("OverrideDistanceOffset");
+        SerializedProperty fieldDistanceProp = cardProperty.FindPropertyRelative("DistanceOffset");
+        SerializedProperty toggleMoveTimeProp = cardProperty.FindPropertyRelative("OverrideMoveTime");
+        SerializedProperty fieldMoveTimeProp = cardProperty.FindPropertyRelative("MoveTime");
+
 
         Toggle skipToggle = rootVisualElement.Query<Toggle>("animation-skip").First();
         skipToggle.Unbind();
@@ -725,6 +730,28 @@ public class GearEditorWindow : BaseEditorWindow
         ObjectField animationAudio = rootVisualElement.Query<ObjectField>("animation-audio").First();
         animationAudio.Unbind();
         animationAudio.BindProperty(animationResourceProp);
+
+
+        LabelCheckboxField overrideDistance = rootVisualElement.Query<LabelCheckboxField>("override-distance").First();
+        Toggle distanceToggle = overrideDistance.Query<Toggle>().First();
+        distanceToggle.Unbind();
+        distanceToggle.BindProperty(toggleDistanceProp);
+
+        FloatField distanceField = overrideDistance.Query<FloatField>().First();
+        distanceField.Unbind();
+        distanceField.BindProperty(fieldDistanceProp);
+
+
+        LabelCheckboxField overrideMoveTime = rootVisualElement.Query<LabelCheckboxField>("override-move-time").First();
+        Toggle moveTimeToggle = overrideMoveTime.Query<Toggle>().First();
+        moveTimeToggle.Unbind();
+        moveTimeToggle.BindProperty(toggleMoveTimeProp);
+
+        FloatField moveTimeField = overrideMoveTime.Query<FloatField>().First();
+        moveTimeField.Unbind();
+        moveTimeField.BindProperty(fieldMoveTimeProp);  
+
+
 
 
         if (_clipCallback != null)

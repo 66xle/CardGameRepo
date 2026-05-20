@@ -26,11 +26,11 @@ public class CardAnimationData
     public bool SkipAnimation;
     public AnimationClip Animation;
     public AudioResource AudioResource;
-    public Boolean OverrideDistanceOffset;
+    public bool OverrideDistanceOffset;
     public float DistanceOffset;
-    public Boolean OverrideMoveTime;
+    public bool OverrideMoveTime;
     public float MoveTime;
-    public Boolean OverrideCamera;
+    public bool OverrideCamera;
     public GameObject FollowTimeline;
     public GameObject AttackTimeline;
 
