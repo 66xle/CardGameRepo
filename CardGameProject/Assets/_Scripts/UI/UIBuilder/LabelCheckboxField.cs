@@ -1,17 +1,28 @@
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 [UxmlElement]
 public partial class LabelCheckboxField : VisualElement
 {
+    public enum FieldMode
+    {
+        Float,
+        Object
+    }
+
     // Elements
     public Toggle Checkbox { get; private set; }
+
     public FloatField ValueField { get; private set; }
+    public ObjectField ObjectField { get; private set; }
 
     private readonly Label _titleLabel;
     private readonly Label _subtitleLabel;
     private readonly Label _unitLabel;
+
+    private readonly VisualElement _valueContainer;
 
     // Properties
     [UxmlAttribute]
@@ -27,12 +38,6 @@ public partial class LabelCheckboxField : VisualElement
         set => _subtitleLabel.text = value;
     }
 
-    public float Value
-    {
-        get => ValueField.value;
-        set => ValueField.value = value;
-    }
-
     [UxmlAttribute]
     public string Unit
     {
@@ -44,6 +49,33 @@ public partial class LabelCheckboxField : VisualElement
     {
         get => Checkbox.value;
         set => Checkbox.value = value;
+    }
+
+    private FieldMode _mode = FieldMode.Float;
+
+    [UxmlAttribute]
+    public FieldMode Mode
+    {
+        get => _mode;
+        set
+        {
+            _mode = value;
+            RefreshFieldMode();
+        }
+    }
+
+    // Float Value
+    public float FloatValue
+    {
+        get => ValueField.value;
+        set => ValueField.value = value;
+    }
+
+    // Object Value
+    public Object ObjectValue
+    {
+        get => ObjectField.value;
+        set => ObjectField.value = value;
     }
 
     public LabelCheckboxField()
@@ -61,9 +93,6 @@ public partial class LabelCheckboxField : VisualElement
 
         style.backgroundColor = new StyleColor(new Color32(51, 51, 51, 255));
 
-
-        
-
         // RIGHT SIDE
         var rightContainer = new VisualElement();
         rightContainer.style.flexDirection = FlexDirection.Row;
@@ -74,10 +103,8 @@ public partial class LabelCheckboxField : VisualElement
         Checkbox.text = string.Empty;
 
         Checkbox.labelElement.style.display = DisplayStyle.None;
-
         Checkbox.style.marginRight = 10;
 
-        // Force checkbox appearance
         var checkmark = Checkbox.Q(className: "unity-toggle__checkmark");
 
         if (checkmark != null)
@@ -115,34 +142,17 @@ public partial class LabelCheckboxField : VisualElement
             UpdateFieldState(evt.newValue);
         });
 
-        // VALUE FIELD
-        var valueContainer = new VisualElement();
-        valueContainer.style.flexDirection = FlexDirection.Row;
-        valueContainer.style.alignItems = Align.Center;
+        // VALUE CONTAINER
+        _valueContainer = new VisualElement();
+        _valueContainer.style.flexDirection = FlexDirection.Row;
+        _valueContainer.style.alignItems = Align.Center;
 
+        // FLOAT FIELD
         ValueField = new FloatField();
         ValueField.value = 3.2f;
         ValueField.isDelayed = true;
 
-        ValueField.style.width = 80;
-        ValueField.style.height = 32;
-
-        ValueField.style.backgroundColor = new Color(0.12f, 0.14f, 0.17f);
-
-        ValueField.style.borderTopWidth = 1;
-        ValueField.style.borderBottomWidth = 1;
-        ValueField.style.borderLeftWidth = 1;
-        ValueField.style.borderRightWidth = 1;
-
-        ValueField.style.borderTopColor = new Color(0.28f, 0.28f, 0.28f);
-        ValueField.style.borderBottomColor = new Color(0.28f, 0.28f, 0.28f);
-        ValueField.style.borderLeftColor = new Color(0.28f, 0.28f, 0.28f);
-        ValueField.style.borderRightColor = new Color(0.28f, 0.28f, 0.28f);
-
-        ValueField.style.borderTopLeftRadius = 6;
-        ValueField.style.borderTopRightRadius = 6;
-        ValueField.style.borderBottomLeftRadius = 6;
-        ValueField.style.borderBottomRightRadius = 6;
+        StyleInputField(ValueField);
 
         var textInput = ValueField.Q(className: "unity-text-input");
 
@@ -159,11 +169,17 @@ public partial class LabelCheckboxField : VisualElement
             textInput.style.paddingLeft = 8;
         }
 
+        // OBJECT FIELD
+        ObjectField = new ObjectField();
+        ObjectField.objectType = typeof(GameObject);
+
+        StyleInputField(ObjectField);
+
+        // UNIT LABEL
         _unitLabel = new Label("m");
         _unitLabel.style.marginLeft = 4;
         _unitLabel.style.fontSize = 12;
         _unitLabel.style.color = new Color(0.7f, 0.7f, 0.7f);
-
 
         // LEFT SIDE
         var leftContainer = new VisualElement();
@@ -175,7 +191,7 @@ public partial class LabelCheckboxField : VisualElement
         _titleLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
         _titleLabel.style.color = new Color(0.92f, 0.92f, 0.92f);
 
-        _subtitleLabel = new Label($"Default: 2.5");
+        _subtitleLabel = new Label("Default: 2.5");
         _subtitleLabel.style.fontSize = 12;
         _subtitleLabel.style.color = new Color(0.55f, 0.55f, 0.55f);
         _subtitleLabel.style.marginTop = 2;
@@ -183,24 +199,63 @@ public partial class LabelCheckboxField : VisualElement
         leftContainer.Add(_titleLabel);
         leftContainer.Add(_subtitleLabel);
 
-
-        valueContainer.Add(ValueField);
-        valueContainer.Add(_unitLabel);
-
         rightContainer.Add(Checkbox);
-        rightContainer.Add(valueContainer);
+        rightContainer.Add(_valueContainer);
 
         Add(leftContainer);
         Add(rightContainer);
 
+        RefreshFieldMode();
         UpdateFieldState(Checkbox.value);
+    }
+
+    private void RefreshFieldMode()
+    {
+        _valueContainer.Clear();
+
+        switch (Mode)
+        {
+            case FieldMode.Float:
+                _valueContainer.Add(ValueField);
+                _valueContainer.Add(_unitLabel);
+                break;
+
+            case FieldMode.Object:
+                _valueContainer.Add(ObjectField);
+                break;
+        }
     }
 
     private void UpdateFieldState(bool enabled)
     {
         ValueField.SetEnabled(enabled);
+        ObjectField.SetEnabled(enabled);
 
         ValueField.style.opacity = enabled ? 1f : 0.5f;
+        ObjectField.style.opacity = enabled ? 1f : 0.5f;
         _unitLabel.style.opacity = enabled ? 1f : 0.5f;
+    }
+
+    private void StyleInputField(VisualElement field)
+    {
+        field.style.width = 140;
+        field.style.height = 32;
+
+        field.style.backgroundColor = new Color(0.12f, 0.14f, 0.17f);
+
+        field.style.borderTopWidth = 1;
+        field.style.borderBottomWidth = 1;
+        field.style.borderLeftWidth = 1;
+        field.style.borderRightWidth = 1;
+
+        field.style.borderTopColor = new Color(0.28f, 0.28f, 0.28f);
+        field.style.borderBottomColor = new Color(0.28f, 0.28f, 0.28f);
+        field.style.borderLeftColor = new Color(0.28f, 0.28f, 0.28f);
+        field.style.borderRightColor = new Color(0.28f, 0.28f, 0.28f);
+
+        field.style.borderTopLeftRadius = 6;
+        field.style.borderTopRightRadius = 6;
+        field.style.borderBottomLeftRadius = 6;
+        field.style.borderBottomRightRadius = 6;
     }
 }
