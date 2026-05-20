@@ -723,6 +723,8 @@ public class GearEditorWindow : BaseEditorWindow
         skipToggle.BindProperty(skipAnimationProp);
 
         DropdownField animationPreset = rootVisualElement.Query<DropdownField>("animation-preset").First();
+        bool UsedPreset = false;
+
         ObjectField animationClip = rootVisualElement.Query<ObjectField>("animation-clip").First();
         animationClip.Unbind();
         animationClip.BindProperty(animationClipProp);
@@ -740,11 +742,11 @@ public class GearEditorWindow : BaseEditorWindow
         Toggle distanceToggle = overrideDistance.Query<Toggle>().First();
         distanceToggle.Unbind();
         distanceToggle.BindProperty(toggleDistanceProp);
+        
 
         FloatField distanceField = overrideDistance.Query<FloatField>().First();
         distanceField.Unbind();
         distanceField.BindProperty(fieldDistanceProp);
-
 
         LabelCheckboxField overrideMoveTime = rootVisualElement.Query<LabelCheckboxField>("override-move-time").First();
         Toggle moveTimeToggle = overrideMoveTime.Query<Toggle>().First();
@@ -754,6 +756,12 @@ public class GearEditorWindow : BaseEditorWindow
         FloatField moveTimeField = overrideMoveTime.Query<FloatField>().First();
         moveTimeField.Unbind();
         moveTimeField.BindProperty(fieldMoveTimeProp);
+
+        Label distanceLabel = overrideDistance.Query<Label>().ToList()[1];
+        distanceLabel.style.display = DisplayStyle.None;
+
+        Label moveTimeLabel = overrideMoveTime.Query<Label>().ToList()[1];
+        moveTimeLabel.text = "Default: Refer to Animation System";
 
         #endregion
 
@@ -791,6 +799,11 @@ public class GearEditorWindow : BaseEditorWindow
 
         animationClip.RegisterValueChangedCallback(_clipCallback = evt =>
         {
+            if (!UsedPreset)
+                distanceLabel.style.display = DisplayStyle.None;
+
+            UsedPreset = false;
+
             AnimationClipCallback(animationClip.value, options);
         });
 
@@ -817,7 +830,9 @@ public class GearEditorWindow : BaseEditorWindow
             animationPreset.RegisterValueChangedCallback(_presetCallback = evt =>
             {
                 animationPreset.value = string.Empty;
-                PresetCallBack(evt, weaponData.AnimationClipDataList, animationClip);
+                UsedPreset = true;
+
+                PresetCallBack(evt, weaponData.AnimationClipDataList, animationClip, distanceLabel, moveTimeLabel);
             });
         }
         else
@@ -828,7 +843,7 @@ public class GearEditorWindow : BaseEditorWindow
         animationCardList.RefreshItems();
     }
 
-    private void PresetCallBack(ChangeEvent<string> evt, List<AnimationClipData> animationClipDataList, ObjectField animationClip)
+    private void PresetCallBack(ChangeEvent<string> evt, List<AnimationClipData> animationClipDataList, ObjectField animationClip, Label distanceLabel, Label moveTimeLabel)
     {
         AnimationClipData clipData = null;
 
@@ -844,6 +859,14 @@ public class GearEditorWindow : BaseEditorWindow
         if (clipData == null) return;
 
         animationClip.value = clipData.Clip;
+
+        distanceLabel.style.display = DisplayStyle.None;
+
+        if (clipData.DistanceOffset != 0)
+        {
+            distanceLabel.style.display = DisplayStyle.Flex;
+            distanceLabel.text = $"Default: {clipData.DistanceOffset}";
+        }
     }
 
     private void AnimationClipCallback(bool value, VisualElement options)
