@@ -768,6 +768,9 @@ public class GearEditorWindow : BaseEditorWindow
         followField.Unbind();
         followField.BindProperty(fieldFollowProp);
 
+        Label followLabel = overrideFollow.Query<Label>().ToList()[1];
+        followLabel.style.display = DisplayStyle.None;
+
 
         LabelCheckboxField overrideAttack = rootVisualElement.Query<LabelCheckboxField>("override-attack").First();
         Toggle attackToggle = overrideAttack.Query<Toggle>().First();
@@ -777,6 +780,9 @@ public class GearEditorWindow : BaseEditorWindow
         ObjectField attackField = overrideAttack.Query<ObjectField>().First();
         attackField.Unbind();
         attackField.BindProperty(fieldAttackProp);
+
+        Label attackLabel = overrideAttack.Query<Label>().ToList()[1];
+        attackLabel.style.display = DisplayStyle.None;
 
         #endregion
 
