@@ -27,6 +27,7 @@ public class GearEditorWindow : BaseEditorWindow
     GroupBox animationContent;
     VisualElement objectPreview;
     VisualElement cardPreview;
+    VisualElement animationPreview;
 
     ListView cardList;
     ListView variantList;
@@ -72,6 +73,7 @@ public class GearEditorWindow : BaseEditorWindow
 
             objectPreview = rootVisualElement.Query<Box>("object-preview").First();
             cardPreview = rootVisualElement.Query<Box>("card-preview").First();
+            animationPreview = rootVisualElement.Query<Box>("animation-preview").First();
 
             #region Filters
             DropdownField gearField = rootVisualElement.Query<DropdownField>("gear-filter");
@@ -909,6 +911,7 @@ public class GearEditorWindow : BaseEditorWindow
         animationContent.style.display = DisplayStyle.None;
         objectPreview.style.display = DisplayStyle.Flex;
         cardPreview.style.display = DisplayStyle.None;
+        animationPreview.style.display = DisplayStyle.None;
 
         LoadDetailContent(list.selectedItem as GearData, new SerializedObject(list.selectedItem as GearData));
     }
@@ -923,6 +926,7 @@ public class GearEditorWindow : BaseEditorWindow
         animationContent.style.display = DisplayStyle.None;
         objectPreview.style.display = DisplayStyle.None;
         cardPreview.style.display = DisplayStyle.Flex;
+        animationPreview.style.display = DisplayStyle.None;
 
         LoadCardContent(list.selectedItem as GearData, new SerializedObject(list.selectedItem as GearData));
         ClearCardPreview();
@@ -938,6 +942,7 @@ public class GearEditorWindow : BaseEditorWindow
         animationContent.style.display = DisplayStyle.Flex;
         objectPreview.style.display = DisplayStyle.None;
         cardPreview.style.display = DisplayStyle.None;
+        animationPreview.style.display = DisplayStyle.Flex;
 
         LoadAnimationContent(list.selectedItem as GearData, new SerializedObject(list.selectedItem as GearData));
     }
