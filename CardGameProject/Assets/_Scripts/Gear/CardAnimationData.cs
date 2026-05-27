@@ -35,23 +35,59 @@ public class CardAnimationData
     public GameObject FollowTimeline;
     public GameObject AttackTimeline;
 
+    [HideInInspector] public List<AnimationClipData> AnimationClipDataList;
     [HideInInspector] public List<AnimationWrapper> AnimationList = new();
 
 
     public void UpdateClipData(List<AnimationClipData> animationClipDataList)
     {
-        //foreach (AnimationData animationData in Animations)
-        //{
-        //    if (animationData == null) continue;
+        AnimationClipDataList = animationClipDataList;
+    }
 
-        //    animationData.SetDataClipList(animationClipDataList);
-        //}
+    public AnimationWrapper GetAnimationWrapper()
+    {
+        if (!SkipAnimation && Animation == null) return null;
+
+        if (SkipAnimation)
+            return new AnimationWrapper(true);
+
+
+        if (Animation.name == AttackType.None.ToString()) return null;
+
+        char split = '_';
+        string[] stringSplit = Animation.name.Split(split);
+
+        if (stringSplit[0] == "") return null;
+
+        float distance = AnimationClipDataList[int.Parse(stringSplit[0])].DistanceOffset;
+        float moveTime = 0f;
+
+        GameObject followTimeline = null;
+        GameObject attackTimeline = null;
+
+        if (OverrideDistanceOffset)
+            distance = DistanceOffset;
+
+        if (OverrideMoveTime)
+            moveTime = MoveTime;
+
+        if (OverrideCameraAttack)
+            attackTimeline = AttackTimeline;
+
+        if (OverrideCameraFollow)
+            followTimeline = FollowTimeline;
+
+        return new AnimationWrapper(stringSplit[1], distance, followTimeline, attackTimeline, AudioResource, moveTime);
     }
 
     public void UpdateAnimationList()
     {
-        //AnimationList.Clear();
+        AnimationList.Clear();
 
+        AnimationWrapper wrapper = GetAnimationWrapper();
+        AnimationList.Add(wrapper);
+
+        
         //foreach (AnimationData animationData in Animations)
         //{
         //    if (animationData == null) continue;
