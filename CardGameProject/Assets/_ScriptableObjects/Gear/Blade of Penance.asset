@@ -24,9 +24,9 @@ MonoBehaviour:
   WeaponAttack: 7
   HolsterSlot: {fileID: 0}
   WeaponTypeAnimationSet:
-  - rid: 1946961727472796028
-  - rid: 1946961727472796029
-  - rid: 1946961727472796030
+  - rid: 1946961927941652480
+  - rid: 1946961927941652481
+  - rid: 1946961927941652482
   AnimationClipDataList:
   - Clip: {fileID: 1827226128182048838, guid: 3d8051e0b50b9c84e8d5c5e945105220, type: 3}
     DistanceOffset: 0
@@ -45,13 +45,14 @@ MonoBehaviour:
     CardAmount: 1
     EnabledVariantID: []
     SkipAnimation: 0
-    Animation: {fileID: 1827226128182048838, guid: b766f3fdd3c320e409afa7076753976b, type: 3}
+    Animation: {fileID: 1827226128182048838, guid: 6c9c0d1dba8607441ab2711dabb88b4d, type: 3}
     AudioResource: {fileID: 0}
     OverrideDistanceOffset: 0
-    DistanceOffset: 0
+    DistanceOffset: 1
     OverrideMoveTime: 0
-    MoveTime: 0
-    OverrideCamera: 0
+    MoveTime: 1
+    OverrideCameraFollow: 0
+    OverrideCameraAttack: 0
     FollowTimeline: {fileID: 0}
     AttackTimeline: {fileID: 0}
     AnimationList:
@@ -73,7 +74,8 @@ MonoBehaviour:
     DistanceOffset: 0
     OverrideMoveTime: 0
     MoveTime: 0
-    OverrideCamera: 0
+    OverrideCameraFollow: 0
+    OverrideCameraAttack: 0
     FollowTimeline: {fileID: 0}
     AttackTimeline: {fileID: 0}
     AnimationList: []
@@ -87,7 +89,8 @@ MonoBehaviour:
     DistanceOffset: 0
     OverrideMoveTime: 0
     MoveTime: 0
-    OverrideCamera: 0
+    OverrideCameraFollow: 0
+    OverrideCameraAttack: 0
     FollowTimeline: {fileID: 0}
     AttackTimeline: {fileID: 0}
     AnimationList: []
@@ -101,7 +104,8 @@ MonoBehaviour:
     DistanceOffset: 0
     OverrideMoveTime: 0
     MoveTime: 0
-    OverrideCamera: 0
+    OverrideCameraFollow: 0
+    OverrideCameraAttack: 0
     FollowTimeline: {fileID: 0}
     AttackTimeline: {fileID: 0}
     AnimationList: []
@@ -115,7 +119,8 @@ MonoBehaviour:
     DistanceOffset: 0
     OverrideMoveTime: 0
     MoveTime: 0
-    OverrideCamera: 0
+    OverrideCameraFollow: 0
+    OverrideCameraAttack: 0
     FollowTimeline: {fileID: 0}
     AttackTimeline: {fileID: 0}
     AnimationList: []
@@ -129,7 +134,8 @@ MonoBehaviour:
     DistanceOffset: 0
     OverrideMoveTime: 0
     MoveTime: 0
-    OverrideCamera: 0
+    OverrideCameraFollow: 0
+    OverrideCameraAttack: 0
     FollowTimeline: {fileID: 0}
     AttackTimeline: {fileID: 0}
     AnimationList: []
@@ -143,14 +149,15 @@ MonoBehaviour:
     DistanceOffset: 0
     OverrideMoveTime: 0
     MoveTime: 0
-    OverrideCamera: 0
+    OverrideCameraFollow: 0
+    OverrideCameraAttack: 0
     FollowTimeline: {fileID: 0}
     AttackTimeline: {fileID: 0}
     AnimationList: []
   references:
     version: 2
     RefIds:
-    - rid: 1946961727472796028
+    - rid: 1946961927941652480
       type: {class: WeaponTypeAnimationStrike, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -158,7 +165,7 @@ MonoBehaviour:
           DistanceOffset: 0
         - Clip: {fileID: 1827226128182048838, guid: aaa99c51a3a140d4d8874b727707a795, type: 3}
           DistanceOffset: 0
-    - rid: 1946961727472796029
+    - rid: 1946961927941652481
       type: {class: WeaponTypeAnimationHeavy, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
@@ -168,7 +175,7 @@ MonoBehaviour:
           DistanceOffset: 1
         - Clip: {fileID: 1827226128182048838, guid: 038bd9b32bdfa4747a9476ecb109aea9, type: 3}
           DistanceOffset: 0
-    - rid: 1946961727472796030
+    - rid: 1946961927941652482
       type: {class: WeaponTypeAnimationAOE, ns: , asm: Assembly-CSharp}
       data:
         AnimationClipDataList:
