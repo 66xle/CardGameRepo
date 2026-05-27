@@ -27,6 +27,8 @@ public class GearEditorWindow : BaseEditorWindow
     GroupBox animationContent;
     VisualElement objectPreview;
     VisualElement cardPreview;
+    VisualElement animationPreview;
+    Box gameObjectPreview;
 
     ListView cardList;
     ListView variantList;
@@ -72,6 +74,8 @@ public class GearEditorWindow : BaseEditorWindow
 
             objectPreview = rootVisualElement.Query<Box>("object-preview").First();
             cardPreview = rootVisualElement.Query<Box>("card-preview").First();
+            animationPreview = rootVisualElement.Query<Box>("animation-preview").First();
+            gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
 
             #region Filters
             DropdownField gearField = rootVisualElement.Query<DropdownField>("gear-filter");
@@ -333,7 +337,6 @@ public class GearEditorWindow : BaseEditorWindow
         if (data.Prefab == null)
             return;
 
-        Box gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
         gameObjectPreview.Clear();
 
         GUIStyle bgColor = new GUIStyle();
@@ -841,6 +844,15 @@ public class GearEditorWindow : BaseEditorWindow
         }
 
         animationCardList.RefreshItems();
+
+
+        LoadAnimationPreview();
+    }
+
+    private void LoadAnimationPreview()
+    {
+        AnimationPreviewElement preview = new AnimationPreviewElement();
+        animationPreview.Add(preview);
     }
 
     private void PresetCallBack(ChangeEvent<string> evt, List<AnimationClipData> animationClipDataList, ObjectField animationClip, Label distanceLabel, Label moveTimeLabel)
@@ -909,6 +921,9 @@ public class GearEditorWindow : BaseEditorWindow
         animationContent.style.display = DisplayStyle.None;
         objectPreview.style.display = DisplayStyle.Flex;
         cardPreview.style.display = DisplayStyle.None;
+        animationPreview.style.display = DisplayStyle.None;
+        animationPreview.Clear();
+        gameObjectPreview.Clear();
 
         LoadDetailContent(list.selectedItem as GearData, new SerializedObject(list.selectedItem as GearData));
     }
@@ -923,6 +938,7 @@ public class GearEditorWindow : BaseEditorWindow
         animationContent.style.display = DisplayStyle.None;
         objectPreview.style.display = DisplayStyle.None;
         cardPreview.style.display = DisplayStyle.Flex;
+        animationPreview.style.display = DisplayStyle.None;
 
         LoadCardContent(list.selectedItem as GearData, new SerializedObject(list.selectedItem as GearData));
         ClearCardPreview();
@@ -938,6 +954,9 @@ public class GearEditorWindow : BaseEditorWindow
         animationContent.style.display = DisplayStyle.Flex;
         objectPreview.style.display = DisplayStyle.None;
         cardPreview.style.display = DisplayStyle.None;
+        animationPreview.style.display = DisplayStyle.Flex;
+        animationPreview.Clear();
+        gameObjectPreview.Clear();
 
         LoadAnimationContent(list.selectedItem as GearData, new SerializedObject(list.selectedItem as GearData));
     }

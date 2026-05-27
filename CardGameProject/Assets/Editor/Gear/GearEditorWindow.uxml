@@ -20,7 +20,7 @@
                 <engine:ListView name="gear-list" style="width: auto;" />
             </engine:VisualElement>
             <engine:Box name="gear" style="height: 500px; width: 500px; padding-top: 10px; padding-right: 50px; padding-bottom: 0; padding-left: 50px; max-height: 500px; max-width: 500px; min-height: 100%; min-width: 500px; border-top-width: 0; border-right-width: 1px; border-bottom-width: 0; border-left-width: 1px; border-bottom-color: rgb(38, 38, 38); border-left-color: rgb(38, 38, 38); border-right-color: rgb(38, 38, 38); border-top-color: rgb(38, 38, 38);">
-                <engine:Box name="object-preview" style="flex-grow: 0; width: 100%; flex-shrink: 1; top: auto; height: 100%; max-height: 500px; max-width: none; min-width: 300px; display: flex; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+                <engine:Box name="object-preview" style="flex-grow: 0; width: 100%; flex-shrink: 1; top: auto; height: 100%; max-height: 500px; max-width: none; min-width: 300px; display: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
                 <engine:Box name="card-preview" style="height: auto; width: 446px; align-items: auto; justify-content: flex-start; flex-grow: 0; max-height: 500px; min-width: 300px; display: none;">
                     <engine:Image name="preview" style="left: 130px; position: absolute; top: 60px; width: 200px; height: 500px;" />
                     <engine:Image name="preview2" style="left: 127px; position: absolute; top: 60px;" />
@@ -29,6 +29,7 @@
                     <engine:Label name="description" style="top: 386px; left: 157px; align-self: center;" />
                     <engine:Label name="flavour" style="top: 439px; left: 164px; align-self: center;" />
                 </engine:Box>
+                <engine:Box name="animation-preview" style="flex-grow: 0; width: 100%; flex-shrink: 1; top: auto; height: 100%; max-height: 500px; max-width: none; min-width: 300px; display: flex; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
             </engine:Box>
             <engine:VisualElement style="flex-grow: 1; width: 500px;">
                 <engine:VisualElement name="tabs" style="flex-grow: 1; min-height: 50px; background-color: rgba(0, 0, 0, 0); -unity-background-image-tint-color: rgb(255, 255, 255); flex-direction: row; border-top-left-radius: 0; border-top-right-radius: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 1px; border-left-width: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-left-color: rgb(36, 36, 36); border-right-color: rgb(36, 36, 36); border-top-color: rgb(36, 36, 36); border-bottom-color: rgb(36, 36, 36);">
