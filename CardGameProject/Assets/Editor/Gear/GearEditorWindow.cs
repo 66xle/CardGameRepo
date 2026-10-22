@@ -28,7 +28,6 @@ public class GearEditorWindow : BaseEditorWindow
     VisualElement objectPreview;
     VisualElement cardPreview;
     VisualElement animationPreview;
-    Box gameObjectPreview;
 
     ListView cardList;
     ListView variantList;
@@ -75,7 +74,6 @@ public class GearEditorWindow : BaseEditorWindow
             objectPreview = rootVisualElement.Query<Box>("object-preview").First();
             cardPreview = rootVisualElement.Query<Box>("card-preview").First();
             animationPreview = rootVisualElement.Query<Box>("animation-preview").First();
-            gameObjectPreview = rootVisualElement.Query<Box>("object-preview").First();
 
             #region Filters
             DropdownField gearField = rootVisualElement.Query<DropdownField>("gear-filter");
@@ -922,8 +920,6 @@ public class GearEditorWindow : BaseEditorWindow
         objectPreview.style.display = DisplayStyle.Flex;
         cardPreview.style.display = DisplayStyle.None;
         animationPreview.style.display = DisplayStyle.None;
-        animationPreview.Clear();
-        gameObjectPreview.Clear();
 
         LoadDetailContent(list.selectedItem as GearData, new SerializedObject(list.selectedItem as GearData));
     }
@@ -955,8 +951,6 @@ public class GearEditorWindow : BaseEditorWindow
         objectPreview.style.display = DisplayStyle.None;
         cardPreview.style.display = DisplayStyle.None;
         animationPreview.style.display = DisplayStyle.Flex;
-        animationPreview.Clear();
-        gameObjectPreview.Clear();
 
         LoadAnimationContent(list.selectedItem as GearData, new SerializedObject(list.selectedItem as GearData));
     }

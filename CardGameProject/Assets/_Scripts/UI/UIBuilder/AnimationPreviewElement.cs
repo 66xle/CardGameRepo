@@ -275,7 +275,7 @@ public partial class AnimationPreviewElement : VisualElement
 
         HandleInput(r);
 
-        Frame(); 
+        Frame();
 
         preview.BeginPreview(r, GUIStyle.none);
         preview.camera.Render();
