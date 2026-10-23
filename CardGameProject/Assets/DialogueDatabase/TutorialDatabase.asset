@@ -33,7 +33,7 @@ MonoBehaviour:
     bold: 0
     italic: 0
     underline: 0
-  baseID: 1
+  baseID: 10000
   actors:
   - id: 1
     fields:
@@ -57,7 +57,7 @@ MonoBehaviour:
     spritePortrait: {fileID: 0}
     alternatePortraits: []
     spritePortraits: []
-  - id: 2
+  - id: 10001
     fields:
     - title: Name
       value: NPC
@@ -82,7 +82,7 @@ MonoBehaviour:
   items: []
   locations: []
   variables:
-  - id: 1
+  - id: 10000
     fields:
     - title: Name
       value: Alert
@@ -97,7 +97,7 @@ MonoBehaviour:
       type: 0
       typeString: CustomFieldType_Text
   conversations:
-  - id: 1
+  - id: 10000
     fields:
     - title: Title
       value: Welcome
@@ -112,11 +112,11 @@ MonoBehaviour:
       type: 0
       typeString: CustomFieldType_Text
     - title: Actor
-      value: 1
+      value: 10000
       type: 5
       typeString: CustomFieldType_Actor
     - title: Conversant
-      value: 2
+      value: 10001
       type: 5
       typeString: CustomFieldType_Actor
     overrideSettings:
@@ -166,7 +166,7 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text
@@ -193,7 +193,7 @@ MonoBehaviour:
         value: None()
         type: 0
         typeString: CustomFieldType_Text
-      conversationID: 1
+      conversationID: 10000
       isRoot: 1
       isGroup: 0
       nodeColor: 
@@ -201,9 +201,9 @@ MonoBehaviour:
       falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks:
-      - originConversationID: 1
+      - originConversationID: 10000
         originDialogueID: 0
-        destinationConversationID: 1
+        destinationConversationID: 10000
         destinationDialogueID: 1
         isConnector: 0
         priority: 2
@@ -233,7 +233,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Actor
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
@@ -268,7 +268,7 @@ MonoBehaviour:
         value: 
         type: 0
         typeString: CustomFieldType_Text
-      conversationID: 1
+      conversationID: 10000
       isRoot: 0
       isGroup: 0
       nodeColor: 
@@ -276,9 +276,9 @@ MonoBehaviour:
       falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks:
-      - originConversationID: 1
+      - originConversationID: 10000
         originDialogueID: 1
-        destinationConversationID: 1
+        destinationConversationID: 10000
         destinationDialogueID: 6
         isConnector: 0
         priority: 2
@@ -308,7 +308,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Actor
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
@@ -343,7 +343,7 @@ MonoBehaviour:
         value: 
         type: 0
         typeString: CustomFieldType_Text
-      conversationID: 1
+      conversationID: 10000
       isRoot: 0
       isGroup: 0
       nodeColor: 
@@ -377,7 +377,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Actor
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
@@ -409,7 +409,7 @@ MonoBehaviour:
         value: 
         type: 0
         typeString: CustomFieldType_Text
-      conversationID: 1
+      conversationID: 10000
       isRoot: 0
       isGroup: 0
       nodeColor: 
@@ -417,9 +417,9 @@ MonoBehaviour:
       falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks:
-      - originConversationID: 1
+      - originConversationID: 10000
         originDialogueID: 6
-        destinationConversationID: 1
+        destinationConversationID: 10000
         destinationDialogueID: 3
         isConnector: 0
         priority: 2
@@ -437,7 +437,7 @@ MonoBehaviour:
     entryGroups: []
     canvasScrollPosition: {x: 0, y: 0}
     canvasZoom: 1
-  - id: 2
+  - id: 10001
     fields:
     - title: Title
       value: Stamina
@@ -452,11 +452,11 @@ MonoBehaviour:
       type: 0
       typeString: CustomFieldType_Text
     - title: Actor
-      value: 1
+      value: 10000
       type: 5
       typeString: CustomFieldType_Actor
     - title: Conversant
-      value: 2
+      value: 10001
       type: 5
       typeString: CustomFieldType_Actor
     overrideSettings:
@@ -506,7 +506,7 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text
@@ -533,7 +533,7 @@ MonoBehaviour:
         value: None()
         type: 0
         typeString: CustomFieldType_Text
-      conversationID: 2
+      conversationID: 10001
       isRoot: 1
       isGroup: 0
       nodeColor: 
@@ -541,9 +541,9 @@ MonoBehaviour:
       falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks:
-      - originConversationID: 2
+      - originConversationID: 10001
         originDialogueID: 0
-        destinationConversationID: 2
+        destinationConversationID: 10001
         destinationDialogueID: 3
         isConnector: 0
         priority: 2
@@ -573,7 +573,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Actor
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
@@ -605,7 +605,7 @@ MonoBehaviour:
         value: 
         type: 0
         typeString: CustomFieldType_Text
-      conversationID: 2
+      conversationID: 10001
       isRoot: 0
       isGroup: 0
       nodeColor: 
@@ -639,7 +639,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Actor
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
@@ -670,7 +670,7 @@ MonoBehaviour:
         value: 
         type: 0
         typeString: CustomFieldType_Text
-      conversationID: 2
+      conversationID: 10001
       isRoot: 0
       isGroup: 0
       nodeColor: 
@@ -678,9 +678,9 @@ MonoBehaviour:
       falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks:
-      - originConversationID: 2
+      - originConversationID: 10001
         originDialogueID: 3
-        destinationConversationID: 2
+        destinationConversationID: 10001
         destinationDialogueID: 2
         isConnector: 0
         priority: 2
@@ -698,7 +698,7 @@ MonoBehaviour:
     entryGroups: []
     canvasScrollPosition: {x: 0, y: 0}
     canvasZoom: 0.91
-  - id: 3
+  - id: 10002
     fields:
     - title: Title
       value: Defensive
@@ -713,11 +713,11 @@ MonoBehaviour:
       type: 0
       typeString: CustomFieldType_Text
     - title: Actor
-      value: 1
+      value: 10000
       type: 5
       typeString: CustomFieldType_Actor
     - title: Conversant
-      value: 2
+      value: 10001
       type: 5
       typeString: CustomFieldType_Actor
     overrideSettings:
@@ -767,7 +767,7 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text
@@ -794,7 +794,7 @@ MonoBehaviour:
         value: None()
         type: 0
         typeString: CustomFieldType_Text
-      conversationID: 3
+      conversationID: 10002
       isRoot: 1
       isGroup: 0
       nodeColor: 
@@ -802,9 +802,9 @@ MonoBehaviour:
       falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks:
-      - originConversationID: 3
+      - originConversationID: 10002
         originDialogueID: 0
-        destinationConversationID: 3
+        destinationConversationID: 10002
         destinationDialogueID: 1
         isConnector: 0
         priority: 2
@@ -834,7 +834,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Actor
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
@@ -866,7 +866,7 @@ MonoBehaviour:
         value: 
         type: 0
         typeString: CustomFieldType_Text
-      conversationID: 3
+      conversationID: 10002
       isRoot: 0
       isGroup: 0
       nodeColor: 
@@ -903,11 +903,11 @@ MonoBehaviour:
       type: 0
       typeString: CustomFieldType_Text
     - title: Actor
-      value: 1
+      value: 10000
       type: 5
       typeString: CustomFieldType_Actor
     - title: Conversant
-      value: 2
+      value: 10001
       type: 5
       typeString: CustomFieldType_Actor
     overrideSettings:
@@ -953,11 +953,11 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Actor
-        value: 1
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text
@@ -1024,11 +1024,11 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Actor
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 1
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text
@@ -1096,11 +1096,11 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Actor
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 1
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text
@@ -1165,11 +1165,11 @@ MonoBehaviour:
       type: 0
       typeString: CustomFieldType_Text
     - title: Actor
-      value: 1
+      value: 10000
       type: 5
       typeString: CustomFieldType_Actor
     - title: Conversant
-      value: 2
+      value: 10001
       type: 5
       typeString: CustomFieldType_Actor
     overrideSettings:
@@ -1215,11 +1215,11 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Actor
-        value: 1
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text
@@ -1286,11 +1286,11 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Actor
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 1
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text
@@ -1357,11 +1357,11 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Actor
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 1
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text
@@ -1429,11 +1429,11 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Actor
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 1
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text
@@ -1501,11 +1501,11 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Actor
-        value: 1
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text
@@ -1569,11 +1569,11 @@ MonoBehaviour:
       type: 0
       typeString: CustomFieldType_Text
     - title: Actor
-      value: 1
+      value: 10000
       type: 5
       typeString: CustomFieldType_Actor
     - title: Conversant
-      value: 2
+      value: 10001
       type: 5
       typeString: CustomFieldType_Actor
     overrideSettings:
@@ -1619,11 +1619,11 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Actor
-        value: 1
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text
@@ -1690,11 +1690,11 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Actor
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 1
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text
@@ -1755,11 +1755,11 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: Actor
-        value: 2
+        value: 10001
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 1
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text

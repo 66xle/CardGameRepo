@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e1eff532bb8c1f4d90a9c6b293aa6e0, type: 3}
+  m_Name: Project
+  m_EditorClassIdentifier: 
+  DialogueRollback:
+    Version: 1
+    Enabled: 0
+    HistoryLimit: 100
+  Version: 1.8.2
+  ApiVersion: 1.0
+  Title: Test
+  Description: 
+  MaxScriptNesting: 20
+  ImportedSourceHash: 67FFAAA6C5C0BF18914625C53892321B2E05EAE38192DD3467F1E81F2562E8C3
+  StartupScript: {fileID: 11400000, guid: 979c4a1c1f8ecf8498fd3bac7d3053ff, type: 2}
+  ScriptReferences:
+  - Path: scripts/event a.json
+    Asset: {fileID: 11400000, guid: 472aaf4862fd66c40abf72a16b5e50d7, type: 2}
+  - Path: scripts/script_menu.json
+    Asset: {fileID: 11400000, guid: 979c4a1c1f8ecf8498fd3bac7d3053ff, type: 2}
+  CharacterReferences:
+  - Path: scripts/bob.sfc
+    Asset: {fileID: 11400000, guid: 55b89835045e7b14ca284eecd842d4f4, type: 2}
+  DataAssetReferences: []
+  DataAssetLocalizationVersion: 2
+  CharacterIdEntries:
+  - Id: da_336bdd32b23a49e9bf178326307b81f6
+    Path: scripts/bob.sfc
+  GlobalVariableEntries: []
+  GlobalStringEntries:
+  - Key: en.da_336bdd32b23a49e9bf178326307b81f6.cf_name
+    Value: Bob
+  - Key: en.da_336bdd32b23a49e9bf178326307b81f6.75f00437f39843168074671093272a1b.value
+    Value: A villager
+  HasLocalization: 0
+  SourceLanguage: en
+  LanguageEntries: []
+  LanguageStringEntries: []
+  ResolvedAssetEntries: []

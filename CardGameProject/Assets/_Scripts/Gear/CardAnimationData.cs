@@ -59,7 +59,10 @@ public class CardAnimationData
 
         if (stringSplit[0] == "") return null;
 
-        float distance = AnimationClipDataList[int.Parse(stringSplit[0])].DistanceOffset;
+        if (!int.TryParse(stringSplit[0], out int result))
+            return null;
+
+        float distance = AnimationClipDataList[result].DistanceOffset;
         float moveTime = 0f;
 
         GameObject followTimeline = null;

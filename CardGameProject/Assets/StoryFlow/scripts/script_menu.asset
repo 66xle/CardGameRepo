@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26749692d50fbdc429229cc2909f91ec, type: 3}
+  m_Name: script_menu
+  m_EditorClassIdentifier: 
+  ScriptPath: scripts/script_menu.json
+  StartNodeId: 0
+  ImportedSourceHash: F5060A9923A09A59322A1038ECCAC696C142338B7223C310636F5B0E611EBFFF
+  serializedNodes:
+  - Id: 0
+    Type: 1
+    RawType: start
+    Data: []
+  - Id: 91e82e9cac414b21bfd592ccdc238bea
+    Type: 4
+    RawType: runScript
+    Data:
+    - Key: script
+      Value: scripts/event a.json
+  - Id: acadd206f76f441baeaac5b04accebf8
+    Type: 2
+    RawType: end
+    Data: []
+  - Id: b200dc11e99b4f179af3701a7d1ca3f3
+    Type: 4
+    RawType: runScript
+    Data: []
+  - Id: 1b18dbe35f8447159a5a1c0cd1e9af27
+    Type: 50
+    RawType: randomBranch
+    Data:
+    - Key: options
+      Value: '[{"id":"993eca50cd8b4e8c8d87835f119c9b99","weight":1},{"id":"4467b3c972bb41fd82563f45ec203936","weight":1},{"id":"9a610333fac24e6bbabf5ed568e1b117","weight":1}]'
+  - Id: 6f73e2ce00684b958ce9d44ae61e70c5
+    Type: 4
+    RawType: runScript
+    Data: []
+  connections:
+  - Id: xy-edge__91e82e9cac414b21bfd592ccdc238beasource-91e82e9cac414b21bfd592ccdc238bea-output-acadd206f76f441baeaac5b04accebf8target-acadd206f76f441baeaac5b04accebf8-
+    Source: 91e82e9cac414b21bfd592ccdc238bea
+    Target: acadd206f76f441baeaac5b04accebf8
+    SourceHandle: source-91e82e9cac414b21bfd592ccdc238bea-output
+    TargetHandle: target-acadd206f76f441baeaac5b04accebf8-
+  - Id: xy-edge__1b18dbe35f8447159a5a1c0cd1e9af27source-1b18dbe35f8447159a5a1c0cd1e9af27-993eca50cd8b4e8c8d87835f119c9b99-91e82e9cac414b21bfd592ccdc238beatarget-91e82e9cac414b21bfd592ccdc238bea-0
+    Source: 1b18dbe35f8447159a5a1c0cd1e9af27
+    Target: 91e82e9cac414b21bfd592ccdc238bea
+    SourceHandle: source-1b18dbe35f8447159a5a1c0cd1e9af27-993eca50cd8b4e8c8d87835f119c9b99
+    TargetHandle: target-91e82e9cac414b21bfd592ccdc238bea-0
+  - Id: xy-edge__1b18dbe35f8447159a5a1c0cd1e9af27source-1b18dbe35f8447159a5a1c0cd1e9af27-4467b3c972bb41fd82563f45ec203936-b200dc11e99b4f179af3701a7d1ca3f3target-b200dc11e99b4f179af3701a7d1ca3f3-0
+    Source: 1b18dbe35f8447159a5a1c0cd1e9af27
+    Target: b200dc11e99b4f179af3701a7d1ca3f3
+    SourceHandle: source-1b18dbe35f8447159a5a1c0cd1e9af27-4467b3c972bb41fd82563f45ec203936
+    TargetHandle: target-b200dc11e99b4f179af3701a7d1ca3f3-0
+  - Id: xy-edge__1b18dbe35f8447159a5a1c0cd1e9af27source-1b18dbe35f8447159a5a1c0cd1e9af27-9a610333fac24e6bbabf5ed568e1b117-6f73e2ce00684b958ce9d44ae61e70c5target-6f73e2ce00684b958ce9d44ae61e70c5-0
+    Source: 1b18dbe35f8447159a5a1c0cd1e9af27
+    Target: 6f73e2ce00684b958ce9d44ae61e70c5
+    SourceHandle: source-1b18dbe35f8447159a5a1c0cd1e9af27-9a610333fac24e6bbabf5ed568e1b117
+    TargetHandle: target-6f73e2ce00684b958ce9d44ae61e70c5-0
+  - Id: xy-edge__0source-0--1b18dbe35f8447159a5a1c0cd1e9af27target-1b18dbe35f8447159a5a1c0cd1e9af27-0
+    Source: 0
+    Target: 1b18dbe35f8447159a5a1c0cd1e9af27
+    SourceHandle: source-0-
+    TargetHandle: target-1b18dbe35f8447159a5a1c0cd1e9af27-0
+  - Id: xy-edge__b200dc11e99b4f179af3701a7d1ca3f3source-b200dc11e99b4f179af3701a7d1ca3f3-output-acadd206f76f441baeaac5b04accebf8target-acadd206f76f441baeaac5b04accebf8-
+    Source: b200dc11e99b4f179af3701a7d1ca3f3
+    Target: acadd206f76f441baeaac5b04accebf8
+    SourceHandle: source-b200dc11e99b4f179af3701a7d1ca3f3-output
+    TargetHandle: target-acadd206f76f441baeaac5b04accebf8-
+  serializedVariables: []
+  serializedStrings: []
+  serializedAssets: []
+  flows: []
+  ResolvedAssetEntries: []

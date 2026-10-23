@@ -335,7 +335,7 @@ public class GearEditorWindow : BaseEditorWindow
         if (data.Prefab == null)
             return;
 
-        gameObjectPreview.Clear();
+        //gameObjectPreview.Clear();
 
         GUIStyle bgColor = new GUIStyle();
         bgColor.normal.background = EditorGUIUtility.whiteTexture;
@@ -345,7 +345,7 @@ public class GearEditorWindow : BaseEditorWindow
 
         gameObjectEditor = Editor.CreateEditor(data.Prefab);
         IMGUIContainer container = new IMGUIContainer(() => { gameObjectEditor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(1000, 500), bgColor); });
-        gameObjectPreview.Add(container);
+        //gameObjectPreview.Add(container);
     }
 
     #endregion
