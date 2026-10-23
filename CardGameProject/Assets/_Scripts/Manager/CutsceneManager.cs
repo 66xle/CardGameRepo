@@ -143,7 +143,7 @@ public class CutsceneManager : MonoBehaviour
 
     public void StartKnightConversation()
     {
-        DialogueManager.StartConversation("Knight");
+        DialogueManager.StartConversation("Knight/Start");
     }
 
     public void StopConversation()

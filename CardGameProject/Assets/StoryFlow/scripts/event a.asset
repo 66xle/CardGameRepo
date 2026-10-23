@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScriptPath: scripts/event a.json
   StartNodeId: 0
-  ImportedSourceHash: BAABCD10DEF9F20E89D8C349E332FA7B89E3A814DFC707943315234609547540
+  ImportedSourceHash: 072591E1714F42FAF0CA88BA7736A78D02C0D879DFD0139E301A3DA02458B230
   serializedNodes:
   - Id: 0
     Type: 1
@@ -29,7 +29,7 @@ MonoBehaviour:
     - Key: text
       Value: 8dcb52f1c4194f9fa1fd7f97baccd271.text
     - Key: options
-      Value: '[{"id":"acce0711db45464e846e762f0b7ab5d5","text":"acce0711db45464e846e762f0b7ab5d5"},{"id":"1fc9d7d446a3488b8b58f94efa83bf56","text":"1fc9d7d446a3488b8b58f94efa83bf56"},{"id":"4e279bdb638b454c9fb3ecd6f43d068d","text":"4e279bdb638b454c9fb3ecd6f43d068d"}]'
+      Value: '[{"id":"acce0711db45464e846e762f0b7ab5d5","text":"acce0711db45464e846e762f0b7ab5d5","onceOnly":true},{"id":"1fc9d7d446a3488b8b58f94efa83bf56","text":"1fc9d7d446a3488b8b58f94efa83bf56"},{"id":"4e279bdb638b454c9fb3ecd6f43d068d","text":"4e279bdb638b454c9fb3ecd6f43d068d"}]'
   - Id: bb1a8aa0184c44d881ed78c3cab49ba1
     Type: 7
     RawType: dialogue
@@ -154,6 +154,18 @@ MonoBehaviour:
     Type: 2
     RawType: end
     Data: []
+  - Id: ba0912b8e0f54d32b4f0e6ba145d3e7f
+    Type: 14
+    RawType: getInt
+    Data:
+    - Key: variable
+      Value: var_9d8d2d5a
+  - Id: 1ff8a25a20e444f3b641a3ee63fb272d
+    Type: 21
+    RawType: greaterThan
+    Data:
+    - Key: value2
+      Value: 0
   connections:
   - Id: xy-edge__0source-0--8dcb52f1c4194f9fa1fd7f97baccd271target-8dcb52f1c4194f9fa1fd7f97baccd271-
     Source: 0
@@ -220,11 +232,6 @@ MonoBehaviour:
     Target: b52091741f2f4b9b9a3c97e7f291d1d9
     SourceHandle: source-194fb74ae84846a18263ae76c1ad0909-
     TargetHandle: target-b52091741f2f4b9b9a3c97e7f291d1d9-
-  - Id: xy-edge__b5d32e156ea74dc68133aaa23a018bd8source-b5d32e156ea74dc68133aaa23a018bd8--b52091741f2f4b9b9a3c97e7f291d1d9target-b52091741f2f4b9b9a3c97e7f291d1d9-
-    Source: b5d32e156ea74dc68133aaa23a018bd8
-    Target: b52091741f2f4b9b9a3c97e7f291d1d9
-    SourceHandle: source-b5d32e156ea74dc68133aaa23a018bd8-
-    TargetHandle: target-b52091741f2f4b9b9a3c97e7f291d1d9-
   - Id: xy-edge__8dcb52f1c4194f9fa1fd7f97baccd271source-8dcb52f1c4194f9fa1fd7f97baccd271-acce0711db45464e846e762f0b7ab5d5-bb1a8aa0184c44d881ed78c3cab49ba1target-bb1a8aa0184c44d881ed78c3cab49ba1-
     Source: 8dcb52f1c4194f9fa1fd7f97baccd271
     Target: bb1a8aa0184c44d881ed78c3cab49ba1
@@ -250,7 +257,46 @@ MonoBehaviour:
     Target: 99314371fe2d4a6dbcc3f97d9b5fc52c
     SourceHandle: source-f85903c0ae0843518ed2c4e00425e449-
     TargetHandle: target-99314371fe2d4a6dbcc3f97d9b5fc52c-
+  - Id: 7cfeab9054e243fca2b49f588813ba67
+    Source: ba0912b8e0f54d32b4f0e6ba145d3e7f
+    Target: 1ff8a25a20e444f3b641a3ee63fb272d
+    SourceHandle: source-ba0912b8e0f54d32b4f0e6ba145d3e7f-integer-
+    TargetHandle: target-1ff8a25a20e444f3b641a3ee63fb272d-integer-1
+  - Id: xy-edge__1ff8a25a20e444f3b641a3ee63fb272dsource-1ff8a25a20e444f3b641a3ee63fb272d-boolean--8dcb52f1c4194f9fa1fd7f97baccd271target-8dcb52f1c4194f9fa1fd7f97baccd271-boolean-acce0711db45464e846e762f0b7ab5d5
+    Source: 1ff8a25a20e444f3b641a3ee63fb272d
+    Target: 8dcb52f1c4194f9fa1fd7f97baccd271
+    SourceHandle: source-1ff8a25a20e444f3b641a3ee63fb272d-boolean-
+    TargetHandle: target-8dcb52f1c4194f9fa1fd7f97baccd271-boolean-acce0711db45464e846e762f0b7ab5d5
+  - Id: xy-edge__b5d32e156ea74dc68133aaa23a018bd8source-b5d32e156ea74dc68133aaa23a018bd8--8dcb52f1c4194f9fa1fd7f97baccd271target-8dcb52f1c4194f9fa1fd7f97baccd271-
+    Source: b5d32e156ea74dc68133aaa23a018bd8
+    Target: 8dcb52f1c4194f9fa1fd7f97baccd271
+    SourceHandle: source-b5d32e156ea74dc68133aaa23a018bd8-
+    TargetHandle: target-8dcb52f1c4194f9fa1fd7f97baccd271-
   serializedVariables:
+  - Id: var_9d8d2d5a
+    Name: Age
+    Type: 1
+    DefaultValueJson: 10
+    IsArray: 0
+    EnumValues: []
+    IsInput: 0
+    IsOutput: 0
+    KeyType: 0
+    ValueType: 0
+    KeyEnumValues: []
+    ValueEnumValues: []
+  - Id: var_217c41df
+    Name: IsReady
+    Type: 0
+    DefaultValueJson: false
+    IsArray: 0
+    EnumValues: []
+    IsInput: 0
+    IsOutput: 0
+    KeyType: 0
+    ValueType: 0
+    KeyEnumValues: []
+    ValueEnumValues: []
   - Id: var_ef3cd23c
     Name: EventName
     Type: 3

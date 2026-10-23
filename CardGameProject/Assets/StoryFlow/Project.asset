@@ -21,16 +21,20 @@ MonoBehaviour:
   Title: Test
   Description: 
   MaxScriptNesting: 20
-  ImportedSourceHash: E940C55C969D8DE6B24C83BA30A314896CD0229CE60DD4D217FD7F34101D1438
+  ImportedSourceHash: C8300EF1FCF781598C5D13C9EAE1AAD9367B63B6075323B9F3FC0BF728CB722C
   StartupScript: {fileID: 11400000, guid: 979c4a1c1f8ecf8498fd3bac7d3053ff, type: 2}
   ScriptReferences:
   - Path: scripts/event a.json
     Asset: {fileID: 11400000, guid: 472aaf4862fd66c40abf72a16b5e50d7, type: 2}
+  - Path: scripts/knight.json
+    Asset: {fileID: 11400000, guid: 5da6869ab99c8b241b8e6ec9b4b168c7, type: 2}
   - Path: scripts/script_menu.json
     Asset: {fileID: 11400000, guid: 979c4a1c1f8ecf8498fd3bac7d3053ff, type: 2}
   CharacterReferences:
   - Path: characters/player.sfc
     Asset: {fileID: 11400000, guid: 0e27e49d9f4f23247ba14b582f8639a6, type: 2}
+  - Path: characters/morghaine.sfc
+    Asset: {fileID: 11400000, guid: f3f8a93a36c64bf4a9916723699030b1, type: 2}
   - Path: characters/characterbase.sfc
     Asset: {fileID: 11400000, guid: 93da0a29db2258c43973177991ef582e, type: 2}
   DataAssetReferences: []
@@ -38,6 +42,8 @@ MonoBehaviour:
   CharacterIdEntries:
   - Id: da_0c1889079aa841dd8929e2dccacd0770
     Path: characters/player.sfc
+  - Id: da_45df38b723854471949bbe8bd2bb0be7
+    Path: characters/morghaine.sfc
   - Id: da_336bdd32b23a49e9bf178326307b81f6
     Path: characters/characterbase.sfc
   GlobalVariableEntries: []
@@ -46,6 +52,8 @@ MonoBehaviour:
     Value: Player
   - Key: en.da_0c1889079aa841dd8929e2dccacd0770.75f00437f39843168074671093272a1b.value
     Value: The Mortal
+  - Key: en.da_45df38b723854471949bbe8bd2bb0be7.cf_name
+    Value: Morghaine
   - Key: en.da_336bdd32b23a49e9bf178326307b81f6.cf_name
     Value: CharacterBase
   HasLocalization: 0
