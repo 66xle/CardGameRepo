@@ -166,6 +166,7 @@ namespace PixelCrushers.DialogueSystem
             foreach (StoryFlowProjectAsset.ScriptReference reference in sf.ScriptReferences)
             {
                 string databaseName = string.Empty;
+                string scriptName = string.Empty;
                 StoryFlowScriptAsset script = reference.Asset;
 
                 #region Variable
@@ -183,8 +184,12 @@ namespace PixelCrushers.DialogueSystem
 
                         string key = variable.Value.StringValue;
                         databaseName = script.Strings[LANGUAGECODE + key];
+                    }
 
-                        break;
+                    if (variable.Name == "EventName")
+                    {
+                        string key = variable.Value.StringValue;
+                        scriptName = script.Strings[LANGUAGECODE + key];
                     }
                 }
 
@@ -216,13 +221,14 @@ namespace PixelCrushers.DialogueSystem
 
                 db.actors.Add(globalDB.GetActor("Player"));
 
-
                 int conversationID = template.GetNextConversationID(db);
-                string conversationTitle = databaseName + "/" + "Start";
+                string conversationTitle = scriptName + "/" + "Start";
                 Conversation conversation = template.CreateConversation(conversationID, conversationTitle);
                 db.AddConversation(conversation);
 
                 Dictionary<string, DialogueEntry> dictEntry = new();
+
+                #region Nodes
 
                 foreach (StoryFlowNode node in script.Nodes.Values)
                 {
@@ -255,6 +261,10 @@ namespace PixelCrushers.DialogueSystem
                     }
                 }
 
+                #endregion
+
+                #region Connections
+
                 foreach (StoryFlowConnection connection in script.Connections)
                 {
                     DialogueEntry sourceEntry = dictEntry[connection.Source];
@@ -267,8 +277,9 @@ namespace PixelCrushers.DialogueSystem
                     {
                         string json = node.Data["options"];
 
-                        List<Option> options = JsonConvert.DeserializeObject<List<Option>>(json);
+                        
 
+                        List<Option> options = JsonConvert.DeserializeObject<List<Option>>(json);
                         foreach (Option option in options)
                         {
                             if (!connection.SourceHandle.Contains(option.ID))
@@ -285,14 +296,19 @@ namespace PixelCrushers.DialogueSystem
                             optionEntry.outgoingLinks.Add(targetLink);
                         }
 
+                        
+
                         continue;
                     }
 
                     #endregion
 
+
                     Link link = new Link(conversationID, sourceEntry.id, conversationID, targetEntry.id);
                     sourceEntry.outgoingLinks.Add(link);
                 }
+
+                #endregion
             }
         }
 
