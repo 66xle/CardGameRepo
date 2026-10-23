@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Codice.Utils;
 using Newtonsoft.Json;
@@ -13,6 +14,7 @@ using TextMateSharp.Grammars;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Analytics;
+using static Codice.Client.Common.Locks.ServerLocks.ForWorkingBranchOnRepoByItem;
 using static UnityEngine.EventSystems.EventTrigger;
 
 namespace PixelCrushers.DialogueSystem
@@ -223,43 +225,58 @@ namespace PixelCrushers.DialogueSystem
 
                 db.actors.Add(globalDB.GetActor("Player"));
 
-                int conversationID = template.GetNextConversationID(db);
-                string conversationTitle = scriptName + "/" + "Start";
-                Conversation conversation = template.CreateConversation(conversationID, conversationTitle);
-                db.AddConversation(conversation);
 
 
-                Dictionary<string, DialogueEntry> dictEntry = new();
-                Queue<StoryFlowNode> queue = new();
+                // Start Node Flow
+                string conversationName = scriptName + "/" + "Start";
+                StoryFlowNode startFlow = script.Nodes["0"];
+                CreateEventConversation(startFlow, conversationName, script, db);
 
-                StoryFlowNode startNode = script.Nodes["0"];
-                AddNodeToConversation(startNode, conversation, dictEntry, script);
-                queue.Enqueue(startNode);
+                if (script.Flows.Count == 0)
+                    return;
 
-                while (queue.Count > 0)
+                List<StoryFlowNode> flowNodes = script.Nodes.Values.Where(n => n.Type == StoryFlowNodeType.EntryFlow).ToList();
+                foreach (StoryFlowNode flow in flowNodes)
                 {
-                    StoryFlowNode currentNode = queue.Dequeue();
+                    string id = flow.Data["flowId"];
+                    string flowName = script.Flows.First(f => f.Id == id).Name;
 
-                    List<StoryFlowConnection> connections = script.GetEdgesFromSource(currentNode.Id);
-
-                    Debug.Log($"Connections from {currentNode.Id}: {connections.Count}");
-
-                    foreach (StoryFlowConnection connection in connections)
-                    {
-                        Debug.Log($"Edge: {connection.Source} -> {connection.Target}");
-
-                        StoryFlowNode targetNode = script.Nodes[connection.Target];
-
-                        Debug.Log($"Target: {targetNode.Id}, Type: {targetNode.Type}");
-
-                        if (!dictEntry.ContainsKey(targetNode.Id))
-                            queue.Enqueue(targetNode);
-
-                        AddNodeToConversation(targetNode, conversation, dictEntry, script);
-                        AddConnectionToConversation(connection, conversation, dictEntry, script);
-                    }
+                    conversationName = scriptName + "/" + flowName;
+                    startFlow = script.Nodes[flow.Id];
+                    CreateEventConversation(startFlow, conversationName, script, db);
                 }
+            }
+        }
 
+        void CreateEventConversation(StoryFlowNode startFlow, string conversationName, StoryFlowScriptAsset script, DialogueDatabase db)
+        {
+            int conversationID = template.GetNextConversationID(db);
+            string conversationTitle = conversationName;
+            Conversation conversation = template.CreateConversation(conversationID, conversationTitle);
+            db.AddConversation(conversation);
+
+            Dictionary<string, DialogueEntry> dictEntry = new();
+            Queue<StoryFlowNode> queue = new();
+
+            AddNodeToConversation(startFlow, conversation, dictEntry, script);
+            queue.Enqueue(startFlow);
+
+            while (queue.Count > 0)
+            {
+                StoryFlowNode currentNode = queue.Dequeue();
+
+                List<StoryFlowConnection> connections = script.GetEdgesFromSource(currentNode.Id);
+
+                foreach (StoryFlowConnection connection in connections)
+                {
+                    StoryFlowNode targetNode = script.Nodes[connection.Target];
+
+                    if (!dictEntry.ContainsKey(targetNode.Id))
+                        queue.Enqueue(targetNode);
+
+                    AddNodeToConversation(targetNode, conversation, dictEntry, script);
+                    AddConnectionToConversation(connection, conversation, dictEntry, script);
+                }
             }
         }
 
@@ -268,7 +285,7 @@ namespace PixelCrushers.DialogueSystem
             if (dictEntry.ContainsKey(node.Id))
                 return; 
 
-            if (node.Type == StoryFlowNodeType.Start)
+            if (node.Type == StoryFlowNodeType.Start || node.Type == StoryFlowNodeType.EntryFlow)
             {
                 DialogueEntry startEntry = template.CreateDialogueEntry(0, conversation.id, "START");
                 startEntry.Sequence = "None()";

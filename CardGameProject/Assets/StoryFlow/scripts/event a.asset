@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScriptPath: scripts/event a.json
   StartNodeId: 0
-  ImportedSourceHash: 08FE1450F2933C33B955E9CD5391BB2FDB299E9A7947DE69FFDEFE223C9D502F
+  ImportedSourceHash: BAABCD10DEF9F20E89D8C349E332FA7B89E3A814DFC707943315234609547540
   serializedNodes:
   - Id: 0
     Type: 1
@@ -124,6 +124,36 @@ MonoBehaviour:
     Type: 2
     RawType: end
     Data: []
+  - Id: acd2a0a4040949a8bb75f9755016078c
+    Type: 6
+    RawType: entryFlow
+    Data:
+    - Key: flowId
+      Value: 326d05976331467486a6a11eef8d77e7
+  - Id: c0113aac794a469dbba2c745e3ded960
+    Type: 7
+    RawType: dialogue
+    Data:
+    - Key: title
+      Value: c0113aac794a469dbba2c745e3ded960.title
+    - Key: text
+      Value: c0113aac794a469dbba2c745e3ded960.text
+    - Key: options
+      Value: '[]'
+  - Id: f85903c0ae0843518ed2c4e00425e449
+    Type: 7
+    RawType: dialogue
+    Data:
+    - Key: title
+      Value: f85903c0ae0843518ed2c4e00425e449.title
+    - Key: text
+      Value: f85903c0ae0843518ed2c4e00425e449.text
+    - Key: options
+      Value: '[]'
+  - Id: 99314371fe2d4a6dbcc3f97d9b5fc52c
+    Type: 2
+    RawType: end
+    Data: []
   connections:
   - Id: xy-edge__0source-0--8dcb52f1c4194f9fa1fd7f97baccd271target-8dcb52f1c4194f9fa1fd7f97baccd271-
     Source: 0
@@ -205,6 +235,21 @@ MonoBehaviour:
     Target: b52091741f2f4b9b9a3c97e7f291d1d9
     SourceHandle: source-4499cc06c83a41f2acac5e8c76b5b4ca-
     TargetHandle: target-b52091741f2f4b9b9a3c97e7f291d1d9-
+  - Id: xy-edge__acd2a0a4040949a8bb75f9755016078csource-acd2a0a4040949a8bb75f9755016078c--c0113aac794a469dbba2c745e3ded960target-c0113aac794a469dbba2c745e3ded960-
+    Source: acd2a0a4040949a8bb75f9755016078c
+    Target: c0113aac794a469dbba2c745e3ded960
+    SourceHandle: source-acd2a0a4040949a8bb75f9755016078c-
+    TargetHandle: target-c0113aac794a469dbba2c745e3ded960-
+  - Id: xy-edge__c0113aac794a469dbba2c745e3ded960source-c0113aac794a469dbba2c745e3ded960--f85903c0ae0843518ed2c4e00425e449target-f85903c0ae0843518ed2c4e00425e449-
+    Source: c0113aac794a469dbba2c745e3ded960
+    Target: f85903c0ae0843518ed2c4e00425e449
+    SourceHandle: source-c0113aac794a469dbba2c745e3ded960-
+    TargetHandle: target-f85903c0ae0843518ed2c4e00425e449-
+  - Id: xy-edge__f85903c0ae0843518ed2c4e00425e449source-f85903c0ae0843518ed2c4e00425e449--99314371fe2d4a6dbcc3f97d9b5fc52ctarget-99314371fe2d4a6dbcc3f97d9b5fc52c-
+    Source: f85903c0ae0843518ed2c4e00425e449
+    Target: 99314371fe2d4a6dbcc3f97d9b5fc52c
+    SourceHandle: source-f85903c0ae0843518ed2c4e00425e449-
+    TargetHandle: target-99314371fe2d4a6dbcc3f97d9b5fc52c-
   serializedVariables:
   - Id: var_ef3cd23c
     Name: EventName
@@ -290,6 +335,14 @@ MonoBehaviour:
     Value: Dialogue
   - Key: en.4499cc06c83a41f2acac5e8c76b5b4ca.text
     Value: "\u201CGood. Then perhaps you\u2019ll survive the night.\u201D"
+  - Key: en.c0113aac794a469dbba2c745e3ded960.title
+    Value: Dialogue
+  - Key: en.c0113aac794a469dbba2c745e3ded960.text
+    Value: Hello
+  - Key: en.f85903c0ae0843518ed2c4e00425e449.title
+    Value: Dialogue
+  - Key: en.f85903c0ae0843518ed2c4e00425e449.text
+    Value: Goodbye
   - Key: en.8869dafaf33f4ddfb915281e051fab1f.value
     Value: Out Dark
   - Key: en.ec53a9762aad48fa8d73daac202faa9b.value
