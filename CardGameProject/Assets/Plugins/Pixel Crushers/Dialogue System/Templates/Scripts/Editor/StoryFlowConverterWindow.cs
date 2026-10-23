@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
@@ -8,6 +9,7 @@ using PixelCrushers.DialogueSystem.Articy.Articy_4_0;
 using PixelCrushers.DialogueSystem.ChatMapper;
 using StoryFlow.Data;
 using StoryFlow.Execution;
+using TextMateSharp.Grammars;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Analytics;
@@ -210,12 +212,12 @@ namespace PixelCrushers.DialogueSystem
                 else
                 {
                     db = GetDatabase(databaseName);
+                    dictDatabases.Add(databaseName, db);
                 }
 
                 if (db == null)
                     continue;
 
-                dictDatabases.Add(databaseName, db);
 
                 #endregion
 
@@ -226,90 +228,110 @@ namespace PixelCrushers.DialogueSystem
                 Conversation conversation = template.CreateConversation(conversationID, conversationTitle);
                 db.AddConversation(conversation);
 
+
                 Dictionary<string, DialogueEntry> dictEntry = new();
+                Queue<StoryFlowNode> queue = new();
 
-                #region Nodes
+                StoryFlowNode startNode = script.Nodes["0"];
+                AddNodeToConversation(startNode, conversation, dictEntry, script);
+                queue.Enqueue(startNode);
 
-                foreach (StoryFlowNode node in script.Nodes.Values)
+                while (queue.Count > 0)
                 {
-                    if (node.Type == StoryFlowNodeType.Start)
+                    StoryFlowNode currentNode = queue.Dequeue();
+
+                    List<StoryFlowConnection> connections = script.GetEdgesFromSource(currentNode.Id);
+
+                    Debug.Log($"Connections from {currentNode.Id}: {connections.Count}");
+
+                    foreach (StoryFlowConnection connection in connections)
                     {
-                        DialogueEntry startEntry = template.CreateDialogueEntry(0, conversationID, "START");
-                        startEntry.Sequence = "None()";
-                        conversation.dialogueEntries.Add(startEntry);
-                        dictEntry.Add("0", startEntry);
-                    }
+                        Debug.Log($"Edge: {connection.Source} -> {connection.Target}");
 
-                    if (node.Type == StoryFlowNodeType.End)
-                    {
-                        DialogueEntry entry = CreateDialogueEntry(conversation, "END");
-                        conversation.dialogueEntries.Add(entry);
-                        dictEntry.Add(node.Id, entry);
-                    }
+                        StoryFlowNode targetNode = script.Nodes[connection.Target];
 
-                    if (node.Type == StoryFlowNodeType.Dialogue)
-                    {
-                        string key = node.Data["title"];
-                        string title = script.GetString(LANGUAGECODE + key);
+                        Debug.Log($"Target: {targetNode.Id}, Type: {targetNode.Type}");
 
-                        DialogueEntry entry = CreateDialogueEntry(conversation, title);
-                        string dialogueID = node.Data["text"];
-                        entry.DialogueText = script.GetString(LANGUAGECODE + dialogueID);
+                        if (!dictEntry.ContainsKey(targetNode.Id))
+                            queue.Enqueue(targetNode);
 
-                        conversation.dialogueEntries.Add(entry);
-                        dictEntry.Add(node.Id, entry);
+                        AddNodeToConversation(targetNode, conversation, dictEntry, script);
+                        AddConnectionToConversation(connection, conversation, dictEntry, script);
                     }
                 }
 
-                #endregion
-
-                #region Connections
-
-                foreach (StoryFlowConnection connection in script.Connections)
-                {
-                    DialogueEntry sourceEntry = dictEntry[connection.Source];
-                    DialogueEntry targetEntry = dictEntry[connection.Target];
-
-                    #region Options
-
-                    StoryFlowNode node = script.Nodes[connection.Source];
-                    if (node.Type == StoryFlowNodeType.Dialogue && node.Data["options"] != "[]")
-                    {
-                        string json = node.Data["options"];
-
-                        
-
-                        List<Option> options = JsonConvert.DeserializeObject<List<Option>>(json);
-                        foreach (Option option in options)
-                        {
-                            if (!connection.SourceHandle.Contains(option.ID))
-                                continue;
-
-                            DialogueEntry optionEntry = CreateDialogueEntry(conversation, "Option");
-                            optionEntry.DialogueText = script.GetString(LANGUAGECODE + option.Text);
-                            conversation.dialogueEntries.Add(optionEntry);
-
-                            Link sourceLink = new Link(conversationID, sourceEntry.id, conversationID, optionEntry.id);
-                            sourceEntry.outgoingLinks.Add(sourceLink);
-
-                            Link targetLink = new Link(conversationID, optionEntry.id, conversationID, targetEntry.id);
-                            optionEntry.outgoingLinks.Add(targetLink);
-                        }
-
-                        
-
-                        continue;
-                    }
-
-                    #endregion
-
-
-                    Link link = new Link(conversationID, sourceEntry.id, conversationID, targetEntry.id);
-                    sourceEntry.outgoingLinks.Add(link);
-                }
-
-                #endregion
             }
+        }
+
+        void AddNodeToConversation(StoryFlowNode node, Conversation conversation, Dictionary<string, DialogueEntry> dictEntry, StoryFlowScriptAsset script)
+        {
+            if (dictEntry.ContainsKey(node.Id))
+                return; 
+
+            if (node.Type == StoryFlowNodeType.Start)
+            {
+                DialogueEntry startEntry = template.CreateDialogueEntry(0, conversation.id, "START");
+                startEntry.Sequence = "None()";
+                conversation.dialogueEntries.Add(startEntry);
+                dictEntry.Add(node.Id, startEntry);
+            }
+
+            if (node.Type == StoryFlowNodeType.End)
+            {
+                DialogueEntry entry = CreateDialogueEntry(conversation, "END");
+                conversation.dialogueEntries.Add(entry);
+                dictEntry.Add(node.Id, entry);
+            }
+
+            if (node.Type == StoryFlowNodeType.Dialogue)
+            {
+                string key = node.Data["title"];
+                string title = script.GetString(LANGUAGECODE + key);
+
+                DialogueEntry entry = CreateDialogueEntry(conversation, title);
+                string dialogueID = node.Data["text"];
+                entry.DialogueText = script.GetString(LANGUAGECODE + dialogueID);
+
+                conversation.dialogueEntries.Add(entry);
+                dictEntry.Add(node.Id, entry);
+            }
+        }
+
+        void AddConnectionToConversation(StoryFlowConnection connection, Conversation conversation, Dictionary<string, DialogueEntry> dictEntry, StoryFlowScriptAsset script)
+        {
+            DialogueEntry sourceEntry = dictEntry[connection.Source];
+            DialogueEntry targetEntry = dictEntry[connection.Target];
+
+            #region Options
+
+            StoryFlowNode node = script.Nodes[connection.Source];
+            if (node.Type == StoryFlowNodeType.Dialogue && node.Data["options"] != "[]")
+            {
+                string json = node.Data["options"];
+
+                List<Option> options = JsonConvert.DeserializeObject<List<Option>>(json);
+                foreach (Option option in options)
+                {
+                    if (!connection.SourceHandle.Contains(option.ID))
+                        continue;
+
+                    DialogueEntry optionEntry = CreateDialogueEntry(conversation, "Option");
+                    optionEntry.DialogueText = script.GetString(LANGUAGECODE + option.Text);
+                    conversation.dialogueEntries.Add(optionEntry);
+
+                    Link sourceLink = new Link(conversation.id, sourceEntry.id, conversation.id, optionEntry.id);
+                    sourceEntry.outgoingLinks.Add(sourceLink);
+
+                    Link targetLink = new Link(conversation.id, optionEntry.id, conversation.id, targetEntry.id);
+                    optionEntry.outgoingLinks.Add(targetLink);
+                }
+                return;
+            }
+
+            #endregion
+
+            Link link = new Link(conversation.id, sourceEntry.id, conversation.id, targetEntry.id);
+            sourceEntry.outgoingLinks.Add(link);
         }
 
         DialogueEntry CreateDialogueEntry(Conversation conversation, string title)
