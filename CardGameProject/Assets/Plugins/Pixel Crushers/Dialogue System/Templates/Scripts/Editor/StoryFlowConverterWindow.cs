@@ -5,6 +5,7 @@ using Codice.Utils;
 using StoryFlow.Data;
 using UnityEditor;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace PixelCrushers.DialogueSystem
 {
@@ -184,9 +185,13 @@ namespace PixelCrushers.DialogueSystem
                 Conversation conversation = template.CreateConversation(conversationID, conversationTitle);
                 db.AddConversation(conversation);
 
+
+                Dictionary<string, DialogueEntry> dictEntry = new();
+
                 DialogueEntry startEntry = template.CreateDialogueEntry(0, conversationID, "START");
                 startEntry.Sequence = "None()";
                 conversation.dialogueEntries.Add(startEntry);
+                dictEntry.Add("0", startEntry);
 
 
                 foreach (StoryFlowNode node in script.Nodes.Values)
@@ -201,9 +206,23 @@ namespace PixelCrushers.DialogueSystem
 
                         int entryID = template.GetNextDialogueEntryID(conversation);
                         DialogueEntry entry = template.CreateDialogueEntry(entryID, conversationID, title);
+                        entry.Sequence = string.Empty;
+
+                        string dialogueID = node.Data["text"];
+                        entry.DialogueText = script.GetString(LANGUAGECODE + dialogueID);
+
                         conversation.dialogueEntries.Add(entry);
+                        dictEntry.Add(node.Id, entry);
                     }
                 }
+
+                foreach (StoryFlowConnection connection in script.Connections)
+                {
+
+
+
+                }
+
 
             }
         }

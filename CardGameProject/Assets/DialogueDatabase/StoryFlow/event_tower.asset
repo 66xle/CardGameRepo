@@ -33,7 +33,7 @@ MonoBehaviour:
     bold: 0
     italic: 0
     underline: 0
-  baseID: 30102
+  baseID: 110102
   actors:
   - id: 1
     fields:
@@ -83,7 +83,7 @@ MonoBehaviour:
   locations: []
   variables: []
   conversations:
-  - id: 30102
+  - id: 110102
     fields:
     - title: Title
       value: event_tower/Start
@@ -139,7 +139,11 @@ MonoBehaviour:
         value: 1
         type: 5
         typeString: CustomFieldType_Actor
-      conversationID: 30102
+      - title: Conversant
+        value: 
+        type: 5
+        typeString: CustomFieldType_Actor
+      conversationID: 110102
       isRoot: 1
       isGroup: 0
       nodeColor: 
@@ -163,7 +167,15 @@ MonoBehaviour:
       - title: Title
         value: Dialogue
         type: 0
-        typeString: 
+        typeString: CustomFieldType_Text
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Dialogue Text
+        value: "\"Stop! You shouldn\u2019t be out here after dark. What are you doing?\""
+        type: 0
+        typeString: CustomFieldType_Text
       - title: Actor
         value: 1
         type: 5
@@ -175,17 +187,13 @@ MonoBehaviour:
       - title: Menu Text
         value: 
         type: 0
-        typeString: 
-      - title: Dialogue Text
-        value: 
-        type: 0
-        typeString: 
-      conversationID: 30102
+        typeString: CustomFieldType_Text
+      conversationID: 110102
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: 
+      falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
@@ -204,13 +212,33 @@ MonoBehaviour:
       - title: Title
         value: Dialogue
         type: 0
-        typeString: 
-      conversationID: 30102
+        typeString: CustomFieldType_Text
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Dialogue Text
+        value: '"Who are you looking for?"'
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Actor
+        value: 1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      conversationID: 110102
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: 
+      falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
@@ -229,13 +257,34 @@ MonoBehaviour:
       - title: Title
         value: Dialogue
         type: 0
-        typeString: 
-      conversationID: 30102
+        typeString: CustomFieldType_Text
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Dialogue Text
+        value: "\"...Then you\u2019d better come with me. I think I know where he
+          is.\""
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Actor
+        value: 1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      conversationID: 110102
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: 
+      falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
@@ -254,13 +303,34 @@ MonoBehaviour:
       - title: Title
         value: Dialogue
         type: 0
-        typeString: 
-      conversationID: 30102
+        typeString: CustomFieldType_Text
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Dialogue Text
+        value: '"Then I suggest you turn around before you find more trouble than
+          you bargained for."'
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Actor
+        value: 1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      conversationID: 110102
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: 
+      falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
@@ -279,13 +349,34 @@ MonoBehaviour:
       - title: Title
         value: Dialogue
         type: 0
-        typeString: 
-      conversationID: 30102
+        typeString: CustomFieldType_Text
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Dialogue Text
+        value: "\"Fine. Walk away, then. Just don\u2019t blame me for what happens
+          next.\""
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Actor
+        value: 1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      conversationID: 110102
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: 
+      falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
@@ -304,13 +395,33 @@ MonoBehaviour:
       - title: Title
         value: Dialogue
         type: 0
-        typeString: 
-      conversationID: 30102
+        typeString: CustomFieldType_Text
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Dialogue Text
+        value: '"The forest is watching you. And it knows your name."'
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Actor
+        value: 1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      conversationID: 110102
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: 
+      falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
@@ -321,7 +432,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 20
-        y: 270
+        y: 270.8
         width: 160
         height: 30
     - id: 7
@@ -329,13 +440,33 @@ MonoBehaviour:
       - title: Title
         value: Dialogue
         type: 0
-        typeString: 
-      conversationID: 30102
+        typeString: CustomFieldType_Text
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Dialogue Text
+        value: '*A distant scream echoes through the trees.*'
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Actor
+        value: 1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      conversationID: 110102
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: 
+      falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
@@ -354,13 +485,33 @@ MonoBehaviour:
       - title: Title
         value: Dialogue
         type: 0
-        typeString: 
-      conversationID: 30102
+        typeString: CustomFieldType_Text
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Dialogue Text
+        value: '"Help? Perhaps. But first, tell me something. Do you believe in monsters?"'
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Actor
+        value: 1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      conversationID: 110102
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: 
+      falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
@@ -379,13 +530,33 @@ MonoBehaviour:
       - title: Title
         value: Dialogue
         type: 0
-        typeString: 
-      conversationID: 30102
+        typeString: CustomFieldType_Text
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Dialogue Text
+        value: "Slowly smiles. \u201CThen you won\u2019t mind meeting one.\u201D"
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Actor
+        value: 1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      conversationID: 110102
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: 
+      falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
@@ -404,13 +575,33 @@ MonoBehaviour:
       - title: Title
         value: Dialogue
         type: 0
-        typeString: 
-      conversationID: 30102
+        typeString: CustomFieldType_Text
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Dialogue Text
+        value: "\u201CGood. Then perhaps you\u2019ll survive the night.\u201D"
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Actor
+        value: 1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      conversationID: 110102
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: 
+      falseConditionAction: Block
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
@@ -426,7 +617,7 @@ MonoBehaviour:
         height: 30
     entryGroups: []
     canvasScrollPosition: {x: 0, y: 0}
-    canvasZoom: 1
+    canvasZoom: 0.7300001
   syncInfo:
     syncActors: 0
     syncItems: 0
