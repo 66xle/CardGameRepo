@@ -1,14 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using Codice.Utils;
+using Newtonsoft.Json;
+using PixelCrushers.DialogueSystem.Articy.Articy_4_0;
+using PixelCrushers.DialogueSystem.ChatMapper;
 using StoryFlow.Data;
+using StoryFlow.Execution;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Analytics;
 using static UnityEngine.EventSystems.EventTrigger;
 
 namespace PixelCrushers.DialogueSystem
 {
+    struct Option
+    {
+        public string ID;
+        public string Text;
+    }
+
     [Serializable]
     public class StoryFlowConverterPrefs : AbstractConverterWindowPrefs
     {
@@ -18,7 +30,8 @@ namespace PixelCrushers.DialogueSystem
     public class StoryFlowConverterWindow : AbstractConverterWindow<StoryFlowConverterPrefs>
     {
         string LANGUAGECODE = "en.";
-        int baseID = 10000;
+        int baseID;
+        DialogueDatabase globalDB;
 
         //*** Set the source file extension here:
         public override string sourceFileExtension { get { return "asset"; } }
@@ -69,6 +82,9 @@ namespace PixelCrushers.DialogueSystem
 
         protected override void Convert()
         {
+            baseID = 10000;
+            globalDB = null;
+
             string fullPath = Path.GetFullPath(prefs.sourceFilename);
             string assetsPath = Path.GetFullPath(Application.dataPath);
 
@@ -84,7 +100,10 @@ namespace PixelCrushers.DialogueSystem
             if (template == null)
                 template = TemplateTools.LoadFromEditorPrefs();
 
-            CreateGlobalDatabase("Global", sf);
+            globalDB = CreateGlobalDatabase("Global", sf);
+            if (globalDB == null)
+                return;
+
             CreateLocalDatabase(sf);
 
             AssetDatabase.SaveAssets();
@@ -96,11 +115,11 @@ namespace PixelCrushers.DialogueSystem
             }
         }
 
-        void CreateGlobalDatabase(string dbName, StoryFlowProjectAsset sf)
+        DialogueDatabase CreateGlobalDatabase(string dbName, StoryFlowProjectAsset sf)
         {
             DialogueDatabase database = GetDatabase(dbName);
             if (database == null)
-                return;
+                return null;
 
             // Global Variables
             
@@ -113,6 +132,8 @@ namespace PixelCrushers.DialogueSystem
 
             Debug.Log(string.Format("{0}: Created database '{1}' containing {2} actors, {3} conversations, {4} items/quests, {5} variables, and {6} locations.",
               DialogueDebug.Prefix, dbName, database.actors.Count, database.conversations.Count, database.items.Count, database.variables.Count, database.locations.Count), database);
+
+            return database;
         }
 
         void CreateLocalDatabase(StoryFlowProjectAsset sf)
@@ -123,6 +144,20 @@ namespace PixelCrushers.DialogueSystem
 
 
             SaveLocalDatabases(dictDatabases);
+        }
+
+        void SaveLocalDatabases(Dictionary<string, DialogueDatabase> dictDatabases)
+        {
+            foreach (string key in dictDatabases.Keys)
+            {
+                DialogueDatabase saveDB = dictDatabases[key];
+
+                TouchUpDialogueDatabase(saveDB);
+                EditorUtility.SetDirty(saveDB);
+
+                Debug.Log(string.Format("{0}: Created database '{1}' containing {2} actors, {3} conversations, {4} items/quests, {5} variables, and {6} locations.",
+                  DialogueDebug.Prefix, key, saveDB.actors.Count, saveDB.conversations.Count, saveDB.items.Count, saveDB.variables.Count, saveDB.locations.Count), saveDB);
+            }
         }
 
         void ConvertScriptsToEvents(Dictionary<string, DialogueDatabase> dictDatabases, StoryFlowProjectAsset sf)
@@ -179,35 +214,39 @@ namespace PixelCrushers.DialogueSystem
 
                 #endregion
 
+                db.actors.Add(globalDB.GetActor("Player"));
+
 
                 int conversationID = template.GetNextConversationID(db);
                 string conversationTitle = databaseName + "/" + "Start";
                 Conversation conversation = template.CreateConversation(conversationID, conversationTitle);
                 db.AddConversation(conversation);
 
-
                 Dictionary<string, DialogueEntry> dictEntry = new();
-
-                DialogueEntry startEntry = template.CreateDialogueEntry(0, conversationID, "START");
-                startEntry.Sequence = "None()";
-                conversation.dialogueEntries.Add(startEntry);
-                dictEntry.Add("0", startEntry);
-
 
                 foreach (StoryFlowNode node in script.Nodes.Values)
                 {
                     if (node.Type == StoryFlowNodeType.Start)
-                        continue;
+                    {
+                        DialogueEntry startEntry = template.CreateDialogueEntry(0, conversationID, "START");
+                        startEntry.Sequence = "None()";
+                        conversation.dialogueEntries.Add(startEntry);
+                        dictEntry.Add("0", startEntry);
+                    }
+
+                    if (node.Type == StoryFlowNodeType.End)
+                    {
+                        DialogueEntry entry = CreateDialogueEntry(conversation, "END");
+                        conversation.dialogueEntries.Add(entry);
+                        dictEntry.Add(node.Id, entry);
+                    }
 
                     if (node.Type == StoryFlowNodeType.Dialogue)
                     {
                         string key = node.Data["title"];
                         string title = script.GetString(LANGUAGECODE + key);
 
-                        int entryID = template.GetNextDialogueEntryID(conversation);
-                        DialogueEntry entry = template.CreateDialogueEntry(entryID, conversationID, title);
-                        entry.Sequence = string.Empty;
-
+                        DialogueEntry entry = CreateDialogueEntry(conversation, title);
                         string dialogueID = node.Data["text"];
                         entry.DialogueText = script.GetString(LANGUAGECODE + dialogueID);
 
@@ -218,27 +257,52 @@ namespace PixelCrushers.DialogueSystem
 
                 foreach (StoryFlowConnection connection in script.Connections)
                 {
+                    DialogueEntry sourceEntry = dictEntry[connection.Source];
+                    DialogueEntry targetEntry = dictEntry[connection.Target];
 
+                    #region Options
 
+                    StoryFlowNode node = script.Nodes[connection.Source];
+                    if (node.Type == StoryFlowNodeType.Dialogue && node.Data["options"] != "[]")
+                    {
+                        string json = node.Data["options"];
 
+                        List<Option> options = JsonConvert.DeserializeObject<List<Option>>(json);
+
+                        foreach (Option option in options)
+                        {
+                            if (!connection.SourceHandle.Contains(option.ID))
+                                continue;
+
+                            DialogueEntry optionEntry = CreateDialogueEntry(conversation, "Option");
+                            optionEntry.DialogueText = script.GetString(LANGUAGECODE + option.Text);
+                            conversation.dialogueEntries.Add(optionEntry);
+
+                            Link sourceLink = new Link(conversationID, sourceEntry.id, conversationID, optionEntry.id);
+                            sourceEntry.outgoingLinks.Add(sourceLink);
+
+                            Link targetLink = new Link(conversationID, optionEntry.id, conversationID, targetEntry.id);
+                            optionEntry.outgoingLinks.Add(targetLink);
+                        }
+
+                        continue;
+                    }
+
+                    #endregion
+
+                    Link link = new Link(conversationID, sourceEntry.id, conversationID, targetEntry.id);
+                    sourceEntry.outgoingLinks.Add(link);
                 }
-
-
             }
         }
 
-        void SaveLocalDatabases(Dictionary<string, DialogueDatabase> dictDatabases)
+        DialogueEntry CreateDialogueEntry(Conversation conversation, string title)
         {
-            foreach (string key in dictDatabases.Keys)
-            {
-                DialogueDatabase saveDB = dictDatabases[key];
+            int entryID = template.GetNextDialogueEntryID(conversation);
+            DialogueEntry entry = template.CreateDialogueEntry(entryID, conversation.id, title);
+            entry.Sequence = string.Empty;
 
-                TouchUpDialogueDatabase(saveDB);
-                EditorUtility.SetDirty(saveDB);
-
-                Debug.Log(string.Format("{0}: Created database '{1}' containing {2} actors, {3} conversations, {4} items/quests, {5} variables, and {6} locations.",
-                  DialogueDebug.Prefix, key, saveDB.actors.Count, saveDB.conversations.Count, saveDB.items.Count, saveDB.variables.Count, saveDB.locations.Count), saveDB);
-            }
+            return entry;
         }
 
 
@@ -254,6 +318,9 @@ namespace PixelCrushers.DialogueSystem
                 string actorName = sf.GetGlobalString(LANGUAGECODE + character.CharacterName);
                 string ID = string.Empty;
 
+                if (actorName == "CharacterBase")
+                    continue;
+
 
                 // Create temp fields
                 List<Field> fields = new();
@@ -263,20 +330,25 @@ namespace PixelCrushers.DialogueSystem
                 foreach (StoryFlowVariable variable in character.Variables)
                 {
                     // Determine Types
+                    string value = string.Empty;
                     FieldType type = FieldType.Text;
                     if (variable.Type == StoryFlowVariableType.Boolean)
                     {
                         type = FieldType.Boolean;
+                        value = variable.Value.BoolValue.ToString();
                     }
                     else if (variable.Type == StoryFlowVariableType.Float || variable.Type == StoryFlowVariableType.Integer)
                     {
                         type = FieldType.Number;
+                        value = variable.Value.IntValue.ToString();
+                    }
+                    else
+                    {
+                        value = sf.GetGlobalString(LANGUAGECODE + variable.Value.StringValue);
                     }
 
-                    string name = variable.Name;
-                    string value = sf.GetGlobalString(LANGUAGECODE + variable.Value.StringValue);
                     fields.Add(new Field(variable.Name, value, type));
-
+                    
                     if (variable.Name == "ID")
                     {
                         ID = variable.Name;

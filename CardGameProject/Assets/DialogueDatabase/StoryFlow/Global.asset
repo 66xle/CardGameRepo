@@ -33,22 +33,26 @@ MonoBehaviour:
     bold: 0
     italic: 0
     underline: 0
-  baseID: 100102
+  baseID: 10000
   actors:
   - id: 0
     fields:
     - title: Name
-      value: Bob
+      value: Player
       type: 0
       typeString: 
     - title: ID
-      value: 
+      value: 1
       type: 1
       typeString: CustomFieldType_Number
     - title: Description
-      value: A villager
+      value: The Mortal
       type: 0
       typeString: 
+    - title: IsPlayer
+      value: True
+      type: 2
+      typeString: CustomFieldType_Boolean
     portrait: {fileID: 0}
     spritePortrait: {fileID: 0}
     alternatePortraits: []

@@ -21,7 +21,7 @@ MonoBehaviour:
   Title: Test
   Description: 
   MaxScriptNesting: 20
-  ImportedSourceHash: 67FFAAA6C5C0BF18914625C53892321B2E05EAE38192DD3467F1E81F2562E8C3
+  ImportedSourceHash: 8193447F9BF4DD66AD46980A5E1B63F613D463A8DFE6F5F8971751109695CE30
   StartupScript: {fileID: 11400000, guid: 979c4a1c1f8ecf8498fd3bac7d3053ff, type: 2}
   ScriptReferences:
   - Path: scripts/event a.json
@@ -29,19 +29,25 @@ MonoBehaviour:
   - Path: scripts/script_menu.json
     Asset: {fileID: 11400000, guid: 979c4a1c1f8ecf8498fd3bac7d3053ff, type: 2}
   CharacterReferences:
-  - Path: scripts/bob.sfc
-    Asset: {fileID: 11400000, guid: 55b89835045e7b14ca284eecd842d4f4, type: 2}
+  - Path: characters/player.sfc
+    Asset: {fileID: 11400000, guid: 0e27e49d9f4f23247ba14b582f8639a6, type: 2}
+  - Path: characters/characterbase.sfc
+    Asset: {fileID: 11400000, guid: 93da0a29db2258c43973177991ef582e, type: 2}
   DataAssetReferences: []
   DataAssetLocalizationVersion: 2
   CharacterIdEntries:
+  - Id: da_0c1889079aa841dd8929e2dccacd0770
+    Path: characters/player.sfc
   - Id: da_336bdd32b23a49e9bf178326307b81f6
-    Path: scripts/bob.sfc
+    Path: characters/characterbase.sfc
   GlobalVariableEntries: []
   GlobalStringEntries:
+  - Key: en.da_0c1889079aa841dd8929e2dccacd0770.cf_name
+    Value: Player
+  - Key: en.da_0c1889079aa841dd8929e2dccacd0770.75f00437f39843168074671093272a1b.value
+    Value: The Mortal
   - Key: en.da_336bdd32b23a49e9bf178326307b81f6.cf_name
-    Value: Bob
-  - Key: en.da_336bdd32b23a49e9bf178326307b81f6.75f00437f39843168074671093272a1b.value
-    Value: A villager
+    Value: CharacterBase
   HasLocalization: 0
   SourceLanguage: en
   LanguageEntries: []
