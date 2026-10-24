@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Codice.Utils;
 using Newtonsoft.Json;
+using NUnit.Framework.Constraints;
 using PixelCrushers.DialogueSystem.Articy.Articy_4_0;
 using PixelCrushers.DialogueSystem.ChatMapper;
 using StoryFlow.Data;
@@ -136,7 +137,7 @@ namespace PixelCrushers.DialogueSystem
             
 
             // Characters
-            CreateGlobalActors(sf);
+            CreateGlobalActors();
 
             TouchUpDialogueDatabase(globalDB);
             EditorUtility.SetDirty(globalDB);
@@ -220,12 +221,20 @@ namespace PixelCrushers.DialogueSystem
                 {
                     db = GetDatabase(databaseName);
                     dictDatabases.Add(databaseName, db);
-                    db.actors.Add(globalDB.GetActor("Player"));
                 }
 
                 if (db == null)
                     continue;
 
+                db.syncInfo.syncActors = true;
+                db.syncInfo.syncVariables = true;
+                db.syncInfo.syncLocations = true;
+                db.syncInfo.syncItems = true;
+                db.syncInfo.syncActorsDatabase = globalDB;
+                db.syncInfo.syncVariablesDatabase = globalDB;
+                db.syncInfo.syncLocationsDatabase = globalDB;
+                db.syncInfo.syncItemsDatabase = globalDB;
+                db.SyncAll();
                 currentLocalDB = db;
 
                 #endregion
@@ -271,6 +280,7 @@ namespace PixelCrushers.DialogueSystem
             List<Option> onceOptions = new();
 
             Queue<StoryFlowNode> queue = new();
+            DialogueEntry validSourceEntry = null;
 
             AddNodeToConversation(startFlow, conversation, dictDialogueEntry, script);
             queue.Enqueue(startFlow);
@@ -279,12 +289,18 @@ namespace PixelCrushers.DialogueSystem
             {
                 StoryFlowNode currentNode = queue.Dequeue();
 
+                dictDialogueEntry.TryGetValue(currentNode.Id, out DialogueEntry validEntry);
+                if (validEntry != null)
+                    validSourceEntry = validEntry;
+
                 List<StoryFlowConnection> sourceConnections = script.GetEdgesFromSource(currentNode.Id);
 
                 List<Option> options = new();
 
                 foreach (StoryFlowConnection connection in sourceConnections)
                 {
+                    dictConnection.Add(connection.Id, connection);
+
                     StoryFlowNode targetNode = script.Nodes[connection.Target];
 
                     #region Run Flow
@@ -314,13 +330,12 @@ namespace PixelCrushers.DialogueSystem
                     if (!dictDialogueEntry.ContainsKey(targetNode.Id))
                         queue.Enqueue(targetNode);
 
+                    if (CheckNodeType(targetNode, script))
+                        continue;
+
                     AddNodeToConversation(targetNode, conversation, dictDialogueEntry, script);
-                    AddConnectionToConversation(connection, conversation, dictDialogueEntry, script, out Option option);
+                    AddConnectionToConversation(validSourceEntry, connection, conversation, dictDialogueEntry, script, out Option option);
                     options.Add(option);
-
-                    dictConnection.Add(connection.Id, connection);
-
-                    
                 }
 
                 List<StoryFlowConnection> previousConnections = script.GetEdgesByTarget(currentNode.Id);
@@ -395,6 +410,7 @@ namespace PixelCrushers.DialogueSystem
                 }
             }
 
+   
             foreach (DialogueEntry entry in onceResetVars)
             {
                 foreach (Option option in onceOptions)
@@ -403,6 +419,34 @@ namespace PixelCrushers.DialogueSystem
                     entry.userScript += $"Variable[\"{name}\"] = false;";
                 }
             }
+        }
+
+        bool CheckNodeType(StoryFlowNode node, StoryFlowScriptAsset script)
+        {
+            if (node.Type == StoryFlowNodeType.SetCharacter)
+            {
+                // get variable
+                string variableKey = node.Data["variable"];
+                string characterKey = node.Data["value"];
+                Actor actor = GetActorFromDatabase(characterKey);
+
+                // get variable from db
+                StoryFlowVariable storyFlowVariable = GetVariableFromStoryFlow(sf, script, variableKey);
+
+                // check variable is in localdb or globaldb
+                Variable variable = currentLocalDB.GetVariable(storyFlowVariable.Name);
+                if (variable == null)
+                {
+                    int varID = template.GetNextVariableID(currentLocalDB);
+                    variable = template.CreateVariable(varID, storyFlowVariable.Name, actor.id.ToString(), FieldType.Actor);
+                }
+                variable.InitialValue = actor.id.ToString();
+                currentLocalDB.variables.Add(variable);
+
+                return true;
+            }
+
+            return false;
         }
 
         void AddNodeToConversation(StoryFlowNode node, Conversation conversation, Dictionary<string, DialogueEntry> dictEntry, StoryFlowScriptAsset script)
@@ -437,19 +481,28 @@ namespace PixelCrushers.DialogueSystem
                 conversation.dialogueEntries.Add(entry);
                 dictEntry.Add(node.Id, entry);
 
-                if (!node.Data.TryGetValue("character", out string characterKey))
+                if (!node.Data.TryGetValue("characterRefId", out string characterKey))
+                {
+                    Variable actor = currentLocalDB.GetVariable("Actor");
+                    Variable conversant = currentLocalDB.GetVariable("Conversant");
+                    if (actor != null || conversant != null)
+                    {
+                        entry.ActorID = int.Parse(actor.InitialValue);
+                        entry.ConversantID = int.Parse(conversant.InitialValue);
+                    }
                     return;
+                }
 
-                Actor actor = GetActorFromDatabase(characterKey);
-                entry.ActorID = actor.id;
-                entry.ConversantID = globalDB.GetActor("Player").id;
+                Actor nodeActor = GetActorFromDatabase(characterKey);
+                entry.ActorID = nodeActor.id;
+                entry.ConversantID = currentLocalDB.GetActor("Player").id;
             }
         }
 
-        void AddConnectionToConversation(StoryFlowConnection connection, Conversation conversation, Dictionary<string, DialogueEntry> dictEntry, StoryFlowScriptAsset script,
-                                         out Option currentOption)
+        void AddConnectionToConversation(DialogueEntry validSourceEntry, StoryFlowConnection connection, Conversation conversation, Dictionary<string, DialogueEntry> dictEntry,
+                                         StoryFlowScriptAsset script, out Option currentOption)
         {
-            DialogueEntry sourceEntry = dictEntry[connection.Source];
+            DialogueEntry sourceEntry = validSourceEntry;
             DialogueEntry targetEntry = dictEntry[connection.Target];
 
             currentOption = new();
@@ -480,12 +533,21 @@ namespace PixelCrushers.DialogueSystem
                     Link targetLink = new Link(conversation.id, optionEntry.id, conversation.id, targetEntry.id);
                     optionEntry.outgoingLinks.Add(targetLink);
 
-                    if (node.Data.TryGetValue("character", out string characterKey))
+                    if (!node.Data.TryGetValue("characterRefId", out string characterKey))
                     {
-                        Actor actor = GetActorFromDatabase(characterKey);
-                        optionEntry.ActorID = globalDB.GetActor("Player").id;
-                        optionEntry.ConversantID = actor.id;
+                        optionEntry.ActorID = currentLocalDB.GetActor("Player").id;
+
+                        Variable conversant = currentLocalDB.GetVariable("Conversant");
+                        if (conversant != null)
+                        {
+                            optionEntry.ConversantID = int.Parse(conversant.InitialValue);
+                        }
+                        return;
                     }
+
+                    Actor nodeActor = GetActorFromDatabase(characterKey);
+                    optionEntry.ActorID = currentLocalDB.GetActor("Player").id;
+                    optionEntry.ConversantID = nodeActor.id;
                 }
 
                 return;
@@ -496,7 +558,7 @@ namespace PixelCrushers.DialogueSystem
             Link link = new Link(conversation.id, sourceEntry.id, conversation.id, targetEntry.id);
             sourceEntry.outgoingLinks.Add(link);
         }
-
+        
         DialogueEntry CreateDialogueEntry(Conversation conversation, string title)
         {
             int entryID = template.GetNextDialogueEntryID(conversation);
@@ -507,10 +569,10 @@ namespace PixelCrushers.DialogueSystem
         }
 
 
-        void CreateGlobalActors(StoryFlowProjectAsset sf)
+        void CreateGlobalActors()
         {
             List<Actor> actors = new();
-
+            
             // Loop through story flow characters
             foreach (StoryFlowProjectAsset.CharacterReference reference in sf.CharacterReferences)
             {
@@ -572,23 +634,34 @@ namespace PixelCrushers.DialogueSystem
 
         Actor GetActorFromDatabase(string characterKey)
         {
-            string path = characterKey.Replace('\\', '/');
-            StoryFlowCharacterAsset character = sf.Characters[path];
-            string name = sf.GetGlobalString(LANGUAGECODE + character.CharacterName);
+            string name = sf.GetGlobalString(LANGUAGECODE + characterKey + ".cf_name");
+            StoryFlowCharacterAsset character = sf.Characters[$"characters/{name.ToLower()}.sfc"];
 
-            Actor actor = globalDB.actors.Find(a => a.Name == name);
+            Actor actor = currentLocalDB.GetActor(name);
             if (actor == null)
             {
-                actor = currentLocalDB.GetActor(name);
-                if (actor == null)
-                {
-                    actor = CreateActorFromCharacter(character, name, currentLocalDB);
-                    currentLocalDB.actors.Add(actor);
-                }
+                actor = CreateActorFromCharacter(character, name, currentLocalDB);
+                currentLocalDB.actors.Add(actor);
             }
 
             return actor;
         }
+
+
+
+        StoryFlowVariable GetVariableFromStoryFlow(StoryFlowProjectAsset sf, StoryFlowScriptAsset script, string variableKey)
+        {
+            StoryFlowVariable variable = script.GetVariable(variableKey);
+            if (variable != null)
+            {
+                return variable;
+            }
+
+            variable = sf.GetGlobalVariable(variableKey);
+            return variable;
+        }
+
+
 
         DialogueDatabase GetDatabase(string databaseName)
         {

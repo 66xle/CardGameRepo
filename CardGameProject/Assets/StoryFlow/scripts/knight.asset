@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScriptPath: scripts/knight.json
   StartNodeId: 0
-  ImportedSourceHash: 86DA4514122FB094824B08A4DD7D9CE4EFD2F3ADA99C28713A6A010ACAEC2697
+  ImportedSourceHash: 82C4AB06A8145150B4A516AF72AD503F435C7B7EDF696DF5849C75B9EBF99CC4
   serializedNodes:
   - Id: 0
     Type: 1
@@ -30,12 +30,8 @@ MonoBehaviour:
       Value: e2ae1c70a3e94b8ba1cb53fc664055aa.text
     - Key: options
       Value: '[]'
-    - Key: character
-      Value: characters\morghaine.sfc
     - Key: tags
       Value: '["OnceResetVars"]'
-    - Key: characterRefId
-      Value: da_45df38b723854471949bbe8bd2bb0be7
   - Id: c619f4c6fe4c409199ac55ff37b24160
     Type: 7
     RawType: dialogue
@@ -46,10 +42,6 @@ MonoBehaviour:
       Value: c619f4c6fe4c409199ac55ff37b24160.text
     - Key: options
       Value: '[{"id":"140466d37ae94f788e3731b2f5bc9847","text":"140466d37ae94f788e3731b2f5bc9847"}]'
-    - Key: character
-      Value: characters\morghaine.sfc
-    - Key: characterRefId
-      Value: da_45df38b723854471949bbe8bd2bb0be7
   - Id: 7309440e2edd4bd6b833e57a0d38cebe
     Type: 7
     RawType: dialogue
@@ -60,10 +52,6 @@ MonoBehaviour:
       Value: 7309440e2edd4bd6b833e57a0d38cebe.text
     - Key: options
       Value: '[]'
-    - Key: character
-      Value: characters\morghaine.sfc
-    - Key: characterRefId
-      Value: da_45df38b723854471949bbe8bd2bb0be7
   - Id: 6a899ed4e0df45c6b76cf6ae796612d7
     Type: 7
     RawType: dialogue
@@ -74,10 +62,6 @@ MonoBehaviour:
       Value: 6a899ed4e0df45c6b76cf6ae796612d7.text
     - Key: options
       Value: '[{"id":"1dc2011bc4024cb0b0e48032a5c76514","text":"1dc2011bc4024cb0b0e48032a5c76514"}]'
-    - Key: character
-      Value: characters\morghaine.sfc
-    - Key: characterRefId
-      Value: da_45df38b723854471949bbe8bd2bb0be7
   - Id: 1b384a7c8b8e46ea82ba65c5b1576086
     Type: 7
     RawType: dialogue
@@ -88,12 +72,8 @@ MonoBehaviour:
       Value: 1b384a7c8b8e46ea82ba65c5b1576086.text
     - Key: options
       Value: '[{"id":"e3118fa9412f4670bbe8bcee41229706","text":"e3118fa9412f4670bbe8bcee41229706","onceOnly":true},{"id":"e242a0cb5d6e4a5fb10f8ff8faa41de9","text":"e242a0cb5d6e4a5fb10f8ff8faa41de9","onceOnly":true},{"id":"62f573d5f446484abd097182dad7156e","text":"62f573d5f446484abd097182dad7156e","onceOnly":true}]'
-    - Key: character
-      Value: characters\morghaine.sfc
     - Key: tags
       Value: '["DialogueOnlyOnce"]'
-    - Key: characterRefId
-      Value: da_45df38b723854471949bbe8bd2bb0be7
   - Id: 8160d5a835b442e187725386853f5039
     Type: 7
     RawType: dialogue
@@ -260,6 +240,22 @@ MonoBehaviour:
     Data:
     - Key: flowId
       Value: 5dcd34a85e9e437eb461c476c5bfbe00
+  - Id: 935354cbc48e41728b7e32e94bc7c696
+    Type: 155
+    RawType: setCharacter
+    Data:
+    - Key: variable
+      Value: var_1cc84619
+    - Key: value
+      Value: da_45df38b723854471949bbe8bd2bb0be7
+  - Id: b5817014c1d8491ebee13574f9f1778f
+    Type: 155
+    RawType: setCharacter
+    Data:
+    - Key: variable
+      Value: var_619021f2
+    - Key: value
+      Value: da_0c1889079aa841dd8929e2dccacd0770
   connections:
   - Id: xy-edge__c619f4c6fe4c409199ac55ff37b24160source-c619f4c6fe4c409199ac55ff37b24160-140466d37ae94f788e3731b2f5bc9847-7309440e2edd4bd6b833e57a0d38cebetarget-7309440e2edd4bd6b833e57a0d38cebe-
     Source: c619f4c6fe4c409199ac55ff37b24160
@@ -356,12 +352,46 @@ MonoBehaviour:
     Target: 1b384a7c8b8e46ea82ba65c5b1576086
     SourceHandle: source-293d3250ee4c411cae1d72fb4d150042-
     TargetHandle: target-1b384a7c8b8e46ea82ba65c5b1576086-
-  - Id: xy-edge__0source-0--e2ae1c70a3e94b8ba1cb53fc664055aatarget-e2ae1c70a3e94b8ba1cb53fc664055aa-
+  - Id: xy-edge__0source-0--935354cbc48e41728b7e32e94bc7c696target-935354cbc48e41728b7e32e94bc7c696-0
     Source: 0
-    Target: e2ae1c70a3e94b8ba1cb53fc664055aa
+    Target: 935354cbc48e41728b7e32e94bc7c696
     SourceHandle: source-0-
+    TargetHandle: target-935354cbc48e41728b7e32e94bc7c696-0
+  - Id: xy-edge__935354cbc48e41728b7e32e94bc7c696source-935354cbc48e41728b7e32e94bc7c696-1-b5817014c1d8491ebee13574f9f1778ftarget-b5817014c1d8491ebee13574f9f1778f-0
+    Source: 935354cbc48e41728b7e32e94bc7c696
+    Target: b5817014c1d8491ebee13574f9f1778f
+    SourceHandle: source-935354cbc48e41728b7e32e94bc7c696-1
+    TargetHandle: target-b5817014c1d8491ebee13574f9f1778f-0
+  - Id: xy-edge__b5817014c1d8491ebee13574f9f1778fsource-b5817014c1d8491ebee13574f9f1778f-1-e2ae1c70a3e94b8ba1cb53fc664055aatarget-e2ae1c70a3e94b8ba1cb53fc664055aa-
+    Source: b5817014c1d8491ebee13574f9f1778f
+    Target: e2ae1c70a3e94b8ba1cb53fc664055aa
+    SourceHandle: source-b5817014c1d8491ebee13574f9f1778f-1
     TargetHandle: target-e2ae1c70a3e94b8ba1cb53fc664055aa-
   serializedVariables:
+  - Id: var_619021f2
+    Name: Conversant
+    Type: 7
+    DefaultValueJson: 
+    IsArray: 0
+    EnumValues: []
+    IsInput: 0
+    IsOutput: 0
+    KeyType: 0
+    ValueType: 0
+    KeyEnumValues: []
+    ValueEnumValues: []
+  - Id: var_1cc84619
+    Name: Actor
+    Type: 7
+    DefaultValueJson: Characters/Morghaine.sfc
+    IsArray: 0
+    EnumValues: []
+    IsInput: 0
+    IsOutput: 0
+    KeyType: 0
+    ValueType: 0
+    KeyEnumValues: []
+    ValueEnumValues: []
   - Id: var_ef3cd23c
     Name: EventName
     Type: 3
@@ -410,7 +440,7 @@ MonoBehaviour:
   - Key: en.1b384a7c8b8e46ea82ba65c5b1576086.title
     Value: Dialogue
   - Key: en.1b384a7c8b8e46ea82ba65c5b1576086.text
-    Value: "That\u2019s the spirit"
+    Value: "That\u2019s the spirit "
   - Key: en.e3118fa9412f4670bbe8bcee41229706
     Value: "I know you\u2026 but I can't seem to remember why."
   - Key: en.e242a0cb5d6e4a5fb10f8ff8faa41de9
