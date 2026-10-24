@@ -266,6 +266,10 @@ namespace PixelCrushers.DialogueSystem
             Dictionary<string, StoryFlowConnection> dictConnection = new();
             Dictionary<string, List<DialogueEntry>> dictEntryFlows = new();
             Dictionary<string, List<DialogueEntry>> dictRunFlows = new();
+
+            List<DialogueEntry> onceResetVars = new();
+            List<Option> onceOptions = new();
+
             Queue<StoryFlowNode> queue = new();
 
             AddNodeToConversation(startFlow, conversation, dictDialogueEntry, script);
@@ -315,26 +319,25 @@ namespace PixelCrushers.DialogueSystem
                     options.Add(option);
 
                     dictConnection.Add(connection.Id, connection);
+
+                    
                 }
 
                 List<StoryFlowConnection> previousConnections = script.GetEdgesByTarget(currentNode.Id);
                 List<StoryFlowConnection> newConnections = previousConnections.Where(c => !dictConnection.ContainsKey(c.Id)).ToList();
 
-                if (newConnections.Count == 0)
-                    continue;
-
-                #region Entry Flow
-                foreach (StoryFlowConnection connection in newConnections)
+                if (newConnections.Count > 0)
                 {
-                    StoryFlowNode sourceNode = script.Nodes[connection.Source];
-                    DialogueEntry currentEntry = dictDialogueEntry[currentNode.Id];
-                    if (sourceNode.Type == StoryFlowNodeType.EntryFlow)
+                    #region Entry Flow
+                    foreach (StoryFlowConnection connection in newConnections)
                     {
-                        string flowId = sourceNode.Data["flowId"];
-
-                        if (currentNode.Data.TryGetValue("tags", out string tags))
+                        StoryFlowNode sourceNode = script.Nodes[connection.Source];
+                        DialogueEntry currentEntry = dictDialogueEntry[currentNode.Id];
+                        if (sourceNode.Type == StoryFlowNodeType.EntryFlow)
                         {
-                            if (tags.Contains("DialogueOnlyOnce"))
+                            string flowId = sourceNode.Data["flowId"];
+
+                            if (NodeContainTag(currentNode, "DialogueOnlyOnce"))
                             {
                                 List<DialogueEntry> entries = new();
                                 foreach (Option option in options)
@@ -343,44 +346,61 @@ namespace PixelCrushers.DialogueSystem
                                 }
                                 dictEntryFlows.Add(flowId, entries);
                             }
+                            else
+                            {
+                                dictEntryFlows.Add(flowId, new() { currentEntry });
+                            }
+
+                            if (!dictRunFlows.TryGetValue(flowId, out List<DialogueEntry> runEntries))
+                                continue;
+
+                            runEntries.ForEach(originEntry =>
+                            {
+                                DialogueEntry currentEntry = dictDialogueEntry[currentNode.Id];
+                                Link link = new Link(conversationID, originEntry.id, conversationID, currentEntry.id);
+
+                                originEntry.outgoingLinks.Add(link);
+                                dictRunFlows[flowId].Remove(originEntry);
+                            });
                         }
-                        else
-                        {
-                            dictEntryFlows.Add(flowId, new() { currentEntry });
-                        }
-
-                        if (!dictRunFlows.TryGetValue(flowId, out List<DialogueEntry> runEntries))
-                            continue;
-
-                        runEntries.ForEach(originEntry =>
-                        {
-                            DialogueEntry currentEntry = dictDialogueEntry[currentNode.Id];
-                            Link link = new Link(conversationID, originEntry.id, conversationID, currentEntry.id);
-
-                            originEntry.outgoingLinks.Add(link);
-                            dictRunFlows[flowId].Remove(originEntry);
-                        });
                     }
+                    #endregion
                 }
-                #endregion
+
+                if (NodeContainTag(currentNode, "OnceResetVars"))
+                {
+                    onceResetVars.Add(dictDialogueEntry[currentNode.Id]);
+                }
 
                 foreach (Option option in options)
                 {
-                    if (option.OnlyOnce)
-                    {
-                        // create variable
-                        int varID = template.GetNextVariableID(currentLocalDB);
-                        string name = $"OnlyOnce.{option.ID}";
-                        Variable variable = template.CreateVariable(varID, name, "false", FieldType.Boolean);
-                        currentLocalDB.variables.Add(variable);
+                    if (!option.OnlyOnce)
+                        continue;
 
-                        // set condition
-                        DialogueEntry optionEntry = dictDialogueEntry[option.ID];
-                        optionEntry.conditionsString = $"Variable[\"{name}\"] == false";
+                    // create variable
+                    int varID = template.GetNextVariableID(currentLocalDB);
+                    string name = $"OnlyOnce.{option.ID}";
+                    Variable variable = template.CreateVariable(varID, name, "false", FieldType.Boolean);
+                    currentLocalDB.variables.Add(variable);
 
-                        // set script
-                        optionEntry.userScript = $"Variable[\"{name}\"] = true";
-                    }
+                    // set condition
+                    DialogueEntry optionEntry = dictDialogueEntry[option.ID];
+                    optionEntry.conditionsString += $"Variable[\"{name}\"] == false;";
+
+                    // set script
+                    optionEntry.userScript += $"Variable[\"{name}\"] = true;";
+
+                    // reset
+                    onceOptions.Add(option);
+                }
+            }
+
+            foreach (DialogueEntry entry in onceResetVars)
+            {
+                foreach (Option option in onceOptions)
+                {
+                    string name = $"OnlyOnce.{option.ID}";
+                    entry.userScript += $"Variable[\"{name}\"] = false;";
                 }
             }
         }
@@ -585,7 +605,18 @@ namespace PixelCrushers.DialogueSystem
             return database;
         }
 
+        bool NodeContainTag(StoryFlowNode node, string tag)
+        {
+            if (node.Data.TryGetValue("tags", out string tags))
+            {
+                if (tags.Contains(tag))
+                {
+                    return true;
+                }
+            }
 
+            return false;
+        }
 
 
 
