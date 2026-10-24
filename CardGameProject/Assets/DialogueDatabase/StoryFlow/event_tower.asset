@@ -89,7 +89,7 @@ MonoBehaviour:
   - id: 20000
     fields:
     - title: Name
-      value: OnlyOnce.acce0711db45464e846e762f0b7ab5d5
+      value: OnlyOnce.e3118fa9412f4670bbe8bcee41229706
       type: 0
       typeString: 
     - title: Initial Value
@@ -459,9 +459,8 @@ MonoBehaviour:
         destinationDialogueID: 6
         isConnector: 0
         priority: 2
-      conditionsString: Variable["OnlyOnce.acce0711db45464e846e762f0b7ab5d5"] ==
-        false
-      userScript: Variable["OnlyOnce.acce0711db45464e846e762f0b7ab5d5"] = true
+      conditionsString: 
+      userScript: 
       onExecute:
         m_PersistentCalls:
           m_Calls: []
@@ -809,7 +808,7 @@ MonoBehaviour:
       - originConversationID: 20000
         originDialogueID: 16
         destinationConversationID: 20000
-        destinationDialogueID: 1
+        destinationDialogueID: 6
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -1645,8 +1644,9 @@ MonoBehaviour:
         destinationDialogueID: 8
         isConnector: 0
         priority: 2
-      conditionsString: 
-      userScript: 
+      conditionsString: Variable["OnlyOnce.e3118fa9412f4670bbe8bcee41229706"] ==
+        false
+      userScript: Variable["OnlyOnce.e3118fa9412f4670bbe8bcee41229706"] = true
       onExecute:
         m_PersistentCalls:
           m_Calls: []
@@ -2112,7 +2112,7 @@ MonoBehaviour:
       - originConversationID: 20002
         originDialogueID: 19
         destinationConversationID: 20002
-        destinationDialogueID: 21
+        destinationDialogueID: 6
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -2159,7 +2159,7 @@ MonoBehaviour:
       - originConversationID: 20002
         originDialogueID: 20
         destinationConversationID: 20002
-        destinationDialogueID: 22
+        destinationDialogueID: 21
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -2174,53 +2174,6 @@ MonoBehaviour:
         width: 160
         height: 30
     - id: 21
-      fields:
-      - title: Title
-        value: Option
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
-        value: "You\u2019re probably right."
-        type: 0
-        typeString: 
-      - title: Actor
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      conversationID: 20002
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20002
-        originDialogueID: 21
-        destinationConversationID: 20002
-        destinationDialogueID: 6
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 160
-        height: 30
-    - id: 22
       fields:
       - title: Title
         value: Dialogue
@@ -2251,7 +2204,7 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
-        originDialogueID: 22
+        originDialogueID: 21
         destinationConversationID: 20002
         destinationDialogueID: 6
         isConnector: 0

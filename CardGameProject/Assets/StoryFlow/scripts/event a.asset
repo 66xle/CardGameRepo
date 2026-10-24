@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScriptPath: scripts/event a.json
   StartNodeId: 0
-  ImportedSourceHash: 072591E1714F42FAF0CA88BA7736A78D02C0D879DFD0139E301A3DA02458B230
+  ImportedSourceHash: 68CC1EDE37173B7C10CEC5230DE0728847FA39EC0B9FE6821D14349F5CACA8BF
   serializedNodes:
   - Id: 0
     Type: 1
@@ -154,18 +154,18 @@ MonoBehaviour:
     Type: 2
     RawType: end
     Data: []
-  - Id: ba0912b8e0f54d32b4f0e6ba145d3e7f
-    Type: 14
-    RawType: getInt
+  - Id: 79830c1957254a0cbdbfad66c4dc3adf
+    Type: 5
+    RawType: runFlow
     Data:
-    - Key: variable
-      Value: var_9d8d2d5a
-  - Id: 1ff8a25a20e444f3b641a3ee63fb272d
-    Type: 21
-    RawType: greaterThan
+    - Key: flowId
+      Value: 97464a9ef71f46e685f94f40a38770ce
+  - Id: e5cd91cec6514624b51c5956c73b7a7a
+    Type: 6
+    RawType: entryFlow
     Data:
-    - Key: value2
-      Value: 0
+    - Key: flowId
+      Value: 97464a9ef71f46e685f94f40a38770ce
   connections:
   - Id: xy-edge__0source-0--8dcb52f1c4194f9fa1fd7f97baccd271target-8dcb52f1c4194f9fa1fd7f97baccd271-
     Source: 0
@@ -257,22 +257,29 @@ MonoBehaviour:
     Target: 99314371fe2d4a6dbcc3f97d9b5fc52c
     SourceHandle: source-f85903c0ae0843518ed2c4e00425e449-
     TargetHandle: target-99314371fe2d4a6dbcc3f97d9b5fc52c-
-  - Id: 7cfeab9054e243fca2b49f588813ba67
-    Source: ba0912b8e0f54d32b4f0e6ba145d3e7f
-    Target: 1ff8a25a20e444f3b641a3ee63fb272d
-    SourceHandle: source-ba0912b8e0f54d32b4f0e6ba145d3e7f-integer-
-    TargetHandle: target-1ff8a25a20e444f3b641a3ee63fb272d-integer-1
-  - Id: xy-edge__1ff8a25a20e444f3b641a3ee63fb272dsource-1ff8a25a20e444f3b641a3ee63fb272d-boolean--8dcb52f1c4194f9fa1fd7f97baccd271target-8dcb52f1c4194f9fa1fd7f97baccd271-boolean-acce0711db45464e846e762f0b7ab5d5
-    Source: 1ff8a25a20e444f3b641a3ee63fb272d
-    Target: 8dcb52f1c4194f9fa1fd7f97baccd271
-    SourceHandle: source-1ff8a25a20e444f3b641a3ee63fb272d-boolean-
-    TargetHandle: target-8dcb52f1c4194f9fa1fd7f97baccd271-boolean-acce0711db45464e846e762f0b7ab5d5
-  - Id: xy-edge__b5d32e156ea74dc68133aaa23a018bd8source-b5d32e156ea74dc68133aaa23a018bd8--8dcb52f1c4194f9fa1fd7f97baccd271target-8dcb52f1c4194f9fa1fd7f97baccd271-
+  - Id: xy-edge__b5d32e156ea74dc68133aaa23a018bd8source-b5d32e156ea74dc68133aaa23a018bd8--79830c1957254a0cbdbfad66c4dc3adftarget-79830c1957254a0cbdbfad66c4dc3adf-
     Source: b5d32e156ea74dc68133aaa23a018bd8
-    Target: 8dcb52f1c4194f9fa1fd7f97baccd271
+    Target: 79830c1957254a0cbdbfad66c4dc3adf
     SourceHandle: source-b5d32e156ea74dc68133aaa23a018bd8-
-    TargetHandle: target-8dcb52f1c4194f9fa1fd7f97baccd271-
+    TargetHandle: target-79830c1957254a0cbdbfad66c4dc3adf-
+  - Id: xy-edge__e5cd91cec6514624b51c5956c73b7a7asource-e5cd91cec6514624b51c5956c73b7a7a--bb1a8aa0184c44d881ed78c3cab49ba1target-bb1a8aa0184c44d881ed78c3cab49ba1-
+    Source: e5cd91cec6514624b51c5956c73b7a7a
+    Target: bb1a8aa0184c44d881ed78c3cab49ba1
+    SourceHandle: source-e5cd91cec6514624b51c5956c73b7a7a-
+    TargetHandle: target-bb1a8aa0184c44d881ed78c3cab49ba1-
   serializedVariables:
+  - Id: var_1cc84619
+    Name: Actor
+    Type: 7
+    DefaultValueJson: Characters/Morghaine.sfc
+    IsArray: 0
+    EnumValues: []
+    IsInput: 0
+    IsOutput: 0
+    KeyType: 0
+    ValueType: 0
+    KeyEnumValues: []
+    ValueEnumValues: []
   - Id: var_9d8d2d5a
     Name: Age
     Type: 1
@@ -395,12 +402,12 @@ MonoBehaviour:
     Value: Event_Tower
   serializedAssets: []
   flows:
-  - Id: 326d05976331467486a6a11eef8d77e7
-    Name: Event1
+  - Id: 97464a9ef71f46e685f94f40a38770ce
+    Name: Return
     EntryNodeId: 
     IsExit: 0
-  - Id: fbd662a751b04e29840556feed22198d
-    Name: Event2
+  - Id: 326d05976331467486a6a11eef8d77e7
+    Name: Event1
     EntryNodeId: 
     IsExit: 0
   ResolvedAssetEntries: []

@@ -245,6 +245,9 @@ namespace PixelCrushers.DialogueSystem
                     string id = flow.Data["flowId"];
                     string flowName = script.Flows.First(f => f.Id == id).Name;
 
+                    if (!flowName.Contains("Event"))
+                        continue;
+
                     conversationName = scriptName + "/" + flowName;
                     startFlow = script.Nodes[flow.Id];
                     CreateEventConversation(startFlow, conversationName, script, db);
@@ -259,11 +262,13 @@ namespace PixelCrushers.DialogueSystem
             Conversation conversation = template.CreateConversation(conversationID, conversationTitle);
             db.AddConversation(conversation);
 
-            Dictionary<string, DialogueEntry> dictEntry = new();
+            Dictionary<string, DialogueEntry> dictDialogueEntry = new();
             Dictionary<string, StoryFlowConnection> dictConnection = new();
+            Dictionary<string, List<DialogueEntry>> dictEntryFlows = new();
+            Dictionary<string, List<DialogueEntry>> dictRunFlows = new();
             Queue<StoryFlowNode> queue = new();
 
-            AddNodeToConversation(startFlow, conversation, dictEntry, script);
+            AddNodeToConversation(startFlow, conversation, dictDialogueEntry, script);
             queue.Enqueue(startFlow);
 
             while (queue.Count > 0)
@@ -278,21 +283,72 @@ namespace PixelCrushers.DialogueSystem
                 {
                     StoryFlowNode targetNode = script.Nodes[connection.Target];
 
-                    if (!dictEntry.ContainsKey(targetNode.Id))
+                    #region Run Flow
+                    if (targetNode.Type == StoryFlowNodeType.RunFlow)
+                    {
+                        string flowId = targetNode.Data["flowId"];
+                        DialogueEntry currentEntry = dictDialogueEntry[currentNode.Id];
+                        if (dictEntryFlows.TryGetValue(flowId, out List<DialogueEntry> flowEntries))
+                        {
+                            flowEntries.ForEach(destinationEntry =>
+                            {
+                                Link link = new Link(conversationID, currentEntry.id, conversationID, destinationEntry.id);
+                                currentEntry.outgoingLinks.Add(link);
+                            });
+                            continue;
+                        }
+
+                        if (dictRunFlows.ContainsKey(flowId))
+                            dictRunFlows[flowId].Add(currentEntry);
+                        else
+                            dictRunFlows.Add(flowId, new() { currentEntry });
+
+                        continue;
+                    }
+                    #endregion
+
+                    if (!dictDialogueEntry.ContainsKey(targetNode.Id))
                         queue.Enqueue(targetNode);
 
-                    AddNodeToConversation(targetNode, conversation, dictEntry, script);
-                    AddConnectionToConversation(connection, conversation, dictEntry, script, out Option option);
+                    AddNodeToConversation(targetNode, conversation, dictDialogueEntry, script);
+                    AddConnectionToConversation(connection, conversation, dictDialogueEntry, script, out Option option);
                     options.Add(option);
 
-                    //dictConnection.Add(connection.Id, connection);
-
-                    //List<StoryFlowConnection> targetConnections = script.GetEdgesByTarget(currentNode.Id);
-                    //List<StoryFlowConnection> newConnections = targetConnections.Where(c => !dictConnection.ContainsKey(c.Id)).ToList();
-
-                    //if (newConnections.Count == 0)
-                    //    continue;
+                    dictConnection.Add(connection.Id, connection);
                 }
+
+                List<StoryFlowConnection> previousConnections = script.GetEdgesByTarget(currentNode.Id);
+                List<StoryFlowConnection> newConnections = previousConnections.Where(c => !dictConnection.ContainsKey(c.Id)).ToList();
+
+                if (newConnections.Count == 0)
+                    continue;
+
+
+                foreach (StoryFlowConnection connection in newConnections)
+                {
+                    StoryFlowNode sourceNode = script.Nodes[connection.Source];
+                    DialogueEntry currentEntry = dictDialogueEntry[currentNode.Id];
+                    if (sourceNode.Type == StoryFlowNodeType.EntryFlow)
+                    {
+                        string flowId = sourceNode.Data["flowId"];
+                        dictEntryFlows.Add(flowId, new() { currentEntry });
+
+                        if (dictRunFlows.TryGetValue(flowId, out List<DialogueEntry> runEntries))
+                        {
+                            runEntries.ForEach(originEntry =>
+                            {
+                                int currentEntryID = dictDialogueEntry[currentNode.Id].id;
+                                Link link = new Link(conversationID, originEntry.id, conversationID, currentEntryID);
+
+                                originEntry.outgoingLinks.Add(link);
+
+                                dictRunFlows[flowId].Remove(originEntry);
+                            });
+
+                        }
+                    }
+                }
+
 
                 foreach (Option option in options)
                 {
@@ -305,7 +361,7 @@ namespace PixelCrushers.DialogueSystem
                         currentLocalDB.variables.Add(variable);
 
                         // set condition
-                        DialogueEntry optionEntry = dictEntry[option.ID];
+                        DialogueEntry optionEntry = dictDialogueEntry[option.ID];
                         optionEntry.conditionsString = $"Variable[\"{name}\"] == false";
 
                         // set script

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScriptPath: scripts/knight.json
   StartNodeId: 0
-  ImportedSourceHash: E4704FB9B57C8455188C93C4ABAE19738C200B8B9BD2DBA7B7421769F57487BC
+  ImportedSourceHash: 9A9F64F3AEF8BDC7CA96A0572627696EFF4CB1902945F6C4210D12DC1A1D944B
   serializedNodes:
   - Id: 0
     Type: 1
@@ -85,7 +85,7 @@ MonoBehaviour:
     - Key: text
       Value: 1b384a7c8b8e46ea82ba65c5b1576086.text
     - Key: options
-      Value: '[{"id":"e3118fa9412f4670bbe8bcee41229706","text":"e3118fa9412f4670bbe8bcee41229706"},{"id":"e242a0cb5d6e4a5fb10f8ff8faa41de9","text":"e242a0cb5d6e4a5fb10f8ff8faa41de9"},{"id":"62f573d5f446484abd097182dad7156e","text":"62f573d5f446484abd097182dad7156e"}]'
+      Value: '[{"id":"e3118fa9412f4670bbe8bcee41229706","text":"e3118fa9412f4670bbe8bcee41229706","onceOnly":true},{"id":"e242a0cb5d6e4a5fb10f8ff8faa41de9","text":"e242a0cb5d6e4a5fb10f8ff8faa41de9"},{"id":"62f573d5f446484abd097182dad7156e","text":"62f573d5f446484abd097182dad7156e"}]'
     - Key: character
       Value: characters\morghaine.sfc
     - Key: tags
@@ -246,6 +246,18 @@ MonoBehaviour:
       Value: characters\morghaine.sfc
     - Key: characterRefId
       Value: da_45df38b723854471949bbe8bd2bb0be7
+  - Id: c8d8be7a9e96449aad732eb4cb6a68a5
+    Type: 5
+    RawType: runFlow
+    Data:
+    - Key: flowId
+      Value: 5dcd34a85e9e437eb461c476c5bfbe00
+  - Id: 293d3250ee4c411cae1d72fb4d150042
+    Type: 6
+    RawType: entryFlow
+    Data:
+    - Key: flowId
+      Value: 5dcd34a85e9e437eb461c476c5bfbe00
   connections:
   - Id: xy-edge__c619f4c6fe4c409199ac55ff37b24160source-c619f4c6fe4c409199ac55ff37b24160-140466d37ae94f788e3731b2f5bc9847-7309440e2edd4bd6b833e57a0d38cebetarget-7309440e2edd4bd6b833e57a0d38cebe-
     Source: c619f4c6fe4c409199ac55ff37b24160
@@ -327,20 +339,25 @@ MonoBehaviour:
     Target: 1b384a7c8b8e46ea82ba65c5b1576086
     SourceHandle: source-6a899ed4e0df45c6b76cf6ae796612d7-1dc2011bc4024cb0b0e48032a5c76514
     TargetHandle: target-1b384a7c8b8e46ea82ba65c5b1576086-
-  - Id: xy-edge__fe6b5431c6d343a8a6fe5e21cb2f29a9source-fe6b5431c6d343a8a6fe5e21cb2f29a9--1b384a7c8b8e46ea82ba65c5b1576086target-1b384a7c8b8e46ea82ba65c5b1576086-
-    Source: fe6b5431c6d343a8a6fe5e21cb2f29a9
-    Target: 1b384a7c8b8e46ea82ba65c5b1576086
-    SourceHandle: source-fe6b5431c6d343a8a6fe5e21cb2f29a9-
-    TargetHandle: target-1b384a7c8b8e46ea82ba65c5b1576086-
-  - Id: xy-edge__ce1fd699d53b40769ea7b155193e65c3source-ce1fd699d53b40769ea7b155193e65c3--1b384a7c8b8e46ea82ba65c5b1576086target-1b384a7c8b8e46ea82ba65c5b1576086-
-    Source: ce1fd699d53b40769ea7b155193e65c3
-    Target: 1b384a7c8b8e46ea82ba65c5b1576086
-    SourceHandle: source-ce1fd699d53b40769ea7b155193e65c3-
-    TargetHandle: target-1b384a7c8b8e46ea82ba65c5b1576086-
-  - Id: xy-edge__7497a9ae6e734a70b110380f8736c9absource-7497a9ae6e734a70b110380f8736c9ab-e8612fa291544bacbecb4123748c5202-1b384a7c8b8e46ea82ba65c5b1576086target-1b384a7c8b8e46ea82ba65c5b1576086-
+  - Id: xy-edge__7497a9ae6e734a70b110380f8736c9absource-7497a9ae6e734a70b110380f8736c9ab-e8612fa291544bacbecb4123748c5202-c8d8be7a9e96449aad732eb4cb6a68a5target-c8d8be7a9e96449aad732eb4cb6a68a5-
     Source: 7497a9ae6e734a70b110380f8736c9ab
-    Target: 1b384a7c8b8e46ea82ba65c5b1576086
+    Target: c8d8be7a9e96449aad732eb4cb6a68a5
     SourceHandle: source-7497a9ae6e734a70b110380f8736c9ab-e8612fa291544bacbecb4123748c5202
+    TargetHandle: target-c8d8be7a9e96449aad732eb4cb6a68a5-
+  - Id: xy-edge__ce1fd699d53b40769ea7b155193e65c3source-ce1fd699d53b40769ea7b155193e65c3--c8d8be7a9e96449aad732eb4cb6a68a5target-c8d8be7a9e96449aad732eb4cb6a68a5-
+    Source: ce1fd699d53b40769ea7b155193e65c3
+    Target: c8d8be7a9e96449aad732eb4cb6a68a5
+    SourceHandle: source-ce1fd699d53b40769ea7b155193e65c3-
+    TargetHandle: target-c8d8be7a9e96449aad732eb4cb6a68a5-
+  - Id: xy-edge__fe6b5431c6d343a8a6fe5e21cb2f29a9source-fe6b5431c6d343a8a6fe5e21cb2f29a9--c8d8be7a9e96449aad732eb4cb6a68a5target-c8d8be7a9e96449aad732eb4cb6a68a5-
+    Source: fe6b5431c6d343a8a6fe5e21cb2f29a9
+    Target: c8d8be7a9e96449aad732eb4cb6a68a5
+    SourceHandle: source-fe6b5431c6d343a8a6fe5e21cb2f29a9-
+    TargetHandle: target-c8d8be7a9e96449aad732eb4cb6a68a5-
+  - Id: xy-edge__293d3250ee4c411cae1d72fb4d150042source-293d3250ee4c411cae1d72fb4d150042--1b384a7c8b8e46ea82ba65c5b1576086target-1b384a7c8b8e46ea82ba65c5b1576086-
+    Source: 293d3250ee4c411cae1d72fb4d150042
+    Target: 1b384a7c8b8e46ea82ba65c5b1576086
+    SourceHandle: source-293d3250ee4c411cae1d72fb4d150042-
     TargetHandle: target-1b384a7c8b8e46ea82ba65c5b1576086-
   serializedVariables:
   - Id: var_ef3cd23c
@@ -449,5 +466,9 @@ MonoBehaviour:
   - Key: en.a5e7778b5e134c21b1d77b964913ab18.value
     Value: Event_Tower
   serializedAssets: []
-  flows: []
+  flows:
+  - Id: 5dcd34a85e9e437eb461c476c5bfbe00
+    Name: ReturnA
+    EntryNodeId: 
+    IsExit: 0
   ResolvedAssetEntries: []
