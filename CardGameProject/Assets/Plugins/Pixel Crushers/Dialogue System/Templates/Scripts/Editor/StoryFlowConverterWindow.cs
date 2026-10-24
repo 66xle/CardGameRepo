@@ -323,7 +323,7 @@ namespace PixelCrushers.DialogueSystem
                 if (newConnections.Count == 0)
                     continue;
 
-
+                #region Entry Flow
                 foreach (StoryFlowConnection connection in newConnections)
                 {
                     StoryFlowNode sourceNode = script.Nodes[connection.Source];
@@ -331,24 +331,38 @@ namespace PixelCrushers.DialogueSystem
                     if (sourceNode.Type == StoryFlowNodeType.EntryFlow)
                     {
                         string flowId = sourceNode.Data["flowId"];
-                        dictEntryFlows.Add(flowId, new() { currentEntry });
 
-                        if (dictRunFlows.TryGetValue(flowId, out List<DialogueEntry> runEntries))
+                        if (currentNode.Data.TryGetValue("tags", out string tags))
                         {
-                            runEntries.ForEach(originEntry =>
+                            if (tags.Contains("DialogueOnlyOnce"))
                             {
-                                int currentEntryID = dictDialogueEntry[currentNode.Id].id;
-                                Link link = new Link(conversationID, originEntry.id, conversationID, currentEntryID);
-
-                                originEntry.outgoingLinks.Add(link);
-
-                                dictRunFlows[flowId].Remove(originEntry);
-                            });
-
+                                List<DialogueEntry> entries = new();
+                                foreach (Option option in options)
+                                {
+                                    entries.Add(dictDialogueEntry[option.ID]);
+                                }
+                                dictEntryFlows.Add(flowId, entries);
+                            }
                         }
+                        else
+                        {
+                            dictEntryFlows.Add(flowId, new() { currentEntry });
+                        }
+
+                        if (!dictRunFlows.TryGetValue(flowId, out List<DialogueEntry> runEntries))
+                            continue;
+
+                        runEntries.ForEach(originEntry =>
+                        {
+                            DialogueEntry currentEntry = dictDialogueEntry[currentNode.Id];
+                            Link link = new Link(conversationID, originEntry.id, conversationID, currentEntry.id);
+
+                            originEntry.outgoingLinks.Add(link);
+                            dictRunFlows[flowId].Remove(originEntry);
+                        });
                     }
                 }
-
+                #endregion
 
                 foreach (Option option in options)
                 {

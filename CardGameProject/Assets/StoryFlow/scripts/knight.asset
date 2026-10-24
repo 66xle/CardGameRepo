@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScriptPath: scripts/knight.json
   StartNodeId: 0
-  ImportedSourceHash: 9A9F64F3AEF8BDC7CA96A0572627696EFF4CB1902945F6C4210D12DC1A1D944B
+  ImportedSourceHash: 30BCD8811613AD348FC220038D4B6B46D4FB2C8C7EBDE7A3BC6F9715ADE56E05
   serializedNodes:
   - Id: 0
     Type: 1
@@ -84,8 +84,10 @@ MonoBehaviour:
       Value: 1b384a7c8b8e46ea82ba65c5b1576086.title
     - Key: text
       Value: 1b384a7c8b8e46ea82ba65c5b1576086.text
+    - Key: textBlocks
+      Value: '[{"id":"3487b4f920bf49a89f74d93de3d1986a","text":"3487b4f920bf49a89f74d93de3d1986a"}]'
     - Key: options
-      Value: '[{"id":"e3118fa9412f4670bbe8bcee41229706","text":"e3118fa9412f4670bbe8bcee41229706","onceOnly":true},{"id":"e242a0cb5d6e4a5fb10f8ff8faa41de9","text":"e242a0cb5d6e4a5fb10f8ff8faa41de9"},{"id":"62f573d5f446484abd097182dad7156e","text":"62f573d5f446484abd097182dad7156e"}]'
+      Value: '[{"id":"e3118fa9412f4670bbe8bcee41229706","text":"e3118fa9412f4670bbe8bcee41229706","onceOnly":true},{"id":"e242a0cb5d6e4a5fb10f8ff8faa41de9","text":"e242a0cb5d6e4a5fb10f8ff8faa41de9","onceOnly":true},{"id":"62f573d5f446484abd097182dad7156e","text":"62f573d5f446484abd097182dad7156e","onceOnly":true}]'
     - Key: character
       Value: characters\morghaine.sfc
     - Key: tags
@@ -409,6 +411,8 @@ MonoBehaviour:
     Value: Dialogue
   - Key: en.1b384a7c8b8e46ea82ba65c5b1576086.text
     Value: "That\u2019s the spirit"
+  - Key: en.3487b4f920bf49a89f74d93de3d1986a
+    Value: Test
   - Key: en.e3118fa9412f4670bbe8bcee41229706
     Value: "I know you\u2026 but I can't seem to remember why."
   - Key: en.e242a0cb5d6e4a5fb10f8ff8faa41de9
