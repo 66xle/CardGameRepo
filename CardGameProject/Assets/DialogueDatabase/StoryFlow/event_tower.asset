@@ -35,7 +35,7 @@ MonoBehaviour:
     underline: 0
   baseID: 20000
   actors:
-  - id: 0
+  - id: 10000
     fields:
     - title: Name
       value: Player
@@ -52,33 +52,7 @@ MonoBehaviour:
     - title: Description
       value: The Mortal
       type: 0
-      typeString: CustomFieldType_Text
-    - title: IsPlayer
-      value: True
-      type: 2
-      typeString: CustomFieldType_Boolean
-    portrait: {fileID: 0}
-    spritePortrait: {fileID: 0}
-    alternatePortraits: []
-    spritePortraits: []
-  - id: 0
-    fields:
-    - title: Name
-      value: Player
-      type: 0
       typeString: 
-    - title: IsGlobal
-      value: True
-      type: 2
-      typeString: CustomFieldType_Boolean
-    - title: ID
-      value: 1
-      type: 1
-      typeString: CustomFieldType_Number
-    - title: Description
-      value: The Mortal
-      type: 0
-      typeString: CustomFieldType_Text
     - title: IsPlayer
       value: True
       type: 2
@@ -93,10 +67,18 @@ MonoBehaviour:
       value: Morghaine
       type: 0
       typeString: 
-    - title: IsPlayer
+    - title: IsGlobal
       value: False
       type: 2
       typeString: CustomFieldType_Boolean
+    - title: ID
+      value: 2
+      type: 1
+      typeString: CustomFieldType_Number
+    - title: Description
+      value: 
+      type: 0
+      typeString: 
     portrait: {fileID: 0}
     spritePortrait: {fileID: 0}
     alternatePortraits: []
@@ -1176,14 +1158,6 @@ MonoBehaviour:
       value: Knight/Start
       type: 0
       typeString: 
-    - title: Actor
-      value: 0
-      type: 5
-      typeString: CustomFieldType_Actor
-    - title: Conversant
-      value: 20000
-      type: 5
-      typeString: CustomFieldType_Actor
     overrideSettings:
       useOverrides: 0
       overrideSubtitleSettings: 0
@@ -1222,10 +1196,6 @@ MonoBehaviour:
         value: None()
         type: 0
         typeString: 
-      - title: Actor
-        value: 0
-        type: 5
-        typeString: CustomFieldType_Actor
       conversationID: 20002
       isRoot: 1
       isGroup: 0
@@ -1247,8 +1217,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 288
-        y: 50
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 1
@@ -1270,19 +1240,15 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
-      - title: Menu Text
-        value: 
-        type: 0
-        typeString: 
       conversationID: 20002
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: Block
+      falseConditionAction: 
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
@@ -1298,8 +1264,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 288
-        y: 134
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 2
@@ -1321,19 +1287,15 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
-      - title: Menu Text
-        value: 
-        type: 0
-        typeString: 
       conversationID: 20002
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: Block
+      falseConditionAction: 
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
@@ -1349,8 +1311,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 288
-        y: 218
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 3
@@ -1372,19 +1334,15 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
-      - title: Menu Text
-        value: 
-        type: 0
-        typeString: 
       conversationID: 20002
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: Block
+      falseConditionAction: 
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
@@ -1400,8 +1358,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 288
-        y: 386
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 4
@@ -1419,7 +1377,7 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Actor
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
@@ -1447,8 +1405,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 288
-        y: 302
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 5
@@ -1470,19 +1428,15 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
-      - title: Menu Text
-        value: 
-        type: 0
-        typeString: 
       conversationID: 20002
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: Block
+      falseConditionAction: 
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
@@ -1498,8 +1452,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 288
-        y: 470
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 6
@@ -1521,19 +1475,15 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
-      - title: Menu Text
-        value: 
-        type: 0
-        typeString: 
       conversationID: 20002
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: Block
+      falseConditionAction: 
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
@@ -1561,8 +1511,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 288
-        y: 638
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 7
@@ -1580,23 +1530,19 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Actor
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
         value: 20000
         type: 5
         typeString: CustomFieldType_Actor
-      - title: Menu Text
-        value: 
-        type: 0
-        typeString: 
       conversationID: 20002
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: Block
+      falseConditionAction: 
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
@@ -1612,8 +1558,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 288
-        y: 554
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 8
@@ -1635,7 +1581,7 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       conversationID: 20002
@@ -1659,8 +1605,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 80
-        y: 806
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 9
@@ -1678,23 +1624,19 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Actor
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
         value: 20000
         type: 5
         typeString: CustomFieldType_Actor
-      - title: Menu Text
-        value: 
-        type: 0
-        typeString: 
       conversationID: 20002
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: Block
+      falseConditionAction: 
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
@@ -1710,8 +1652,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 80
-        y: 720.9474
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 10
@@ -1733,7 +1675,7 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       conversationID: 20002
@@ -1757,8 +1699,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 288
-        y: 806
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 11
@@ -1776,23 +1718,19 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Actor
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
         value: 20000
         type: 5
         typeString: CustomFieldType_Actor
-      - title: Menu Text
-        value: 
-        type: 0
-        typeString: 
       conversationID: 20002
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: Block
+      falseConditionAction: 
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
@@ -1808,8 +1746,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 288
-        y: 722
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 12
@@ -1831,7 +1769,7 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       conversationID: 20002
@@ -1855,8 +1793,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 496
-        y: 806
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 13
@@ -1874,23 +1812,19 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Actor
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
         value: 20000
         type: 5
         typeString: CustomFieldType_Actor
-      - title: Menu Text
-        value: 
-        type: 0
-        typeString: 
       conversationID: 20002
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: Block
+      falseConditionAction: 
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
@@ -1906,8 +1840,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 496
-        y: 722
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 14
@@ -1929,7 +1863,7 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       conversationID: 20002
@@ -1953,8 +1887,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 80
-        y: 890
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 15
@@ -1976,7 +1910,7 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       conversationID: 20002
@@ -2000,8 +1934,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 288
-        y: 890
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 16
@@ -2023,7 +1957,7 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       conversationID: 20002
@@ -2047,8 +1981,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 496
-        y: 890
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 17
@@ -2070,19 +2004,15 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
-      - title: Menu Text
-        value: 
-        type: 0
-        typeString: 
       conversationID: 20002
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: Block
+      falseConditionAction: 
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
@@ -2098,8 +2028,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 80
-        y: 974
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 18
@@ -2121,7 +2051,7 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       conversationID: 20002
@@ -2145,8 +2075,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 288
-        y: 974
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 19
@@ -2168,7 +2098,7 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       conversationID: 20002
@@ -2192,8 +2122,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 496
-        y: 974
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 20
@@ -2215,19 +2145,15 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
-      - title: Menu Text
-        value: 
-        type: 0
-        typeString: 
       conversationID: 20002
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: Block
+      falseConditionAction: 
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
@@ -2243,8 +2169,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 288
-        y: 1058
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 21
@@ -2262,23 +2188,19 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Actor
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
         value: 20000
         type: 5
         typeString: CustomFieldType_Actor
-      - title: Menu Text
-        value: 
-        type: 0
-        typeString: 
       conversationID: 20002
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: Block
+      falseConditionAction: 
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
@@ -2294,8 +2216,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 496
-        y: 1058
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 22
@@ -2317,19 +2239,15 @@ MonoBehaviour:
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
-        value: 0
+        value: 10000
         type: 5
         typeString: CustomFieldType_Actor
-      - title: Menu Text
-        value: 
-        type: 0
-        typeString: 
       conversationID: 20002
       isRoot: 0
       isGroup: 0
       nodeColor: 
       delaySimStatus: 0
-      falseConditionAction: Block
+      falseConditionAction: 
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
@@ -2345,13 +2263,13 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 288
-        y: 1142
+        x: 0
+        y: 0
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 0, y: 410.5658}
-    canvasZoom: 0.6400001
+    canvasScrollPosition: {x: 0, y: 0}
+    canvasZoom: 1
   syncInfo:
     syncActors: 0
     syncItems: 0

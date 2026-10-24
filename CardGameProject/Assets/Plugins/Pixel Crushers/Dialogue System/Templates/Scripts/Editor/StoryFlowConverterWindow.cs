@@ -111,7 +111,7 @@ namespace PixelCrushers.DialogueSystem
             if (template == null)
                 template = TemplateTools.LoadFromEditorPrefs();
 
-            globalDB = CreateGlobalDatabase("Global");
+            CreateGlobalDatabase("Global");
             if (globalDB == null)
                 return;
 
@@ -126,25 +126,23 @@ namespace PixelCrushers.DialogueSystem
             }
         }
 
-        DialogueDatabase CreateGlobalDatabase(string dbName)
+        void CreateGlobalDatabase(string dbName)
         {
-            DialogueDatabase database = GetDatabase(dbName);
-            if (database == null)
-                return null;
+            globalDB = GetDatabase(dbName);
+            if (globalDB == null)
+                return;
 
             // Global Variables
             
 
             // Characters
-            database.actors = ConvertCharactersToActors(database, sf);
+            CreateGlobalActors(sf);
 
-            TouchUpDialogueDatabase(database);
-            EditorUtility.SetDirty(database);
+            TouchUpDialogueDatabase(globalDB);
+            EditorUtility.SetDirty(globalDB);
 
             Debug.Log(string.Format("{0}: Created database '{1}' containing {2} actors, {3} conversations, {4} items/quests, {5} variables, and {6} locations.",
-              DialogueDebug.Prefix, dbName, database.actors.Count, database.conversations.Count, database.items.Count, database.variables.Count, database.locations.Count), database);
-
-            return database;
+              DialogueDebug.Prefix, dbName, globalDB.actors.Count, globalDB.conversations.Count, globalDB.items.Count, globalDB.variables.Count, globalDB.locations.Count), globalDB);
         }
 
         void CreateLocalDatabase()
@@ -222,6 +220,7 @@ namespace PixelCrushers.DialogueSystem
                 {
                     db = GetDatabase(databaseName);
                     dictDatabases.Add(databaseName, db);
+                    db.actors.Add(globalDB.GetActor("Player"));
                 }
 
                 if (db == null)
@@ -230,9 +229,6 @@ namespace PixelCrushers.DialogueSystem
                 currentLocalDB = db;
 
                 #endregion
-
-                db.actors.Add(globalDB.GetActor("Player"));
-
 
 
                 // Start Node Flow
@@ -421,7 +417,7 @@ namespace PixelCrushers.DialogueSystem
         }
 
 
-        List<Actor> ConvertCharactersToActors(DialogueDatabase db, StoryFlowProjectAsset sf)
+        void CreateGlobalActors(StoryFlowProjectAsset sf)
         {
             List<Actor> actors = new();
 
@@ -439,55 +435,50 @@ namespace PixelCrushers.DialogueSystem
                 if (character.Variables.Any(v => v.Name == "IsGlobal" && !v.Value.BoolValue))
                     continue;
 
-                // Create temp fields
-                List<Field> fields = new();
-                fields.Add(new Field("Name", actorName, FieldType.Text));
-
-                // Save all character variables to fields
-                foreach (StoryFlowVariable variable in character.Variables)
-                {
-                    if (variable.Name == "ID")
-                    {
-                        ID = variable.Name;
-                    }
-
-                    // Determine Types
-                    string value = string.Empty;
-                    FieldType type = FieldType.Text;
-                    if (variable.Type == StoryFlowVariableType.Boolean)
-                    {
-                        type = FieldType.Boolean;
-                        value = variable.Value.BoolValue.ToString();
-                    }
-                    else if (variable.Type == StoryFlowVariableType.Float || variable.Type == StoryFlowVariableType.Integer)
-                    {
-                        type = FieldType.Number;
-                        value = variable.Value.IntValue.ToString();
-                    }
-                    else
-                    {
-                        value = sf.GetGlobalString(LANGUAGECODE + variable.Value.StringValue);
-                    }
-
-                    fields.Add(new Field(variable.Name, value, type));
-                    
-                    
-                }
-
-                // Get actor based on ID
-                Actor actor = db.GetActor(ID);
-                if (actor == null)
-                {
-                    actor = new();
-                    actor.fields = new();
-                }
-
-                actor.fields = fields;
+                Actor actor = CreateActorFromCharacter(character, actorName, globalDB);
                 actors.Add(actor);
             }
 
-            return actors;
+            globalDB.actors = actors;
         }
+
+        Actor CreateActorFromCharacter(StoryFlowCharacterAsset character, string actorName, DialogueDatabase db)
+        {
+            int actorID = template.GetNextActorID(db);
+            Actor actor = template.CreateActor(actorID, actorName, false);
+
+            // Create temp fields
+            List<Field> fields = new();
+            fields.Add(new Field("Name", actorName, FieldType.Text));
+
+            // Save all character variables to fields
+            foreach (StoryFlowVariable variable in character.Variables)
+            {
+                // Determine Types
+                string value = string.Empty;
+                FieldType type = FieldType.Text;
+                if (variable.Type == StoryFlowVariableType.Boolean)
+                {
+                    type = FieldType.Boolean;
+                    value = variable.Value.BoolValue.ToString();
+                }
+                else if (variable.Type == StoryFlowVariableType.Float || variable.Type == StoryFlowVariableType.Integer)
+                {
+                    type = FieldType.Number;
+                    value = variable.Value.IntValue.ToString();
+                }
+                else
+                {
+                    value = sf.GetGlobalString(LANGUAGECODE + variable.Value.StringValue);
+                }
+
+                fields.Add(new Field(variable.Name, value, type));
+            }
+
+            actor.fields = fields;
+            return actor;
+        }
+
 
         Actor GetActorFromDatabase(string characterKey)
         {
@@ -499,11 +490,9 @@ namespace PixelCrushers.DialogueSystem
             if (actor == null)
             {
                 actor = currentLocalDB.GetActor(name);
-
                 if (actor == null)
                 {
-                    int actorID = template.GetNextActorID(currentLocalDB);
-                    actor = template.CreateActor(actorID, name, false);
+                    actor = CreateActorFromCharacter(character, name, currentLocalDB);
                     currentLocalDB.actors.Add(actor);
                 }
             }
