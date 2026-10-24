@@ -280,7 +280,7 @@ namespace PixelCrushers.DialogueSystem
             List<Option> onceOptions = new();
 
             Queue<StoryFlowNode> queue = new();
-            DialogueEntry validSourceEntry = null;
+            string validSource = null;
 
             AddNodeToConversation(startFlow, conversation, dictDialogueEntry, script);
             queue.Enqueue(startFlow);
@@ -289,9 +289,8 @@ namespace PixelCrushers.DialogueSystem
             {
                 StoryFlowNode currentNode = queue.Dequeue();
 
-                dictDialogueEntry.TryGetValue(currentNode.Id, out DialogueEntry validEntry);
-                if (validEntry != null)
-                    validSourceEntry = validEntry;
+                if (dictDialogueEntry.Keys.Contains(currentNode.Id))
+                    validSource = currentNode.Id;
 
                 List<StoryFlowConnection> sourceConnections = script.GetEdgesFromSource(currentNode.Id);
 
@@ -334,7 +333,7 @@ namespace PixelCrushers.DialogueSystem
                         continue;
 
                     AddNodeToConversation(targetNode, conversation, dictDialogueEntry, script);
-                    AddConnectionToConversation(validSourceEntry, connection, conversation, dictDialogueEntry, script, out Option option);
+                    AddConnectionToConversation(validSource, connection, conversation, dictDialogueEntry, script, out Option option);
                     options.Add(option);
                 }
 
@@ -499,17 +498,17 @@ namespace PixelCrushers.DialogueSystem
             }
         }
 
-        void AddConnectionToConversation(DialogueEntry validSourceEntry, StoryFlowConnection connection, Conversation conversation, Dictionary<string, DialogueEntry> dictEntry,
+        void AddConnectionToConversation(string validSource, StoryFlowConnection connection, Conversation conversation, Dictionary<string, DialogueEntry> dictEntry,
                                          StoryFlowScriptAsset script, out Option currentOption)
         {
-            DialogueEntry sourceEntry = validSourceEntry;
+            DialogueEntry sourceEntry = dictEntry[validSource];
             DialogueEntry targetEntry = dictEntry[connection.Target];
 
             currentOption = new();
 
             #region Options
 
-            StoryFlowNode node = script.Nodes[connection.Source];
+            StoryFlowNode node = script.Nodes[validSource];
             if (node.Type == StoryFlowNodeType.Dialogue && node.Data["options"] != "[]")
             {
                 string json = node.Data["options"];
@@ -525,6 +524,7 @@ namespace PixelCrushers.DialogueSystem
                     DialogueEntry optionEntry = CreateDialogueEntry(conversation, "Option");
                     optionEntry.DialogueText = script.GetString(LANGUAGECODE + option.Text);
                     conversation.dialogueEntries.Add(optionEntry);
+
                     dictEntry.Add(option.ID, optionEntry);
 
                     Link sourceLink = new Link(conversation.id, sourceEntry.id, conversation.id, optionEntry.id);
@@ -537,7 +537,7 @@ namespace PixelCrushers.DialogueSystem
                     {
                         optionEntry.ActorID = currentLocalDB.GetActor("Player").id;
 
-                        Variable conversant = currentLocalDB.GetVariable("Conversant");
+                        Variable conversant = currentLocalDB.GetVariable("Actor");
                         if (conversant != null)
                         {
                             optionEntry.ConversantID = int.Parse(conversant.InitialValue);
