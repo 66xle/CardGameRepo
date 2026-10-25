@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScriptPath: scripts/knight.json
   StartNodeId: 0
-  ImportedSourceHash: 01787D56ACB5129C83168892B0076A074AE0FDA525E9E8F1CE4D2306216F6684
+  ImportedSourceHash: 596B62F06A04AB1DB2663D282B480628CB964E49287785452333FBF2AC2C3ADC
   serializedNodes:
   - Id: 0
     Type: 1
@@ -222,20 +222,61 @@ MonoBehaviour:
       Value: 88dd0ecb564f4b0399e85be29b621057.text
     - Key: options
       Value: '[]'
-    - Key: character
-      Value: characters\player.sfc
-    - Key: characterRefId
-      Value: da_0c1889079aa841dd8929e2dccacd0770
   - Id: 0dca05c8b7b0438c9bd97cd49ac984bd
     Type: 2
     RawType: end
     Data: []
+  - Id: fc04835d78d14b00a2605ca22320f2c7
+    Type: 7
+    RawType: dialogue
+    Data:
+    - Key: title
+      Value: fc04835d78d14b00a2605ca22320f2c7.title
+    - Key: options
+      Value: '[]'
+    - Key: tags
+      Value: '["RepeatOptionText"]'
+  - Id: eda8135d5c354909a8a468cc9bf73cab
+    Type: 7
+    RawType: dialogue
+    Data:
+    - Key: title
+      Value: eda8135d5c354909a8a468cc9bf73cab.title
+    - Key: options
+      Value: '[]'
+    - Key: tags
+      Value: '["RepeatOptionText"]'
+  - Id: adf9b12c2d5c44a684be75a7135ae48a
+    Type: 7
+    RawType: dialogue
+    Data:
+    - Key: title
+      Value: adf9b12c2d5c44a684be75a7135ae48a.title
+    - Key: options
+      Value: '[]'
+    - Key: tags
+      Value: '["RepeatOptionText"]'
+  - Id: 8cd1bcc4552e4f1b9bea9587b3e20f29
+    Type: 7
+    RawType: dialogue
+    Data:
+    - Key: title
+      Value: 8cd1bcc4552e4f1b9bea9587b3e20f29.title
+    - Key: options
+      Value: '[]'
+    - Key: tags
+      Value: '["RepeatOptionText"]'
+  - Id: 6ef552bfb8004646aa92171e2fa170bf
+    Type: 7
+    RawType: dialogue
+    Data:
+    - Key: title
+      Value: 6ef552bfb8004646aa92171e2fa170bf.title
+    - Key: options
+      Value: '[]'
+    - Key: tags
+      Value: '["RepeatOptionText"]'
   connections:
-  - Id: xy-edge__c619f4c6fe4c409199ac55ff37b24160source-c619f4c6fe4c409199ac55ff37b24160-140466d37ae94f788e3731b2f5bc9847-7309440e2edd4bd6b833e57a0d38cebetarget-7309440e2edd4bd6b833e57a0d38cebe-
-    Source: c619f4c6fe4c409199ac55ff37b24160
-    Target: 7309440e2edd4bd6b833e57a0d38cebe
-    SourceHandle: source-c619f4c6fe4c409199ac55ff37b24160-140466d37ae94f788e3731b2f5bc9847
-    TargetHandle: target-7309440e2edd4bd6b833e57a0d38cebe-
   - Id: xy-edge__e2ae1c70a3e94b8ba1cb53fc664055aasource-e2ae1c70a3e94b8ba1cb53fc664055aa--c619f4c6fe4c409199ac55ff37b24160target-c619f4c6fe4c409199ac55ff37b24160-
     Source: e2ae1c70a3e94b8ba1cb53fc664055aa
     Target: c619f4c6fe4c409199ac55ff37b24160
@@ -256,11 +297,6 @@ MonoBehaviour:
     Target: fe6b5431c6d343a8a6fe5e21cb2f29a9
     SourceHandle: source-9d601ec24ab84bd987a69e036d443dc9-
     TargetHandle: target-fe6b5431c6d343a8a6fe5e21cb2f29a9-
-  - Id: xy-edge__1b384a7c8b8e46ea82ba65c5b1576086source-1b384a7c8b8e46ea82ba65c5b1576086-e242a0cb5d6e4a5fb10f8ff8faa41de9-bfc938f6ce07426695be1664691c59c5target-bfc938f6ce07426695be1664691c59c5-
-    Source: 1b384a7c8b8e46ea82ba65c5b1576086
-    Target: bfc938f6ce07426695be1664691c59c5
-    SourceHandle: source-1b384a7c8b8e46ea82ba65c5b1576086-e242a0cb5d6e4a5fb10f8ff8faa41de9
-    TargetHandle: target-bfc938f6ce07426695be1664691c59c5-
   - Id: xy-edge__bfc938f6ce07426695be1664691c59c5source-bfc938f6ce07426695be1664691c59c5--81c41a0e6d8b402188b35fce5bbf6fdctarget-81c41a0e6d8b402188b35fce5bbf6fdc-
     Source: bfc938f6ce07426695be1664691c59c5
     Target: 81c41a0e6d8b402188b35fce5bbf6fdc
@@ -281,11 +317,6 @@ MonoBehaviour:
     Target: ce1fd699d53b40769ea7b155193e65c3
     SourceHandle: source-2fe464f818bd4eebaf4b87c7f84a7152-
     TargetHandle: target-ce1fd699d53b40769ea7b155193e65c3-
-  - Id: xy-edge__1b384a7c8b8e46ea82ba65c5b1576086source-1b384a7c8b8e46ea82ba65c5b1576086-62f573d5f446484abd097182dad7156e-4b065f3a09914382b2d4a08caa97dc0atarget-4b065f3a09914382b2d4a08caa97dc0a-
-    Source: 1b384a7c8b8e46ea82ba65c5b1576086
-    Target: 4b065f3a09914382b2d4a08caa97dc0a
-    SourceHandle: source-1b384a7c8b8e46ea82ba65c5b1576086-62f573d5f446484abd097182dad7156e
-    TargetHandle: target-4b065f3a09914382b2d4a08caa97dc0a-
   - Id: xy-edge__4b065f3a09914382b2d4a08caa97dc0asource-4b065f3a09914382b2d4a08caa97dc0a--0c1ad06172f6470e9acd4d1247f71dfdtarget-0c1ad06172f6470e9acd4d1247f71dfd-
     Source: 4b065f3a09914382b2d4a08caa97dc0a
     Target: 0c1ad06172f6470e9acd4d1247f71dfd
@@ -296,11 +327,6 @@ MonoBehaviour:
     Target: 7497a9ae6e734a70b110380f8736c9ab
     SourceHandle: source-0c1ad06172f6470e9acd4d1247f71dfd-
     TargetHandle: target-7497a9ae6e734a70b110380f8736c9ab-
-  - Id: xy-edge__6a899ed4e0df45c6b76cf6ae796612d7source-6a899ed4e0df45c6b76cf6ae796612d7-1dc2011bc4024cb0b0e48032a5c76514-1b384a7c8b8e46ea82ba65c5b1576086target-1b384a7c8b8e46ea82ba65c5b1576086-
-    Source: 6a899ed4e0df45c6b76cf6ae796612d7
-    Target: 1b384a7c8b8e46ea82ba65c5b1576086
-    SourceHandle: source-6a899ed4e0df45c6b76cf6ae796612d7-1dc2011bc4024cb0b0e48032a5c76514
-    TargetHandle: target-1b384a7c8b8e46ea82ba65c5b1576086-
   - Id: xy-edge__7497a9ae6e734a70b110380f8736c9absource-7497a9ae6e734a70b110380f8736c9ab-e8612fa291544bacbecb4123748c5202-c8d8be7a9e96449aad732eb4cb6a68a5target-c8d8be7a9e96449aad732eb4cb6a68a5-
     Source: 7497a9ae6e734a70b110380f8736c9ab
     Target: c8d8be7a9e96449aad732eb4cb6a68a5
@@ -331,51 +357,72 @@ MonoBehaviour:
     Target: e2ae1c70a3e94b8ba1cb53fc664055aa
     SourceHandle: source-b5817014c1d8491ebee13574f9f1778f-1
     TargetHandle: target-e2ae1c70a3e94b8ba1cb53fc664055aa-
-  - Id: xy-edge__3ef1e4974ff243a99adcc83a4a32de17source-3ef1e4974ff243a99adcc83a4a32de17--1b384a7c8b8e46ea82ba65c5b1576086target-1b384a7c8b8e46ea82ba65c5b1576086-
-    Source: 3ef1e4974ff243a99adcc83a4a32de17
-    Target: 1b384a7c8b8e46ea82ba65c5b1576086
-    SourceHandle: source-3ef1e4974ff243a99adcc83a4a32de17-
-    TargetHandle: target-1b384a7c8b8e46ea82ba65c5b1576086-
   - Id: 78cf08c7401742b196fd6649715770a7
     Source: 1b384a7c8b8e46ea82ba65c5b1576086
     Target: 88dd0ecb564f4b0399e85be29b621057
     SourceHandle: source-1b384a7c8b8e46ea82ba65c5b1576086-1f570357d606497e83551fcc452c42d8
     TargetHandle: target-88dd0ecb564f4b0399e85be29b621057-
-  - Id: xy-edge__1b384a7c8b8e46ea82ba65c5b1576086source-1b384a7c8b8e46ea82ba65c5b1576086-e3118fa9412f4670bbe8bcee41229706-8160d5a835b442e187725386853f5039target-8160d5a835b442e187725386853f5039-
-    Source: 1b384a7c8b8e46ea82ba65c5b1576086
-    Target: 8160d5a835b442e187725386853f5039
-    SourceHandle: source-1b384a7c8b8e46ea82ba65c5b1576086-e3118fa9412f4670bbe8bcee41229706
-    TargetHandle: target-8160d5a835b442e187725386853f5039-
   - Id: xy-edge__88dd0ecb564f4b0399e85be29b621057source-88dd0ecb564f4b0399e85be29b621057--0dca05c8b7b0438c9bd97cd49ac984bdtarget-0dca05c8b7b0438c9bd97cd49ac984bd-
     Source: 88dd0ecb564f4b0399e85be29b621057
     Target: 0dca05c8b7b0438c9bd97cd49ac984bd
     SourceHandle: source-88dd0ecb564f4b0399e85be29b621057-
     TargetHandle: target-0dca05c8b7b0438c9bd97cd49ac984bd-
+  - Id: xy-edge__1b384a7c8b8e46ea82ba65c5b1576086source-1b384a7c8b8e46ea82ba65c5b1576086-e3118fa9412f4670bbe8bcee41229706-fc04835d78d14b00a2605ca22320f2c7target-fc04835d78d14b00a2605ca22320f2c7-
+    Source: 1b384a7c8b8e46ea82ba65c5b1576086
+    Target: fc04835d78d14b00a2605ca22320f2c7
+    SourceHandle: source-1b384a7c8b8e46ea82ba65c5b1576086-e3118fa9412f4670bbe8bcee41229706
+    TargetHandle: target-fc04835d78d14b00a2605ca22320f2c7-
+  - Id: xy-edge__fc04835d78d14b00a2605ca22320f2c7source-fc04835d78d14b00a2605ca22320f2c7--8160d5a835b442e187725386853f5039target-8160d5a835b442e187725386853f5039-
+    Source: fc04835d78d14b00a2605ca22320f2c7
+    Target: 8160d5a835b442e187725386853f5039
+    SourceHandle: source-fc04835d78d14b00a2605ca22320f2c7-
+    TargetHandle: target-8160d5a835b442e187725386853f5039-
+  - Id: 8c5ff89408b94982ac44d271f912ed39
+    Source: c619f4c6fe4c409199ac55ff37b24160
+    Target: eda8135d5c354909a8a468cc9bf73cab
+    SourceHandle: source-c619f4c6fe4c409199ac55ff37b24160-140466d37ae94f788e3731b2f5bc9847
+    TargetHandle: target-eda8135d5c354909a8a468cc9bf73cab-
+  - Id: xy-edge__eda8135d5c354909a8a468cc9bf73cabsource-eda8135d5c354909a8a468cc9bf73cab--7309440e2edd4bd6b833e57a0d38cebetarget-7309440e2edd4bd6b833e57a0d38cebe-
+    Source: eda8135d5c354909a8a468cc9bf73cab
+    Target: 7309440e2edd4bd6b833e57a0d38cebe
+    SourceHandle: source-eda8135d5c354909a8a468cc9bf73cab-
+    TargetHandle: target-7309440e2edd4bd6b833e57a0d38cebe-
+  - Id: xy-edge__6a899ed4e0df45c6b76cf6ae796612d7source-6a899ed4e0df45c6b76cf6ae796612d7-1dc2011bc4024cb0b0e48032a5c76514-adf9b12c2d5c44a684be75a7135ae48atarget-adf9b12c2d5c44a684be75a7135ae48a-
+    Source: 6a899ed4e0df45c6b76cf6ae796612d7
+    Target: adf9b12c2d5c44a684be75a7135ae48a
+    SourceHandle: source-6a899ed4e0df45c6b76cf6ae796612d7-1dc2011bc4024cb0b0e48032a5c76514
+    TargetHandle: target-adf9b12c2d5c44a684be75a7135ae48a-
+  - Id: xy-edge__adf9b12c2d5c44a684be75a7135ae48asource-adf9b12c2d5c44a684be75a7135ae48a--1b384a7c8b8e46ea82ba65c5b1576086target-1b384a7c8b8e46ea82ba65c5b1576086-
+    Source: adf9b12c2d5c44a684be75a7135ae48a
+    Target: 1b384a7c8b8e46ea82ba65c5b1576086
+    SourceHandle: source-adf9b12c2d5c44a684be75a7135ae48a-
+    TargetHandle: target-1b384a7c8b8e46ea82ba65c5b1576086-
+  - Id: xy-edge__3ef1e4974ff243a99adcc83a4a32de17source-3ef1e4974ff243a99adcc83a4a32de17--1b384a7c8b8e46ea82ba65c5b1576086target-1b384a7c8b8e46ea82ba65c5b1576086-
+    Source: 3ef1e4974ff243a99adcc83a4a32de17
+    Target: 1b384a7c8b8e46ea82ba65c5b1576086
+    SourceHandle: source-3ef1e4974ff243a99adcc83a4a32de17-
+    TargetHandle: target-1b384a7c8b8e46ea82ba65c5b1576086-
+  - Id: xy-edge__1b384a7c8b8e46ea82ba65c5b1576086source-1b384a7c8b8e46ea82ba65c5b1576086-e242a0cb5d6e4a5fb10f8ff8faa41de9-8cd1bcc4552e4f1b9bea9587b3e20f29target-8cd1bcc4552e4f1b9bea9587b3e20f29-
+    Source: 1b384a7c8b8e46ea82ba65c5b1576086
+    Target: 8cd1bcc4552e4f1b9bea9587b3e20f29
+    SourceHandle: source-1b384a7c8b8e46ea82ba65c5b1576086-e242a0cb5d6e4a5fb10f8ff8faa41de9
+    TargetHandle: target-8cd1bcc4552e4f1b9bea9587b3e20f29-
+  - Id: xy-edge__1b384a7c8b8e46ea82ba65c5b1576086source-1b384a7c8b8e46ea82ba65c5b1576086-62f573d5f446484abd097182dad7156e-6ef552bfb8004646aa92171e2fa170bftarget-6ef552bfb8004646aa92171e2fa170bf-
+    Source: 1b384a7c8b8e46ea82ba65c5b1576086
+    Target: 6ef552bfb8004646aa92171e2fa170bf
+    SourceHandle: source-1b384a7c8b8e46ea82ba65c5b1576086-62f573d5f446484abd097182dad7156e
+    TargetHandle: target-6ef552bfb8004646aa92171e2fa170bf-
+  - Id: xy-edge__8cd1bcc4552e4f1b9bea9587b3e20f29source-8cd1bcc4552e4f1b9bea9587b3e20f29--bfc938f6ce07426695be1664691c59c5target-bfc938f6ce07426695be1664691c59c5-
+    Source: 8cd1bcc4552e4f1b9bea9587b3e20f29
+    Target: bfc938f6ce07426695be1664691c59c5
+    SourceHandle: source-8cd1bcc4552e4f1b9bea9587b3e20f29-
+    TargetHandle: target-bfc938f6ce07426695be1664691c59c5-
+  - Id: xy-edge__6ef552bfb8004646aa92171e2fa170bfsource-6ef552bfb8004646aa92171e2fa170bf--4b065f3a09914382b2d4a08caa97dc0atarget-4b065f3a09914382b2d4a08caa97dc0a-
+    Source: 6ef552bfb8004646aa92171e2fa170bf
+    Target: 4b065f3a09914382b2d4a08caa97dc0a
+    SourceHandle: source-6ef552bfb8004646aa92171e2fa170bf-
+    TargetHandle: target-4b065f3a09914382b2d4a08caa97dc0a-
   serializedVariables:
-  - Id: var_e4c7a249
-    Name: MenuSequence
-    Type: 3
-    DefaultValueJson: 
-    IsArray: 0
-    EnumValues: []
-    IsInput: 0
-    IsOutput: 0
-    KeyType: 0
-    ValueType: 0
-    KeyEnumValues: []
-    ValueEnumValues: []
-  - Id: var_3ff39d3a
-    Name: Sequence
-    Type: 3
-    DefaultValueJson: 
-    IsArray: 0
-    EnumValues: []
-    IsInput: 0
-    IsOutput: 0
-    KeyType: 0
-    ValueType: 0
-    KeyEnumValues: []
-    ValueEnumValues: []
   - Id: var_619021f2
     Name: Conversant
     Type: 7
@@ -507,6 +554,16 @@ MonoBehaviour:
     Value: Dialogue
   - Key: en.88dd0ecb564f4b0399e85be29b621057.text
     Value: Well then, I need my sword.
+  - Key: en.fc04835d78d14b00a2605ca22320f2c7.title
+    Value: Dialogue
+  - Key: en.eda8135d5c354909a8a468cc9bf73cab.title
+    Value: Dialogue
+  - Key: en.adf9b12c2d5c44a684be75a7135ae48a.title
+    Value: Dialogue
+  - Key: en.8cd1bcc4552e4f1b9bea9587b3e20f29.title
+    Value: Dialogue
+  - Key: en.6ef552bfb8004646aa92171e2fa170bf.title
+    Value: Dialogue
   - Key: en.e11bd946c13a4c6f96e3380d97d18207.value
     Value: Knight
   - Key: en.a5e7778b5e134c21b1d77b964913ab18.value

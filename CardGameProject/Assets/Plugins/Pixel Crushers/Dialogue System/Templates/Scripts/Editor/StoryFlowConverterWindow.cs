@@ -36,6 +36,13 @@ namespace PixelCrushers.DialogueSystem
             [JsonProperty("onceOnly")] public bool IsOnlyOnce;
         }
 
+        private class PendingConnection
+        {
+            public DialogueEntry SourceEntry;
+            public StoryFlowNode SourceNode;
+            public Option Option;
+        }
+
         private const string LanguageCode = "en.";
         private const string GlobalDatabaseName = "Global";
 
@@ -328,6 +335,7 @@ namespace PixelCrushers.DialogueSystem
             Conversation conversation = template.CreateConversation(conversationID, title);
             database.AddConversation(conversation);
 
+            Dictionary<string, List<PendingConnection>> pendingConnections = new();
             Dictionary<string, DialogueEntry> entries = new Dictionary<string, DialogueEntry>();
             Dictionary<string, List<Option>> onceOptionsByNode = new Dictionary<string, List<Option>>();
             Dictionary<string, List<DialogueEntry>> entryFlows = new Dictionary<string, List<DialogueEntry>>();
@@ -344,6 +352,11 @@ namespace PixelCrushers.DialogueSystem
             while (queue.Count > 0)
             {
                 StoryFlowNode node = queue.Dequeue();
+                if (!IsValidNode(node))
+                {
+                    EvaluateIntermediateNode(node, script);
+                }
+
                 if (!visited.Add(node.Id)) continue;
 
                 if (entries.TryGetValue(node.Id, out DialogueEntry sourceEntry))
@@ -354,6 +367,8 @@ namespace PixelCrushers.DialogueSystem
                         resetEntries.Add(sourceEntry);
                 }
 
+
+
                 List<StoryFlowConnection> connections = script.GetEdgesFromSource(node.Id);
                 List<Option> nodeOptions = GetOptions(node);
 
@@ -363,7 +378,12 @@ namespace PixelCrushers.DialogueSystem
                 {
                     if (!script.Nodes.TryGetValue(connection.Target, out StoryFlowNode target)) continue;
 
-                    
+                    Option option = null;
+                    if (node.Type == StoryFlowNodeType.Dialogue)
+                    {
+                        option = nodeOptions.FirstOrDefault(o => connection.SourceHandle.Contains(o.ID));
+                    }
+
                     if (target.Type == StoryFlowNodeType.RunFlow)
                     {
                         string flowId = GetData(target, "flowId");
@@ -388,16 +408,15 @@ namespace PixelCrushers.DialogueSystem
                     if (!visited.Contains(target.Id))
                         queue.Enqueue(target);
 
-                    DialogueEntry targetEntry = CreateDialogueEntry(target, conversation, entries, script);
-                    if (targetEntry == null)
-                        continue;
+                    if (IsValidNode(target))
+                    {
+                        DialogueEntry targetEntry = CreateDialogueEntry(target, conversation, entries, script, option);
 
+                        if (targetEntry == null) continue;
 
-                    AddOptionOrDirectLink(node, connection, lastValidEntry, targetEntry, conversation, entries, script, nodeOptions, onceOptionsByNode);
-
+                        BuildLink(conversation, lastValidEntry, node, target, targetEntry, option, script, onceOptionsByNode);
+                    }
                 }
-
-                
 
                 // EntryFlow nodes can be destinations of RunFlow nodes. Register their first
                 // dialogue/terminal destinations after the graph has been traversed.
@@ -418,16 +437,16 @@ namespace PixelCrushers.DialogueSystem
                                 destinations.Add(optionEntry);
                         }
                     }
-                    else if (!destinations.Contains(sourceEntry))
+                    else if (!destinations.Contains(lastValidEntry))
                     {
-                        destinations.Add(sourceEntry);
+                        destinations.Add(lastValidEntry);
                     }
 
                     if (pendingRunFlows.TryGetValue(flowId, out List<DialogueEntry> pending))
                     {
                         foreach (DialogueEntry origin in pending)
                         {
-                            AddLink(conversation, origin, sourceEntry);
+                            AddLink(conversation, origin, lastValidEntry);
                         }
                         pendingRunFlows.Remove(flowId);
                     }
@@ -463,14 +482,60 @@ namespace PixelCrushers.DialogueSystem
                 Debug.LogWarning("[StoryFlow Converter] Flow '" + pending.Key + "' in '" + title + "' has unresolved RunFlow links.");
         }
 
-        private DialogueEntry CreateDialogueEntry(StoryFlowNode node, Conversation conversation, Dictionary<string, DialogueEntry> entries, StoryFlowScriptAsset script)
+        private void BuildLink(Conversation conversation, DialogueEntry sourceEntry, StoryFlowNode sourceNode, StoryFlowNode targetNode, DialogueEntry targetEntry,
+                                Option option, StoryFlowScriptAsset script, Dictionary<string, List<Option>> onceOptionsByNode)
         {
-            if (node.Type == StoryFlowNodeType.SetCharacter)
+            AddLink(conversation, sourceEntry, targetEntry);
+
+            if (option == null) return;
+
+            string optionText = ResolveScriptString(script, option.Text);
+            targetEntry.MenuText = optionText;
+
+            if (NodeHasTag(targetNode, "RepeatOptionText"))
             {
-                ConvertSetCharacter(node, script);
-                return null;
+                targetEntry.DialogueText = optionText;
             }
 
+            if (!option.IsOnlyOnce) return;
+
+            string variableName = "OnlyOnce." + option.ID;
+
+            EnsureBooleanVariable(currentLocalDB, variableName, "false", conversation.Title);
+
+            AppendCondition(targetEntry, LuaEquals(variableName, "false"));
+            AppendScript(targetEntry, LuaSet(variableName, "true"));
+
+            if (!onceOptionsByNode.TryGetValue(sourceNode.Id, out List<Option> usedOptions))
+            {
+                usedOptions = new List<Option>();
+                onceOptionsByNode[sourceNode.Id] = usedOptions;
+            }
+
+            if (!usedOptions.Any(o => o.ID == option.ID))
+                usedOptions.Add(option);
+        }
+
+        private bool IsValidNode(StoryFlowNode node)
+        {
+            if (node == null) return false;
+
+            switch (node.Type)
+            {
+                case StoryFlowNodeType.Dialogue:
+                case StoryFlowNodeType.Start:
+                case StoryFlowNodeType.EntryFlow:
+                case StoryFlowNodeType.End:
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
+        private DialogueEntry CreateDialogueEntry(StoryFlowNode node, Conversation conversation, Dictionary<string, DialogueEntry> entries,
+                                                  StoryFlowScriptAsset script, Option option = null)
+        {
             if (entries.TryGetValue(node.Id, out DialogueEntry existing))
                 return existing;
 
@@ -501,49 +566,31 @@ namespace PixelCrushers.DialogueSystem
 
                 existing = CreateDialogueEntry(conversation, title);
                 existing.DialogueText = text;
+
+                if (option != null)
+                {
+                    ApplyOptionActor(existing, node, script);
+                    entries.Add(option.ID, existing);
+                }
+                else
+                {
+                    ApplyNodeActor(existing, node, script);
+                }
             }
 
-            ApplyNodeActor(existing, node, script);
+            
             conversation.dialogueEntries.Add(existing);
             entries.Add(node.Id, existing);
             return existing;
         }
 
-        private void AddOptionOrDirectLink(StoryFlowNode node, StoryFlowConnection connection, DialogueEntry sourceEntry, DialogueEntry targetEntry, Conversation conversation,
-            Dictionary<string, DialogueEntry> entries, StoryFlowScriptAsset script, List<Option> options, Dictionary<string, List<Option>> onceOptionsByNode)
+        private void EvaluateIntermediateNode(StoryFlowNode node, StoryFlowScriptAsset script)
         {
-            if (node.Type == StoryFlowNodeType.Dialogue && options.Count > 0)
+            if (node.Type == StoryFlowNodeType.SetCharacter)
             {
-                Option option = options.FirstOrDefault(o => connection.SourceHandle.Contains(o.ID));
-                if (option == null)
-                {
-                    AddLink(conversation, sourceEntry, targetEntry);
-                    return;
-                }
-
-                if (!entries.TryGetValue(option.ID, out DialogueEntry optionEntry))
-                {
-                    optionEntry = CreateDialogueEntry(conversation, "Option");
-                    optionEntry.DialogueText = ResolveScriptString(script, option.Text);
-
-                    ApplyOptionActor(optionEntry, node, script);
-                    conversation.dialogueEntries.Add(optionEntry);
-                    entries[option.ID] = optionEntry;
-                }
-
-                AddLink(conversation, sourceEntry, optionEntry);
-                AddLink(conversation, optionEntry, targetEntry);
-
-                if (!onceOptionsByNode.TryGetValue(node.Id, out List<Option> used))
-                    onceOptionsByNode[node.Id] = used = new();
-
-                if (!used.Any(o => o.ID == option.ID))
-                    used.Add(option);
-
+                ConvertSetCharacter(node, script);
                 return;
             }
-
-            AddLink(conversation, sourceEntry, targetEntry);
         }
 
         private List<StoryFlowConnection> SortConnectionsByOptions(List<StoryFlowConnection> connections, List<Option> options)
@@ -561,6 +608,8 @@ namespace PixelCrushers.DialogueSystem
                     return index >= 0 ? index : int.MaxValue;
                 }).ToList();
         }
+
+
 
         #region Conversation Methods
 

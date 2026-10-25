@@ -57,20 +57,24 @@ MonoBehaviour:
     spritePortrait: {fileID: 0}
     alternatePortraits: []
     spritePortraits: []
-  - id: 20000
+  - id: 10001
     fields:
     - title: Name
-      value: Morghaine
+      value: NPC
       type: 0
-      typeString: 
-    - title: ID
-      value: 2
-      type: 1
-      typeString: CustomFieldType_Number
+      typeString: CustomFieldType_Text
+    - title: Pictures
+      value: '[]'
+      type: 3
+      typeString: CustomFieldType_Files
     - title: Description
       value: 
       type: 0
-      typeString: 
+      typeString: CustomFieldType_Text
+    - title: IsPlayer
+      value: False
+      type: 2
+      typeString: CustomFieldType_Boolean
     portrait: {fileID: 0}
     spritePortrait: {fileID: 0}
     alternatePortraits: []
@@ -95,26 +99,6 @@ MonoBehaviour:
   - id: 20001
     fields:
     - title: Name
-      value: Actor
-      type: 0
-      typeString: 
-    - title: Initial Value
-      value: 20000
-      type: 0
-      typeString: CustomFieldType_Actor
-  - id: 20002
-    fields:
-    - title: Name
-      value: Conversant
-      type: 0
-      typeString: 
-    - title: Initial Value
-      value: 10000
-      type: 0
-      typeString: CustomFieldType_Actor
-  - id: 20003
-    fields:
-    - title: Name
       value: OnlyOnce.e3118fa9412f4670bbe8bcee41229706
       type: 0
       typeString: 
@@ -126,7 +110,7 @@ MonoBehaviour:
       value: Knight/Start
       type: 0
       typeString: 
-  - id: 20004
+  - id: 20002
     fields:
     - title: Name
       value: OnlyOnce.e242a0cb5d6e4a5fb10f8ff8faa41de9
@@ -140,7 +124,7 @@ MonoBehaviour:
       value: Knight/Start
       type: 0
       typeString: 
-  - id: 20005
+  - id: 20003
     fields:
     - title: Name
       value: OnlyOnce.62f573d5f446484abd097182dad7156e
@@ -161,14 +145,6 @@ MonoBehaviour:
       value: Out Dark/Start
       type: 0
       typeString: 
-    - title: Actor
-      value: 10000
-      type: 5
-      typeString: CustomFieldType_Actor
-    - title: Conversant
-      value: 20000
-      type: 5
-      typeString: CustomFieldType_Actor
     overrideSettings:
       useOverrides: 0
       overrideSubtitleSettings: 0
@@ -207,10 +183,6 @@ MonoBehaviour:
         value: None()
         type: 0
         typeString: 
-      - title: Actor
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
       conversationID: 20000
       isRoot: 1
       isGroup: 0
@@ -232,8 +204,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 600
-        y: 50
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 1
@@ -261,19 +233,19 @@ MonoBehaviour:
       - originConversationID: 20000
         originDialogueID: 1
         destinationConversationID: 20000
+        destinationDialogueID: 2
+        isConnector: 0
+        priority: 2
+      - originConversationID: 20000
+        originDialogueID: 1
+        destinationConversationID: 20000
         destinationDialogueID: 3
         isConnector: 0
         priority: 2
       - originConversationID: 20000
         originDialogueID: 1
         destinationConversationID: 20000
-        destinationDialogueID: 5
-        isConnector: 0
-        priority: 2
-      - originConversationID: 20000
-        originDialogueID: 1
-        destinationConversationID: 20000
-        destinationDialogueID: 7
+        destinationDialogueID: 4
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -283,11 +255,61 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 600
-        y: 134
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 2
+      fields:
+      - title: Title
+        value: Dialogue
+        type: 0
+        typeString: 
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: 
+      - title: Dialogue Text
+        value: '"Who are you looking for?"'
+        type: 0
+        typeString: 
+      - title: Menu Text
+        value: "I\u2019m looking for someone."
+        type: 0
+        typeString: 
+      conversationID: 20000
+      isRoot: 0
+      isGroup: 0
+      nodeColor: 
+      delaySimStatus: 0
+      falseConditionAction: 
+      conditionPriority: 2
+      outgoingLinks:
+      - originConversationID: 20000
+        originDialogueID: 2
+        destinationConversationID: 20000
+        destinationDialogueID: 5
+        isConnector: 0
+        priority: 2
+      - originConversationID: 20000
+        originDialogueID: 2
+        destinationConversationID: 20000
+        destinationDialogueID: 6
+        isConnector: 0
+        priority: 2
+      conditionsString: (Variable["OnlyOnce.acce0711db45464e846e762f0b7ab5d5"] ==
+        false)
+      userScript: Variable["OnlyOnce.acce0711db45464e846e762f0b7ab5d5"] = true;
+      onExecute:
+        m_PersistentCalls:
+          m_Calls: []
+      canvasRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 160
+        height: 30
+    - id: 3
       fields:
       - title: Title
         value: Dialogue
@@ -302,55 +324,10 @@ MonoBehaviour:
           next.\""
         type: 0
         typeString: 
-      conversationID: 20000
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20000
-        originDialogueID: 2
-        destinationConversationID: 20000
-        destinationDialogueID: 9
-        isConnector: 0
-        priority: 2
-      - originConversationID: 20000
-        originDialogueID: 2
-        destinationConversationID: 20000
-        destinationDialogueID: 11
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 184
-        y: 302
-        width: 160
-        height: 30
-    - id: 3
-      fields:
-      - title: Title
-        value: Option
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
+      - title: Menu Text
         value: "That\u2019s none of your business."
         type: 0
         typeString: 
-      - title: Actor
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
       conversationID: 20000
       isRoot: 0
       isGroup: 0
@@ -362,7 +339,13 @@ MonoBehaviour:
       - originConversationID: 20000
         originDialogueID: 3
         destinationConversationID: 20000
-        destinationDialogueID: 2
+        destinationDialogueID: 7
+        isConnector: 0
+        priority: 2
+      - originConversationID: 20000
+        originDialogueID: 3
+        destinationConversationID: 20000
+        destinationDialogueID: 8
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -372,8 +355,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 184
-        y: 218
+        x: 0
+        y: 0
         width: 160
         height: 30
     - id: 4
@@ -390,55 +373,10 @@ MonoBehaviour:
         value: '"Help? Perhaps. But first, tell me something. Do you believe in monsters?"'
         type: 0
         typeString: 
-      conversationID: 20000
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20000
-        originDialogueID: 4
-        destinationConversationID: 20000
-        destinationDialogueID: 13
-        isConnector: 0
-        priority: 2
-      - originConversationID: 20000
-        originDialogueID: 4
-        destinationConversationID: 20000
-        destinationDialogueID: 15
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 600
-        y: 302
-        width: 160
-        height: 30
-    - id: 5
-      fields:
-      - title: Title
-        value: Option
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
+      - title: Menu Text
         value: I got lost. Can you help me?
         type: 0
         typeString: 
-      - title: Actor
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
       conversationID: 20000
       isRoot: 0
       isGroup: 0
@@ -448,260 +386,13 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20000
-        originDialogueID: 5
+        originDialogueID: 4
         destinationConversationID: 20000
-        destinationDialogueID: 4
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 600
-        y: 218
-        width: 160
-        height: 30
-    - id: 6
-      fields:
-      - title: Title
-        value: Dialogue
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
-        value: '"Who are you looking for?"'
-        type: 0
-        typeString: 
-      conversationID: 20000
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20000
-        originDialogueID: 6
-        destinationConversationID: 20000
-        destinationDialogueID: 17
+        destinationDialogueID: 9
         isConnector: 0
         priority: 2
       - originConversationID: 20000
-        originDialogueID: 6
-        destinationConversationID: 20000
-        destinationDialogueID: 19
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 1016
-        y: 302
-        width: 160
-        height: 30
-    - id: 7
-      fields:
-      - title: Title
-        value: Option
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
-        value: "I\u2019m looking for someone."
-        type: 0
-        typeString: 
-      - title: Actor
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
-      conversationID: 20000
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20000
-        originDialogueID: 7
-        destinationConversationID: 20000
-        destinationDialogueID: 6
-        isConnector: 0
-        priority: 2
-      conditionsString: Variable["OnlyOnce.acce0711db45464e846e762f0b7ab5d5"] ==
-        false;
-      userScript: Variable["OnlyOnce.acce0711db45464e846e762f0b7ab5d5"] = true;
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 1016
-        y: 218
-        width: 160
-        height: 30
-    - id: 8
-      fields:
-      - title: Title
-        value: Dialogue
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
-        value: '"The forest is watching you. And it knows your name."'
-        type: 0
-        typeString: 
-      conversationID: 20000
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20000
-        originDialogueID: 8
-        destinationConversationID: 20000
-        destinationDialogueID: 20
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 80
-        y: 470
-        width: 160
-        height: 30
-    - id: 9
-      fields:
-      - title: Title
-        value: Option
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
-        value: Wait. What do you know?
-        type: 0
-        typeString: 
-      - title: Actor
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
-      conversationID: 20000
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20000
-        originDialogueID: 9
-        destinationConversationID: 20000
-        destinationDialogueID: 8
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 80
-        y: 386
-        width: 160
-        height: 30
-    - id: 10
-      fields:
-      - title: Title
-        value: Dialogue
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
-        value: '*A distant scream echoes through the trees.*'
-        type: 0
-        typeString: 
-      conversationID: 20000
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20000
-        originDialogueID: 10
-        destinationConversationID: 20000
-        destinationDialogueID: 20
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 288
-        y: 470
-        width: 160
-        height: 30
-    - id: 11
-      fields:
-      - title: Title
-        value: Option
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
-        value: '*Walk away*.'
-        type: 0
-        typeString: 
-      - title: Actor
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
-      conversationID: 20000
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20000
-        originDialogueID: 11
+        originDialogueID: 4
         destinationConversationID: 20000
         destinationDialogueID: 10
         isConnector: 0
@@ -713,175 +404,11 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 288
-        y: 386
+        x: 0
+        y: 0
         width: 160
         height: 30
-    - id: 12
-      fields:
-      - title: Title
-        value: Dialogue
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
-        value: "Slowly smiles. \u201CThen you won\u2019t mind meeting one.\u201D"
-        type: 0
-        typeString: 
-      conversationID: 20000
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20000
-        originDialogueID: 12
-        destinationConversationID: 20000
-        destinationDialogueID: 20
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 496
-        y: 470
-        width: 160
-        height: 30
-    - id: 13
-      fields:
-      - title: Title
-        value: Option
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
-        value: "No. Monsters aren\u2019t real."
-        type: 0
-        typeString: 
-      - title: Actor
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
-      conversationID: 20000
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20000
-        originDialogueID: 13
-        destinationConversationID: 20000
-        destinationDialogueID: 12
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 496
-        y: 386
-        width: 160
-        height: 30
-    - id: 14
-      fields:
-      - title: Title
-        value: Dialogue
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
-        value: "\u201CGood. Then perhaps you\u2019ll survive the night.\u201D"
-        type: 0
-        typeString: 
-      conversationID: 20000
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20000
-        originDialogueID: 14
-        destinationConversationID: 20000
-        destinationDialogueID: 20
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 704
-        y: 470
-        width: 160
-        height: 30
-    - id: 15
-      fields:
-      - title: Title
-        value: Option
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
-        value: "I\u2019ve seen things you wouldn\u2019t believe."
-        type: 0
-        typeString: 
-      - title: Actor
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
-      conversationID: 20000
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20000
-        originDialogueID: 15
-        destinationConversationID: 20000
-        destinationDialogueID: 14
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 704
-        y: 386
-        width: 160
-        height: 30
-    - id: 16
+    - id: 5
       fields:
       - title: Title
         value: Dialogue
@@ -896,49 +423,10 @@ MonoBehaviour:
           is.\""
         type: 0
         typeString: 
-      conversationID: 20000
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20000
-        originDialogueID: 16
-        destinationConversationID: 20000
-        destinationDialogueID: 6
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 912
-        y: 470
-        width: 160
-        height: 30
-    - id: 17
-      fields:
-      - title: Title
-        value: Option
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
+      - title: Menu Text
         value: My brother. He disappeared yesterday.
         type: 0
         typeString: 
-      - title: Actor
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
       conversationID: 20000
       isRoot: 0
       isGroup: 0
@@ -948,9 +436,9 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20000
-        originDialogueID: 17
+        originDialogueID: 5
         destinationConversationID: 20000
-        destinationDialogueID: 16
+        destinationDialogueID: 2
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -960,11 +448,11 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 912
-        y: 386
+        x: 0
+        y: 0
         width: 160
         height: 30
-    - id: 18
+    - id: 6
       fields:
       - title: Title
         value: Dialogue
@@ -979,6 +467,10 @@ MonoBehaviour:
           you bargained for."'
         type: 0
         typeString: 
+      - title: Menu Text
+        value: Someone who owes me a favour.
+        type: 0
+        typeString: 
       conversationID: 20000
       isRoot: 0
       isGroup: 0
@@ -988,9 +480,9 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20000
-        originDialogueID: 18
+        originDialogueID: 6
         destinationConversationID: 20000
-        destinationDialogueID: 20
+        destinationDialogueID: 11
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -1000,14 +492,14 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 1120
-        y: 470
+        x: 0
+        y: 0
         width: 160
         height: 30
-    - id: 19
+    - id: 7
       fields:
       - title: Title
-        value: Option
+        value: Dialogue
         type: 0
         typeString: 
       - title: Sequence
@@ -1015,13 +507,13 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Dialogue Text
-        value: Someone who owes me a favour.
+        value: '"The forest is watching you. And it knows your name."'
         type: 0
         typeString: 
-      - title: Actor
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: Wait. What do you know?
+        type: 0
+        typeString: 
       conversationID: 20000
       isRoot: 0
       isGroup: 0
@@ -1031,9 +523,9 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20000
-        originDialogueID: 19
+        originDialogueID: 7
         destinationConversationID: 20000
-        destinationDialogueID: 18
+        destinationDialogueID: 11
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -1043,11 +535,140 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 1120
-        y: 386
+        x: 0
+        y: 0
         width: 160
         height: 30
-    - id: 20
+    - id: 8
+      fields:
+      - title: Title
+        value: Dialogue
+        type: 0
+        typeString: 
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: 
+      - title: Dialogue Text
+        value: '*A distant scream echoes through the trees.*'
+        type: 0
+        typeString: 
+      - title: Menu Text
+        value: '*Walk away*.'
+        type: 0
+        typeString: 
+      conversationID: 20000
+      isRoot: 0
+      isGroup: 0
+      nodeColor: 
+      delaySimStatus: 0
+      falseConditionAction: 
+      conditionPriority: 2
+      outgoingLinks:
+      - originConversationID: 20000
+        originDialogueID: 8
+        destinationConversationID: 20000
+        destinationDialogueID: 11
+        isConnector: 0
+        priority: 2
+      conditionsString: 
+      userScript: 
+      onExecute:
+        m_PersistentCalls:
+          m_Calls: []
+      canvasRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 160
+        height: 30
+    - id: 9
+      fields:
+      - title: Title
+        value: Dialogue
+        type: 0
+        typeString: 
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: 
+      - title: Dialogue Text
+        value: "Slowly smiles. \u201CThen you won\u2019t mind meeting one.\u201D"
+        type: 0
+        typeString: 
+      - title: Menu Text
+        value: "No. Monsters aren\u2019t real."
+        type: 0
+        typeString: 
+      conversationID: 20000
+      isRoot: 0
+      isGroup: 0
+      nodeColor: 
+      delaySimStatus: 0
+      falseConditionAction: 
+      conditionPriority: 2
+      outgoingLinks:
+      - originConversationID: 20000
+        originDialogueID: 9
+        destinationConversationID: 20000
+        destinationDialogueID: 11
+        isConnector: 0
+        priority: 2
+      conditionsString: 
+      userScript: 
+      onExecute:
+        m_PersistentCalls:
+          m_Calls: []
+      canvasRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 160
+        height: 30
+    - id: 10
+      fields:
+      - title: Title
+        value: Dialogue
+        type: 0
+        typeString: 
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: 
+      - title: Dialogue Text
+        value: "\u201CGood. Then perhaps you\u2019ll survive the night.\u201D"
+        type: 0
+        typeString: 
+      - title: Menu Text
+        value: "I\u2019ve seen things you wouldn\u2019t believe."
+        type: 0
+        typeString: 
+      conversationID: 20000
+      isRoot: 0
+      isGroup: 0
+      nodeColor: 
+      delaySimStatus: 0
+      falseConditionAction: 
+      conditionPriority: 2
+      outgoingLinks:
+      - originConversationID: 20000
+        originDialogueID: 10
+        destinationConversationID: 20000
+        destinationDialogueID: 11
+        isConnector: 0
+        priority: 2
+      conditionsString: 
+      userScript: 
+      onExecute:
+        m_PersistentCalls:
+          m_Calls: []
+      canvasRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 160
+        height: 30
+    - id: 11
       fields:
       - title: Title
         value: END
@@ -1076,13 +697,13 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 80
-        y: 554
+        x: 0
+        y: 0
         width: 160
         height: 30
     entryGroups: []
     canvasScrollPosition: {x: 0, y: 0}
-    canvasZoom: 0.8500001
+    canvasZoom: 1
   - id: 20001
     fields:
     - title: Title
@@ -1277,7 +898,7 @@ MonoBehaviour:
       type: 5
       typeString: CustomFieldType_Actor
     - title: Conversant
-      value: 20000
+      value: 10001
       type: 5
       typeString: CustomFieldType_Actor
     overrideSettings:
@@ -1329,7 +950,13 @@ MonoBehaviour:
       delaySimStatus: 0
       falseConditionAction: 
       conditionPriority: 2
-      outgoingLinks: []
+      outgoingLinks:
+      - originConversationID: 20002
+        originDialogueID: 0
+        destinationConversationID: 20002
+        destinationDialogueID: 1
+        isConnector: 0
+        priority: 2
       conditionsString: 
       userScript: 
       onExecute:
@@ -1337,8 +964,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 383.80276
-        y: 208.57532
+        x: 392
+        y: 50
         width: 160
         height: 30
     - id: 1
@@ -1355,14 +982,6 @@ MonoBehaviour:
         value: "\u2026Finally awake."
         type: 0
         typeString: 
-      - title: Actor
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
       conversationID: 20002
       isRoot: 0
       isGroup: 0
@@ -1378,15 +997,15 @@ MonoBehaviour:
         isConnector: 0
         priority: 2
       conditionsString: 
-      userScript: Variable["OnlyOnce.e242a0cb5d6e4a5fb10f8ff8faa41de9"] = false;Variable["OnlyOnce.62f573d5f446484abd097182dad7156e"]
-        = false;Variable["OnlyOnce.e3118fa9412f4670bbe8bcee41229706"] = false;
+      userScript: Variable["OnlyOnce.e3118fa9412f4670bbe8bcee41229706"] = false;Variable["OnlyOnce.e242a0cb5d6e4a5fb10f8ff8faa41de9"]
+        = false;Variable["OnlyOnce.62f573d5f446484abd097182dad7156e"] = false;
       onExecute:
         m_PersistentCalls:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 20
-        y: 20
+        x: 392
+        y: 134
         width: 160
         height: 30
     - id: 2
@@ -1403,14 +1022,6 @@ MonoBehaviour:
         value: It takes a little longer, every time.
         type: 0
         typeString: 
-      - title: Actor
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
       conversationID: 20002
       isRoot: 0
       isGroup: 0
@@ -1422,7 +1033,7 @@ MonoBehaviour:
       - originConversationID: 20002
         originDialogueID: 2
         destinationConversationID: 20002
-        destinationDialogueID: 4
+        destinationDialogueID: 3
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -1432,8 +1043,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 20
-        y: 70
+        x: 392
+        y: 218
         width: 160
         height: 30
     - id: 3
@@ -1450,14 +1061,10 @@ MonoBehaviour:
         value: Like a fool.
         type: 0
         typeString: 
-      - title: Actor
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: ...How did I die?
+        type: 0
+        typeString: 
       conversationID: 20002
       isRoot: 0
       isGroup: 0
@@ -1469,7 +1076,7 @@ MonoBehaviour:
       - originConversationID: 20002
         originDialogueID: 3
         destinationConversationID: 20002
-        destinationDialogueID: 5
+        destinationDialogueID: 4
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -1479,58 +1086,11 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 20
-        y: 120
+        x: 392
+        y: 302
         width: 160
         height: 30
     - id: 4
-      fields:
-      - title: Title
-        value: Option
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
-        value: ...How did I die?
-        type: 0
-        typeString: 
-      - title: Actor
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      conversationID: 20002
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20002
-        originDialogueID: 4
-        destinationConversationID: 20002
-        destinationDialogueID: 3
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 20
-        y: 170
-        width: 160
-        height: 30
-    - id: 5
       fields:
       - title: Title
         value: Dialogue
@@ -1544,14 +1104,6 @@ MonoBehaviour:
         value: And yet how many times more, I wonder.
         type: 0
         typeString: 
-      - title: Actor
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
       conversationID: 20002
       isRoot: 0
       isGroup: 0
@@ -1561,9 +1113,9 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
-        originDialogueID: 5
+        originDialogueID: 4
         destinationConversationID: 20002
-        destinationDialogueID: 7
+        destinationDialogueID: 5
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -1573,11 +1125,11 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 20
-        y: 220
+        x: 392
+        y: 386
         width: 160
         height: 30
-    - id: 6
+    - id: 5
       fields:
       - title: Title
         value: Dialogue
@@ -1591,14 +1143,10 @@ MonoBehaviour:
         value: "That\u2019s the spirit "
         type: 0
         typeString: 
-      - title: Actor
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: As many as it takes.
+        type: 0
+        typeString: 
       conversationID: 20002
       isRoot: 0
       isGroup: 0
@@ -1608,27 +1156,27 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
-        originDialogueID: 6
+        originDialogueID: 5
+        destinationConversationID: 20002
+        destinationDialogueID: 6
+        isConnector: 0
+        priority: 2
+      - originConversationID: 20002
+        originDialogueID: 5
+        destinationConversationID: 20002
+        destinationDialogueID: 7
+        isConnector: 0
+        priority: 2
+      - originConversationID: 20002
+        originDialogueID: 5
+        destinationConversationID: 20002
+        destinationDialogueID: 8
+        isConnector: 0
+        priority: 2
+      - originConversationID: 20002
+        originDialogueID: 5
         destinationConversationID: 20002
         destinationDialogueID: 9
-        isConnector: 0
-        priority: 2
-      - originConversationID: 20002
-        originDialogueID: 6
-        destinationConversationID: 20002
-        destinationDialogueID: 11
-        isConnector: 0
-        priority: 2
-      - originConversationID: 20002
-        originDialogueID: 6
-        destinationConversationID: 20002
-        destinationDialogueID: 13
-        isConnector: 0
-        priority: 2
-      - originConversationID: 20002
-        originDialogueID: 6
-        destinationConversationID: 20002
-        destinationDialogueID: 15
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -1638,14 +1186,14 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 20
-        y: 270
+        x: 392
+        y: 470
         width: 160
         height: 30
-    - id: 7
+    - id: 6
       fields:
       - title: Title
-        value: Option
+        value: Dialogue
         type: 0
         typeString: 
       - title: Sequence
@@ -1653,17 +1201,13 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Dialogue Text
-        value: As many as it takes.
+        value: "\u2026 I'm Morghaine."
         type: 0
         typeString: 
-      - title: Actor
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: "I know you\u2026 but I can't seem to remember why."
+        type: 0
+        typeString: 
       conversationID: 20002
       isRoot: 0
       isGroup: 0
@@ -1673,23 +1217,24 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
-        originDialogueID: 7
+        originDialogueID: 6
         destinationConversationID: 20002
-        destinationDialogueID: 6
+        destinationDialogueID: 10
         isConnector: 0
         priority: 2
-      conditionsString: 
-      userScript: 
+      conditionsString: (Variable["OnlyOnce.e3118fa9412f4670bbe8bcee41229706"] ==
+        false)
+      userScript: Variable["OnlyOnce.e3118fa9412f4670bbe8bcee41229706"] = true;
       onExecute:
         m_PersistentCalls:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 20
-        y: 320
+        x: 80
+        y: 554
         width: 160
         height: 30
-    - id: 8
+    - id: 7
       fields:
       - title: Title
         value: Dialogue
@@ -1703,61 +1248,10 @@ MonoBehaviour:
         value: Not much.
         type: 0
         typeString: 
-      - title: Actor
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
-      conversationID: 20002
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20002
-        originDialogueID: 8
-        destinationConversationID: 20002
-        destinationDialogueID: 16
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 20
-        y: 370
-        width: 160
-        height: 30
-    - id: 9
-      fields:
-      - title: Title
-        value: Option
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
+      - title: Menu Text
         value: So.. What have I missed?
         type: 0
         typeString: 
-      - title: Actor
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
       conversationID: 20002
       isRoot: 0
       isGroup: 0
@@ -1767,24 +1261,24 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
-        originDialogueID: 9
+        originDialogueID: 7
         destinationConversationID: 20002
-        destinationDialogueID: 8
+        destinationDialogueID: 11
         isConnector: 0
         priority: 2
-      conditionsString: Variable["OnlyOnce.e242a0cb5d6e4a5fb10f8ff8faa41de9"] ==
-        false;
+      conditionsString: (Variable["OnlyOnce.e242a0cb5d6e4a5fb10f8ff8faa41de9"] ==
+        false)
       userScript: Variable["OnlyOnce.e242a0cb5d6e4a5fb10f8ff8faa41de9"] = true;
       onExecute:
         m_PersistentCalls:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 20
-        y: 420
+        x: 288
+        y: 554
         width: 160
         height: 30
-    - id: 10
+    - id: 8
       fields:
       - title: Title
         value: Dialogue
@@ -1798,61 +1292,10 @@ MonoBehaviour:
         value: "So\u2026 she still speaks."
         type: 0
         typeString: 
-      - title: Actor
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
-      conversationID: 20002
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20002
-        originDialogueID: 10
-        destinationConversationID: 20002
-        destinationDialogueID: 17
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 20
-        y: 470
-        width: 160
-        height: 30
-    - id: 11
-      fields:
-      - title: Title
-        value: Option
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
+      - title: Menu Text
         value: She visited my dream.
         type: 0
         typeString: 
-      - title: Actor
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
       conversationID: 20002
       isRoot: 0
       isGroup: 0
@@ -1862,24 +1305,24 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
-        originDialogueID: 11
+        originDialogueID: 8
         destinationConversationID: 20002
-        destinationDialogueID: 10
+        destinationDialogueID: 12
         isConnector: 0
         priority: 2
-      conditionsString: Variable["OnlyOnce.62f573d5f446484abd097182dad7156e"] ==
-        false;
+      conditionsString: (Variable["OnlyOnce.62f573d5f446484abd097182dad7156e"] ==
+        false)
       userScript: Variable["OnlyOnce.62f573d5f446484abd097182dad7156e"] = true;
       onExecute:
         m_PersistentCalls:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 20
-        y: 520
+        x: 496
+        y: 554
         width: 160
         height: 30
-    - id: 12
+    - id: 9
       fields:
       - title: Title
         value: Dialogue
@@ -1901,53 +1344,10 @@ MonoBehaviour:
         value: 10000
         type: 5
         typeString: CustomFieldType_Actor
-      conversationID: 20002
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20002
-        originDialogueID: 12
-        destinationConversationID: 20002
-        destinationDialogueID: 18
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 20
-        y: 570
-        width: 160
-        height: 30
-    - id: 13
-      fields:
-      - title: Title
-        value: Option
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
+      - title: Menu Text
         value: End
         type: 0
         typeString: 
-      - title: Actor
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
       conversationID: 20002
       isRoot: 0
       isGroup: 0
@@ -1957,9 +1357,9 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
-        originDialogueID: 13
+        originDialogueID: 9
         destinationConversationID: 20002
-        destinationDialogueID: 12
+        destinationDialogueID: 13
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -1969,11 +1369,11 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 20
-        y: 620
+        x: 704
+        y: 554
         width: 160
         height: 30
-    - id: 14
+    - id: 10
       fields:
       - title: Title
         value: Dialogue
@@ -1984,17 +1384,9 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Dialogue Text
-        value: "\u2026 I'm Morghaine."
+        value: A shadow.
         type: 0
         typeString: 
-      - title: Actor
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
       conversationID: 20002
       isRoot: 0
       isGroup: 0
@@ -2004,9 +1396,9 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
-        originDialogueID: 14
+        originDialogueID: 10
         destinationConversationID: 20002
-        destinationDialogueID: 19
+        destinationDialogueID: 14
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -2016,59 +1408,11 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 20
-        y: 670
+        x: 80
+        y: 638
         width: 160
         height: 30
-    - id: 15
-      fields:
-      - title: Title
-        value: Option
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
-        value: "I know you\u2026 but I can't seem to remember why."
-        type: 0
-        typeString: 
-      - title: Actor
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      conversationID: 20002
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20002
-        originDialogueID: 15
-        destinationConversationID: 20002
-        destinationDialogueID: 14
-        isConnector: 0
-        priority: 2
-      conditionsString: Variable["OnlyOnce.e3118fa9412f4670bbe8bcee41229706"] ==
-        false;
-      userScript: Variable["OnlyOnce.e3118fa9412f4670bbe8bcee41229706"] = true;
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 20
-        y: 720
-        width: 160
-        height: 30
-    - id: 16
+    - id: 11
       fields:
       - title: Title
         value: Dialogue
@@ -2082,14 +1426,6 @@ MonoBehaviour:
         value: "Truth be told, I couldn\u2019t say if it were hours or years. "
         type: 0
         typeString: 
-      - title: Actor
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
       conversationID: 20002
       isRoot: 0
       isGroup: 0
@@ -2099,9 +1435,9 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
-        originDialogueID: 16
+        originDialogueID: 11
         destinationConversationID: 20002
-        destinationDialogueID: 20
+        destinationDialogueID: 15
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -2111,11 +1447,11 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 20
-        y: 770
+        x: 288
+        y: 638
         width: 160
         height: 30
-    - id: 17
+    - id: 12
       fields:
       - title: Title
         value: Dialogue
@@ -2129,14 +1465,6 @@ MonoBehaviour:
         value: Just echoes, I should think. She sees so very little now.
         type: 0
         typeString: 
-      - title: Actor
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
       conversationID: 20002
       isRoot: 0
       isGroup: 0
@@ -2146,9 +1474,9 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
-        originDialogueID: 17
+        originDialogueID: 12
         destinationConversationID: 20002
-        destinationDialogueID: 21
+        destinationDialogueID: 16
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -2158,11 +1486,11 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 20
-        y: 820
+        x: 496
+        y: 638
         width: 160
         height: 30
-    - id: 18
+    - id: 13
       fields:
       - title: Title
         value: END
@@ -2176,14 +1504,6 @@ MonoBehaviour:
         value: 
         type: 0
         typeString: 
-      - title: Actor
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
       conversationID: 20002
       isRoot: 0
       isGroup: 0
@@ -2199,170 +1519,11 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 20
-        y: 870
+        x: 704
+        y: 638
         width: 160
         height: 30
-    - id: 19
-      fields:
-      - title: Title
-        value: Dialogue
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
-        value: A shadow.
-        type: 0
-        typeString: 
-      - title: Actor
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
-      conversationID: 20002
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20002
-        originDialogueID: 19
-        destinationConversationID: 20002
-        destinationDialogueID: 22
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 20
-        y: 920
-        width: 160
-        height: 30
-    - id: 20
-      fields:
-      - title: Title
-        value: Dialogue
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
-        value: 'And yet this timing cannot be by chance. '
-        type: 0
-        typeString: 
-      - title: Actor
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
-      conversationID: 20002
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20002
-        originDialogueID: 20
-        destinationConversationID: 20002
-        destinationDialogueID: 23
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 20
-        y: 970
-        width: 160
-        height: 30
-    - id: 21
-      fields:
-      - title: Title
-        value: Dialogue
-        type: 0
-        typeString: 
-      - title: Sequence
-        value: 
-        type: 0
-        typeString: 
-      - title: Dialogue Text
-        value: ...And how could she not, from so far above?
-        type: 0
-        typeString: 
-      - title: Actor
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
-      conversationID: 20002
-      isRoot: 0
-      isGroup: 0
-      nodeColor: 
-      delaySimStatus: 0
-      falseConditionAction: 
-      conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20002
-        originDialogueID: 21
-        destinationConversationID: 20002
-        destinationDialogueID: 15
-        isConnector: 0
-        priority: 2
-      - originConversationID: 20002
-        originDialogueID: 21
-        destinationConversationID: 20002
-        destinationDialogueID: 9
-        isConnector: 0
-        priority: 2
-      - originConversationID: 20002
-        originDialogueID: 21
-        destinationConversationID: 20002
-        destinationDialogueID: 11
-        isConnector: 0
-        priority: 2
-      - originConversationID: 20002
-        originDialogueID: 21
-        destinationConversationID: 20002
-        destinationDialogueID: 13
-        isConnector: 0
-        priority: 2
-      conditionsString: 
-      userScript: 
-      onExecute:
-        m_PersistentCalls:
-          m_Calls: []
-      canvasRect:
-        serializedVersion: 2
-        x: 20
-        y: 1020
-        width: 160
-        height: 30
-    - id: 22
+    - id: 14
       fields:
       - title: Title
         value: Dialogue
@@ -2376,14 +1537,39 @@ MonoBehaviour:
         value: ...Though very little light remains.
         type: 0
         typeString: 
-      - title: Actor
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
+      conversationID: 20002
+      isRoot: 0
+      isGroup: 0
+      nodeColor: 
+      delaySimStatus: 0
+      falseConditionAction: 
+      conditionPriority: 2
+      outgoingLinks: []
+      conditionsString: 
+      userScript: 
+      onExecute:
+        m_PersistentCalls:
+          m_Calls: []
+      canvasRect:
+        serializedVersion: 2
+        x: 80
+        y: 722
+        width: 160
+        height: 30
+    - id: 15
+      fields:
+      - title: Title
+        value: Dialogue
+        type: 0
+        typeString: 
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: 
+      - title: Dialogue Text
+        value: 'And yet this timing cannot be by chance. '
+        type: 0
+        typeString: 
       conversationID: 20002
       isRoot: 0
       isGroup: 0
@@ -2393,27 +1579,9 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
-        originDialogueID: 22
+        originDialogueID: 15
         destinationConversationID: 20002
-        destinationDialogueID: 15
-        isConnector: 0
-        priority: 2
-      - originConversationID: 20002
-        originDialogueID: 22
-        destinationConversationID: 20002
-        destinationDialogueID: 9
-        isConnector: 0
-        priority: 2
-      - originConversationID: 20002
-        originDialogueID: 22
-        destinationConversationID: 20002
-        destinationDialogueID: 11
-        isConnector: 0
-        priority: 2
-      - originConversationID: 20002
-        originDialogueID: 22
-        destinationConversationID: 20002
-        destinationDialogueID: 13
+        destinationDialogueID: 17
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -2423,11 +1591,44 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 20
-        y: 1070
+        x: 288
+        y: 722
         width: 160
         height: 30
-    - id: 23
+    - id: 16
+      fields:
+      - title: Title
+        value: Dialogue
+        type: 0
+        typeString: 
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: 
+      - title: Dialogue Text
+        value: ...And how could she not, from so far above?
+        type: 0
+        typeString: 
+      conversationID: 20002
+      isRoot: 0
+      isGroup: 0
+      nodeColor: 
+      delaySimStatus: 0
+      falseConditionAction: 
+      conditionPriority: 2
+      outgoingLinks: []
+      conditionsString: 
+      userScript: 
+      onExecute:
+        m_PersistentCalls:
+          m_Calls: []
+      canvasRect:
+        serializedVersion: 2
+        x: 496
+        y: 722
+        width: 160
+        height: 30
+    - id: 17
       fields:
       - title: Title
         value: Dialogue
@@ -2441,14 +1642,6 @@ MonoBehaviour:
         value: The air above has shifted. Smells like blood and brass.
         type: 0
         typeString: 
-      - title: Actor
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
       conversationID: 20002
       isRoot: 0
       isGroup: 0
@@ -2458,9 +1651,9 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks:
       - originConversationID: 20002
-        originDialogueID: 23
+        originDialogueID: 17
         destinationConversationID: 20002
-        destinationDialogueID: 24
+        destinationDialogueID: 18
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -2470,11 +1663,11 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 20
-        y: 1120
+        x: 288
+        y: 806
         width: 160
         height: 30
-    - id: 24
+    - id: 18
       fields:
       - title: Title
         value: Dialogue
@@ -2488,14 +1681,6 @@ MonoBehaviour:
         value: "They must know we\u2019re coming."
         type: 0
         typeString: 
-      - title: Actor
-        value: 20000
-        type: 5
-        typeString: CustomFieldType_Actor
-      - title: Conversant
-        value: 10000
-        type: 5
-        typeString: CustomFieldType_Actor
       conversationID: 20002
       isRoot: 0
       isGroup: 0
@@ -2503,31 +1688,7 @@ MonoBehaviour:
       delaySimStatus: 0
       falseConditionAction: 
       conditionPriority: 2
-      outgoingLinks:
-      - originConversationID: 20002
-        originDialogueID: 24
-        destinationConversationID: 20002
-        destinationDialogueID: 15
-        isConnector: 0
-        priority: 2
-      - originConversationID: 20002
-        originDialogueID: 24
-        destinationConversationID: 20002
-        destinationDialogueID: 9
-        isConnector: 0
-        priority: 2
-      - originConversationID: 20002
-        originDialogueID: 24
-        destinationConversationID: 20002
-        destinationDialogueID: 11
-        isConnector: 0
-        priority: 2
-      - originConversationID: 20002
-        originDialogueID: 24
-        destinationConversationID: 20002
-        destinationDialogueID: 13
-        isConnector: 0
-        priority: 2
+      outgoingLinks: []
       conditionsString: 
       userScript: 
       onExecute:
@@ -2535,13 +1696,13 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 20
-        y: 1170
+        x: 288
+        y: 890
         width: 160
         height: 30
     entryGroups: []
-    canvasScrollPosition: {x: 0, y: 0}
-    canvasZoom: 0.73
+    canvasScrollPosition: {x: 0, y: 376.3636}
+    canvasZoom: 0.8800001
   syncInfo:
     syncActors: 1
     syncItems: 1
