@@ -7,6 +7,8 @@ using PixelCrushers.DialogueSystem.ChatMapper;
 using StoryFlow.Data;
 using UnityEditor;
 using UnityEngine;
+using static LuaHelper;
+using static StoryFlowHelper;
 
 namespace PixelCrushers.DialogueSystem
 {
@@ -367,8 +369,6 @@ namespace PixelCrushers.DialogueSystem
                         resetEntries.Add(sourceEntry);
                 }
 
-
-
                 List<StoryFlowConnection> connections = script.GetEdgesFromSource(node.Id);
                 List<Option> nodeOptions = GetOptions(node);
 
@@ -383,6 +383,8 @@ namespace PixelCrushers.DialogueSystem
                     {
                         option = nodeOptions.FirstOrDefault(o => connection.SourceHandle.Contains(o.ID));
                     }
+
+                    #region RunFlow
 
                     if (target.Type == StoryFlowNodeType.RunFlow)
                     {
@@ -405,6 +407,8 @@ namespace PixelCrushers.DialogueSystem
                         continue;
                     }
 
+                    #endregion
+
                     if (!visited.Contains(target.Id))
                         queue.Enqueue(target);
 
@@ -418,6 +422,8 @@ namespace PixelCrushers.DialogueSystem
                     }
                 }
 
+
+                #region EntryFlow
                 // EntryFlow nodes can be destinations of RunFlow nodes. Register their first
                 // dialogue/terminal destinations after the graph has been traversed.
                 foreach (StoryFlowConnection incoming in script.GetEdgesByTarget(node.Id))
@@ -451,6 +457,8 @@ namespace PixelCrushers.DialogueSystem
                         pendingRunFlows.Remove(flowId);
                     }
                 }
+
+                #endregion
 
                 foreach (Option option in nodeOptions)
                 {
@@ -516,23 +524,7 @@ namespace PixelCrushers.DialogueSystem
                 usedOptions.Add(option);
         }
 
-        private bool IsValidNode(StoryFlowNode node)
-        {
-            if (node == null) return false;
-
-            switch (node.Type)
-            {
-                case StoryFlowNodeType.Dialogue:
-                case StoryFlowNodeType.Start:
-                case StoryFlowNodeType.EntryFlow:
-                case StoryFlowNodeType.End:
-                    return true;
-
-                default:
-                    return false;
-            }
-        }
-
+        
         private DialogueEntry CreateDialogueEntry(StoryFlowNode node, Conversation conversation, Dictionary<string, DialogueEntry> entries,
                                                   StoryFlowScriptAsset script, Option option = null)
         {
@@ -584,6 +576,9 @@ namespace PixelCrushers.DialogueSystem
             return existing;
         }
 
+        #region StoryFlow Actions
+
+
         private void EvaluateIntermediateNode(StoryFlowNode node, StoryFlowScriptAsset script)
         {
             if (node.Type == StoryFlowNodeType.SetCharacter)
@@ -593,22 +588,100 @@ namespace PixelCrushers.DialogueSystem
             }
         }
 
+        private void ConvertSetCharacter(StoryFlowNode node, StoryFlowScriptAsset script)
+        {
+            // StoryFlow SetCharacter is stateful runtime logic. Its static initial value can
+            // be represented as a Dialogue System Actor variable; changing it during a
+            // conversation needs a project-specific translated Script/Lua assignment.
+            string variableKey = GetData(node, "variable");
+            string characterKey = GetData(node, "value");
+            StoryFlowVariable sourceVariable = GetVariableFromStoryFlow(script, variableKey);
+            Actor actor = GetActorFromDatabase(characterKey, script);
+            if (sourceVariable == null || actor == null) return;
+
+            Variable variable = FindVariable(currentLocalDB, sourceVariable.Name);
+            if (variable == null)
+            {
+                int varID = template.GetNextVariableID(currentLocalDB);
+                variable = template.CreateVariable(varID, sourceVariable.Name, actor.id.ToString(), FieldType.Actor);
+                currentLocalDB.variables.Add(variable);
+
+                return;
+            }
+
+            variable.InitialValue = actor.id.ToString();
+        }
+
+        #endregion
+
+        #region StoryFlow Methods
+
+        private StoryFlowVariable GetVariableFromStoryFlow(StoryFlowScriptAsset script, string key)
+        {
+            if (string.IsNullOrEmpty(key)) return null;
+            StoryFlowVariable variable = script.GetVariable(key);
+            return variable ?? project.GetGlobalVariable(key);
+        }
+
+        private bool IsValidNode(StoryFlowNode node)
+        {
+            if (node == null) return false;
+
+            switch (node.Type)
+            {
+                case StoryFlowNodeType.Dialogue:
+                case StoryFlowNodeType.Start:
+                case StoryFlowNodeType.EntryFlow:
+                case StoryFlowNodeType.End:
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
+
+        #endregion
+
+
+        #region Option
+
         private List<StoryFlowConnection> SortConnectionsByOptions(List<StoryFlowConnection> connections, List<Option> options)
         {
             if (options == null || options.Count == 0)
                 return connections;
 
             return connections.OrderBy(connection =>
-                {
-                    if (string.IsNullOrEmpty(connection.SourceHandle))
-                        return int.MaxValue;
+            {
+                if (string.IsNullOrEmpty(connection.SourceHandle))
+                    return int.MaxValue;
 
-                    int index = options.FindIndex(option => connection.SourceHandle.Contains(option.ID));
+                int index = options.FindIndex(option => connection.SourceHandle.Contains(option.ID));
 
-                    return index >= 0 ? index : int.MaxValue;
-                }).ToList();
+                return index >= 0 ? index : int.MaxValue;
+            }).ToList();
         }
 
+        private List<Option> GetOptions(StoryFlowNode node)
+        {
+            List<Option> result = new List<Option>();
+            if (node == null || node.Type != StoryFlowNodeType.Dialogue) return result;
+
+            string json = GetData(node, "options");
+            if (string.IsNullOrEmpty(json) || json == "[]") return result;
+
+            try
+            {
+                result = JsonConvert.DeserializeObject<List<Option>>(json) ?? new List<Option>();
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("[StoryFlow Converter] Could not parse options on node '" + node.Id + "': " + e.Message);
+            }
+            return result;
+        }
+
+        #endregion
 
 
         #region Conversation Methods
@@ -665,31 +738,11 @@ namespace PixelCrushers.DialogueSystem
             return entry;
         }
 
-        private List<Option> GetOptions(StoryFlowNode node)
-        {
-            List<Option> result = new List<Option>();
-            if (node == null || node.Type != StoryFlowNodeType.Dialogue) return result;
-
-            string json = GetData(node, "options");
-            if (string.IsNullOrEmpty(json) || json == "[]") return result;
-
-            try
-            {
-                result = JsonConvert.DeserializeObject<List<Option>>(json) ?? new List<Option>();
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning("[StoryFlow Converter] Could not parse options on node '" + node.Id + "': " + e.Message);
-            }
-            return result;
-        }
-
         private void AddLink(Conversation conversation, DialogueEntry source, DialogueEntry target)
         {
             if (source == null || target == null) return;
             source.outgoingLinks.Add(new Link(conversation.id, source.id, conversation.id, target.id));
         }
-
         
 
         #endregion
@@ -759,77 +812,6 @@ namespace PixelCrushers.DialogueSystem
 
         #endregion
 
-        #region StoryFlow Methods
-
-        private StoryFlowVariable GetVariableFromStoryFlow(StoryFlowScriptAsset script, string key)
-        {
-            if (string.IsNullOrEmpty(key)) return null;
-            StoryFlowVariable variable = script.GetVariable(key);
-            return variable ?? project.GetGlobalVariable(key);
-        }
-
-        private string GetData(StoryFlowNode node, string key)
-        {
-            if (node == null || node.Data == null) return null;
-            string value;
-            return node.Data.TryGetValue(key, out value) ? value : null;
-        }
-
-        private bool NodeHasTag(StoryFlowNode node, string tag)
-        {
-            string tags = GetData(node, "tags");
-            return !string.IsNullOrEmpty(tags) && tags.IndexOf(tag, StringComparison.OrdinalIgnoreCase) >= 0;
-        }
-
-        private string GetVariableValue(StoryFlowVariable variable, out FieldType fieldType)
-        {
-            switch (variable.Type)
-            {
-                case StoryFlowVariableType.Boolean:
-                    fieldType = FieldType.Boolean;
-                    return variable.Value.BoolValue ? "true" : "false";
-                case StoryFlowVariableType.Integer:
-                    fieldType = FieldType.Number;
-                    return variable.Value.IntValue.ToString(System.Globalization.CultureInfo.InvariantCulture);
-                case StoryFlowVariableType.Float:
-                    fieldType = FieldType.Number;
-                    return variable.Value.FloatValue.ToString(System.Globalization.CultureInfo.InvariantCulture);
-                default:
-                    fieldType = FieldType.Text;
-                    return variable.Value.StringValue ?? string.Empty;
-            }
-        }
-
-        #endregion
-
-
-        #region Convert StoryFlow Actions
-        private void ConvertSetCharacter(StoryFlowNode node, StoryFlowScriptAsset script)
-        {
-            // StoryFlow SetCharacter is stateful runtime logic. Its static initial value can
-            // be represented as a Dialogue System Actor variable; changing it during a
-            // conversation needs a project-specific translated Script/Lua assignment.
-            string variableKey = GetData(node, "variable");
-            string characterKey = GetData(node, "value");
-            StoryFlowVariable sourceVariable = GetVariableFromStoryFlow(script, variableKey);
-            Actor actor = GetActorFromDatabase(characterKey, script);
-            if (sourceVariable == null || actor == null) return;
-
-            Variable variable = FindVariable(currentLocalDB, sourceVariable.Name);
-            if (variable == null)
-            {
-                int varID = template.GetNextVariableID(currentLocalDB);
-                variable = template.CreateVariable(varID, sourceVariable.Name, actor.id.ToString(), FieldType.Actor);
-                currentLocalDB.variables.Add(variable);
-
-                return;
-            }
-
-            variable.InitialValue = actor.id.ToString();
-        }
-
-        #endregion
-
 
         #region String Methods
 
@@ -866,33 +848,6 @@ namespace PixelCrushers.DialogueSystem
 
         #endregion
 
-
-        #region Lua Helper Methods
-
-        private void AppendCondition(DialogueEntry entry, string condition)
-        {
-            if (entry == null || string.IsNullOrEmpty(condition)) return;
-            if (!string.IsNullOrEmpty(entry.conditionsString)) entry.conditionsString += " and ";
-            entry.conditionsString += condition;
-        }
-
-        private void AppendScript(DialogueEntry entry, string script)
-        {
-            if (entry == null || string.IsNullOrEmpty(script)) return;
-            entry.userScript = (entry.userScript ?? string.Empty) + script;
-        }
-
-        private string LuaEquals(string variableName, string value)
-        {
-            return $"(Variable[\"{variableName}\"] == {value})";
-        }
-
-        private string LuaSet(string variableName, string value)
-        {
-            return $"Variable[\"{variableName}\"] = {value};";
-        }
-
-        #endregion
 
 
         #region Debugging
