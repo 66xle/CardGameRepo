@@ -460,16 +460,7 @@ namespace PixelCrushers.DialogueSystem
 
                 #endregion
 
-                foreach (Option option in nodeOptions)
-                {
-                    if (!option.IsOnlyOnce) continue;
-                    if (!entries.TryGetValue(option.ID, out DialogueEntry optionEntry)) continue;
-
-                    string variableName = "OnlyOnce." + option.ID;
-                    EnsureBooleanVariable(currentLocalDB, variableName, "false", conversation.Title);
-                    AppendCondition(optionEntry, LuaEquals(variableName, "false"));
-                    AppendScript(optionEntry, LuaSet(variableName, "true"));
-                }
+                
             }
 
             // Reset once-only options when a tagged reset node is reached.
