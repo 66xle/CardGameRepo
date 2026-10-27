@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using PixelCrushers.DialogueSystem.ChatMapper;
 using StoryFlow.Data;
@@ -423,13 +424,7 @@ namespace PixelCrushers.DialogueSystem
 
                         if (targetEntry == null) continue;
 
-                        Actor actor = currentLocalDB.GetActor(targetEntry.ActorID);
-                        if (actor != null)
-                        {
-                            string variableSequence = actor.IsPlayer ? "PlayerSequence" : "ActorSequence";
-                            AppendSequence(targetEntry, GetScriptVariableData(script, "Sequence", variableSequence));
-                        }
-
+                        AddSequences(targetEntry, target, script);
 
                         BuildLink(conversation, lastValidEntry, node, target, targetEntry, option, script, onceOptionsByNode);
                     }
@@ -492,6 +487,48 @@ namespace PixelCrushers.DialogueSystem
             // A RunFlow whose target entry was never resolved is not silently discarded.
             foreach (KeyValuePair<string, List<DialogueEntry>> pending in pendingRunFlows)
                 Debug.LogWarning("[StoryFlow Converter] Flow '" + pending.Key + "' in '" + title + "' has unresolved RunFlow links.");
+        }
+
+        private void AddSequences(DialogueEntry entry, StoryFlowNode node, StoryFlowScriptAsset script)
+        {
+            Actor actor = currentLocalDB.GetActor(entry.ActorID);
+            if (actor != null)
+            {
+                string variableSequence = actor.IsPlayer ? "PlayerSequence" : "ActorSequence";
+                AppendSequence(entry, GetScriptVariableData(script, "Sequence", variableSequence));
+            }
+
+            if (!node.Data.TryGetValue("audio", out string audio))
+                return;
+
+            string path = AssetDatabase.GetAssetPath(script.ResolvedAssetEntries.FirstOrDefault(asset => asset.Key == audio).Asset);
+            if (path.StartsWith("Assets/Resources/"))
+            {
+                path = path.Substring("Assets/Resources/".Length).ToLower();
+                path = Path.ChangeExtension(path, null);
+
+                AppendSequence(entry, $"Audio({path}, speaker);");
+            }
+
+            // Sequence Tags
+            if (!node.Data.TryGetValue("tags", out string tags))
+                return;
+
+            string[] results = Regex.Matches(tags, @"SQ:([^""\]]+)").Select(m => m.Groups[1].Value).ToArray();
+            foreach (string result in results)
+            {
+                AppendSequence(entry, result + ";");
+            }
+
+            // Response Sequence Tags
+            if (!node.Data.TryGetValue("tags", out string menuTags))
+                return;
+
+            string[] menuResults = Regex.Matches(tags, @"RQ:([^""\]]+)").Select(m => m.Groups[1].Value).ToArray();
+            foreach (string result in menuResults)
+            {
+                AppendResponseMenuSequence(entry, result + ";");
+            }
         }
 
         private void BuildLink(Conversation conversation, DialogueEntry sourceEntry, StoryFlowNode sourceNode, StoryFlowNode targetNode, DialogueEntry targetEntry,

@@ -23,6 +23,12 @@ public static class LuaHelper
         entry.Sequence = (entry.Sequence ?? string.Empty) + sequence;
     }
 
+    public static void AppendResponseMenuSequence(DialogueEntry entry, string sequence)
+    {
+        if (entry == null || string.IsNullOrEmpty(sequence)) return;
+        entry.ResponseMenuSequence = (entry.ResponseMenuSequence ?? string.Empty) + sequence;
+    }
+
     public static string LuaEquals(string variableName, string value)
     {
         return $"(Variable[\"{variableName}\"] == {value})";

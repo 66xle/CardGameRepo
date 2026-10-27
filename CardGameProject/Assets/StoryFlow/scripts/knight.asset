@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScriptPath: scripts/knight.json
   StartNodeId: 0
-  ImportedSourceHash: 368355C359F5193167112E9D51640E1A4413924415B1AAA9E441A740FF025C20
+  ImportedSourceHash: F87A9E416D566CBE565F3008F4444E3DF2EA2812794CB7F46CE604897948F8EC
   serializedNodes:
   - Id: 0
     Type: 1
@@ -33,7 +33,7 @@ MonoBehaviour:
     - Key: audio
       Value: asset_audio_1
     - Key: tags
-      Value: '["OnceResetVars"]'
+      Value: '["OnceResetVars","SQ:AnimatorTrigger(4)"]'
   - Id: c619f4c6fe4c409199ac55ff37b24160
     Type: 7
     RawType: dialogue
@@ -46,6 +46,8 @@ MonoBehaviour:
       Value: '[{"id":"140466d37ae94f788e3731b2f5bc9847","text":"140466d37ae94f788e3731b2f5bc9847"}]'
     - Key: audio
       Value: asset_audio_2
+    - Key: tags
+      Value: '["SQ:AnimatorTrigger(5)"]'
   - Id: 7309440e2edd4bd6b833e57a0d38cebe
     Type: 7
     RawType: dialogue
@@ -58,6 +60,8 @@ MonoBehaviour:
       Value: '[]'
     - Key: audio
       Value: asset_audio_3
+    - Key: tags
+      Value: '["SQ:AnimatorTrigger(3)"]'
   - Id: 6a899ed4e0df45c6b76cf6ae796612d7
     Type: 7
     RawType: dialogue
@@ -70,6 +74,8 @@ MonoBehaviour:
       Value: '[{"id":"1dc2011bc4024cb0b0e48032a5c76514","text":"1dc2011bc4024cb0b0e48032a5c76514"}]'
     - Key: audio
       Value: asset_audio_4
+    - Key: tags
+      Value: '["SQ:AnimatorTrigger(2)"]'
   - Id: 1b384a7c8b8e46ea82ba65c5b1576086
     Type: 7
     RawType: dialogue
@@ -83,7 +89,8 @@ MonoBehaviour:
     - Key: audio
       Value: asset_audio_5
     - Key: tags
-      Value: '["DialogueOnlyOnce"]'
+      Value: '["DialogueOnlyOnce","SQ:AnimatorTrigger(3)","RQ:HidePanel(0)","RQ:CinemachinePriority(PlayerDialogueCam,
+        999, cut)"]'
   - Id: 8160d5a835b442e187725386853f5039
     Type: 7
     RawType: dialogue
@@ -96,6 +103,8 @@ MonoBehaviour:
       Value: '[]'
     - Key: audio
       Value: asset_audio_6
+    - Key: tags
+      Value: '["SQ:AnimatorTrigger(4)"]'
   - Id: 9d601ec24ab84bd987a69e036d443dc9
     Type: 7
     RawType: dialogue
@@ -108,6 +117,8 @@ MonoBehaviour:
       Value: '[]'
     - Key: audio
       Value: asset_audio_7
+    - Key: tags
+      Value: '["SQ:AnimatorTrigger(5)"]'
   - Id: fe6b5431c6d343a8a6fe5e21cb2f29a9
     Type: 7
     RawType: dialogue
@@ -120,6 +131,9 @@ MonoBehaviour:
       Value: '[]'
     - Key: audio
       Value: asset_audio_8
+    - Key: tags
+      Value: '["RQ:HidePanel(0)","RQ:CinemachinePriority(PlayerDialogueCam, 999,
+        cut)"]'
   - Id: bfc938f6ce07426695be1664691c59c5
     Type: 7
     RawType: dialogue
@@ -144,6 +158,8 @@ MonoBehaviour:
       Value: '[]'
     - Key: audio
       Value: asset_audio_10
+    - Key: tags
+      Value: '["SQ:AnimatorTrigger(2)"]'
   - Id: 230d98950d0441ea8b08ceb86f6827a2
     Type: 7
     RawType: dialogue
@@ -156,6 +172,8 @@ MonoBehaviour:
       Value: '[]'
     - Key: audio
       Value: asset_audio_11
+    - Key: tags
+      Value: '["SQ:AnimatorTrigger(5)"]'
   - Id: 2fe464f818bd4eebaf4b87c7f84a7152
     Type: 7
     RawType: dialogue
@@ -180,6 +198,9 @@ MonoBehaviour:
       Value: '[]'
     - Key: audio
       Value: asset_audio_13
+    - Key: tags
+      Value: '["SQ:AnimatorTrigger(2)","RQ:HidePanel(0)","RQ:CinemachinePriority(PlayerDialogueCam,
+        999, cut)"]'
   - Id: 4b065f3a09914382b2d4a08caa97dc0a
     Type: 7
     RawType: dialogue
@@ -192,6 +213,8 @@ MonoBehaviour:
       Value: '[]'
     - Key: audio
       Value: asset_audio_14
+    - Key: tags
+      Value: '["SQ:AnimatorTrigger(2)"]'
   - Id: 0c1ad06172f6470e9acd4d1247f71dfd
     Type: 7
     RawType: dialogue
@@ -204,6 +227,8 @@ MonoBehaviour:
       Value: '[]'
     - Key: audio
       Value: asset_audio_15
+    - Key: tags
+      Value: '["SQ:AnimatorTrigger(4)"]'
   - Id: 7497a9ae6e734a70b110380f8736c9ab
     Type: 7
     RawType: dialogue
@@ -216,6 +241,8 @@ MonoBehaviour:
       Value: '[{"id":"e8612fa291544bacbecb4123748c5202","text":"e8612fa291544bacbecb4123748c5202"}]'
     - Key: audio
       Value: asset_audio_16
+    - Key: tags
+      Value: '["SQ:AnimatorTrigger(1)"]'
   - Id: c8d8be7a9e96449aad732eb4cb6a68a5
     Type: 5
     RawType: runFlow
@@ -256,6 +283,8 @@ MonoBehaviour:
       Value: '[]'
     - Key: audio
       Value: asset_audio_17
+    - Key: tags
+      Value: '["SQ:AnimatorTrigger(2)"]'
   - Id: 0dca05c8b7b0438c9bd97cd49ac984bd
     Type: 2
     RawType: end
@@ -271,7 +300,7 @@ MonoBehaviour:
     - Key: audio
       Value: asset_audio_18
     - Key: tags
-      Value: '["RepeatOptionText"]'
+      Value: '["RepeatOptionText","SQ:AnimatorTrigger(4)"]'
   - Id: eda8135d5c354909a8a468cc9bf73cab
     Type: 7
     RawType: dialogue
@@ -283,7 +312,7 @@ MonoBehaviour:
     - Key: audio
       Value: asset_audio_19
     - Key: tags
-      Value: '["RepeatOptionText"]'
+      Value: '["RepeatOptionText","SQ:AnimatorTrigger(3)"]'
   - Id: adf9b12c2d5c44a684be75a7135ae48a
     Type: 7
     RawType: dialogue
@@ -295,7 +324,7 @@ MonoBehaviour:
     - Key: audio
       Value: asset_audio_20
     - Key: tags
-      Value: '["RepeatOptionText"]'
+      Value: '["RepeatOptionText","SQ:AnimatorTrigger(2)"]'
   - Id: 8cd1bcc4552e4f1b9bea9587b3e20f29
     Type: 7
     RawType: dialogue
@@ -307,7 +336,7 @@ MonoBehaviour:
     - Key: audio
       Value: asset_audio_21
     - Key: tags
-      Value: '["RepeatOptionText"]'
+      Value: '["RepeatOptionText","SQ:AnimatorTrigger(3)"]'
   - Id: 6ef552bfb8004646aa92171e2fa170bf
     Type: 7
     RawType: dialogue
@@ -319,7 +348,27 @@ MonoBehaviour:
     - Key: audio
       Value: asset_audio_22
     - Key: tags
-      Value: '["RepeatOptionText"]'
+      Value: '["RepeatOptionText","SQ:AnimatorTrigger(2)"]'
+  - Id: c4ec8f6d1b774aa0938af0878d3e8ecf
+    Type: 7
+    RawType: dialogue
+    Data:
+    - Key: title
+      Value: c4ec8f6d1b774aa0938af0878d3e8ecf.title
+    - Key: options
+      Value: '[]'
+    - Key: audio
+      Value: asset_audio_23
+    - Key: tags
+      Value: '["RepeatOptionText","SQ:AnimatorTrigger(1)","RQ:HidePanel(0)"]'
+  - Id: 71ed55d577fa46cbb98c2f298925451a
+    Type: 7
+    RawType: dialogue
+    Data:
+    - Key: title
+      Value: 71ed55d577fa46cbb98c2f298925451a.title
+    - Key: options
+      Value: '[]'
   connections:
   - Id: xy-edge__e2ae1c70a3e94b8ba1cb53fc664055aasource-e2ae1c70a3e94b8ba1cb53fc664055aa--c619f4c6fe4c409199ac55ff37b24160target-c619f4c6fe4c409199ac55ff37b24160-
     Source: e2ae1c70a3e94b8ba1cb53fc664055aa
@@ -371,11 +420,6 @@ MonoBehaviour:
     Target: 7497a9ae6e734a70b110380f8736c9ab
     SourceHandle: source-0c1ad06172f6470e9acd4d1247f71dfd-
     TargetHandle: target-7497a9ae6e734a70b110380f8736c9ab-
-  - Id: xy-edge__7497a9ae6e734a70b110380f8736c9absource-7497a9ae6e734a70b110380f8736c9ab-e8612fa291544bacbecb4123748c5202-c8d8be7a9e96449aad732eb4cb6a68a5target-c8d8be7a9e96449aad732eb4cb6a68a5-
-    Source: 7497a9ae6e734a70b110380f8736c9ab
-    Target: c8d8be7a9e96449aad732eb4cb6a68a5
-    SourceHandle: source-7497a9ae6e734a70b110380f8736c9ab-e8612fa291544bacbecb4123748c5202
-    TargetHandle: target-c8d8be7a9e96449aad732eb4cb6a68a5-
   - Id: xy-edge__ce1fd699d53b40769ea7b155193e65c3source-ce1fd699d53b40769ea7b155193e65c3--c8d8be7a9e96449aad732eb4cb6a68a5target-c8d8be7a9e96449aad732eb4cb6a68a5-
     Source: ce1fd699d53b40769ea7b155193e65c3
     Target: c8d8be7a9e96449aad732eb4cb6a68a5
@@ -401,11 +445,6 @@ MonoBehaviour:
     Target: 88dd0ecb564f4b0399e85be29b621057
     SourceHandle: source-1b384a7c8b8e46ea82ba65c5b1576086-1f570357d606497e83551fcc452c42d8
     TargetHandle: target-88dd0ecb564f4b0399e85be29b621057-
-  - Id: xy-edge__88dd0ecb564f4b0399e85be29b621057source-88dd0ecb564f4b0399e85be29b621057--0dca05c8b7b0438c9bd97cd49ac984bdtarget-0dca05c8b7b0438c9bd97cd49ac984bd-
-    Source: 88dd0ecb564f4b0399e85be29b621057
-    Target: 0dca05c8b7b0438c9bd97cd49ac984bd
-    SourceHandle: source-88dd0ecb564f4b0399e85be29b621057-
-    TargetHandle: target-0dca05c8b7b0438c9bd97cd49ac984bd-
   - Id: xy-edge__1b384a7c8b8e46ea82ba65c5b1576086source-1b384a7c8b8e46ea82ba65c5b1576086-e3118fa9412f4670bbe8bcee41229706-fc04835d78d14b00a2605ca22320f2c7target-fc04835d78d14b00a2605ca22320f2c7-
     Source: 1b384a7c8b8e46ea82ba65c5b1576086
     Target: fc04835d78d14b00a2605ca22320f2c7
@@ -466,7 +505,39 @@ MonoBehaviour:
     Target: e2ae1c70a3e94b8ba1cb53fc664055aa
     SourceHandle: source-b5817014c1d8491ebee13574f9f1778f-1
     TargetHandle: target-e2ae1c70a3e94b8ba1cb53fc664055aa-
+  - Id: xy-edge__7497a9ae6e734a70b110380f8736c9absource-7497a9ae6e734a70b110380f8736c9ab-e8612fa291544bacbecb4123748c5202-c4ec8f6d1b774aa0938af0878d3e8ecftarget-c4ec8f6d1b774aa0938af0878d3e8ecf-
+    Source: 7497a9ae6e734a70b110380f8736c9ab
+    Target: c4ec8f6d1b774aa0938af0878d3e8ecf
+    SourceHandle: source-7497a9ae6e734a70b110380f8736c9ab-e8612fa291544bacbecb4123748c5202
+    TargetHandle: target-c4ec8f6d1b774aa0938af0878d3e8ecf-
+  - Id: xy-edge__c4ec8f6d1b774aa0938af0878d3e8ecfsource-c4ec8f6d1b774aa0938af0878d3e8ecf--c8d8be7a9e96449aad732eb4cb6a68a5target-c8d8be7a9e96449aad732eb4cb6a68a5-
+    Source: c4ec8f6d1b774aa0938af0878d3e8ecf
+    Target: c8d8be7a9e96449aad732eb4cb6a68a5
+    SourceHandle: source-c4ec8f6d1b774aa0938af0878d3e8ecf-
+    TargetHandle: target-c8d8be7a9e96449aad732eb4cb6a68a5-
+  - Id: xy-edge__88dd0ecb564f4b0399e85be29b621057source-88dd0ecb564f4b0399e85be29b621057--71ed55d577fa46cbb98c2f298925451atarget-71ed55d577fa46cbb98c2f298925451a-
+    Source: 88dd0ecb564f4b0399e85be29b621057
+    Target: 71ed55d577fa46cbb98c2f298925451a
+    SourceHandle: source-88dd0ecb564f4b0399e85be29b621057-
+    TargetHandle: target-71ed55d577fa46cbb98c2f298925451a-
+  - Id: xy-edge__71ed55d577fa46cbb98c2f298925451asource-71ed55d577fa46cbb98c2f298925451a--0dca05c8b7b0438c9bd97cd49ac984bdtarget-0dca05c8b7b0438c9bd97cd49ac984bd-
+    Source: 71ed55d577fa46cbb98c2f298925451a
+    Target: 0dca05c8b7b0438c9bd97cd49ac984bd
+    SourceHandle: source-71ed55d577fa46cbb98c2f298925451a-
+    TargetHandle: target-0dca05c8b7b0438c9bd97cd49ac984bd-
   serializedVariables:
+  - Id: var_f181304e
+    Name: Enemies
+    Type: 3
+    DefaultValueJson: '["5d5cfa07194d4873806204cb5564d0d3.value.0","5d5cfa07194d4873806204cb5564d0d3.value.1"]'
+    IsArray: 1
+    EnumValues: []
+    IsInput: 0
+    IsOutput: 0
+    KeyType: 0
+    ValueType: 0
+    KeyEnumValues: []
+    ValueEnumValues: []
   - Id: var_3ff39d3a
     Name: Sequence
     Type: 9
@@ -620,6 +691,14 @@ MonoBehaviour:
     Value: Dialogue
   - Key: en.6ef552bfb8004646aa92171e2fa170bf.title
     Value: Dialogue
+  - Key: en.c4ec8f6d1b774aa0938af0878d3e8ecf.title
+    Value: Dialogue
+  - Key: en.71ed55d577fa46cbb98c2f298925451a.title
+    Value: SequenceEnd
+  - Key: en.5d5cfa07194d4873806204cb5564d0d3.value.0
+    Value: Bandit
+  - Key: en.5d5cfa07194d4873806204cb5564d0d3.value.1
+    Value: Soldier
   - Key: en.e11bd946c13a4c6f96e3380d97d18207.value
     Value: Knight
   - Key: en.a5e7778b5e134c21b1d77b964913ab18.value
@@ -691,6 +770,9 @@ MonoBehaviour:
   - Id: asset_audio_22
     Path: audio/prisoner/dialogue_awakening_shevisitedmydreams.mp3
     Type: audio
+  - Id: asset_audio_23
+    Path: audio/prisoner/dialogue_awakening_yourprobablyright.mp3
+    Type: audio
   flows:
   - Id: 5dcd34a85e9e437eb461c476c5bfbe00
     Name: ReturnA
@@ -741,3 +823,5 @@ MonoBehaviour:
     Asset: {fileID: 8300000, guid: 408700dac6825da4892fb2c5ed59a8b1, type: 3}
   - Key: asset_audio_22
     Asset: {fileID: 8300000, guid: 4b0e3d418fc6bed46b325f105715da87, type: 3}
+  - Key: asset_audio_23
+    Asset: {fileID: 8300000, guid: f20ee8c7f71e9b14a86a2f262886a35e, type: 3}

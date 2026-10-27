@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: da_3bf0109ba2ff45b8aa51fde1551ed918
   m_EditorClassIdentifier: 
   Id: da_3bf0109ba2ff45b8aa51fde1551ed918
-  DisplayName: BaseSQ Knight
+  DisplayName: KnightSQ
   ParentId: da_5065339f937c409e94e545b5edd1abd8
   Variables: []
   Overrides:
   - VariableId: 5c40af90697a4095b7ed22a106108df7
     ValueJson: '"CinemachinePriority(PlayerDialogueCam, 0);\nCinemachinePriority(DialogueVirtualCamera,
-      999, cut);"'
+      999, cut);\nCamera(Medium Right,speaker);\nAudioStop(listener);"'
   - VariableId: ad708f921fde4288ac27fd22214e1a30
     ValueJson: '"CinemachinePriority(DialogueVirtualCamera, 0);\nCinemachinePriority(PlayerDialogueCam,
-      999, cut); "'
-  ImportedSourceHash: B78E58384475C377248CBAD335594A1871FC32D8C43F7AF91583D62F589CBB85
+      999, cut); \nAudioStop(listener);"'
+  ImportedSourceHash: F978880B0F6C12983D84237865071E874183A598DA6D48DD3D71FC666E26E662
