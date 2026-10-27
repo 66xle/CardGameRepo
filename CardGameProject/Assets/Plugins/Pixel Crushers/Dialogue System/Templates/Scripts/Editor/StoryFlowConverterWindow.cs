@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using PixelCrushers.DialogueSystem.ChatMapper;
 using StoryFlow.Data;
+using TextMateSharp.Grammars;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Windows;
 using static LuaHelper;
 using static StoryFlowHelper;
 
@@ -267,8 +270,8 @@ namespace PixelCrushers.DialogueSystem
                 StoryFlowScriptAsset script = reference.Asset;
                 if (script.Nodes == null || script.Nodes.Count == 0) continue;
 
-                string databaseName = GetScriptMetadataString(script, "Database");
-                string scriptName = GetScriptMetadataString(script, "EventName");
+                string databaseName = GetScriptVariableString(script, "Database");
+                string scriptName = GetScriptVariableString(script, "EventName");
                 if (string.IsNullOrEmpty(databaseName))
                 {
                     Debug.LogWarning("[StoryFlow Converter] Skipping script '" + script.name + "' because it has no Database variable.");
@@ -347,6 +350,8 @@ namespace PixelCrushers.DialogueSystem
             HashSet<string> visited = new HashSet<string>();
             DialogueEntry lastValidEntry = null;
 
+            
+
 
             CreateDialogueEntry(startNode, conversation, entries, script);
             queue.Enqueue(startNode);
@@ -417,6 +422,14 @@ namespace PixelCrushers.DialogueSystem
                         DialogueEntry targetEntry = CreateDialogueEntry(target, conversation, entries, script, option);
 
                         if (targetEntry == null) continue;
+
+                        Actor actor = currentLocalDB.GetActor(targetEntry.ActorID);
+                        if (actor != null)
+                        {
+                            string variableSequence = actor.IsPlayer ? "PlayerSequence" : "ActorSequence";
+                            AppendSequence(targetEntry, GetScriptVariableData(script, "Sequence", variableSequence));
+                        }
+
 
                         BuildLink(conversation, lastValidEntry, node, target, targetEntry, option, script, onceOptionsByNode);
                     }
@@ -590,7 +603,7 @@ namespace PixelCrushers.DialogueSystem
             Actor actor = GetActorFromDatabase(characterKey, script);
             if (sourceVariable == null || actor == null) return;
 
-            Variable variable = FindVariable(currentLocalDB, sourceVariable.Name);
+            Variable variable = FindDatabaseVariable(currentLocalDB, sourceVariable.Name);
             if (variable == null)
             {
                 int varID = template.GetNextVariableID(currentLocalDB);
@@ -686,14 +699,14 @@ namespace PixelCrushers.DialogueSystem
                 if (actor != null)
                 {
                     entry.ActorID = actor.id;
-                    Actor player = GetOrCreatePlayer(currentLocalDB);
+                    Actor player = GetActorFromDatabase(script, "Player");
                     entry.ConversantID = player.id;
                 }
                 return;
             }
 
-            Variable actorVar = FindVariable(currentLocalDB, "Actor");
-            Variable conversantVar = FindVariable(currentLocalDB, "Conversant");
+            Variable actorVar = FindDatabaseVariable(currentLocalDB, "Actor");
+            Variable conversantVar = FindDatabaseVariable(currentLocalDB, "Conversant");
 
             if (actorVar != null && int.TryParse(actorVar.InitialValue, out int actorID))
                 entry.ActorID = actorID;
@@ -704,7 +717,7 @@ namespace PixelCrushers.DialogueSystem
 
         private void ApplyOptionActor(DialogueEntry entry, StoryFlowNode node, StoryFlowScriptAsset script)
         {
-            Actor player = GetOrCreatePlayer(currentLocalDB);
+            Actor player = GetActorFromDatabase(script, "Player");
             entry.ActorID = player.id;
 
             string characterKey = GetData(node, "characterRefId");
@@ -715,7 +728,7 @@ namespace PixelCrushers.DialogueSystem
             }
             else
             {
-                Variable actorVar = FindVariable(currentLocalDB, "Actor");
+                Variable actorVar = FindDatabaseVariable(currentLocalDB, "Actor");
                 if (actorVar != null && int.TryParse(actorVar.InitialValue, out int conversantID))
                     entry.ConversantID = conversantID;
             }
@@ -740,23 +753,21 @@ namespace PixelCrushers.DialogueSystem
 
         #region Database Methods
 
-        private Actor GetOrCreatePlayer(DialogueDatabase database)
+        private Actor GetActorFromDatabase(StoryFlowScriptAsset script, string name)
         {
-            Actor player = database.GetActor("Player");
-            if (player != null) return player;
+            StoryFlowProjectAsset.CharacterReference characterReference = project.CharacterReferences.FirstOrDefault(c => c.Path.Contains(name, StringComparison.OrdinalIgnoreCase));
+            string characterKey = characterReference.Asset.CharacterName;
+            Actor actor = GetActorFromDatabase(characterKey, script);
 
-            // Create the conventional Player actor in the local database if it is absent.
-            player = template.CreateActor(template.GetNextActorID(database), "Player", false);
-            player.fields = new List<Field> { new Field("Name", "Player", FieldType.Text) };
-            database.actors.Add(player);
-            return player;
+            return actor;
         }
 
         private Actor GetActorFromDatabase(string characterKey, StoryFlowScriptAsset script)
         {
             if (string.IsNullOrEmpty(characterKey)) return null;
 
-            string name = ResolveGlobalString(characterKey + ".cf_name");
+            string characterName = characterKey.Contains(".cf_name") ? characterKey : characterKey + ".cf_name";
+            string name = ResolveGlobalString(characterName);
             if (string.IsNullOrEmpty(name)) name = ResolveGlobalString(characterKey);
             if (string.IsNullOrEmpty(name)) return null;
 
@@ -779,7 +790,7 @@ namespace PixelCrushers.DialogueSystem
             return actor;
         }
 
-        private Variable FindVariable(DialogueDatabase database, string name)
+        private Variable FindDatabaseVariable(DialogueDatabase database, string name)
         {
             if (database == null || string.IsNullOrEmpty(name)) return null;
             Variable variable = database.GetVariable(name);
@@ -788,7 +799,7 @@ namespace PixelCrushers.DialogueSystem
 
         private void EnsureBooleanVariable(DialogueDatabase database, string name, string initialValue, string conversationTitle)
         {
-            Variable variable = FindVariable(database, name);
+            Variable variable = FindDatabaseVariable(database, name);
 
             if (variable == null)
             {
@@ -803,20 +814,101 @@ namespace PixelCrushers.DialogueSystem
 
         #endregion
 
+        #region Get Variable
 
-        #region String Methods
-
-        private string GetScriptMetadataString(StoryFlowScriptAsset script, string variableName)
+        private string GetScriptVariableString(StoryFlowScriptAsset script, string variableName)
         {
             if (script.Variables == null) return null;
             foreach (StoryFlowVariable variable in script.Variables.Values)
             {
-                if (variable == null || variable.Name != variableName) continue;
+                if (variable.Name != variableName) continue;
                 string key = variable.Value.StringValue;
                 return ResolveScriptString(script, key);
             }
             return null;
         }
+
+        private string GetScriptVariableData(StoryFlowScriptAsset script, string dataName, string variableName)
+        {
+            if (script.Variables == null) return null;
+            foreach (StoryFlowVariable variable in script.Variables.Values)
+            {
+                if (variable.Name != dataName) continue;
+                string dataKey = variable.Value.StringValue;
+
+                string value = GetDataVariableValue(script, dataKey, variableName);
+                value = value.Replace("\\n", "");
+                return value.Replace("\"", "");
+            }
+            return null;
+        }
+
+
+        private string GetDataVariableValue(StoryFlowScriptAsset script, string dataKey, string variableName)
+        {
+            StoryFlowDataAssetAsset currentData = project.GetDataAsset(dataKey);
+
+            if (currentData == null)
+                return null;
+
+            // 1. Check the current data asset.
+            StoryFlowVariable currentVariable = FindVariable(currentData, variableName);
+
+            if (currentVariable != null)
+                return GetVariableValue(currentVariable, out FieldType type);
+
+            // 2. Walk up the parent hierarchy until the variable is found.
+            StoryFlowDataAssetAsset parentData = project.GetDataAsset(currentData.ParentId);
+
+            while (parentData != null)
+            {
+                StoryFlowVariable parentVariable = FindVariable(parentData, variableName);
+
+                if (parentVariable != null)
+                {
+                    // 3. The variable was defined in a parent.
+                    // Check overrides starting at the current data asset.
+                    StoryFlowDataAssetAsset childData = currentData;
+
+                    while (childData != null && childData != parentData)
+                    {
+                        foreach (StoryFlowDataAssetAsset.OverrideEntry overrideEntry in childData.Overrides)
+                        {
+                            if (overrideEntry.VariableId == parentVariable.Id)
+                                return overrideEntry.ValueJson;
+                        }
+
+                        childData = project.GetDataAsset(childData.ParentId);
+                    }
+
+                    // No override exists; use the parent's default value.
+                    return GetVariableValue(parentVariable, out FieldType type);
+                }
+
+                parentData = project.GetDataAsset(parentData.ParentId);
+            }
+
+            return null;
+        }
+
+        private StoryFlowVariable FindVariable(StoryFlowDataAssetAsset data, string variableName)
+        {
+            if (data?.Variables == null)
+                return null;
+
+            foreach (StoryFlowVariable variable in data.Variables)
+            {
+                if (variable.Name == variableName)
+                    return variable;
+            }
+
+            return null;
+        }
+
+        #endregion
+
+        #region String Methods
+
 
         private string ResolveScriptString(StoryFlowScriptAsset script, string key)
         {

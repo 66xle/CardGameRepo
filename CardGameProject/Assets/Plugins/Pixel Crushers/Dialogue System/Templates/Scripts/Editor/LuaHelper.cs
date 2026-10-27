@@ -1,4 +1,5 @@
 using PixelCrushers.DialogueSystem;
+using TextMateSharp.Grammars;
 using UnityEngine;
 
 public static class LuaHelper
@@ -14,6 +15,12 @@ public static class LuaHelper
     {
         if (entry == null || string.IsNullOrEmpty(script)) return;
         entry.userScript = (entry.userScript ?? string.Empty) + script;
+    }
+
+    public static void AppendSequence(DialogueEntry entry, string sequence)
+    {
+        if (entry == null || string.IsNullOrEmpty(sequence)) return;
+        entry.Sequence = (entry.Sequence ?? string.Empty) + sequence;
     }
 
     public static string LuaEquals(string variableName, string value)
